@@ -1,0 +1,232 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+:ENY.
+.*******************************
+.su off
+.se dag = substr &DATO 1 2
+.se mdr = substr &DATO 4 2
+.se aar = substr &DATO 7 4
+.su on
+.* &dag.-&mdr.-&aar.
+.*******************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da LÅNOPL 20mm 52mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar LÅNOPL on
+.tp 52mm
+:SWISS9.
+Låntager ¤&KTONAVN. &ÅCONT.
+.if &L'&DEB02NAVN. > 0
+.th og &DEB02NAVN. &ÅCONT.
+.if X&DEBANTAL > X2
+.th m.fl.
+.br
+Lånebeløb ¤&LÅNBEL. kr.
+.br
+Kontonr. ¤&reg.-&kto. i
+.if x&REGBKSTED. = x088400
+.th &BANKNAVN. Kredit
+.el &BANKNAVN.
+.br
+Låntype ¤&LAANETYPE.
+.***************************
+.in 0mm
+.hr tynd 0mm 165mm
+.sp 4mm
+:SWISS10.
+:FED.
+Fastsatte rentevilkår for ovenstående lån med renteloft
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.da UNSKR 20mm 255mm width 165mm
+.**************************************************************************
+.ar UNSKR on
+.***************
+:SWISS10.:FED.
+Underskrifter
+:SKRSLUT.
+:SKRSLUT.
+.tp 2mm 130mm
+:SWISS8.
+.bx left right
+¤Underskrift af låntager(e) ¤Dato
+.sp 15mm
+.bx off
+.ar off
+.**************************************************************************
+.if &L'&RTEVILKGEB. > 0
+.th Der beregnes et gebyr for fastsættelse af nye rentevilkår på
+.th &RTEVILKGEB. kr.
+.th .sp 4mm
+Nærværende bilag erstatter evt. tidligere udleverede
+'Bilag til låneaftale' på ovenstående lån.
+.ar off
+.*************** AREAL-DEFINITIONER **************************************
+.da TEKST 20mm 80mm width 165mm
+.*************** TEKST              **************************************
+.fo left
+.dr tynd weight 0.2mm
+.***************
+.ar TEKST on
+.***************
+.tp 52mm 115mm 130mm right 140mm 155mm right
+.***************
+.if &L'&TXTSW001. > 0
+.th Rentevilkår er gældende dagen efter udløb af nuværende
+.th rentebindingsperiode.
+.th .sp 4mm
+Fast rente (tillæg for renteloft):¤&RTELOFTTIL. % p.a.
+.sp 4mm
+Pålydende rente¤&REFRTEIND. % p.a. (inklusiv ovenstående Fast &ÅCONT.
+rente). Renten justeres på
+.br
+ved indgåelse: ¤lånets
+.in 52mm nobreak
+udbetalingsdag jf. afsnittet 'Rentetilpasning' herunder.
+.in 0mm
+.sp 4mm
+Referencerente (&REFRTETYPE.): ¤&REFRENTE. % p.a.
+.sp 4mm
+Rentetilpasning: ¤Pålydende
+.in 52mm nobreak
+rente ved indgåelse justeret med forskellen mellem ovenstående
+Referencerente og &REFRTETYPE. (afrundet til 2 decimaler)
+offentliggjort på respektive Rentejusteringsdage, hvor &REFRTETYPE. dog
+højst kan medregnes med nedenstående Renteloft frem til
+Renteloftperiodens udløb.
+.in 0mm
+.sp 4mm
+Renteloft på &REFRTETYPE.:¤&CIBORLOFT
+.in 52mm nobreak
+.if &U'X&PRIERH = XP
+.th % p.a. Lånets samlede rente (inkl. marginal og tillæg for renteloft)
+.th kan dermed højst stige til &KLOFTSATS. % p.a. frem til
+.th Renteloftperiodens udløb.
+.el % p.a. (den maksimale sats for ovennævnte referencerente)
+.in 0mm
+.sp 4mm
+Renteloftperiodens udløb:¤&RTELOFTULD.
+.sp 4mm
+Rentejusteringsdage: ¤Bankdagen
+.in 52mm nobreak
+før udbetalingsdagen (med virkning fra udbetalingsdagen) og derefter hver
+den 3. mandag i månederne marts, juni, september og december (med virkning
+to dage efter Rentejusteringsdagen) frem til lånets udløbsdato.
+.in 0mm
+.sp 4mm
+Rentetilskrivning: ¤&RTEFREKV. - første gang &RTEFFDATO..
+.sp 4mm
+Renteberegning: ¤Renten
+.in 52mm nobreak
+beregnes dagligt iflg. kalenderdage &RTEKONV. som
+Saldo * Pålydende rente / &RTEKONVDIV.
+.in 0mm
+.sp 4mm
+.if &L'&TXTSW002 = 0
+.th .go GEBYR
+Indfrielsesvilkår: ¤Lånet
+.in 52mm nobreak
+kan i Renteloftperioden, med et varsel på &INDFRIVAR. bankdage,
+førtidigt indfries til følgende kurser:
+.in 0mm
+.br
+¤¤På rente- ¤¤Mellem rente-
+.br
+¤¤justeringsdage ¤¤justeringsdage
+.br
+.if &L'&ALLON001A. > 0
+.th ¤&ALLON001A.¤¤&INDFKUU001.¤¤&INDFKUP001.
+.if &L'&ALLON002A. > 0
+.th .br
+.th ¤&ALLON002A.¤¤&INDFKUU002.¤¤&INDFKUP002.
+.if &L'&ALLON003A. > 0
+.th .br
+.th ¤&ALLON003A.¤¤&INDFKUU003.¤¤&INDFKUP003.
+.if &L'&ALLON004A. > 0
+.th .br
+.th ¤&ALLON004A.¤¤&INDFKUU004.¤¤&INDFKUP004.
+.if &L'&ALLON005A. > 0
+.th .br
+.th ¤&ALLON005A.¤¤&INDFKUU005.¤¤&INDFKUP005.
+.if &L'&ALLON006A > 0
+.th .br
+.th ¤&ALLON006A.¤¤&INDFKUU006.¤¤&INDFKUP006.
+.sp 3mm
+¤Herudover betales et indfrielsesgebyr på pt. &INDFGEB. kr.
+.sp 3mm
+¤Indfrielsesvilkårene
+.in 52mm nobreak
+gælder også, selv om lånet endnu ikke er udbetalt eller aftalen
+misligholdes.
+.in 0mm
+.sp 4mm
+...GEBYR
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da OVRSKRH 145mm 30mm width 60mm
+.*************** HOVED-OVERSKRIFT ****************************************
+.ar OVRSKRH on
+:SWISS12.:FED.
+Bilag til Låneaftale
+.br
+:SWISS10.
+(Renteoplysninger)
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+:SWISS8.
+Udskrivningsdato: &dag.-&mdr.-&aar.
+.ar off

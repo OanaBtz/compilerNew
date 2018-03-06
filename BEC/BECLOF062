@@ -1,0 +1,272 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.da LOFADR   23mm 48mm
+.**************************************************************************
+.**** Adressefelter *******************************************************
+.ar LOFADR on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.**********************************
+.****LOFVALG1 = K=kunde L=Leverandør F=formidler************
+.if &U'&LOFVALG1 = K
+.th .go TESTMDEB
+.el .go SLUTADR
+.**********************************
+...TESTMDEB
+.**********************************
+.if &L'&MDEBADR1 > 0
+.or &L'&MDEBADR2 > 0
+.or &L'&MDEBADR3 > 0
+.or &L'&MDEBADR4 > 0
+.or &L'&MDEBADR5 > 0
+.th .go BRUGMDEB
+.el .go SLUTADR
+.**********************************
+...BRUGMDEB
+.sp 15mm
+Meddebitor
+.sp
+&MDEBADR1.
+.br
+&MDEBADR2.
+.br
+&MDEBADR3.
+.br
+&MDEBADR4.
+.br
+&MDEBADR5.
+.**********************************
+...SLUTADR
+.ar off
+.***********************************************************************
+.
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.****LOFVALG1 = K=kunde L=Leverandør F=formidler************
+.if &U'X&LOFVALG1 = XL
+.*th .da OVERSKR 20mm 90mm width 160mm
+.th .da OVERSKR 20mm 105mm width 160mm
+.*el .da OVERSKR 20mm 100mm width 160mm
+.el .da OVERSKR 20mm 115mm width 160mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.us Kontrakt nr.: &AFTALENR.
+:SKRSLUT.
+.sp
+.tp 20mm
+Finansiering af 1 stk. &BESKRIV01., årgang &ÅRG01.
+.****LOFVALG1 = K=kunde L=Leverandør F=formidler************
+.if &U'&LOFVALG1 = K
+.th .go EJKNDOPL
+.**********************************
+.br
+købt af
+.**********************************
+.if &L'&MDEBNAVN > 0
+.th &UNDSNAVN. og &MDEBNAVN..
+.el &UNDSNAVN..
+.**********************************
+...EJKNDOPL
+.sp
+Vedlagt fremsendes:
+.sp
+.tp 6mm
+.****LOFVALG2 = G=gældsbrev K=købekontrakt******************
+.if &U'X&LOFVALG2 = XG
+.th .go GAELDBRV
+.el .go KOBKONTR
+.* --------------------------------
+...GAELDBRV
+¤Gældsbrev
+.br
+.if &U'X&LOFVALG3 = XJ
+.th ¤Bilejerpantebrev
+.th .br
+¤Allonge - Fortrydelsesret gældsbrev
+.go EFTKONTR
+.* --------------------------------
+...KOBKONTR
+¤Købekontrakt
+.br
+¤Anmeldelse om ejendomsforbehold
+.* --------------------------------
+...EFTKONTR
+.sp
+.****LOFVALG1 = K=kunde L=Leverandør F=formidler************
+.if &U'X&LOFVALG1 = XF
+.th .go FORMID
+.if &U'X&LOFVALG1 = XL
+.th .go LEVDØR
+.if &U'X&LOFVALG1 = XK
+.th .go KUNDE
+.go SLUT
+...KUNDE
+Vi beder dig/jer underskrive alle dokumenter som låntager(e) og
+pantsætter(e). :FED.OBS: Vitterlighedsvidner må ikke være i familie med
+låntager(e).:SKRSLUT.
+.sp
+Husk, at medsende kopi af kørekort, kopi af midlertidig
+registreringsattest samt kopi af sundhedskort - påfør venligst
+kørekortnummer med maskinskrift/håndskrift, hvis det er utydeligt på
+kopien.
+.sp
+Endvidere beder vi dig/jer oplyse, hvor køretøjet er forsikret, såfremt
+dette ikke tidligere er oplyst os.
+.sp
+Når vi har modtaget dokumenterne i korrekt underskrevet stand, vil
+provenuet kr. &PROVENU1. blive udbetalt.
+.go FORTS1
+...FORMID
+Vi beder dig/jer indhente underskrifter på alle dokumenter af låntager(e),
+pantsætter(e), sælger(e) samt evt. kautionister og vitterlighedsvidner.
+.sp
+Vi beder dig/jer også påføre dokumenterne køretøjets stelnummer og
+registreringsnummer med maskinskrift.
+.sp
+Husk, at medsende kopi af kørekort, sundhedskort samt kopi af midlertidig
+registreringsattest - påfør venligst kørekortnummer med
+maskinskrift/håndskrift, hvis det er utydeligt på kopien.
+.sp
+Endvidere beder vi dig/jer oplyse, hvor køretøjet er forsikret, såfremt
+dette ikke tidligere er oplyst os.
+.go FORTS1
+...LEVDØR
+Vi beder dig indhente underskrifter på alle dokumenter af køber(e),
+sælger(e) samt evt. kautionister og vitterlighedsvidner.
+.sp
+Vi beder dig også påføre dokumenterne køretøjets stelnummer og
+registreringsnummer med maskinskrift.
+.sp
+Husk, at medsende kopi af kørekort og kopi af midlertidig
+registreringsattest - påfør venligst kørekortnummer med
+maskinskrift/håndskrift, hvis det er utydeligt på kopien.
+.sp
+Endvidere beder vi dig oplyse, hvor køretøjet er forsikret, såfremt
+dette ikke tidligere er oplyst os.
+.sp
+Når vi har modtaget dokumenterne i korrekt underskrevet stand, vil
+provenuet kr. &PROVENU1. blive udbetalt.
+.go FORTS1
+...FORTS1
+.sp
+.tp 6mm 116mm 160mm right
+Provenuet er fremkommet således:
+.br
+¤Købesum/kontantpris ¤kr. ¤&ANSKAFPM.
+.br
+.if &L'&BYTTEPR > 0
+.th ¤- Friværdi, byttebil¤kr. ¤&BYTTEPR.
+.th .br
+¤Kontant udbetaling ¤kr. ¤&UDBETAL1.
+.br
+.dr tynd weight 0.1mm
+.hr tynd 116mm 160mm
+.br
+¤Lånebeløb excl. omkostninger ¤kr. ¤&PROVENU1.
+.sp
+.if &U'X&LOFVALG1 = XK
+.th ¤Afregning af provenu til sælger¤kr. ¤&PROVENU1.
+.th .sp
+.th Giver ovenstående anledning til spørgsmål, er du/I velkommen til at
+.th kontakte os.
+.th .go SLUTAFR
+.if &U'X&LOFVALG1 = XF
+.th ¤Afregnet til &GENBANK.¤kr. ¤&PROVENU1.
+.th .br
+.th ¤Konto ____________________________________
+.th .sp
+.th Giver ovenstående anledning til spørgsmål, er du/I velkommen til at
+.th kontakte os.
+.th .go SLUTAFR
+.** Resten er kun gældende ved afregning til forhandler/leverandør
+.*  altså er &U'X&LOFVALG1 = XL
+¤Afregning af provenu ¤kr. ¤&PROVENU1.
+.if &L'&AFRIALT > 0
+.th
+.el .go FORTS2
+.if &L'&ANVPROV > 0
+.th ¤Anvisningsprovision¤kr. ¤&ANVPROV.
+.th .br
+.if &L'&SPLITRNT > 0
+.th ¤Splitrente¤kr. ¤&SPLITRNT.
+.th .br
+.hr tynd 116mm 160mm
+.br
+¤Ialt                         ¤kr. ¤&AFRIALT.
+...FORTS2
+.sp
+Giver ovenstående anledning til spørgsmål, er du velkommen til at
+kontakte os.
+...SLUTAFR
+.***********************************
+.sp2
+.ce on
+Med venlig hilsen
+.sp
+&AFDBNKNAVN
+.sp2
+&GENEKSP
+.br
+.if &L'&GENTITEL > 0
+.th &GENTITEL
+.th .br
+.if &L'&GENTLFNR > 0
+.th Telefon nr.: &GENTLFNR
+.ce off
+.ar off
+.****************************************************************

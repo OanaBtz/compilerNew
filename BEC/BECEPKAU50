@@ -1,0 +1,463 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.* følgende test ligger i systemet ********
+.***************************************
+.*Fejl ved sammensætning af bilag
+.*.if &GENAAR gt 10
+.*Gyldighedsperioden kan max. være 10 år
+.*.if &GENAAR eq 0
+.*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da OVERSKR 20mm 32mm width 175mm
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Statement of guarantee (Retail customers)
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**************************************************************************
+.da KAUNIST 25mm 46mm width 85mm
+.da BANK   112.5mm 46mm width 80mm
+.**************************************************************************
+.ar KAUNIST on
+&KAUNIST1
+.br
+&KAUNIST2
+.br
+&KAUNIST3
+.br
+&KAUNIST4
+.br
+&KAUNIST5
+.ar off
+.**************************************************************************
+.ar BANK on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE1 20mm 40mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE1 on
+:SWISS9.
+.tp 1mm 88.5mm
+.bx left 87.5mm right
+¤The guarantor ¤hereby guarantees (bank)
+.sp 20mm
+¤Customer no. &KAUKNDNR ¤Tel. &AFDTLF
+.bx off
+.sp 4mm
+.bx left right
+.sp 204mm
+.bx off
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Time &TID
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 63 + 13MM (TOPMARGIN) = 76MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 63mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.ti ¤ 05
+.fo left
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.dr tynd weight 0.1mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Statement of guarantee (Retail customers)
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar BOX on
+.bx left right
+.sp 235mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 43MM: Y = 30mm + 13mm (TOPMARGIN) = 43mm
+.**************************************************************************
+.sp 30mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+:SWISS9.
+.**************************************************************************
+.if &DEBANTAL = 1
+.th .se fk01 'borrower'
+.el .se fk01 'borrowers'
+.in 5mm
+.ir 1mm
+As
+.if &KAUTYPE = 1
+.th guarantor with primary liability
+.if &KAUTYPE = 2
+.th guarantor with secondary liability
+.if &KAUTYPE = 3
+.th guarantor against losses
+.******************
+being
+.if &KAUHÆFTYPE = 2
+.th severally liable for the fulfilment of
+.el jointly and severally liable for the fulfilment of
+.******************
+payment concerning
+.**********
+.sp 2mm
+.**************************************************************************
+...LAANTYP
+.if X&LAANTYPE lt X1
+.or X&LAANTYPE gt X3
+.th .mg/T/ Vælg lånetype 1, 2 eller 3/
+.***************
+.if &LAANTYPE eq 1
+.th Loan no. &LANGKTONR.
+.if &LAANTYPE eq 2
+.th Credit no. &LANGKTONR.
+.if &LAANTYPE eq 3
+.th Guarantee no. &LANGKTONR.
+.***********
+.if &U'X&GENBOGST1A = XM
+.th with
+.el no
+fixed repayment date inclusive of interest and other secondary
+services, in so far as the total amount to be paid does not exceed the
+principal on the loan/loans or the credit/credits when submitting the
+contract of guarantee.
+.sp 3mm
+.**************************************************************************
+.tp 92.5mm 134mm
+:FED.
+.if &DEBANTAL = 1
+.th Borrower
+.th .sp 3mm
+.th .go DEB1
+.if &DEBANTAL = 2
+.th Borrower ¤Borrower
+.th .sp 3mm
+.th .go DEB2
+.if &DEBANTAL > 2
+.th Borrower ¤Borrower ¤More Borrowers
+.th .sp 3mm
+.th .go DEB2
+...DEB2
+.cd 2 0mm 87.5mm
+.cl 80mm
+...DEB1
+.**INGEN KOLONNEDEFINITION - HVIS DER KUN ER 1 DEBITOR ********************
+:SKRSLUT.
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.**************************************************************************
+.if &DEBANTAL > 1
+.th .go MED1
+.el .go MED1SL
+...MED1
+.cb
+&DEB2ADR1
+.br
+&DEB2ADR2
+.br
+&DEB2ADR3
+.br
+&DEB2ADR4
+.br
+&DEB2ADR5
+.sc
+...MED1SL
+.sp 3mm
+.**************************************************************************
+Customer no. &DEB1KNDNR
+.if &DEBANTAL > 1
+.th .ct ¤Customer no. &DEB2KNDNR
+.**************************************************************************
+.sp 3mm
+:FED.
+Maximum
+:SKRSLUT.
+.br
+.***SOLIDARISK KAUTION *************
+.if &KAUHÆFTYPE = 1
+.th .go KTYP1
+.el .go KTYP2
+...KTYP1
+However, for a maximum of DKK &MAXBELØB..
+.***PRO RATA KAUTION *************
+...KTYP2
+.if &KAUHÆFTYPE = 2
+.th .go TYPPRO1
+.el .go KTYP3
+...TYPPRO1
+.if &L'&MAXBELØB > 0
+.th The guarantee covers a maximum of DKK &MAXBELØB. plus interest etc. in
+.th relation thereto.
+.if &L'&MAXPROCENT > 0
+.th The guarantee covers a maximum of &MAXPROCENT.% of the debt including
+.th interest etc.
+.***BELØBSBEGRÆNSET KAUTION *****
+...KTYP3
+.if &KAUHÆFTYPE = 3
+.th .go HÆFBEG
+.el .go GYLDIG
+...HÆFBEG
+.if &L'&MAXBELØB > 0
+.th The guarantee amounts to a maximum of DKK &MAXBELØB. plus interest
+.th etc. in relation thereto.
+.if &L'&MAXPROCENT > 0
+.th The guarantee amounts to a maximum of &MAXPROCENT.% of the debt
+.th including interest etc.
+.******************************
+...GYLDIG
+.*** UBEGRÆNSET KUNDE KAUTION - Kun erhverv
+.*SUPPLERENDE TEKST *******************************************************
+.if &L'&SUPTXT01A > 0
+.or &L'&SUPTXT01B > 0
+.or &L'&SUPTXT02A > 0
+.or &L'&SUPTXT02B > 0
+.or &L'&SUPTXT03A > 0
+.or &L'&SUPTXT03B > 0
+.or &L'&SUPTXT04A > 0
+.or &L'&SUPTXT04B > 0
+.or &L'&SUPTXT05A > 0
+.or &L'&SUPTXT05B > 0
+.or &L'&SUPTXT06A > 0
+.or &L'&SUPTXT06B > 0
+.th .go SUPL
+.el .go SUPLEND
+...SUPL
+.sp 3mm
+:FED.
+Additional text
+:SKRSLUT.
+.br
+.*FLG. "SKRSLUT" **ANNULLERER SKRIFTTYPEN SWISS9 **************************
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+.**************************************************************************
+:COUR10.
+.br
+&SUPTXT01A.&SUPTXT01B
+.br
+&SUPTXT02A.&SUPTXT02B
+.br
+&SUPTXT03A.&SUPTXT03B
+.br
+&SUPTXT04A.&SUPTXT04B
+.br
+&SUPTXT05A.&SUPTXT05B
+.br
+&SUPTXT06A.&SUPTXT06B
+.br
+...SUPLEND
+.**BETINGELSER ***********************************************************
+.* NEDENSTÅENDE BETINGELSER ER DE SAMME BETINGELSER, DER ER I MODUL:
+.* BECSBFLK50T03, SOM ER EN DEL AF ALM50.
+.*************************************************************************
+.*:SWISS9.
+:SWISS8.
+.sp 3mm
+:FED.
+Specifically about guarantee
+:SKRSLUT.
+.in
+.ir
+.sp 2mm
+.cd 2 5mm 90mm
+.cl 78mm
+.**1. KOLONNE *************************************************************
+.tp 3mm
+:FED.
+1. Extent of guarantee
+:SKRSLUT.
+.br
+The third party guarantor is held liable for debtors obligations
+towards &BANKNAVN., including interest and other minor debt
+services, to the extent that the total amount to be paid does not
+exceed the principal amount of the loan or the credit limit on
+placing the guarantee.
+.sp 2mm
+:FED.
+2. Expiry :SKRSLUT.
+.br
+The guarantee expires after 10 years, however, after 5 years in case of
+guarantee of credit with floating loan amount and loans without fixed
+due date. The claim of &BANKNAVN. against the third party
+guarantor does not expire if the claim is sustained prior to the
+expiry of the guarantee.
+.sp 2mm
+:FED.
+3. Reversal :SKRSLUT.
+.br
+If the loan/credit is repaid, fully or partly, and the payment or
+additional security is set aside at a later point in time, the
+guarantee will be maintained, whether you or &BANKNAVN. has
+notified the third party guarantor of the repayment or not.
+.sp 2mm
+:FED.
+4. Use of payments :SKRSLUT.
+.br
+Payments from third party guarantors are first of all used in settlement
+of interest, commission and expenses, secondly in settlement of other
+debt secured by the third party guarantor.
+.sp 2mm
+If the loan/credit is not fully secured by the guarantee, debtors
+payments, or payments from others than the third party guarantor, are
+first of all used in settlement of the unsecured part of the debt.
+.sp 3mm
+.of
+.cb
+.* 2. KOLONNE **************************
+:FED.
+5. Respite :SKRSLUT.
+.br
+Without consent of third party guarantor, &BANKNAVN. may grant a
+respite as to payment of instalments, interest and other
+expenses, however, with deference to article 48 of the Danish
+Financial Business Act.
+.sp 2mm
+:FED.
+6. Voting right at creditors' meetings :SKRSLUT.
+.br
+At any creditors' meeting regarding you, &BANKNAVN. will exercise the
+voting right connected to the object of the guarantee. This applies until
+&BANKNAVN. has obtained full and irrefutable settlement of its claims.
+.sp 2mm
+:FED.
+7. Joint guaranties and other securities :SKRSLUT.
+.br
+&BANKNAVN. reserves its right to realise any securities applied by you or
+third party and write off the revenue at the option of &BANKNAVN.. The
+third party guarantor has no right of recourse.
+.sp 2mm
+This implies, among other things:
+.of 3mm
+*¤that &BANKNAVN., without the permission of the third party
+guarantor, may release other securities in relation to the
+obligation in question.
+.of
+.br
+.of 3mm
+*¤that &BANKNAVN. may use pledge/mortgage, which at the same time serves
+as security against other claims but the obligation in question, in prior
+recovery of such claims.
+.of
+.sp 2mm
+.kp on
+:FED.
+8. Notification right and right to dividend upon debtors liquidation
+:SKRSLUT.
+.br
+If the third party guarantor has to discharge debtors obligations towards
+&BANKNAVN., &BANKNAVN. has notification right and right to dividend of the
+amount paid in debtors estate.
+.sp 2mm
+.kp off
+.kp on
+:FED.
+9. Enforcement :SKRSLUT.
+.br
+If the guarantee serves as security against loan, the loan instrument
+with deed of indemnity may serve as basis for enforcement with the
+third party guarantor according to article 478, section 1, paragraph
+5 of the Danish Administration of Justice Act.
+.kp off
+.sc
+.in 5mm
+.ir 5mm

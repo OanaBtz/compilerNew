@@ -1,0 +1,348 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Allonge - Fleet Management
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+.bx left right
+:SWISS8.
+¤Allonge til kontrakt nr.:
+.sp 4mm
+.bx left right
+¤Undertegnede leasingtager
+.sp 20mm
+.bx new
+¤Kundenummer
+.sp 5mm
+.bx off
+.bx can
+.**************************************************************************
+:SWISS10.:FED.
+Aktiv
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+.sp 16.5mm
+.bx new left 87.5mm right
+¤Stel/serienr. ¤Evt. reg.nr.
+.sp 5mm
+.bx off
+.bx can
+.**************************************************************************
+:SWISS10.:FED.
+Levering
+:SKRSLUT.
+:SKRSLUT.
+.tp 1mm 88.5mm 130mm
+.bx left 87.5mm right
+¤Leveringsadresse  ¤Anbringelsested / Bruger
+.sp 20mm
+.bx off
+.*KASSE MED "VILKÅR"*******************************************************
+.sp
+.bx new left right
+.sp 96mm
+.bx off
+.bx can
+.************ UNDERSKRIFT *************************************************
+.if &U'X&FORTSÆT = XJ
+.th .go FORTEND
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SKRSLUT.
+.bx left 87.5mm right
+.tp 1mm 58mm 88.5mm 145.5mm
+¤For leasinggiver ¤Dato: ¤(Påfør med blokbogstaver navn og titel på
+tegningsberettigede
+.br
+¤¤¤underskrivere)
+.br
+¤¤¤Leasingtagers stempel og underskrift ¤Dato:
+.sp 15mm
+.bx off
+...FORTEND
+.ar off
+.**************************************************************************
+.da AFTALE        25mm  45.5mm width   80mm
+.da KUNDEOPL      25mm    54mm width   80mm
+.da KUNCPRCVR     25mm  78.5mm width   80mm
+.da UDSTYR1       25mm  93.5mm width  165mm
+.da LEVDØR        25mm 102.2mm width  165mm
+.da FORTSÆT       25mm   103mm width  169mm
+.da STEL          25mm 110.5mm width  120mm
+.da REGNR      112.5mm 110.5mm width   35mm
+.da LEVADR        25mm   125mm width   80mm
+.da BRUGER     112.5mm   125mm width   80mm
+.da UNDUDLEJ    20mm   273.5mm width 87.5mm
+.da UNDLEJER   107.5mm 273.5mm width 87.5mm
+.**************************************************************************
+.ar AFTALE on
+&AFTALENR.
+.ar off
+.**************************************************************************
+.ar KUNDEOPL on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.**************************************************************************
+.ar KUNCPRCVR on
+&KUNDENR.
+.ar off
+.**************************************************************************
+.ar UDSTYR1 on
+.tp 35mm 68mm
+&BESKRIV01.,:SWISS8. årgang:SKRSLUT. &ÅRG01.
+.ar off
+.**************************************************************************
+.ar LEVDØR on
+.tp 12mm
+¤&LEVDCVR01.:SWISS8.,:SKRSLUT. &LEVDNAVN01.
+.ar off
+.**************************************************************************
+.ar FORTSÆT on
+:SWISS8.
+.fo right
+.if &U'X&FORTSÆT = XJ
+.th Fortsættes
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar STEL on
+&STELNR01.
+.ar off
+.**************************************************************************
+.ar REGNR on
+&REGISNR01.
+.ar off
+.**************************************************************************
+.ar LEVADR on
+&LEVERADR1.
+.br
+&LEVERADR2.
+.br
+&LEVERADR3.
+.br
+&LEVERADR4.
+.br
+&LEVERADR5.
+.ar off
+.**************************************************************************
+.ar BRUGER on
+.if &L'&LOFBRUGER > 0
+.th &LOFBRUGER.
+.ar off
+.**************************************************************************
+.* HVIS DER SKAL SKRIVES FLERE AKTIVER, SÅ SKAL UNDERSKRIFTSFELTET FLYTTES*
+.if &U'X&FORTSÆT = XJ
+.th .go FOREND1
+.**LEASINGGIVERS UNDERSKRIFT***********************************************
+.ar UNDUDLEJ on
+.ce &AFDBNKNAVN.
+.ar off
+.**LEASINGTAGERS UNDERSKRIFT***********************************************
+.ar UNDLEJER on
+.ce &UNDSNAVN.
+.ar off
+.**************************************************************************
+...FOREND1
+.**************************************************************************
+2.¤Leasingtager modtager efter underskrift af nærværende allonge et
+brændstofkort udstedt af brændstofselskabet, der skal betragtes som
+kortudsteder i henhold til gældende lovgivning herom. Brændstofselskabet
+almindelige kortbestemmelser er gældende herfor.
+.of
+.of 5mm
+3.¤Betaling for brændstofforbruget opkræves månedligt efter oversigt over
+registreret forbrug, udarbejdet af brændstofselskabet. Leasinggiver har
+intet ansvar i forbindelse med opgørelsen af forbruget. Eventuelle
+reklamationer skal rettes til brændstofselskabet. Beløbet vil blive
+opkrævet af leasinggiver via BS eller ved giroindbetalingskort.
+.of
+.of 5mm
+4.¤Leasinggiver gør opmærksom på, at det ikke fremgår af opkrævningen, hvor
+stor en del af opkrævningen, der er fradragsberettiget. Leasingtager
+forpligter sig til at opbevare udstedte kvitteringer ved tankning, idet det
+fradragsberettiget beløb fremgår af disse. Leasingtager kan ikke kræve
+særskilt opgørelse af fradragsberettigede beløb af leasinggiver.
+.of
+.of 5mm
+5.¤Forfaldstid fremgår af fremsendt opkrævning. Såfremt leasingtager
+misligholder sine betalinger for registreret brændstofforbrug, vil dette
+være at betragte som misligholdelse af den underliggende leasingaftale samt
+nærværende tillæg til aftale.
+.of
+.sp 2mm
+.ir 1mm
+Leasingtager anerkender med sin underskrift at have modtaget en kopi af
+nærværende aftale, samt at have gennemlæst og at være bekendt med aftalens
+bestemmelser, herunder kortbestemmelser for brændstofkort. Aftalen er
+bindende for leasinggiver, når den er underskrevet af tegningsberettiget
+for samme.
+.ar off
+.**************************************************************************
+.ar VILKAR2 on
+.tp 5mm
+.of 5mm
+6.¤Misligholdelse af den underliggende leasingaftale vil blive betragtet
+som såvel misligholdelse af den underliggende leasingaftale samt nærværende
+aftale.
+.of
+.of 5mm
+7.¤Såvel leasingtager som leasinggiver kan til enhver tid opsige nærværende
+aftale. I forbindelse hermed skal det udstedte kort returneres i
+overklippet stand.
+.of
+.of 5mm
+8.¤Såfremt leasingtager ikke opfylder de forpligtelser, som følger af
+nærværende aftale samt af kortbestemmelserne for udstedt brændstofkort,
+foreligger der misligholdelse.
+.da UDSTYRT  21mm  88.5mm width 171mm
+.da LEVDØR   21mm 102.5mm width 173mm
+.da VILKAR1  21mm   150mm width 171mm
+.da VILKAR2 108mm   155mm width  85mm
+.**************************************************************************
+:SWISS8.
+.**************************************************************************
+.ar UDSTYRT on
+der har indgået leasingaftale i perioden fra den
+:SKRSLUT.
+.ct  &FFDATO.
+:SWISS8.
+.ct  til den
+:SKRSLUT.
+.ct  &UDATO.
+:SWISS8.
+.ct , på følgende udstyr:
+.ar off
+.**************************************************************************
+.ar LEVDØR on
+Leverandør:
+.ar off
+.**************************************************************************
+.ar VILKAR1 on
+Tiltræder ved nærværende allonge følgende supplerende forpligtelser til
+leasingaftalen (alle beløb er opgivet excl. moms):
+.sp 2mm
+.ir 87mm
+.tp 5mm
+.of 5mm
+1.¤Leasingtager opnår mulighed for rabatfordele på benzin- og dieselkøb hos
+den/de af leasinggiver udpegede brændstofselskab(er). Leasinggiver er alene
+formidler og bærer ikke noget ansvar i forbindelse hermed.
+.*******Test på om det er en åben eller lukket kalkulation*********
+.if &L'&FALCKGEB. > 0
+.th .go to ÅBKALK1
+.el .go to LUKKALK1
+.****************************************************************
+...ÅBKALK1
+Falckabonnementet afregnes med kr.
+:SKRSLUT.
+&FALCKGEB.
+:SWISS8.
++ moms pr. måned.
+.go to KALKEND1
+...LUKKALK1
+Falckabonnementet er indeholdt i leasingydelsen.
+...KALKEND1
+.of
+.of 5mm
+.of
+.of 5mm
+9.¤Ved enhver misligholdelse fra leasingtagers side forbeholder
+leasinggiver sig ret til, uden forudgående varsel at ophæve nærværende
+aftale samt at spærre kortet for fremtidigt brug. Endvidere forbeholder
+leasinggiver sig ret til at ophæve nærværende aftale, såfremt samarbejdet
+mellem leasinggiver og brændstofselskabet ophører.
+.of
+.of 5mm
+.*******Test på om det er en åben eller lukket kalkulation*********
+.if &L'&FLEETGEB. > 0
+.th .go to ÅBKALK2
+.el .go to LUKKALK2
+.****************************************************************
+...ÅBKALK2
+10.¤Den Grønne Ejerafgift og forsikringspræmien betales af leasinggiver for
+leasingtagers regning og opkræves løbende sammen med leasingydelsen med
+tillæg af Fleet Management gebyr kr.
+:SKRSLUT.
+&FLEETGEB.
+:SWISS8.
++ moms pr. måned.
+.go to KALKEND2
+...LUKKALK2
+10.¤Den Grønne Ejerafgift og forsikringspræmien betales af leasinggiver for
+leasingtagers regning og opkræves løbende sammen med leasingydelsen med
+tillæg af Fleet Management gebyr, som er indeholdt i leasingydelsen.
+...KALKEND2
+Eventuelt for meget betalt Grøn Ejerafgift, der betales
+til leasintager skal viderebetales til leasinggiver på anfordring.
+.of
+.of 5mm
+11.¤Nærværende aftale er kun gældende i den tidsperiode, hvor leasingtager
+har et leasingforhold med leasinggiver.
+.ar off
+.**************************************************************************
+
+

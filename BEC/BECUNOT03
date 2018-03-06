@@ -1,0 +1,256 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.su off
+.se by = substr &GENADR4 6 25
+.su on
+.*******
+.*TEST PÅ OM DER ER TASTET 1,2 ELLER 3 I VALG AF INSTRUMENT **************
+.if &GENVALG > 0
+.an &GENVALG < 4
+.th .go TYPEOK
+.el .mg/T/Valg af instrument skal være 1, 2 eller 3./
+...TYPEOK
+.*******
+.if &GENVALG = 1
+.th .se instru = 'andele'
+.th .se instrud = 'andele'
+.th .se instruf = 'udvider kapitalen'
+.th .se instrup = 'andelene'
+.if &GENVALG = 2
+.th .se instru = 'aktier'
+.th .se instrud = 'fondsaktier'
+.th .se instruf = 'udvider kapitalen ved emission med fortegningsret'
+.th .se instrup = 'aktierne'
+.if &GENVALG = 3
+.th .se instru = 'anparter'
+.th .se instrud = 'anparter'
+.th .se instruf = 'udvider kapitalen'
+.th .se instrup = 'anparterne'
+.**********'
+.if &L'&BECNOM = 0
+.an &L'&STKDEC = 0
+.an &L'&STKHEL = 0
+.th .mg/T/Udfyld enten nominel-felt eller ét af stk-felterne/
+.**********
+.if &L'&BECNOM > 0
+.an &L'&STKDEC > 0
+.an &L'&STKHEL = 0
+.th .mg/T/Udfyld enten nominel-felt eller ét af stk-felterne/
+.**********
+.if &L'&BECNOM > 0
+.an &L'&STKHEL > 0
+.an &L'&STKDEC = 0
+.th .mg/T/Udfyld enten nominel-felt eller ét af stk-felterne/
+.**********
+.if &L'&STKDEC > 0
+.an &L'&STKHEL > 0
+.th .mg/T/Kun ét af stk-felterne må være udfyldt/
+.**********
+.if &U'&GENJANEJ = J
+.or &U'&GENJANEJ = N
+.th
+.el .mg/T/Feltet skal være udfyldt med enten J eller N/
+.**********
+.if &U'&GENJANEJ = J
+.an &GENPROC ne 0,00
+.th .mg/T/Procentsatsen må ikke være udfyldt ved ja til manuel påføring/
+.**********
+.if &U'&GENJANEJ = N
+.an &GENPROC = 0,00
+.th .mg/T/Procentsatsen skal være udfyldt ved nej til manuel påføring/
+.**********
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.da MODTAG 20mm 49mm
+.**************************************************************************
+.ar MODTAG on
+&GENADR1
+.br
+&GENADR2
+.br
+&GENADR3
+.br
+&GENADR4
+.br
+&GENADR5
+.ar off
+.***********************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.da START 20mm 100mm width 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Ejerskabserklæring
+.sp
+.**************************************************************************
+.*************************************************************************
+Skal hermed bekræfte, at:
+.sp
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp
+ejer i alt
+.****Hvis der er valgt nominelt ****
+.if &L'&BECNOM > 0
+.th .go TEST1
+.el .go TEST1END
+...TEST1
+nominelt
+:VS. &BECNOM.
+&instru.,
+udstedt i
+&U'&GENMØNTK.,
+.************
+.if &U'&GENJANEJ = J
+.an &GENPROC = 0,00
+.th svarende til _____ procent af selskabets samlede kapital,
+.th .go VIDERE
+.************
+.if &GENPROC = 0,00
+.th .go VIDERE
+.el svarende til
+.el :VS. &GENPROC.
+.el procent af selskabets samlede kapital,
+.************
+...VIDERE
+.ct  og at &BANKNAVN. får besked, hvis &GENADR1. udsteder &instrud.,
+&instruf., ophører, går konkurs, sælges eller hvis &GENADR1.
+nedskriver kapitalen.
+...TEST1END
+.****Hvis der er valgt stk. dec ****
+.if &L'&STKDEC > 0
+.th .go TEST2
+.el .go TEST2END
+.************
+...TEST2
+:VS. &STKDEC.
+stk. &instru.,
+udstedt i
+&U'&GENMØNTK.,
+.************
+.if &U'&GENJANEJ = J
+.an &GENPROC = 0,00
+.th svarende til _____ procent af selskabets samlede kapital,
+.th .go VIDERE2
+.************
+.if &GENPROC = 0,00
+.th .go VIDERE2
+.el svarende til
+.el :VS. &GENPROC.
+.el procent af selskabets samlede kapital,
+.************
+...VIDERE2
+.ct  og at &BANKNAVN. får besked, hvis &GENADR1. udsteder &instrud.,
+&instruf., ophører, går konkurs, sælges eller hvis &GENADR1.
+nedskriver kapitalen.
+...TEST2END
+.****Hvis der er valgt stk. hel ****
+.if &L'&STKHEL > 0
+.th .go TEST3
+.el .go TEST3END
+...TEST3
+:VS. &STKHEL.
+stk. &instru.,
+udstedt i
+&U'&GENMØNTK.,
+.************
+.if &U'&GENJANEJ = J
+.an &GENPROC = 0,00
+.th svarende til _____ procent af selskabets samlede kapital,
+.th .go VIDERE3
+.************
+.if &GENPROC = 0,00
+.th .go VIDERE3
+.el svarende til
+.el :VS. &GENPROC.
+.el procent af selskabets samlede kapital,
+.************
+...VIDERE3
+.ct  og at &BANKNAVN. får besked, hvis &GENADR1. udsteder &instrud.,
+&instruf., ophører, går konkurs, sælges eller hvis &GENADR1.
+nedskriver kapitalen.
+.************
+...TEST3END
+.sp
+Endvidere erklærer &GENADR1., at &KTONAVN. og dennes familie ikke
+ejer 25 procent eller mere af kapitalen i &GENADR1..
+.sp
+&BANKNAVN. skal have besked ved &KTONAVN.s salg af &instrup..
+.sp
+Endelig erklærer, &GENADR1., at selskabet ikke har som formål eller
+som et af sine formål at give brugsrettigheder, rabatter eller lignende i
+selskabet.
+.sp 2
+&by., den
+.sp 3
+.***************************
+.dr tynd weight 0.2mm
+.***************************
+.hr tynd 42.5mm 122.5mm
+.br
+.ce on
+&GENADR1.
+.ce off
+.sp 2
+Stempel/Underskrives af tegningsberettiget person
+.sp
+Udskrift fra Erhvervs- og selskabsstyrelsen vedlægges
+.ar off
+
+
+
+
+
+

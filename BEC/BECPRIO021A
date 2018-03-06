@@ -1,0 +1,219 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+:ENY.
+.*******************************
+.su off
+.se dag = substr &DATO 1 2
+.se mdr = substr &DATO 4 2
+.se aar = substr &DATO 7 4
+.su on
+.* &dag.-&mdr.-&aar.
+.*******************************
+.**************************************************************************
+.da UNSKR 20mm 258mm width 165mm
+.**************************************************************************
+.dr tynd weight 0.2mm
+.***************************
+.ar UNSKR on
+.***************
+.tp 2mm
+.in 0mm
+.hr tynd 0mm 165mm
+.sp 2mm
+:SWISS8.
+Ovenstående tilbud tiltrædes hermed
+.sp 15mm
+.tp 2mm 55mm center 110mm center
+.if x&DEBANTAL > x2
+.th .hr tynd 0mm 25mm 30mm 160mm
+.th ¤Dato ¤Kundernes underskrifter
+.th .go UEND
+.if x&DEBANTAL = x2
+.th .hr tynd 0mm 25mm 30mm 80mm 85mm 135mm
+.th ¤Dato ¤Kundens underskrift ¤Kundens underskrift
+.th .go UEND
+.if x&DEBANTAL = x1
+.th .hr tynd 0mm 25mm 30mm 80mm
+.th ¤Dato ¤Kundens underskrift
+.th .go UEND
+...UEND
+.ar off
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:SWISS10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.* Påsat adressefelter
+.da PRIOADR1 20mm     48mm width 80mm
+.da PRIOADR2 20mm     78mm width 80mm
+.da MFLOPL   126.5mm  78mm width 15mm
+.**************************************************************************
+.ar PRIOADR1 on
+&MOD01NAVN.
+.br
+&MOD1ADR1.
+.br
+&MOD1ADR2.
+.br
+&MOD1ADR3.
+.br
+&MOD1ADR4.
+.ar off
+.***********************************************************************
+.ar PRIOADR2 on
+&DEB2ADR1.
+.br
+&DEB2ADR2.
+.br
+&DEB2ADR3.
+.br
+&DEB2ADR4.
+.br
+&DEB2ADR5.
+.ar off
+.***********************************************************************
+.ar MFLOPL on
+.if x&DEBANTAL > x2
+.th m.fl.
+.ar off
+.*************** AREAL-DEFINITIONER ***************************************
+.da AFS  126.5mm 34.5mm width 150mm
+.*** Bankens afsenderoplysninger ******************************************
+.ar AFS on
+:SWISS10.
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.br
+&PRIOMAIL.
+.sp 5mm
+:SWISS9.
+Udskrivningsdato: &dag.-&mdr.-&aar.
+:SKRSLUT.
+.ar off
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 110mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+.tp 150mm right
+:SWISS10.:FED.
+Indfrielsestilbud :SKRSLUT.:SKRSLUT. ¤kontonr. &reg.-&kto.
+.ar off
+.*************************************************************************
+.da TEKST 20mm 117mm width 170mm
+.**************************************************************************
+.ar TEKST on
+.**********************
+.tp 150mm right
+.dr tynd weight 0.2mm
+.se txt1 = 'Nutidsværdi - Skyldige renter'
+.***********************
+.tp 3mm 40mm 150mm right 153mm
+.**********************
+Låntype¤¤¤&LAANETYPE.
+.br
+Dato for lånets indfrielse¤¤¤&INDFDATO.
+.br
+Restgæld¤¤¤&LÅNRESTG.¤kr.
+.br
+Udløb fastrenteperiode ¤¤¤&RTEBINDAU.
+.br
+Rentesats¤¤¤&PRIRENTE.¤% p.a.
+.sp 3mm
+:FED.
+Beregning af indfrielseskurs
+:SKRSLUT.
+.br
+Nutidsværdi (tilbagediskonteret værdi) af lånets resterende
+.br
+aftalte ydelser¤¤¤&NUTIDVÆR.¤kr.
+.sp 2mm
+Skyldige renter pr. &RTEFFDATO.¤¤¤&RTEBELØB.¤kr.
+.sp 2mm
+Kursberegning¤¤(&txt1.) * 100 / Restgæld ¤&KURSBEREG.
+.if &L'&KURSSSATS > 0
+.th .sp 2mm
+.th Tillæg for kurssikring til &INDFDATO.¤¤¤&KURSSSATS.
+.sp 2mm
+Indfrielseskurs¤¤¤&INDFKURST.
+.sp 3mm
+:FED.
+Indfrielsesbeløb:
+:SKRSLUT.
+.sp 2mm
+Kursværdi¤¤¤&LÅNKRESTG.¤kr.
+.br
++¤Skyldige renter ved indfrielse¤¤&RTESKYLD.¤kr.
+.if &L'&INDFGEB > 0
+.th .br
+.th +¤Indfrielsesgebyr¤¤&INDFGEB.¤kr.
+.if &L'&RABATIALT > 0
+.th .br
+.th -¤Rabat på gebyr¤¤&RABATIALT.¤kr.
+.br
+.hr tynd 125mm 150mm
+Samlet afregningsbeløb¤¤¤&INDFBELØB.¤kr.
+.sp 3mm
+Restgælden kan indfries til ovennævnte indfrielseskurs med tillæg af
+skyldige renter på indfrielsesdagen. Det forudsættes, at evt. ydelser
+på lånet frem til indfrielsesdagen betales i henhold til låneaftalen.
+.sp 2mm
+Nærværende tilbud er udarbejdet med udgangspunkt i dagsaktuelle
+rentesatser, og kan derfor kun gøres gældende dags dato ved henvendelse til
+banken inden kl. 16.00.
+.sp 2mm
+Der beregnes et gebyr på &TILBUDGEB. kr. for nærværende tilbud.
+.sp 2
+Venlig hilsen
+.sp 3
+&AFDBNKNAVN.
+.br
+&KUNDEANSVN.
+.ar off

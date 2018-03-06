@@ -1,0 +1,137 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***********************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.* Påsat adressefelter
+.da LOFADR 23mm 48mm
+.**************************************************************************
+.ar LOFADR on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.***********************************************************************
+:tiltale &TILTALEF
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.us on
+Udløb af kontrakt nr.: &AFTALENR.
+.us off
+.sp
+:SKRSLUT.
+.**************************************************************************
+.* ændring af tiltale, så det følger anviste LOF-regler, som er:
+.* 1. Kunder med CPR.NR. skal tiltales efter deres tiltaleform hentet fra
+.*    kunderegisteret.
+.* 2. Alle kunder med CVR.NR (Første 2 cifre er 00) skal tiltales med I.
+.**************************************************************************
+.su off
+.se cpr1 = substr &KUNDENR 1 2
+.su on
+.***TEST om det er CVR-NR eller CPR-NR*************************************
+.if x&cpr1 = x00
+.th .go CVR
+.el .go ENDCVR
+.**************************************************************************
+...CVR
+.se DU = &I
+.se SDU = &I
+.se DIG = &JER
+.se SDIG = &SJER
+.se DIN = &JERES
+.se SDIN = &SJERES
+.se DIT =  &JERES
+.se SDIT = &SJERES
+.se DINE = &JERES
+.se SDINE = &SJERES
+...ENDCVR
+.tp 20mm
+&SDIN. leasingaftale udløber den &UDATO.. Som oplyst i aftalen er
+&DU. forpligtet til at anvise en køber til det leasede udstyr.
+.sp
+Vi beder &DIG. skrive oplysninger om køber nedenfor. Kopi af brevet
+returneres til os senest 3 uger før leasingaftalens udløb.
+.sp
+:FED.
+Oplysning om købet
+.br
+:SKRSLUT.
+Udstyr ¤Købspris &RESTVEXT. kr. ekskl. moms.
+.sp 2
+Køber¤CVR-nr.
+.sp
+¤Navn
+.sp
+¤Adresse
+.sp
+¤Postnr.
+.sp2
+.ce on
+Med venlig hilsen
+.sp
+&AFDBNKNAVN
+.sp2
+&GENEKSP
+.br
+.if &L'&GENTITEL > 0
+.th &GENTITEL
+.th .br
+.if &L'&GENTLFNR > 0
+.th Telefon nr.: &GENTLFNR
+.ce off
+.ar off
+.****************************************************************
