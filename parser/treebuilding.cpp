@@ -75,7 +75,7 @@ void startTreeBuilding(std::vector<Node*> list)
 									break;
 			case BOX:				index=i;
 									cout<<"BOX"<<endl;									
-									if(list[i+1]->getType() != OFF){
+									if(list[i+1]->getType() != OFF && (list[i+1]->getData() != "can" && list[i+1]->getData() != "CAN")){
 										if(last_bx_off == 0 && list[i+1]->getType() != NEW && list[i+1]->getType() != SET){
 											parents.pop();
 											parent = parents.top();
@@ -84,7 +84,10 @@ void startTreeBuilding(std::vector<Node*> list)
 											bx_off = 0;
 										}
 										parents.push(index);
-									}else if(list[i+1]->getType() == OFF){
+									}else if(list[i+1]->getType() == OFF  && bx_off==0){
+										parents.pop();
+										bx_off = 1;
+									}else if(list[i+1]->getData() == "can" || list[i+1]->getData() == "CAN"){
 										parents.pop();
 										bx_off = 1;
 									}
@@ -92,7 +95,7 @@ void startTreeBuilding(std::vector<Node*> list)
 									last_bx_off = bx_off;
 									parent = parents.top();
 									break;
-			case RH:				cout<<"RH"<<endl;
+			case RH:				/*cout<<"RH"<<endl;*/
 									if(list[i+1]->getType() == ON){
 										parents.push(i);
 									}else if(list[i+1]->getType() == OFF){
@@ -105,7 +108,7 @@ void startTreeBuilding(std::vector<Node*> list)
 									i = connectNextNodesUntilNewLine(parent, i);
 									parent = parents.top();	
 									break;
-			case TA:				cout<<"TA"<<endl;
+			case TA:				/*cout<<"TA"<<endl;*/
 									if(list[i+1]->getType() != OFF){
 										parents.push(i);
 									}else if(list[i+1]->getType() == OFF){
@@ -115,7 +118,7 @@ void startTreeBuilding(std::vector<Node*> list)
 									parent = parents.top();	
 									break;
 			case AREA:				index=i;
-									cout<<"AREA"<<endl;	
+									// cout<<"AREA"<<endl;	
 									cout<<types[list[parents.top()]->getType()]<<endl<<endl;								
 									if(list[i+2]->getType() == ON){
 										if(last_kp_off == 0 ){
