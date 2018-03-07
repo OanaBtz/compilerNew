@@ -8,6 +8,8 @@
 enum Type
 {
     DOCUMENT,
+    SET,
+    NEW,
     NV,
     AREADEFINITION,
     AREA,

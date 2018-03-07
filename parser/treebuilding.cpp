@@ -3,23 +3,23 @@
 
 int connectNextNodesUntilNewLine(int addToIndex, int fromIndex)
 {
-	list[addToIndex].addNode(&list[fromIndex]);
+	list[addToIndex]->addNode(list[fromIndex]);
 	int i=1;
-	while(list[fromIndex+i].getType() != NEWLINE){
-		list[fromIndex].addNode(&list[fromIndex + i]);
+	while(list[fromIndex+i]->getType() != NEWLINE){
+		list[fromIndex]->addNode(list[fromIndex + i]);
 		i++;
 	}
-	list[fromIndex].addNode(&list[fromIndex + i]);
+	list[fromIndex]->addNode(list[fromIndex + i]);
 	return fromIndex + i;
 }
 
 int connectThisNode(int addToIndex, int fromIndex)
 {
-	list[addToIndex].addNode(&list[fromIndex]);
+	list[addToIndex]->addNode(list[fromIndex]);
 	return fromIndex;
 }
 
-void startTreeBuilding(std::vector<Node> list)
+void startTreeBuilding(std::vector<Node*> list)
 {
 	stack<int> parents;
 	parents.push(0);
@@ -30,39 +30,53 @@ void startTreeBuilding(std::vector<Node> list)
 	int last_ta_off = 1, ta_off = 1;
 	int last_bx_off = 1, bx_off = 1;
 	for(int i = 1; i < list.size(); i++){
-		switch(list[i].getType()){
-			case KP:				index=i;									
-									if(list[i+1].getType() != OFF){
+		switch(list[i]->getType()){
+			case KP:				index=i;
+									cout<<"KP"<<endl;	
+									cout<<types[list[parents.top()]->getType()]<<endl<<endl;								
+									if(list[i+1]->getType() == ON){
+										
 										if(last_ar_off == 0 ){
+											cout<<"kp area off"<<endl;
 											parents.pop();
 											parent = parents.top();
 											last_ar_off = 1;
 										}else if(last_ta_off == 0 ){
+											cout<<"kp ta off"<<endl;
 											parents.pop();
 											parent = parents.top();
 											last_ta_off = 1;
 										}
 
 										if(last_kp_off == 0 ){
+											cout<<"last kp off"<<endl;
 											parents.pop();
 											parent = parents.top();
-											kp_off = 1;
-										}else{
+											last_kp_off=1;
 											kp_off = 0;
+										}else{
+											cout<<"only kp on"<<endl;
+											kp_off = 0;
+											last_kp_off = 0;
 										}
+										
 										parents.push(index);
 										cout<<parents.top()<<endl<<endl;
-									}else if(list[i+1].getType() == OFF){
+
+									}else if(list[i+1]->getType() == OFF && kp_off == 0 ){
 										parents.pop();
+										last_kp_off = 1;
 										kp_off = 1;
 									}
+									cout<<" parent is: "<<parent<<endl;
 									i = connectNextNodesUntilNewLine(parent, i);
-									last_kp_off = kp_off;
 									parent = parents.top();
+									cout<<" parent is: "<<parent<<endl;
 									break;
-			case BOX:				index=i;									
-									if(list[i+1].getType() != OFF){
-										if(last_bx_off == 0 ){
+			case BOX:				index=i;
+									cout<<"BOX"<<endl;									
+									if(list[i+1]->getType() != OFF){
+										if(last_bx_off == 0 && list[i+1]->getType() != NEW && list[i+1]->getType() != SET){
 											parents.pop();
 											parent = parents.top();
 											bx_off = 1;
@@ -70,7 +84,7 @@ void startTreeBuilding(std::vector<Node> list)
 											bx_off = 0;
 										}
 										parents.push(index);
-									}else if(list[i+1].getType() == OFF){
+									}else if(list[i+1]->getType() == OFF){
 										parents.pop();
 										bx_off = 1;
 									}
@@ -78,68 +92,71 @@ void startTreeBuilding(std::vector<Node> list)
 									last_bx_off = bx_off;
 									parent = parents.top();
 									break;
-			case RH:				if(list[i+1].getType() != OFF){
+			case RH:				cout<<"RH"<<endl;
+									if(list[i+1]->getType() == ON){
 										parents.push(i);
-									}else if(list[i+1].getType() == OFF){
+									}else if(list[i+1]->getType() == OFF){
 										parents.pop();
+									}else if(list[i+1]->getType() == CANCEL || list[i+1]->getType() == EXECUTE){
+										parent = parents.top();
+										i = connectNextNodesUntilNewLine(parent, i);
+										break;
 									}
+									i = connectNextNodesUntilNewLine(parent, i);
 									parent = parents.top();	
-									i = connectNextNodesUntilNewLine(parent, i);
 									break;
-			case US:				if(list[i+1].getType() != OFF){
+			case TA:				cout<<"TA"<<endl;
+									if(list[i+1]->getType() != OFF){
 										parents.push(i);
-									}else if(list[i+1].getType() == OFF){
+									}else if(list[i+1]->getType() == OFF){
 										parents.pop();
 									}
+									i = connectNextNodesUntilNewLine(parent, i);
 									parent = parents.top();	
-									i = connectNextNodesUntilNewLine(parent, i);
 									break;
-			case CE:				if(list[i+1].getType() != OFF){
-										parents.push(i);
-									}else if(list[i+1].getType() == OFF){
-										parents.pop();
-									}
-									parent = parents.top();
-									i = connectNextNodesUntilNewLine(parent, i);
-									break;
-			case TA:				if(list[i+1].getType() != OFF){
-										parents.push(i);
-									}else if(list[i+1].getType() == OFF){
-										parents.pop();
-									}
-									parent = parents.top();	
-									i = connectNextNodesUntilNewLine(parent, i);
-									break;
-			case AREA:				index=i;									
-									if(list[i+1].getType() != OFF){
+			case AREA:				index=i;
+									cout<<"AREA"<<endl;	
+									cout<<types[list[parents.top()]->getType()]<<endl<<endl;								
+									if(list[i+2]->getType() == ON){
 										if(last_kp_off == 0 ){
+											cout<<"area kp off"<<endl;
 											parents.pop();
 											parent = parents.top();
 											last_kp_off = 1;
 										}else if(last_ta_off == 0 ){
+											cout<<"area ta off"<<endl;
 											parents.pop();
 											parent = parents.top();
 											last_ta_off = 1;
 										}
 
 										if(last_ar_off == 0 ){
+											cout<<"last ar off"<<endl;
 											parents.pop();
 											parent = parents.top();
-											ar_off = 1;
-										}else{
+											last_ar_off=1;
 											ar_off = 0;
+										}else{
+											cout<<"only ar on"<<endl;
+											ar_off = 0;
+											last_ar_off = 0;
 										}
+										
 										parents.push(index);
 										cout<<parents.top()<<endl<<endl;
-									}else if(list[i+1].getType() == OFF){
+
+									}else if(list[i+1]->getType() == OFF && ar_off == 0 ){
 										parents.pop();
+										last_ar_off = 1;
 										ar_off = 1;
 									}
+									cout<<" parent is: "<<parent<<endl;
 									i = connectNextNodesUntilNewLine(parent, i);
-									last_ar_off = ar_off;
 									parent = parents.top();
+									cout<<" parent is: "<<parent<<endl;
 									break;
-			case CB:				if(last_kp_off == 0 ){
+			case CB:				cout<<"CB"<<endl;
+									if(last_kp_off == 0 ){
 										parents.pop();
 										parent = parents.top();
 										last_kp_off = 1;
@@ -154,7 +171,8 @@ void startTreeBuilding(std::vector<Node> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
-			case LL:				if(last_kp_off == 0 ){
+			case LL:				cout<<"LL"<<endl;
+									if(last_kp_off == 0 ){
 										parents.pop();
 										parent = parents.top();
 										last_kp_off = 1;
@@ -169,7 +187,8 @@ void startTreeBuilding(std::vector<Node> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
-			case SC:				if(last_kp_off == 0 ){
+			case SC:				cout<<"SC"<<endl;
+									if(last_kp_off == 0 ){
 										parents.pop();
 										parent = parents.top();
 										last_kp_off = 1;
@@ -184,7 +203,8 @@ void startTreeBuilding(std::vector<Node> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
-			case MC:				if(last_kp_off == 0 ){
+			case MC:				cout<<"MC"<<endl;
+									if(last_kp_off == 0 ){
 										parents.pop();
 										parent = parents.top();
 										last_kp_off = 1;
@@ -199,13 +219,23 @@ void startTreeBuilding(std::vector<Node> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
-			case NEWLINE:			i = connectThisNode(parent, i);
+			case NEWLINE:			cout<<"NEWLINE"<<endl;
+									i = connectThisNode(parent, i);
 									break;
-			case STRING:			i = connectThisNode(parent, i);
+			case STRING:			cout<<"STRING "<<list[i]->getData()<<endl;
+									i = connectThisNode(parent, i);
 									break;
-			case NUMBER:			i = connectThisNode(parent, i);
+			case NUMBER:			cout<<"NUMBER "<<list[i]->getData()<<endl;
+									i = connectThisNode(parent, i);
 									break;
-			default:				i = connectNextNodesUntilNewLine(parent, i);
+			case VARIABLE:			cout<<"VARIABLE "<<list[i]->getData()<<endl<<parent<<endl;
+									i = connectNextNodesUntilNewLine(parent, i);
+									break;
+			default:				cout<<types[list[i]->getType()]<<endl;
+									if(list[i]->getData() != ""){
+										cout<<list[i]->getData()<<endl;
+									}
+									i = connectNextNodesUntilNewLine(parent, i);
 									break;
 		}
 	}

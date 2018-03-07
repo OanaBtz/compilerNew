@@ -14,27 +14,17 @@ void printNode(Node* node)
 	cout << endl;
 }
 
-string getNodeName(Node* node, vector<Node>* list, int c)
-{
-	string data = types[node->getType()];
-	if(node->getType() == AREA)
-	{
-		data += "   name: " + list->at(c+1).getData();
-	}
-	return data;
-}
-
-void printList(std::vector<Node> list)
+void printList(std::vector<Node*> list)
 {
 	for(int i=0; i< list.size(); i++)
 	{
 		string p = "";
 
-		p = types[list[i].getType()];
+		p = types[list[i]->getType()];
 
-		if(list[i].getData().length() > 0)
+		if(list[i]->getData().length() > 0)
 		{
-			p += "       data: " + list[i].getData();
+			p += "       data: " + list[i]->getData();
 		}
 		
 		cout<<i<<" "<<p<<endl;

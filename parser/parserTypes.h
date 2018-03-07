@@ -4,6 +4,8 @@
 
 std::string types[] = {
     "DOCUMENT",
+    "SET",
+    "NEW",
     "NV",
     "AREADEFINITION",
     "AREA",

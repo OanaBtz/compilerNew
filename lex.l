@@ -96,6 +96,8 @@
 \+*\-*([0-9]+)(mm|cm|MM|CM|m)                             { strcpy(yylval.tokens, yytext); return SIZE_T;}
 \+*\-*([0-9]+)\.(mm|cm|MM|CM|m)                             { strcpy(yylval.tokens, yytext); return SIZE_T;}
 \+*\-*([0-9]+)\,([0-9]+)(mm|cm|MM|CM|m)               { strcpy(yylval.tokens, yytext); return SIZE_T;}
+"new"|"NEW"                                     { strcpy(yylval.tokens, yytext); return NEW_T;}
+"set"|"SET"                                     { strcpy(yylval.tokens, yytext); return SET_T;}
 \n                                              { strcpy(yylval.tokens, yytext); return NEW_LINE_T; }
 \:([A-Z]+)([0-9]*)\.                            { strcpy(yylval.tokens, yytext); return STYLE_T;}
 \'\%.*\'                                        { strcpy(yylval.tokens, yytext); return VAR_UP_T;}
