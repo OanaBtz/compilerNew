@@ -1,0 +1,131 @@
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us :FED.Tilmelding af lånydelse til Betalingsservice :SKRSLUT.
+.sp
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da IDOPL 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar IDOPL on
+:COUR8.
+Reg.nr. &regnr
+.br
+Kontonummer &ktonr
+.br
+:FED.&REGTYPELNG.:SKRSLUT.
+.br
+CPR-nr./CVR-nr. &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.*Parametre og test på regtype ********************************************
+.tp 8mm
+.**************************************************************************
+:FED.Navn og adresse:SKRSLUT.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.sp
+:FED.Kontonummer:SKRSLUT.: &IREGKTO.
+.sp
+:FED.CPR-nummer:SKRSLUT.: &KTOKNDNR1.
+.sp
+:FED.PBS-nr.::SKRSLUT. 07582889 :FED.Deb.gr.nr.::SKRSLUT 05536
+:FED.Kundenr.::SKRSLUT. 0353&IREGKTO.
+:SKRSLUT.
+.sp 10mm
+:FED.Ydelsen skal trækkes fra:
+.sp
+Reg.nr:________ Kontonummer:________________________:SKRSLUT.
+.sp 10mm
+Undertegnede opretter hermed ovenstående anførte betalingsaftale.
+.sp
+Den enkelte aftale giver kreditor, der tilhører det anførte PBS- og
+debitornummer, tilladelse til på ovennævnte konto, at trække det med mig
+aftalte tilgodehavende, som hører under det angivne kundenummer.
+.sp
+For nærmere information henviser vi til www.BetalingsService.dk
+.sp 10mm
+:FED.Dato:_________
+.sp 10mm
+Underskrift:___________________________:SKRSLUT.

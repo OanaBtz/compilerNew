@@ -1,0 +1,174 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **Spærringsbekræftelse
+.ti ¤ 05
+:SWISS10.
+.da navn 25mm 40mm width 165mm
+.ar navn on
+.if &l'&B04Q eq 0
+.th &STILL
+.th .br
+&NAVN
+.br
+.if &l'&B04Q gt 0
+.th &B04Q
+.th .br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.ri on
+&DATO
+.ri off
+.sp 12
+.if &GENDANK eq 1
+.th .se korttype = 'Dankort'
+.el .se korttype = 'Visa/Dankort'
+:FED.
+Bekræftelse på spærring af &korttype :STRSLUT.
+:SKRSLUT.
+.ar off
+.fo left
+.ti ¤ 05
+:SWISS10.
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+B04KORT02
+.ar off
+.***********************************************************************
+.*************************************************************************
+.if &GENDANK eq 1
+.th .se korttype = 'Dankort'
+.el .se korttype = 'VISA/Dankort'
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ******
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.*************************************************************************
+.in 2
+.sp 90mm
+Den &DATO8 kl. &GENSPAERKL har jeg spærret
+følgende &korttype.:
+.sp
+.tp 17mm 54mm
+¤Registreringsnr.: ¤&regnr
+.br
+¤Kortnr.         : ¤&GENKORT1
+.br
+¤Kontonr.        : ¤&ktonr
+.br
+¤Korttypekode    : ¤&GENTYPE &korttype
+.br
+.if &L'&GENDATO4 gt 0
+.th .br
+.th ¤Udstedelsesdato : ¤&GENDATO4
+.sp
+.in 2
+.se satning = 'Kortet er anmodet spærret fordi, at'
+.if &L'&GENTAB gt 1
+.an &L'&GENSTJ eq 0
+.an &L'&GENKEN eq 0
+.an &L'&GENANDEN eq 0
+.th .se aarsag = 'kortet er tabt/bortkommet den'
+.th &satning &aarsag &GENTAB..
+.th .go SLUT
+.**************************************************************
+.if &L'&GENTAB eq 0
+.an &L'&GENSTJ gt 1
+.an &L'&GENKEN eq 0
+.an &L'&GENANDEN eq 0
+.th .se aarsag = 'kortet formodes stjålet den'
+.th &satning &aarsag &GENSTJ..
+.th .go SLUT
+.**************************************************************
+.if &L'&GENTAB eq 0
+.an &L'&GENSTJ eq 0
+.an &L'&GENKEN gt 0
+.an &L'&GENANDEN eq 0
+.th .se aarsag = 'PIN-koden er uretmæssigt bekendt.'
+.th &satning &aarsag.
+.th .go SLUT
+.**************************************************************
+.if &L'&GENTAB eq 0
+.an &L'&GENSTJ eq 0
+.an &L'&GENKEN eq 0
+.an &L'&GENANDEN gt 1
+.th &satning &GENANDEN..
+.th .go SLUT
+.**************************************************************
+Kortet er anmodet spærret fordi:
+.sp
+.in 6
+.if &L'&GENTAB gt 0
+.th ¤at kortet er tabt/bortkommet den &GENTAB
+.th .br
+.if &L'&GENSTJ gt 0
+.th ¤at kortet formodes stjålet den &GENSTJ
+.th .br
+.if &L'&GENKEN gt 0
+.th ¤at PIN-koden er uretmæssigt bekendt
+.th .br
+.if &L'&GENANDEN gt 0
+.th ¤&GENANDEN
+.in 0
+...SLUT
+.sp
+.if &L'&GENPOLITI gt 0
+.th Politianmeldelse er foretaget den &GENDATO1..
+.sp
+Kortet er sidst retmæssigt benyttet den &GENDATO7..
+.br
+.***********************************************************
+.sp 2
+Med venlig hilsen
+.br
+:FED.GrønlandsBANKEN :STRSLUT.
+.sp3
+&GENEKSP
+.br
+&GENEMAIL
+.br
+&GENTLFNR

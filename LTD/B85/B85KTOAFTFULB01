@@ -1,0 +1,115 @@
+.oc *
+:becfst.b85aft01
+.ll 73
+.pl 66
+.******************************************************************
+.da KUNDEOPL         8  9 width 34
+.da FULDMAGT        44  9 width 34
+.da CPR1             8 17 width 15
+.da CPR3            44 17 width 15
+.da CPR2             8 20 width 15
+.da KTOART          44 20 width 30
+.da KTOOPL           8 23 width 34
+.da DISP             8 25 width 34
+.da OVF             44 23 width 10
+.da AFSL             8 53 width 62
+.******************************************************************
+.ar KUNDEOPL on
+.ti > 05
+.tp 1
+.if &U'&MEDKUNDENR = 000000-0000
+.th .go TEST1
+.el .go TEST2
+.*************************** KONTOHAVER OG MEDKONTOHAVER
+...TEST2
+&NAVN og
+.br
+&MEDNAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+.el .br
+&GADE1
+.br
+&LANDSBY
+.br
+&BY
+.go VIDERE
+.********************************** KONTOHAVER
+...TEST1
+.if &L'&STILL gt 0
+.th &STILL
+.th .br
+.th &NAVN
+.el &NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+.el .br
+&GADE1
+.br
+&LANDSBY
+.br
+&BY
+.************************************* FULDMAGTSHAVER
+...VIDERE
+.ar FULDMAGT on
+&B85BRNAVN
+.br
+&B85BRADR
+.br
+&B85BRADR0
+.ar off
+.************************************* CPR KONTOHAVER
+.ar CPR1 on
+&KTOKUNDENR
+.ar CPR1 off
+.************************************* CPR MEDKONTOHAVER
+.ar CPR2 on
+.if &U'&MEDKUNDENR ne 000000-0000
+.th &MEDKUNDENR
+.el .br
+.ar CPR2 off
+.************************************* CPR FULDMAGTSHAVER
+.ar CPR3 on
+&B85BRCPR
+.ar CPR3 off
+.*************************************KONTOTYPE
+.ar KTOART on
+&B85KTOART
+.ar off
+.*************************************REG.NR./KTO.NR.
+.ar KTOOPL on
+&IREGKTO
+.ar off
+.*************************************EVT. DISPOSITIONSBEGRÆNSNING
+.ar DISP on
+&B85BEGRNS
+.br
+&B85BEGRNS2
+.ar off
+.************************************* OVERF. SKAT/BØRNEFAM.YDELSE
+.ar OVF on
+.br
+.if &L'&B85OVF1 gt 0
+.th X
+.th .br
+.el .sp
+.if &L'&B85OVF2 gt 0
+.th X
+.th .br
+.el .sp
+.ar off
+.************************************* DATO/UNDERSKRIFTER
+.ar AFSL on
+.tp 35
+&DATO1 > &B85EKSNAVN
+.* .sp 3
+.* &NAVN  > &MEDNAVN
+.ar off
+.************************************* FORMULARAFSLUTNING
+.se antlin = &ÅLC - 3
+.sp &antlin
+:becfsl

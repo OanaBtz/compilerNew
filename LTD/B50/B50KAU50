@@ -1,0 +1,401 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.* følgende test ligger i systemet ********
+.***************************************
+.*Fejl ved sammensætning af bilag
+.*.if &GENAAR gt 10
+.*Gyldighedsperioden kan max. være 10 år
+.*.if &GENAAR eq 0
+.*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm  32mm width 175mm
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Kautionserklæring (Forbruger)
+:SKRSLUT.
+.ar off
+.sp 53mm
+.*************************************************************************
+.**************************************************************************
+.da KAUNIST 25mm 46mm width 85mm
+.da BANK   112.5mm 46mm width 80mm
+.**************************************************************************
+.ar KAUNIST on
+&KAUNIST1
+.br
+&KAUNIST2
+.br
+&KAUNIST3
+.br
+&KAUNIST4
+.br
+&KAUNIST5
+.ar off
+.**************************************************************************
+.ar BANK on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE1 20mm 40mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE1 on
+:SWISS9.
+.tp 1mm 88.5mm
+.bx left 87.5mm right
+¤Kautionist ¤indestår herved (pengeinstitut)
+.sp 20mm
+¤Kundenummer &KAUKNDNR ¤Tlf.nr. &AFDTLF
+.bx off
+.sp 4mm
+.bx left right
+.sp 204mm
+.bx off
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+.ti ¤ 05
+.fo left
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm  32mm width 175mm
+.da SIDE1   20mm  40mm width 175mm
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 63 + 13MM (TOPMARGIN) = 76MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Kl. &TID
+.ar off
+.ar SIDE1 on
+.bx left right
+.sp 230mm
+.bx off
+.ar off
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Kautionserklæring (Forbruger)
+:SKRSLUT.
+.ar off
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.or &L'&SUPTXT04B > 0
+.or &L'&SUPTXT05A > 0
+.or &L'&SUPTXT05B > 0
+.or &L'&SUPTXT06A > 0
+.or &L'&SUPTXT06B > 0
+.th .go SUPL
+.el .go SUPLEND
+...SUPL
+.sp 5mm
+:FED.
+Supplerende tekst
+:SKRSLUT.
+.br
+.*FLG. "SKRSLUT" **ANNULLERER SKRIFTTYPEN SWISS9 **************************
+:SKRSLUT.
+.**************************************************************************
+:COUR10.
+&SUPTXT01A.&SUPTXT01B
+.br
+&SUPTXT02A.&SUPTXT02B
+.br
+&SUPTXT03A.&SUPTXT03B
+.br
+&SUPTXT04A.&SUPTXT04B
+.br
+&SUPTXT05A.&SUPTXT05B
+.br
+&SUPTXT06A.&SUPTXT06B
+...SUPLEND
+.**BETINGELSER ************************************************************
+:SWISS9.
+.sp 5mm
+:FED.
+For kaution gælder i øvrigt nedenstående vilkår:SKRSLUT.
+.in
+.ir
+.sp 3mm
+.cd 2 5mm 90mm
+.cl 78mm
+.**1. KOLONNE *************************************************************
+.tp 3mm
+:FED.
+1. Anvendelse af indbetalinger:SKRSLUT.
+.br
+Indbetaling fra låntager anvendes, hvis lånet/kreditten kun er
+delvis sikret ved kaution, først til nedbringelse af den usikrede del.
+.sp 3mm
+:FED.
+2. Henstand:SKRSLUT.
+.br
+:SKRSLUT.
+.br
+.***SOLIDARISK KAUTION *************
+.if &KAUHÆFTYPE = 1
+.th .go KTYP1
+.el .go KTYP2
+...KTYP1
+Dog for maksimum &MAXBELØB. kr.
+.***PRO RATA KAUTION *************
+...KTYP2
+.if &KAUHÆFTYPE = 2
+.th .go TYPPRO1
+.el .go KTYP3
+...TYPPRO1
+.if &L'&MAXBELØB > 0
+.th Kautionen kan højst gøres gældende med &MAXBELØB kr.
+.if &L'&MAXPROCENT > 0
+.th Kautionen kan højst gøres gældende med &MAXPROCENT %
+.th af gælden.
+.***BELØBSBEGRÆNSET KAUTION *****
+...KTYP3
+.if &KAUHÆFTYPE = 3
+.th .go HÆFBEG
+.el .go GYLDIG
+...HÆFBEG
+.if &L'&MAXBELØB > 0
+.th Kautionen kan højst andrage &MAXBELØB kr.
+.if &L'&MAXPROCENT > 0
+.th Kautionen kan højst andrage &MAXPROCENT %
+.th af gælden.
+.**********************
+...GYLDIG
+.sp 5mm
+:FED.
+Gyldighedsperiode
+:SKRSLUT.
+.br
+Nærværende kaution bortfalder &GENMDR
+måneder fra underskriftstidspunktet,
+medmindre &BANKNAVN forinden har gjort krav gældende over for
+kautionisten, eller kautionen er forlænget ved aftale mellem
+&BANKNAVN og kautionisten.
+.*SUPPLERENDE TEKST *******************************************************
+.if &L'&SUPTXT01A > 0
+.or &L'&SUPTXT01B > 0
+.or &L'&SUPTXT02A > 0
+.or &L'&SUPTXT02B > 0
+.or &L'&SUPTXT03A > 0
+.or &L'&SUPTXT03B > 0
+.or &L'&SUPTXT04A > 0
+.th .go DEB1
+.if &DEBANTAL = 2
+.th Låntager ¤Låntager
+.th .sp 3mm
+.th .go DEB2
+.if &DEBANTAL > 2
+.th Låntager ¤Låntager ¤Flere låntagere
+.th .sp 3mm
+.th .go DEB2
+...DEB2
+.cd 2 0mm 87.5mm
+.cl 80mm
+...DEB1
+.**INGEN KOLONNEDEFINITION - HVIS DER KUN ER 1 DEBITOR ********************
+:SKRSLUT.
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.**************************************************************************
+.if &DEBANTAL > 1
+.th .go MED1
+.el .go MED1SL
+...MED1
+.cb
+&DEB2ADR1
+.br
+&DEB2ADR2
+.br
+&DEB2ADR3
+.br
+&DEB2ADR4
+.br
+&DEB2ADR5
+.sc
+...MED1SL
+.sp 3mm
+.**************************************************************************
+Kundenr. &DEB1KNDNR
+.if &DEBANTAL > 1
+.th .ct ¤Kundenr. &DEB2KNDNR
+.**************************************************************************
+.sp 3mm
+:FED.
+Maksimum
+.**************************************************************************
+.in 5mm
+.ir 1mm
+.**************************************************************************
+Som
+.if &KAUTYPE = 1
+.th selvskyldnerkautionist
+.if &KAUTYPE = 2
+.th simpel kautionist
+.if &KAUTYPE = 3
+.th tabskautionist
+.***********
+.if &KAUHÆFTYPE = 1
+.or &KAUHÆFTYPE = 3
+.th hæftende solidarisk
+.if &KAUHÆFTYPE = 2
+.th hæftende pro rata
+.**********
+.if &KAUTYPE = 1
+.th for opfyldelse af nuværende og fremtidige
+.if &KAUTYPE = 2
+.th for opfyldelse af
+.if &KAUTYPE = 3
+.th for opfyldelse af
+.*********
+forpligtelser af enhver art og for betaling vedrørende
+.sp 3mm
+.********** HER TESTES PÅ TYPE LÅN-KREDIT-GARANTI *************************
+.if X&LAANTYPE lt X1
+.or X&LAANTYPE gt X3
+.th .mg/T/ Vælg lånetype 1, 2 eller 3/
+.***************
+.if &LAANTYPE eq 1
+.th Lån nr. &LANGKTONR
+.if &LAANTYPE eq 2
+.th Kredit nr. &LANGKTONR
+.if &LAANTYPE eq 3
+.th Garanti nr. &LANGKTONR
+.***********
+.if &U'X&GENBOGST1A = XM
+.th med
+.el uden
+fastsat tilbagebetalingstidspunkt
+.sp 5mm
+.**************************************************************************
+.tp 92.5mm 134mm
+:FED.
+.if &DEBANTAL = 1
+.th Låntager
+.th .sp 3mm
+.**************************************************************************
+&BANKNAVN kan uden tilladelse fra kautionisten give låntager henstand
+med betaling af afdrag, renter, provision og eventuelle omkostninger, dog
+med respekt af Lov om finansiel virksomhed § 48.
+.sp 3mm
+:FED.
+3. Realisation og regres:SKRSLUT.
+.br
+&BANKNAVN forbeholder sig ret til at realisere de af låntager eller
+trediemand eventuelt stillede sikkerheder og afskrive provenuet efter
+&BANKNAVN.s frie valg. Kautionisten har således ingen regresret i
+sådanne sikkerheder.
+.sp 3mm
+Det indebærer:
+.sp 3mm
+.of 3mm
+-¤at &BANKNAVN uden kautionistens tilladelse kan frigive andre
+sikkerheder for den kautionssikrede forpligtelse.
+.sp 3mm
+.of
+.cb
+.**2. KOLONNE *************************************************************
+.of 3mm
+-¤at &BANKNAVN kan anvende pant, der tillige tjener til sikkerhed
+for andre fordringer end den kautionssikrede til forlods fyldestgørelse af
+sådanne fordringer.
+.of
+.sp 3mm
+:FED.
+4. Omstødelse:SKRSLUT.
+.br
+Hvis der i forbindelse med låntagers konkurs m.v., jævnfør konkurslovens
+kapitel 8, sker omstødelse af supplerende sikkerhedsstillelse, der er
+anvendt til hel eller delvis indfrielse af den kautionssikrede fordring,
+opretholdes kautionsforpligtelsen.
+.sp 3mm
+Det samme er gældende, hvis en betaling fra låntager omstødes.
+.sp 3mm
+:FED.
+5. Værneting:SKRSLUT.
+.br
+Retsager vedrørende denne kaution kan efter &BANKNAVN.s ønske
+anlægges ved byretten i den retskreds, hvor &BANKNAVN eller dennes
+kontoførende filial er beliggende (bestemmelsen gælder ikke i
+forbrugerforhold, jævnfør retsplejelovens § 245, stk. 2).
+.*******************
+.sc
+.in 5mm
+.ir 5mm
+.**************************************************************************
+.**************************************************************************

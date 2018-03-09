@@ -1,0 +1,310 @@
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+.*
+.***********************************************************
+.da oversk      30mm   20mm width   175mm
+.da side 28mm 143mm width 170mm
+.***********************************************************
+.ar oversk on
+:SWISS12.
+:FED.
+.us Tinglysningsfuldmagt om brug af anmelderordning (ubegrænset)
+:SKRSLUT. :SKRSLUT.
+.ar off
+.ar side on
+.bx left right
+.sp 60mm
+.bx off
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.ar off
+.**************************************************
+.ar AFSENDER2 on
+:SWISS8.
+Hvis fuldmagtsgiver er gift/lever i registreret partnerskab og den/de
+pantsatte ejendom(me) er omfattet af lov om ægteskabets retsvirkninger
+§18, giver medunderskrevne ægtefælle/partner samtykke til pantsætningen.
+Er ægtefællen/partneren medejer, underskrives som fuldmagtsgiver.
+:SKRSLUT
+.ar off
+.*************************************************
+.ar VITT on
+:SWISS8.
+.tp _/82mm 85mm _/165mm
+¤ ¤ ¤
+:SKRSLUT.
+.ar off
+.*************************************************
+- Overdrage pantebreve tinglyst på ejendommen
+.br
+- Underskrive og anmelde underpantsætning af pantebreve tinglyst på
+ejendommen
+.br
+- Kvittere og aflyse pantebreve på ejendommen
+.br
+- Udstede og anmelde servitutter på ejendommen
+.br
+- Kvittere og aflyse servitutter på ejendommen
+.br
+- Foretage andre påtegninger end de ovenfor anførte på tidligere tinglyste
+dokumenter
+.br
+- Tiltræde som ægtefælle på pantsætningsdokumenter
+.sp 5mm
+.in 0mm
+Fuldmagten er beløbsmæssigt ubegrænset.
+.sp 3mm
+Fuldmagten giver tillige &BANKNAVN ret til at afgive de i forbindelse med
+den enkelte disposition nødvendige erklæringer.
+.sp 3mm
+Fuldmagten er tidsmæssigt ubegrænset, og bortfalder først ved
+tilbagekaldelse. Tilbagekaldelse skal ske til
+&BANKNAVN pr. brev, fax eller besked via
+webbank. Fuldmagten kan ikke tilbagekaldes mundtligt eller
+pr. almindelig e-mail.
+.sp 3mm
+&BANKNAVN har ret til at afgive de i forbindelse med denne dispostion
+nødvendige erklæringer.
+.sp 3mm
+Tinglysningsrettens meddelelser kan med frigørende virkning sendes til
+undertegnede.
+.sp 3mm
+Nærværende fuldmagt skal ikke indsendes til Tinglysningsretten men kan
+tinglyses som særskilt påtegning på ethvert pantebrev der er omfattet af
+fuldmagten.
+.sp 8mm
+.tp delete
+.tp 85mm
+&LANDSBY., den &B48DATO2 ¤&B48LANDSBY., den &B48DATO1
+:SKRSLUT.
+.ar off
+.*************************************************
+.ar AFSENDER1 on
+:SWISS8.
+Hvis denne bemyndigelse kun underskrives af undertegnede, erklærer jeg
+samtidig at være ugift/ikke leve i registreret partnerskab eller at
+ejendomme(e) ikke omfattes af lov om ægteskabets retsvirkninger §18.
+:SKRSLUT.
+.da OVERSK     30mm   30mm width 165mm
+.da NAVN       30mm   35mm width 170mm
+.da SIDE       30mm   60mm width 165mm
+.da AFSENDER1  30mm  225mm width  80mm
+.da AFSENDER2 115mm  225mm width  75mm
+.da VITT       30mm  265mm width 165mm
+.*************************************************
+.ar OVERSK on
+:SWISS10.
+:FED.
+Undertegnede
+:SKRSLUT. :SKRSLUT:
+.ar off
+.**************************************************************
+.ar NAVN on
+:SWISS10.
+.tp 85mm
+&NAVN ¤&B48TEKST1
+.br
+&GADE ¤&B48TEKST2
+.br
+&BY ¤&B48TEKST4
+.br
+&KUNDENR ¤&B48TEKST5
+:SKRSLUT.
+.ar off
+.*************************************************
+.ar SIDE on
+:SWISS10.
+.tp 50mm 90mm
+giver hermed fuldmagt til:
+.sp 3mm
+&BANKNAVN
+.sp 0.5mm
+&AFDGADE
+.sp 0.5mm
+&AFDBY
+.sp 3mm
+Fuldmagten vedrører ejendommen (angivelse alene af hovedmatr.nr.):
+.sp 3mm
+Kommunekode ¤Vejkode ¤Beliggende
+.sp 3mm
+&B48TEKST6 ¤&B48TEKST7 ¤&B48TEKST8
+.sp 3mm
+&BANKNAVN kan på mine vegne ved brug af anmelderordningen signere følgende
+dispositoner:
+.sp 3mm
+.in 10mm nobreak
+- Udstede, anmelde og forhøje pantebreve på ejendommen
+.br
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

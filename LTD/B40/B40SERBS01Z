@@ -1,0 +1,99 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.oc  ** BetalingsService
+:GL..BM0:EGL.
+:GL..LL 74:EGL.
+.ti > 05
+.******************************************************************
+.da KUNDEOPL         8  9 width 34
+.da PENGEIN         44 10 width 34
+.da BUDGET           8 16 width  3
+.da CPRNR           44 16 width 15
+.da KTOOPL          44 18 width 20
+.******************************************************************
+.ar KUNDEOPL on
+.if &L'&KTOSTILL gt 0
+.th &KTOSTILL
+.th .br
+.el .sp
+&KTONAVN
+.br
+.if &L'&KTOCO gt 0
+.th &KTOCO
+.th .br
+.th &KTOGADE
+.th .br
+.th &KTOBY
+.th .sp
+.el &KTOGADE
+.el .br
+.el &KTOBY
+.el .sp 2
+.ar off
+.*************************************
+.ar PENGEIN on
+&BANKNAVN
+.br
+.if &L'&AFDNAVN gt 0
+.th &AFDNAVN
+.th .br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar CPRNR on
+&KTOKUNDENR
+.ar off
+.*************************************
+.ar KTOOPL on
+&REGNR &KTONR
+.ar off
+.*************************************
+.* .ar BUDGET on
+.* .if &U'&GENBUDGET = JA
+.* .th X
+.* .el .sp 2
+.* .el X
+.* .ar off
+.*************************************
+.*******************************************
+.da DATER             25 47 width 40
+.da PIUND             08 50 width 60
+.da KUUND             08 61 width 60
+.*******************************************
+.ar DATER on
+:GL..TP 20:EGL.
+:NY..TP 51MM:ENY.
+&EKSPBY., >&DATO
+.ar off
+.*******************************************
+.ar PIUND on
+.ce on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+.ce off
+.ar off
+.*******************************************
+.ar KUUND on
+.ce
+&KTONAVN
+.br
+.ar off
+.*******************************************
+.se antlin = &ÅLC - 1
+.sp &antlin
+:GL.:BECFORM.B40S50:EGL.

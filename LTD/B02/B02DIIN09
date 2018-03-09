@@ -1,0 +1,380 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 35mm width 95mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.*************NAVN OG ADRESSE****************
+.fo left
+:SWISS11.
+.ar NAVN on
+Undertegnede
+.sp
+.ti ¤ 05
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+.sp 3
+CPR-nr.:  &KTOKNDNR1
+.ar off
+.*.******************DATO**********************
+.*.ar DATO on
+.*&DATO.
+.*.ar off
+.*.*****************SLUT***********************
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+.if X&B02VALG2 eq X2
+.th .go ned
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+.*Aftale om oprettelse af
+.*.br
+.*Højrentekonto med fast rente i 2 år
+.*.ri off
+.ar off
+.**************************************************************************
+...ned
+.if X&B02VALG2 eq X2
+.th .go slut
+.da START 130mm 15mm width 70mm
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftale om oprettelse af
+.br
+Kapitalkonto med fast rente i 2 år
+.ri off
+.ar off
+.da TEXT 25mm 30mm width 160mm
+.ar TEXT on
+.sp 10
+Opretter hermed en Kapitalkonto med fast rente i 2 år, konto nr.
+&IREGKTO..
+.*.su off
+.*.se kontonr1 = substr &IREGKTO 1 4
+.*.se kontonr2 = substr &IREGKTO 5 11
+.*.su on
+.br
+.sp 2
+:SWISS11.
+:FED.
+Kontobetingelser
+:SKRSLUT
+.sp
+:SWISS11.:FED.
+Indskud
+.br
+:SKRSLUT
+Kontoen er åben for indskud til og med den 26. maj 2008.
+.sp
+:FED.
+Indestående
+:SKRSLUT
+.br
+Kontoens indestående skal pr. den 26. maj 2008 udgøre mindst kr. 40.000
+og må højest udgøre kr. 750.000.
+.sp
+:FED.
+Binding
+:SKRSLUT.
+.br
+Kontoens indestående er bundet til den 26. maj 2010.
+.sp
+Frigivelse af beløb fra kontoen i bindingsperioden kan alene ske ved
+henvendelse til Amagerbankens Forvaltningsafdeling og mod betaling af
+dekort efter følgende retningslinjer:
+.sp
+.ti ¤ 05
+.tp 10mm 65mm
+.bx 5mm 140mm
+.vr 60mm
+.br
+:FED.
+¤ Periode ¤ Dekort
+:SKRSLUT.
+.br
+.hr 5mm 140mm
+.br
+¤ 26/5-2008 - 25/5-2009 ¤ 1,5% af det udbetalte beløb
+.br
+.hr 5mm 140mm
+¤ 26/5-2009 - 25/5-2010 ¤ 1,0% af det udbetalte beløb
+.br
+.bx off
+.vr off
+.sp
+Minimumsdekort 250 kr. pr. udbetaling.
+.sp
+:FED.
+Udløb
+:SKRSLUT
+.br
+Indestående på kontoen overføres automatisk til Kapitalkonto nr. &B02KONTO
+pr. 26. maj
+2010.
+.sp
+:FED.
+Forrentning
+:SKRSLUT.
+.br
+Kontoen forrentes i bindingsperioden med en fast rente
+på 5% p.a. - årlig tilskrivning.
+.sp
+:FED.
+Rente-/gebyrsatser
+:SKRSLUT.
+.br
+Der henvises til "Prisbog for privatkunder" og "Beregning af rente og
+provision", som blandt andet kan ses på www.amagerbanken.dk.
+.sp 3
+:SWISS11.
+.*.tp 90mm
+Den &DATO
+.sp 5
+.hr 0mm 70mm
+.br
+:SWISS8
+&NAVN ¤
+.da AMAG 115mm 239mm width 75mm
+.ar AMAG on
+Den &DATO
+.sp 2
+.ce A M A G E R B A N K E N
+:SWISS9.
+.sp
+.ce &B02AFD
+...slut
+.da KOPI 182mm 32mm width 30mm
+.***********************************************************
+.ar KOPI on
+:COUR14.
+:FED.
+KOPI
+:SKRSLUT.
+.ar off
+.***********************************************************
+.if X&B02VALG2 eq X1
+.th .qu
+.*********************GENEREL OPSÆTNING************************************
+.if X&B02VALG2 eq X1
+.th .go ned1
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftale om oprettelse af
+.br
+Kapitalkonto med fast rente i 3 år
+.ri off
+.ar off
+.**************************************************************************
+...ned1
+.if X&B02VALG2 eq X1
+.th .go ned2
+.da TEXT 25mm 30mm width 160mm
+.ar TEXT on
+.sp 10
+Opretter hermed en Kapitalkonto med fast rente i 3 år, konto nr.
+&IREGKTO..
+.*.su off
+.*.se kontonr1 = substr &IREGKTO 1 4
+.*.se kontonr2 = substr &IREGKTO 5 11
+.*.su on
+.br
+.sp 2
+:SWISS11.
+:FED.
+Kontobetingelser
+:SKRSLUT
+.sp
+:SWISS11.:FED.
+Indskud
+.br
+:SKRSLUT
+Kontoen er åben for indskud til og med den 26. maj 2008.
+.sp
+:FED.
+Indestående
+:SKRSLUT
+.br
+Kontoens indestående skal pr. den 26. maj 2008 udgøre mindst kr. 40.000
+og må højest udgøre kr. 750.000.
+.sp
+:FED.
+Binding
+:SKRSLUT.
+.br
+Kontoens indestående er bundet til den 26. maj 2011.
+.sp
+Frigivelse af beløb fra kontoen i bindingsperioden kan alene ske ved
+henvendelse i Amagerbankens Forvaltningsafdeling og mod betaling af
+dekort efter følgende retningslinjer:
+.sp
+.ti ¤ 05
+.tp 10mm 65mm
+.bx 5mm 140mm
+.vr 60mm
+.br
+:FED.
+¤ Periode ¤ Dekort
+:SKRSLUT.
+.br
+.hr 5mm 140mm
+.br
+¤ 26/5-2008 - 25/5-2009 ¤ 2,0% af det udbetalte beløb
+.br
+.hr 5mm 140mm
+¤ 26/5-2009 - 25/5-2010 ¤ 1,5% af det udbetalte beløb
+.br
+.hr 5mm 140mm
+¤ 26/5-2010 - 25/5-2011 ¤ 1,0% af det udbetalte beløb
+.br
+.bx off
+.vr off
+.sp
+Minimumsdekort 250 kr. pr. udbetaling.
+.sp
+:FED.
+Udløb
+:SKRSLUT
+.br
+Indestående på kontoen overføres automatisk til Kapitalkonto nr. &B02KONTO
+pr. 26. maj 2011.
+.sp
+:FED.
+Forrentning
+:SKRSLUT.
+.br
+Kontoen forrentes i bindingsperioden med en fast rente
+på 5,25% p.a. - årlig tilskrivning.
+.sp
+:FED.
+Rente-/gebyrsatser
+:SKRSLUT.
+.br
+Der henvises til "Prisbog for privatkunder" og "Beregning af rente og
+provision", som blandt andet kan ses på www.amagerbanken.dk.
+.sp 3
+:SWISS11.
+.*.tp 90mm
+Den &DATO
+.sp 5
+.hr 0mm 70mm
+.br
+:SWISS8
+&NAVN ¤
+.da AMAG 115mm 245mm width 75mm
+.ar AMAG on
+Den &DATO
+.sp 2
+.ce A M A G E R B A N K E N
+:SWISS9.
+.sp
+.ce &B02AFD
+...ned2

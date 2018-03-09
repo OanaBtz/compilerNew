@@ -1,0 +1,308 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.OC  ** KALD AF EL.FORM
+.IF &B47KOPI EQ 1
+.TH .GO KOPI1
+.IF &B47KOPI EQ 2
+.TH .GO KOPI2
+.GO ENDK
+...KOPI1
+:GL.:BECFST.B47K00:EGL.
+:GL..IN 1:EGL.
+.sp
+.GO ENDK
+...KOPI2
+:GL.:BECFST.B47K05:EGL.
+:GL..IN 1:EGL.
+.sp
+...ENDK
+:TILTALE &TILTALEF
+.* SIDEINDSTILLINGER
+.ti > 05
+:GL..PM 6:EGL.
+:GL..LL 72:EGL.
+.* Kommando til formboksen
+:GL.&&??#:EGL.
+.* Her starter selve brevhovedets tekst
+.sp4
+.* Chekcer om der skal udskrives til medktonhaver
+.IF &U'&B47MKTOH EQ M
+.AN &MEDKUNDENR NE 000000-0000
+.th .GO MEDKTOH
+.* Check om der skal udskrives begge
+.IF &U'&B47MKTOH EQ B
+.AN &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+.* Er der C/O-adresse, så udskrives denne
+.if &L'&KTOCO GT 1
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.* Er der indtastet en Attention, udskrives oplysningen
+.if &L'&B47ATT NE 1
+.th .sp
+.th Att.: &B47ATT
+.th .br
+.el .sp 2
+.* Hvis der er skrevet C/O-adresse, så udskrives der ikke en blank linie
+.if &L'&KTOCO EQ 1
+.th .sp 4
+.el .sp 3
+.GO DATO
+...MEDKTOH
+.* ADRESSEOPLYSNINGER PÅ MEDKONTOHAVER
+&MEDNAVN
+.br
+.* Er der C/O-adresse, så udskrives denne
+.if &L'&MEDCO GT 1
+.th MEDCO
+.th .br
+&MEDGADE
+.br
+&MEDBY
+.* Er der indtastet en Attention, udskrives oplysningen
+.if &L'&B47ATT NE 1
+.th .sp
+.th Att.: &B47ATT
+.th .br
+.el .sp 2
+.* Hvis der er skrevet C/O-adresse, så udskrives der ikke en blank linie
+.if &L'&MEDCO EQ 1
+.th .sp 4
+.el .sp 3
+...DATO
+:GL..TP 72 RIGHT:EGL.
+>Valby, den &DATO.
+.sp 3
+.* Så er brevhovedets tekst færdig.
+.* På baagrund af kundeansvarlig, defineres direkte nr. + lokalnr
+.* ellers indeholder variablen bankens hovednr.
+.* Herunder sættes arbejdsvariablene til en standardværdi.
+.se LOKNR = '70 224 418'
+.se B47LOKTLF = '*'
+.* Her starter selve checkningen af kundeansvarliges eksp.nr.
+.if &KUNDEANSV eq 1001
+.th .se B47LOKTLF = 33896001
+.if &KUNDEANSV eq 1015
+.th .se B47LOKTLF = 33896015
+.if &KUNDEANSV eq 1016
+.th .se B47LOKTLF = 33896016
+.if &KUNDEANSV eq 1017
+.th .se B47LOKTLF = 33896017
+.if &KUNDEANSV eq 1020
+.th .se B47LOKTLF = 33896020
+.if &KUNDEANSV eq 1025
+.th .se B47LOKTLF = 70224418
+.if &KUNDEANSV eq 1030
+.th .se B47LOKTLF = 33896030
+.if &KUNDEANSV eq 1041
+.th .se B47LOKTLF = 33896041
+.if &KUNDEANSV eq 1043
+.th .se B47LOKTLF = 33896043
+.if &KUNDEANSV eq 1044
+.th .se B47LOKTLF = 33896044
+.if &KUNDEANSV eq 1045
+.th .se B47LOKTLF = 33896045
+.if &KUNDEANSV eq 1057
+.th .se B47LOKTLF = 33896057
+.* Er der ikke et nr. i B47LOKTLF, bruges hovednummeret
+.* Det direkte nr. tilføjes før, det fundne lokalnr.
+.SU OFF
+.IF &B47LOKTLF EQ '*'
+.TH .SE B47LOKTLF = '70 224 418'
+.EL .SE LOKTLF1 = '&LOKNR.&B47LOKTLF'
+.EL .SE B47LOKTLF = &LOKTLF1
+.su on
+.TP 28mm
+.IF &TILTALEF EQ I
+.TH .se knd = kunder
+.TH .se tilfr = tilfredse
+.el .se knd = kunde
+.el .se tilfr = tilfreds
+.if &U'&B47PJN1 = N
+.th .sp3
+.if &L'&B47P02 lt 2
+.th .sp2
+.if &L'&B47P05 lt 2
+.th .sp2
+:FED.
+.br
+&B47P01
+:SKRSLUT.
+.if &U'&B47PJN1 = J
+.th .sp
+.th Tak fordi &DU valgte Din Bank som samarbejdspartner. Det er os en
+.th glæde, at byde &DIG velkommen som &knd.. Vi vil gøre vort bedste
+.th for at betjene &DIG og håber &DU bliver &tilfr med at være
+.th &knd. i Din Bank.
+.sp
+Som vi aftalte, vedlægger vi følgende til underskrift:
+.sp2
+.* Variablen ANTKONTR styrer antal kontraktlinier der er udfyldt
+.* og styrer tekstlinien "kontrakte(n / rne)" i næste afsnit.
+.se antkontr = 0
+.if &L'&B47P30 gt 1
+.an &L'&B47P20 gt 1
+.th * &B47P30 > - Underskrives af &B47P20
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P30 gt 1
+.an &L'&B47P20 < 2
+.th * &B47P30
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P31 gt 1
+.an &L'&B47P21 gt 1
+.th * &B47P31 > - Underskrives af &B47P21
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P31 gt 1
+.an &L'&B47P21 < 2
+.th * &B47P31
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P32 gt 1
+.an &L'&B47P22 gt 1
+.th * &B47P32 > - Underskrives af &B47P22
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P32 gt 1
+.an &L'&B47P22 < 2
+.th * &B47P32
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P33 gt 1
+.an &L'&B47P23 gt 1
+.th * &B47P33 > - Underskrives af &B47P23
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P33 gt 1
+.an &L'&B47P23 < 2
+.th * &B47P33
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P34 gt 1
+.an &L'&B47P24 gt 1
+.th * &B47P34 > - Underskrives af &B47P24
+.th .br
+.th .se antkontr = &antkontr + 1
+.if &L'&B47P34 gt 1
+.an &L'&B47P24 < 2
+.th * &B47P34
+.th .br
+.th .se antkontr = &antkontr + 1
+.sp
+:FED.
+.br
+Underskrift og vitterlighedsvidner:
+:SKRSLUT.
+.br
+&SDU skal underskrive hvor der er mærket med 'X'.
+.sp
+.* Dan underskriftsantals-teksten
+.if &antkontr gt 1
+.or &U'&B47MKTOH eq B
+.th .se undskr = 'nogle af underskrifterne'
+.el .se undskr = 'underskriften'
+Husk at &undskr. skal bekræftes af 2 vitterlighedsvidner,
+der skal skrive deres navn, stilling, adresse, postnr. og by med let
+læseligt skrift, ligesom de skal skrive under.
+.sp
+Vitterlighedsvidner er personer, der med deres underskrift bekræfter
+at datoen er rigtig, at underskriften er ægte og at underskriverne er
+myndige. Vitterlighedsvidner kan f.eks. være kolleger, venner, naboer
+eller andre i bekendtskabskredsen - men må ikke være nærmeste familie.
+.br
+:FED.
+.br
+Returnering af dokumenter:
+:SKRSLUT.
+.br
+De underskrevne originale dokumenter sender &DU nemmest tilbage i
+vedlagte returkuvert.
+.sp
+Kopien af de underskrevne dokumenter er til eget brug og kan
+beholdes.
+.sp
+.if &L'&B47P02 gt 2
+.th Samtidig med, at dokumenterne returneres, bedes følgende sendt
+.th til mig:
+.th .br
+.th - &B47P02
+.th .br
+.if &L'&B47P03 gt 2
+.th - &B47P03
+.th .br
+.if &L'&B47P04 gt 2
+.th - &B47P04
+.th .br
+.br
+.* Afslutter kald af KOPI-formular, i sidste linie.
+.se antlin = &ÅLC - 1
+.sp &antlin
+:GL.:BECFSL:EGL.
+.pa
+.* Starter kald af KOPI-formular, på side 2.
+:GL.:BECFST.B47K00:EGL.
+.sp4
+.if &L'&B47P05 gt 2
+.th :FED.
+.th .br
+.th Udbetaling:
+.th :SKRSLUT.
+.th .br
+.th &B47P05 &B47P06 &B47P07
+.th .sp
+:FED.
+.br
+Ring til mig, hvis &DU har spørgsmål.
+:SKRSLUT.
+.br
+&SDU er altid velkommen til at ringe til mig, jeg er ikke længere væk
+end den nærmeste telefon.
+.* Mit direkte nummer er &B47LOKTLF..
+Jeg ser frem til et
+.if &U'&B47PJN1 = N
+.th fortsat
+godt samarbejde.
+.sp
+.*
+.sp 1
+Med venlig hilsen
+.sp
+.sp
+&B47NAVN.
+.ar off
+.* Slutkald af formular
+.IF &B47KOPI EQ 1
+.TH .GO KOPI1
+.IF &B47KOPI EQ 2
+.TH .GO KOPI2
+.GO ENDK1
+...KOPI1
+.se antlin = &ÅLC - 1
+.sp &antlin
+:GL.:BECFSL:EGL.
+.GO ENDK1
+...KOPI2
+.se antlin = &ÅLC - 1
+.sp &antlin
+:GL.:BECFSL:EGL.
+...ENDK1

@@ -1,0 +1,152 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.if x&B50VALG02 < x1
+.or x&B50VALG02 > x2
+.th .mg/T/Valg af kre. konto type skal være 1 (frie) eller 2 (pension)/
+ 
+.if x&B50VALG03 < x1
+.or x&B50VALG03 > x2
+.th .mg/T/Valg af deb. konto type skal være 1 (frie) eller 2 (pension)/
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS10.
+.fo left
+.ll 160mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da KUNDE 24mm 40mm width 70mm
+.da REF 115mm 40mm width 70mm
+.da OVERSKR 24mm 76mm width 160mm
+.da KASSER 24mm 112mm width 4mm
+.da TEKST 24mm 86mm width 160mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar KUNDE on
+&NAVN
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************************************
+.ar REF on
+.tp 20mm
+Dato: ¤&DATO
+.br
+Vor ref.: ¤&EKSPNAVN
+.br
+Kundenr.: ¤&KUNDENR
+.ar off
+.*************************************************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Anmodning om flytning af garantkapital i &BANKNAVN
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.ar KASSER on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar TEKST on
+.tp 1mm 6mm
+Undertegnede anmoder hermed sparekassen om flytning af garantkapital kr.
+:VS.&BELØBT1..
+.sp
+Flytningen af garantkapital sker fra
+.sp
+Konto &B50KONTO01.
+.if x&B50VALG02 = x1
+.th Frie midler til
+.el Pensions midler til
+.br
+Konto &B50KONTO07.
+.if x&B50VALG03 = x1
+.th Frie midler
+.el Pensions midler
+.sp
+.if x&B50VALG01. eq x1
+.th ¤x ¤Provenu fra frie midler skal bruges til indbetaling på
+.th pensionskonto &B50KONTO08..
+.el ¤ ¤Provenu fra frie midler skal bruges til indbetaling på
+.el pensionskonto &B50KONTO08.
+.sp
+Regler for garantkapital er fortsat gældende, herunder blandt andet:
+.sp
+Garantkapital er ansvarlig kapital og hæfter for sparekassens
+forpligtelser. Garantkapitalen er ikke dækket af indskydergarantifonden.
+.sp
+Forrentning sker i henhold til vedtægterne, sparekassens repræsentantskab
+beslutter rentesatsen i forbindelse med godkendelse af årsregnskabet i
+marts måned året efter optjeningsåret og tilskrivning sker ultimo marts.
+Beløbet forrentes fra datoen for effektuering af tegningen.
+.sp
+Garantkapitalen og de dertil knyttede rettigheder kan overdrages.
+Overdragelsen får først gyldighed, når den er godkendt og noteret af
+sparekassen.
+.sp
+Garantkapitalen kan ikke kræves indløst af garanten. Garanten kan opsige
+garantkapitalen i overensstemmelse med reglerne i sparekassens vedtægter.
+.sp
+Garanten er stemmeberettiget ved valg af sparekassens repræsentantskab.
+Hver garant har én stemme for hver 1.000 kr. garantkapital - dog højst 20
+stemmer. Valg til repræsentantskab afholdes i overensstemmelse med
+sparekassens valgregulativ.
+.sp
+Sparekassens vedtægter og almindelige forretningsbetingelser er tidligere
+udleveret. Opsigelsesreglerne er gennemgået sammen med orientering om
+risikomærkning.
+.sp5
+.tp 50mm
+.hr 0mm 35mm 50mm 130mm
+.br
+Dato ¤&NAVN
+.ar off

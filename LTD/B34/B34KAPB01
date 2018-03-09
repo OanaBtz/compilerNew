@@ -1,0 +1,384 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.oc **
+.**************************************************************
+:COUR10.
+.ti ¤ 05
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B34KAP01
+.br
+&DATO
+.ar off
+.**************************************************************
+.******************************************************************
+.da KUNDEOPL       25mm  48mm width 84mm
+.da ARBGOPL       116mm  48mm width 84mm
+.da CPRSENR       120mm  68.6mm width 84mm
+.da PIOPL          25mm  76.6mm width 84mm
+.da KTOOPL        118mm  78mm width 76mm
+.da INDBOPLP       62mm 125mm width 80mm
+.da INDBARBPCT     42mm 109.5mm width 168mm
+.da INDBARBFAST    33mm 109.5mm width 168mm
+.da DATO          142mm 125mm width 20mm
+.da INDDATON       54mm 128.3mm width 35mm
+.da INDDATOJ      54.7mm 131.3mm width 35mm
+.da BEGUNSDØD1     25mm  223mm width 84mm
+.da BEGUNSDØD2    118mm  223mm width 84mm
+.da PERSON         25mm  260mm width 168mm
+.da FORTSÆT       160mm  270mm width 20mm
+.******************************************************************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************
+.ar ARBGOPL on
+ &GENNAVN1
+.br
+ &GENGADE1
+.br
+ &GENBY
+.ar off
+.*************************************
+.ar CPRSENR on
+&GENSENR
+.ar off
+.*************************************
+.ar PIOPL on
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETER ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.tp 43mm
+&KTOKNDNR1
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE *******
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.*************************************
+.ar INDBARBPCT on
+.* ARBEJDSGIVERORDNING ***************
+.if &L'&GENKTNR1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th .mg /T/Vælg kun en ordning, arbejdsgiver eller privat/
+.th .go BUND
+.el
+.****arbejdsgiver procentindbetaling ***************
+.if &U'X&GENVÆRDI eq X2
+.th .go PCT
+.el .go PCTSLUT
+...PCT
+.tp 47mm right
+¤&GENBRT
+.br
+&GENDATO4..
+.sp 8.5mm
+.tp 11mm right
+¤&GENARB
+.br
+¤&GENMED
+...PCTSLUT
+.ar off
+.******************************************
+.ar INDBARBFAST on
+.****arbejdsgiver fast beløb ***************
+.if &U'X&GENVÆRDI eq X1
+.th .go FAST
+.el .go FASTSLUT
+...FAST
+.tp 68mm right 133mm right
+.if &L'&RESULTA gt 6
+.th .mg /T/BELØB STØRRE END 35.200/
+.th .go BUND
+.if &L'&RESULTA eq 6
+.th .go samme
+.if &L'&RESULTA lt 6
+.th .go altok
+...samme
+.if X&RESULTA ge X35200
+.th .mg /T/BELØB STØRRE END 35.200/
+.th .go BUND
+...altok
+.el ¤&GENBRT ¤&RESULTA
+.el .br
+.el .tp 29mm right 68mm
+.el ¤&GENBRT ¤&GENDATO4..
+.el .sp 11.5mm
+.el .tp 36mm right
+.el ¤&GENARB
+.el .br
+.el ¤&GENMED
+...FASTSLUT
+.ar off
+.******************************************
+.ar INDBOPLP on
+.*** privat ordning *********
+.***  HER OPDELES KONTONR I TO PARAMETRE ***********
+.se regnr2 = substr &GENKTNR1 1 4
+.se ktonr2 = substr &GENKTNR1 5 11
+.tp 69mm
+.if &L'&GENKR gt 0
+.an &L'&GENNAVN1 eq 0
+.an &L'&GENLØNINDB gt 0
+.th &GENKR ¤&GENDATO4
+.th .sp 2.6mm
+.th .tp 12mm
+.th &regnr2 ¤&ktonr2
+.**********
+.if &L'&GENKR gt 0
+.an &L'&GENNAVN1 eq 0
+.an &L'&GENLØNINDB eq 0
+.th .tp 54mm
+.th &GENKR ¤&GENDATO4
+.th .sp 2.6mm
+.th .tp 12mm
+.th &regnr2 ¤&ktonr2
+.**********
+.if &L'&GENKR eq 0
+.an &L'&GENNAVN1 eq 0
+.th &ÅRB
+.th .sp 2.6mm
+.th .tp 12mm
+.th &regnr2 ¤&ktonr2
+.ar off
+.*************************************
+.ar BEGUNSDØD1 on
+&GENNAVNBD1
+.br
+&GENRELABD1
+.br
+&GENGADEBD1
+.br
+&GENBYBD1
+.br
+&GENTLFBD1
+.br
+&GENCPRBD1
+.ar off
+.*************************************
+.ar BEGUNSDØD2 on
+&GENNAVNBD2
+.br
+&GENRELABD2
+.br
+&GENGADEBD2
+.br
+&GENBYBD2
+.br
+&GENTLFBD2
+.br
+&GENCPRBD2
+.ar off
+.**********************************
+.ar PERSON on
+&GENPERGRP1
+.br
+&GENPERGRP2
+.ar off
+.*************************************
+.ar FORTSÆT on
+:SWISS10.
+.ri
+fortsættes.
+...BUND
+.ar off
+.*************************************
+.ti ^ 05
+.ll 68
+.da tekst 21mm 44mm width 170mm
+.in 1mm
+:SWISS8.
+.ar tekst on
+.in 0mm
+Vilkårene gælder, medmindre andet udtrykkeligt er aftalt. Vilkårene kan
+ændres i overensstemmelse med Lov om beskatning af pensionsordninger.
+.sp 3mm
+Kapitalpensionen kan ikke overdrages, hverken til eje, sikkerhed eller på
+anden måde gøres til genstand for retsforfølgning fra kreditorers side,
+jf. lov om visse civilretlige forhold m.v.
+ved pensionsopsparing i pengeinstitutter §11.
+.sp 3mm
+Eventuel overførsel af kapitalpensionen til andet pengeinstitut kan ske
+uden arbejdsgivers samtykke.
+.sp 5mm
+:SWISS10.
+.tp 5mm
+1. ^Indbetalinger
+:SWISS8.
+.sp 7mm
+.in 5mm
+De aftalte bidrag indsættes i &B34MORBANK på en konto, lydende på
+kontohavers navn. &B34MORBANK har noteret, at det på kontoen
+indestående beløb med påløbne renter tilhører kontohaver.
+&B34MORBANK påtager sig ikke at kontrollere, at arbejdsgiveren
+indbetaler de aftalte bidrag.
+.sp
+Pengeinstituttet kan undlade den aftalte overførsel, såfremt overførslen
+bevirker overtræk på den konto, midlerne overføres fra.
+.sp 5mm
+.in 0mm
+:SWISS10.
+.tp 5mm
+2. ^Placering af opsparing
+.sp 7mm
+:SWISS8.
+^Kontoens indestående kan efter kontohavers valg placeres:
+.sp 3mm
+.tp 5mm 10mm
+^a) ^På kontantkonto. Kontant indskud forrentes med en af &B34MORBANK.
+fastsat rente.
+.br
+^b) ^I puljeordning. Se &B34MORBANK.s særlige regler herom.
+.br
+^c) ^I værdipapirer efter kontohavers eget valg. Der kan investeres i
+.in 10mm nobreak
+inden- og udenlandske børsnoterede værdipapirer i henhold til de af
+myndighederne fastsatte regler. De indkøbte værdipapirer lægges i spærret
+depot, som lyder på kontohavers navn. Kontoen tilskrives beløb af enhver
+art, der hidrører fra de værdipapirer, som er henlagt i depotet. Fra
+kontoen hæves beløb til køb af værdipapirer samt gebyrer for forvaltning
+af værdipapirerne.
+.in 0mm
+.sp 3mm
+.in 5mm
+&B34MORBANK sender mindst én gang årligt meddelelse til kontohaver
+med angivelse af indbetalinger, tilskrevne afkast, betalt
+realrenteafgift/afgift af aktieafkast, eventuelle
+administrationsomkostninger og forsikringspræmier.
+.sp 5mm
+:SWISS10.
+.in 0mm
+.tp 5mm
+3. ^Begunstigelse
+.sp 7mm
+:SWISS8.
+.in 5mm
+Som begunstiget til at få opsparingen udbetalt efter kontohavers død
+kan indsættes ægtefælle, herunder fraskilt ægtefælle, livsarvinger
+(dvs. børn, børnebørn osv.) herunder stedbørn og disses livsarvinger samt
+kontohavers "nærmeste pårørende". Med "nærmeste pårørende" menes
+kontohavers ægtefælle, kontohavers livsarvinger eller kontohavers arvinger
+efter testamente eller efter loven i nævnte prioriterede rækkefølge. Dette
+betyder, at kontohavers livsarvinger kun anses for indsat, hvis kontohaver
+ikke efterlader sig ægtefælle, og at kontohavers arvinger efter testamente
+eller efter loven kun anses for indsat, hvis kontohaver hverken efterlader
+sig ægtefælle eller livsarvinger. Blandt den nævnte personkreds kan
+kontohaver indsætte én eller flere begunstigede. Begunstigelsen eller
+ændringer af en sådan skal ske skriftligt til &B34MORBANK..
+Begunstigelsen kan gøres uigenkaldelig.
+.sp 3mm
+Såfremt der er indsat en begunstiget, udbetales opsparingen i tilfælde af
+kontohavers død direkte, dvs. uden om dødsboet, til den begunstigede.
+Såfremt der ikke er indsat begunstigede, tilfalder opsparingen dødsboet.
+.in 0mm
+.sp 5mm
+:SWISS10.
+.tp 5mm
+4. ^Udbetalinger/skatteregler
+.sp 7mm
+:SWISS8.
+.in 5mm
+Kontoens indestående kan tidligst udbetales, når kontohaver er fyldt 60 år
+eller ved lavere pensionsalder godkendt af Ligningsrådet og skal
+udbetales senest ved det fyldte 70. år. Forinden udbetaling kan ske, skal
+kontohaver afgive en erklæring om, hvorvidt der findes anden
+kapitalpension eller kapitalforsikring i pensionsøjemed.
+.br
+.sp 3mm
+For indbetalinger til kapitalpensionsordninger, herunder
+kapitalforsikringer, er der fastsat en generel overgrænse på 25.000 kr.
+årligt. Dette beløb gælder for 1987 og reguleres hvert år efter
+reguleringstallet i personskattelovens § 20. Fradrag for indbetalinger til
+kapitalpensionen skal dog kunne rummes i kontohavers personlige indkomst i
+det pågældende indkomstår.
+.sp 25mm
+:SWISS10.
+.ri
+fortsættes:
+.ar off
+.pa
+.da TEKST2 21mm 43mm width 170mm
+.*************************************************************************
+.in 1mm
+:SWISS8.
+.ar TEKST2 on
+.sp 5mm
+.in 5mm
+Indbetalinger, der foretages af kontohaver, fradrages i den personlige
+indkomst ved beregning af amts-, kommune- og kirkeskat samt ved beregning
+af bund- og mellemskat til staten. Indbetalinger der foretages af
+kontohavers arbejdsgiver, medregnes ikke ved beregning af disse skatter,
+hvor der ses bort fra indbetalingerne. Ved beregning af evt. topskat
+tillægges imidlertid såvel indbetalinger foretaget af kontohaver som af
+arbejdsgiver til kontohavers personlige indkomst.
+.sp 3mm
+Af indbetalinger foretaget af kontohavers arbejdsgiver fratrækker
+pengeinstituttet arbejdsmarkedsbidrag til staten efter gældende regler.
+.sp 3mm
+Afkast, kursgevinster m.v. medregnes ikke ved opgørelsen af den
+skattepligtige indkomst, men beskattes efter reglerne i
+realrenteafgiftsloven. Afgifterne hæves på kontoen.
+.sp 3mm
+Ved udbetaling efter det fyldte 60. år, ved invaliditet eller ved død
+udbetales opsparingen med fradrag af en afgift på 40 pct. til staten af
+kontoens indestående, reduceret med afgifter i henhold til
+realrenteafgiftsloven.
+.sp 3mm
+Udbetales kontoens indestående på et andet tidspunkt, dvs. i strid med
+aftalens bestemmelser, skal der betales en endelig afgift på 60 pct.
+.sp 3mm
+Udbetales kontoens indestående i forbindelse med orlov, skal der betales
+indkomstskat.
+.sp 3mm
+Ved udbetaling til begunstigede fratrækker pengeinstituttet desuden
+boafgift til staten ifølge gældende lov.
+.in 0mm
+.sp 5mm
+:SWISS10.
+.tp 5mm
+5. ^Forsikringsdækning
+.sp 7mm
+:SWISS8.
+.in 5mm
+I tilknytning til ordningen kan tegnes livsforsikring,
+invalidesumforsikring, invaliderente og tab af erhvervsevneforsikring.
+Livsforsikring og invalidesumforsikring udbetales som et engangsbeløb ved
+henholdsvis død og invaliditet. Invaliderente udbetales med et årligt beløb
+i en nærmere aftalt årrække fra invaliditeten er indtrådt.
+.sp 3mm
+Er der tegnet forsikring i tilknytning til kapitalpensionen, er
+&B34MORBANK bemyndiget til af kontoens indestående at betale forfaldne
+præmier. Forsikringsbetingelserne fremgår af policen, der i orginal
+opbevares af forsikringsselskabet. En kopi opbevares af &B34MORBANK og en
+kopi udleveres til kontohaver.
+.ar off

@@ -1,0 +1,1471 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************************
+.*
+.if &L'&MEDKUNNR1 > 0
+.or &L'&MEDKUNNR2 > 0
+.or &L'&MEDKUNNR3 > 0
+.or &L'&MEDKUNNR4 > 0
+.or &L'&MEDKUNNR5 > 0
+.or &L'&MEDKUNNR6 > 0
+.or &L'&MEDKUNNR7 > 0
+.or &L'&MEDKUNNR8 > 0
+.or &L'&MEDKUNNR9 > 0
+.or &L'&MEDKUNNR10 > 0
+.or &L'&MEDKUNNR11 > 0
+.or &L'&MEDKUNNR12 > 0
+.or &L'&MEDKUNNR13 > 0
+.or &L'&MEDKUNNR14 > 0
+.or &L'&MEDKUNNR15 > 0
+.or &L'&MEDKUNNR16 > 0
+.or &L'&MEDKUNNR17 > 0
+.or &L'&MEDKUNNR18 > 0
+.or &L'&MEDKUNNR19 > 0
+.or &L'&MEDKUNNR20 > 0
+.th .se medkun = 1
+.el .se medkun = 0
+.*
+.*
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Aftale om kundeforhold
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.if &L'&KUN2TYPE = 0
+.th .go 1KUN
+.el .go 2KUN
+.**KASSE TIL 1 KUNDE ******************************************************
+...1KUN
+.bx left right
+¤Kunde
+.sp 23mm
+.if x&KUN1TYPE = x1
+.th ¤CVR-nr.
+.if x&KUN1TYPE = x2
+.th ¤Kundenr.
+.if x&KUN1TYPE = x3
+.th ¤CPR-nr.
+.go ENDKUNDE
+.**KASSE TIL 2 KUNDER *****************************************************
+...2KUN
+.bx left 87.5mm right
+.if &KUN2TYPE = 1
+.or &KUN2TYPE = 2
+.th ¤Kunde ¤Indberetningspligtig
+.if &KUN2TYPE = 3
+.th ¤Kunde ¤Opretter/værge
+.sp 23mm
+.if x&KUN1TYPE = x1
+.th ¤CVR-nr.
+.if x&KUN1TYPE = x2
+.th ¤Kundenr.
+.if x&KUN1TYPE = x3
+.th ¤CPR-nr.
+.if x&KUN2TYPE = x1
+.th .ct ¤CVR-nr.
+.if x&KUN2TYPE = x2
+.th .ct ¤Kundenr.
+.if x&KUN2TYPE = x3
+.th .ct ¤CPR-nr.
+.**************************************************************************
+...ENDKUNDE
+.bx new left right
+¤Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+:SKRSLUT.
+:SWISS9.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 70.5mm width 80mm
+.da MCPR   121.5mm 70.5mm width 80mm
+.da PI        25mm 80mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KUNADR1
+.br
+&KUNADR2
+.br
+&KUNADR3
+.br
+&KUNADR4
+.br
+&KUNADR5
+.ar off
+.**************************************************************************
+.ar MKUNDE on
+.if &L'&KUN2TYPE > 0
+.th &KUN2ADR1
+.th .br
+.th &KUN2ADR2
+.th .br
+.th &KUN2ADR3
+.th .br
+.th &KUN2ADR4
+.th .br
+.th &KUN2ADR5
+.ar off
+.**************************************************************************
+.ar CPR on
+&KUNDENR
+.ar off
+.**************************************************************************
+.ar MCPR on
+&KUNDENR2
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+:SWISS8.
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Aftale om kundeforhold
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 52MM: Y = 32mm + 13mm (TOPMARGIN) = 45mm
+.**************************************************************************
+.sp 32mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 1mm
+.if &L'&KONTO5 > 0
+.th .br
+.th &KONTO5 ¤&KONTOART5 ¤&MEDKUNNR5 ¤&MKUNNVN5 ¤¤&fler05
+.th .br
+.*KONTO 6*************************************
+.if &U'&MFL06 = J
+.th .se fler06 = '*'
+.el .se fler06 = ' '
+.if &L'&KONTO6 > 0
+.th .br
+.th &KONTO6 ¤&KONTOART6 ¤&MEDKUNNR6 ¤&MKUNNVN6 ¤¤&fler06
+.th .br
+.*KONTO 7*************************************
+.if &U'&MFL07 = J
+.th .se fler07 = '*'
+.el .se fler07 = ' '
+.if &L'&KONTO7 > 0
+.th .br
+.th &KONTO7 ¤&KONTOART7 ¤&MEDKUNNR7 ¤&MKUNNVN7 ¤¤&fler07
+.th .br
+.*KONTO 8*************************************
+.if &U'&MFL08 = J
+.th .se fler08 = '*'
+.el .se fler08 = ' '
+.if &L'&KONTO8 > 0
+.th .br
+.th &KONTO8 ¤&KONTOART8 ¤&MEDKUNNR8 ¤&MKUNNVN8 ¤¤&fler08
+.th .br
+.*KONTO 9*************************************
+.if &U'&MFL09 = J
+.th .se fler09 = '*'
+.el .se fler09 = ' '
+.if &L'&KONTO9 > 0
+.th .br
+.th &KONTO9 ¤&KONTOART9 ¤&MEDKUNNR9 ¤&MKUNNVN9 ¤¤&fler09
+.th .br
+.*KONTO 10************************************
+.if &U'&MFL10 = J
+.th .se fler10 = '*'
+.el .se fler10 = ' '
+.if &L'&KONTO10 > 0
+.th .br
+.th &KONTO10 ¤&KONTOART10 ¤&MEDKUNNR10 ¤&MKUNNVN10 ¤¤&fler10
+.th .br
+.*KONTO 11************************************
+.if &U'&MFL11 = J
+.th .se fler11 = '*'
+.el .se fler11 = ' '
+.if &L'&KONTO11 > 0
+.th .br
+.*KONTI********************************************************************
+.kp on
+.tp 32mm 94mm 112mm 144mm 172mm
+.if &U'&SWKONTI = J
+.th .go KTO
+.el .go ENDKTO
+...KTO
+:FED.
+Konti
+:SKRSLUT.
+.br
+Kontonr. ¤Kontoart ¤Medkontohaver CPR-nr./Navn ¤¤Flere medkontoh. = ¤*
+.br
+:SKRSLUT.
+:COUR8.
+.*KONTO 1*************************************
+.if &U'&MFL01 = J
+.th .se fler01 = '*'
+.el .se fler01 = ' '
+.if &L'&KONTO1 > 0
+.th .sp 3mm
+.th &KONTO1 ¤&KONTOART1 ¤&MEDKUNNR1 ¤&MKUNNVN1 ¤¤&fler01
+.*KONTO 2*************************************
+.if &U'&MFL02 = J
+.th .se fler02 = '*'
+.el .se fler02 = ' '
+.if &L'&KONTO2 > 0
+.th .br
+.th &KONTO2 ¤&KONTOART2 ¤&MEDKUNNR2 ¤&MKUNNVN2 ¤¤&fler02
+.th .br
+.*KONTO 3*************************************
+.if &U'&MFL03 = J
+.th .se fler03 = '*'
+.el .se fler03 = ' '
+.if &L'&KONTO3 > 0
+.th .br
+.th &KONTO3 ¤&KONTOART3 ¤&MEDKUNNR3 ¤&MKUNNVN3 ¤¤&fler03
+.th .br
+.*KONTO 4*************************************
+.if &U'&MFL04 = J
+.th .se fler04 = '*'
+.el .se fler04 = ' '
+.if &L'&KONTO4 > 0
+.th .br
+.th &KONTO4 ¤&KONTOART4 ¤&MEDKUNNR4 ¤&MKUNNVN4 ¤¤&fler04
+.th .br
+.*KONTO 5*************************************
+.if &U'&MFL05 = J
+.th .se fler05 = '*'
+.el .se fler05 = ' '
+.*KONTO 18************************************
+.if &U'&MFL18 = J
+.th .se fler18 = '*'
+.el .se fler18 = ' '
+.if &L'&KONTO18 > 0
+.th .br
+.th &KONTO18 ¤&KONTOART18 ¤&MEDKUNNR18 ¤&MKUNNVN18 ¤¤&fler18
+.th .br
+.*KONTO 19************************************
+.if &U'&MFL19 = J
+.th .se fler19 = '*'
+.el .se fler19 = ' '
+.if &L'&KONTO19 > 0
+.th .br
+.th &KONTO19 ¤&KONTOART19 ¤&MEDKUNNR19 ¤&MKUNNVN19 ¤¤&fler19
+.th .br
+.*KONTO 20************************************
+.if &U'&MFL20 = J
+.th .se fler20 = '*'
+.el .se fler20 = ' '
+.if &L'&KONTO20 > 0
+.th .br
+.th &KONTO20 ¤&KONTOART20 ¤&MEDKUNNR20 ¤&MKUNNVN20 ¤¤&fler20
+.*******
+.if &U'&OVER20KTO = J
+.th .sp 3mm
+.th Kunden har flere end 20 konti.
+.*******
+.sp 3mm
+.if &L'&NEMKONTO > 0
+.th .ct &NEMKONTO ¤er NemKonto
+.sp 5mm
+...ENDKTO
+.kp off
+.th &KONTO11 ¤&KONTOART11 ¤&MEDKUNNR11 ¤&MKUNNVN11 ¤¤&fler11
+.th .br
+.*KONTO 12************************************
+.if &U'&MFL12 = J
+.th .se fler12 = '*'
+.el .se fler12 = ' '
+.if &L'&KONTO12 > 0
+.th .br
+.th &KONTO12 ¤&KONTOART12 ¤&MEDKUNNR12 ¤&MKUNNVN12 ¤¤&fler12
+.th .br
+.*KONTO 13************************************
+.if &U'&MFL13 = J
+.th .se fler13 = '*'
+.el .se fler13 = ' '
+.if &L'&KONTO13 > 0
+.th .br
+.th &KONTO13 ¤&KONTOART13 ¤&MEDKUNNR13 ¤&MKUNNVN13 ¤¤&fler13
+.th .br
+.*KONTO 14************************************
+.if &U'&MFL14 = J
+.th .se fler14 = '*'
+.el .se fler14 = ' '
+.if &L'&KONTO14 > 0
+.th .br
+.th &KONTO14 ¤&KONTOART14 ¤&MEDKUNNR14 ¤&MKUNNVN14 ¤¤&fler14
+.th .br
+.*KONTO 15************************************
+.if &U'&MFL15 = J
+.th .se fler15 = '*'
+.el .se fler15 = ' '
+.if &L'&KONTO15 > 0
+.th .br
+.th &KONTO15 ¤&KONTOART15 ¤&MEDKUNNR15 ¤&MKUNNVN15 ¤¤&fler15
+.th .br
+.*KONTO 16************************************
+.if &U'&MFL16 = J
+.th .se fler16 = '*'
+.el .se fler16 = ' '
+.if &L'&KONTO16 > 0
+.th .br
+.th &KONTO16 ¤&KONTOART16 ¤&MEDKUNNR16 ¤&MKUNNVN16 ¤¤&fler16
+.th .br
+.*KONTO 17************************************
+.if &U'&MFL17 = J
+.th .se fler17 = '*'
+.el .se fler17 = ' '
+.if &L'&KONTO17 > 0
+.th .br
+.th &KONTO17 ¤&KONTOART17 ¤&MEDKUNNR17 ¤&MKUNNVN17 ¤¤&fler17
+.th .br
+.**************************************************************************
+.tp 5mm
+.*PRODUKTER ***************************************************************
+.* Vi modtager ikke mere noget i SWPRODUKT, den skal vi selv teste på
+.if &L'&PRODUKT1A > 0
+.or &L'&PRODUKT1B > 0
+.or &L'&PRODUKT1C > 0
+.or &L'&PRODBRUG1 > 0
+.or &L'&PRODUKT2 > 0
+.or &L'&PRODUKT3 > 0
+.or &L'&PRODUKT4 > 0
+.or &L'&PRODUKT5 > 0
+.or &L'&PRODUKT6 > 0
+.or &L'&PRODUKT7 > 0
+.th .go PROD
+.el .go ENDPROD
+...PROD
+:FED.
+¤Produkter/aftaler
+:SKRSLUT.
+.br
+.tp 7mm center
+.*KOLONNEDEFINITION
+.cd 2 0mm 7mm
+.cl 155mm
+.*1. PRODUKT*********
+.if &L'&PRODUKT1A > 0
+.or &L'&PRODUKT1B > 0
+.or &L'&PRODUKT1C > 0
+.********************
+.th .go PROD1
+.el .go ENDPROD1
+...PROD1
+.********************
+.if &L'&PRODUKT1A > 0
+.th .se tal1 = 1
+.el .se tal1 = 0
+.if &L'&PRODUKT1B > 0
+.th .se tal2 = 1
+.el .se tal2 = 0
+.if &L'&PRODUKT1C > 0
+.th .se tal3 = 1
+.el .se tal3 = 0
+.se total = &tal1 + &tal2 + &tal3
+.********************
+.bx 5mm 9mm
+¤x
+.bx off
+.cb
+.sp 1mm
+.if x&tal1 = x1
+.th .go TAL1
+.el .go TAL2
+...TAL1
+&PRODUKT1A.
+.if x&total = x3
+.th .ct ,
+.if x&total = x2
+.th og
+.***************
+...TAL2
+.if x&tal2 = x1
+.th .go TAL2NEXT
+.el .go TAL3
+...TAL2NEXT
+&PRODUKT1B.
+.if x&total > x1
+.an x&tal3 = x1
+.th og
+.***************
+...TAL3
+.if x&tal3 = x1
+&PRODUKT1C.
+.if &L'&PRODBRUG1 > 0
+.th - &PRODBRUG1.
+.sc
+.sp 3mm
+...ENDPROD1
+.*2. PRODUKT*********
+.if &L'&PRODUKT2 > 0
+.th .go PROD2
+.el .go ENDPROD2
+...PROD2
+.mc
+.bx 5mm 9mm
+¤x
+.bx off
+.cb
+.sp 1mm
+&PRODUKT2.
+.sc
+.sp 3mm
+...ENDPROD2
+.*3. PRODUKT*********
+.if &L'&PRODUKT3 > 0
+.th .go PROD3
+.el .go ENDPROD3
+...PROD3
+.mc
+.bx 5mm 9mm
+&ÅRB
+.bx off
+.cb
+.sp 1mm
+&PRODUKT3.
+.sc
+.sp 3mm
+...ENDPROD3
+.*4. PRODUKT*********
+.if &L'&PRODUKT4 > 0
+.th .go PROD4
+.el .go ENDPROD4
+...PROD4
+.mc
+.bx 5mm 9mm
+&ÅRB
+.bx off
+.cb
+.sp 1mm
+&PRODUKT4.
+.sc
+.sp 3mm
+...ENDPROD4
+.*5. PRODUKT*********
+.if &L'&PRODUKT5 > 0
+.th .go PROD5
+.el .go ENDPROD5
+...PROD5
+.mc
+.bx 5mm 9mm
+&ÅRB
+.bx off
+.cb
+.sp 1mm
+&PRODUKT5.
+.sc
+.sp 3mm
+...ENDPROD5
+.*6. PRODUKT*********
+.if &L'&PRODUKT6 > 0
+.th .go PROD6
+.el .go ENDPROD6
+...PROD6
+.mc
+.bx 5mm 9mm
+&ÅRB
+.bx off
+.cb
+.sp 1mm
+&PRODUKT6.
+.sc
+.sp 3mm
+...ENDPROD6
+.*7. PRODUKT*********
+.if &L'&PRODUKT7 > 0
+.th .go PROD7
+.el .go ENDPROD
+...PROD7
+.mc
+.bx 5mm 9mm
+&ÅRB
+.bx off
+.cb
+.sp 1mm
+&PRODUKT7.
+.sc
+.sp 5mm
+.tp 5mm
+...ENDPROD
+.*LEGITIMATION ************************************************************
+.tp 8mm
+.kp on
+.in 5mm
+.ir 5mm
+.if &U'&SWLEGI1 = J
+.th .go LEGI
+.el .go ENDLEGI
+...LEGI
+:FED.
+Kopi af forevist legitimation
+:SKRSLUT.
+.br
+.*1. LEGITIMATION **********
+.if x&LEGIA001 = x001
+.th *¤EU-Kørekort
+.*2. LEGITIMATION **********
+.if x&LEGIA002 = x002
+.th .br
+.th *¤Pas
+.*3. LEGITIMATION **********
+.if x&LEGIA003 = x003
+.th .br
+.th *¤Dansk sundhedskort (med CPR-nr.)
+.*4. LEGITIMATION **********
+.if x&LEGIA004 = x004
+.th .br
+.th *¤Dåbs- eller navneattest (med CPR-nr.)
+.*5. LEGITIMATION **********
+.if x&LEGIA005 = x005
+.th .br
+.th *¤Aktuel udskrift fra CVR-register eller registreringsbevis fra SKAT
+.*6. LEGITIMATION **********
+.if x&LEGIA006 = x006
+.th .br
+.th *¤Resume fra Erhvervs- og Selskabsstyrelsen
+.*7. LEGITIMATION **********
+.if x&LEGIA007 = x007
+.th .br
+.th *¤Tegningsudskrift fra Erhvervs- og Selskabsstyrelsen
+.*8. LEGITIMATION **********
+.if x&LEGIA008 = x008
+.th .br
+.th *¤Årsopgørelse fra Skat
+.*9. LEGITIMATION **********
+.if x&LEGIA009 = x009
+.th .br
+.th *¤Vedtægter
+.*10. LEGITIMATION **********
+.if x&LEGIA010 = x010
+.th .br
+.th *¤Referat fra seneste generalforsamling
+.*11. LEGITIMATION **********
+.*LEGIAANDET SKAL UDFYLDES - FOR LEGIA011 = 011 ************
+.if x&LEGIA011 = x011
+.th .br
+.th *¤&LEGIAANDET
+.*12. LEGITIMATION **********
+.if x&LEGIA012 = x012
+.th .br
+.th *¤Indhentning af legitimationsoplysninger kan undlades (normalkunde)
+.*50. LEGITIMATION FOREVIST VED FYSISK FREMMØDE
+.if x&LEGIA050 = x050
+.th .br
+.th *¤Legitimation forevist ved fysisk fremmøde.
+.sp 5mm
+...ENDLEGI
+.kp off
+.*FORMÅL ******************************************************************
+.kp on
+.if &U'&SWFORMAL = J
+.th .go FORMAL
+.el .go ENDFORM
+...FORMAL
+.in 5mm
+.ir 5mm
+:FED.
+Formål med forretningsforbindelse
+:SKRSLUT.
+.br
+&TXTOMF1.
+.br
+&TXTOMF2.
+.br
+&TXTOMF3.
+.br
+&TXTOMF4.
+.in
+.ir
+.sp 5mm
+...ENDFORM
+.kp off
+.*LEGITIMATION ************************************************************
+.tp 8mm
+.kp on
+.if &U'&SWLEGI2 = J
+.th .go LEGI2
+.el .go ENDLEGI2
+...LEGI2
+:FED.
+Hvis kunden er under 18 år (opretter/værge) eller indberetningspligtig
+.sp 3mm
+Kopi af forevist legitimation
+:SKRSLUT.
+.br
+.*1. LEGITIMATION **********
+.if x&LEGIB001 = x001
+.th *¤EU-Kørekort
+.*2. LEGITIMATION **********
+.if x&LEGIB002 = x002
+.th .br
+.th *¤Pas
+.*3. LEGITIMATION **********
+.if x&LEGIB003 = x003
+.th .br
+.th *¤Dansk sundhedskort (med CPR-nr.)
+.*4. LEGITIMATION **********
+.if x&LEGIB004 = x004
+.th .br
+.th *¤Dåbs- eller navneattest (med CPR-nr.)
+.*5. LEGITIMATION **********
+.if x&LEGIB005 = x005
+.th .br
+.th *¤Aktuel udskrift fra CVR-register eller registreringsbevis fra SKAT
+.*6. LEGITIMATION **********
+.if x&LEGIB006 = x006
+.th .br
+.th *¤Resume fra Erhvervs- og Selskabsstyrelsen
+.*7. LEGITIMATION **********
+.if x&LEGIB007 = x007
+.th .br
+.th *¤Tegningsudskrift fra Erhvervs- og Selskabsstyrelsen
+.*8. LEGITIMATION **********
+.if x&LEGIB008 = x008
+.th .br
+.th *¤Årsopgørelse fra Skat
+.*9. LEGITIMATION **********
+.if x&LEGIB009 = x009
+.th .br
+.th *¤Vedtægter
+.*10. LEGITIMATION **********
+.if x&LEGIB010 = x010
+.th .br
+.th *¤Referat fra seneste generalforsamling
+.*11. LEGITIMATION **********
+.*LEGIBANDET SKAL UDFYLDES - FOR LEGIB011 = 011 ************
+.if x&LEGIB011 = x011
+.th .br
+.th *¤&LEGIBANDET
+.*12. LEGITIMATION **********
+.if x&LEGIB012 = x012
+.th .br
+.th *¤Indhentning af legitimationsoplysninger kan undlades (normalkunde)
+.*50. LEGITIMATION FOREVIST VED FYSISK FREMMØDE
+.if x&LEGIB050 = x050
+.th .br
+.th *¤Legitimation fremvist ved fysisk fremmøde
+.sp 5mm
+...ENDLEGI2
+.kp off
+.*EJERFORHOLD *************************************************************
+.kp on
+.if &U'&SWEJER = J
+.th .go EJER
+.el .go ENDEJER
+...EJER
+:FED.
+Ejerforhold
+:SKRSLUT.
+.br
+.*006 EJER ***********
+.if x&EJER006 = x006
+.th *¤Resume fra Erhvervs- og Selskabsstyrelsen (maks. 1 år gammelt)
+.*100 EJER ***********
+.if x&EJER100 = x100
+.th .br
+.th *¤Udskrift fra CVR-registret påført navn og CPR/CVR-nr. på de
+.th ansvarlige deltagere eller
+.th Registreringsbevis fra SKAT med ejerkreds.
+.*101 EJER ***********
+.if x&EJER101 = x101
+.th .br
+.th *¤Interessentskabskontrakt
+.*102 EJER ***********
+.if x&EJER102 = x102
+.th .br
+.th *¤Kommanditistfortegnelse og vedtægter
+.*104 EJER ***********
+.if x&EJER104 = x104
+.th .br
+.th *¤Årsrapport fra Erhvervs- og Selskabsstyrelsen
+.*105 EJER ***********
+.if x&EJER105 = x105
+.th .br
+.th *¤Ejerbog
+.*106 EJER ***********
+.if x&EJER106 = x106
+.th .br
+.th *¤Revisorerklæring el. anden uafhængig erklæring
+.*107 EJER ***********
+.if x&EJER107 = x107
+.th .br
+.th *¤Anden dokumentation (udenlandsk virksomhed)
+.sp 5mm
+...ENDEJER
+.kp off
+.*SAMTYKKE ****************************************************************
+.tp 8mm
+.kp on
+.if &U'&SWSAMTYK = J
+.th .go SAMTYK
+.el .go ENDSAM1
+...SAMTYK
+:FED.
+Samtykke til personlige henvendelser
+:SKRSLUT.
+.br
+&BANKNAVN. vil gerne give dig/jer løbende information i
+markedsføringsøjemed, der kan have din/jeres
+.br
+interesse - f.eks. om nye og
+forbedrede indlåns- og lånemuligheder, pensionsmuligheder osv.
+.br
+Du/I kan også vælge at sige "nej tak" til at blive kontaktet.
+.br
+Med min/vores accept af denne erklæring, bekræfter jeg/vi, at samtykke
+til henvendelser om
+.br
+markedsføring er sket med baggrund i en dialog, som anført nedenfor under
+de respektive medier og områder:
+.br
+.*SAMTYKKE - TELEFON ******************************************************
+.if &U'&SWTLF = J
+.th .go TLF
+.el .go ENDTLF
+...TLF
+.sp 3mm
+*¤Telefon
+.br
+.in 8mm
+Det aftales, at &BANKNAVN kan henvende sig til mig/os på:
+.br
+.tp 75mm
+.*TLF1********
+.if &L'&TLFTXT1A > 0
+.or &L'&TLFTXT1B > 0
+.th &TLFTXT1A ¤&TLFTXT1B
+.th .br
+.*TLF2********
+.if &L'&TLFTXT2A > 0
+.or &L'&TLFTXT2B > 0
+.th &TLFTXT2A ¤&TLFTXT2B
+.th .br
+.*TLF3********
+.if &L'&TLFTXT3A > 0
+.or &L'&TLFTXT3B > 0
+.th &TLFTXT3A ¤&TLFTXT3B
+.th .br
+.*TLF4********
+.if &L'&TLFTXT4A > 0
+.or &L'&TLFTXT4B > 0
+.th &TLFTXT4A ¤&TLFTXT4B
+.th .br
+.*TLF5********
+.if &L'&TLFTXT5A > 0
+.or &L'&TLFTXT5B > 0
+.th &TLFTXT5A ¤&TLFTXT5B
+.th .br
+.*TLF6********
+.if &L'&TLFTXT6A > 0
+.or &L'&TLFTXT6B > 0
+.th &TLFTXT6A ¤&TLFTXT6B
+.th .br
+.*TLF7********
+.if &L'&TLFTXT7A > 0
+.or &L'&TLFTXT7B > 0
+.th &TLFTXT7A ¤&TLFTXT7B
+.th .br
+.*TLF8********
+.if &L'&TLFTXT8A > 0
+.or &L'&TLFTXT8B > 0
+.th &TLFTXT8A ¤&TLFTXT8B
+.th .br
+.*TLF9********
+.if &L'&TLFTXT9A > 0
+.or &L'&TLFTXT9B > 0
+.th &TLFTXT9A ¤&TLFTXT9B
+.th .br
+.*TLF10*******
+.if &L'&TLFTXT10A > 0
+.or &L'&TLFTXT10B > 0
+.th &TLFTXT10A ¤&TLFTXT10B
+.**************************************************************************
+.*KUN BEGRÆNSNINGER UDSKRIVES, HVIS DER GIVES TILLADELSE TIL ALT SKRIVES***
+.*DET IKKE (DVS INGEN UDSKRIVNING, HVIS ALLE HENVENDELSER ER UDFYLDT) *****
+.**************************************************************************
+.if &L'&HENVTLF1 = 0
+.an &L'&HENVTLF2 = 0
+.an &L'&HENVTLF3 = 0
+.an &L'&HENVTLF4 = 0
+.an &L'&HENVTLF5 = 0
+.an &L'&HENVTLF6 = 0
+.th .go ENDTLF
+.*.if &L'&HENVTLF1 > 0
+.*.an &L'&HENVTLF2 > 0
+.*.an &L'&HENVTLF3 > 0
+.*.an &L'&HENVTLF4 > 0
+.*.an &L'&HENVTLF5 > 0
+.*.an &L'&HENVTLF6 > 0
+.*.th .go ENDTLF
+.br
+Henvendelse via telefon gælder inden for områderne:
+.br
+.*******************
+.if &L'&HENVTLF1 > 0
+.th - &HENVTLF1
+.th .br
+.*******************
+.if &L'&HENVTLF2 > 0
+.th - &HENVTLF2
+.th .br
+.*******************
+.if &L'&HENVTLF3 > 0
+.th - &HENVTLF3
+.th .br
+.*******************
+.if &L'&HENVTLF4 > 0
+.th - &HENVTLF4
+.th .br
+.*******************
+.if &L'&HENVTLF5 > 0
+.th - &HENVTLF5
+.th .br
+.*******************
+.if &L'&HENVTLF6 > 0
+.th - &HENVTLF6
+.*******************
+...ENDTLF
+.sp 3mm
+...ENDSAM1
+.in 5mm
+.kp off
+.th - &HENVBRV5
+.th .br
+.*******************
+.if &L'&HENVBRV6 > 0
+.th - &HENVBRV6
+.sp 3mm
+...ENDBREVE
+.in 5mm
+.kp off
+.*SAMTYKKE - BREVE ********************************************************
+.kp on
+.if &U'&SWSAMTYK = J
+.an &U'&SWBREVE = J
+.th .go BREVE
+.el .go ENDBREVE
+...BREVE
+*¤Personligt adresserede breve
+.br
+.in 8mm
+Det aftales, at &BANKNAVN kan henvende sig til mig/os ved personligt
+adresserede breve.
+.**************************************************************************
+.if &L'&HENVBRV1 = 0
+.an &L'&HENVBRV2 = 0
+.an &L'&HENVBRV3 = 0
+.an &L'&HENVBRV4 = 0
+.an &L'&HENVBRV5 = 0
+.an &L'&HENVBRV6 = 0
+.th .go ENDBREVE
+.*.if &L'&HENVBRV1 > 0
+.*.an &L'&HENVBRV2 > 0
+.*.an &L'&HENVBRV3 > 0
+.*.an &L'&HENVBRV4 > 0
+.*.an &L'&HENVBRV5 > 0
+.*.an &L'&HENVBRV6 > 0
+.*.th .sp 3mm
+.*.th .go ENDBREVE
+.**************************************************************************
+.br
+Henvendelse via brev gælder inden for områderne:
+.br
+.**************************************************************************
+.if &L'&HENVBRV1 > 0
+.th - &HENVBRV1
+.th .br
+.*******************
+.if &L'&HENVBRV2 > 0
+.th - &HENVBRV2
+.th .br
+.*******************
+.if &L'&HENVBRV3 > 0
+.th - &HENVBRV3
+.th .br
+.*******************
+.if &L'&HENVBRV4 > 0
+.th - &HENVBRV4
+.th .br
+.*******************
+.if &L'&HENVBRV5 > 0
+.*SAMTYKKE - ELEKTRONISK POST *********************************************
+.kp on
+.if &U'&SWSAMTYK = J
+.an &U'&SWELPOST = J
+.th .go POST
+.el .go ENDPOST
+...POST
+*¤Elektronisk post
+.br
+.in 8mm
+Det aftales, at &BANKNAVN kan henvende sig til mig/os ved at sende e-mails
+på:
+.br
+.*MAIL1*******
+.if &L'&MAIL1 > 0
+.th &ARBPRIV1 &MAIL1
+.*MAIL2*******
+.if &L'&MAIL2 > 0
+.th .br
+.th &ARBPRIV2 &MAIL2
+.*MAIL3*******
+.if &L'&MAIL3 > 0
+.th .br
+.th &ARBPRIV3 &MAIL3
+.*MAIL4*******
+.if &L'&MAIL4 > 0
+.th .br
+.th &ARBPRIV4 &MAIL4
+.*MAIL5*******
+.if &L'&MAIL5 > 0
+.th .br
+.th &ARBPRIV5 &MAIL5
+.*MAIL6*******
+.if &L'&MAIL6 > 0
+.th .br
+.th &ARBPRIV6 &MAIL6
+.*MAIL7*******
+.if &L'&MAIL7 > 0
+.th .br
+.th &ARBPRIV7 &MAIL7
+.*MAIL8*******
+.if &L'&MAIL8 > 0
+.th .br
+.th &ARBPRIV8 &MAIL8
+.*MAIL9*******
+.if &L'&MAIL9 > 0
+.th .br
+.th &ARBPRIV9 &MAIL9
+.*MAIL10******
+.if &L'&MAIL10 > 0
+.th .br
+.th &ARBPRIV10 &MAIL10
+.**************************************************************************
+.if &L'&HENVMAIL1 = 0
+.an &L'&HENVMAIL2 = 0
+.an &L'&HENVMAIL3 = 0
+.an &L'&HENVMAIL4 = 0
+.an &L'&HENVMAIL5 = 0
+.an &L'&HENVMAIL6 = 0
+.th .go ENDPOST
+.*.if &L'&HENVMAIL1 > 0
+.*.an &L'&HENVMAIL2 > 0
+.*.an &L'&HENVMAIL3 > 0
+.*.an &L'&HENVMAIL4 > 0
+.*.an &L'&HENVMAIL5 > 0
+.*.an &L'&HENVMAIL6 > 0
+.*.th .sp 3mm
+.*.th .go ENDPOST
+.**************************************************************************
+.br
+Henvendelse via elektronisk post gælder inden for områderne:
+.br
+.**************************************************************************
+.if &L'&HENVMAIL1 > 0
+.th - &HENVMAIL1
+.th .br
+.*************
+.if &L'&HENVMAIL2 > 0
+.th - &HENVMAIL2
+.th .br
+.*************
+.if &L'&HENVMAIL3 > 0
+.th - &HENVMAIL3
+.th .br
+.*************
+.if &L'&HENVMAIL4 > 0
+.th - &HENVMAIL4
+.th .br
+.*************
+.if &L'&HENVMAIL5 > 0
+.th - &HENVMAIL5
+.th .br
+.*************
+.if &L'&HENVMAIL6 > 0
+.th - &HENVMAIL6
+.sp 3mm
+.in 5mm
+...ENDPOST
+.kp off
+.*SAMTYKKE - SMS **********************************************************
+.kp on
+.if &U'&SWSAMTYK = J
+.an &U'&SWSMS = J
+.th .go SMS
+.el .go ENDSMS
+...SMS
+*¤SMS
+.br
+.in 8mm
+Det aftales, at &BANKNAVN kan henvende sig til mig/os på:
+.br
+.tp 75mm
+.*SMS1*******
+.if &L'&SMSTXT1A > 0
+.or &L'&SMSTXT1B > 0
+.th &SMSTXT1A ¤&SMSTXT1B
+.th .br
+.*SMS2*******
+.if &L'&SMSTXT2A > 0
+.or &L'&SMSTXT2B > 0
+.th &SMSTXT2A ¤&SMSTXT2B
+.th .br
+.*SMS3*******
+.if &L'&SMSTXT3A > 0
+.or &L'&SMSTXT3B > 0
+.th &SMSTXT3A ¤&SMSTXT3B
+.th .br
+.*SMS4*******
+.if &L'&SMSTXT4A > 0
+.or &L'&SMSTXT4B > 0
+.th &SMSTXT4A ¤&SMSTXT4B
+.th .br
+.*SMS5*******
+.if &L'&SMSTXT5A > 0
+.or &L'&SMSTXT5B > 0
+.th &SMSTXT5A ¤&SMSTXT5B
+.th .br
+.*SMS6*******
+.if &L'&SMSTXT6A > 0
+.or &L'&SMSTXT6B > 0
+.th &SMSTXT6A ¤&SMSTXT6B
+.th .br
+.*SMS7*******
+.if &L'&SMSTXT7A > 0
+.or &L'&SMSTXT7B > 0
+.th &SMSTXT7A ¤&SMSTXT7B
+.th .br
+.*SMS8*******
+.if &L'&SMSTXT8A > 0
+.or &L'&SMSTXT8B > 0
+.th &SMSTXT8A ¤&SMSTXT8B
+.th .br
+.*SMS9*******
+.if &L'&SMSTXT9A > 0
+.or &L'&SMSTXT9B > 0
+.th &SMSTXT9A ¤&SMSTXT9B
+.th .br
+.*SMS10******
+.if &L'&SMSTXT10A > 0
+.or &L'&SMSTXT10B > 0
+.th &SMSTXT10A ¤&SMSTXT10B
+.*SMSHENV******************************************************************
+.if &L'&HENVSMS1 = 0
+.an &L'&HENVSMS2 = 0
+.an &L'&HENVSMS3 = 0
+.an &L'&HENVSMS4 = 0
+.an &L'&HENVSMS5 = 0
+.an &L'&HENVSMS6 = 0
+.th .go ENDSMS
+.*.if &L'&HENVSMS1 > 0
+.*.an &L'&HENVSMS2 > 0
+.*.an &L'&HENVSMS3 > 0
+.*.an &L'&HENVSMS4 > 0
+.*.an &L'&HENVSMS5 > 0
+.*.an &L'&HENVSMS6 > 0
+.*.th .go ENDSMS
+.*KUN BEGRÆNSNINGER UDSKRIVES, HVIS DER GIVES TILLADELSE TIL ALT SKRIVES***
+.*DET IKKE (DVS INGEN UDSKRIVNING, HVIS ALLE HENVENDELSER ER UDFYLDT) *****
+.**************************************************************************
+.br
+Henvendelse via SMS gælder inden for områderne:
+.br
+.if &L'&HENVSMS1 > 0
+.th - &HENVSMS1
+.th .br
+.*******************
+.if &L'&HENVSMS2 > 0
+.th - &HENVSMS2
+.th .br
+.*******************
+.if &L'&HENVSMS3 > 0
+.th - &HENVSMS3
+.th .br
+.*******************
+.if &L'&HENVSMS4 > 0
+.th - &HENVSMS4
+.th .br
+.*******************
+.if &L'&HENVSMS5 > 0
+.th - &HENVSMS5
+.th .br
+.*******************
+.if &L'&HENVSMS6 > 0
+.th - &HENVSMS6
+.*******************
+...ENDSMS
+.in 5mm
+.**DEN TEKST VEDRØRER BÅDE TLF, BREVE, E-MAIL OG SMS **********************
+.if &U'&SWSAMTYK = J
+.th .sp 3mm
+.th Jeg/vi kan til enhver tid annullere tilladelsen om henvendelse fra
+.th &BANKNAVN..
+.sp 5mm
+.kp off
+.* MARKEDSFØRINGSMATERIALE ************************************************
+.**************************************************************************
+.*HVIS MARKEDSFØRINGSOPLYSNINGER EJ FINDES ELLER "INGEN KONTAKT" SÆTTES
+.*SWEJMARKF = N, OG TEKSTEN FREMKOMMER ************************************
+.kp on
+.if &U'&SWEJMARKF = N
+.th .go MARK
+.el .go ENDMARK
+...MARK
+:FED.Markedsføringsmateriale:SKRSLUT.
+.br
+*¤Jeg/vi ønsker indtil videre ikke at modtage markedsføringsmateriale
+fra &BANKNAVN..
+.sp 5mm
+.**************************************************************************
+...ENDMARK
+.kp off
+.* MARKEDSFØRINGSMATERIALE ************************************************
+.**************************************************************************
+.**TEST PÅ OM KUNDEN HAR BETALINGSKONTI ***********************************
+.if &U'&SWKONTI = N
+.or &U'&PRIVERHV = E
+.th .go BETKTOSL
+.**MIDLERTIDIGE PARAMETRE TIL OVERTRÆK PÅ EVT. BETALINGSKONTI ***********
+.se ov1 = 'I tilfælde af overtræk på kontonummer'
+.se ov2 = 'beregner &BANKNAVN. overtræksrente på p.t.'
+.se ov3 = '% p.a., som beregnes dag til dag af det til enhver tid værende'
+.se ov4 = 'overtræk, svarende til en debitorrente på'
+.se ov5 = '% p.a.'
+.************************************************************************
+.**KONTO1****
+.kp on
+.if &L'&KONTO1 > 0
+.an &U'&BETKTO1 = J
+.th &ov1 &KONTO1 &ov2 &OVTRTE1 &ov3 &ov4 &DEBRTE1 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO2****
+.kp on
+.if &L'&KONTO2 > 0
+.an &U'&BETKTO2 = J
+.th &ov1 &KONTO2 &ov2 &OVTRTE2 &ov3 &ov4 &DEBRTE2 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO3****
+.kp on
+.if &L'&KONTO3 > 0
+.an &U'&BETKTO3 = J
+.th &ov1 &KONTO3 &ov2 &OVTRTE3 &ov3 &ov4 &DEBRTE3 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO4****
+.kp on
+.if &L'&KONTO4 > 0
+.an &U'&BETKTO4 = J
+.th &ov1 &KONTO4 &ov2 &OVTRTE4 &ov3 &ov4 &DEBRTE4 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO5****
+.kp on
+.if &L'&KONTO5 > 0
+.an &U'&BETKTO5 = J
+.th &ov1 &KONTO5 &ov2 &OVTRTE5 &ov3 &ov4 &DEBRTE5 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO6****
+.kp on
+.if &L'&KONTO6 > 0
+.an &U'&BETKTO6 = J
+.th &ov1 &KONTO6 &ov2 &OVTRTE6 &ov3 &ov4 &DEBRTE6 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO7****
+.kp on
+.if &L'&KONTO7 > 0
+.an &U'&BETKTO7 = J
+.th &ov1 &KONTO7 &ov2 &OVTRTE7 &ov3 &ov4 &DEBRTE7 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO8****
+.kp on
+.if &L'&KONTO8 > 0
+.an &U'&BETKTO8 = J
+.th &ov1 &KONTO8 &ov2 &OVTRTE8 &ov3 &ov4 &DEBRTE8 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO9****
+.kp on
+.if &L'&KONTO9 > 0
+.an &U'&BETKTO9 = J
+.th &ov1 &KONTO9 &ov2 &OVTRTE9 &ov3 &ov4 &DEBRTE9 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO10***
+.kp on
+.if &L'&KONTO10 > 0
+.an &U'&BETKTO10 = J
+.th &ov1 &KONTO10 &ov2 &OVTRTE10 &ov3 &ov4 &DEBRTE10 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO11***
+.kp on
+.if &L'&KONTO11 > 0
+.an &U'&BETKTO11 = J
+.th &ov1 &KONTO11 &ov2 &OVTRTE11 &ov3 &ov4 &DEBRTE11 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO12***
+.kp on
+.if &L'&KONTO12 > 0
+.an &U'&BETKTO12 = J
+.th &ov1 &KONTO12 &ov2 &OVTRTE12 &ov3 &ov4 &DEBRTE12 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO13***
+.kp on
+.if &L'&KONTO13 > 0
+.an &U'&BETKTO13 = J
+.th &ov1 &KONTO13 &ov2 &OVTRTE13 &ov3 &ov4 &DEBRTE13 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO14***
+.kp on
+.if &L'&KONTO14 > 0
+.an &U'&BETKTO14 = J
+.th &ov1 &KONTO14 &ov2 &OVTRTE14 &ov3 &ov4 &DEBRTE14 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO15***
+.kp on
+.if &L'&KONTO15 > 0
+.an &U'&BETKTO15 = J
+.th &ov1 &KONTO15 &ov2 &OVTRTE15 &ov3 &ov4 &DEBRTE15 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO16***
+.kp on
+.if &L'&KONTO16 > 0
+.an &U'&BETKTO16 = J
+.th &ov1 &KONTO16 &ov2 &OVTRTE16 &ov3 &ov4 &DEBRTE16 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO17***
+.kp on
+.if &L'&KONTO17 > 0
+.an &U'&BETKTO17 = J
+.th &ov1 &KONTO17 &ov2 &OVTRTE17 &ov3 &ov4 &DEBRTE17 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO18***
+.kp on
+.if &L'&KONTO18 > 0
+.an &U'&BETKTO18 = J
+.th &ov1 &KONTO18 &ov2 &OVTRTE18 &ov3 &ov4 &DEBRTE18 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO19***
+.kp on
+.if &L'&KONTO19 > 0
+.an &U'&BETKTO19 = J
+.th &ov1 &KONTO19 &ov2 &OVTRTE19 &ov3 &ov4 &DEBRTE19 &ov5.
+.th .sp 3mm
+.kp off
+.**KONTO20***
+.kp on
+.if &L'&KONTO20 > 0
+.an &U'&BETKTO20 = J
+.th &ov1 &KONTO20 &ov2 &OVTRTE20 &ov3 &ov4 &DEBRTE20 &ov5.
+.th .sp 3mm
+.kp off
+...BETKTOSL
+.kp on
+.*UNDERSKRIFT *************************************************************
+:FED.
+Underskrift
+:SKRSLUT.
+.br
+Jeg har modtaget &BANKNAVN.s aftaler/betingelser og er indforstået med
+reglerne.
+.sp 5mm
+.tp _/50mm 87.5mm _/133mm
+.if x&medkun = x0
+.th .go INGMED
+.el .go FLEMED
+...INGMED
+.***INGEN MEDKONTOHAVER ***************************************************
+:FED.
+.if &L'&KUN2TYPE = 0
+.th Kunden
+.th .go UNDSLUT1
+.if x&KUN2TYPE = x1
+.or x&KUN2TYPE = x2
+.th Indberetningspligtig
+.if x&KUN2TYPE = x3
+.th Opretter/værge
+...UNDSLUT1
+:SKRSLUT.
+.sp 5mm
+Den ¤
+.sp 14mm
+.hr tynd 5mm 80mm
+.br
+.if &L'&KUN2TYPE = 0
+.th &KUNNAVN1
+.el &KUNNAVN2
+.sp 5mm
+.go PI
+...FLEMED
+.***MED MEDKONTOHAVER *****************************************************
+.tp 87.5mm
+:FED.
+.if &L'&KUN2TYPE = 0
+.th Kunden ¤Medkontohaver
+.th .go UNDSLUT2
+.if x&KUN2TYPE = x1
+.or x&KUN2TYPE = x2
+.th Indberetningspligtig ¤Medkontohaver
+.if x&KUN2TYPE = x3
+.th Opretter/værge ¤Medkontohaver
+...UNDSLUT2
+:SKRSLUT.
+.sp 5mm
+.tp _/50mm 87.5mm _/133mm
+Den ¤ ¤Den ¤
+.sp 14mm
+.tp 87,5mm
+.hr tynd 5mm 80mm 87,5mm 163mm
+.br
+.if &L'&KUN2TYPE = 0
+.th &KUNNAVN1 ¤&MEDKTONAVN
+.el &KUNNAVN2 ¤&MEDKTONAVN
+.sp 5mm
+...PI
+.***GÆLDER FOR BÅDE MED OG UDEN MEDKONTOHAVER *****************************
+:FED.
+Pengeinstitut
+:SKRSLUT.
+.tp _/50mm
+.sp 5mm
+Den ¤
+.sp 14mm
+.hr tynd 5mm 80mm
+.br
+&BANKNAVN
+.kp off
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

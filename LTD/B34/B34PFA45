@@ -1,0 +1,178 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* PARAMETERAFSNIT
+.******************************
+.su off
+.se a = substr &KUNDENR 1 6
+.se b = substr &KUNDENR 7 4
+.su on
+.******************************
+:SWISS8.
+.**************************************************************************
+.da PFA 20mm 47mm width 85mm
+.da TEGNING 112.5mm 105mm width 85mm
+.da TKST1 25mm 131mm width 165mm
+.da TKSKS 80mm 140mm width 110mm
+.da TKST2 25mm 155mm width 165mm
+.da KUNDEU1 25mm 167.5mm width 170mm
+.da KUNDEU2 25mm 181mm width 170mm
+.da PIUNDER 25mm 194.5mm width 170mm
+.**************************************************************************
+.ar PFA on
+:SWISS10.
+PFA Pension
+.br
+Ordninger via Pengeinstitutter
+.br
+Sundkrogsgade 4
+.br
+2100  København Ø
+.ar off
+.**************************************************************************
+.ar TEGNING on
+:SWISS10.
+.tp 80mm right
+CPR.nr.
+.br
+Gruppenr.
+.br
+Reg.nr.
+.br
+.if &L'&BECFIL gt 0
+.th Filial
+.th .br
+Kontonr.
+.ar off
+.**************************************************************************
+.ar TKST1 on
+.tp 165mm right
+:SWISS10.
+:FED.
+Produktnavn ¤Forsikringsdækning:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar TKSKS on
+:SWISS10.
+.tp 27.5mm center 82.5mm center
+.** PENSION KAN HAVE 2 KASSER *********
+.if X&GENFORSIK = X4
+.th .go KASSE2
+.el .go KASSE1
+.**KUNDEGRP.LIV, TAB AF ERHV.EVNE, KRIT. SYGDOM OG BØRNERENTE - KUN 1. KS.*
+...KASSE1
+.bx  55mm right
+.if X&GENFORSIK = X1
+.th ¤¤Forsikringssum ved død
+.if X&GENFORSIK = X5
+.th ¤¤Årlig udbetaling
+.if X&GENFORSIK = X6
+.th ¤¤Forsikringssum
+.if X&GENFORSIK = X7
+.th ¤¤Ydelse til barn
+.hr 55mm right
+.sp 4mm
+.bx off
+.go KASSESL
+...KASSE2
+.*PENSION 2 KASSER *********
+...PENSION
+.if X&GENFORSIK = X4
+.th .go PENSTEST
+.el .go KASSESL
+...PENSTEST
+.if &GENSUMRAT = 1
+.th .go PENSSUM
+.if &GENSUMRAT = 2
+.th .go PENSRATE
+...PENSSUM
+.if &L'&GENSUM04 > 0
+.an &L'&GENSUM05 > 0
+.th .go SUMKS2
+.if &L'&GENSUM04 > 0
+.an &L'&GENSUM05 = 0
+.th .go SUMKS1
+...SUMKS2
+.bx left 55mm right
+¤Forsikringssum ved død ¤Sum ved invaliditet
+.hr left right
+.sp 4mm
+.bx off
+.go KASSESL
+...SUMKS1
+.bx 55mm 110mm
+¤¤Forsikringssum ved død
+.hr 55mm 110mm
+.sp 4mm
+.bx off
+.go KASSESL
+...PENSRATE
+.if &L'&GENRAT01 > 0
+.an &L'&GENRAT02 > 0
+.th .go RATKS2
+.if &L'&GENRAT01 > 0
+.an &L'&GENRAT02 = 0
+.th .go RATKS1
+...RATKS2
+.bx left 55mm right
+¤Rate i 10 år ved død ¤Rate i 10 år ved invaliditet
+.hr left right
+.sp 4mm
+.bx off
+.go KASSESL
+...RATKS1
+.bx 55mm 110mm
+¤¤Rate i 10 år ved død
+.hr 55mm 110mm
+.sp 4mm
+.bx off
+...KASSESL
+.ar off
+.**************************************************************************
+.ar TKST2 on
+:SWISS10.
+:FED.
+Forsikringen ønskes slettet pr.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KUNDEU1 on
+Jeg er indforstået med, at forsikringen slettes pr. ovenstående dato.
+.ar off
+.**************************************************************************
+.ar KUNDEU2 on
+.tp _/44mm 51mm _/56mm 57mm 59mm _/64mm 65mm _/165mm
+¤, den¤¤¤/¤¤¤&GENAAR1. ¤
+.br
+.tp 22mm 119mm center
+¤Sted¤&NAVN
+.ar off
+.**************************************************************************
+.ar PIUNDER on
+&B34MORBANK er indforstået med sletning af forsikringen.
+.sp 10mm
+.tp _/44mm 71mm _/165mm
+.if &U'X&BECPJN8 eq XJ
+.th ¤, den &DATO.¤¤
+.th .br
+.th .tp 22mm 119mm center
+.th :SWISS8.
+.th ¤Sted¤&B34MORBANK
+.tp _/44mm 51mm _/56mm 57mm 59mm _/64mm 65mm _/165mm
+.if &U'X&BECPJN8 ne XJ
+.th ¤, den¤¤¤/¤¤¤&GENAAR1. ¤
+.th .br
+.th .tp 22mm 119mm center
+.th :SWISS8.
+.th ¤Sted ¤&B34MORBANK
+.ar off

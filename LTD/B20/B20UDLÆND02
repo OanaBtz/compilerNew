@@ -1,0 +1,182 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+.sp 25mm
+:COUR10.
+.da AFSENDER 50 8 width 30
+.da ADRESSE 20mm 50mm width 170mm
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:COUR8.
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th Telefon &AFDTLF &AFDFAX
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el Telefon &BKTLF
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.ar ADRESSE on
+.if &L'&STILL > 0
+.th &STILL
+.th .br
+&NAVN
+.br
+.if &L'&B20TEKST02 > 0
+.th Att.: &B20TEKST02
+.th .br
+.if &L'&COADR > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+.ar off
+.*************************************************************
+.da KASSE 15mm 264mm width 15mm
+.ar KASSE on
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.ar off
+.oc **B20UDLÆND02
+:COUR10.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.* brevnavn roteret
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.* overskrift
+.da START 20mm 110mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+.se TYPE = ' '
+.if &B20TEST01 = 1
+.th .se TYPE = 'Sir'
+.if &B20TEST01 = 2
+.th .se TYPE = 'Madam'
+:FED.
+Dear &TYPE
+.sp
+:SKRSLUT.
+.ti ¤ 05
+.tp 70mm
+.da TEKST    20mm 115mm width 170mm
+.da KOLONNE1 20mm 238mm width 80mm
+.da KOLONNE2 90mm 238mm width 80mm
+.ar TEKST on
+A new EU regulation requires us to register more detailed information
+on our customers than previously.
+.sp
+Therefore please inform us of your place of birth, birth country,
+date of birth, and Tax-Identification Number (TIN), if available,
+in order for us to update our records.
+.sp
+If you are or have been a Danish citizen, please enter your 10-digit
+Danish cpr-number as date of birth.
+.sp
+Please attach copy of passport.
+.sp 2
+.ce on
+Sincerely
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP               &GENEKSP
+.el &GENEKSP
+.ce off
+.sp 10mm
+.hr 0mm 170mm
+.sp
+.ri on
+:SWISS6.&KUNDENR:SKRSLUT.
+.ri off
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+att. &GENEKSP
+.br
+&AFDGADE
+.br
+DK-&AFDBY
+.sp 5mm
+I was born:
+.ar off
+.ar KOLONNE1 on
+.hr 0mm 60mm
+at
+.sp 8mm
+.hr 0mm 60mm
+on
+.sp 8mm
+.in 5mm
+Copy of passport attached
+.ar off
+.ar KOLONNE2 on
+.hr 0mm 60mm
+country
+.sp 8mm
+.hr 0mm 60mm
+TIN number
+.sp 15mm
+.hr 0mm 60mm
+&NAVN
+.ar off

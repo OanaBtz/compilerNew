@@ -1,0 +1,278 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.******************Test af korrekt regtype****************************
+.if X&REGTYPE = X2041
+.or X&REGTYPE = X2042
+.or X&REGTYPE = X2044
+.th .go REGOK
+.el .mg/T/Der skal vælges en konto med regtype 2041, 2042 eller 2044/
+...REGOK
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.us Kreditkontrakt - erhverv &IREGKTO.
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 96mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.sp
+.kp off
+.kp on
+Undertegnede debitor
+.br
+&KTONAVN.
+.BR
+&KTOCO.
+.BR
+&KTOGADE.
+.BR
+&KTOBY.
+.br
+CVR-nummer: &KTOKUNDENR.
+.br
+.sp 5mm
+har af &BANKNAVN. fået bevilget en kredit på:
+.br
+.sp 5mm
+:FED.
+&MAXIMUM. kr.
+:SKRSLUT.
+.br
+.sp 5mm
+.if &L'&GENTEKST1 > 0
+.th i forbindelse med &GENTEKST1.
+.th .br
+.th .sp 5mm
+.kp off
+.kp on
+:FED.
+Afvikling og varighed
+:SKRSLUT.
+.br
+.sp 5mm
+Kreditten gælder
+.if &U'&E53KREFOR = J
+.th indtil videre.
+.if &L'&E53KREUDL > 0
+.th til &E53KREUDL., hvor den forfalder til fuld indfrielse.
+.br
+.sp 5mm
+&BANKNAVN. kan forlange kreditten indfriet, hvis mit engagement med
+BRFkredit A/S bortfalder eller bliver væsentligt nedbragt.
+.br
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Renter og omkostninger
+:SKRSLUT.
+.br
+.sp 5mm
+Indestående på kontoen forrentes p.t. med &TOTKRE1. % p.a. Renten er
+variabel og kan ændres i overensstemmelse med &BANKNAVN.s almindelige
+forretningsbetingelser for erhvervskunder.
+.br
+.sp 5mm
+.kp off
+.kp on
+Kreditrenten tilskrives samtidig med debetrenten dog altid ultimo året.
+.br
+.sp 5mm
+.kp off
+.kp on
+Debetrenten er variabel og udgør p.t. &TOTDEB1. % p.a.
+.br
+.sp 5mm
+.kp off
+.kp on
+.if &DEBGRNDKD1 = C1
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 1 måned den sidste bankdag i hver måned med virkning for den
+.th efterfølgende måned. Hertil kommer et variabelt tillæg på &DFDEBSA1.
+.th procentpoint. Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og %BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.if &DEBGRNDKD1 = C3
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 3 måneder den sidste bankdag i hvert kvartal med virkning for det
+.th efterfølgende kvartal. Hertil kommer et variabelt tillæg på &DFDEBSA1.
+.th procentpoint. Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og &BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.if &DEBGRNDKD1 = C6
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 6 måneder den sidste bankdag i hvert halvår med virkning for det
+.th efterfølgende halvår. Hertil kommer et variabelt tillæg på &DFDEBSA1.
+.th procentpoint. Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og &BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.if &DEBGRNDKD1 = C2
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 12 måneder den sidste bankdag i året med virkning for det
+.th efterfølgende år. Hertil kommer et variabelt tillæg på &DFDEBSA1.
+.th procentpoint. Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og &BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.if &DEBGRNDKD1 = N1
+.th Debetrenten fastsættes som den af Danmarks Nationalbank fastsatte
+.th NIB-sats. Hertil kommer et variabelt tillæg på &DFDEBSA1. procentpoint.
+.th Hvis Nationalbanken ophører med at notere den anførte NIB-sats og
+.th &BANKNAVN. vurderer, at den ikke længere afspejler det danske
+.th pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.br
+.sp 5mm
+.kp off
+.kp on
+Debetrenten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+kreditten ved tilskrivning.
+.br
+.sp 5mm
+.kp off
+.kp on
+For kreditten betales en stiftelsesprovision på
+:vs. &E53STPROV.
+kr., der bliver trukket ved etablering.
+.kp off
+.kp on
+.sp 5mm
+Oplysning om rentens størrelse er givet ud fra de rentesatser og
+kreditomkostninger, der gælder på tidspunktet for kredittilsagnet. Den
+endelige rente fastsættes, når kreditten etableres.
+.br
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Udbetalingsbetingelser
+:SKRSLUT.
+.br
+.sp 5mm
+&BANKNAVN. skal have modtaget følgende materiale, inden kreditten kan
+etableres:
+.sp 5mm
+&GENTEKST2.&GENTEKST3.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Sikkerhedsstillelse
+:SKRSLUT.
+.br
+.sp 5mm
+Til sikkerhed for opfyldelse af enhver forpligtelse, jeg har eller får
+over for &BANKNAVN. i forbindelse med denne kreditkontrakt, pantsætter jeg
+følgende aktiver til banken:
+.br
+.sp 5mm
+&GENTEKST4.&GENTEKST11..
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Opsigelse
+:SKRSLUT.
+.br
+.sp 5mm
+.if &U'&E53KREFOR = J
+.th Jeg har ret til at uden varsel at opsige denne kreditkontrakt og indfri
+.th eventuel gæld til &BANKNAVN.. &BANKNAVN. kan også opsige kontrakten
+.th uden varsel.
+.if &L'&E53KREUDL > 0
+.th Jeg har ret til uden varsel at opsige denne kreditkontrakt og indfri
+.th eventuel gæld til &BANKNAVN.. &BANKNAVN. kan opsige kontrakten med 1
+.th måneds varsel.
+.kp off
+.kp on
+.sp 5mm
+&BANKNAVN.s almindelige forretningsbetingelser for erhvervskunder samt
+&BANKNAVN.s almindelige bestemmelser for lån og kreditter til
+erhvervsmæssige formål er en del af denne kreditkontrakt og kan ses på
+www.brf.dk under Erhverv.
+.br
+.sp 15mm
+¤,den   /
+.br
+.sp 15mm
+______________________________
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

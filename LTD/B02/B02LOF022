@@ -1,0 +1,268 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.** Dette P-afsnit skal anvende når der påtrykkes FI-kort
+.**
+.** Indhold: Parametre til betalingsID og kreditorID samt
+.**          rubrikkerne 'Tilmelding til BetalingsService'
+.**          Desuden parametre til OCR-linien, som er den
+.**          maskinlæsbare linie nederst på FI-Kortet. (Font = OCRB10)
+.**
+.** Flg. param. skal have bankens egne std.værdier: FIKREDNR
+.**                                                 PBSNR
+.**                                                 PBSDEBGRP
+.**                                                 GENOCRNR1
+.**                                                 GENOCRNR3
+.** Flg. param. skal leveres af kald. system (LOF): BETALID
+.**                                                 PBSKUNDENR
+.**                                                 GENOCRNR2
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.* Påsat adressefelter
+.da KØBERADR 23mm 48mm
+.da FORFALD 126.5mm 64.51mm
+.********* Købers adresseoplysninger **************************************
+.ar KØBERADR on
+&EAN.
+.br
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.*********** Forfalddato på faktura/advis ******************************
+.ar FORFALD on
+:COUR8.
+Forfaldsdato: &RESULTA.
+.ar off
+.***********************************************************************
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 88mm width 160mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 180mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.******************* START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us on
+.if &U'X&GENVALGA = XS
+.th Faktura nr.: &FAKTNR.
+.if &U'X&GENVALGA = XA
+.th Advisering nr.: &FAKTNR.
+.us off
+.sp
+.********** Faktura SALG/ADVIS for aftale *********************************
+.dr thin weight 0.1mm
+.tp 27mm
+Kontrakt nr. ¤: &AFTALENR.
+.sp
+Mærke ¤: &BESKRIV01.
+.br
+Årgang ¤: &ÅRG01.
+.br
+Stel nr. ¤: &STELNR01.
+.br
+.if &L'&REGISNR01 > 0
+.th Reg. nr. ¤: &REGISNR01
+.sp
+.tp 107mm 157mm right
+.* ------------------------------------------------------------------
+.* (GENVALGB - N=gulplade bil (moms spec) ellers moms incl ----------
+.* Har valgt at teste positivt, feltet er ikke defineret som krav ---
+.if &L'&GENVALGB > 0
+.an &U'&GENVALGB = N
+.th .go MOMSSPEC
+.el .go MOMSINCL
+.* ------------------------------------------------------------------
+...MOMSSPEC
+Salgspris¤kr.¤&SALGAKT1.
+.br
+Totalmoms¤kr.¤&MOMS.
+.if &L'&ACONTOBLB > 0
+.th .br
+.th A/C-betalt¤kr.¤&ACONTOBLB.
+.br
+.hr thin 107mm 157mm
+.br
+I alt¤kr.¤&FAKTSUM.
+.br
+.hr thin 107mm 157mm
+.go MOMSSLUT
+.* ------------------------------------------------------------------
+...MOMSINCL
+.***
+.if &L'&ACONTOBLB > 0
+.th Salgspris i alt¤kr.¤&SALGAKT1.
+.th .br
+.th A/C-betalt¤kr.¤&ACONTOBLB.
+.th .hr thin 107mm 157mm
+.***
+I alt¤kr.¤&FAKTSUM.
+.br
+.hr thin 107mm 157mm
+.sp
+Beløbet er inkl. brugtmoms (ingen adgang til momsfradrag for køber).
+.* ------------------------------------------------------------------
+...MOMSSLUT
+.sp
+.* ------------------------------------------------------------------
+.************* ABFI har ændret i næste linie (til banknavn)***************
+Ejendomsretten forbliver hos &BANKNAVN indtil den
+samlede adviseringspris er modtaget. Der fremsendes kvitteret
+faktura i forbindelse med indbetaling af beløbet.
+.sp
+Køretøjet/udstyret er brugt og sælges uden garanti for fejl og mangler.
+.sp
+Ved betaling efter forfald opkræves renter af det skyldige beløb.
+.sp
+.if &L'&REGISNR01 > 0
+.th Hvis der er tale om et køretøj, skal dette
+.th omregistreres/afmeldes senest 3 uger efter betaling.
+.sp2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.br
+&AFDNAVN
+.ce off
+.ar off
+.****************************************************************
+.********************AREAL-DEFINITIONER************************************
+.da INDB  12mm 216mm
+.da BELOB 10mm 263mm width 200mm
+.**************************************************************************
+.**** Betalings-ID og Indbetaler ******************************************
+.ar INDB on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.**** Beløb og betalingsdato ***********************************
+.ar BELOB on
+.tp 40mm right 100mm right 179mm right
+.if &U'&GENVALGA. = A
+.th ¤&FIBELØB.¤&FORFDATO1.¤&FIBELØB.
+.el ¤***.***.*** **¤**.**.****¤***.***.*** **
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.*FI-kort skabelon
+.da FIKORT 0mm 0mm
+.*Generelle data til FI-kort
+.da BETID1  12mm 212mm
+.da KRED1   92mm 212mm
+.da KRED2  150mm 212mm
+.da BETD2  150mm 212mm
+.da TILM1   19mm 248.5mm
+.da TILM2  157mm 274mm
+.da OCR    9.5mm 277mm width 100mm
+.*** Påsæt overlay med FI-kort ********************
+.ar FIKORT on
+.oi O1B11FIK
+.ar off
+.*** BetalingsID
+.ar BETID1 on
+&BETALID.
+.ar off
+.*** Kreditornr og beløbsmodtager på FI-korts indbetalingsdel
+.ar KRED1 on
+:COUR8.
+&FIKREDNR.
+.br
+&BANKNAVN.
+.br
+&AFDNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDFAX.
+.ar off
+.*** Kreditornr og beløbsmodtager på FI-korts kvitteringsdel
+.ar KRED2 on
+:COUR8.
+&FIKREDNR
+.br
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDFAX.
+.sp 2mm
+&BETALID.
+.ar off
+.*** Tilmelding til BetalingsService på FI-korts indbetalingsdel ***
+.ar TILM1 on
+.tp 2mm 30mm
+&PBSNR.¤¤&PBSDEBGRP.
+.sp 2.5mm
+¤&PBSKUNDENR.
+.ar off
+.*** Tilmelding til BetalingsService på FI-korts kvitteringsdel ***
+.ar TILM2 on
+.tp 2mm 30mm
+&PBSNR.¤¤&PBSDEBGRP.
+.sp 2.5mm
+¤&PBSKUNDENR.
+.ar off
+.*** Påsæt OCR-linjen
+.ar OCR on
+:OCRB10.
++&GENOCRNR1.<&GENOCRNR2.+&GENOCRNR3.<
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.

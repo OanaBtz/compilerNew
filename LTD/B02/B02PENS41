@@ -1,0 +1,549 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 20mm 40mm width 220mm
+.*************NAVN OG ADRESSE****************
+.fo left
+:SWISS11.
+.ar NAVN on
+:FED.
+Forsikrede:
+:SKRSLUT.
+:SWISS11.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+:SKRSLUT.
+.sp2
+:FED.
+Personlige oplysninger
+:SKRSLUT.
+.br
+Cpr.nr.: &KTOKUNDENR
+.br
+.if &L'&B02TLF gt 0
+.th Telefonnr. &B02TLF
+.br
+.if &L'&B02MOBIL gt 0
+.th Mobilnr. &B02MOBIL
+.br
+.if &L'&B02TEKST06 gt 0
+.th e-mailadresse: &B02TEKST06
+.br
+.if &L'&B02TEKST07 gt 0
+.th Beskæftigelse: &B02TEKST07
+.br
+.if &L'&B02TEKST09 gt 0
+.th Bibeskæftigelse: &B02TEKST09
+.br
+.*
+.*
+.*
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftalegrundlag til
+.br
+Heltidsulykkeforsikring
+.br
+via Privatsikring A/S
+.ri off
+.ar off
+.**************************************************************************
+.sp 18
+.if &L'&B02KRYDS gt 0
+.th Lønmodtager
+.br
+.if &L'&B02TEXT111 gt 0
+.th .br
+.th Arbejdstimer pr. uge &B02TEXT111
+.br
+.if &L'&B02KRYDS10 gt 0
+.th Fører af motorcykel
+.br
+.if &L'&B02KRYDS11 gt 0
+.th Fører af privatfly
+.br
+.if &L'&B02TEXT112 gt 0
+.th .br
+.th Farlig sport: &B02TEXT112
+.sp
+:FED.
+Ønske til forsikringsdækninger:
+:SKRSLUT.
+.br
+Invaliditetssum kr. &B02BELØB15 (Inv.sum må ikke overstige 3 mio kr.)
+.th .br
+.if &L'&B02VALG21 gt 0
+.th Tillægserstatning
+.th .br
+.if &L'&B02VALG220 gt 0
+.th Strakserstatning
+.th .br
+.if &L'&B02BELØB16 gt 0
+.th .br
+Dødsfald kr. &B02BELØB16
+.el
+.br
+.if &L'&B02VALG222 gt 0
+.th Tandskade
+.th .br
+.if &L'&B02KRYDS31 gt 0
+.th .br
+.th Førtidspensionist
+.th .br
+.if &L'&B02TEKS11 gt 0
+.th :SWISS11. :FED.
+.th .br
+.th Begunstigelse
+.th :SKRSLUT.
+.th .br
+.th I tilfælde af forsikredes død som følge af ulykkestilfælde, udbetales
+.th forsikringssummen til:
+.th .in 6mm
+.th &B02TEKS11
+.th .br
+.th &B02TEKS12
+.th .br
+.th &B02TEKS13
+.th .br
+.th Cpr.nr. &B02TEKS14
+.th .go KRAV
+.el
+:SWISS11. :FED.
+.sp
+Begunstigelse
+:SKRSLUT.
+.br
+I tilfælde af forsikredes død som følge af ulykkestilfælde, udbetales
+forsikringssummen til nærmeste pårørende.
+...KRAV
+:SWISS11. :FED.
+.in 0mm
+.sp
+Krav til helbredsoplysninger
+:SKRSLUT.
+.br
+Der skal kun afgives helbredsoplysninger hvis:
+.br
+.in 4mm
+- Invaliditetssummen (excl. tillægserstatning) er større end 2 millioner
+.br
+- Dødsfaldssummen er større end 1 million
+.br
+- Der ønskes sygdomsinvaliditet
+.br
+- Når forsikrede/medforsikrede er førtidspensionist(er)
+.in 0mm
+.sp
+:FED.
+Ulykkesforsikringen oprettes i Privatsikring A/S
+:SKRSLUT.
+.br
+Jeg er indforstået med, at forsikringen træder i kraft fra
+underskriftsdatoen. Jeg bekræfter samtidig at have modtaget kopi af denne
+tilmelding, samt brochure og forsikringsbetingelser.
+.sp
+.ti ¤ 05
+.tp 80mm
+Den &DATO
+:SWISS11. :FED.
+¤&BANKNAVN
+.sp2
+.hr 0mm 70mm 80mm 150mm
+:SWISS8.
+.br
+.ti ¤ 05
+.tp 80mm
+&KTONAVN ¤&GENEKSP
+.sp
+:SWISS11.
+Tilbud med prisoverslag udarbejdes snarest.
+.if &L'&MEDNAVN eq 0
+.th .go slut
+.el .pa
+...slut
+.if &L'&MEDNAVN eq 0
+.th .go slut2
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftalegrundlag til
+.br
+Heltidsulykkeforsikring
+.br
+.*.:SWISS10.
+via Privatsikring A/S
+.ri off
+.ar off
+.**************************************************************************
+...slut2
+.if &L'&MEDNAVN eq 0
+.th .go slut1
+:SWISS12. :FED.
+.sp 4
+Medforsikrede:
+:SKRSLUT.
+:SWISS11.
+.sp
+&MEDNAVN.
+.br
+&MEDCO.
+.br
+&MEDGADE.
+.br
+&MEDBY
+.br
+&MEDLAND
+:SKRSLUT.
+.sp2
+:FED.
+Personlige oplysninger
+:SWISS11.
+.br
+Cpr.nr.: &MEDKUNDENR
+.br
+.if &L'&B02TLF1 gt 0
+.th Telefonnr. &B02TLF1
+.br
+.if &L'&B02TLF2 gt 0
+.th Mobilnr. &B02TLF2
+.br
+.if&L'&B02TEKST17 gt 0
+.th e-mailadresse: &B02TEKST17
+.br
+.if &L'B02TEKST18 gt 0
+.th Beskæftigelse: &B02TEKST18
+.br
+.if &L'&B02TEKST25 gt 0
+.th Bibeskæftigelse: &B02TEKST25
+.br
+.if &L'&B02KRYDS20 gt 0
+.th Lønmodtager
+.br
+.if &L'&B02TEXT111 gt 0
+.th .br
+.th Arbejdstimer pr. uge &B02TEXT108
+.el
+.br
+.if &L'&B02KRYDS21 gt 0
+.th Fører af motorcykel
+.br
+.if &L'&B02KRYDS22 gt 0
+.th Fører af privatfly
+.br
+.if &L'&B02TEXT109 gt 0
+.th Farlig sport: &B02TEXT109
+.sp
+:FED.
+Ønske til forsikringsdækninger:
+.br
+:SKRSLUT.
+Invaliditetssum kr. &B02BELØB18
+.th .br
+.if &L'&B02VALG210 gt 0
+.th Tillægserstatning
+.th .br
+.if &L'&B02VALG25 gt 0
+.th Strakserstatning
+.th .br
+.if &L'&B02BELØB19 gt 0
+.th .br
+.th Dødsfald kr. &B02BELØB19
+.el
+.br
+.if &L'&B02VALG223 gt 0
+.th Tandskade
+.br
+.if &L'&B02KRYDS32 gt 0
+.th .br
+.th Førtidspensionist
+...slut1
+.if &L'&B92TEKS5 eq 0
+.th .go slut
+.el .pa
+...slut
+.if &L'&B02TEKST05 eq 0
+.th .go slut3
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftalegrundlag til
+.br
+Heltidsulykkeforsikring
+.br
+.*.:SWISS10.
+via Privatsikring A/S
+.ri off
+.ar off
+.**************************************************************************
+...slut3
+.if &L'&B02TEKST05 eq 0
+.th .go slut2
+.sp 4
+:FED.
+Forsikret barn:
+:SKRSLUT
+:SWISS11
+.sp
+&B02TEKST05
+.br
+&B02TEKS6
+.br
+&B02TEKS7
+.sp4
+:FED.
+Personlige oplysninger
+:SKRSLUT.
+.sp
+Cpr.nr.: &B02TEKS8
+.br
+.if &L'&B02TEKS9 gt 0
+.th Telefonnr. &B02TEKS9
+.br
+.if &L'&B02TEKST12 gt 0
+.th Mobilnr. &B02TEKST12
+.br
+.if &L'&B02TEKST13 gt 0
+.th e-mailadresse: &B02TEKST13
+.br
+.if &L'&B02TEKST14 gt 0
+.th .br
+.th Farlig sport: &B02TEKST14
+.sp
+:FED.
+Ønske til forsikringsdækninger
+:SKRSLUT.
+.br
+Invaliditetssum kr. &B02TEKST15
+.th .br
+.if &L'&B02VALG30 gt 0
+.th Tillægserstatning
+.th .br
+.if &L'&B02VALG31 gt 0
+.th Strakserstatning
+.th .br
+.if &L'&B02VALG32 gt 0
+.th Tandskade
+...slut2
+.if &L'&B02TEXT200 eq 0
+.th .go slut
+.el .pa
+...slut
+.if &L'&B02TEKST05 eq 0
+.th .go slut4
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftalegrundlag til
+.br
+Heltidsulykkeforsikring
+.br
+via Privatsikring A/S
+.ri off
+.ar off
+.**************************************************************************
+...slut4
+.if &L'&B02TEXT200 eq 0
+.th .go slut3
+.sp 4
+:FED.
+Forsikrede andet barn
+:SKRSLUT
+.sp
+&B02TEXT200
+.br
+&B02TEXT201
+.br
+&B02TEXT202
+.sp4
+:FED.
+Personlige oplysninger
+:SKRSLUT.
+.sp
+Cpr.nr.: &B02TEXT203
+.br
+.if &L'&B02TEXT204 gt 0
+.th Telefonnr. &B02TEXT204
+.br
+.if &L'&B02TEXT205 gt 0
+.th Mobilnr. &B02TEXT205
+.br
+.if &L'&B02TEXT206 gt 0
+.th e-mailadresse: &B02TEXT206
+.br
+.if &L'&B02TEXT207 gt 0
+.th .br
+.th Farlig sport: &B02TEXT207
+.sp
+:FED.
+Ønske til forsikringsdækninger
+:SKRSLUT.
+.br
+Invaliditetssum kr. &B02TEXT208
+.th .br
+.if &L'&B02VALG50 gt 0
+.th Tillægserstatning
+.th .br
+.if &L'&B02VALG51 gt 0
+.th Strakserstatning
+.th .br
+.if &L'&B02VALG52 gt 0
+.th Tandskade
+...slut3

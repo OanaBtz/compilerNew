@@ -1,0 +1,91 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **afhentning af kort
+:TILTALE &TILTALEF
+:cour10.
+.fo left
+.ti ¤ 05
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 110mm width 170mm
+.su off
+.se reg = substr &BECKONTO01 1 4
+.se kto = substr &BECKONTO01 5 7
+.su on
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.se TYPE = ''
+.if &BECTEST01 EQ 1
+.th .se TYPE = 'Dankort'
+.if &BECTEST01 EQ 2
+.th .se TYPE = 'VISA/Dankort'
+.if &BECTEST01 EQ 3
+.th .se TYPE = 'Hævekort'
+.if &BECTEST01 EQ 4
+.th .se TYPE = 'ClubPlusDankort'
+.ar START on
+.us &TYPE til konto nr. &reg &kto.
+.sp
+Vi meddeler hermed, at &DIT &TYPE til ovennævnte
+konto er færdigt.
+.sp 1
+Kortet kan afhentes ved personlig henvendelse i banken, og vi beder &DIG
+medbringe dette brev. Endvidere bedes medbragt eventuel bankbog eller
+gammelt kort, såfremt der er udstedt et sådant.
+.if &L'&BECJA01 gt 2
+.th .go slut
+.el .go AFS1
+...AFS1
+.sp
+Den personlige PIN-kode til &TYPE.et er samtidig hermed
+bestilt, og
+&DU vil modtage koden med posten indenfor et par dage.
+.go slut
+...slut
+.if &L'&BECTEKST01 > 0
+.th .sp
+...FRITEKST
+&BECTEKST01.
+&BECTEKST02.
+&BECTEKST03.
+&BECTEKST04.
+.sk2
+                                 Med venlig hilsen
+.sk
+                                    &B34MORBANK

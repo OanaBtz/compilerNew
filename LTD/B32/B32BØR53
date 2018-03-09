@@ -1,0 +1,262 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS**************************************************************
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*************************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.*************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.th .se kundtype = 'P'
+.*************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.th .se kundtype = 'E'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.th .se kundtype = 'P'
+.**************************************************************************
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+Tillæg til aftale om Børneopsparing
+:SKRSLUT.
+.ar off
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar OPRETTER on
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.**************************************************************************
+.ar KUNDENR on
+.tp 90mm
+:FED.
+Kundenr.
+:SKRSLUT.
+.br
+&cpr1.-&cpr2 ¤&indcpr1.-&indcpr2
+.br
+.if &L'&VAERGE gt 0
+.th &vcpr1.-&vcpr2 (Værges CPR-nr.)
+.ar off
+.**************************************************************************
+.ar DATO on
+&DATO
+.ar off
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, INDNAVN, INDCO *******
+.* INDGADE, INDBY, INDLAND, INDKUNDENR, GENCPR ****************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 115mm 40mm width 50mm
+.da KTOHAVOV 25mm 68mm width 155mm
+.da KTOHAVER 25mm 72mm width 155mm
+.da OPRETTER 115mm 72mm width 85mm
+.da KUNDENR 25mm 96mm width 155mm
+.da DATO 160mm 110mm width 40mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.se indcpr1 = substr &INDKUNDENR 1 6
+.se indcpr2 = substr &INDKUNDENR 7 4
+.se vcpr1 = substr &VAERGE 1 6
+.se vcpr2 = substr &VAERGE 7 4
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+.tp 90mm
+:FED.
+Kontohaver ¤Opretter
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.da SIDE1 25mm 117mm width 170mm
+.**************************************************************************
+.su off
+.se nycpr1 = substr &GENCPR1 1 6
+.se nycpr2 = substr &GENCPR1 7 4
+.su on
+.**************************************************************************
+.ar SIDE1 on
+.ir 35mm
+ændrer med denne aftale en eksisterende Børneopsparing i &BANKNAVN..
+.sp 5mm
+:FED.
+Overdragelse
+:SKRSLUT.
+.br
+Opretteren overdrager hermed de rettigheder, som opretteren har til
+kontoen, til
+.sp 3mm
+&GENNAVN
+.br
+&GENCO
+.br
+&GENGADE
+.br
+&GENBY
+.br
+&GENLAND
+.sp 3mm
+Kundenr.
+.br
+&nycpr1.-&nycpr2
+.sp 3mm
+Overdragelsen gælder fra dags dato.
+.sp 5mm
+:FED.
+Underskrift
+:SKRSLUT.
+.br
+Jeg bekræfter, at jeg har modtaget en kopi af denne
+aftale sammen med &BANKNAVN.s almindelige forretningsbetingelser for
+privatkunder, som gælder for kundeforholdet.
+.ir 0mm
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+¤¤¤¤¤
+.tp 2mm 34mm 105mm
+¤Dato ¤&INDNAVN ¤&GENNAVN
+.ar off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off

@@ -1,0 +1,615 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.************** HB DOKUMENT TEST   ***************************************
+.se tal = 0
+.se sep1 = ''
+.se sep2 = ''
+.se sep3 = ''
+.se stal = 0
+.if &L'&SÆRBET1A = 0
+.th .go EJMSLUT
+.*if x&tal = x1
+.se  str = '&SÆRBET1A.'
+.se lstr = &L'&str
+...IGEN
+.*if &L'&SÆRBET1A = 0
+.if &tal > &lstr
+.th .go MSLUT
+.se tal = &tal + 1
+.se ldoktst = &L'&SÆRBET1A
+.if x&ldoktst = x0
+.th .se ldokrst = 0
+.el .se ldokrst = &ldoktst - 1
+.se DOKTST = SUBSTR '&SÆRBET1A.' 1 1
+.se DOKTXT = SUBSTR '&SÆRBET1A.' 2 &ldokrst
+...NUL
+.if x&DOKTST ne x( .and x&tal = x1
+.th .go EJMSLUT
+.el .se SÆRBET1A = '&DOKTXT.'
+.*.el .se PRIOPF   = 1
+.if x&DOKTST = x)
+.th .se SÆRBET1A = '&DOKTXT.'
+.th .se stal = &tal
+.* SIDSTE PARAMETER (3)**************
+.se bsep1 = 2
+.*** HVIS ) ER KOMMET, MEN DER IKKE ER ! TIL ALLE PARAMETRE **
+.if &tal. gt &stal .AN x&stal. ne x0
+.el .go PARMTST
+.if &L'&sep1 = 0
+.th .se  sep1 = &stal.
+.th .se bsep2 = &stal. + 1
+.if x&sep1 = x&stal .and &bsep1 > &sep1
+.th .se lsep1 = 0
+.el .se lsep1 = &sep1 - &bsep1
+.if &L'&sep2 = 0
+.th .se  sep2 = &stal.
+.th .se bsep3 = &stal. + 1
+.if x&sep2 = x&stal .and &bsep2 > &sep2
+.th .se lsep2 = 0
+.el .se lsep2 = &sep2 - &bsep2
+.if &L'&sep3 = 0
+.th .se  sep3 = &stal.
+.th .se bsep4 = &stal. + 1
+.if x&sep3 = x&stal .and &bsep3 > &sep3
+.th .se lsep3 = 0
+.el .se lsep3 = &sep3 - &bsep3
+...PARMTST
+.if x&DOKTST = x) .and x&sep1 ne x .and x&sep2 ne x
+.th .se  sep3 = &tal
+.th .se lsep3 = &sep3 - &bsep3
+.if x&DOKTST  = x! .and x&sep1 ne x .and x&sep2 = x
+.th .se  sep2 = &tal
+.th .se lsep2 = &sep2 - &bsep2
+.th .se bsep3 = &tal + 1
+.if x&DOKTST  = x! .and x&sep1 = x .and x&sep2 = x
+.th .se  sep1 = &tal
+.th .se lsep1 = &sep1 - &bsep1
+.th .se bsep2 = &tal + 1
+.IF x&tal = x30
+.th go MSLUT
+.if &tal < 29
+.th .go IGEN
+...MSLUT
+.if x&stal = x0
+.th .go FEJL
+.se srstr = &stal + 1
+.***
+.go EJGL
+.if &L'&sep1 = 0
+.th .se sep1 = &stal
+.if &L'&sep1 ne 0 .and &sep1 gt 2
+.th .se lsep1 = &sep1 - 2
+.se lsep2 = &sep2 - 2
+.if &L'&sep2 = 0
+.th .se sep2 = &stal
+.if &L'&sep2 ne 0 .and &sep2 gt 2
+.th .se lsep2 = &sep2 - 2
+.if &L'&sep2 ne 0 .and &sep2 gt &sep1
+...EJGL
+.***
+.se SÆRBET1A = SUBSTR '&str.' &srstr.
+.se par1     = SUBSTR '&str.' 2 &lsep1.
+.se par2     = SUBSTR '&str.' &bsep2. &lsep2.
+.se par3     = SUBSTR '&str.' &bsep3. &lsep3.
+.* SÆT PARAMETER FOR NORMAL FASTLÅN ****
+.* SKER VED LABEL  EJMSLUT *****
+.*** SÆT PARAMETER FOR PRIORITETSLÅN
+.if x&U'&par1 = xPRIO2
+.th .se PRIOPF2  = 2
+.if x&U'&par1 = xPRIOFAST
+.th .se PRIOFAST  = 1
+.th .se EJSTOP    = 1
+.if x&U'&par1 = xPRIOVAR
+.th .se PRIOVAR   = 1
+.th .se EJSTOP    = 1
+.if x&U'&par1 = xPRIOKREDIT
+.th .se PRIOKRED  = 1
+.th .se EJSTOP    = 1
+.go EJMSLUT
+.**************************
+...FEJL
+.sp 25mm
+Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEBITOR2
+.sp 25mm
+DER ER FEJL I DOKUMENT TESTSTRENGEN:
+ 
+FORMAT i førsteposition af særlige bemærkinger:
+.sp
+(PrioFast) eller (PrioVar) eller (ProiKredit)
+.*(PrioFast!xx)
+.br
+.* xx = Rentebindingsperiode i antal måneder
+.sp 10mm
+ 
+DU HAR SKREVET:
+ 
+&str.
+ 
+.qu
+.**************************
+...EJMSLUT
+.******* TEST ***
+.*** SÆT PARAMETER FOR NORMAL FASTLÅN
+.if x&par1  = x
+.or &E'&par1  = 0
+.th .se NORMAL   = 1
+.******* TESTPARAMETRE UDSKRIVES ***
+.if x&U'&par3 ne xTEST
+.th .go SLUTTEST
+.da TESTa 20mm 260mm
+.ar TESTa on
+ 
+ PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
+tal = &tal stal = &stal
+.br
+Særlige betingelser:
+'&SÆRBET1A.' '&SÆRBET1B.'
+.br
+sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
+par1='&par1.'par2='&par2.'par3 = '&par3.'
+.br
+srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
+bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
+bsep3 = &bsep3 lsep3=&lsep3
+.ar off
+...SLUTTEST
+.******* TEST SLUT ***
+.*************** GENEREL OPSÆTNING ***************************************
+.* BREVNAVN ÆNDRET FRA FAST TEKST til parameter BREVNAVN 18.2.2002 ES
+.ti ¤ 05
+:COUR10.
+.fo left
+.**********
+.***Parametren AFTDATO10 har ændret længed til 22. Bruges nu til dato
+.***eller til en tekst. Dette gælder kun for Nykredit B32 B58
+.**Rettet den 19 juni ***************************************
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** GENEREL OPSÆTNING AF VARIABLE DOKUMENTER ****************
+.se lovskr 'Kreditaftale - Privat'
+.se brevnavn '&BREVNAVN.'
+.if x&U'&PRIOKRED = x1
+.th .se lovskr 'Prioritetskredit - Privat'
+.th .se brevnavn '&BREVNAVN.PK'
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&brevnavn.
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us &lovskr
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**********************************************************
+.da SIDENR 142mm 33mm width 60mm
+.**********************************************************
+.ar SIDENR on
+&DATO1 SIDE &SIDENR1 AF &IALT
+.ar off
+.**********************************************************
+.if x&NORMAL = x1
+.el .go PFSLUT
+.*************** Underskrevne in solidum **********************************
+.da SOLID1 145mm 33mm width 54mm
+.da SOLID2 150mm 38mm width 48mm
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 38mm width 175mm
+.************ SOLIDUM *****************************************************
+.go SOLSLUT
+.ar SOLID1 on
+:SWISS6.
+Underskrevne låntager(e) in solidum erkender herved (kun ved afkrydsning er
+feltet gældende):
+.sp 1mm
+.bx 1mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.************ SOLIDUM *****************************************************
+.ar SOLID2 on
+:SWISS6.
+.br
+Det er en forudsætning for kredittens oprethol-
+.br
+delse, at låntagers og
+evt. kautionisters regnskab
+.br
+hvert år indleveres til pengeinstituttet
+senest 6
+.br
+mdr. efter regnskabsårets afslutning, og at dette
+.br
+ikke giver
+anledning til bemærkninger.
+.br
+Første gang:
+.ar off
+...SOLSLUT
+.************ AFTALE ******************************************************
+.ar SIDE on
+:SWISS8.
+.tp 14mm 21mm 55mm 84mm 99mm
+Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+.bx left 13mm 20mm 54mm 83mm 97mm 124mm
+.sp 4mm
+.bx off
+:SWISS10.
+Undertegnede låntager(e)
+.bx left right
+:SWISS8.
+.sp 17,5mm
+.in 1mm
+er indrømmet løbende kredit
+.in 0mm
+.bx off
+:SWISS10.
+Kreditbeløb/afvikling
+.bx left 126mm right
+.tp 1mm 127mm
+:SWISS8.
+¤kr.¤Hvilket beløb med tillæg af renter
+.br
+¤¤afvikles ved betaling af
+.bx new left 97mm 126mm right
+.tp 54mm 98mm 127mm
+:SWISS6.
+¤¤Hver ¤Første gang den
+.sp 2mm
+.tp 92mm
+¤kr.
+.bx new left 53mm 97mm 126mm 156mm right
+.tp 1mm 54mm 98mm 127mm 157mm
+¤Dato for aftale/indfrielse ¤Ekstraordinært afdrag ¤Hver &ÅCONT
+¤Første gang den ¤Antal gange
+.sp 1.5mm
+.tp 92mm
+¤Kr.
+.sp 1mm
+.bx new left 32mm 62mm 97mm 126mm right
+.tp 1mm 33mm 63mm 98mm 127mm 172mm
+¤Gældende variable rente- og ¤Rente for tiden ¤Provision for tiden &ÅCONT
+¤Overtræksprovision for tiden ¤Bevilget overtræksprovision for tiden
+.br
+¤provisionssatser p.a.
+.sp 2mm
+.bx new left right
+:SWISS8.
+.in 1mm
+.* RETTET d. 18.2.2002 ES
+.*Rente- og provisionssatser samt gebyrer og andre kreditomkostninger er
+.*variable og kan ændres af pengeinstituttet uden varsel (se nærmere under
+.*punkt 2 og 8). Kreditten kan i særlige tilfælde forfalde uden varsel (se
+.*nærmere under punkt 12).
+Rente- og provisionssatser samt gebyrer og andre kreditomkostninger er
+variable og kan ændres af banken uden varsel. Kreditten/lånet
+kan i særlige tilfælde forfalde uden varsel jfr. bankens almindelige
+bestemmelser.
+.in 0mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+:SWISS10.
+Særlige betingelser
+.bx left right
+.sp 16mm
+.bx off
+:SWISS10.
+Betaling
+.bx left 111mm 152mm right
+:SWISS8.
+.in 1mm
+Banken bedes ved forfald hæve ydelser/ekstraordinært afdrag på
+konto:
+.br
+Banken fremsender ikke separat meddelelse om, at beløbet er
+hævet på
+.br
+kontoen, og debitor skal sørge for, at der er dækning.
+.in 0mm
+.bx off
+:SWISS10.
+Sikkerheder
+.bx left right
+.sp 85mm
+.bx off
+.ar off
+...PFSLUT
+.if x&PRIOKRED = x1
+.el .go PFSLUT
+.*************** Underskrevne in solidum **********************************
+.da SOLID1 145mm 33mm width 54mm
+.da SOLID2 150mm 38mm width 48mm
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 38mm width 175mm
+.da SRTV 25mm 124mm width 175mm
+.************ SÆRLIGE RENTEVILKÅR *****************************************
+.ar SRTV on
+:COUR10.
+Banken foretager en daglig beregning af renten på følgende måde:
+.br
+Saldo x pålydende rente / 360.
+.br
+Den daglige beregning sker
+iflg. kalenderdage (365 eller 366).
+:SKRSLUT.
+.ar off
+.************ SOLIDUM *****************************************************
+.go SOLSLUT
+.ar SOLID1 on
+:SWISS6.
+Underskrevne låntager(e) in solidum erkender herved (kun ved afkrydsning er
+feltet gældende):
+.sp 1mm
+.bx 1mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.************ SOLIDUM *****************************************************
+.ar SOLID2 on
+:SWISS6.
+.br
+Det er en forudsætning for kredittens oprethol-
+.br
+delse, at låntagers og
+evt. kautionisters regnskab
+.br
+hvert år indleveres til pengeinstituttet
+senest 6
+.br
+mdr. efter regnskabsårets afslutning, og at dette
+.br
+ikke giver
+anledning til bemærkninger.
+.br
+Første gang:
+.ar off
+...SOLSLUT
+.************ AFTALE ******************************************************
+.ar SIDE on
+:SWISS8.
+.tp 14mm 21mm 55mm 84mm 99mm
+Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+.bx left 13mm 20mm 54mm 83mm 97mm 124mm
+.sp 4mm
+.bx off
+:SWISS10.
+Undertegnede låntager(e)
+.bx left right
+:SWISS8.
+.sp 17,5mm
+.in 1mm
+er indrømmet løbende kredit
+.in 0mm
+.bx off
+:SWISS10.
+Kreditbeløb/afvikling
+.bx left 126mm right
+.tp 1mm 127mm
+:SWISS8.
+¤kr.¤Hvilket beløb med tillæg af renter
+.br
+¤¤afvikles ved betaling af
+.bx new left 97mm 126mm right
+.tp 54mm 98mm 127mm
+:SWISS6.
+¤¤Hver ¤Første gang den
+.sp 2mm
+.tp 92mm
+¤kr.
+.bx new left 53mm 97mm 126mm 156mm right
+.tp 1mm 54mm 98mm 127mm 157mm
+¤Dato for aftale/indfrielse ¤Ekstraordinært afdrag ¤Hver &ÅCONT
+¤Første gang den ¤Antal gange
+.sp 1.5mm
+.tp 92mm
+¤Kr.
+.sp 1mm
+.bx new left 32mm 62mm 97mm 126mm right
+.tp 1mm 33mm 63mm 98mm 127mm 172mm
+¤Gældende variable rente- og ¤Rente for tiden ¤Provision for tiden &ÅCONT
+¤Overtræksprovision for tiden ¤Bevilget overtræksprovision for tiden
+.br
+¤provisionssatser p.a.
+.sp 2mm
+.bx new left right
+:SWISS8.
+.in 1mm
+.* RETTET d. 18.2.2002 ES
+.*Rente- og provisionssatser samt gebyrer og andre kreditomkostninger er
+.*variable og kan ændres af pengeinstituttet uden varsel (se nærmere under
+.*punkt 2 og 8). Kreditten kan i særlige tilfælde forfalde uden varsel (se
+.*nærmere under punkt 12).
+Rente- og provisionssatser samt gebyrer og andre kreditomkostninger er
+variable og kan ændres af banken uden varsel. Kreditten/lånet
+kan i særlige tilfælde forfalde uden varsel jfr. bankens almindelige
+bestemmelser.
+.in 0mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+:SWISS10.
+Særlige rentevilkår
+:SKRSLUT.:SKRSLUT.
+:SWISS8.
+.in 2mm
+.bx left right
+.* SKREVET I EGEN AR I TOPPEN AF DOK
+.sp 14mm
+.**************
+.go SRSLUT
+.*****
+...SRSLUT
+.bx off
+.in 0mm
+:SWISS10.
+Pantsat ejendom / Særlige betingelser
+.bx left right
+.sp 16mm
+.bx off
+:SWISS10.
+Betaling
+.bx left 111mm 152mm right
+:SWISS8.
+.in 1mm
+Banken bedes ved forfald hæve ydelser/ekstraordinært afdrag på
+konto:
+.br
+Banken fremsender ikke separat meddelelse om, at beløbet er
+hævet på
+.br
+kontoen, og debitor skal sørge for, at der er dækning.
+.in 0mm
+.bx off
+:SWISS10.
+Sikkerheder
+.bx left right
+.sp 85mm
+.bx off
+.ar off
+...PFSLUT
+.* Hvis Priokredit er .da flyttet xxmm ned (es 19.1.2005)
+.**************************************************************************
+.da REGNR 22mm 43mm width 125mm
+.da UNDERT1 25mm 53mm width 85mm
+.da UNDERT2 110mm 53mm width 80mm
+.da KREDITB 30mm 82mm width 116mm
+.da AFDRAG 25mm 90.5mm width 170mm
+.da DATOINDF 25mm 98.5mm width 170mm
+.da RTSATS 54mm 106mm width 145mm
+.if x&PRIOKRED = x1
+.th .da SBET 25mm 144mm width 170mm
+.th .da DBKTO 135mm 169mm width 35mm
+.th .da SIK1 25mm 182mm width 170mm
+.el .da SBET 25mm 124mm width 170mm
+.el .da DBKTO 135mm 149mm width 35mm
+.el .da SIK1 25mm 162mm width 170mm
+.**************************************************************************
+.ar REGNR
+.tp 11mm 20mm 53mm 82mm 97mm
+&REGNR1 ¤&AFDNR ¤&KONTONR1 ¤&KNDNR1 ¤&REGTYPE11 ¤&KNDNR2
+.ar off
+.**************************************************************************
+.ar UNDERT1 on
+&DEBITOR1
+.br
+&DEBITOR2
+.br
+&DEBITOR3
+.br
+&DEBITOR4
+.br
+&DEBITOR5
+.ar off
+.**************************************************************************
+.ar UNDERT2 on
+&MEDEJER1
+.br
+&MEDEJER2
+.br
+&MEDEJER3
+.br
+&MEDEJER4
+.br
+&MEDEJER5
+.ar off
+.**************************************************************************
+.ar KREDITB on
+&LÅNEBELØBA
+.ar off
+.**************************************************************************
+.ar AFDRAG on
+.tp 50mm 95mm 124mm
+&AFDTEKST ¤&AFDR1 ¤&TERMIN1 ¤&DATO10
+.ar off
+.**************************************************************************
+.ar DATOINDF on
+.tp 50mm left 95mm 124mm 154mm
+&AFTDATO10 ¤&AFDR2 ¤&TERMIN2 ¤&DATO11 ¤&ANTGANGE
+.ar off
+.**************************************************************************
+.ar RTSATS on
+.tp 10mm 25mm 43mm 58mm 74mm 88mm 115mm 130mm
+¤&NOMRENTE ¤% ¤&PROV ¤% ¤&OVTRPROV ¤% ¤&BVOVTRPROV ¤%
+.ar off
+.**************************************************************************
+.ar SBET on
+&SÆRBET1A.&SÆRBET1B
+.br
+&SÆRBET2A.&SÆRBET2B
+.br
+&SÆRBET3A.&SÆRBET3B
+.br
+&SÆRBET4A.&SÆRBET4B
+.ar off
+.**************************************************************************
+.ar DBKTO on
+&DEBKTONR11
+.ar off
+.**************************************************************************
+.ar SIK1 on
+&SIKHED01A.&SIKHED01B
+.br
+&SIKHED02A.&SIKHED02B
+.br
+&SIKHED03A.&SIKHED03B
+.br
+&SIKHED04A.&SIKHED04B
+.br
+&SIKHED05A.&SIKHED05B
+.br
+&SIKHED06A.&SIKHED06B
+.br
+&SIKHED07A.&SIKHED07B
+.br
+&SIKHED08A.&SIKHED08B
+.br
+&SIKHED09A.&SIKHED09B
+.br
+&SIKHED10A.&SIKHED10B
+.br
+&SIKHED11A.&SIKHED11B
+.br
+&SIKHED12A.&SIKHED12B
+.br
+&SIKHED13A.&SIKHED13B
+.br
+&SIKHED14A.&SIKHED14B
+.br
+&SIKHED15A.&SIKHED15B
+.br
+&SIKHED16A.&SIKHED16B
+.br
+&SIKHED17A.&SIKHED17B
+.br
+&SIKHED18A.&SIKHED18B
+.br
+&SIKHED19A.&SIKHED19B
+.br
+&SIKHED20A.&SIKHED20B
+.br
+&SIKHED21A.&SIKHED21B
+.br
+&SIKHED22A.&SIKHED22B
+.br
+.ar off

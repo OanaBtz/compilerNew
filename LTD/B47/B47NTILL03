@@ -1,0 +1,316 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*******************************************************************
+.* Opsætter variable til styring af låne og rentetype
+.*
+.*    renttil = 0    =>  Billån
+.*    renttil = 1    =>  Boliglån med rentetilpasning
+.*    renttil = 2    =>  Boliglån med faste rente hele perioden
+.*
+.* REFRENT under 00,000
+.*
+.*    RENTE   = REFRENT * 10
+.*    RENTTIL = 0
+.*
+.* REFRENT mellem 1,000 og 30,999
+.*
+.*    RENTE   = REFRENT alle enere/tiere, hvorefter det ganges med 10
+.*    RENTTIL = 1
+.*    FASTAAR = antal enere/tiere
+.*
+.* REFRENT over 31,000
+.*
+.*    RENTE   = REFRENT fratrukket alle enere/tiere
+.*    RENTTIL = 2
+.*    FASTAAR = 0   (fast rente i hele lånets periode)
+.*
+.*******************************************************************
+.su off
+.se RENTTIL = 0
+.se FASTAAR = 0
+.se KOMMA = ','
+.se z = index &REFRENT ' '
+.if &z eq 1
+.th .se RFRENT = substr &REFRENT 2
+.el .se RFRENT = &REFRENT
+.se x = index &RFRENT ','
+.if &x = 2
+.th .se RENT1 = substr &RFRENT 3 1
+.th .se RENT2 = substr &RFRENT 4 2
+.th .su on
+.th .se RENTE = &RENT1.&KOMMA.&RENT2.
+.th .su off
+.th .se LBTID = substr &RFRENT 1 1
+.if &x = 3
+.th .se RENT1 = substr &RFRENT 4 1
+.th .se RENT2 = substr &RFRENT 5 2
+.th .su on
+.th .se RENTE = &RENT1.&KOMMA.&RENT2.
+.th .su off
+.th .se LBTID = substr &RFRENT 1 2
+.se y = &L'&LBTID
+.*---- BILLÅN
+.if &LBTID eq 0
+.th .se RENTTIL = 0
+.th .se FASTAAR = 0
+.*---- BOLIGLÅN MED RENTETILPASNING 1-9 år
+.if &LBTID eq 1
+.or &LBTID eq 2
+.or &LBTID eq 3
+.or &LBTID eq 4
+.or &LBTID eq 5
+.or &LBTID eq 6
+.or &LBTID eq 7
+.or &LBTID eq 8
+.or &LBTID eq 9
+.or &LBTID eq 10
+.or &LBTID eq 11
+.or &LBTID eq 12
+.or &LBTID eq 13
+.or &LBTID eq 14
+.or &LBTID eq 15
+.th .se RENTTIL = 1
+.th .se FASTAAR = &LBTID
+.*if &L'&LBTID gt 1
+.*an &LBTID gt 0
+.*th .se RENTTIL = 1
+.*th .se FASTAAR = &LBTID
+.*---- BOLIGLÅN MED FAST RENTES I HELE LÅNETS LØBETID
+.if &LBTID eq 20
+.th .se RENTTIL = 2
+.th .se FASTAAR = 0
+.su on
+.*
+.**********************************************************
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+B47NTILL03
+.ar off
+.*************************************************************************
+.da SIDE2 20mm 55mm width 175mm
+.da FORMEL7 60mm 90mm width 105mm
+.da FORMEL8 60mm 118.5mm width 105mm
+.IF &RENTTIL eq 0
+.TH .GO SLUTS3
+.******************************************************************
+.ar SIDE2 on
+.if &RENTTIL eq 1
+.th .go PKTCD1
+:DUTCH10.
+Ad C) - :FED.Tilbagediskontering :SKRSLUT.
+.sp
+.in 12mm
+Nutidsværdi af de fremtidige  ydelser = månedlig ydelse x
+annuitetsdiskonteringsfaktor
+.in 0
+.sp 15mm
+Ad D) - :FED.Beregning af indfrielseskurs :SKRSLUT.
+.sp 5mm
+.in 12mm
+Indfrielseskurs =
+.in 0
+.* ------- RESTEN AF FORMLEN FINDES TIL SLUT - FORMEL7
+.sp 15mm
+Ad E) - :FED.Beregning af indfrielsesbeløb :SKRSLUT.
+.sp
+.in 12mm
+Antal ydelser frem til næste rentetilpasning x månedlig ydelse x
+(Indfrielseskurs - 100)
+.br
++ Lånets restgæld på indfrielsestidspunktet til kurs 100
+.br
+.US+ Rente fra sidste rentetermin til indfrielse
+.br
+= Indfrielsesbeløb
+.in 0
+.sp 20mm
+:FED.
+Eksempler på indfrielseskurser
+:SKRSLUT.
+.sp
+.tp 20mm
+.in 12mm
+Forudsætninger:
+.br
+¤Gældsbrevets løbetid 30 år.
+.br
+¤Rentetilpasning efter 15 år
+.br
+¤Pålydende rente = 7%
+.br
+¤Indgåelses-referencerente = 6,5%
+.sp 10mm
+.tp 50mm 70mm 90mm 110mm 130mm
+¤¤Kurs efter
+.br
+Indfrielses-
+.br
+.usreferencerente¤1 år¤3 år¤5 år¤10 år¤15 år
+.br
+11,44 ¤95,0 ¤95,0 ¤95,0 ¤95,0 ¤100
+.br
+10,44 ¤95,0 ¤95,0 ¤95,0 ¤95,0 ¤100
+.br
+9,44 ¤95,0 ¤95,0 ¤95,0 ¤95,0 ¤100
+.br
+8,44 ¤95,0 ¤95,0 ¤95,0 ¤96,7 ¤100
+.br
+7,44 ¤97,5 ¤97,8 ¤98,1 ¤99,0 ¤100
+.br
+6,44 ¤103,0 ¤102,9 ¤102,5 ¤101,3 ¤100
+.br
+5,44 ¤105,0 ¤105,0 ¤105,0 ¤103,8 ¤100
+.br
+4,44 ¤105,0 ¤105,0 ¤105,0 ¤105,0 ¤100
+.br
+3,44 ¤105,0 ¤105,0 ¤105,0 ¤105,0 ¤100
+.sp 10mm
+Opmærksomheden henledes særligt på, at der ved beregning af en kurs på
+under 95 rundes op til kurs 95, samt at der ved beregning af en kurs
+over 105 rundes ned til kurs 105.
+.ar off
+.*
+.* ======  DANNER FORMLEN
+.ar FORMEL7 ON
+:DUTCH10.
+.us Nutidsværdi af de fremtidige ydelser X 100
+.br
+Den nominelle restgæld på indfrielsestidspunktet
+.AR OFF
+.go SLUT3
+.* ---------------------------------------------------------------------
+.* ------ PUNKT C-D for Boliglån med fast rente i X år.
+...PKTCD1
+:DUTCH10.
+Ad C) - :FED.Tilbagediskontering (nutidsværdier):SKRSLUT.
+.sp
+.in 12mm
+1) Beregning af :KURSIV.Nutidsværdi I:SKRSLUT. af de resterende ydelser
+i fastrenteperioden efter
+.br
+:KURSIV.Annuitetsdiskonteringsfaktor I:SKRSLUT.:
+.sp 5mm
+.in 17mm
+:KURSIV.Nutidsværdi I = Annuitetsdiskonteringsfaktor I:SKRSLUT., jf.
+ad B1) x månedlig ydelse.
+.sp 5mm
+.in 12mm
+2) Beregning af :KURSIV.Nutidsværdi II:SKRSLUT. af de resterende ydelser
+i fastrenteperioden efter
+.br
+:KURSIV.Annuitetsdiskonteringsfaktor II:SKRSLUT.:
+.sp 5mm
+.in 17mm
+:KURSIV.Nutidsværdi II = Annuitetsdiskonteringsfaktor II:SKRSLUT., jf.
+ad B2) x månedlig ydelse.
+.in 0
+.sp 7mm
+Ad D) - :FED.Beregning af indfrielseskurs for de resterende
+ydelser i fastrenteperioden::SKRSLUT.
+.sp 5mm
+.in 12mm
+Indfrielseskurs =
+.in 0
+.* ------- RESTEN AF FORMLEN FINDES TIL SLUT - FORMEL8
+.sp 12mm
+Ad E) - :FED.Beregning af indfrielsesbeløb :SKRSLUT.
+.sp
+.in 12mm
+Antal ydelser frem til næste rentetilpasning x månedlig ydelse x
+(Indfrielseskurs - 100)
+.br
++ Lånets restgæld på indfrielsestidspunktet til kurs 100
+.br
+.US+ Rente fra sidste rentetermin til indfrielse
+.br
+= Indfrielsesbeløb
+.in 0
+.sp 15mm
+:FED.
+Eksempler på indfrielseskurser
+:SKRSLUT.
+.sp
+.tp 20mm
+.in 12mm
+Forudsætninger:
+.br
+¤Gældsbrevets løbetid 30 år.
+.br
+¤Rentetilpasning efter 15 år
+.br
+¤Pålydende rente = 7%
+.br
+¤Indgåelses-referencerente = 6,5%
+.sp 8mm
+.tp 50mm 70mm 90mm 110mm 130mm
+¤¤Kurs efter
+.br
+Indfrielses-
+.br
+.usreferencerente¤1 år¤3 år¤5 år¤10 år¤15 år
+.br
+11,44 ¤95,0 ¤95,0 ¤95,0 ¤95,0 ¤100
+.br
+10,44 ¤95,0 ¤95,0 ¤95,0 ¤95,0 ¤100
+.br
+9,44 ¤95,0 ¤95,0 ¤95,0 ¤95,0 ¤100
+.br
+8,44 ¤95,0 ¤95,0 ¤95,0 ¤96,7 ¤100
+.br
+7,44 ¤97,5 ¤97,8 ¤98,1 ¤99,0 ¤100
+.br
+6,44 ¤103,0 ¤102,9 ¤102,5 ¤101,3 ¤100
+.br
+5,44 ¤105,0 ¤105,0 ¤105,0 ¤103,8 ¤100
+.br
+4,44 ¤105,0 ¤105,0 ¤105,0 ¤105,0 ¤100
+.br
+3,44 ¤105,0 ¤105,0 ¤105,0 ¤105,0 ¤100
+.sp 10mm
+Opmærksomheden henledes særligt på, at der ved beregning af en kurs på
+under 95 rundes op til kurs 95, samt at der ved beregning af en kurs
+over 105 rundes ned til kurs 105.
+.ar off
+.*
+.* ======  DANNER FORMLEN
+.ar FORMEL8 ON
+:DUTCH10.
+.us :KURSIV.Nutidsværdi I x 100 :SKRSLUT.
+.br
+:KURSIV.    Nutidsværdi II:SKRSLUT.
+.AR OFF
+.go SLUT3
+...SLUTS3
+.ar side2 on
+.dr thin weight .5mm
+.vr thin 60mm thin 120mm
+.sp 240mm
+.vr off
+.ar off
+...SLUT3
+.**********************************************************
+.da SIDENR 142mm 33mm width 60mm
+.**********************************************************
+.ar SIDENR on
+&DATO1 SIDE &SIDENR1 AF &IALT
+.ar off
+.**********************************************************

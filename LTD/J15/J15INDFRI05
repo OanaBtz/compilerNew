@@ -1,0 +1,121 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***********************************************************************
+:COUR10
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 20mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+&J15TEKST1.
+.br
+&J15TEKST2.
+.br
+&J15TEKST3.
+.br
+.**************************************************************************
+...HOVSL
+.ar off
+.*************** AREAL-DEFINITIONER ***************************************
+.da AFS  116.5mm 34.5mm width 150mm
+.da DATO 116.5mm 58mm width 150mm
+.*** Bankens afsenderoplysninger ******************************************
+.ar AFS on
+:COUR8.
+&BANKNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.if &L'&EKSPNAVN > 5
+.th .br
+.th Kundeansvarlig &EKSPNAVN.
+.ar off
+.*** Dato *****************************************************************
+.ar DATO on
+:COUR8.
+&DATO.
+.ar off
+.fo left
+.ti ¤ 05
+.***********************************************************************
+.da OVERSKR 20mm 110mm width 170mm
+.* Brevnavn roteret i nederste, venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.***********************************************************************
+:COUR10.
+.ar OVERSKR on
+.us
+&NAVN.
+.us off
+.sp
+.***********************************************************************
+.*******************************************
+Lån nr. &ktonr. er indfriet.
+.sp
+Vi har digitaliseret:
+.sp
+&BECTEKST01.
+.if &L'&BECTEKST02. > 0
+.th .br
+.th &BECTEKST02.
+.if &L'&BECTEKST03. > 0
+.th .br
+.th &BECTEKST03.
+.sp
+og aflyst &BANKNAVN.' underpant samt tinglyst jeres primære underpant i
+henhold til pantsætningserklæring af &BECTEKST04..
+.if &L'&BECTEKST05. = 0
+.th .go HILSEN
+.sp
+I bedes notere, at ejerpantebrevet á kr. &BECTEKST05. også er underpantsat
+til &BECTEKST06..
+.if &BECANTAL01. > 1
+.th Pantsætningserklæringer
+.el Pantsætningserklæring
+vedlægges.
+...HILSEN
+.sp 2
+Med venlig hilsen
+.sp 3
+&BANKNAVN.

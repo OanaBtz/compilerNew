@@ -1,0 +1,633 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*Parametre
+.if &L'&PRIERH = 0
+.th .mg/T/Skriv P for privat eller E for erhverv/
+.*OMTALEPARAMETRE *********************************************************
+.*ERHVERV *****************************************************************
+.if &U'&PRIERH = E
+.th .se debsomt = 'Vi'
+.th .se deblomt = 'vi'
+.th .se migos = 'os'
+.th .se min = 'vores'
+.th .go OMTALEND
+.*PRIVAT *************
+.if &DEBANTAL = 1
+.th .se debsomt = 'Jeg'
+.th .se deblomt = 'jeg'
+.th .se migos = 'mig'
+.th .se min = 'min'
+.el .se debsomt = 'Vi'
+.el .se deblomt = 'vi'
+.el .se migos = 'os'
+.el .se min = 'vores'
+...OMTALEND
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.if &U'&PRIERH = P
+.th .us Låneaftale i fremmed valuta (gældsbrev) Forbruger
+.if &U'&PRIERH = E
+.th .us Låneaftale i fremmed valuta (gældsbrev) Erhverv
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+.sp 6mm
+.bx off
+.sp 4mm
+.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
+.*LÅNTAGER ****************************************************************
+.bx left right
+.tp 1mm 88.5mm 135mm
+.if &DEBANTAL = 1
+.th ¤Låntager
+.if &DEBANTAL = 2
+.th ¤Låntager ¤Låntager
+.if &DEBANTAL > 2
+.th ¤Låntager ¤Låntager ¤Flere låntagere
+.sp 20mm
+.if &DEBANTAL > 1
+.th ¤Kundenummer &KTOKNDNR1 ¤Kundenummer &DEB2KNDNR
+.el ¤Kundenummer &KTOKNDNR1
+.bx off
+.sp 4mm
+.bx left right
+.sp 184mm
+.bx off
+.ar off
+.******************************************************************
+.da BANKSTED      20mm  47mm width 175mm
+.da KUNDEOPL       25mm  61.5mm width 85mm
+.da KUNDEOPL2    112.5mm 61.5mm width 85mm
+.da CPRSENR        42mm  83.5mm width 85mm
+.da CPRSENR2      129.5mm 83.5mm width 85mm
+.******************************************************************
+.ar BANKSTED on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.*************************************
+.ar KUNDEOPL on
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.ar off
+.*************************************
+.ar KUNDEOPL2 on
+.if &DEBANTAL > 1
+.th &DEB2ADR1
+.th .br
+.th &DEB2ADR2
+.th .br
+.th &DEB2ADR3
+.th .br
+.th &DEB2ADR4
+.th .br
+.th &DEB2ADR5
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+:SWISS9.
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 221.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BANKSTED on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.if &U'&PRIERH = P
+.th .us Låneaftale i fremmed valuta (gældsbrev) Forbruger
+.if &U'&PRIERH = E
+.th .us Låneaftale i fremmed valuta (gældsbrev) Erhverv
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 50mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.br
+:FED.
+Beløb
+.br
+:SKRSLUT.
+&debsomt bekræfter herved, at &deblomt skylder &BANKNAVN
+SEK &LÅNBEL inklusive stiftelsesomkostninger m.m. på SEK &LÅNOMK
+.sp 5mm
+:FED.
+Afvikling
+:SKRSLUT.
+.br
+.*1. AFVIKLING ***********
+.if &L'&AFDYDL01 = 0
+.th .go SLUTAFV
+.if &U'&AFDYDL01 = A
+.th Lånet afdrages med
+.if &U'&AFDYDL01 = Y
+.th Ydelsen er
+.if &U'&AFDYDL01 = H
+.th De af den låneaftale omfattede konti afvikles med ovennævnte
+.th beløb i respektive valutaer. Lånet er optaget som et stående
+.th lån, der forfalder til indfrielse den 01.04.2011.
+.br
+.sp
+.th Denne valutalåneaftale genforhandles årligt, første gang den
+.th 01.04.2010. Såfremt der ikke imellem låntager(e) og banken kan opnås
+.th enighed om de fremtidige vilkår for valutalåneaftalen, herunder
+.th renter, provisioner, andre eller supplerende sikkerheder eller
+.th lignende, betragtes valutalåneaftalen som forfalden til fuld
+.th indfrielse straks.
+.br
+.th .go SLUTAFV
+.if &U'&AFDYDL01 = T
+.th Se afviklingstabel.
+.th .go SLUTAFV
+:VS. &AFVBEL01
+SEK., som betales
+.if &AFVFREK01 = 1
+.th hver måned,
+.if &AFVFREK01 = 3
+.th hvert kvartal,
+.if &AFVFREK01 = 4
+.th hver 2. måned,
+.if &AFVFREK01 = 6
+.th hvert halvår,
+.if &AFVFREK01 = 7
+.th hver uge,
+.if &AFVFREK01 = 9
+.th hvert år,
+.if &AFVFREK01 = 14
+.th hver 14. dag,
+.if &AFVFREK01 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO01.. &ÅCONT
+.if x&AFVANT01 = x99
+.th .go 2AFVIKL
+.if &U'&AFDYDL01 = A
+.th .go AFV01A
+.el .go AFV01Y
+...AFV01A
+.if &AFVANT01 > 1
+.th Dette afdrag betales &AFVANT01 gange.
+.el Dette afdrag betales &AFVANT01 gang.
+.go 2AFVIKL
+...AFV01Y
+.if &AFVANT01 > 1
+.th Denne ydelse betales &AFVANT01 gange.
+.el Denne ydelse betales &AFVANT01 gang.
+.*2. AFVIKLING ***********
+...2AFVIKL
+.if &L'&AFDYDL02 = 0
+.th .go SLUTAFV
+.el .br
+.if &U'&AFDYDL02 = A
+.th Ekstraordinært afdrag på
+.if &U'&AFDYDL02 = Y
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL02
+kr., som betales
+.if &AFVFREK02 = 1
+.th hver måned,
+.if &AFVFREK02 = 3
+.th hvert kvartal,
+.if &AFVFREK02 = 4
+.th hver 2. måned,
+.if &AFVFREK02 = 6
+.th hvert halvår,
+.if &AFVFREK02 = 7
+.th hver uge,
+.if &AFVFREK02 = 9 &ÅCONT
+.th hvert år,
+.if &AFVFREK02 = 14 &ÅCONT
+.th hver 14. dag,
+.if &AFVFREK02 = 15 &ÅCONT
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO02.. &ÅCONT
+.if x&AFVANT02 = x99
+.th .go SLUTAFV
+.if &U'&AFDYDL02 = A
+.th .go AFV02A
+.el .go AFV02Y
+...AFV02A
+.if &AFVANT02 > 1
+.th Dette afdrag betales &AFVANT02 gange.
+.el Dette afdrag betales &AFVANT02 gang.
+.go SLUTAFV
+...AFV02Y
+.if &AFVANT02 > 1
+.th Denne ydelse betales &AFVANT02 gange.
+.el Denne ydelse betales &AFVANT02 gang.
+...SLUTAFV
+.sp 5mm
+.********************
+.***************
+.if &L'&AFTDATO10 = 0
+.an &L'&GENFDATO = 0
+.th .go RENTE
+:FED.
+Aftaledato
+.br
+:SKRSLUT.
+.if &L'&AFTDATO10 > 0
+.th .go AFTDATO
+.el .go GENFDATO
+...AFTDATO
+&debsomt
+betaler restgælden på lånet, inklusive rente til betalingsdagen,
+senest den
+&AFTDATO10..
+...GENFDATO
+.if &L'&GENFDATO > 0
+.th .br
+.th Lånet bliver genforhandlet den
+.th &GENFDATO..
+.sp 5mm
+...RENTE
+.*******************************
+:FED.
+Rente og omkostninger
+.br
+:SKRSLUT.
+Renten for hver enkelt valutakonto oplyses ved særskilt meddelels til
+lånetager(e) ved etablering af nærværende låneaftale, og fastsættes
+på baggrund af STIBOR 3 +4,75%. Renten kan variere fra kvartal til
+kvartal. Renten tilskrives hvert kalender kvartal bagud.
+.br
+.sp
+Rente- og provisionssatser samt gebyr og andre kreditomkostninger er
+variable og kan ændres af pengeinstituttet uden varsel (se nærmere
+under punkt 3 og 4-6). Lånet kan i særlige tilfælde forfalde uden
+varsel (se nærmere under punkt 9)
+.br.
+.**PROVISION ***
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.el .go PROV
+...PROV
+.sp 3mm
+.if &L'&PROV > 0
+.th Provisionen er for tiden &PROV % om året.
+.th .br
+.if &L'&PROVOVERTR > 0
+.th Overtræksprovision er for tiden &PROVOVERTR % om året.
+.th .br
+.if &L'&PROVBEVILG > 0
+.th Provision for bevilget overtræk er for tiden &PROVBEVILG % om året.
+.th .br
+...PROVSL
+.***************
+.sp 5mm
+.if &L'&DEBKONTO = 0
+.th .go OPSIGEL
+:FED.
+Betaling
+.br
+:SKRSLUT.
+&BANKNAVN bedes ved forfald hæve ydelser/ekstraordinært afdrag på
+konto &DEBKONTO..
+.br
+&debsomt får ikke separat meddelelse om beløb, der er
+hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.br
+.sp
+.***************
+:FED.
+Valutakurs
+.br
+:SKRSLUT.
+Bankens tilgodehavende i henhold til denne låneaftale udgør den
+til enhver tid værende kursværdi af den samlede restgæld på ovennævnte
+konto. Enhver afvikling af det samlede lånebeløb fordelt på ovennævnte
+separarte konti kan alene finde sted i den pågældende kontos
+valuta. Capinordic Bank A/S kan meddele låntager(e) samtykke til, at
+afvikling helt eller delvis kan finde sted i danske kroner. I så
+fald er den gældende dagskurs på betalingstidspunktet afgørende for
+omregning af det betalte beløb i danske kroner til den pågældende
+valuta.
+.br
+.sp
+.******************
+:FED.
+Valutakursrisiko
+.br
+:SKRSLUT.
+Nærværende låneaftale føres i en eller flere udenlandske valutaer.
+Lånetager(e) bekræfter ved underskrivelsen af denne låneaftale, at
+lånetager(e) er bekendt(e) med samtlige konsekvenser heraf, herunder
+betydning for restgælden omregnet til anden fremmed valuta eller
+danske kroner. Lånetager(e) hæfter tillige for ethvert kurstab
+realiseret ved omveksling til anden fremmed valuta eller danske
+kroner. Om de skattemæssige konsekvenser af valutakursgevinst eller
+-tab henvises til skattemyndighederne eller anden anerkendt
+skatterådgiver.
+.br
+.sp
+.******************
+:FED.
+Sikkerheder
+.br
+:SKRSLUT.
+Sikkerhedsstillelse for opfyldelse af nærværende låneaftale
+omfatter samtlige separate valutakonti anført ovenfor. Der henvises
+i øvrigt til separat kautionserklæring.
+.br
+.sp
+Sikkerheder:
+.br
+.*********************
+.sp 5mm
+...OPSIGEL
+:FED.
+Opsigelse
+.br
+:SKRSLUT.
+.if &U'&PRIERH = P
+.th &debsomt kan opsige lånet uden varsel og indbetale det skyldige beløb
+.th inklusive rente, provision og eventuelle andre omkostninger til
+.th indfrielsesdagen. &BANKNAVN kan opsige lånet
+.th med 3 måneders varsel og forlange, at &deblomt
+.th betaler det skyldige beløb inklusive rente, provision og eventuelle
+.th andre omkostninger pr. opsigelsesdagen.
+.if &PRIERH = E
+.th Såvel &deblomt som &BANKNAVN har altid ret til at opsige lånet
+.th uden varsel. I så fald skal &deblomt betale det skyldige beløb,
+.th herunder påløbne renter og omkostninger til indfrielsesdagen.
+.sp 3mm
+Låneaftalen kan tjene som grundlag for tvangsfuldbyrdelse,
+jf. retsplejelovens § 478, stk. 1, nr. 5. &ÅCONT
+.br
+.sp
+.**************************
+:FED.
+Øvrige vilkår
+.br
+:SKRSLUT.
+For denne låneaftale finder de til enhver tid gældende "Almindelige
+bestemmelser for lån og kreditter" samt bankens almindelige
+forretningsbestemmelser tillige anvendelse. I tilfælde af
+uoverensstemmelse mellem vilkårene i nærværende afsnit og
+"Almindelige bestemmelser for lån og kreditter" samt bankens
+almindelige forretningsbestemmelser, skal bestemmelserne i nærværende
+afsnit have forrang.
+.br
+.sp 5mm
+.if &L'&SAERBET01 gt 0
+.or &L'&SAERBET02 gt 0
+.or &L'&SAERBET03 gt 0
+.or &L'&SAERBET04 gt 0
+.or &L'&SAERBET05 gt 0
+.or &L'&SAERBET06 gt 0
+.or &L'&SAERBET07 gt 0
+.or &L'&SAERBET08 gt 0
+.or &L'&SAERBET09 gt 0
+.or &L'&SAERBET10 gt 0
+.or &L'&SAERBET11 gt 0
+.or &L'&SAERBET12 gt 0
+.th .go SÆRBET
+.el .go SÆRBETSL
+...SÆRBET
+:FED.Særlige Betingelser:SKRSLUT.
+.br
+&SAERBET01.
+.if &U'&LINSKIP01 = J
+.th .br
+&SAERBET02.
+.if &U'&LINSKIP02 = J
+.th .br
+&SAERBET03.
+.if &U'&LINSKIP03 = J
+.th .br
+&SAERBET04.
+.if &U'&LINSKIP04 = J
+.th .br
+&SAERBET05.
+.if &U'&LINSKIP05 = J
+.th .br
+&SAERBET06.
+.if &U'&LINSKIP06 = J
+.th .br
+&SAERBET07.
+.if &U'&LINSKIP07 = J
+.th .br
+&SAERBET08.
+.if &U'&LINSKIP08 = J
+.th .br
+&SAERBET09.
+.if &U'&LINSKIP09 = J
+.th .br
+&SAERBET10.
+.if &U'&LINSKIP10 = J
+.th .br
+&SAERBET11.
+.if &U'&LINSKIP11 = J
+.th .br
+&SAERBET12.
+.sp 5mm
+...SÆRBETSL
+.if &DEBANTAL < 3
+.an &KAUANTAL = 0
+.an &PANANTAL = 0
+.th .go DEBUND
+.el .go DEBSLUT
+...DEBUND
+.tp 87.5mm
+.**********
+.kp on
+:FED.Underskrift:SKRSLUT.
+.sp 3mm
+.*******************
+.if &U'&RENTETYP = F
+.an &U'&TILLAEG = J
+.th .se udtill = 1
+.el .se udtill = 0
+.********************
+.if &U'&SIKKERHED = J
+.or &U'&KROPL = J
+.or x&udtill = x1
+.th .go BILAG
+.el .go BILAGSL
+.********************
+...BILAG
+Gældsbrevet omfatter også følgende bilag, der er en integreret del af
+gældsbrevet:
+.sp 3mm
+.if &U'&SIKKERHED = J
+.th * Sikkerheder
+.th .br
+.if &U'&KROPL = J
+.th * Kreditoplysninger
+.th .br
+.if &U'&RENTETYP = F
+.an &U'&TILLAEG = J
+.th * Tillæg til gældsbrev - fastrenteaftale
+.sp 3mm
+...BILAGSL
+.********************
+&debsomt er bekendt med og accepterer, at &BANKNAVN. "Almindelige
+forretningsbetingelser og særlige bestemmelser for lån og kreditter
+.if &U'&PRIERH = P
+.th - forbruger"
+.if &U'&PRIERH = E
+.th - erhvervskunder"
+er en del af denne aftale, og &deblomt har fået en kopi af aftalen.
+.sp 5mm
+.********
+:FED.
+Underskrift som låntager(e) og pantsætter(e)
+;T.sp 3mm
+:SKRSLUT.
+.sp 5mm
+.********************
+.tp _/50mm 87.5mm _/137.5mm
+.if &DEBANTAL = 2
+.th Den ¤ ¤Den ¤
+.el Den ¤
+.sp 14mm
+.if &DEBANTAL = 2
+.th .hr tynd 5mm 80mm 87.5mm 167.5mm
+.el .hr tynd 5mm 80mm
+.br
+.tp 87.5mm
+.if &DEBANTAL = 2
+.th &DEB01NAVN ¤&DEB02NAVN
+.el &DEB01NAVN
+.kp off
+...DEBSLUT
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

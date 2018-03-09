@@ -1,0 +1,393 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***********
+.su off
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.********
+.if &L'&MEDNAVN = 0
+.an &U'&GENMEDKTOH = J
+.th .mg/T/Der findes ingen medktohaver/
+.********************
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DU
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DE
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert da der ingen medktohaver er/
+.*******************************
+.if &U'&GENMEDKTOH = N
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert, da der ingen medktohaver er/
+.****************
+.if &U'&B30BREV = B
+.or &U'&B30BREV = T
+.or &U'&B30BREV = M
+.th .go OKBTP
+.el .mg/T/Vælg kun B, T eller M ved Henvendelse fra/
+...OKBTP
+.****************
+.if &U'&B30MEDSKUN = N
+.th .go EJKUNP
+.***********
+.if &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+...EJKUNP
+.************
+.if &U'&B30BETMED = J
+.or &U'&B30BETMED = N
+.th .go OKBETP
+.el .mg/T/Der skal tastes Ja eller Nej ved betalingsanmodning/
+...OKBETP
+.if &U'&B30BETMED = N
+.th .go EJBETMP
+.************
+.if &U'&GENMEDKTOH = J
+.an &U'&OMTALEF = JEG
+.th .mg/T/Omtale forkert, da der også skrives til medktohaver/
+.*****
+.if &L'&MEDNAVN = 0
+.an &U'&OMTALEF = VI
+.th .mg/T/Omtale forkert, da der ingen medktohaver er/
+.*****
+.if &U'&GENMEDKTOH = N
+.AN &U'&OMTALEF = VI
+.th .mg/T/Omtale forkert, da der ingen medktohaver er/
+.if &L'&B30LÅNKRE3 = 0
+.th .mg/T/Når Betalingsanmodning = J, skal kreditkontonr indtastes/
+.*********************
+...EJBETMP
+.************
+.if &U'&B30JANEJP eq J
+.an &U'&B30SVAR eq J
+.th .mg /T/Der skal vælges enten Nemkonto tilmeldes og svarkupon vedlægges/
+.***************
+.if &U'&B30FLYTLØN = J
+.or &U'&B30FLYTLØN = N
+.th .go OKLØNP
+.el .mg/T/Der skal tastes Ja eller Nej til Flyt løn/
+...OKLØNP
+.if &U'&B30LØNMEDK = J
+.or &U'&B30LØNMEDK = N
+.th .go OKMLØNP
+.el .mg/T/Der skal tastes Ja eller Nej til Flyt løn medkontohaver/
+...OKMLØNP
+.************
+.if &U'&B30FLYTLØN = N
+.th .go EJLØNP
+.if &U'&B30LØNMEDK = N
+.th .go EJLØNP
+.if &L'&B30KONTO = 0
+.th .mg/T/Medkontohavers lønkonto skal indtastes/
+...EJLØNP
+.***************
+.se web = 0
+.if &U'X&B30WEB = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &U'X&B30SVARKU = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &web > 1
+.th .mg/T/Kun en tilmelding til Webbank/
+.**********
+.se tlf = 0
+.if &U'X&B30TLFS = XJ
+.th .se tlf = &tlf + 1
+.el .se tlf = &tlf
+.if &tlf > 1
+.th .mg/T/Kun en tilmelding til telefonservice/
+.********************
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if &U'&GENVALG1 = S
+.th STUDIEKONTO NR. &IREGKTO
+.if &U'&GENVALG1 = M
+.th MULTIKONTO MED KREDIT NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+:omtale &OMTALEF
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.if &U'&B30BREV eq T
+.th Som aftalt telefonisk
+.***********
+.if &U'&B30BREV eq B
+.th I forlængelse af &DIT brev
+.***********
+.if &U'&B30BREV eq M
+.th I forlængelse af &DIN mail
+.***********
+skal vi herved bekræfte, at vi har oprettet ovennævnte
+.if &U'&B30VALG2 = M
+.th multikonto med kredit
+.if &U'&B30VALG2 = S
+.th studiekonto
+til &DIG..
+.sp
+.***********
+.if &U'&B30BETMED = N
+.an &U'&B30MEDSKUN eq J
+.th Vedlagte aftale om kredit og kundeoprettelse bedes venligst
+.th returneret til os. Kopierne kan &DU beholde.
+.th .sp
+.*******************
+.if &U'&B30BETMED = J
+.an &U'&B30MEDSKUN eq J
+.th Vedlagte aftale om kredit, betalingsanmodning
+.th og kundeoprettelse bedes venligst underskrevet og returneret til
+.th os. Kopierne kan &DU beholde.
+.th .sp
+.*******************
+.if &U'&B30MEDSKUN eq N
+.an &U'&B30BETMED = N
+.th Vedlagte aftale om kredit bedes
+.th venligst underskrevet og returneret til os. Kopierne kan &DU beholde.
+.th .sp
+.*******************
+.if &U'&B30MEDSKUN eq N
+.an &U'&B30BETMED = J
+.th Vedlagte aftale om kredit og
+.th betalingsanmodning bedes venligst underskrevet og returneret til
+.th os. Kopierne kan &DU beholde.
+.th .sp
+.*******************
+Endvidere er vedlagt oplysningsskema til &DIT brug
+i henhold til kreditaftaleloven.
+.sp
+.*******************
+.if &U'&B30VALG eq J
+.th Vi beder &DIG indhente underskrift af to vitterlighedsvidner, der ikke
+.th må være i familie/samboende med &DIG..
+.th .sp
+.**** Nemkonto *******
+.if &U'&B30JANEJP eq J
+.th Vi vil tilmelde &DIN konto til Nemkonto.
+.th .sp
+.if &U'&B30SVAR eq J
+.th Vi har vedlagt en svarkupon, der kan udfyldes og underskrives,
+.th hvis &DU ønsker &DIN konto som Nemkonto.
+.th .sp
+.***************
+.if &U'&B30VISA eq J
+.th Til kontoen knyttes Visa/Dankort.
+.th .sp
+.******
+.if &U'&B30VALG1 eq J
+.th Når &DU har modtaget vores Visa/Dankort, bedes &DU indsende &DIT gamle
+.th kort til os i overklippet stand i vedlagte svarkuvert. Herefter vil
+.th vi lukke &DIN gamle konto og flytte eventuelle PBS-aftaler.
+.th .sp
+.th :FED.
+.th Bemærk, overførslen af &DINE konti vil først ske, når vi har modtaget
+.th &DIT gamle Visa/Dankort. :SKRSLUT.
+.th .sp
+.*******************
+.if &U'&B30JN2 eq J
+.th Vær opmærksom på, at &DIT tidligere pengeinstitut kan have en vis
+.th ekspeditionstid på at flytte &DINE konti til os. Eksempelvis kan
+.th pensionskonti være op til 8 uger undervejs.
+.th .sp
+.***************
+.kp on
+.if &U'&B30VALG1 eq J
+.th &SDU kan allerede nu flytte penge fra &DIN nuværende bank til os
+.th til dækning af forbrug samt PBS-betalinger.
+.th .sp
+.kp off
+.*******************
+Når vi har modtaget de underskrevne dokumenter, vil beløbet være til
+&DIN disposition.
+.sp
+.**********
+.if &U'&GENMRK eq J
+.th På kundeoprettelsen kan eventuelt anføres et mærke, som ønskes
+.th tilknyttet multikontoen.
+.th.sp
+.**********
+.if &U'&B30FLYTLØN eq J
+.th Brev til lønkontoret vedlægges.
+.th Brevet afleveres på
+.th lønkontoret, således at lønnen fremover kan indgå på
+.th &DIN multikonto med kredit.
+.th .sp
+.**********
+.if &U'&B30SVARKU eq J
+.th &SDU kan få gratis adgang til &DIN konto via Webbank. Oprettelse
+.th kan ske on-line på bankens hjemmeside &B30HJEMME..
+.th .sp
+.th Svarkupon vedlægges. Svarkuponen kan benyttes, hvis &DU ønsker
+.th tilknyttet TelefonService eller Webbank på
+.th multikontoen.
+.th .sp
+.**********
+.if &U'&B30TLFS eq J
+.th Tilmelding til TelefonService vedlægges.
+.th .sp
+.**********
+.if &U'&B30WEB eq J
+.th Vi har oprettet &DIG som bruger i Webbank. Brev fra NemID med
+.th bruger-id og adgangskode vil blive fremsendt snarest.
+.th .sp
+.**********
+.if &U'&B30WEBID eq J
+.th Vi har oprettet &DIG som bruger i Webbank, og &DU kan logge på
+.th med &DIT nuværende NemID.
+.th .sp
+.***************
+.if &U'&B30MEDSKUN eq J
+.th Bankens almindelige forretningsbetingelser vedlægges.
+.th .sp
+.**********
+.if &L'&GENTEKST10 gt 0
+.th &GENTEKST10. &GENTEKST11. &GENTEKST12.
+.th &GENTEKST13. &GENTEKST14. &GENTEKST6.
+.th .sp
+.**********
+.kp on
+Har &DU nogen spørgsmål, er &DU velkommen
+til at kontakte os.
+.if &U'&B30MEDSKUN eq J
+.th .sp
+.th Vi byder &DIG velkommen som kunde i banken.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

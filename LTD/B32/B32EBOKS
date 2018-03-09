@@ -1,0 +1,234 @@
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.se cprcvr = substr &KUNDENR 1 2
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+.*:SWISS9.
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.su off
+.se cpr1 = substr &KUNDENR 1 6
+.se cpr2 = substr &KUNDENR 7 4
+.su on
+.**************************************************************************
+.da HEADER1   25mm 30mm width 50mm
+.da HEADER2  135mm 58mm width 50mm
+.da OVERSKR   25mm 65mm width 155mm
+.**************************************************************************
+.ar HEADER1 on
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.ar off
+.ar HEADER2 on
+.tp 47mm right
+Dato¤&DATO.
+.ar off
+...DOKTXT
+.**************************************************************************
+.ar OVERSKR on
+:FED.
+Tilmelding af dokumenter til e-Boks
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.tp 13mm
+.**************************************************************************
+.da KASSER 22mm  87mm width 10mm
+.da TEXT   25mm  88,5mm width 175mm
+.*******************Slut på definition af arealer**************************
+.ar KASSER on
+.*1 KS ****
+.bx 3mm 6mm
+.sp 2mm
+.bx off
+.sp 2mm
+.*2 KS ****
+.bx 3mm 6mm
+.sp 2mm
+.bx off
+.sp 2mm
+.*3 KS ****
+.bx 3mm 6mm
+.sp 2mm
+.bx off
+.sp 2mm
+.*4 KS ****
+.bx 3mm 6mm
+.sp 2mm
+.bx off
+.sp 2mm
+.*5 KS ****
+.bx 3mm 6mm
+.sp 2mm
+.bx off
+.sp 2mm
+.ar off
+.**************************************************************************
+.**************************************************************************
+.ar TEXT on
+.in 6mm
+Konto
+.sp 5mm
+Årsoversigter
+.sp 4mm
+Depot
+.sp 5mm
+Fondshandel
+.sp 4,5mm
+Afkastrapport fra &B32NYK. Privat Portefølje
+.ar off
+.**************************************************************************
+.tp 8mm 16mm
+.sp 40mm
+Jeg ønsker fremover at modtage bankudskrifter fra &B32NYK. i e-Boks.
+.sp
+Min tilmelding gælder følgende dokumentgrupper (sæt kryds)
+.sp 48mm
+Jeg er bekendt med, at denne tilmelding betyder
+.sp
+¤-¤at udskrifter fra &BANKNAVN. fremover bliver leveret i e-Boks
+¤-¤at jeg selv skal foretage tilmelding til e-Boks (se vejledning
+nederst på denne side)
+.sp 8mm
+:FED.Underskrift :SKRSLUT.
+.sp
+Jeg kvitterer hermed for modtagelse af kopi af denne aftale.
+.sp 13mm
+.tp 30mm 95mm 150mm
+.dr tynd weight 0.1mm
+.hr tynd 5mm 25mm 30mm 90mm
+.br
+Dato¤&NAVN.¤CPR-nr. &cpr1.-&cpr2.
+.sp 8mm
+:FED.Sådan får &DU. adgang til &DIN. post i e-Boks :SKRSLUT.
+.sp
+.tp 8mm 16mm
+Hvis &DU. ikke allerede har &DIN. egen e-Boks, skal &DU. tilmelde &DIG. på
+.us www.e-boks.dk
+.sp
+Følg blot nedenstående vejledning.
+.sp
+¤-¤Fra forsiden af e-Boks.dk, skal &DU. klikke på 'Opret e-Boks'
+.br
+¤-¤Vælg 'Log på e-Boks med Digital Signatur eller NemID'
+.br
+¤-¤Log på med &DIN. NemID
+.br
+¤-¤Indtast &DIT. personnummer og tryk 'Log på'
+.br
+¤-¤&SDU. er nu klar til at bruge &DIN. e-Boks
+

@@ -1,0 +1,175 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+:ENY.
+.* Parameterafsnit
+.oc **
+:NY. :tiltale &TILTALEF :ENY.
+:GL. &&??# :EGL.
+:ENY.
+.***********BREVHOVED via kontonummer med èn kontohaver- med "lille skrift
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 20mm 36mm width 170mm
+.ar ADRESSE ON
+:FED.
+.if &U'&B85REC = J
+.th RECOMMANDERET :SKRSLUT.
+.th .sp
+.el .sp 2
+&KTOSTILL ¤ Dato: &DATO
+.br
+&KTONAVN ¤ Ref.: &GENKORTREF
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+:ENY.
+.fo on
+;T.*************************************************************************
+.*         Beregning af saldo i vor favør                                *
+.*************************************************************************
+.ll 170mm
+.ti ¤ 05
+.tp 104mm 134mm  CHAR ,
+.da TEKST 20mm 110mm width 170mm
+.ar TEKST on
+.fo on
+:SWISS12.
+:FED.
+Vedrørende studielån nr. &REGNR &KTONR
+:SKRSLUT.
+.*************************************************************************
+.*             Tester om der er overtræk                                 *
+.*************************************************************************
+.if &OVERTRÆK le 0,00
+.ce on
+.th
+:SWISS12.
+.th.sk 4
+.thB R E V   S K A L   I K K E   U D S E N D E S ,
+.th.sk 2
+.thD A   K O N T O E N
+.th.sk 2
+.thI K K E
+.th.br
+.th sk 2
+.thE R   I   O V E R T R Æ K
+.th.sk 4
+.ce off
+.th :SKRSLUT.
+.th.go END
+.*************************************************************************
+.*    Afsnit med maksimum og uden gebyr                                  *
+.*************************************************************************
+.if &MAXOVTRÆK <> 0,00
+.an &U'&B85JN = N
+.th.sk
+.thHerved gør vi &DIG opmærksom på, at ovennævnte studielån er i restance.
+.th.sk
+.thStudielånet udviser en saldo i vor favør ¤kr. ¤&RESULTA
+.th.br
+.thDa aftalte maksimum dags dato er          ¤kr. ¤&MAXOVTRÆK
+.th.br
+.th.hr 41 55
+.th.br
+.thfremkommer restance                       ¤kr. ¤&OVERTRÆK
+.th.br
+.th.hr 41 55
+.th.sk
+.thhvilket beløb bedes indbetalt snarest muligt.
+.th.sk
+.*************************************************************************
+.*    Afsnit med maksimum og med gebyr                                   *
+.*************************************************************************
+.if &MAXOVTRÆK <> 0,00
+.an &U'&B85JN = J
+.th.sk
+.thHerved gør vi &DIG opmærksom på, at ovennævnte studielån er i restance.
+.th.sk
+.thStudielånet udviser en saldo i vor favør ¤kr. ¤&RESULTA
+.th.br
+.thDa aftalte maksimum dags dato er         ¤kr. ¤&MAXOVTRÆK
+.th.br
+.th.hr 41 55
+.th.br
+.thfremkommer restance                      ¤kr. ¤&OVERTRÆK
+.th.br
+.thhvilket beløb, med tillæg af rykkergebyr ¤kr. ¤&B85RYKGEB1
+.th.br
+.th.hr 41 55
+.th.br
+.thialt                                     ¤kr. ¤&RESULTB
+.th.br
+.th.hr 41 55
+.th.sk
+.thbedes indbetalt snarest muligt.
+.th.sk
+...END
+:GL. &&??# :EGL.
+.sp2
+Med venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 4
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.el &GENEKSP      &GENMEKSP
+.sk
+.da BUND 25mm 275mm width 160mm
+.ar BUND on
+:ANT15
+:LIN8
+.ce on
+___________________________________________________________________________
+&AFDGADE., &AFDBY   Tlf. &AFDTLF   Fax &AFDFAX
+.br
+SWIFT LOHIDK22
+.ce off
+.ar off
+.IN 0
+.sk

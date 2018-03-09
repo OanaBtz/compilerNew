@@ -1,0 +1,270 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.******* DEFINITION AF AREALER **********************************
+.da STED 25mm 79mm width 80mm
+.da KONTAKT 112.5mm 88mm
+.da REGNR 112.5mm 79mm width 80mm
+.da BANK 25mm 88mm width 80mm
+.da KORTNR 25mm 115.5mm width 60mm
+.da KØBS 112.5mm 115.5mm width 85mm
+.da INDEH 25mm 125mm width 95mm
+.da ARKIV 21mm 96mm width 60mm
+.da DKK 25mm 135mm width 75mm
+.da VALUTA1 113.5mm 135mm width 85mm
+.da KRYDS 26.5mm 145mm width 5mm
+.da FORKLAR 25mm 200mm width 165mm
+.da XUNDER 110mm 261.5mm width 5mm
+.**** Her indsættes Sted, dagsdato og reg.nr.************************
+.ar STED on
+:COUR10.
+.tp 110mm
+&EKSPBY., den &DATO
+.ar off
+.***Her skrives Reg.nr.****************************************************
+.ar REGNR on
+&REGNR
+.ar off
+.***Pengeinstituttets navn og adresse**************************************
+.ar BANK on
+:COUR10.
+.tp 87.5mm
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*****Her skrives kontaktperson og tlf.nr.*********************************
+.ar KONTAKT on
+&GENEKSP
+.sp 3mm
+¤&AFDTLF
+.ar off
+.**** Her skrives kortnummeret *******************************************
+.ar KORTNR on
+.if X&B11KTTYPE eq X40
+.or X&B11KTTYPE eq X41
+.or X&B11KTTYPE eq X42
+.or X&B11KTTYPE eq X43
+.or X&B11KTTYPE eq X44
+.th &B11KTNR
+.el .mg/T/Dette er ikke et VISA/Dankort/
+.ar off
+.**** Her skrives Købsdatoen og arkivnøglen********************************
+.ar KØBS on
+:COUR10.
+.tp 37mm
+:COUR10.
+&GENDATO ¤&GENREF2
+.ar off
+.**** Her skrives Kortindehavers navn *************************************
+.ar INDEH on
+&B11KTNAVN
+.ar off
+.**** Her skrives Notabeløb i DKK/udenlandsk valuta************************
+.ar DKK on
+:VS.&GENBELØB2.
+.ar off
+.****Her skrives valutakode og beløb i udenlandsk valuta*******************
+.ar VALUTA1 on
+.tp 18mm 50mm
+:COUR10.
+.*****.UP ON /.UP OFF ***ændrer tekst til store bogstaver*****************
+.if &L'&GENBELØB3 gt 0
+.an &L'&GENVKODE gt 0
+.th .up on
+.th &GENVKODE
+.th .up off
+.th .ct  :VS.&GENBELØB3
+.******
+.if &L'&GENBELØB3 gt 0
+.an &L'&GENVKODE eq 0
+.th .mg/T/Valutakode mangler/
+.******
+.if &L'&GENBELØB3 eq 0
+.an &L'&GENVKODE gt 0
+.th
+.ar off
+.********* Kryds i små kasser *********************************************
+.ar KRYDS on
+.if &L'&GENKRYDS1 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS3 gt 0
+.or &L'&GENKRYDS4 gt 0
+.or &L'&GENKRYDS5 gt 0
+.or &L'&GENKRYDS6 gt 0
+.or &L'&GENKRYDS7 gt 0
+.or &L'&GENKRYDS8 gt 0
+.or &L'&GENKRYDS9 gt 0
+.or &L'&GENKRYDS10 gt 0
+.th .go ANDET
+.el .go SLUT
+...ANDET
+X
+.sp 7.5mm
+.if &L'&GENKRYDS3 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS4 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS5 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS6 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS7 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS8 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS9 gt 0
+.th X
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS10 gt 0
+.th X
+.ar off
+...SLUT
+.ar off
+.**KORTINDEHAVERS FORKLARING*********************************************
+.ar FORKLAR on
+&BECTEKST02. &BECTEKST03. &BECTEKST04. &BECTEKST05. &BECTEKST06.
+&BECTEKST07. &BECTEKST08. &BECTEKST09. &BECTEKST10. &BECTEKST11.
+&BECTEKST12. &BECTEKST13. &BECTEKST14. &BECTEKST15.
+.ar off
+.**FULDMAGT FRA KORTHOLDER VEDLÆGGES ************************************
+.ar XUNDER on
+.if &L'&GENKRYDS11 gt 0
+.th X
+.ar off
+:SWISS8.
+.**** DEFINITION AF AREAL  **************************************
+.da ADR 30mm 43mm width 80mm
+.da NOTA 108.5mm 135mm width 85mm
+.da TK1 30mm 145.5mm width 140mm
+.da TK2 30mm 149.5mm width 140mm
+.da TK3 30mm 160.5mm width 140mm
+.da TK4 30mm 164.5mm width 140mm
+.da TK5 30mm 168.5mm width 140mm
+.da TK6 30mm 172.5mm width 140mm
+.da TK7 30mm 176.5mm width 140mm
+.da TK8 30mm 180.5mm width 140mm
+.da TK9 30mm 184.5mm width 140mm
+.da TK10 30mm 188.5mm width 140mm
+.da TK11 113.5mm 262mm width 75mm
+.da FORKLAR 22mm 236mm width 165mm
+.da UNDER 21mm 275mm width 170mm
+.*****************************************************************
+.*********** Adressatens navn *****************
+.ar ADR on
+:SWISS10.:FED.
+PBS International A/S
+.br
+:SKRSLUT.
+Lautrupbjerg 10
+.br
+Postboks 36
+.br
+2750  Ballerup
+.ar off
+.**** TEKST TIL NOTABELØB ****************************************
+.ar NOTA on
+.tp 40mm
+.if &L'&GENVKODE eq 0
+.or &L'&GENBELØB3 eq 0
+.th .vr 18mm 23mm 28mm 33mm
+.th Valutakode: ¤Beløb:
+.th .vr off
+.ar off
+.**** HER LAVES TEKST TIL DE SMÅ AFKRYDSNINGSKASSER **************
+.ar TK1 on
+Rekvisition af notakopi
+.ar off
+.**********
+.ar TK2 on
+Andet, se nedenfor
+.ar off
+.**********
+.ar TK3 on
+Jeg har kun foretaget ét køb/I only made a single transaction
+.ar off
+.**********
+.ar TK4 on
+Kreditnota er aldrig afregnet/Credit Transaction Receipt not Processed
+.ar off
+.**********
+.ar TK5 on
+Notabeløb stemmer ikke med afregnet beløb/Incorrect Transaction Amount
+.ar off
+.**********
+.ar TK6 on
+Fejl i udbetaling fra pengeautomat/Non-Receipt of Cash at ATM
+.ar off
+.**********
+.ar TK7 on
+Jeg har aldrig foretaget dette køb/I neither made nor authorized this
+transaction
+.ar off
+.**********
+.ar TK8 on
+Jeg har ikke foretaget post-/telefonordrekøb/I did not engage in
+Mail/Telephone Order
+.ar off
+.**********
+.ar TK9 on
+Jeg har ikke foretaget Internet relateret transaktion/I did not engage in
+Internet related transaction
+.ar off
+.**********
+.ar TK10 on
+Anden begrundelse/Other Reasons
+.ar off
+.**********
+.ar TK11 on
+Fuldmagt fra kortholder vedlægges
+.ar off
+.*KORTINDEHAVERS FORKLARING*****
+.ar FORKLAR on
+:SWISS8.
+.tp 8mm
+OBS:¤Alle relevante bilag, herunder kopi af nota, kvitteringer etc.
+.IN 8mm NOBREAK
+vedlægges som dokumentation. Ved spærrede kort og 3. mands misbrug
+vedlægges tillige tro- & loveerklæring samt beskrivelse af
+hændelsesforløbet omkring tabet/tyveriet - se Dankorthåndbogen, bilag III.
+.sp 3mm
+All relevant documents, i.e. copies of sales slips, receipts etc. to be
+enclosed as documentation. In cases of transactions related to blocked
+cards and fraudulent transactions a Solemn Declaration and a description
+of the circumstances must be enclosed.
+.*UNDERSKRIFTER************
+.ar UNDER on
+:SWISS8.
+.tp 43mm center 87.5mm 130mm center
+Dato ¤&B34MORBANK ¤Dato ¤&B11KTNAVN
+.AR OFF

@@ -1,0 +1,967 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.* Parameterafsnit
+.*gba/11.06.2008:Det eneste der dags dato adskiller dette modul fra BEC's
+.*               standardmodul, er parameteren GENSTREG4som ligger til
+.*               sidst, hvor teksten 'SLUT PÅ OPLYSNINGER' er ændret til
+.*               'ØVRIGE OPLYSNINGER' da B93-versionen jo er udvidet i
+.*               forhold til BEC's standardversion.
+.*
+.**************************************************************************
+.* Valider at garantiens udløbsdato er udfyldt
+.if &L'&GARUDLDATO = 0
+.th .mg/T/Garantiens udløbsdato ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.if &U'X&GENJANEJ1 = XJ
+.or &U'X&GENJANEJ1 = XN
+.th
+.el .mg/T/Klausul om transport i tilbagesøgningskrav: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ2 = XJ
+.or &U'X&GENJANEJ2 = XN
+.th
+.el .mg/T/Klausul om tilbagelevering af garantibrevet: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENREGARAN = XJ
+.or &U'X&GENREGARAN = XN
+.th
+.el .mg/T/Regaranti: Skriv J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ = XJ
+.or &U'X&GENJANEJ = XN
+.th
+.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
+.* Parameterafsnit - beregning
+.**************************************************************************
+.************************
+.**test til brev til mægler ***********
+.if &U'X&GENJANEJ5 = XJ
+.an &L'&GENBL11 = 0
+.th .mg /T/Hvis udbetaling sker samtidig, skal der indtastes et beløb/
+.***************
+.**test til brev til advokat **************
+.******************************
+.if &U'X&GENJANEJ5 = XJ
+.or &U'X&GENJANEJ5 = XN
+.th
+.el .mg /T/Indtast kun J eller N, ved sker udb. samtidig/
+.******************************
+.if &U'X&GENJANEJ4 = XJ
+.an &L'&GENBL2 = 0
+.th .mg /T/Hvis overtage sælgers pantebrev, skal der indtastes et beløb/
+.******************************
+.if &U'X&GENJANEJ7 = XJ
+.or &U'X&GENJANEJ7 = XN
+.th
+.el .mg /T/Indtast kun J eller N, 'Uigenkaldelig transport'/
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.*TEST PÅ OM REGARANTIEN SKAL UDSKRIVES ***********************************
+.*HVIS DER IKKE STÅR J I FELTET, STOPPER AL UDSKRIVNING *******************
+.if &U'&GENREGARAN ne J
+.th .qu
+.dr tynd weight 0.1mm
+.tp 35mm 38mm 102mm
+.**************************************************************************
+.kp on
+:SWISS10.
+:FED.
+Regaranti ved køb af eksisterende fast ejendom
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+.*.dr tynd weight 0.1mm
+.*.tp 35mm 38mm 102mm
+.**************************************************************************
+.*.kp on
+:SWISS8.
+:FED.
+Erklæring regaranti
+:SKRSLUT.
+.ct ¤Underskrevne garantirekvirent(er)
+.sp 3mm
+¤-¤anmoder
+.in 38mm nobreak
+herved &BANKNAVN om for min/vor regning
+at udfærdige en garanti af ovenstående ordlyd.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+¤-¤forpligter
+.in 38mm nobreak
+mig/os til at indbetale på anfordring til &BANKNAVN ethvert beløb, som
+&BANKNAVN måtte komme til at udrede som følge af denne garanti.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+¤-¤kan
+.in 38mm nobreak
+ikke over for &BANKNAVN.s regreskrav i
+anledning af betaling under denne garanti fremsætte indsigelser
+eller modkrav af nogen art, som underskrevne måtte have over for
+garantimodtager.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+¤-¤forpligter
+.in 38mm nobreak
+mig/os til at betale &BANKNAVN.s højeste udlånsrente
+af garantibeløbet, som &BANKNAVN måtte udrede fra
+indfrielsestidspunktet, til betaling sker til &BANKNAVN..
+.in 0mm
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Øvrige vilkår
+:SKRSLUT.
+.ct ¤For garantien gælder endvidere følgende:
+.sp 3mm
+¤1.¤&BANKNAVN
+.in 38mm nobreak
+er berettiget til uden forudgående
+meddelelse til garantirekvirenten/rne at modregne med ethvert
+forfaldent eller uforfaldent tilgodehavende hos
+garantirekvirenten/rne i ethvert tilgodehavende, som
+garantirekvirenten/rne måtte have hos &BANKNAVN..
+.in 0mm
+.kp off
+.kp on
+:SWISS8.
+¤2.¤&BANKNAVN
+.in 38mm nobreak
+kan når som helst forlange omstående
+garantibeløb deponeret som sikkerhed, selv om garantien ikke er
+gjort gældende over for &BANKNAVN.. Til opfyldelse af et
+sådant krav skal &BANKNAVN kunne foretage debitering og
+modregning som anført oven for i punkt 1.
+.in 0mm
+.kp off
+.kp on
+:SWISS8.
+¤3.¤Retssager
+.in 38mm nobreak
+vedrørende nærværende garanti kan efter
+&BANKNAVN.s ønske anlægges ved byretten i den retskreds,
+hvor &BANKNAVN eller dets kontoførende filial er
+beliggende.
+.in 0mm
+.sp 3mm
+¤Dette gælder dog ikke i forbrugerforhold.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Uigenkaldelig transport
+:SKRSLUT.
+.ct  ¤Til
+.in 35mm nobreak
+sikkerhed for ethvert tab, &BANKNAVN måtte lide som følge af nærværende
+garantistillelse, meddeles &BANKNAVN hermed uigenkaldelig
+transport i ethvert krav, underskrevne garantirekvirent måtte få
+mod garantimodtager i anledning af dennes brug af garantien.
+.in 0mm
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Erklæring
+:SKRSLUT.
+.ct  ¤Underskrevne
+.in 38mm nobreak
+garantirekvirent(er) erklærer samtidig:
+.sp 3mm
+¤-¤at
+.in 38mm nobreak
+have gennemlæst og modtaget kopi af nærværende dokument.
+.in 0mm
+¤-¤at
+.in 38mm nobreak
+være bekendt med og at have modtaget &BANKNAVN.s
+"Almindelige forretningsbetingelser", som jeg accepterer som en del af
+garantiens vilkår.
+.in 0mm
+.sp 10mm
+.*UNDERSKRIFTER********************
+:FED.
+Underskrift
+:SKRSLUT
+.ct  ¤Som garantirekvirent:
+.sp 10mm
+.hr tynd 35mm 97mm 102mm 165mm
+.br
+¤¤¤den
+.sp 10mm
+.hr tynd 35mm 165mm
+.br
+:SKRSLUT.
+.if &L'&MEDNAVN > 0
+.th ¤&KTONAVN ¤¤&MEDNAVN
+.el ¤&KTONAVN
+.kp off
+.*VITTERLIGHED*********************
+.if &U'X&GENJANEJ ne XJ
+.th .go ENDVIT1
+.kp on
+.sp 10mm
+:SWISS8.
+:FED.
+Til vitterlighed
+:SKRSLUT.
+.ct  ¤Til
+.in 35mm nobreak
+vitterlighed om ægte underskrift/underskrifter, dateringens
+rigtighed og udstederens/udstedernes myndighed.
+.in 0mm
+.sp 10mm
+.kp off
+.cd 2 35mm 102mm
+.cl 62mm
+.tp _/62mm
+.kp on
+:SWISS8.
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.kp off
+.cb
+.kp on
+:SWISS8.
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.kp off
+.sc
+...ENDVIT1
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.*TEST PÅ OM REGARANTIEN SKAL UDSKRIVES ***********************************
+.*HVIS DER IKKE STÅR J I FELTET, STOPPER AL UDSKRIVNING *******************
+.if &U'&GENREGARAN ne J
+.th .qu
+.dr tynd weight 0.1mm
+.tp 35mm 38mm 102mm
+.**************************************************************************
+.kp on
+:SWISS10.
+:FED.
+Regaranti ved køb af eksisterende fast ejendom
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+.*.dr tynd weight 0.1mm
+.*.tp 35mm 38mm 102mm
+.**************************************************************************
+.*.kp on
+:SWISS8.
+:FED.
+Erklæring regaranti
+:SKRSLUT.
+.ct ¤Underskrevne garantirekvirent(er)
+.sp 3mm
+¤-¤anmoder
+.in 38mm nobreak
+herved &BANKNAVN om for min/vor regning
+at udfærdige en garanti af ovenstående ordlyd.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+¤-¤forpligter
+.in 38mm nobreak
+mig/os til at indbetale på anfordring til &BANKNAVN ethvert beløb, som
+&BANKNAVN måtte komme til at udrede som følge af denne garanti.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+¤-¤kan
+.in 38mm nobreak
+ikke over for &BANKNAVN.s regreskrav i
+anledning af betaling under denne garanti fremsætte indsigelser
+eller modkrav af nogen art, som underskrevne måtte have over for
+garantimodtager.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+¤-¤forpligter
+.in 38mm nobreak
+mig/os til at betale &BANKNAVN.s højeste udlånsrente
+af garantibeløbet, som &BANKNAVN måtte udrede fra
+indfrielsestidspunktet, til betaling sker til &BANKNAVN..
+.in 0mm
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Øvrige vilkår
+:SKRSLUT.
+.ct ¤For garantien gælder endvidere følgende:
+.sp 3mm
+¤1.¤&BANKNAVN
+.in 38mm nobreak
+er berettiget til uden forudgående
+meddelelse til garantirekvirenten/rne at modregne med ethvert
+forfaldent eller uforfaldent tilgodehavende hos
+garantirekvirenten/rne i ethvert tilgodehavende, som
+garantirekvirenten/rne måtte have hos &BANKNAVN..
+.in 0mm
+.kp off
+.kp on
+:SWISS8.
+¤2.¤&BANKNAVN
+.in 38mm nobreak
+kan når som helst forlange omstående
+garantibeløb deponeret som sikkerhed, selv om garantien ikke er
+gjort gældende over for &BANKNAVN.. Til opfyldelse af et
+sådant krav skal &BANKNAVN kunne foretage debitering og
+modregning som anført oven for i punkt 1.
+.in 0mm
+.kp off
+.kp on
+:SWISS8.
+¤3.¤Retssager
+.in 38mm nobreak
+vedrørende nærværende garanti kan efter
+&BANKNAVN.s ønske anlægges ved byretten i den retskreds,
+hvor &BANKNAVN eller dets kontoførende filial er
+beliggende.
+.in 0mm
+.sp 3mm
+¤Dette gælder dog ikke i forbrugerforhold.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Uigenkaldelig transport
+:SKRSLUT.
+.ct  ¤Til
+.in 35mm nobreak
+sikkerhed for ethvert tab, &BANKNAVN måtte lide som følge af nærværende
+garantistillelse, meddeles &BANKNAVN hermed uigenkaldelig
+transport i ethvert krav, underskrevne garantirekvirent måtte få
+mod garantimodtager i anledning af dennes brug af garantien.
+.in 0mm
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Erklæring
+:SKRSLUT.
+.ct  ¤Underskrevne
+.in 38mm nobreak
+garantirekvirent(er) erklærer samtidig:
+.sp 3mm
+¤-¤at
+.in 38mm nobreak
+have gennemlæst og modtaget kopi af nærværende dokument.
+.in 0mm
+¤-¤at
+.in 38mm nobreak
+være bekendt med og at have modtaget &BANKNAVN.s
+"Almindelige forretningsbetingelser", som jeg accepterer som en del af
+garantiens vilkår.
+.in 0mm
+.sp 10mm
+.*UNDERSKRIFTER********************
+:FED.
+Underskrift
+:SKRSLUT
+.ct  ¤Som garantirekvirent:
+.sp 10mm
+.hr tynd 35mm 97mm 102mm 165mm
+.br
+¤¤¤den
+.sp 10mm
+.hr tynd 35mm 165mm
+.br
+:SKRSLUT.
+.if &L'&MEDNAVN > 0
+.th ¤&KTONAVN ¤¤&MEDNAVN
+.el ¤&KTONAVN
+.kp off
+.*VITTERLIGHED*********************
+.if &U'X&GENJANEJ ne XJ
+.th .go ENDVIT1
+.kp on
+.sp 10mm
+:SWISS8.
+:FED.
+Til vitterlighed
+:SKRSLUT.
+.ct  ¤Til
+.in 35mm nobreak
+vitterlighed om ægte underskrift/underskrifter, dateringens
+rigtighed og udstederens/udstedernes myndighed.
+.in 0mm
+.sp 10mm
+.kp off
+.cd 2 35mm 102mm
+.cl 62mm
+.tp _/62mm
+.kp on
+:SWISS8.
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.kp off
+.cb
+.kp on
+:SWISS8.
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.kp off
+.sc
+...ENDVIT1
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.****************************Arealer***************************************
+.*Test om 'UIGENKALDELIG TRANSPORT' Skal udskrives ***********************
+.if &U'&GENJANEJ7 = N
+.th .go AFSLUT
+.el .pa
+.el :omtale  &OMTALEF
+.el :tiltale &TILTALE
+.****************************Arealer***************************************
+.da START 20mm 25mm width 170mm
+:omtale &OMTALEF
+.ti ¤ 05
+.tp 33mm center 70mm 90mm 123mm center
+.**************************************************************************
+.ar START on
+:VERDA12.
+:FED.
+.bx left right
+.sp
+.ce on
+UIGENKALDELIG TRANSPORT
+.ce off
+.sp
+.bx off
+:SKRSLUT.
+:VERDA10
+.sp
+Til sikkerhed for enhver forpligtelse, som undertegnede
+.sp
+&KTONAVN ¤¤&MEDNAVN
+.br
+&KTOGADE ¤¤&MEDGADE
+.br
+&KTOBY ¤¤&MEDBY
+.sp
+nu har eller senere måtte få overfor
+.sp
+&BANKNAVN., &AFDGADE., &AFDBY..
+:Swiss12.
+.sp
+herunder enhver af bankens afdelinger, giver &OMTALEF herved &BANKNAVN.
+uigenkaldelig transport i eventuel tilbagebetaling af den
+kontante restkøbesum:
+.sp
+kr. &RESULTA., skriver kroner &RESULTAT1.&RESULTAT2 med tillæg af
+renter fra deponeringdatoen.
+.sp
+.if &L'&MEDNAVN > 0
+.th Beløbet vedrører &KTONAVN og &MEDNAVN.s
+.el Beløbet vedrører &KTONAVN.s
+deponering af købesum i forbindelse
+med køb af matr. nr. &GENMATRNR., beliggende &GENADRESSE., jf. købsaftalen
+med &GARMODADR1., &GARMODADR2., &GARMODADR3., &GARMODADR4., &GARMODADR5..
+.sp
+Som følge af denne transport skal &BANKNAVN. være eneberettiget
+til at kræve betaling samt til at modtage
+og kvittere for beløbet,
+uden at banken skal være forpligtet til at
+dokumentere sit krav. I det hele taget skal
+banken være berettiget til at udøve samtlige &MINE beføjelser som
+deponent.
+.sp
+Det bemærkes, at der imod den til banken tiltransporterede
+fordring ikke haves modfordringer eller indsigelser af nogen art, og at
+der ikke er givet nogen transport eller anden overdragelse herpå
+til anden side. Der er ikke udstedt gældsbrev for den af transporten
+omhandlede skyld.
+For pantsætningen gælder iøvrigt vedhæftede "Almindelige betingelser
+for pantsætning" (DKS211196).
+.sp
+Nærværende transport anmeldes overfor &BKNAVN..
+.sp
+&EKSPBY., den
+.sp3
+.if &L'&MEDNAVN > 0
+.th ______________________________         ______________________________
+.el ______________________________
+.br
+¤&KTONAVN ¤¤&MEDNAVN
+.sp
+.hr left right
+.sp
+Ovennævnte transport er dags dato noteret.
+.sp3
+¤¤, den
+________________________________
+.ar off
+.ar off
+... AFSLUT
+.pa
+.****************************Areal*****************************************
+.da START 20mm 35mm width 170mm
+.ti ¤ 05
+.tp 140mm
+.**************************************************************************
+.ar START on
+:Swiss12.
+.ce on
+:FED.
+"Almindelige betingelser for pantsætning" (DKS211196).
+:SKRSLUT.
+.ce off
+:Swiss12.
+.sp2
+¤side 1/2
+.sp
+.us 1. Panterettens omfang.
+.br
+Pantet tjener til sikkerhed for betaling af kapital, renter, provision,
+sagsomkostninger og andre udgifter, som er afholdt i forbindelse med
+inddrivelse af skylden i henhold til nærværende aftale.
+.sp
+Pantet tjener tillige til sikkerhed for enhver anden forpligtelse, som
+pantsætter nu har eller senere måtte få overfor pengeinstituttet,
+herunder dettes filialer og afdelinger.
+.sp
+.us 2. Forringelse af pantet.
+.br
+Hvis pantets værdi forringes væsentligt, kan pengeinstituttet stille
+krav om, at debitor enten ekstraordinært nedbringer gælden/maksimum
+eller, at debitor stiller yderligere sikkerhed, der modsvarer den
+skete forringelse, i modsat fald kan pengeinstituttet betragte aftalen
+som misligholdt.
+.sp
+Hvis pengeinstituttet har pant i ejerbolig, vil pengeinstituttet dog
+ikke ved forringelse af ejendomsværdien stille krav om ekstraordinær
+nedbringelse eller yderligere sikkerhed, medmindre forringelsen skyldes
+vanrøgt.
+.sp
+.us 3. Pengeinstituttets rettigheder over det pantsatte.
+.br
+Pengeinstituttet kan udøve alle pantsætters rettigheder over det pantsatte,
+uanset gælden er forfalden eller ej, for eksempel udøve stemmeret på
+håndpantsatte aktier, anparter eller lignende, modtage og kvittere for
+ethvert beløb ifølge det pantsatte, opsige og inddrive, kvittere samt
+transportere håndpantsatte fordringer og pantebreve til sig selv eller
+andre. Ved udøvelsen af disse rettigheder er dette dokument legitimation
+for pengeinstituttet også i forhold til offentlige myndigheder,
+såsom tinglysningsmyndigheder og skibsregistre i ind- og udland.
+.sp
+Såfremt pengeinstituttet ønsker at udnytte ovennævnte stemmeret, gives
+håndpantsætter skriftlig meddelelse herom.
+.sp
+Hvis pantet omfatter forsikringspolice, er pantsætter pligtig til på
+anfordring at forevise pengeinstituttet behørig kvittering for præmiens
+rettidige betaling.
+.sp
+Pengeinstituttet har ingen pligt til forlods at søge dækning i det
+stillede pant, ligesom pengeinstituttet har valgfrihed med hensyn til
+anvendelsen i forhold til debitors samlede engagement.
+.sp
+.us 4. Udgifter angående pantet.
+.br
+Pengeinstituttet kan forlange betaling af gebyr for pantsatte effekter.
+.sp
+Pengeinstituttet kan også forlange betaling af pengeinstituttets udgifter
+til at varetage sine interesser som panthaver, herunder
+eventuelle udgifter til betaling af forsikringspræmie, besigtigelse
+af det pantsatte, udgifter til juridisk bistand m.v.
+.sp
+.ar off
+.pa
+.***************************Ny side****************************************
+.da HULLA 20mm 35mm width 170mm
+.ti ¤ 05
+.tp 140mm
+.**************************************************************************
+.ar HULLA on
+:Swiss12.
+.sp2
+¤side 2/2
+.br
+.us 5. Afkast af pantet.
+.br
+Under pantsætningen er indbefattet rente og udbytte af enhver art af
+det pantsatte, derunder bonus på livsforsikringspolicer, ved aktier
+eventuelle friaktier og tegningsrettigheder, lejeindtægter og lignende.
+.sp
+Pengeinstituttet er berettiget, men ikke forpligtet til at oppebære
+renter og udbytte til betaling af afdrag, renter og omkostninger.
+.sp
+.us 6. Henstand.
+.br
+Pengeinstituttet kan give debitor henstand uden tilladelse fra tredie-
+mand, som har stillet sikkerhed.
+.sp
+.us 7. Omstødelse.
+.br
+Ved pantsætning er pantsætter forpligtet til at genetablere
+pengeinstituttets panteret, uanset om pengeinstituttet har frigivet pantet
+i forbindelse med omstødelige indbetalinger.
+.sp
+.us 8.Værneting.
+.br
+Retssager vedrørende denne håndpantsætningserklæring kan (forbrugerforhold
+undtaget) efter pengeinstituttets skøn anlægges ved Byretten
+i den retskreds, hvor pengeinstituttet eller dettes kontoførende
+filial er beliggende.
+.sp
+.us 9. Meddelelser.
+.br
+Alle meddelelser, som pantsætteren måtte modtage vedrørende de pantsatte
+effekter, er denne pligtig omgående at sende til pengeinstituttet.
+.sp
+.us 10. Udtrækning af obligationer.
+.br
+Hvis pantsatte obligationer udtrækkes, og der købes andre i stedet for
+de udtrukne, er pengeinstituttet bemyndiget til over for
+Værdipapircentralen at begære registrering af panteret over disse.
+.sp
+.us 11. Tvangsfuldbyrdelse.
+.br
+Eventuel realisation af panterettigheder sker efter forudgående varsel
+til pantsætter ved tvangsauktion eller på anden måde, som pengeinstituttet
+skønner mere hensigtsmæssig, herunder realisation ved pengeinstituttets
+egen foranstaltning.
+.sp
+Inden pengeinstituttet sælger effekterne, sendes et anbefalet brev, hvor
+pantsætter med en uges varsel opfordres til at opfylde pengeinstituttets
+krav.
+.sp
+Det gælder dog ikke, hvis omgående salg er nødvendigt for at undgå
+eller begrænse et tab.
+.ar off
+.pa
+.****************************Arealer***************************************
+.*Test om 'UIGENKALDELIG TRANSPORT' Skal udskrives ***********************
+.if &U'&GENJANEJ7 = N
+.th .go AFSLUT
+.el .pa
+.el :omtale  &OMTALEF
+.el :tiltale &TILTALE
+.****************************Arealer***************************************
+.da START 20mm 25mm width 170mm
+:omtale &OMTALEF
+.ti ¤ 05
+.tp 33mm center 70mm 90mm 123mm center
+.**************************************************************************
+.ar START on
+:VERDA12.
+:FED.
+.bx left right
+.sp
+.ce on
+UIGENKALDELIG TRANSPORT
+.ce off
+.sp
+.bx off
+:SKRSLUT.
+:VERDA10
+.sp
+Til sikkerhed for enhver forpligtelse, som undertegnede
+.sp
+&KTONAVN ¤¤&MEDNAVN
+.br
+&KTOGADE ¤¤&MEDGADE
+.br
+&KTOBY ¤¤&MEDBY
+.sp
+nu har eller senere måtte få overfor
+.sp
+&BANKNAVN., &AFDGADE., &AFDBY..
+:Swiss12.
+.sp
+herunder enhver af bankens afdelinger, giver &OMTALEF herved &BANKNAVN.
+uigenkaldelig transport i eventuel tilbagebetaling af den
+kontante restkøbesum:
+.sp
+kr. &RESULTA., skriver kroner &RESULTAT1.&RESULTAT2 med tillæg af
+renter fra deponeringdatoen.
+.sp
+.if &L'&MEDNAVN > 0
+.th Beløbet vedrører &KTONAVN og &MEDNAVN.s
+.el Beløbet vedrører &KTONAVN.s
+deponering af købesum i forbindelse
+med køb af matr. nr. &GENMATRNR., beliggende &GENADRESSE., jf. købsaftalen
+med &GARMODADR1., &GARMODADR2., &GARMODADR3., &GARMODADR4., &GARMODADR5..
+.sp
+Som følge af denne transport skal &BANKNAVN. være eneberettiget
+til at kræve betaling samt til at modtage
+og kvittere for beløbet,
+uden at banken skal være forpligtet til at
+dokumentere sit krav. I det hele taget skal
+banken være berettiget til at udøve samtlige &MINE beføjelser som
+deponent.
+.sp
+Det bemærkes, at der imod den til banken tiltransporterede
+fordring ikke haves modfordringer eller indsigelser af nogen art, og at
+der ikke er givet nogen transport eller anden overdragelse herpå
+til anden side. Der er ikke udstedt gældsbrev for den af transporten
+omhandlede skyld.
+For pantsætningen gælder iøvrigt vedhæftede "Almindelige betingelser
+for pantsætning" (DKS211196).
+.sp
+Nærværende transport anmeldes overfor &BKNAVN..
+.sp
+&EKSPBY., den
+.sp3
+.if &L'&MEDNAVN > 0
+.th ______________________________         ______________________________
+.el ______________________________
+.br
+¤&KTONAVN ¤¤&MEDNAVN
+.sp
+.hr left right
+.sp
+Ovennævnte transport er dags dato noteret.
+.sp3
+¤¤, den
+________________________________
+.ar off
+.ar off
+... AFSLUT
+.pa
+.da KUNDEKOPI 167mm 20mm width 30mm
+.***********************************************************
+.ar KUNDEKOPI on
+:VERDA10.
+:FED.
+KUNDEKOPI
+:SKRSLUT.
+.ar off
+.***********************************************************
+.****************************Areal*****************************************
+.da START 20mm 35mm width 170mm
+.ti ¤ 05
+.tp 140mm
+.**************************************************************************
+.ar START on
+:Swiss12.
+.ce on
+:FED.
+"Almindelige betingelser for pantsætning" (DKS211196).
+:SKRSLUT.
+.ce off
+:Swiss12.
+.sp2
+¤side 1/2
+.sp
+.us 1. Panterettens omfang.
+.br
+Pantet tjener til sikkerhed for betaling af kapital, renter, provision,
+sagsomkostninger og andre udgifter, som er afholdt i forbindelse med
+inddrivelse af skylden i henhold til nærværende aftale.
+.sp
+Pantet tjener tillige til sikkerhed for enhver anden forpligtelse, som
+pantsætter nu har eller senere måtte få overfor pengeinstituttet,
+herunder dettes filialer og afdelinger.
+.sp
+.us 2. Forringelse af pantet.
+.br
+Hvis pantets værdi forringes væsentligt, kan pengeinstituttet stille
+krav om, at debitor enten ekstraordinært nedbringer gælden/maksimum
+eller, at debitor stiller yderligere sikkerhed, der modsvarer den
+skete forringelse, i modsat fald kan pengeinstituttet betragte aftalen
+som misligholdt.
+.sp
+Hvis pengeinstituttet har pant i ejerbolig, vil pengeinstituttet dog
+ikke ved forringelse af ejendomsværdien stille krav om ekstraordinær
+nedbringelse eller yderligere sikkerhed, medmindre forringelsen skyldes
+vanrøgt.
+.sp
+.us 3. Pengeinstituttets rettigheder over det pantsatte.
+.br
+Pengeinstituttet kan udøve alle pantsætters rettigheder over det pantsatte,
+uanset gælden er forfalden eller ej, for eksempel udøve stemmeret på
+håndpantsatte aktier, anparter eller lignende, modtage og kvittere for
+ethvert beløb ifølge det pantsatte, opsige og inddrive, kvittere samt
+transportere håndpantsatte fordringer og pantebreve til sig selv eller
+andre. Ved udøvelsen af disse rettigheder er dette dokument legitimation
+for pengeinstituttet også i forhold til offentlige myndigheder,
+såsom tinglysningsmyndigheder og skibsregistre i ind- og udland.
+.sp
+Såfremt pengeinstituttet ønsker at udnytte ovennævnte stemmeret, gives
+håndpantsætter skriftlig meddelelse herom.
+.sp
+Hvis pantet omfatter forsikringspolice, er pantsætter pligtig til på
+anfordring at forevise pengeinstituttet behørig kvittering for præmiens
+rettidige betaling.
+.sp
+Pengeinstituttet har ingen pligt til forlods at søge dækning i det
+stillede pant, ligesom pengeinstituttet har valgfrihed med hensyn til
+anvendelsen i forhold til debitors samlede engagement.
+.sp
+.us 4. Udgifter angående pantet.
+.br
+Pengeinstituttet kan forlange betaling af gebyr for pantsatte effekter.
+.sp
+Pengeinstituttet kan også forlange betaling af pengeinstituttets udgifter
+til at varetage sine interesser som panthaver, herunder
+eventuelle udgifter til betaling af forsikringspræmie, besigtigelse
+af det pantsatte, udgifter til juridisk bistand m.v.
+.sp
+.ar off
+.pa
+.***************************Ny side****************************************
+.da HULLA 20mm 35mm width 170mm
+.ti ¤ 05
+.tp 140mm
+.**************************************************************************
+.ar HULLA on
+:Swiss12.
+.sp2
+¤side 2/2
+.br
+.us 5. Afkast af pantet.
+.br
+Under pantsætningen er indbefattet rente og udbytte af enhver art af
+det pantsatte, derunder bonus på livsforsikringspolicer, ved aktier
+eventuelle friaktier og tegningsrettigheder, lejeindtægter og lignende.
+.sp
+Pengeinstituttet er berettiget, men ikke forpligtet til at oppebære
+renter og udbytte til betaling af afdrag, renter og omkostninger.
+.sp
+.us 6. Henstand.
+.br
+Pengeinstituttet kan give debitor henstand uden tilladelse fra tredie-
+mand, som har stillet sikkerhed.
+.sp
+.us 7. Omstødelse.
+.br
+Ved pantsætning er pantsætter forpligtet til at genetablere
+pengeinstituttets panteret, uanset om pengeinstituttet har frigivet pantet
+i forbindelse med omstødelige indbetalinger.
+.sp
+.us 8.Værneting.
+.br
+Retssager vedrørende denne håndpantsætningserklæring kan (forbrugerforhold
+undtaget) efter pengeinstituttets skøn anlægges ved Byretten
+i den retskreds, hvor pengeinstituttet eller dettes kontoførende
+filial er beliggende.
+.sp
+.us 9. Meddelelser.
+.br
+Alle meddelelser, som pantsætteren måtte modtage vedrørende de pantsatte
+effekter, er denne pligtig omgående at sende til pengeinstituttet.
+.sp
+.us 10. Udtrækning af obligationer.
+.br
+Hvis pantsatte obligationer udtrækkes, og der købes andre i stedet for
+de udtrukne, er pengeinstituttet bemyndiget til over for
+Værdipapircentralen at begære registrering af panteret over disse.
+.sp
+.us 11. Tvangsfuldbyrdelse.
+.br
+Eventuel realisation af panterettigheder sker efter forudgående varsel
+til pantsætter ved tvangsauktion eller på anden måde, som pengeinstituttet
+skønner mere hensigtsmæssig, herunder realisation ved pengeinstituttets
+egen foranstaltning.
+.sp
+Inden pengeinstituttet sælger effekterne, sendes et anbefalet brev, hvor
+pantsætter med en uges varsel opfordres til at opfylde pengeinstituttets
+krav.
+.sp
+Det gælder dog ikke, hvis omgående salg er nødvendigt for at undgå
+eller begrænse et tab.
+.ar off

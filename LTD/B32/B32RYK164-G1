@@ -1,0 +1,274 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
+.** sidste 1-10 posteringer fra kontoen.
+.* Nykredit-specifikke parametre
+:VERDA09.
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 25mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALEM.
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.*  det er kun def. af start-arealet der er forskellig fra B32ryko-modulet
+.da START 25mm 85mm width 135mm
+.da REF  160mm 70mm width  40mm
+.da DATO 160mm 85mm width  40mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************* VORES REF. *****************************************
+.ar REF on
+.tp 18mm
+:VERDA07.
+Vores ref. Rykker 2
+:SKRSLUT.
+.ar off
+.********************* DATO ***********************************************
+.ar DATO on
+&DATO.
+.ar off
+.******************** ROTERET BREVNAVN ************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+:FED.
+Kontonr. &regnr.-&ktonr
+:SKRSLUT.
+.sp
+.**************************************************************************
+.** ORDDELING FRA
+.HY off
+.*************************************************************************
+:VERDA09.
+&SDIN konto er fortsat i overtræk med &OVERTRÆK kr., og vi har spærret alle
+kort til &DINE konti i &BANKNAVN.. &SDU bedes indlevere kortene til
+&B32NYK hurtigst muligt.
+.sp
+&SDU bedes senest 10 dage fra dato inddække overtrækket.
+.sp
+Såfremt overtrækket ikke inddækkes, vil banken have mulighed for at
+indberette manglende betalinger til RKI/Experian.
+.sp
+Når overtrækket er inddækket, kan en eventuel genåbning af kortene ske ved,
+at &DU henvender &DIG enten skriftligt eller telefonisk til &B32NYK.. En
+genåbning af kort vil afhænge af en individuel vurdering fra &B32NYK.s
+side.
+.sp
+Vi gør opmærksom på, at &DU. betaler &OVTRTE01. % p.a. i
+overtræksrente, som beregnes dag til dag af det til enhver tid
+værende overtræk, svarende til en debitorrente på
+&DEBRTE01. % p.a.
+.sp
+.if x&RYKGEBYR gt x0,00
+.th Ved udsendelse af denne rykker er der blevet
+.th trukket kr. &RYKGEBYR på &DIN. konto.
+.th .sp
+.if &L'&RYKTXTL1A = 0
+.th .go SLUT
+&RYKTXTL1A.&RYKTXTL1B
+.br
+&RYKTXTL2A.&RYKTXTL2B
+.sp
+...SLUT
+Hvis &DU ikke kan inddække overtrækket, skal &DU kontakte &B32KUNSERV.
+hurtigst muligt på telefon &B32TLFDIR..
+.sp
+Hvis &DU. er tilmeldt et af Nykredits kundekoncepter vil fortsat
+misligholdelse af dit engagement betyde, at vi opsiger tilmeldingen til
+kundekonceptet straks. Opsigelsen får virkning for alle tilmeldte personer
+i husstanden.
+.sp 2
+:VERDA09.
+Med venlig hilsen
+.br
+&B32NYK
+.ar off
+.*************************************************************************
+.da BEMÆRK 25mm 225mm width 135mm
+.***********************************
+.ar BEMÆRK on
+:VERDA07.
+.bx left right
+.in 1mm
+.ir 1mm
+:FED.
+BEMÆRK:
+:SKRSLUT.
+Vi er forpligtet til at registrere kortet i
+pengeinstitutternes fælles register over spærrede Dankort. Dankort A/S
+er dataansvarlig over for Datatilsynet for det fælles register over
+spærrede Dankort. Kun dit kortnummer er registreret i det fælles
+register. Registeret er til rådighed for pengeinstituttet og
+betalingsmodtagere i den fælles infrastruktur. Hvis du ønsker oplysninger
+om, hvorvidt dit kortnummer fortsat er registreret som spærret, eller du
+ønsker at klage over en urigtig eller uberettiget registrering, skal du
+kontakte os. Får du ikke medhold i din klage, kan du rette henvendelse til
+Datatilsynet, Borgergade 28, 5., 1300 København K. I følge
+Persondatalovens regler om registerindsigt kan du også til enhver tid
+rette henvendelse til Dankort A/S, Kirke Værløsevej 38, 3500 Værløse
+og få oplyst, hvorvidt
+der behandles oplysninger om dit kortnummer.
+.in 0mm
+.bx off
+.ar off
+.ar off
+.************** Areal definitioner ****************************************
+.da BUNDV   25mm 271mm width 55mm
+.*.da BUNDV 25mm 271mm width 50mm
+.*.da BUNDH 160mm 267mm width 175mm
+.da BUNDH1 166mm 267mm width 175mm
+.da BUNDH2 171mm 270mm width 175mm
+.da BUNDH3 165mm 273mm width 175mm
+.da BUNDH4 168mm 276mm width 175mm
+.da BUNDH5 168mm 279mm width 175mm
+.da BUNDH6 145mm 282mm width 175mm
+.da BUNDH7 168mm 285mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.**************************************************************************
+.ar BUNDH1 on
+.ir
+:VERDA07.
+&BANKNAVN. A/S
+.ar off
+.**************************************************************************
+.ar BUNDH2 on
+.ir
+:VERDA07.
+&B32ADR3.
+.ar off
+.**************************************************************************
+.ar BUNDH3 on
+.ir
+:VERDA07.
+&BANKBY.
+.ar off
+.**************************************************************************
+.ar BUNDH4 on
+.ir
+.tp 6mm
+:VERDA07.
+Tlf. ¤&B32TLFDIR.
+.ar off
+.**************************************************************************
+.ar BUNDH5 on
+.ir
+.tp 6mm
+:VERDA07.
+Fax. ¤&B32FAXDIR.
+.ar off
+.**************************************************************************
+.ar BUNDH6 on
+:VERDA07.
+E-mail:
+.us &B32SERVCMA.
+.ar off
+.**************************************************************************
+.ar BUNDH7 on
+.ir
+:VERDA07.
+.us &B32WWWNYK.
+.ar off

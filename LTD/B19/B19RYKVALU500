@@ -1,0 +1,170 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*******************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      138.5mm   40mm
+.***********************TABULATOR**********************
+.ti ¤ 05
+.tp 12mm
+.******************************************************
+:VERDA10.
+.ar NAVN on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.sp
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.******************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte: ¤&GENTLFNR
+.br
+E-mail: ¤&GENEMAIL
+.sp
+&DATO
+.if &L'&MEDNAVN gt 0
+.th .sp 2mm
+.th Medkontohaver:
+.th .sp 1mm
+.th &MEDNAVN
+.ar off
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.* Rykkertype = 0, defaultværdien, og rykkertype = 1 er den mildeste
+.*  og rykkertype = 4 er den hårdeste.
+.*
+.* Servicebrevet, som er et rykkerbrev med de sidste 10 posteringer
+.*  kan både være et rykkerbrev der skal tælle med og derfor skal
+.*  have en rykkertype fra 1-4, eller det kan være et rykkerbrev
+.*  der ikke skal tælle med og derfor have en rykkertype = 0.
+.*********************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:VERDA08.
+.fo left
+:tiltale &TILTALEM
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 25mm 100mm width 182mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+:VERDA10.
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
+.us Kontonr. &regnr &ktonr
+.sp
+.**************************************************************************
+.****** her starter brevteksten ***********************
+Konto nr. &IREGKTO er overtrukket med &OVERTRÆK &B19TX3A..
+.sp
+Kontakt mig venligst hurtigst muligt, så vi kan aftale, hvordan
+overtrækket inddækkes.
+.sp
+.if &L'&B19TX60A gt 0
+.th &B19TX60A
+.if &L'&B19TX60B gt 0
+.th &B19TX60B
+.if &L'&B19TX60C gt 0
+.th &B19TX60C
+.if &L'&B19TX60D gt 0
+.th &B19TX60D
+.sp
+.sp
+:VERDA10.
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.ar off

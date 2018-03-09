@@ -1,0 +1,230 @@
+Vi meddeler herved, at banken har bevilget
+.if &B20TEST01 EQ 1
+.an &L'&B20TEST06 = 0
+.th den ansøgte kredit
+.if &B20TEST01 EQ 1
+.an &L'&B20TEST06 GT 0
+.th den ansøgte
+.th .hw for-højelse
+.th af kredit
+.if &B20TEST01 EQ 2
+.an &L'&B20TEST06 = 0
+.th det ansøgte lån
+.if &B20TEST01 EQ 2
+.an &L'&B20TEST06 GT 0
+.th den ansøgte
+.th .hw for-højelse
+.th af lån
+på
+.sp
+.se b20debet01 = &B20DEBET01
+.ce on
+kr. &b20debet01
+.ce off
+.sp
+.if &L'&B20TEST02 = 0 .an &L'&B20TEST03 = 0 .an &L'&B20TEST04 = 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til &DIN underskrift.
+.if &L'&B20TEST02 > 0 .an &L'&B20TEST03 = 0 .an &L'&B20TEST04 = 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG og &DIN ægtefælle.
+.if &L'&B20TEST07 > 0 .an &L'&B20TEST03 = 0 .an &L'&B20TEST04 = 0
+.an &L'&B20TEST02 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG og &DIN samlever.
+.if &L'&B20TEST02 = 0 .an &L'&B20TEST03 > 0 .an &L'&B20TEST04 = 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG og &DIN
+.th .hw de-po-nent-(er).
+.if &L'&B20TEST02 = 0 .an &L'&B20TEST03 = 0 .an &L'&B20TEST04 > 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG og &DIN kautionist(er).
+.if &L'&B20TEST02 > 0 .an &L'&B20TEST03 > 0 .an &L'&B20TEST04 = 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DIN ægtefælle og deponent(er).
+.if &L'&B20TEST07 > 0 .an &L'&B20TEST03 > 0 .an &L'&B20TEST04 = 0
+.an &L'&B20TEST02 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DIN samlever og deponent(er).
+.if &L'&B20TEST02 > 0 .an &L'&B20TEST03 = 0 .an &L'&B20TEST04 > 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DIN ægtefælle og kautionist(er).
+.if &L'&B20TEST07 > 0 .an &L'&B20TEST03 = 0 .an &L'&B20TEST04 > 0
+.an &L'&B20TEST02 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DIN samlever og kautionist(er).
+.if &L'&B20TEST02 = 0 .an &L'&B20TEST03 > 0 .an &L'&B20TEST04 > 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DINE deponent(er) og kautionist(er).
+.if &L'&B20TEST02 > 0 .an &L'&B20TEST03 > 0 .an &L'&B20TEST04 > 0
+.an &L'&B20TEST07 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DIN ægtefælle, deponent(er) og kautionist(er).
+.if &L'&B20TEST07 > 0 .an &L'&B20TEST03 > 0 .an &L'&B20TEST04 > 0
+.an &L'&B20TEST02 = 0
+.th Dokumentet er klar til underskrift
+.th af &DIG., &DIN samlever, deponent(er) og kautionist(er).
+.sp
+Tilsagnet er gældende i 3 måneder fra dato.
+.if &L'&B20TEST05 > 0
+.th Ved underskrift bedes denne skrivelse medbragt, sammen med
+.th behørig legitimation.
+.th .sp
+.if &L'&B20TEKST01 > 0
+.th &SDU bedes endvidere medbringe:
+.th .sp
+&B20TEKST01
+&B20TEKST02
+&B20TEKST03
+&B20TEKST04
+&B20TEKST05
+&B20TEKST06
+.if &L'&B20TEKST61 > 0
+.th .sp
+&B20TEKST61
+&B20TEKST62
+&B20TEKST63
+:TILTALE &TILTALEF
+:VERDA09.
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.****************************************
+.* Overskrift
+.da START 20mm 110mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+B20UDL06
+.ar off
+.ar START on
+:VERDA10.
+:FED.
+.se TYPE = ''
+.th .se TYPE = 'Kredit'
+.if &B20TEST01 EQ 2
+.th .se TYPE = 'Låne'
+.if &L'&B20POLICE > 0
+.th .go afs1
+.el .go afs2
+...afs1
+&TYPE.ansøgning nr. &REGNR &KTONR1., sagsnummer &B20POLICE.
+.go slut
+...afs2
+&TYPE.ansøgning nr. &REGNR &KTONR1
+.go slut
+...slut
+:SKRSLUT.
+:SKRSLUT.
+.sp
+.oc **B20UDL06
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.el .br
+.el M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.if &L'&KTOSTILL > 0 .an &L'&MEDNAVN = 0
+.th &KTOSTILL
+.th .br
+&KTONAVN
+.br
+.if &L'&MEDNAVN > 0
+.th &MEDNAVN
+.th .br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.br
+.if &L'&KTOLAND > 0
+.th &KTOLAND
+.*************************************************************
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

@@ -1,0 +1,185 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.el .br
+.el M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.if &L'&KTOSTILL > 0 .an &L'&MEDNAVN = 0
+.th &KTOSTILL
+.th .br
+&KTONAVN
+.br
+.if &L'&MEDNAVN > 0
+.th &MEDNAVN
+.th .br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.br
+.if &L'&KTOLAND > 0
+.th &KTOLAND
+.*************************************************************
+.oc ** udlån
+:TILTALE &TILTALEF
+:VERDA09.
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180 rotate -90
+.**************************************
+.* Overskrift
+.da START 20mm 110mm width 170mm
+.**************************************
+.ar VEND on
+:COUR6.
+B20UDL03
+.ar off
+.*****************************************
+.ar START on
+:VERDA10.
+:FED.
+.se TYPE = ''
+.if &B20TEST01 EQ 1
+.th .se TYPE = 'Kredit'
+.if &B20TEST01 EQ 2
+.th .se TYPE = 'Lån'
+.if &B20TEST01 EQ 3
+.th .se TYPE = 'Garanti'
+&TYPE nr. &REGNR &KTONR1.
+:SKRSLUT.
+:SKRSLUT.
+.sp
+.sp
+Jeg glæder mig til at se &DIG.
+.se FOR = ''
+.if &B20TEST01 EQ 1
+.th .se FOR = 'kredit'
+.if &B20TEST01 EQ 2
+.th .se FOR = 'lån'
+.if &B20TEST01 EQ 3
+.th .se FOR = 'garanti'
+Som vi har aftalt, skal vi tale om det videre forløb i forhold til
+.if &B20TEST01 EQ 1
+.th &DIN
+.if &B20TEST01 EQ 2
+.th &DIT
+.if &B20TEST01 EQ 3
+.th &DIN
+&FOR. nr. &REGNR &KTONR1..
+.sp
+Kontakt mig på
+telefon &GENTLFNR., mail &GENEMAIL eller i netbank, så vi kan aftale
+et møde.
+.sp
+.if &L'&B20TEST02 > 0
+.th SKAT har gjort det nemmere for &DIG at dele oplysninger med banken. Jeg
+.th har derfor sendt en besked til &DIG i
+.th netbank, hvor &DU kan give samtykke til, at SKAT
+.th må overføre oplysninger vedrørende &DIN seneste årsopgørelse og
+.th &DIN indkomst de seneste tre måneder til banken.
+.if &L'&B20TEKST01 > 0
+.an &L'&B20TEST02 > 0
+.th Når &DU kommer til mødet, skal vi også bede &DIG medbringe:
+.if &L'&B20TEKST01 > 0
+.an &L'&B20TEST02 = 0
+.th Når &DU kommer til mødet, skal &DU medbringe:
+.if &L'&B20TEKST01 > 0
+.th .sp
+.th - &B20TEKST01
+.if &L'&B20TEKST02 > 0
+.th .br
+.th - &B20TEKST02
+.if &L'&B20TEKST03 > 0
+.th .br
+.th - &B20TEKST03
+.if &L'&B20TEKST04 > 0
+.th .br
+.th - &B20TEKST04
+.if &L'&B20TEKST05 > 0
+.th .br
+.th - &B20TEKST05
+.if &L'&B20TEKST06 > 0
+.th .br
+.th - &B20TEKST06
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

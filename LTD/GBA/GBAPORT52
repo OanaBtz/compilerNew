@@ -1,0 +1,127 @@
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 115mm 40mm width 50mm
+.da KTOHAVOV 25mm 68mm width 155mm
+.da KTOHAVER 25mm 72mm width 155mm
+.da MKTOHAVR 115mm 72mm width 85mm
+.da KUNDENR 25mm 96mm width 155mm
+.da DATO 160mm 110mm width 40mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+.if &L'&MEDNAVN gt 0
+.th Kontohavere
+.el Kontohaver
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.tp 90mm
+:FED.
+Kundenr.
+:SKRSLUT.
+.br
+.if &L'&MEDNAVN gt 0
+.th &cpr1.-&cpr2 ¤&MEDKUNDENR
+.el &cpr1.-&cpr2
+.ar off
+.**************************************************************************
+.ar DATO on
+&DATO
+.ar off
+.if &U'&B32UDSKRIV ne J
+.th .go NEJBUND
+.************** Areal definitioner ****************************************
+.da BUNDV 25mm 271mm width 50mm
+.da BUNDH 160mm 267mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.**************************************************************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN. A/S
+.****.br
+.****Betjening: &B32NYKDIR
+.br
+&B32ADR
+.br
+&B32POST
+.br
+Tlf. ¤&B32TLFDIR
+.br
+Fax. ¤&B32FAXDIR
+.br
+&B32WWWNYK
+.ar off
+...NEJBUND
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

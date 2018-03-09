@@ -1,0 +1,306 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.* Parameterafsnit
+.**************************************************************************
+.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
+.*for at nuv. banker kan fortsætte med at bruge disse.*********************
+.**************************************************************************
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.*Valider at der findes data i mindst eet af Garantimodt.adresse-felterne
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+BECGAR05
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Nedskrivning af arbejdsgaranti nr. &regnr. &ktonr.
+.sp
+.**************************************************************************
+.* Garanti - Nedskrivning - 5 år - brevtekst
+:tiltale &TILTALEF
+.*** SÆTTER BREVINTERNE PARAMETRE AFHÆNGIG AF INDTASTNING ***************
+.se BECBELOB1 = &BECBELOB1
+.se BECBELOB2 = &BECBELOB2
+.if .&BECBELOB1 = .0,00
+.th .se 2pct '&RESULTA.'
+.el .se 2pct '&RESULTB.'
+.if .&BECBELOB1 = .0,00
+.th .se saldo '&RESULTC.'
+.el .se saldo '&BECBELOB1.'
+.*******************************
+.br
+For god ordens skyld skal vi herved meddele &DIG., at der er mulighed for,
+at den af pengeinstituttet stillede arbejdsgaranti, stor
+.sk
+.ce
+.us &saldo. kr.
+.sk
+udstedt på foranledning af &DIG til
+.sk
+.IN 31mm
+&GARMODADR1
+.br
+&GARMODADR2
+.br
+&GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.sk
+.IN
+vedrørende entreprisen
+.sk
+.IN 31mm
+&BECTEKST10.
+.br
+&BECTEKST11.
+.br
+&BECTEKST12.
+.IN
+.sk
+kan nedskrives til 2% af entreprisesummen eller til
+.sk
+.ce
+.us &2pct. kr.
+.sk
+pr. &BECDATOA., idet der efter det for
+pengeinstituttet oplyste er forløbet et år fra
+afleveringstidspunktet. Der henvises til AB-92 §6 stk. 4.
+.sk
+Ifølge denne bestemmelse er det dog en betingelse, at bygherren ikke har
+fremsat skriftlige krav om afhjælpning af mangler inden denne dato.
+.sk
+Til afklaring af garantiens aktuelle størrelse bedes &DU derfor afkrydse
+vedlagte erklæring, som fremsendes i to eksemplarer, hvoraf det ene er
+til &DIT brug. Det andet eksemplar af erklæringen bedes venligst returneret
+hertil i afkrydset og underskrevet stand.
+.*******************************
+.** SIDESKIFT
+.pa
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.ar off
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+BECGAR05
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.if .&kopi = .1
+.th .ce KOPI
+.th .sp
+.us
+.ce E R K L Æ R I N G
+.se kopi = 1
+.sp
+.**************************************************************************
+.* Nedskrivning af arbejdsgaranti erklæring
+.ar START on
+Vedr. garanti nr. &IREGKTO. stillet af Thisted Bank (Filial af Morsø Bank)
+.sk
+Stor ......... &saldo. kr.
+.sk
+Udstedt til
+.IN 32mm
+.sk
+&GENSTILL.
+.br
+&GENNAVN.
+.br
+&GENCO.
+.br
+&GENGADE.
+.br
+&GENBY.
+.sk
+.IN
+Undertegnede
+.IN 32mm
+.sk
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.IN
+.sk 2
+erklærer hermed PÅ TRO OG LOVE overfor Thisted Bank - sæt venligst kryds
+ud for et af de to følgende udsagn:
+.sk 2
+.IN 11mm
+.of 11mm
+__   Bygherren har fremsat krav om afhjælpning af mangler, således
+at garantien ikke kan nedskrives.
+.of
+.sp 10mm
+.of 11mm
+__   Bygherren har ikke skriftligt fremsat krav om afhjælpning af mangler
+inden et år efter afleveringstidspunktet, således at garantien kan
+nedskrives til &2pct. kr.
+.sp 14mm
+den,
+.of
+.IN
+ 
+ 
+ 
+ 
+ 
+ 
+_______________________________________
+           Underskrift
+.ar off
+.***********************************
+.** SIDESKIFT
+.pa
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.ar off
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+BECGAR05
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.if .&kopi = .1
+.th .ce KOPI
+.th .sp
+.us
+.ce E R K L Æ R I N G
+.se kopi = 1
+.sp
+.**************************************************************************
+.* Nedskrivning af arbejdsgaranti erklæring
+.ar START on
+Vedr. garanti nr. &IREGKTO. stillet af Thisted Bank (Filial af Morsø Bank)
+.sk
+Stor ......... &saldo. kr.
+.sk
+Udstedt til
+.IN 32mm
+.sk
+&GENSTILL.
+.br
+&GENNAVN.
+.br
+&GENCO.
+.br
+&GENGADE.
+.br
+&GENBY.
+.sk
+.IN
+Undertegnede
+.IN 32mm
+.sk
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.IN
+.sk 2
+erklærer hermed PÅ TRO OG LOVE overfor Thisted Bank - sæt venligst kryds
+ud for et af de to følgende udsagn:
+.sk 2
+.IN 11mm
+.of 11mm
+__   Bygherren har fremsat krav om afhjælpning af mangler, således
+at garantien ikke kan nedskrives.
+.of
+.sp 10mm
+.of 11mm
+__   Bygherren har ikke skriftligt fremsat krav om afhjælpning af mangler
+inden et år efter afleveringstidspunktet, således at garantien kan
+nedskrives til &2pct. kr.
+.sp 14mm
+den,
+.of
+.IN
+ 
+ 
+ 
+ 
+ 
+ 
+_______________________________________
+           Underskrift
+.ar off
+.***********************************

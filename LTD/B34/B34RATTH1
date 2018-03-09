@@ -1,0 +1,436 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.oc **
+.******************************************************************
+.da KUNDEOPL       25mm  48mm width 84mm
+.da ARBGOPL       116mm  48mm width 84mm
+.da CPRSENR       120mm  68.6mm width 84mm
+.da PIOPL          25mm  76.6mm width 84mm
+.da KTOOPL        118mm  78mm width 76mm
+.da INDBOPLP       62mm 125mm width 80mm
+.da INDBARBPCT     25mm 110.4mm width 160mm
+.da INDBARBFAST    33mm 110.4mm width 168mm
+.da INDBARBKOMB    25mm 110.4mm width 160mm
+.da INDBPRIENG     25mm 110.4mm width 160mm
+.da INDBPRIOPF     25mm 132mm width 160mm
+.da INDBPRIFAST    25mm 110.4mm width 160mm
+.da DATO          142mm 125mm width 20mm
+.da INDDATON       54mm 128.3mm width 35mm
+.da INDDATOJ      54.7mm 131.3mm width 35mm
+.da BEGUNSDØD1     25mm  223mm width 84mm
+.da BEGUNSDØD2    118mm  223mm width 84mm
+.da PERSON         25mm  260mm width 168mm
+.da FORTSÆT       160mm  270mm width 20mm
+.******************************************************************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************
+.ar ARBGOPL on
+ &GENNAVN1
+.br
+ &GENGADE1
+.br
+ &GENBY
+.ar off
+.*************************************
+.ar CPRSENR on
+&GENSENR
+.ar off
+.*************************************
+.ar PIOPL on
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETER ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.tp 43mm
+&KTOKNDNR1
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE *******
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.**************************
+.ar INDBARBPCT on
+.* ARBEJDSGIVERORDNING ***************
+.if &L'&GENKTNR1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th .mg /T/Vælg kun en ordning, arbejdsgiver eller privat/
+.th .go BUND
+.****arbejdsgiver procentindbetaling ***************
+.if &L'&GENARBPCT gt 0
+.th .go APCT
+.el .go APCTSLUT
+...APCT
+.tp 64mm right
+¤&GENBRT
+.br
+.tp 45mm
+¤&GENDATO4..
+.sp 8.5mm
+.tp 28mm right
+¤&GENARB
+.br
+¤&GENMED
+...APCTSLUT
+.ar off
+.******************************************
+.ar INDBARBFAST on
+.****arbejdsgiver fast beløb ***************
+.if &L'&GENARBFAST gt 0
+.th .go AFAST
+.el .go AFASLUT
+...AFAST
+.tp 68mm right 133mm right
+¤&GENBRT ¤&RESULTA
+.br
+.tp 29mm right 69mm
+¤&GENBRT ¤&GENDATO4..
+.sp 8mm
+.tp 36mm right
+¤&GENARB
+.br
+¤&GENMED
+...AFASLUT
+.ar off
+.**************************************
+.ar INDBARBKOMB on
+.****arbejdsgiver kombinationsaftale *******
+.if &L'&GENARBKOMB gt 0
+.th .go AKOMB
+.el .go AKOMBSL
+...AKOMB
+.se regnrkap = substr &GENKAPKTO 1 4
+.se ktonrkap = substr &GENKAPKTO 5 7
+.tp 66mm right 138mm
+¤&GENBRT ¤&GENDATO4.,
+.sp 2.2mm
+.tp 30mm 41mm
+¤&regnrkap ¤&ktonrkap
+.sp 8.8mm
+.tp 28mm right
+¤&GENARB
+.br
+¤&GENMED
+...AKOMBSL
+.ar off
+.**********************************
+.ar INDBPRIENG on
+.*** privat engangsindskud **
+.***  HER OPDELES KONTONR I TO PARAMETRE ****
+.if &L'&GENPRIENGA gt 0
+.th .go PENG
+.el .go PENGSL
+...PENG
+.se regnr2 = substr &GENKTNR1 1 4
+.se ktonr2 = substr &GENKTNR1 5 11
+.tp 81mm right
+¤&GENKR
+.sp 2.5mm
+.tp 37mm right 68mm 78mm 113mm
+¤&GENKR ¤&regnr2 ¤&ktonr2 ¤&GENDATO4..
+...PENGSL
+.ar off
+.*************************************
+.ar INDBPRIOPF on
+.*** privat op til opfyldningsfradraget ****
+.if &L'&GENPRIOPFY gt 0
+.th .go POPFY
+.el .go POPFYSL
+...POPFY
+.se regnr2 = substr &GENKTNR1 1 4
+.se ktonr2 = substr &GENKTNR1 5 11
+.tp 56mm right 84mm 122mm 132mm
+.if &U'X&GENFØRSTE = XJ
+.th ¤&GENKR ¤&GENDATO4 ¤&regnr2 ¤&ktonr2..
+.el
+...POPFYSL
+.ar off
+.*************************************
+.ar INDBPRIFAST on
+.*** privat fast beløb  ******************
+.if &L'&GENPRIFAST gt 0
+.th .go PFAST
+.el .go PFASTSL
+...PFAST
+.tp 68mm right 100mm
+¤&RESULTB ¤&GENKR
+.sp 2.4mm
+.tp 34mm right 63mm 104mm 114mm
+.se regnr2 = substr &GENKTNR1 1 4
+.se ktonr2 = substr &GENKTNR1 5 11
+¤&GENKR  ¤&GENDATO4 ¤&regnr2 ¤&ktonr2..
+...PFASTSL
+.ar off
+.*************************************
+.ar BEGUNSDØD1 on
+&GENNAVNBD1
+.br
+&GENRELABD1
+.br
+&GENGADEBD1
+.br
+&GENBYBD1
+.br
+&GENTLFBD1
+.br
+&GENCPRBD1
+.ar off
+.*************************************
+.ar BEGUNSDØD2 on
+&GENNAVNBD2
+.br
+&GENRELABD2
+.br
+&GENGADEBD2
+.br
+&GENBYBD2
+.br
+&GENTLFBD2
+.br
+&GENCPRBD2
+.ar off
+.**********************************
+.ar PERSON on
+&GENPERGRP1
+.br
+&GENPERGRP2
+.ar off
+.*************************************
+.ar FORTSÆT on
+:SWISS10.
+.ri
+fortsættes.
+...BUND
+.ar off
+.*************************************
+.******************************************************************
+.da NAVN           25mm  71mm  width 170mm
+.da BEGUNSUBS1     25mm  101mm width 84mm
+.da BEGUNSUBS2    118mm  101mm width 84mm
+.da AFTALER        23mm  132mm width 170mm
+.da AFSL           25mm  256mm width 170mm
+.******************************************************************
+.ar NAVN on
+.ce &NAVN
+.ar off
+.******************************************************************
+.ar BEGUNSUBS1 on
+&GENNAVNSB1
+.br
+&GENRELASB1
+.br
+&GENGADESB1
+.br
+&GENBYSB1
+.br
+&GENTLFSB1
+.br
+&GENCPRSB1
+.ar off
+.*************************************
+.ar BEGUNSUBS2 on
+&GENNAVNSB2
+.br
+&GENRELASB2
+.br
+&GENGADESB2
+.br
+&GENBYSB2
+.br
+&GENTLFSB2
+.br
+&GENCPRSB2
+.ar off
+.*************************************
+.ar AFTALER on
+.if &L'&BECTEKST05 = 0 .an &L'&BECTEKST06 > 0
+.th .sp
+.el &BECTEKST05.
+.if &L'&BECTEKST06 = 0 .an &L'&BECTEKST07 > 0
+.th .sp
+.el &BECTEKST06.
+.if &L'&BECTEKST07 = 0 .an &L'&BECTEKST08 > 0
+.th .sp
+.el &BECTEKST07.
+.if &L'&BECTEKST08 = 0 .an &L'&BECTEKST09 > 0
+.th .sp
+.el &BECTEKST08.
+.if &L'&BECTEKST09 = 0 .an &L'&BECTEKST10 > 0
+.th .sp
+.el &BECTEKST09.
+.if &L'&BECTEKST10 = 0 .an &L'&BECTEKST11 > 0
+.th .sp
+.el &BECTEKST10.
+.if &L'&BECTEKST11 = 0 .an &L'&BECTEKST12 > 0
+.th .sp
+.el &BECTEKST11.
+.if &L'&BECTEKST12 = 0 .an &L'&BECTEKST13 > 0
+.th .sp
+.el &BECTEKST12.
+.if &L'&BECTEKST13 = 0 .an &L'&BECTEKST14 > 0
+.th .sp
+.el &BECTEKST13.
+.if &L'&BECTEKST14 = 0 .an &L'&BECTEKST15 > 0
+.th .sp
+.el &BECTEKST14.
+.if &L'&BECTEKST15 = 0 .an &L'&BECTEKST16 > 0
+.th .sp
+.el &BECTEKST15.
+.if &L'&BECTEKST16 = 0 .an &L'&BECTEKST17 > 0
+.th .sp
+.el &BECTEKST16.
+.if &L'&BECTEKST17 = 0 .an &L'&BECTEKST18 > 0
+.th .sp
+.el &BECTEKST17.
+.if &L'&BECTEKST18 = 0 .an &L'&BECTEKST19 > 0
+.th .sp
+.el &BECTEKST18.
+.if &L'&BECTEKST19 = 0 .an &L'&BECTEKST20 > 0
+.th .sp
+.el &BECTEKST19.
+.if &L'&BECTEKST20 = 0 .an &L'&BECTEKST21 > 0
+.th .sp
+.el &BECTEKST20.
+.if &L'&BECTEKST21 = 0 .an &L'&BECTEKST22 > 0
+.th .sp
+.el &BECTEKST21.
+.if &L'&BECTEKST22 = 0 .an &L'&BECTEKST23 > 0
+.th .sp
+.el &BECTEKST22.
+.if &L'&BECTEKST23 = 0 .an &L'&BECTEKST24 > 0
+.th .sp
+.el &BECTEKST23.
+.if &L'&BECTEKST24 = 0 .an &L'&BECTEKST25 > 0
+.th .sp
+.el &BECTEKST24.
+.if &L'&BECTEKST25 = 0 .an &L'&BECTEKST26 > 0
+.th .sp
+.el &BECTEKST25.
+.if &L'&BECTEKST26 = 0 .an &L'&BECTEKST27 > 0
+.th .sp
+.el &BECTEKST26.
+.if &L'&BECTEKST27 = 0 .an &L'&BECTEKST28 > 0
+.th .sp
+.el &BECTEKST27.
+.if &L'&BECTEKST28 = 0 .an &L'&BECTEKST29 > 0
+.th .sp
+.el &BECTEKST28.
+.if &L'&BECTEKST29 = 0 .an &L'&BECTEKST30 > 0
+.th .sp
+.el &BECTEKST29.
+.if &L'&BECTEKST30 = 0 .an &L'&BECTEKST31 > 0
+.th .sp
+.el &BECTEKST30.
+.if &L'&BECTEKST31 = 0 .an &L'&BECTEKST32 > 0
+.th .sp
+.el &BECTEKST31.
+.if &L'&BECTEKST32 = 0 .an &L'&BECTEKST33 > 0
+.th .sp
+.el &BECTEKST32.
+.if &L'&BECTEKST33 = 0 .an &L'&BECTEKST34 > 0
+.th .sp
+.el &BECTEKST33.
+.if &L'&BECTEKST34 = 0 .an &L'&BECTEKST35 > 0
+.th .sp
+.el &BECTEKST34.
+.if &L'&BECTEKST35 = 0 .an &L'&BECTEKST36 > 0
+.th .sp
+.el &BECTEKST35.
+.if &L'&BECTEKST36 = 0 .an &L'&BECTEKST37 > 0
+.th .sp
+.el &BECTEKST36.
+.ar off
+.*************************************
+.ar AFSL on
+.tp 88mm
+&NAVN ¤&GENNAVN1
+.sp 9.5mm
+.ce &B34MORBANK
+.ar off
+.*************************************
+:SWISS8.
+.******************************************
+.da BEGUNSAML  21mm  40.5mm width 170mm
+.da AFTAL      21mm 128mm width 175mm
+.da UNDTEKST   21mm 236.5mm width 170mm
+.da UNDKONTO   21mm 247mm width 85mm
+.da UNDARB    108.5mm 247mm width 85mm
+.da UNDPI      21mm 260mm width 170mm
+.******************************************
+.ar BEGUNSAML on
+Ved begunstigelse af "samlever":
+.sp
+Jeg erklærer hermed, at min samlever, som jeg har begunstiget, har fælles
+folkeregisteradresse med mig. Jeg har fået oplyst, at manglende fælles
+folkeregisteradresse på begunstigelsestidspunktet medfører, at
+pensionsordningen skal ophæves med 60 pct.'s afgift til staten, samt at
+jeg ikke har fradragsret for indbetalinger efter begunstigelsestidspunktet,
+ligesom eventuel pensionsskat mv. skal reguleres.
+.sp 7mm
+.tp 144mm
+Kontohavers underskrift¤Dato:
+.sp 11mm
+Subsidiær begunstigelse
+.sp
+Er den /de begunstigede alle døde, udbetales indestående til kontohavers
+"nærmest pårørende", med mindre kontohaver har aftalt andet med
+&B34MORBANK., jævnfør generelle vilkår punkt 5.
+.sp
+I stedet for "nærmeste pårørende" skal følgende begunstiges subsidiært:
+.ar off
+.******************************************
+.ar AFTAL on
+Væsentlige aftaler/forudsætninger
+.ar off
+.******************************************
+.ar UNDTEKST on
+Vedlagte "Generelle vilkår for ratepension" dateret &DATO er
+gældende for denne aftale. Jeg erklærer hermed at have modtaget vilkårene,
+og at &B34MORBANK har gennemgået vilkårene med mig.
+.ar off
+.******************************************
+.ar UNDKONTO on
+.tp 60mm
+Kontohavers underskrift¤Dato:
+.ar off
+.******************************************
+.ar UNDARB on
+.if &L'&GENNAVN1 gt 0
+.tp 56.5mm
+.th Arbejdsgivers underskrift¤Dato:
+.ar off
+.******************************************
+.ar UNDPI on
+.tp 144mm
+Pengeinstituttets underskrift¤Dato:
+.ar off
+.******************************************
+.pa

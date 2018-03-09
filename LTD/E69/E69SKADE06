@@ -1,0 +1,559 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* Parametre og tests *****************************************************
+.*TEST PÅ, AT PANTSÆTNINGSFORBUDDET GÆLDER MINDST EN AKTIVTYPE ************
+.if &L'&GENKRYDS1 = 0
+.an &L'&GENKRYDS2 = 0
+.an &L'&GENKRYDS3 = 0
+.an &L'&GENKRYDS4 = 0
+.an &L'&GENKRYDS5 = 0
+.an &L'&GENKRYDS6 = 0
+.an &L'&GENKRYDS7 = 0
+.an &L'&GENKRYDS8 = 0
+.an &L'&GENKRYDS9 = 0
+.an &L'&GENKRYDS10 = 0
+.an &L'&GENKRYDS11 = 0
+.th .mg/T/Pantsætningsforbuddet skal omfatte mindst 1 aktivtype/
+.**************************************************************************
+.if &L'&GENCVRCPR > 0
+.th .go CPR1
+.el .go CPR1SL
+...CPR1
+.if &GENCVRCPR = &KTOKNDNR1
+.th .mg/T/Enkeltmandsfirmas CP(V)R-nr. er det samme som kundenummeret/
+...CPR1SL
+.* ændring af banknavn til at følge banksteds-banknavn
+.* .if &L'&BANKNAVN GT 0
+.* .th .se BANKNAVN = '&AFDBNKNAVN.'
+.* ændring af banknavn til Spar Nord Bank A/S
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = 'Spar Nord Bank A/S'
+.se e69bank = 'Spar Nord Bank'
+.se e69sbank = 'Spar Nord'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.hy off
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************************************************************************
+.da AFGIFT   124mm 5.5mm width 60mm
+.da SENR     115mm 23.5mm width 60mm
+.da ANMELDER 115mm 35mm width 88mm
+.da DEBITOR 29mm 100mm width 80mm
+.da MEDDEB 115mm 100mm width 80mm
+.da KRYDS1 29mm 136mm width 160mm
+.da KRYDS2 29mm 144.5mm width 160mm
+.da KRYDS3 29mm 157.5mm width 160mm
+.da KRYDS4 29mm 165.5mm width 160mm
+.da KRYDS5 29mm 173.5mm width 160mm
+.da KRYDS6 29mm 181.5mm width 160mm
+.da KRYDS7 29mm 189.5mm width 160mm
+.da KRYDS8 29mm 197.5mm width 160mm
+.da KRYDS9 29mm 205.5mm width 160mm
+.da KRYDS10 29mm 218.5mm width 160mm
+.da KRYDS11 29mm 227.5mm width 160mm
+.da PÅTALE 29mm 248mm width 170mm
+.**************************************************************************
+.ar AFGIFT on
+:VS. &AFGIFT
+.ar off
+.**************************************************************************
+.ar SENR on
+&ANMELDER50
+.ar off
+.**************************************************************************
+.ar ANMELDER on
+&ANMELDER10
+.br
+&ANMELDER20
+.br
+&ANMELDER30
+.br
+&ANMELDER40
+.ar off
+.************************************************************************
+.ar DEBITOR on
+&DEPKUNDENR
+.if &L'&GENCVRCPR > 0
+.th .go TSTCPR
+.el .go TSTCPRSL
+...TSTCPR
+.if &GENCVRCPR ne &DEPKUNDENR
+.th / &GENCVRCPR
+...TSTCPRSL
+.br
+&DEBITOR1
+.br
+&DEBITOR2
+.br
+&DEBITOR3
+.br
+&DEBITOR4
+.br
+&DEBITOR5
+.ar off
+.************************************************************************
+.ar MEDDEB on
+&MEDEJERNR
+.br
+&MEDEJER1
+.br
+&MEDEJER2
+.br
+&MEDEJER3
+.br
+&MEDEJER4
+.br
+&MEDEJER5
+.ar off
+.************************************************************************
+.tp 2.5mm center
+.*************************************************************************
+.ar KRYDS1 on
+.if &L'&GENKRYDS1 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS2 on
+.if &L'&GENKRYDS2 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS3 on
+.if &L'&GENKRYDS3 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS4 on
+.if &L'&GENKRYDS4 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS5 on
+.if &L'&GENKRYDS5 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS6 on
+.if &L'&GENKRYDS6 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS7 on
+.if &L'&GENKRYDS7 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS8 on
+.if &L'&GENKRYDS8 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS9 on
+.if &L'&GENKRYDS9 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS10 on
+.if &L'&GENKRYDS10 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS11 on
+.if &L'&GENKRYDS11 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar PÅTALE on
+&PÅTALE1
+.br
+&PÅTALE2
+.br
+&PÅTALE3
+.br
+&PÅTALE4
+.br
+&PÅTALE5
+.ar off
+.**************************************************************************
+:SWISS8.
+.******************************************
+.da SIDE1 24mm 6mm width 175mm
+.da KASSE 24mm 27mm width 175mm
+.da TEKST 24mm 145mm width 175mm
+.********************* SIDE 1 ********************************************
+.ar SIDE1 on
+.tp 88mm
+¤Afgift: kr.
+.ar off
+.****************************************************************
+.ar KASSE on
+.bx 86mm right
+.tp 87mm
+¤Anmelder
+.sp 25mm
+.bx off
+.sp 25mm
+:SWISS14.:FED.
+Pantsætningsforbud (Personbogen)
+:SKRSLUT.
+.br
+:SWISS10.
+Ejer(e)s CVR-nr., og/eller CPR-nr., navn(e)og bopæl(e)
+.br
+(Hvis ejer er en enkeltmandsvirksomhed, oplyses CPR-nr. og CVR-nr.)
+.bx left right
+.in 1mm
+.ir 1mm
+.sp 25mm
+:SWISS8.
+forpligter sig herved til ikke at underpantsætte sine aktiver i medfør af
+de nedenfor afkrydsede bestemmelser uden samtykke fra den eller de
+påtaleberettigede (sæt kryds):
+.in 0mm
+.ir 0mm
+.bx off
+.bx off
+:SWISS10.
+Pantsætningsforbuddet omfatter de nedenfor afkrydsede aktivtyper
+.bx left right
+.sp 104mm
+.bx off
+:SWISS10.
+Påtaleberettigets navn, bopæl og tlf.nr.
+.bx left right
+.sp 29mm
+.in 1mm
+.ir 1mm
+:SWISS8.
+Pantsætningsforbuddet respekterer de forud tinglyste hæftelser.
+.in 0mm
+.ir 0mm
+.bx off
+.ar off
+.******************************************
+.da PANTTX1 35mm 137mm width 160mm
+.da PANTTX2 35mm 143.5mm width 160mm
+.da PANTTX3 35mm 158mm width 160mm
+.da PANTTX4 35mm 166mm width 160mm
+.da PANTTX5 35mm 172.5mm width 160mm
+.da PANTTX6 35mm 182mm width 160mm
+.da PANTTX7 35mm 190mm width 160mm
+.da PANTTX8 35mm 198mm width 160mm
+.da PANTTX9 35mm 204.5mm width 160mm
+.da PANTTX10 35mm 219mm width 160mm
+.da PANTTX11 35mm 227mm width 160mm
+.da PANTKS1 24mm 135.5mm width 10mm
+.da PANTKS2 24mm 143.5mm width 10mm
+.da PANTKS3 24mm 156.5mm width 10mm
+.da PANTKS4 24mm 164.5mm width 10mm
+.da PANTKS5 24mm 172.5mm width 10mm
+.da PANTKS6 24mm 180.5mm width 10mm
+.da PANTKS7 24mm 188.5mm width 10mm
+.da PANTKS8 24mm 196.5mm width 10mm
+.da PANTKS9 24mm 204.5mm width 10mm
+.da PANTKS10 24mm 217.5mm width 10mm
+.da PANTKS11 24mm 226.5mm width 10mm
+.*************************************************************************
+.ar PANTTX1 on
+Tinglysningslovens § 47 (løsøre, bortset fra motorkøretøjer, påhængs- og
+sættevogne til biler samt campingvogne).
+.ar off
+.**************************************************************************
+.ar PANTTX2 on
+Tinglysningslovens § 47 b, stk. 2 (det til en erhvervsvirksomhed, der
+drives fra lejet ejendom, hørende driftsinventar og driftsmateriel -
+derunder maskiner og tekniske anlæg af enhver art - og ved landejendomme
+tillige den til ejendommen hørende besætning, gødning, afgrøder og andre
+frembringelser).
+.ar off
+.**************************************************************************
+.ar PANTTX3 on
+Tinglysningslovens § 47 c, stk. 3, nr. 1 (simple fordringer hidrørende fra
+salg af varer og tjenesteydelser).
+.ar off
+.**************************************************************************
+.ar PANTTX4 on
+Tinglysningslovens § 47 c, stk. 3, nr. 2 (lagre af råvarer, halvfabrikata
+og færdigvarer).
+.ar off
+.**************************************************************************
+.ar PANTTX5 on
+Tinglysningslovens § 47 c, stk. 3, nr. 3 (de i tinglysningslovens § 42 c
+nævnte køretøjer, som ikke er og aldrig har været registreret i
+Centralregisteret for Motorkøretøjer eller i et
+tilsvarende udenlandsk register).
+.ar off
+.**************************************************************************
+.ar PANTTX6 on
+Tinglysningslovens § 47 c, stk. 3, nr. 4 (driftsinventar og
+driftsmateriel).
+.ar off
+.**************************************************************************
+.ar PANTTX7 on
+Tinglysningslovens § 47 c, stk. 3, nr. 5 (drivmidler og andre
+hjælpestoffer).
+.ar off
+.**************************************************************************
+.ar PANTTX8 on
+Tinglysningslovens § 47 c, stk. 3, nr. 6 (besætning).
+.ar off
+.**************************************************************************
+.ar PANTTX9 on
+Tinglysningslovens § 47 c, stk. 3, nr. 7 (goodwill, domænenavne og
+rettigheder i henhold til patentloven, varemærkeloven, designloven,
+brugsmodelloven, mønsterloven, ophavsretsloven og lov om beskyttelse af
+halvlederprodukters udformning (topografi)).
+.ar off
+.**************************************************************************
+.ar PANTTX10 on
+Tinglysningslovens § 47 d (fordringspant).
+.ar off
+.**************************************************************************
+.ar PANTTX11 on
+Tinglysningslovens § 47 c, stk. 3, nr. 8 (Brugte køretøjer - Pantsætter
+driver erhvervsvirksomhed med køb og salg af køretøjer).
+.ar off
+.**************************************************************************
+.ar PANTKS1 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS2 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS3 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS4 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS5 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS6 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS7 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+.ar PANTKS8 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+.ar PANTKS9 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+.ar PANTKS10 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+.ar PANTKS11 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+:SKRSLUT.
+.** SIDESKIFT
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.hy off
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************************************************************************
+.************************************************************************
+.da UNDERS 24mm 94.9mm width 175mm
+.************************************************************************
+.ar UNDERS on
+.tp 45mm center 130mm center
+¤&DEBITOR6 ¤&MEDEJER6
+.ar off
+.da SIDE2 24mm 32mm width 175mm
+.dr normal weight 0.3mm
+.**************************************************************************
+.ar SIDE2 on
+:SWISS10.
+.td table TBL1
+.td row TBL1 cwidths (40mm *)
+.td cell 1 TBL1 vrules (normal none)
+.td cell 2 TBL1 vrules (none normal)
+.ta table TBL1 on
+.in 1mm
+.ir 1mm
+.ta row TBL1 on
+.ta cell 1
+:SWISS8.
+Påtaleberettigets navn, bopæl og tlf. nr.
+.ta cell 2
+:SWISS10.
+.if &L'&ANMELDER10 > 0
+.th &ANMELDER10.,
+.if &L'&ANMELDER20 > 0
+.th &ANMELDER20.,
+.if &L'&ANMELDER30 > 0
+.th &ANMELDER30.,
+.if &L'&ANMELDER40 > 0
+.th &ANMELDER40.
+.sp
+Pantsætningsforbuddet respekterer de forud tinglyste hæftelser.
+.sp
+.ta row TBL1 off
+.ta row TBL1 on
+.ta cell 1
+:SWISS8.
+Bemyndigelse til digital tinglysning
+.ta cell 2
+:SWISS10.
+Spar Nord Bank A/S bemyndiges til på mine vegne at udstede, digitalt
+signere og anmelde til tinglysning et digitalt pantsætningsforbud i
+overensstemmelse hermed. Spar Nord Bank A/S kan overlade udstedelsen,
+signering og / eller anmeldelse til en samarbejdspartner. Spar Nord Bank
+A/S har ret til at angive de i forbindelse med denne disposition
+nødvendige erklæringer.
+.ta table off
+.ar off
+.**************************************************************************
+.da SIDE2 24mm 70mm width 175mm
+.da VITTER1 24mm 116mm width 84mm
+.da VITTER2 112mm 116mm width 84mm
+.**************************************************************************
+.ar SIDE2 on
+:SWISS10.
+Underskrifter
+.bx left right
+:SWISS8.
+.tp 88mm
+.in 1mm
+.ir 1mm
+.sp 5mm
+.tp 20mm _/83mm 92mm _/155mm
+¤¤, den ¤¤
+.sp 12mm
+.in 5mm
+.tp _/85mm 90mm _/170mm
+¤ ¤¤
+.in 0mm
+.ir 0mm
+.sp 3mm
+.bx off
+:SWISS10.
+Vitterlighedspåtegning
+.bx left right
+:SWISS8.
+.in 1mm
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed:
+.sp 37mm
+.in 0mm
+.bx off
+.************************
+.ar VITTER1 on
+.in 1mm
+:SWISS8.
+.tp _/84mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.in 0mm
+.ar off
+.**************************************************************************
+.ar VITTER2 on
+:SWISS8.
+.tp _/84mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+.**************************************************************************

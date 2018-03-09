@@ -1,0 +1,213 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:TILTALE &TILTALEF
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.DA dato 20mm 85mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.*
+.AR hoved on
+.* Her starter selve brevhovedets tekst
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.* Er der indtastet en Attention, udskrives oplysningen
+.if &L'&B47ATT NE 1
+.th .sp
+.th :FED.&B47ATT. :SKRSLUT.
+.AR off
+.AR dato on
+.RI on
+&DATO.
+.RI off
+.AR off
+.DA TEKST 20mm 100mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.* ------------------------------------------------------------
+.AR TEKST ON
+:DUTCH12.
+.* Hvilken type kort er der tale om
+.if &U'&B47PJN1 eq D
+.th .se kort = Dankort
+.el .se kort = VisaDankort
+:FED.
+.br
+Dit nye &kort :SKRSLUT.
+.sp
+Her er dit nye &kort.. Kortet
+er personligt og må under ingen omstændigheder overdrages
+til andre.
+.sp
+.if &U'&B47PJN2 = N
+.th Vi har bestilt dit nye kort med samme kode som tidligere, så derfor
+.th modtager du ikke et nyt PIN-brev.
+.th .sp
+.el Du modtager et pinbrev med din nye pinkode direkte fra PBS.
+.el .sp
+Når du har underskrevet vedlagte kvittering, sender du den til
+mig i returkuverten.
+.if &U'&B47PJN4 = J
+.th Vedlæg også dit gamle kort - klippet over.
+Når jeg modtager kvitteringen, aktiverer jeg dit nye kort, så du
+kan bruge det med det samme.
+.sp
+.*
+.sp 1
+Med venlig hilsen
+.sp
+.sp
+&B47NAVN.
+.ar off
+.* Definerer et areal til NB-teksten
+.da NB 20mm 233mm width 170mm
+:dutch12.
+.if &U'B47PJN3 ne J
+.an &U'&B47PJN1 ne V
+.th .go videre
+.ar NB on
+:FED.NB::SKRSLUT.
+.br.
+Når du anvender dit VisaDankort i udlandet, vil du modtage et
+kontoudskrift ved udgangen af den måned betalingen sker, så du
+kan kontrollere at betalingen er korrekt. Dette sker for at
+overholde tidsfristen for indsigelser ved eventuelle fejl.
+.br
+Kontoudskriftet koster 5 kr., såfremt du ikke i forvejen har
+valgt kontoudskrift hver måned.
+.ar off
+...videre
+.pa
+.ll170mm
+.sp6
+&NAVN
+.br
+&GADE
+.br
+&BY
+.sp5
+CPR-nr. &KUNDENR
+.br
+Konto nr. &B47P20
+.sp3
+:DUTCH14. :FED.
+.br
+.if &U'&B47PJN1 eq D
+.th              Kvittering for Dankort:
+.el              Kvittering for VisaDankort:
+:SKRSLUT. :DUTCH12.
+.sp2
+Jeg kvitterer hermed for modtagelsen af mit nye
+.if &U'&B47PJN1 eq D
+.th Dankort.
+.el VisaDankort.
+.br
+Derudover har jeg modtaget "Regler for
+.if &U'&B47PJN1 eq D
+.th Dankort", samt
+.el VisaDankort", samt
+"Gode råd om Dankort", som jeg har læst.
+.sp3
+     ___________________ , den          /         -
+.sp3
+     ___________________________________
+     &NAVN
+.sp7
+:FED.
+.br
+NB:
+.br
+Kortet kan først benyttes, når vi har modtaget kvitteringen.
+:SKRSLUT.
+;T.pa
+.ll170mm
+.sp6
+&NAVN
+.br
+&GADE
+.br
+&BY
+.sp5
+CPR-nr. &KUNDENR
+.br
+Konto nr. &B47P20
+.sp3
+:DUTCH14. :FED.
+.br
+.if &U'&B47PJN1 eq D
+.th              Kvittering for Dankort:
+.el              Kvittering for VisaDankort:
+:SKRSLUT. :DUTCH12.
+.sp2
+Jeg kvitterer hermed for modtagelsen af mit nye
+.if &U'&B47PJN1 eq D
+.th Dankort.
+.el VisaDankort.
+.br
+Derudover har jeg modtaget "Regler for
+.if &U'&B47PJN1 eq D
+.th Dankort", samt
+.el VisaDankort", samt
+"Gode råd om Dankort", som jeg har læst.
+.sp3
+     ___________________ , den          /         -
+.sp3
+     ___________________________________
+     &NAVN
+.sp7
+:FED.
+.br
+NB:
+.br
+Kortet kan først benyttes, når vi har modtaget kvitteringen.
+:SKRSLUT.
+;T

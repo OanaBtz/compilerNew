@@ -1,0 +1,301 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&KTOSTILL
+.BR
+&KTONAVN
+.BR
+&KTOCO
+.BR
+&KTOGADE
+.BR
+&KTOBY  &KTOLAND
+.SK
+:EGL.
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.* parameterafsn.
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.******************* Evt. ALTERNATIV PRINTER ******
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.**************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.**************************************************
+.ti ^ 05
+:COUR10.
+.**************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.**************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.*ir 25mm
+.* ÆNDRET d. 1/12.99 jvf. Standard for breve.
+.ir 20mm
+.*se RESULTB = &RESULTB
+.*hw FastRente
+.ir +7mm
+.if x&REGTYPE = x6311
+.*or x&REGTYPE = x6304
+.th .se ktotypeo = 'Solid Placering'
+.th .se ktotypet = 'Solid Placering, konto'
+.el .mg /t/  Kan kun udskrives til Solid Placering regtype 6311
+.el .se ktotypeo = 'Aftaleindskud'
+.el .se ktotypet = 'aftalekonto'
+.se lbtid = SUBSTR '&RESULTB.' 1 1
+.if x&lbtid. = x-
+.th .mg /t/  Rentetilskrivn. er FØR 'Fra dato' &IREGKTO. (&BRUGERNR.)&lbtid
+.if x&REGTYPE = x6304
+.or x&REGTYPE = x6305
+.or x&REGTYPE = x6308
+.or x&REGTYPE = x6309
+.el .go EJFASTRL
+.if x&FRIDATO = x01.01.0001
+.or x&FRIDATO = x
+.th .mg /t/  FastRtOps.dato SKAL udfyldes &IREGKTO. (&BRUGERNR.)
+...EJFASTRL
+.sp 10mm
+.us
+&ktotypeo.
+.sk
+Under henvisning til vor aftale skal vi herved bekræfte, at vi
+har
+.if x&U'&MIBJN1 = xJ
+.th forlænget
+.el oprettet
+.br
+&ktotypet. nr. &REGNR. &KTONR1. på følgende vilkår:
+.sk
+.if x&REGTYPE = x6311
+.th Indskuddet forrentes fra og med den &DATO. til &FRIDATO..
+.*th Indskuddet forrentes fra og med den &DATO. til &RESULTA..
+.el Indskuddet forrentes fra og med den &DATO. til udløb.
+.if x&REGTYPE = x6311
+.th .sp
+.th Hvis &DU. hæver på kontoen inden udløbet af fastrenteperioden, udgør
+.th rentedekorten op til 1,50% afhængigt af længden på den resterende
+.th bindingsperiode, dog
+.th minimum kr. 250,00.
+.sk
+.th &SDU. kan frit disponere over renterne, som tilskrives hvert år den
+.th 31. december.
+.*tp 10mm.tp45mm
+.sk
+^Indskudsbeløb  ^kr. ^&SALDO.
+.sk
+^Rentesats  ^^&TOTKRE1.% p.a.
+.sk
+.if .&RESULTC = .0,00
+.th .go EJRTB
+.*if &L'&MIBBEL1 > 0
+.*el .go EJRTB
+.*sk
+.*^Rentebeløb ^kr. ^&MIBBELOB2.
+^Rentebeløb ^kr. ^&RESULTC.
+.sk
+...EJRTB
+.if &L'&MIBEM122 > 0
+.th Renten i henhold til denne aftale er fast.
+.sk
+.th Dog er banken berettiget til at ændre renten, hvis der sker ændringer i
+.th nuværende regler vedrørende krav til kapitaldækning og likviditet.
+.sk
+&SDU. er dækket af Garantifonden for indskydere og
+investorer. Garantifonden dækker indlån op til et beløb svarende til
+100.000 euro.
+.br
+&SDU. kan læse mere på www.handelsbanken.dk/indskydergaranti
+.sk
+.th Når renteperioden udløber, ændrer vi automatisk kontoen til en
+.th opsparingskonto på almindelige anfordringsvilkår.
+.sk
+.*&GENTEKST1.
+.br
+.*&GENTEKST2.
+.br
+.*&GENTEKST3.
+.br
+.*&GENTEKST4.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+^Med venlig hilsen
+.*sk
+.*^M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^&AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+^&GENEKSP
+.br
+^&GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+^&GENMEKSP ^&GENEKSP
+.br
+^&GENMTITEL ^&GENTITEL
+...EJ2
+.tp
+.br
+...EJ9

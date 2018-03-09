@@ -1,0 +1,647 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*** TEST PÅ PANTEBREVSTYPE ***********************************************
+.if &U'X&EFFEKTTYPE = X50
+.or &U'X&EFFEKTTYPE = X02
+.th
+.el .mg/T/Dette er ikke et ejerpantebrev eller pantebrev/
+.**************************************************************************
+.**** EJERPANTEBREVE HOPPER UDENOM ****************************************
+.************************ Pantebrev ***************************************
+.if &U'X&EFFEKTTYPE = X50
+.th .go KUNEJERP
+.*** TEST PÅ PANTEBREVE MED PANTEBREVSIDENTER *****************************
+.if &U'X&EFFEKTTYPE = X02
+.an &U'X&PNTIDENT = X00
+.th .go OK
+.***
+.if &U'X&EFFEKTTYPE = X02
+.an &U'X&PNTIDENT = X04
+.th .go OK
+.***
+.if &U'X&EFFEKTTYPE = X02
+.an &U'X&PNTIDENT = X05
+.th .go OK
+.***
+.if &U'X&EFFEKTTYPE = X02
+.an &U'X&PNTIDENT = X06
+.th .go OK
+.***
+...FEJL
+.mg/T/Dette pantebrev er IKKE til fast ejendom/
+... OK
+.***
+.if &U'X&EFFEKTTYPE = X02
+.an &L'&GENKRYDS1 = 0
+.an &L'&GENKRYDS2 = 0
+.an &L'&GENKRYDS3 = 0
+.th
+.el .mg/T/Dette er et pantebrev - afkrydsning er til ejerpantebrev/
+.go BEGGE
+.************************ Ejerpantebrev ***********************************
+...KUNEJERP
+.if &U'X&EFFEKTTYPE = X50
+.an &U'X&PNTIDENT = X01
+.th
+.el .mg/T/Dette ejerpantebrev er IKKE til fast ejendom/
+.***TEST PÅ ANTAL KRYDS SAT VED UNDERPANT, EJERPANTEBREV ******************
+.se kryds = 0
+.if &L'&GENKRYDS1 > 0
+.th .se kryds = &kryds + 1
+.el .se kryds = &kryds
+.if &L'&GENKRYDS2 > 0
+.th .se kryds = &kryds + 1
+.el .se kryds = &kryds
+.if &L'&GENKRYDS3 > 0
+.th .se kryds = &kryds + 1
+.el .se kryds = &kryds
+.if x&kryds > x1
+.th .mg/T/Der skal KUN sættes 1 kryds ved underpant, ejerpantebreve/
+.**************************************************************************
+.*** Minimum 1 kryds ved underpant, ejerpantebrev ***
+.if &U'X&EFFEKTTYPE = X50
+.an &L'&GENKRYDS1 = 0
+.an &L'&GENKRYDS2 = 0
+.an &L'&GENKRYDS3 = 0
+.th .mg/T/Der skal sættes kryds ved underpant, ejerpantebrev/
+.***
+.if &U'X&EFFEKTTYPE = X50
+.an &L'&GENKRYDS4 > 0
+.th .mg/T/Dette er et ejerpantebrev - afkrydsning er til pantebrev/
+.**************************************************************************
+.***TEST PÅ AT NAVN OG KUNDENR. ER UDFYLDT VED UNDERPANTHAVERE ************
+.********************** 2. underpanthaver *********************************
+...BEGGE
+.if &L'&KUN02NAVN = 0
+.an &L'&KUN02KNDNR = 0
+.th .go KUN02SL
+.***
+.if &L'&KUN02NAVN = 0
+.an &L'&KUN02KNDNR > 0
+.th .mg/T/Der er mangler navn på 2. underpantsætter/
+.***
+.if &L'&KUN02KNDNR = 0
+.an &L'&KUN02NAVN > 0
+.th .mg/T/Der er mangler kundenr. på 2. underpantsætter/
+...KUN02SL
+.********************** 3. underpanthaver *********************************
+.if &L'&KUN03NAVN = 0
+.an &L'&KUN03KNDNR = 0
+.th .go KUN03SL
+.***
+.if &L'&KUN03NAVN = 0
+.an &L'&KUN03KNDNR > 0
+.th .mg/T/Der er mangler navn på 3. underpantsætter/
+.***
+.if &L'&KUN03KNDNR = 0
+.an &L'&KUN03NAVN > 0
+.th .mg/T/Der er mangler kundenr. på 3. underpantsætter/
+...KUN03SL
+.********************** 4. underpanthaver *********************************
+.if &L'&KUN04NAVN = 0
+.an &L'&KUN04KNDNR = 0
+.th .go KUN04SL
+.***
+.if &L'&KUN04NAVN = 0
+.an &L'&KUN04KNDNR > 0
+.th .mg/T/Der er mangler navn på 4. underpantsætter/
+.***
+.if &L'&KUN04KNDNR = 0
+.an &L'&KUN04NAVN > 0
+.th .mg/T/Der er mangler kundenr. på 4. underpantsætter/
+...KUN04SL
+.**************************************************************************
+.***TEST AF BELØB HVIS BEGRÆNSET ******************************************
+.***********************Beløb 2 *******************************************
+.*** Er begrænset beløb udfyldt *********
+.if &BELØB02 = 0,00
+.th .go BEL3
+.*** Er både navn og kundenr. udfyldt ***
+.if &L'&KUN02NAVN = 0
+.or &L'&KUN02KNDNR = 0
+.th .mg/T/Beløb udfyldt, navn eller kundenr. mangler på 2. underpanthaver/
+.***********************Beløb 3 *******************************************
+.***Er begrænset beløb udfyldt *********
+...BEL3
+.if &BELØB03 = 0,00
+.th .go BEL4
+.***Er både navn og kundenr. udfyldt ***
+.if &L'&KUN03NAVN = 0
+.or &L'&KUN03KNDNR = 0
+.th .mg/T/Beløb udfyldt, navn eller kundenr. mangler på 3. underpanthaver/
+.***********************Beløb 4 *******************************************
+...BEL4
+.if &BELØB04 = 0,00
+.th .go BELSL
+.***Er både navn og kundenr. udfyldt ***
+.if &L'&KUN04NAVN = 0
+.or &L'&KUN04KNDNR = 0
+.th .mg/T/Beløb udfyldt, navn eller kundenr. mangler på 4. underpanthaver/
+...BELSL
+.**************************************************************************
+.*** KRYDS I UTINGLYSTE PÅTEGNINGER ***************************************
+.se afgfri = 0
+.se afgift = 0
+.***
+.if &GENAFGIFT > 0,00
+.th .go AFGIFT
+.* ved ej afgift
+.se afgift = 0
+.***
+.if &L'&GENKRYDS6 > 0
+.th .se afgfri = 1
+.el .se afgfri = 0
+.go AFGSL
+...AFGIFT
+.se afgift = 1
+.if &L'&GENKRYDS6 > 0
+.th .mg/T/Utinglyste påtegn. kan ikke både være afgiftsfri og med afgift/
+.el .se afgfri = 0
+.***
+...AFGSL
+.*************** GENEREL OPSÆTNING ****************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.* Adressehovede
+.da ADR 25mm 50mm width 75mm
+.* Reference øverst til højre
+.da REF 126.45mm 61.9mm
+.**************************************************************************
+.ar ADR on
+:COUR10.
+Tinglysningsretten
+.br
+Majsmarken 5
+.br
+9500 Hobro
+.ar off
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 24mm
+.if &L'&GENEKSP > 0
+.th Reference:  ¤&GENEKSP
+.if &L'&GENEMAIL > 0
+.th .br
+.th Mail: ¤&GENEMAIL
+.br
+Depotnr.: ¤&DEPOTNR
+.br
+Effektløbenr.: ¤&EFFLBNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.**************************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 100mm width 175mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:COUR10.
+.us on
+Konvertering af panterettighed -
+.if &U'X&EFFEKTTYPE = X02
+.th .ct  pantebrev
+.el .ct  ejerpantebrev
+.us off
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 46MM: Y = 95mm + 13mm (TOPMARGIN) = 108mm
+.*TILFØJ DE 30MM NEDENFOR *************************************************
+.**************************************************************************
+.sp 95mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.*KOLONNEDEFINITION *******************************************************
+.**************************************************************************
+.pm 20mm
+.tm 13mm
+.bm 25mm
+.ll 175mm
+;T.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.tp 1mm 26mm 89.5mm 112.5mm
+.*********************** KONVERTERING AF PANTERETTIGHED *******************
+Vi beder jer om at konvertere panterettighederne på vedlagte
+.***
+.if &U'X&EFFEKTTYPE = X02
+.th pantebrev
+.if &U'X&EFFEKTTYPE = X50
+.th ejerpantebrev
+.***
+fra papir til digital og sende det konverterede pantebrev tilbage til
+anmoder.
+.sp 3mm
+.** Kasse til anmoder ************
+.bx new left 21mm right
+.sp 0.5mm
+:FED.
+¤Anmoder
+:SKRSLUT.
+¤&BANKNAVN.
+.sp 0.5mm
+.***Kasse til cvr-nr. ******************
+.bx new left 21mm right
+.sp 0.5mm
+:FED.
+¤CVR-nr.
+:SKRSLUT.
+¤&BANKSENR
+.bx off
+.bx can
+.bx can
+.sp 3mm
+.***Kasse til hovedstol og valuta ******
+.bx new left 21mm 88.5mm 107.5mm right
+.sp 0.5mm
+:FED.
+¤Hovedstol
+:SKRSLUT.
+¤&HOVEDSTOL
+:FED.
+¤Valuta
+:SKRSLUT.
+¤&GENVAL
+.sp 0.5mm
+.***Kasse til matr.nr. *****************
+.bx new left 21mm right
+.sp 0.5mm
+:FED.
+¤Matr.nr.
+:SKRSLUT.
+.if &U'X&EFFEKTTYPE = X50
+.th .ct  ¤&MATRNR. &EJERLAV.
+.el .ct  ¤&MATRNR. &MATRBET1.
+.bx off
+.bx can
+.bx can
+.sp 5mm
+.*********************** UNDERPANT ****************************************
+:FED.
+Underpant:
+:SKRSLUT.
+.br
+.***
+.if &U'X&EFFEKTTYPE = X02
+.th Medmindre andet er angivet nedenfor, er der ikke underpant i
+.th pantebrevet.
+.th .go UDOM
+(Sæt kun et kryds)
+...UDOM
+.sp 3mm
+.***Kolonnedefination *************
+.tp 2.5mm center
+.cd 2 0mm 8mm
+.cl 165mm
+.***
+.if &U'X&EFFEKTTYPE = X02
+.th .go KAS1PANT
+.*********************** KASSER EJERPANTEBREV *****************************
+.** 1. afkrydsningskasse **********
+.bx 0mm 5mm
+.if &L'&GENKRYDS1 > 0
+.th ¤x
+.el &ÅRB
+.bx off
+.cb
+Anmoder har 1. priotets underpant på pantebrevets hovedstol, og vi har
+ikke noteret yderligere underpanthavere
+.sc
+.sp 3mm
+.***2. Afkrydsningskasse **********
+.mc
+.bx 0mm 5mm
+.if &L'&GENKRYDS2 > 0
+.th ¤x
+.el &ÅRB
+.bx off
+.cb
+.sp 1mm
+Der er ikke underpant i pantebrevet
+.sc
+.sp 3mm
+.***3. Afkrydsningskasse **********
+.mc
+.bx 0mm 5mm
+.if &L'&GENKRYDS3 > 0
+.th ¤x
+.el &ÅRB
+.bx off
+.cb
+Der er følgende underpanthavere (udfyldes ved sekundær håndpant og ved
+beløbsbegrænset underpant):
+.sc
+.go ENDKAS
+...KAS1PANT
+.*********************** KASSE PANTEBREV **********************************
+.bx 0mm 5mm
+.if &L'&GENKRYDS4 > 0
+.th ¤x
+.el &ÅRB
+.bx off
+.cb
+.sp 1mm
+Der er underpant i pantebrevet som følger:
+.sc
+.***
+...ENDKAS
+.sp 3mm
+.if &L'&GENKRYDS3 > 0
+.or &L'&GENKRYDS4 > 0
+.th .go JAUPANT
+.el .go EJUPANT
+...JAUPANT
+.************************ KASSER UNDERPANT ********************************
+.***Kasse til priotet/navn/cpr.nr./beløb **********************************
+.tp 1mm 16mm 96.5mm 130mm
+.***********************************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+:FED.
+¤Prio.
+.ct ¤Underpanthavers navn
+.ct ¤CPR-nr./CVR-nr.
+.ct ¤Beløb, hvis begrænset
+:SKRSLUT.
+.sp 0.5mm
+.***********************************
+.tp 6mm 20mm 100.5mm 134mm
+.***Kasse 1. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤1. ¤&BANKNAVN. ¤&BANKSENR.
+.if &BELØB01 = 0,00
+.th &ÅRB
+.el .ct ¤&BELØB01.
+.sp 0.5mm
+.***Kasse 2. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤2. ¤&KUN02NAVN. ¤&KUN02KNDNR.
+.if &BELØB02 = 0,00
+.th &ÅRB
+.el .ct ¤&BELØB02.
+.sp 0.5mm
+.***Kasse 3. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤3. ¤&KUN03NAVN. ¤&KUN03KNDNR.
+.if &BELØB03 = 0,00
+.th &ÅRB
+.el .ct ¤&BELØB03.
+.sp 0.5mm
+.***Kasse 4. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤4. ¤&KUN04NAVN. ¤&KUN04KNDNR.
+.if &BELØB04 = 0,00
+.th &ÅRB
+.el .ct ¤&BELØB04.
+.sp 0.5mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.go PÅTEGN
+...EJUPANT
+.************************ KASSER INGEN UNDERPANT **************************
+.***Kasse til priotet/navn/cpr.nr./beløb **********************************
+.tp 1mm 6mm 16mm 96.5mm 130mm
+.***********************************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+:FED.
+¤Prio.
+.ct ¤¤Underpanthavers navn
+.ct ¤CPR-nr./CVR-nr.
+.ct ¤Beløb, hvis begrænset
+:SKRSLUT.
+.sp 0.5mm
+.***Kasse 1. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤¤1.
+.sp 0.5mm
+.***Kasse 2. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤¤2.
+.sp 0.5mm
+.***Kasse 3. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤¤3.
+.sp 0.5mm
+.***Kasse 4. priotet ***************
+.bx new left 15mm 95.5mm 129mm right
+.sp 0.5mm
+¤¤4.
+.sp 0.5mm
+.***
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+...PÅTEGN
+.sp 5mm
+.************************* UTINGLYSTE PÅTEGNINGER *************************
+:FED.
+Utinglyste påtegninger
+:SKRSLUT.
+.sp 3mm
+.***Kolonnedefinition ******************
+.tp 2.5mm center
+.cd 2 0mm 8mm
+.cl 165mm
+.*** Kasse, vi beder jer tinglyse ******
+.bx 0mm 5mm
+.if &afgfri = 1
+.or &afgift = 1
+.th ¤x
+.el &ÅRB
+.bx off
+.cb
+.sp 1mm
+Vi beder jer tinglyse de(n) utinglyste påtegning(er)
+.sc
+.sp 3mm
+.***Kolonnedefinition **********************
+.cd 2 8mm 16mm
+.cl 165mm
+.***Kasse, tinglysningen er afgiftsfri *****
+.mc
+.bx 0mm 5mm
+.if &afgfri = 1
+.th ¤x
+.el &ÅRB
+.bx off
+.cb
+.sp 1mm
+Tinglysningen er afgiftsfri
+.sc
+.sp 3mm
+.***Kollonnedefinition ********************
+.cd 3 8mm 16mm 129mm
+.ll 175mm
+.***Kasse, tinglysningen udløser afgift****
+.mc
+.bx 0mm 5mm
+.if &afgift = 1
+.th ¤x
+.el &ÅRB
+.bx off
+.***
+.cb
+.sp 1mm
+Tinglysningen udløser tinglysningsafgift       kr.
+.***
+.cb
+.tp 43mm right
+.bx 0mm 46mm
+.if &afgift = 1
+.th ¤&GENAFGIFT
+.el &ÅRB
+.bx off
+.***
+.sc
+.tp 16mm
+¤Beløbet
+.in 16mm nobreak
+er overført til konto 0216-4069152155
+med matr.nr. som reference.
+.in 0mm
+.sc
+.sp 5mm
+.************************* BEMÆRKNINGER FRA ANMODER ***********************
+.kp on
+:FED.
+Bemærkninger fra anmoder:
+:SKRSLUT.
+.sp 3mm
+.**********************************
+.tp 1mm 5mm 51mm 55mm
+.***Kasse med kundenr./navn *******
+.bx new left 50mm right
+.sp 0.5mm
+:FED.
+¤Debitors kundenr. ¤¤Debitors navn
+:SKRSLUT.
+.sp 0.5mm
+.***Kasse debitor 1 ***************
+.bx new left 50mm right
+.sp 0.5mm
+¤¤&DEPKUN01 ¤¤&DEPNVN01
+.sp 0.5mm
+.***Kasse debitor 2 ***************
+.bx new left 50mm right
+.sp 0.5mm
+¤¤&DEPKUN02 ¤¤&DEPNVN02
+...DEP2SL
+.sp 0.5mm
+.***Kasse yderligere bemærkninger ******
+.bx new left right
+.sp 0.5mm
+:FED.
+¤Yderligere bemærkninger
+:SKRSLUT.
+.sp 3mm
+.in 5mm
+.ir 1mm
+&GENTEKST1.&GENTEKST2.&GENTEKST3.&GENTEKST4.
+.in 0mm
+.ir 0mm
+.sp 3mm
+.bx off
+.bx can
+.bx can
+.bx can
+.sp 2
+.kp off
+.************************* UNDERSKRIFTER **********************************
+.kp on
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.kp off
+.***

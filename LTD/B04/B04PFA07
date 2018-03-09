@@ -1,0 +1,478 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+.* PARAMETERAFSNIT
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+.**************************************************************************
+.*TEST DER BRUGES I BECPFA17 OG 19 - FOR AT UNDERSØGE OM DET ER "HALV DÆKN"
+.*VED HALV DÆKNING SKAL HELBREDSERKLÆRINGEN IKKE UDSKRIVES ****************
+.******************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.******************************
+.if &U'X&brev eq XPFA17
+.or &U'X&brev eq XPFA19
+.th .go HALVD1
+.el .go HALVDSL1
+...HALVD1
+.if &GENSUM > 4
+.th .go NOERKL1
+...HALVDSL1
+.**TEST I ØVRIGE BREVE - UDSKRIVES KUN VED NYTEGN. OG FORHØJELSE***********
+.if X&BECPJN1 gt X2
+.th .go NOERKL1
+.**************************************************************************
+:tiltale &TILTALE
+.TI ¤ 05
+.hy on
+.fo left
+:SWISS10.
+.**************************************************************************
+.da OV 22mm 32mm width 110mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OV on
+.tp 1mm
+:SWISS12.:FED.
+.US ON
+Familiesikring Kundegruppeliv
+.br
+Helbredserklæring
+.US OFF
+.ar off
+.***********
+.ar VEND on
+:COUR6.
+.*-------B04-version start-------
+B04PFA07
+.*-------B04-version slut--------
+.br
+Version 1.1.2004
+.ar off
+...NOERKL1
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+.*TEST DER BRUGES I BECPFA17 OG 19 - FOR AT UNDERSØGE OM DET ER "HALV DÆKN"
+.*VED HALV DÆKNING SKAL HELBREDSERKLÆRINGEN IKKE UDSKRIVES ****************
+.if &U'X&brev eq XPFA17
+.or &U'X&brev eq XPFA19
+.th .go HALVD2
+.el .go HALVDSL2
+...HALVD2
+.if &GENSUM > 4
+.th .go NOERKL2
+...HALVDSL2
+.**TEST I ØVRIGE BREVE - UDSKRIVES KUN VED NYTEGN. OG FORHØJELSE***********
+.if X&BECPJN1 gt X2
+.th .go NOERKL2
+.**************************************************************************
+.da box 21mm 42mm width 185mm
+.tp 2mm 92mm 142mm
+.* KASSE TIL KUNDEOPLYSNINGER**********************************************
+.ar box on
+:SWISS10.
+.bx 1mm 91mm 184mm
+:SWISS8.
+¤¤CPR.nr.
+.sp 5.5mm
+.bx new 91mm 141mm 184mm
+¤¤Pengeinstituttets reg.nr. ¤Filial
+.sp 5.5mm
+.hr 1mm 184mm
+.bx can
+.bx can
+.* KASSE TIL VEJLEDNING ***************************************************
+.bx  set 1mm 184mm
+.sp 21mm
+.* KASSE TIL PKT 1 ********************************************************
+.bx  new 1mm 68mm 85mm 184mm
+.sp 18mm
+.* KASSE TIL PKT 2 ********************************************************
+.bx new 1mm 68mm 85mm 184mm
+.sp 18mm
+.* KASSE TIL PKT 3 ********************************************************
+.bx new 1mm 68mm 85mm 184mm
+.sp 28mm
+.* KASSE TIL PKT 4 ********************************************************
+.bx new 1mm 68mm 85mm 184mm
+.sp 19mm
+.* KASSE TIL ERKLÆRING **************************************************
+.bx new 1mm 184mm
+.sp 64mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.* KASSE TIL UNDERSKRIFT **************************************************
+.bx 1mm 184mm
+.sp 12mm
+.bx off
+.ar off
+...NOERKL2
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+.*TEST DER BRUGES I BECPFA17 OG 19 - FOR AT UNDERSØGE OM DET ER "HALV DÆKN"
+.*VED HALV DÆKNING SKAL HELBREDSERKLÆRINGEN IKKE UDSKRIVES ****************
+.if &U'X&brev eq XPFA17
+.or &U'X&brev eq XPFA19
+.th .go HALVD3
+.el .go HALVDSL3
+...HALVD3
+.if &GENSUM > 4
+.th .go NOERKL3
+...HALVDSL3
+.**TEST I ØVRIGE BREVE - UDSKRIVES KUN VED NYTEGN. OG FORHØJELSE***********
+.if X&BECPJN1 gt X2
+.th .go NOERKL3
+.hy off
+.**************************************************************************
+.da SIDE 160mm 33.5mm width 40mm
+.da KUNDE 27mm 45mm width 100mm
+.da CPR 117mm 48.5mm width 100mm
+.da TEKST 27mm 64.5mm width 170mm
+.** AREALER PUNKT 1
+.da PKT1 16mm 85mm width 10mm
+.da PKT11 27mm 90mm width 54mm
+.da PKT1K 91mm 85mm width 20mm
+.da PKT12 107mm 85mm width 95mm
+.** AREALER PUNKT 2
+.da PKT2 16mm 104.5mm width 10mm
+.da PKT21 27mm 109.5mm width 54mm
+.da PKT2K 91mm 104.5mm width 20mm
+.da PKT22 107mm 104.5mm width 95mm
+.** AREALER PUNKT 3
+.da PKT3 16mm 124mm width 10mm
+.da PKT31 27mm 129mm width 60mm
+.da PKT32 107mm 124mm width 95mm
+.da PKT3K 91mm 124mm width 20mm
+.****************** AREALER slut ***************************************
+.tp 6mm
+.ar KUNDE on
+&NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************************************
+.ar CPR on
+.tp 50mm
+.*******
+.su off
+.se a = substr &KUNDENR 1 6
+.se b = substr &KUNDENR 7 4
+.su on
+.*******
+&a.-&b.
+.sp 6mm
+&REGNR. ¤&BECFIL
+.ar off
+.**************************************************************************
+.ar TEKST on
+:SWISS8.
+&SDU skal :FED.selv:SKRSLUT. udfylde erklæringen og besvare :FED.alle
+:SKRSLUT. spørgsmål omhyggeligt. &SDU skal oplyse alt, også selvom &DU
+tror, det er uden betydning for PFA Pension. &SDU skal ikke oplyse om
+undersøgelser, der kan belyse &DINE arveanlæg og deraf følgende risiko for
+fremtidige sygdomme.
+.sp 1mm
+Giver &DINE svar på nedenstående spørgsmål anledning til det, vil &DU blive
+bedt om yderligere oplysninger. Brug eventuelt en blank side, hvis der ikke
+er plads nok i de enkelte rubrikker.
+.br
+(Husk navn, CPR-nr., dato og underskrift).
+.ar off
+.**************************************************************************
+.ar PKT1 on
+:FED.1.:SKRSLUT.
+.ar off
+.*************
+.ar PKT11 on
+:SWISS8.
+.tp 3mm
+Er &DU for tiden fuldstændig rask og arbejdsdygtig?
+.ar off
+.*************************
+.ar PKT1K
+.tp 9mm
+:SWISS8.
+Ja¤Nej
+.br
+.*1****
+.bx 0mm 4mm / 9mm 13mm
+.sp 2.5mm
+.bx off
+.ar off
+.*************************
+.ar PKT12 on
+:SWISS8.
+.tp _/95mm
+Anfør i benægtende fald sygdommen:
+.sp 2mm
+¤
+.sp 2mm
+¤
+.sp 2mm
+¤
+.ar off
+.**************************************************************************
+.ar PKT2 on
+:FED.2.:SKRSLUT.
+.ar off
+.*************
+.ar PKT21 on
+:SWISS8.
+.tp 3mm
+Har &DU indenfor de sidste 3 år lidt af
+nogen alvorlig sygdom?
+.ar off
+.*************************
+.ar PKT2K
+.tp 9mm
+:SWISS8.
+Nej¤Ja
+.br
+.*1****
+.bx 0mm 4mm / 9mm 13mm
+.sp 2.5mm
+.bx off
+.ar off
+.*************************
+.ar PKT22 on
+.tp _/95mm
+:SWISS8.
+Hvis Ja:
+.sp 2mm
+Hvilken? ¤
+.sp 2mm
+Hvor længe? ¤
+.sp 2mm
+Hvornår? ¤
+.ar off
+.*PUNKT 3*****************************************************************
+.ar PKT3 on
+:FED.3.:SKRSLUT.
+.ar off
+.*****
+.ar PKT31 on
+:SWISS8.
+.tp 3mm
+Har &DU indenfor de sidste 3 år været undersøgt og/eller behandlet
+af læge, kiropraktor, fysioterapeut eller anden behandler, fået
+foretaget laboratorieundersøgelse eller været indlagt, undersøgt på
+sygehus, ambulatorium e.l.?
+.ar off
+.*****
+.ar PKT32 on
+:SWISS8.
+.tp _/95mm
+Hvis Ja:
+.sp 2mm
+Hvor? ¤
+.sp 2mm
+For hvad? ¤
+.sp 2mm
+Hvornår? ¤
+.sp 2mm
+Hvor længe? ¤
+.sp 2mm
+Evt. følger? ¤
+.ar off
+.*****
+.ar PKT3K
+:SWISS8.
+.tp 9mm
+Nej¤Ja
+.br
+.*1****
+.bx 0mm 4mm / 9mm 13mm
+.sp 2.5mm
+.bx off
+.ar off
+...NOERKL3
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+.*TEST DER BRUGES I BECPFA17 OG 19 - FOR AT UNDERSØGE OM DET ER "HALV DÆKN"
+.*VED HALV DÆKNING SKAL HELBREDSERKLÆRINGEN IKKE UDSKRIVES ****************
+.if &U'X&brev eq XPFA17
+.or &U'X&brev eq XPFA19
+.th .go HALVD4
+.el .go HALVDSL4
+...HALVD4
+.if &GENSUM > 4
+.th .go NOERKL4
+...HALVDSL4
+.**TEST I ØVRIGE BREVE - UDSKRIVES KUN VED NYTEGN. OG FORHØJELSE***********
+.if X&BECPJN1 gt X2
+.th .go NOERKL4
+.** AREALER PUNKT 4
+.da PKT4 16mm 153.5mm width 10mm
+.da PKT41 27mm 158.5mm width 54mm
+.da PKT4K 91mm 153.5mm width 20mm
+.da PKT42 107mm 153.5mm width 95mm
+.*******************
+.da ERKLAR1 16mm 176mm width 10mm
+.da ERKLAR 27mm 176mm width 175mm
+.da UNDER 27mm 247mm width 175mm
+.****************** AREALER slut ***************************************
+.ar PKT4 on
+:FED.4.:SKRSLUT.
+.ar off
+.*************
+.ar PKT41 on
+:SWISS8.
+.tp 3mm
+Har &DU nogensinde været syg eller sygemeldt i længere tid end 1 måned?
+.ar off
+.*************************
+.ar PKT4K
+.tp 9mm
+:SWISS8.
+Nej¤Ja
+.br
+.*1****
+.bx 0mm 4mm / 9mm 13mm
+.sp 2.5mm
+.bx off
+.ar off
+.*************************
+.ar PKT42 on
+:SWISS8.
+.tp _/95mm
+Hvis Ja:
+.sp 2mm
+Hvilken lidelse? ¤
+.sp 2mm
+Hvornår? ¤
+.sp 2mm
+Hvor længe? ¤
+.ar off
+.**************************************************************************
+.ar ERKLAR1 on
+:FED.!:SKRSLUT.
+.ar off
+.*************
+.ar ERKLAR on
+:SWISS8.
+.hy on
+Må kun anvendes til risikovurdering
+efter retningslinier udarbejdet af Videncenter for Helbred og Forsikring
+(Helbred & Forsikring).
+.sp 3mm
+Jeg erklærer hermed, at mine besvarelser og oplysninger er i
+overensstemmelse med sandheden, og at jeg intet har fortiet. Jeg
+er klar over,
+at forsikringen kan nedsættes eller ophæves, hvis svarene ikke
+er fuldt sandfærdige, eller fortielse har fundet sted.
+.sp 3mm
+Jeg giver samtykke/fuldmagt til, at PFA Pension kan indhente
+oplysninger om mine helbredsforhold. Der kan indhentes
+oplysninger, der er
+nødvendige for en fuldstændig vurdering af den
+forsikringsmæssige risiko. Samtykket/fuldmagten omfatter alene
+helbredsoplysninger
+forud for det tidspunkt, hvor PFA Pension har accepteret den
+ønskede forsikring. Når supplerende helbredsoplysninger afgives
+af læger,
+anvendes en nærmere aftalt erklæring, som suppleres med kopi
+eller uddrag af relevant journalmateriale, hvis PFA Pension
+ønsker det.
+.sp 3mm
+Oplysningerne kan indhentes hos autoriserede sundhedspersoner,
+sygehuse og sundhedsmæssige institutioner, hos offentlige
+myndigheder samt hos andre selskaber og pensionskasser. Andre
+selskaber, pensionskasser, Helbred & Forsikring,
+Arbejdsskadestyrelsen
+samt andre autoriserede sundhedspersoner, der involveres i
+sagens behandling, kan gøres bekendt med de indhentede
+oplysninger.
+.sp 3mm
+Jeg giver samtykke til, at PFA Pension kan videregive
+oplysninger, herunder personnummer og oplysninger om
+helbredsmæssige forhold, til
+registrering og behandling i Videncenter for Helbred og
+Forsikring (Helbred & Forsikring). Samtidigt annulleres min
+eventuelle tidligere
+tilbagekaldelse af samtykke til behandling.
+.sp 3mm
+Såfremt Helbred & Forsikring vurderer, at forsikringen kan
+tegnes på normale vilkår, slettes de registrerede oplysninger.
+.ar off
+.*UNDERSKRIFT**************************************************************
+.ar UNDER on
+:SWISS8.
+.tp _/44mm 51mm _/56mm 57mm 59mm _/64mm 65mm _/173mm
+¤, den¤¤¤/¤¤¤&GENAAR1 ¤
+.br
+.tp 22mm 119mm center
+¤Sted¤&NAVN
+.ar off
+...NOERKL4
+.***********
+.*B04s EGET BREV, DA BEC HAR SLETTE BREVET PR. 31.12.10
+.*TEST DER BRUGES I BECPFA17 OG 19 - FOR AT UNDERSØGE OM DET ER "HALV DÆKN"
+.*VED HALV DÆKNING SKAL HELBREDSERKLÆRINGEN IKKE UDSKRIVES ****************
+.if &U'X&brev eq XPFA17
+.or &U'X&brev eq XPFA19
+.th .go HALVD5
+.el .go HALVDSL5
+...HALVD5
+.if &GENSUM > 4
+.th .go NOERKL5
+...HALVDSL5
+.**TEST I ØVRIGE BREVE - UDSKRIVES KUN VED NYTEGN. OG FORHØJELSE***********
+.if X&BECPJN1 gt X2
+.th .go NOERKL5
+.***************** AREALER TIL TEKSTEN************************************
+.da PFA1 20mm 273mm width 175mm
+.*************************************************************************
+.ar PFA1 on
+:SWISS8.
+.ce on
+PFA Pension, Sundkrogsgade 4, 2100 København Ø, &ÅCONT
+forsikringsaktieselskab CVR: 13 59 43 76.
+.br
+Telefon 39 17 50 00. Telefax 39 17 59 50. &ÅCONT
+Internet: www.pfa.dk, e-mail: &ÅCONT
+.us pension@pfa.dk
+.ct .
+.ce off
+.ar off
+...NOERKL5
+.pa nostart

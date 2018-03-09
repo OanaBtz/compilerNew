@@ -1,0 +1,346 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* parameterafsnit
+.* Dokumentet ændres til at bruge indgangsnøgle kundenr.(kontodel fjernes)
+.* TEST AF BESTILLING AF SIKKERHEDER
+.se siku = N
+.if &U'&MIBJN5 = J .se siku = J
+.if &U'&MIBJN7 = J .se siku = J
+.if &U'&MIBJN8 = J .se siku = J
+.if &U'&MIBJN9 = J .se siku = J
+.if &U'&MIBJN10 = J .se siku = J
+.if &U'&MIBJN11 = J .se siku = J
+.if &U'&MIBJN12 = J .se siku = J
+.if &U'&MIBJN13 = J .se siku = J
+.if &U'&MIBJN14 = J .se siku = J
+.if &U'&MIBJN15 = J .se siku = J
+.if &U'&MIBJN16 = J .se siku = J
+.if &U'&MIBJN17 = J .se siku = J
+.if &U'&MIBJN18 = J .se siku = J
+.if &U'&MIBJN19 = J .se siku = J
+.dr tynd WEIGHT 0.1mm
+.dr norm WEIGHT 0.2mm
+.da VEND 7mm 277mm width 180mm rotate -90
+:COUR10.
+.LL 185mm
+.se tap1 '106mm 135mm right 137mm 155mm 175mm'
+.se tap2 './108mm 135mm right 136mm 155mm 175mm'
+.se tap4 '108mm ./135mm right 136mm 155mm 175mm'
+.se siks = SIKUD
+.dm fed on
+.kp off
+.kp on
+...SPN
+:FED.&*1.:SKRSLUT.
+.dm off
+.FO OFF
+.ti ^ 05
+.IN 2mm
+.*se ovsi ' (Sagsbehandler: dato _____ init ____ )^^^Sæt initialer'
+.se ovsi ' ^^^Sæt initialer'
+.*se ovs0 ' (Kontrol......: dato _____ init ____ )'
+.se ovs0 ' '
+.*se ovs1 '^^REGISTRERET^sags KON-  BEMÆRKNING'
+.se ovs1 '^^           ^SAGS KON-  BEMÆRKNING'
+.*se ovs2 '^^PÅ KONTOEN ^beh. TROL'
+.se ovs2 '^^           ^BEH. TROL'
+.se s '_______________________'
+.se k '_____xxxx______________'
+.se del '(Sikkerheds-kontrol)'
+.rh on
+.* Brevnavn, roteret i venstre hjørne
+.ar VEND on
+:COUR6.
+&BREVNAVN.  Kl. &KLOKKESLET.
+.ar off
+:COUR10.
+.TP 39mm 95mm 135mm
+.LL 185mm
+:FED.              Intern kontrol &del
+.ri Side  &ÅPN
+.br
+.bx left right
+.IN 2mm
+KUNDENAVN                      ^^Dato: &DATO ^Kundenr.: &KUNDENR
+.br
+:SKRSLUT.
+.*br
+.*us
+.*NDENAVN^^
+  &STILL ^^
+&NAVN  ^^  
+&COADR ^^  
+&GADE  ^^  
+&BY   &LAND ^^.b
+x off.s
+p 1mm.*
+TP 39mm 95mm 78.b
+r.T
+P &tap1&o
+vsi.s
+p 2mm&o
+vs0.b
+r.i
+f .&siks = .SIKUD.t
+h .bx tynd 136mm 146.0mm 156mm right.e
+l .bx tynd 109mm 136mm 146.0mm 156mm right&o
+vs1.b
+r&o
+vs2.b
+r.b
+x off.T
+P &tap2.i
+f &ÅPN = 2 .sp 2.r
+h off.r
+h execute.*
+br
+.* Afslutning af kontooplysninger - sb = styring af rammer
+.se siks = SIKUD
+.se fort '             Kontooplysninger SLUT'
+.*rf cancel
+.*rf on
+.*bx off
+.*br
+.*ri &fort.
+.*br
+.*rf off
+.*rf execute
+.if &U'&MIBJN5 = J .or &U'&MIBJN6 = J .se alsik = J
+.el .se alsik = N
+.se tap1 '137mm 148mm 159mm'
+.se tap2 './136mm 148mm 159mm'
+.*se ovs0 ' (Kontrol......: dato _____ init ____ )'
+.se ovs0 ' '
+.*se ovsi ' (Sagsbehandler: dato _____ init ____ )^Sæt initialer'
+.se ovsi ' ^Sæt initialer'
+.se ovs1 '^SAGS KON- BEMÆRKNING'
+.se ovs2 '^BEH. TROL'
+.se del '(Sikkerheds-kontrol)'
+.* SLUT HVIS INGEN SIKKERHEDER
+.*if &siku = N .an &alsik = N .qu
+.*if &siku = N .an &alsik = N
+.*th .mg /t/  Ingen sikkerheder valgt &KUNDENR. &NAVN. (&BRUGERNAVN.) /
+.*pn 1
+.*pa
+.rf cancel
+.*sp
+.se fort 'Sikkerheder fortsættes'
+.rf on
+:COUR10.
+.br
+.ri &fort.
+.br
+.rf off
+.rf execute
+...SIK
+.bx tynd 136mm 146.0mm 156mm right
+.TP &tap2
+.fed 'SIKKERHEDER OG SIKKERHEDSREGISTRERING'
+.SK
+.fed 'GENERELT'
+1) Svarer endelige/reg. sikkerheder til dokumenter og bevilling ^&s
+2) Hver enkelt depot reg. til sikkerhed
+   for kontonr./kundenr. (billed 70000, sikkerhedsrelationer)^&s
+3) Underskrift(er)/firmanavn/dato på alle dokumenter i sagen ^&s
+4) Tegningsudskrift ^&s
+5) Vitterlighedsvidne/dato ^&s
+6) Kundetype (Privat/Erhverv = &PRIVERHV.) ^&s
+7) Kontokaution ^&s
+.sk
+.if &U'&MIBJN7 ne J .or &alsik = J .go LSPB1
+.fed 'EJERPANTEBREVE'
+1) Hovedstol - belåningsværdi ^&s
+2) Matr.nr. + BBR nr.^&s
+3) Adresse ^&s
+4) Seneste ejd.værdi/grundværdi/handelsværdi/grundlag ^&s
+5) Foranstående hæftelser
+        - restgæld/kt. restgæld/fondskoder(billed 70340) ^&s
+6) Vurdering ^&s
+7) Sikringsakt: tinglysning ^&s
+8) Solvenskode: (billed 70313)
+         koder: 401/beboelsesejendomme 402/fritidshuse
+                403/kontor- og forretningsejendomme,
+                    som bruges af ejer ^&s
+.sk
+...LSPB1
+.if &U'&MIBJN8 ne J .or &alsik = J .go EPB2
+.fed 'LØSØREEJERPANTEBREVE'
+1) Hovedstol - belåningsværdi ^&s
+2) Beskrivelse af det pantsatte ^&s
+3) Sikringsakt: tinglysning bilbogen/personbogen ^&s
+                notering af panthaverdeklaration
+                          hos forsikringsselskab ^&s
+.sk
+...EPB2
+.if &U'&MIBJN9 ne J .an &alsik ne J .go LSPB2
+.if &U'&MIBJN6 = J .se epb2 ' / EJERPANTEBREVE' ;.el .se epb2 ''
+.fed 'SKADESLØSBREVE&epb2.'
+1) Hovedstol - belåningsværdi ^&s
+2) Matr.nr. + BBR nr. ^&s
+3) Adresse ^&s
+4) Seneste ejd.værdi/grundværdi/handelsværdi/grundlag ^&s
+5) Foranstående hæftelser
+   - restgæld/kt. restgæld/fondskoder(billed 70340) ^&s
+6) Sikringsakt: tinglysning ^&s
+7) Solvenskode: (billed 70313)
+         koder: 401/beboelsesejendomme 402/fritidshuse
+                403/kontor- og forretningsejendomme,
+                    som bruges af ejer ^&s
+.sk
+...LSPB2
+.if &U'&MIBJN10 ne J .an &alsik ne J .go ALSK
+.if &U'&MIBJN6 = J .se lspb2 ' / LØSØREEJERPANTEBREVE' ;.el .se lspb2 ''
+.fed 'LØSØRESKADESLØSBREVE&lspb2.'
+1) Hovedstol - belåningsværdi ^&s
+2) Beskrivelse af det pantsatte ^&s
+3) Sikringsakt: anmærkningsfri tinglysning bilbogen/personbogen ^&s
+notering af panthaverdeklaration                
+      hos forsikringsselskab ^&s                
+      Forsikringsselskabets navn  registreret^&s.sk...ALSK
+
+
+.br
+.if &U'&MIBJN11 ne J .an &alsik ne J .go LIVS
+.fed 'ALSKYLDNERKAUTION'
+1) Beløb - begrænsning - kautionsform ^&s
+2) Til sikkerhed for kundenr.^&s
+3) Navn - cpr.nr.^&s
+4) Soliditetsoplysning/soliditetstekst
+   (kun kautionist udenfor koncern) ^&s
+.*5) Tiltrædelse fra Kautionist ved ændring i
+.*   engagement/sikkerheder samt ved genforhandling ^&s
+.sk
+...LIVS
+.if &U'&MIBJN12 ne J .an &alsik ne J .go VPNOT
+.fed 'LIVSFORSIKRING'
+1) Livspolice m/tilbagekøbsværdi
+            - ophørende livspolice ^&s
+2) Sum ^&s
+3) Tilbagekøbsværdi kr. ^&s
+4) Ophørsdato ^&s
+5) Policenr. samt selskab ^&s
+6) Forsikrede/begunstiget/forsikringstager ^&s
+7) Sikringsakt: rådighedsberøvelse + noteret
+                panthaverdeklaration hos fors.selskab
+                Hvis uigenkaldelig begunstiget indsat
+                skal indhentes samtykke fra denne ^&s
+.sk
+...VPNOT
+.if &U'&MIBJN13 ne J .an &alsik ne J .go EVPNOT
+.fed 'VÆRDIPAPIRER - VP-NOTERET'
+:FED.(AKTIER - OBLIGATIONER):SKRSLUT.
+1) Underskrevet håndpantsætningserklæring/tiltrædelse
+   på depot vurd. som indeholder alle pantsatte
+   VP-beholdninger ^&s
+2) Pantsat afkastkonto ^&s
+3) Sik-depot 3.mand VP / sik-depot VP ^&s
+4) Solvens....: VP-konti i andet kreditinstitut -
+                projekt 99 billed 70516 -
+                kode 900 statspapirer
+                kode 902 kreditforeninger ^&s
+.sk
+...EVPNOT
+.if &U'&MIBJN14 ne J .an &alsik ne J .go PBR
+.fed 'VÆRDIPAPIRER - IKKE NOTERET'
+:FED.(AKTIER - ANPARTER I APS - OBLIGATIONER):SKRSLUT.
+1) Underskrevet håndpantsætningserklæring/tiltrædelse
+   på depot vurd., som indeholder alle pantsatte
+   IKKE VP-beholdninger ^&s
+2) M/fondskode -VP depot (opbevares i CENDEP) ^&s
+3) U/fondskode -lånesagsdepot(opbevares i rød sagsmappe)^&s
+4) Sikringsakt: rådighedsberøvelse v/fysiske papirer
+anmeldt overfor selskabet                
+m/navnenotering ^&s.sk...PBR.if &U'
+&MI
+BJN15 
+ne J .an &alsik ne J .go TRANSP.fed 'PANTEBREVE
+ M.V.'1) Underskrevet 
+håndpantsætningserklæring/tiltrædelse   på depot vurd
+., som indeholder alle pantsatte   effekter vedr
+. pantebreve m.v. ^&s2) Risikoklasse/
+kurs ^&s3) Sik-depot 3.m
+and VP / sik-depot VP ^&s.sk...TRANSP.br
+
+
+
+.br
+.if &U'&MIBJN16 ne J .an &alsik ne J .go GAR
+.fed 'TRANSPORT'
+1) Noteret af ^&s
+2) Transport i ^&s
+3) Sikringsakt: notering/dokumenteret anmeldelse ^&s
+.sk
+...GAR
+.if &U'&MIBJN17 ne J .an &alsik ne J .go BANK
+.fed 'GARANTIER'
+1) Beløbsstørrelse ^&s
+2) Garantistiller ^&s
+.*3) Udløbsdato - huskedato registreret på billed 3108 ^&s
+3) Sikringsakt: notering/dokumenteret anmeldelse ^&s
+.sk
+...BANK
+.if &U'&MIBJN18 ne J .an &alsik ne J .go DIVS
+.fed 'BANKKONTI'
+1) Solvens: Indlån i andet PI
+            projekt 99 billed 70509 kode 305 ^&s
+2) Konto i andet PI - notering foretaget ^&s
+3) Sikringsakt: rådighedsberøvelse v/fysisk bankbog ^&s
+.sk
+...DIVS
+.if &U'&MIBJN19 ne J .an &alsik ne J .go BRSLUT
+.fed 'DIVERSE SIKKERHEDER'
+1) Sikringsakt: ^&s
+2)              ^&s
+3)              ^&s
+.sp
+...BRSLUT
+.kp off
+.bx off
+.rf sup
+.se fort '     SIKKERHEDER SLUT'
+.rf on
+.bx off
+.br
+:COUR10.
+.ri &fort.
+.sk
+.rf off
+.rf execute
+.br

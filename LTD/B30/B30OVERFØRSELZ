@@ -1,0 +1,200 @@
+.oc  Denne linje benyttes ikke
+.fo left
+.*** SÆT SKÆRM/PRINT-FORMAT ***
+:GL.&&??#:EGL.
+.ti > 05
+:GL..PM 6:EGL.
+:GL..LL 74:EGL.
+.sp 4
+:GL..TP 37:EGL.
+.* Areal1 er defineret til Bankens Navn
+.* Areal2 er defineret til dato og reference
+.* Areal3 er defineret til kundens navn
+.* Areal4 er defineret til indhold
+.* Areal5 er defineret til underskrift
+.*** BREVSTART ***
+.da AREAL1 9 8 width 35
+.ar AREAL1 on
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.da AREAL2 55 8 width 25
+.ar AREAL2 on
+&DATO
+.br
+Vor reference:
+.br
+&B30NAVN
+.ar off
+.da AREAL3 9 16 width 70
+.ar AREAL3 on
+:GL..TP 41:EGL.
+&NAVN >CPR.nr. &KTOKUNDENR
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.da AREAL4 6 24 width 74
+.ar AREAL4 on
+.if &L'&B30TITAL2 gt 0
+.th &NAVN bemyndiger herved Lægernes Pensionsbank til at
+.th overføre nedennævnte konti.
+.el &NAVN bemyndiger herved Lægernes Pensionsbank til at
+.el overføre nedennævnte konto.
+.br
+:GL..TP 27 50:EGL.
+:NY..TP 69MM 127MM:ENY.
+_________________________________________________________________________
+.sp
+:FED.Kontonummer>Indsættes på>Kontobetegnelse
+:SKRSLUT.
+.sp
+:GL..TP 19 42:EGL.
+:NY..TP 48MM 107MM:ENY.
+&B30TITAL1 >6771 &KTONR >&B30A
+.th .br
+.if &L'&B30M gt 0
+.th &BKNAVN bedes sælge effekterne i depot &B30M inden overførsel af
+.th pensionsopsparingen til Lægernes Pensionsbank
+.th .sp
+.if &L'&B30KONTO2 gt 0
+.th &B30TITAL2 >6771 &B30KONTO2 >&B30B
+.th .br
+.if &L'&B30N gt 0
+.th &BKNAVN bedes sælge effekterne i depot &B30N inden overførsel af
+.th pensionsopsparingen til Lægernes Pensionsbank
+.th .sp
+.if &L'&B30KONTO3 gt 0
+.th &B30TITAL3 >6771 &B30KONTO3 >&B30C
+.th .sp
+.if &L'&B30KONTO4 gt 0
+.th &B30TITAL4 >6771 &B30KONTO4 >&B30D
+.th .sp
+_________________________________________________________________________
+.sp
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.su off
+.se HOJ = substr &KTONR 1 2
+.su on
+.if &HOJ eq 60 .or &HOJ eq 20 .go stop
+:FED.Ønskes retur:
+:SKRSLUT.
+.br
+.if &U'&B301 eq J .an &L'&B30KONTO2 eq 0 .an &L'&B30KR le 4
+.th De bedes venligst sende en fotokopi af pensionsaftalen med.
+.th .sp
+.th :FED.Bemærk, at der er tale om en deloverførsel. Det er kun
+.th den kontante del af pensionsaftalen ekskl. afregningsbeløb til
+.th realrenteafgift.
+.th :SKRSLUT.
+.th .br
+.if &U'&B301 eq J .an &L'&B30KONTO2 gt 0 .an &L'&B30KR le 4
+.th De bedes venligst sende en fotokopi af pensionsaftalerne med.
+.th .sp
+.th :FED.Bemærk, at der er tale om en deloverførsel. Det er kun
+.th den kontante del af pensionsaftalerne ekskl. afregningsbeløb til
+.th realrenteafgift.
+.th :SKRSLUT.
+.th .br
+.if &U'&B301 eq J .an &L'&B30KONTO2 eq 0 .an &L'&B30KR gt 4
+.th De bedes venligst sende en fotokopi af pensionsaftalen med.
+.th .sp
+.th :FED.Bemærk, at der er tale om en deloverførsel. Der ønskes
+.th overført
+.th :VS.&B30KR
+.th kr.
+.th :SKRSLUT.
+.th .br
+.if &U'&B301 eq J .an &L'&B30KONTO2 gt 0 .an &L'&B30KR gt 4
+.th De bedes venligst sende en fotokopi af pensionsaftalerne med.
+.th .sp
+.th :FED.Bemærk, at der er tale om en deloverførsel. Der ønskes
+.th overført
+.th :VS.&B30KR
+.th kr.
+.th :SKRSLUT.
+.th .br
+.if &U'&B301 eq N .an &L'&B30KONTO2 eq 0
+.th &BKNAVN.'s genpart af pensionsaftalen.
+.th .br
+.th P36 skema i udfyldt stand.
+.th .sp
+.if &U'&B301 eq N .an &L'&B30KONTO2 gt 0
+.th &BKNAVN.'s genpart af pensionsaftalerne.
+.th .br
+.th P36 skema i udfyldt stand.
+.th .sp
+.th Forpligtelser i henhold til reglerne om skattebegunstigede
+.th opsparingsformer overtages af Lægernes Pensionsbank.
+.sp
+...stop
+.if &HOJ eq 60 .an &L'&B30G gt 0
+.th :FED.Bemærkninger:
+.th :SKRSLUT.
+.th .go slut
+.if &HOJ eq 20 .an &L'&B30G gt 0
+.th :FED.Bemærkninger:
+.th :SKRSLUT.
+.th .go slut
+.if &HOJ ne 20 .an &HOJ ne 60
+.th :FED.Bemærkninger:
+.th :SKRSLUT.
+.th .br
+.th Forpligtelser i henhold til reglerne om skattebegunstigede
+.th opsparingsformer overtages af Lægernes Pensionsbank.
+.th .go slut
+...slut
+.if &L'&B30G gt 0
+.th .sp
+&B30G &B30H &B30I &B30J &B30K &B30L
+.if &HOJ eq 60 .an &L'&B30G eq 0 .go nul
+.if &HOJ eq 20 .an &L'&B30G eq 0 .go nul
+.br
+_________________________________________________________________________
+.br
+...nul
+.ar off
+.da AREAL5 6 56 width 74
+.ar AREAL5 on
+.su off
+.se byen = substr &BY 6
+.su on
+:GL..TP 49:EGL.
+.if &B303 eq 1
+.th  >København, den &DATO2
+.th .sp 3
+.th I følge vedlagte >Lægernes Pensionsbank
+.if &B303 eq 2
+.th  >København, den &DATO2
+.th .sp 2
+.th Underskrift på
+.th .br
+.th bagsiden af kontrakten >Lægernes Pensionsbank
+.if &B303 eq 3
+.th &byen., den >København, den &DATO2
+.th .sp 3
+.th &NAVN >Lægernes Pensionsbank
+.ar off
+.sp &ÅLC
+.pa
+.br

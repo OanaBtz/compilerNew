@@ -1,0 +1,187 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Tests på regtype ********************************************************
+.if &REGTYPE < 1040
+.or &REGTYPE > 1044
+.th .mg/T/Der skal vælges en konto med regtypen deponering/
+.*Test på valg af betalingsmåde *******************************************
+.if &GENVALG = 0
+.or &GENVALG > 3
+.th .mg/T/Vælg 1=check, 2=overført eller 3=valgfri tekst/
+.*Test at felter er udfyldt for valg 1 - 3 ********************************
+.if &GENVALG = 1
+.th .go VALGSL
+.if &GENVALG = 2
+.th .go VALG2
+.el .go VALG3
+...VALG2
+.if &L'&BANKREGNR = 0
+.or &L'&GENKONTO01 = 0
+.th .mg/T/Ved valg 2 skal både reg.nr. og kontonr. udfyldes/
+.go VALGSL
+...VALG3
+.if &L'&GENTEKST = 0
+.th .mg/T/Ved valg 3 skal udfyldes, hvad der er vedlagt/
+...VALGSL
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da REF 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.us Frigivelse af din deponeringskonto &regnr &ktonr
+.sp
+.**************************************************************************
+.tp 8mm
+.**************************************************************************
+Vi har fra &GENNAVN fået oplyst, at beløbet på din deponeringskonto
+kan frigives.
+.sp
+Kontoen er opgjort, og vi har
+.if &GENVALG = 1
+.th .go VL1
+.if &GENVALG = 2
+.th .go VL2
+.if &GENVALG = 3
+.th .go VL3
+...VL1
+vedlagt en check på
+:VS.&GENBL01
+kr.
+.go AFSLUT
+...VL2
+overført
+:VS.&GENBL01
+kr. til din konto nr. &BANKREGNR &GENKONTO01 i &BKNAVN..
+.go AFSLUT
+...VL3
+&GENTEKST.
+...AFSLUT
+.sp
+Vi betragter herefter sagen som afsluttet
+.if &L'&GENSKOEDE > 0
+.or &L'&GENPANTBRV > 0
+.or &L'&GENLAANAFR > 0
+.or &L'&GENINDFRIK > 0
+.or &L'&GENFONDSNO > 0
+.or &L'&GENKTOUDT > 0
+.or &L'&GENBILAG01 > 0
+.th .ct , og vi vedlægger derfor følgende:
+.th .sp
+.el .ct .
+.if &L'&GENSKOEDE > 0
+.th * skøde
+.th .br
+.if &L'&GENPANTBRV > 0
+.th * aflyst(e) pantebrev(e)
+.th .br
+.if &L'&GENLAANAFR > 0
+.th * låneafregning
+.th .br
+.if &L'&GENINDFRIK > 0
+.th * indfrielseskvitteringer
+.th .br
+.if &L'&GENFONDSNO > 0
+.th * fondsnotaer
+.th .br
+.if &L'&GENKTOUDT > 0
+.th * kontoudtog
+.th .br
+.if &L'&GENBILAG01 > 0
+.th * &GENBILAG01
+.sp
+Hvis du har spørgsmål, er du velkommen til at kontakte os på telefon
+&GENTLFNR..
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

@@ -1,0 +1,228 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*******************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.***********************TABULATOR**********************
+.ti ¤ 05
+.tp 13mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.if &L'&B19TX30A gt 0
+.th .sp
+.th Att. &B19TX30A
+.el
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.******************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte: ¤&GENTLFNR
+.br
+E-mail: ¤&GENEMAIL
+.sp
+&DATO
+:VERDA10.
+.ar off
+.fo left
+.***********************************************************************
+.ti ¤ 05
+:TILTALE &TILTALEM.
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.* Rykkertype = 0, defaultværdien, og rykkertype = 1 er den mildeste
+.*  og rykkertype = 4 er den hårdeste.
+.*
+.* Servicebrevet, som er et rykkerbrev med de sidste 10 posteringer
+.*  kan både være et rykkerbrev der skal tælle med og derfor skal
+.*  have en rykkertype fra 1-4, eller det kan være et rykkerbrev
+.*  der ikke skal tælle med og derfor have en rykkertype = 0.
+.*********************************************************************
+.* B19OPSIG03 anvendes til fremsendelse af brev til evt. medkontohaver,
+.* som ikke har samme adresse som kontohaver.
+.* KOPI AF B19OPSIG02
+.* BEM RK, at brevet ikke virker, hvis der er mere end en medkontohaver.
+.*
+.*----------------------------------------------------------------------
+.*
+.* pfa. Bente Lyng, ændret antal dage fra 10 til 15 pga. nye postregler.
+.* og erstattet teksten: "Da du ikke har reageret på disse rykkerbreve"
+.* med følgende "Da du ikke har inddækket overtrækket"
+.* 29.6.2016 / hk
+.*----------------------------------------------------------------------
+.* pfa. Bettina Koefooed, tilføjet "incl. skyldige renter"
+.* 9.9.2015 / hk
+.*------------------------------------------------------------
+.* tilføjet B19MVH2 - herefter to underskrivere.
+.* 18.2.2015 / hk
+.*------------------------------------------------------------
+.* KOPI AF B19OPSIG02P1
+.*----------------------------------------------------------------------
+.da SIDE 25mm 100mm width 160mm
+.ar SIDE on
+:VERDA10.
+:FED.
+Opsigelse af engagement på grund af misligholdelse
+.sp
+:SKRSLUT.
+Vi har tidligere sendt &DIG rykkerbreve i forbindelse med overtræk. Da
+&DU ikke har inddækket overtrækket, opsiger vi hermed &DIT
+engagement med banken til fuld og endelig indfrielse på grund af
+misligholdelse.
+.sp
+&SDU bedes straks og senest 15 dage fra dato indbetale for så vidt angår:
+.sp
+.tp 60mm 90mm char ,
+...LIN1
+&B19TX30A ¤kr. ¤&B19BELØB1 ;.br
+.if &L'&B19TX30B gt 0
+.th .go LIN2
+.el .go SLUT
+...LIN2
+&B19TX30B ¤kr. ¤&B19BELØB2 ;.br
+.if &L'&B19TX30C gt 0
+.th .go LIN3
+.el .go SLUT
+...LIN3
+&B19TX30C ¤kr. ¤&B19BELØB3 ;.br
+.if &L'&B19TX30D gt 0
+.th .go LIN4
+.el .go SLUT
+...LIN4
+&B19TX30D ¤kr. ¤&B19BELØB4 ;.br
+.if &L'&B19TX30E gt 0
+.th .go LIN5
+.el .go SLUT
+...LIN5
+&B19TX30E ¤kr. ¤&B19BELØB5
+...SLUT
+.sp
+.****************************
+.if &L'&B19TX30B gt 0
+.th .se KONTO = 'konti.'
+.el .se KONTO = 'konto.'
+.****************************
+.in 0mm
+til dækning af skyldig saldo incl. skyldige renter på ovennævnte &KONTO.
+.sp
+Hvis vi ikke modtager &DIN betaling senest &B19TX18A., overgiver vi
+sagen til retslig inkasso. Det medfører yderligere renter og
+omkostninger for &DIG..
+.sp
+&SDU vil samtidig blive indberettet til RKI Kredit Information. Det
+betyder, at &DU ikke fremover kan få lån i banker og
+finansieringsselskaber m.v.
+.sp
+.tp 60mm
+.sp2
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+.br
+:SKRSLUT.
+.sp2
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP ¤&GENEKSP
+.th .br
+:KURSIV.
+.th &GENMTITEL ¤&GENTITEL
+:SKRSLUT.
+.th .br
+.el &GENEKSP
+.el .br
+:KURSIV.
+.el &GENTITEL
+:SKRSLUT.

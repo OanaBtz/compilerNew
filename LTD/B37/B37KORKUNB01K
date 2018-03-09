@@ -1,0 +1,344 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.dm KONVO on
+.se KONVO = 1
+.se INPUTT = &&*1
+.se INPUTTV = &&*1
+.se ANTDEC = 0
+.se DEC = 0
+.se TAL = ''
+.se C1 = 0
+.se LOOPTAL = 0
+...LOOP
+.se LOOPTAL = &LOOPTAL + 1
+.if &LOOPTAL > 19
+.th /002T/ Fejl i MIBKONVO &INPUTTV LOOP = &LOOPTAL kontakt Edb-afd.
+.se C1 = &C1 + 1
+.se LOOPTXT = SUBSTR &INPUTT &C1 1
+.if &C1 > 20
+.th .go SLUT
+.if .&LOOPTXT = .
+.th .go SLUT
+.if .&LOOPTXT = ..
+.th .go LOOP
+.if .&LOOPTXT = .,
+.th .se DEC = 1
+.th .go LOOP
+.if .&DEC = .1
+.th .se ANTDEC = &ANTDEC + 1
+.se TAL = &TAL.&LOOPTXT.
+.go LOOP
+...SLUT
+.se &*1 = &TAL
+.dm off
+.dm KONVKR on
+.se MIBKR = 1
+.se INPUTKR = &&*1
+.se INPUTKRV = &&*1
+.*e FTEGN = SUBSTR &INPUTKR 1 1
+.*f &FTEGN = -
+.*h .se INPUTKR = SUBSTR &INPUTKR 2 25
+.se ANTDEC = &*2
+.if &INPUTKR < 100 .se INPUTKR = 00&INPUTKR
+.if .&ANTDEC = .
+.th .se ANTDEC = 2
+.se ANTDECK = &ANTDEC + 1
+.se C1 = 0
+.se LOOPTAL = 0
+.se LOOPTAL1 = 0
+...LOOP
+.se LOOPTAL = &LOOPTAL + 1
+.if &LOOPTAL > 20
+.th .mg /001T/ Fejl i MIBKR &INPUTKRV LOOP = &LOOPTAL kontakt Edb-afd.
+.se C1 = &C1 + 1
+.se LOOPTXT = SUBSTR &INPUTKR &C1 1
+.if .&LOOPTXT = .
+.th .se C2 = &C1 - &ANTDEC
+.th .se C3 = &C1 - &ANTDEC - 1
+.th .se OERE = SUBSTR &INPUTKR &C2 &ANTDEC
+.th .go ON
+.if .&LOOPTXT = .,
+.th .se C2 = &C1 + 1
+.th .se C3 = &C1 - 1
+.th .se OERE = SUBSTR &INPUTKR &C2 &ANTDEC
+.th .go ON
+.se LINPUTKR = &L'&INPUTKR
+.if .&LOOPTXT = .0 .an &C1 = 1 .an &LINPUTKR > &ANTDECK
+.th .se C1 = 0
+.th .se INPUTKR = SUBSTR &INPUTKR 2 25
+.th .go LOOP
+.el .go LOOP
+...ON
+.se INPUTKR = SUBSTR &INPUTKR 1 &C3
+.se C5 = &C3
+.se KRM = ''
+...ON1
+.se LOOPTAL1 = &LOOPTAL1 + 1
+.if &LOOPTAL1 > 20
+.th .mg /002T/ Fejl i MIBKR &INPUTKRV LOOP = &LOOPTAL1 kontakt Edb-afd.
+.if &C5 > 2
+.th .se C4 = &C5 - 2
+.th .se C5 = &C5 - 3
+.th .se KR1 = SUBSTR &INPUTKR &C4 3
+.th .se KRM = &KR1..&KRM.
+.th .go ON1
+.if &C5 = 0
+.th .go END
+.el .se KR1 = SUBSTR &INPUTKR 1 &C5
+.el .se KRM = &KR1..&KRM.
+.go END
+...END
+.se LKRM = &L'&KRM
+.se LKRMS = SUBSTR &KRM &LKRM 1
+.if LKRMS = .
+.se LKRM = &LKRM - 1
+.se KRM = SUBSTR &KRM 1 &LKRM
+.se OUTPUT = &KRM.,&OERE.
+.if .&ANTDEC = .0
+.th .se &*1 = &KRM
+.el .se &*1 = &OUTPUT
+.se KONVKR = &INPUTKR.&OERE
+.dm off
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.oc  KORREKTIONSSKEMA KUNDERENTABILITET
+.if &MIBBEL1 < 0 .go NEGATIV
+.if &MIBBEL2 < 0 .go NEGATIV
+.if &MIBBEL3 < 0 .go NEGATIV
+.if &MIBBEL4 < 0 .go NEGATIV
+.if &MIBBEL5 < 0 .go NEGATIV
+.if &MIBBEL6 < 0 .go NEGATIV
+.if &MIBBEL7 < 0 .go NEGATIV
+.if &MIBBEL8 < 0 .go NEGATIV
+.if &MIBBEL9 < 0 .go NEGATIV
+.go BREV
+...NEGATIV
+.MG /T/ Du skal indtaste alle tal uden fortegn
+.qq
+...BREV
+:COUR10.
+.ll 175mm
+.KONVO MIBBEL6
+.KONVKR MIBBEL6 &ANTDEC
+.KONVO MIBBEL7
+.KONVKR MIBBEL7 &ANTDEC
+.KONVO MIBBEL8
+.KONVKR MIBBEL8 &ANTDEC
+.KONVO MIBBEL9
+.KONVKR MIBBEL9 &ANTDEC
+.ti ^ 05
+.sp
+.rf on
+:COUR10.
+Udskrevet den &DATO. af &MIBVREF..
+.sp 3
+.rf off
+.rf execute
+.sp 20mm
+.se uns 'Pengemarkedsrelaterede rentesatser'
+.br
+:COUR14.
+:FED.
+.ce KORREKTIONSSKEMA  -  KUNDERENTABILITET
+.sp 10mm
+:COUR10.
+:FED.
+.ce &uns  -  Kvartalsvis rentetilskrivning
+.br
+:SKRSLUT.
+.sx //_//
+.sk
+.TP 167mm RIGHT
+Konto nr.: &IREGKTO  ^Periode: &MIBEM41.^
+.br
+Navn: &KTONAVN
+.sk
+.sx //_//
+:FED.
+.sk
+Beregningsgrundlag
+.sk
+:SKRSLUT.
+.TP ./130mm 160mm RIGHT
+Anvendt kalkulationsrentesats for kvartalet ^^&MIBBEL1.^
+.sk
+Kvartalets grundrentesats debet fra postboks B37FORM
+  (D/D-MIBOR KORR. 3 MDR ved D/D MIBOR og
+  MDR-MIBOR KORR. 3 MDR ved MDR-MIBOR) eller
+  GN.DB SATS fra hjælpeliste ^^&MIBBEL2.^
+.sk
+Tillæg fra billed 1262 ^^&MIBBEL3.^
+.sk
+Kvartalets grundrentesats kredit fra postboks B37FORM
+  (D/D-MIBID eller ISK-MIBID) eller
+  GN.KR.SATS fra hjælpeliste ^^&MIBBEL4.^
+.sk
+Fradrag iflg. billed 1262 ^^&MIBBEL5.^
+.sk
+Kvartalets debet rente fra hjælpeliste ^^&MIBBEL6.^
+.sk
+Kvartalets kredit rente fra hjælpeliste ^^&MIBBEL7.^
+.sk
+Kvartalets provision fra hjælpeliste ^^&MIBBEL8.^
+.sk
+Kvartalets debetomsætning fra hjælpeliste ^^&MIBBEL9.^
+.sp 2
+.sx //_//
+:FED.
+.sp 1
+Beregnings resultater
+.IN +10
+:SKRSLUT.
+.IR +10
+.TP ./94mm 125mm RIGHT
+.Sk
+Gennemsnitlig debetrentesats ^^&RESULTR
+.br
+Gennemsnitlig kreditrentesats ^^&RESULTS
+.Sk
+Valørsaldo 1 ^^&RESULTF
+.br
+Valørsaldo 2 ^^&RESULTG
+.if &RESULTF = 0 .se RESULTI '***' ;.th .se RESULTJ '***'
+.if &RESULTF > 0 .an &RESULTH < 0 .se RESULTI '***' ;.th .se RESULTJ '***'
+.if &RESULTF < 0 .an &RESULTH > 0 .se RESULTI '***' ;.th .se RESULTJ '***'
+.sk
+.if &RESULTF >= 0
+.th Sats A ^^&RESULTI
+.el Sats A ^^&RESULTJ
+.if &RESULTG = 0 .se RESULTK '***' ;.th .se RESULTL '***'
+.if &RESULTG > 0 .an &RESULTH < 0 .se RESULTK '***' ;.th .se RESULTL '***'
+.if &RESULTG < 0 .an &RESULTH > 0 .se RESULTK '***' ;.th .se RESULTL '***'
+.br
+.if &RESULTG >= 0
+.th Sats B ^^&RESULTK
+.el Sats B ^^&RESULTL
+.sk
+Kvartalets dækningsbidrag ^^&RESULTM
+.sk
+P.A. dækningsbidrag ^^&RESULTN
+.sk
+.if &RESULTO = 0 ;.th .se RESULTO '********'
+.if &RESULTP = 0 ;.th .se RESULTP '********'
+.if &RESULTQ > 0
+.th P.A  dækningsbidrag i % ^^&RESULTO
+.el P.A  dækningsbidrag i % ^^&RESULTP
+.sp
+.IR -10
+.IN -10
+.sx //_//

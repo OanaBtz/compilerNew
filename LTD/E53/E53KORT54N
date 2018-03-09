@@ -1,0 +1,547 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+:TILTALE &TILTALE
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Versionsdato 03.02.2010
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*** Definer siden som et areal *******************************************
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if &U'X&GENFIRMA = XJ
+.th .vr tynd1 87mm
+.sp 91mm
+.bx off
+.if &U'X&GENFIRMA = XJ
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if &U'X&GENSEND = XK
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 19mm
+.bx off
+.*** TEST *****************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if X&FULDM = X1
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR. > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&STILL. eq 0
+.th .sp
+.if &L'&COADR. eq 0
+.th .sp
+.if &L'&LAND. eq 0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+¤&KUNDENR
+.sp 7mm
+.sp 1,6mm
+¤&reg &kto.
+.go AFS1
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if &L'&KTOSTILL. gt 0
+.el .sp
+.if &L'&KTOCO. gt 0
+.el .sp
+.if &L'&KTOLAND. gt 0
+.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DET ER ***
+.**************************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 72.5mm width  85mm
+.**************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+.ar underm on
+.*  Evt. medkontohaver
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if X&FULDM = X1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.el &MEDKNDNR1.
+.ar off
+.th ¤Ja¤
+.el ¤Nej¤
+.sp 1.4mm
+...BEST
+¤&BECBEST01.¤
+.sp 1.0mm
+.* ved ny bestilling udskrives kortnr. ikke
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go EKSP
+.if &L'&BECKORTNR > 0
+.th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤
+.el .sp
+...EKSP
+.sp 1.0mm
+ ¤&BRUGERNAVN.¤
+.ar off
+.**************************************************************************
+...SLUT
+.el .sp
+.sp  7.5mm
+.sp 1.6mm
+¤&reg &kto.
+.sp 10mm
+&NAVN
+.if &L'&COADR. gt 0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if &L'&COADR. gt 0
+.el .sp
+.br
+&LAND
+.if &L'&LAND. gt 0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+¤&KUNDENR
+...AFS1
+.ar off
+.**************************************************************************
+.ar under2 on
+.tp 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.****
+ ¤&DATO1.¤
+.sp 1.0mm
+.if &U'X&GENSEND = XK
+.th ¤Kunden¤
+.el ¤&BANKNAVN.¤
+.sp 3.0mm
+ ¤&PINK.¤
+.****
+.sp 4.0mm
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go GENB
+¤&PIN.¤
+...GENB
+.sp 4.0mm
+.if &U'X&BECTEST03 = XJ
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED1
+.*********************************************************************
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+...EJMED1
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED2
+.*********************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Versionsdato 03.02.2010
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+...EJMED2
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED3
+.*********************************************************************
+.*** Definer siden som et areal *******************************************
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if &U'X&GENFIRMA = XJ
+.th .vr tynd1 87mm
+.sp 91mm
+.bx off
+.if &U'X&GENFIRMA = XJ
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if &U'X&GENSEND = XK
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 19mm
+.bx off
+.*** TEST *****************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+...EJMED3
+.sp 4.0mm
+.if &U'X&BECTEST03 = XJ
+.th ¤Ja¤
+.el ¤Nej¤
+.sp 1.4mm
+...BEST
+¤&BECBEST01.¤
+.sp 1.0mm
+.* ved ny bestilling udskrives kortnr. ikke
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go EKSP
+.if &L'&BECKORTNR > 0
+.th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤
+.el .sp
+...EKSP
+.sp 1.0mm
+ ¤&BRUGERNAVN.¤
+.ar off
+.**************************************************************************
+...SLUTKOPI
+.el .sp
+.if &L'&KTOLAND. gt 0
+.el .sp
+.sp  7.5mm
+.sp 1.6mm
+¤&reg &kto.
+.sp 10mm
+&NAVN
+.if &L'&COADR. gt 0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if &L'&COADR. gt 0
+.el .sp
+.br
+&LAND
+.if &L'&LAND. gt 0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+¤&KUNDENR
+...AFS1
+.ar off
+.**************************************************************************
+.ar under2 on
+.tp 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.****
+ ¤&DATO1.¤
+.sp 1.0mm
+.if &U'X&GENSEND = XK
+.th ¤Kunden¤
+.el ¤&BANKNAVN.¤
+.sp 3.0mm
+ ¤&PINK.¤
+.****
+.sp 4.0mm
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go GENB
+¤&PIN.¤
+...GENB
+.el &MEDKNDNR1.
+.ar off
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if X&FULDM = X1
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR. > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&STILL. eq 0
+.th .sp
+.if &L'&COADR. eq 0
+.th .sp
+.if &L'&LAND. eq 0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+¤&KUNDENR
+.sp 7mm
+.sp 1,6mm
+¤&reg &kto.
+.go AFS1
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if &L'&KTOSTILL. gt 0
+.el .sp
+.if &L'&KTOCO. gt 0
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go SLUTKOPI
+.*********************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 72.5mm width  85mm
+.**************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+.ar underm on
+.*  Evt. medkontohaver
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if X&FULDM = X1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.****************** BETINGELSE ******************************************
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.if x&BECTEST01 eq x3
+.th .pa
+.el .qu
+.************************************************************************

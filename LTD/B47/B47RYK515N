@@ -1,0 +1,155 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.*
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.DA dato 20mm 85mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.AR hoved on
+.* Check om der skal udskrives begge
+.if &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.AR off
+.*
+.AR dato on
+.RI ON
+&DATO.
+.RI OFF
+.AR off
+.DA TEKST 20mm 100mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.* ------------------------------------------------------------
+.AR TEKST ON
+.* Beregner aktuelt debetsats på kontoen - 8/4-2010
+.se TOTALDEB = &DEBSATS
+.if x&TOTDEB1 ne x0,000
+.th .se TOTALDEB = &TOTDEB1
+.dr tynd weight .3mm
+.tp 83mm char ,
+.if &MEDKUNDENR eq 000000-0000
+.th .GO KTOH
+.* --------- Skriver til både KONTO og MEDKONTOHAVER ------------
+:FED.
+.br
+Konto 6610 &KTONR1. er i overtræk. :SKRSLUT.
+.sp
+I har ikke reageret på vores tidligere opfordringer om at indbetale
+overtrækket på jeres konto.
+.GO SLUT
+.* --------- Skriver til KONTOHAVER ------------
+...KTOH
+:FED.
+.br
+Konto 6610 &KTONR1. er i overtræk. :SKRSLUT.
+.sp
+Du har ikke reageret på vores tidligere opfordringer om at indbetale
+overtrækket på din konto.
+...SLUT
+.sp
+Rykkergebyr for denne henvendelse er hævet på kontoen.
+.sp
+Overtrækket udgør dags dato >&RESULTB. kr.
+.br
++ rykkergebyr >&RYKGEBYR. kr.
+.hr tynd 65mm to 95mm
+.sp 1mm
+Skyldig beløb til indbetaling :FED. >&OVERTRÆK. kr. :SKRSLUT.
+.hr tynd 65mm to 95mm
+.sp 7mm
+Såfremt overtrækket ikke er indbetalt senest 10 dage fra dags dato, skal
+dette brev betragtes som en opsigelse af det samlede engagement på grund
+af misligeholdelse, jf. bankens almindelige forretningsbetingelser
+og særlige bestemmelser for lån og kreditter. Det betyder, at samtlige
+konti, kassekreditter og lån er opsagt til fuld indfrielse pr. nævnte
+dato.
+.sp
+Vi vil se os nødsaget til at indlede inkassoprocedure uden yderligere
+varsel. Vi vil enten sende et betalingspåkrav til fogedretten eller
+bede vores advokatforbindelse om at inddrive det skyldige beløb via
+retslig inkasso, hvilket i begge tilfælde medfører yderligere
+inkassoomkostninger samt registrering i RKI.
+.sp
+Vi gør opmærksom på, at banken beregner en debetrente på &TOTALDEB.% og
+en overtræksrente på &OVPRSATS.% af overtrækket.
+.sp
+.*
+.sp 1
+Med venlig hilsen
+.br
+:FED.&BANKNAVN.:SKRSLUT.
+.ar off

@@ -1,0 +1,188 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.****************************
+.if &U'&B30TYPE < 1
+.or &U'&B30TYPE > 3
+.th .mg/T/Der skal vælges enten Billån, Boliglån eller Multikonto m.kre/
+.**************
+.if &U'&GENMEDKTOH = J
+.an &MEDKUNDENR = 000000-0000
+.th .mg/T/Der findes ingen medktohaver og den kan derfor ikke bruges/
+.*****************************
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DU
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DE
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert da der ingen medktohaver er/
+.**************************
+.*
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if &B30TYPE = 1
+.th MULTIKONTO MED KREDIT NR. &IREGKTO
+.if &B30TYPE = 2
+.th BILLÅN NR. &IREGKTO
+.if &B30TYPE = 3
+.th BOLIGLÅN NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.ll 130mm
+.in 2mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.******************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.******************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+Den &RESULTA sendte vi
+.*****
+.if &B30TYPE = 1
+.th aftaler om multikonto med kredit
+.if &B30TYPE = 2
+.th dokumenter vedr. billån
+.if &B30TYPE = 3
+.th dokumenter vedr. boliglån
+.********
+til underskrift. Vi har endnu ikke modtaget
+.*****
+.if &B30TYPE = 1
+.th et eksemplar
+.el dokumenterne
+.*****
+retur i underskrevet stand.
+.sp
+Har vi ikke hørt fra &DIG inden den &RESULTB vil vi gå ud fra, at &DU
+ikke ønsker
+.*****
+.if &B30TYPE = 1
+.th kreditten.
+.if &B30TYPE = 2
+.th billånet.
+.if &B30TYPE = 3
+.th boliglånet.
+.*****
+.sp
+Skulle &DU senere få brug for
+.*****
+.if &B30TYPE = 1
+.th en multikonto med kredit,
+.if &B30TYPE = 2
+.th et billån,
+.if &B30TYPE = 3
+.th et boliglån,
+.*****
+er &DU velkommen til at sende en ny låneansøgning.
+.sp
+Såfremt &DU ønsker yderligere oplysninger, er &DU velkommen til at
+kontakte os.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

@@ -1,0 +1,1197 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.*
+.*
+.*
+.*
+.*
+.*
+.*
+.*
+.*
+:COUR10.
+.ti ¤ 05
+.*************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO
+.ar off
+.*************************************************************
+.da KUNDEOPL       25mm  48mm   width  84mm
+.da ARBGOPL       116mm  48mm   width  84mm
+.da CPRSENR       120mm  68.6mm width  84mm
+.da PIOPL          25mm  76.6mm width  84mm
+.da KTOOPL        118mm  78mm   width  76mm
+.da DATO          133mm  93.5mm width  20mm
+.da INDBARBKOMB    33mm 109.5mm width 170mm
+.da INDBARBKOM     33mm 128mm   width 168mm
+.**** test ratepensionstype *************
+.if &L'&GENARBFAST > 0
+.th .go TEST2
+.if &L'&GENARBFKOM > 0
+.th .go TEST3
+.if &L'&GENARBPCT  > 0
+.th .go TEST4
+.if &L'&GENARBKOMB  > 0
+.th .go TEST5
+.if &L'&GENARBENGA > 0
+.th .go OKTEST
+.el .mg /T/Ratepensionstype skal vælges/
+...TEST2
+.if &L'&GENARBFKOM > 0
+.or &L'&GENARBPCT  > 0
+.or &L'&GENARBKOMB > 0
+.or &L'&GENARBENGA > 0
+.th .go FEJL
+.el .go OKTEST
+...TEST3
+.if &L'&GENARBPCT  > 0
+.or &L'&GENARBKOMB > 0
+.or &L'&GENARBENGA > 0
+.th .go FEJL
+.el .go OKTEST
+...TEST4
+.if &L'&GENARBKOMB > 0
+.or &L'&GENARBENGA > 0
+.th .go FEJL
+.el .go OKTEST
+...TEST5
+.if &L'&GENARBENGA > 0
+.th .go FEJL
+.el .go OKTEST
+...FEJL
+.th .mg /T/Højst een ratepensionstype må vælges/
+...OKTEST
+.*** test arbgiv navn ****************************
+.if &L'&GENNAVN1 eq 0
+.an &L'&GENGADE1 eq 0
+.an &L'&GENBY    eq 0
+.an &L'&GENSENR  eq 0
+.th .mg /T/Arbejdsgiveroplysninger mangler/
+.*.*** test arbgiv beløb ***************************
+.*.if &GENARB gt 0,00
+.*.or &GENMED gt 0,00
+.*.th .go ARBGIVSL
+.*.el .mg /T/Arb.givers del eller medarbejders del skal indtastes/
+.*...ARBGIVSL
+.**** test frekvens **************
+.*.if &L'&GENARBENGA > 0
+.*.th .go EJFREKV
+.*.if &L'&GENLØNINDB = 0
+.*.th .mg /T/Frekvens skal vælges/
+.*.if x&GENLØNINDB < x1
+.*.or x&GENLØNINDB > x6
+.*.th .mg /T/Frekvens skal have værdien 1-6/
+.*.if &L'&GENARBPCT > 0
+.*.or &L'&GENARBKOMB > 0
+.*.or &L'&GENARBFAST > 0
+.*.th .go EJFREKV
+.* kun test for genarbfkom(fast kombi)
+.*.if x&GENLØNINDB ne x1
+.*.th .go AAR1SL
+.*.if &L'&RESULTA gt 9
+.*.th .go EJFREKV
+.*.if &L'&RESULTA lt 9
+.*.th .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*.if X&RESULTA gt X39.674,00
+.*.th .go EJFREKV
+.*.el .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*...AAR1SL
+.*.if x&GENLØNINDB ne x2
+.*.th .go HALV1SL
+.*.if &L'&RESULTH gt 9
+.*.th .go EJFREKV
+.*.if &L'&RESULTH lt 9
+.*.th .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*.if X&RESULTH gt X39.674,00
+.*.th .go EJFREKV
+.*.el .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*...HALV1SL
+.****
+.*.if x&GENLØNINDB ne x3
+.*.th .go KVART1SL
+.*.if &L'&RESULTB gt 9
+.*.th .go EJFREKV
+.*.if &L'&RESULTB lt 9
+.*.th .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*.if X&RESULTB gt X39.674,00
+.*.th .go EJFREKV
+.*.el .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*...KVART1SL
+.****
+.*.if x&GENLØNINDB ne x4
+.*.th .go MDR7SL
+.*.if &L'&RESULTC gt 9
+.*.th .go EJFREKV
+.*.if &L'&RESULTC lt 9
+.*.th .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*.if X&RESULTC gt X39.674,00
+.*.th .go EJFREKV
+.*.el .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*...MDR7SL
+.*.if x&GENLØNINDB ne x5
+.*.th .go 14DAGSL
+.*.if &L'&RESULTD gt 9
+.*.th .go EJFREKV
+.*.if &L'&RESULTD lt 9
+.*.th .mg /T/BELØB SKAL VÆRE STØRRE END 39.674 /
+.*.if X&RESULTD le X39.674,00
+.*.Slettet  herfra da længden var overskredet.
+.*******************
+.*.if &L'&GENPRISTAL eq 0
+.*.th .go PRISTAL
+.*.if x&GENPRISTAL < x1
+.*.or x&GENPRISTAL > x4
+.*.th .mg /T/Ved pristalsregulering skal indeks være 1-4/
+.*...PRISTAL
+.*******************
+.*.if &L'&GENARBKOMB = 0
+.*.an &L'&GENARBFKOM = 0
+.*.th .go UDENTST
+.*.if &L'&GENKOMBKTO = 0
+.*.th .mg /T/Kap.pensionskontonr. mangler på kombinationsaftale/
+.*...UDENTST
+.**************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*****************
+.ar ARBGOPL on
+.if &L'&GENNAVN1 gt 0
+.th &GENNAVN1
+.th .br
+.if &L'&GENGADE1 gt 0
+.th &GENGADE1
+.th .br
+.if &L'&GENBY gt 0
+.th &GENBY
+.ar off
+.****************
+.ar CPRSENR on
+&GENSENR
+.ar off
+.****************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.****************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.tp 43mm
+&KTOKNDNR1
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE ****
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.*******************
+.ar DATO on
+&GENDATO12
+.ar off
+.**********************
+.*.ar INDBARBKOMB on
+.****arbejdsgiver fast  + arbgiver fast kombination ***
+.*.se kombiregnr = substr &GENKOMBKTO 1 4
+.*.se kombiktonr = substr &GENKOMBKTO 5 7
+.*.if &L'&GENARBFAST gt 0
+.*.or &L'&GENARBFKOM gt 0
+.*.th .go KOMB
+.*.el .go KOMBSLUT
+.*...KOMB
+.*.tp 35mm right 70mm right 75mm 132mm right
+.*.if x&GENLØNINDB eq x1
+.*.th ¤¤&RESULTA
+.*.th .go KOMBKTO
+.*.if x&GENLØNINDB eq x2
+.*.th ¤¤&RESULTA ¤¤&RESULTH
+.*.th .go KOMBKTO
+.*.if x&GENLØNINDB eq x3
+.*.th ¤¤&RESULTA ¤¤&RESULTB
+.*.th .go KOMBKTO
+.*.if x&GENLØNINDB eq x4
+.*.th ¤¤&RESULTA ¤¤&RESULTC
+.*.th .go KOMBKTO
+.*.if x&GENLØNINDB eq x5
+.*.th ¤¤&RESULTA ¤¤&RESULTD
+.*.th .go KOMBKTO
+.*.if x&GENLØNINDB eq x6
+.*.th ¤¤&RESULTA ¤¤&RESULTI
+.*...KOMBKTO
+.*.br
+.*¤&RESULTA ¤¤&GENDATO12..
+.*.if &L'&GENARBFAST gt 0
+.*.th .go KOMBSLUT
+.*...TESTVIDR
+.*.tp 106mm
+.*.br
+.*¤&kombiregnr &kombiktonr
+.*...KOMBSLUT
+.*.ar off
+.*************
+.*.ar INDBARBKOM on
+.*.if &L'&GENARBFAST gt 0
+.*.or &L'&GENARBFKOM gt 0
+.*.th .go SKRIV5
+.*.el .go SKRIV5SL
+.*...SKRIV5
+.*.tp 27mm char ,
+.*¤&GENARB
+.*.br
+.*¤&GENMED
+.*...SKRIV5SL
+.*.ar off
+.*forts. i t2 **
+.*****************************************
+.da INDBARBPCT     21mm 109.5mm width 168mm
+.da INDBARBKONTP   42mm 128mm   width  80mm
+.da INDBARBENG     25mm 109.5mm width 168mm
+.da INDBARBKONTA   12mm 125mm   width 100mm
+.da INDAAR         95mm 140.5mm width 15mm
+.da UDBETALING     21mm 163.7mm   width 168mm
+.** SUBSTRING PÅ FØDSELSDAG ***********************************************
+.su off
+.se fdag = substr &KTOKNDNR1 1 2
+.se fmd = substr &KTOKNDNR1 3 2
+.se faar = substr &KTOKNDNR1 5 2
+.** SUBSTRING PÅ OPRETTELSESDAG / MED VIRKNING FRA DATO *******************
+.*.se odag = substr &GENDATO12 1 2
+.*.se omd = substr &GENDATO12 4 2
+.*.se oaar = substr &GENDATO12 7 4
+.*.se oaar2 = substr &GENDATO12 9 2
+.** SUBSTRING PÅ DATO FOR START PÅ UDBETALING *****************************
+.se uddag = substr &GENSTART 1 2
+.se udmd = substr &GENSTART 4 2
+.se udaar = substr &GENSTART 7 4
+.** SUBSTRING PÅ DAGS DATO ************************************************
+.se daar = substr &DATO 9 2
+.su on
+.if x&faar > x&daar
+.th .se aarstal = 1900
+.el .se aarstal = 2000
+.** FØDEÅR (faar1), MINIMUMSLØBETID (udminaar)*****************************
+.*.se faar1 = &faar + &aarstal
+.*.se udminaar = &oaar + 5
+.*.se udminaar1 = &faar1 + 60
+.*.se udmaxaar = &faar1 + 76
+.***** HER TESTES PÅ OM KONTOHAVER ER OVER 60 ÅR **************************
+.*f x&oaar > x&udminaar1
+.*h .go FEJL4
+.*f x&oaar < x&udminaar1
+.*h .go ALDER
+.*f x&omd > x&fmd
+.*h .go FEJL4
+.*f x&omd < x&fmd
+.*h .go ALDER
+.*f x&odag < x&fdag
+.*h .go ALDER
+.*l .go FEJL4
+...FEJL4
+.*.mg /T/Kunden skal være under 60 år ved oprettelse/
+.**TEST PÅ AT ALDER VED UDBETALINGSSTART ER MIN. 5 ÅR EFTER OPRETTELSE*****
+.*...ALDER
+.*.if x&udaar < x&udminaar
+.*.th .go FEJL5
+.*.if x&udaar > x&udminaar
+.*.th .go GOD1
+.*.if x&udmd < x&omd
+.*.th .go FEJL5
+.*.if x&udmd > x&omd
+.*.th .go GOD1
+.*.if x&uddag < x&odag
+.*.th .go FEJL5
+.*.el .go GOD1
+.*...FEJL5
+.*.th .mg /T/Udbetalingens startår min. 5 år efter oprettelse/
+.*...GOD1
+.***** HER TESTES PÅ OM KONTOHAVER ER ÆLDRE END 76 ÅR *********************
+.*.if x&udaar > x&udmaxaar
+.*.th .go FEJL6
+.*.if x&udaar < x&udmaxaar
+.*.th .go MINAAR
+.***** HER TESTES PÅ OM KONTOHAVER ER YNGRE END 60 ÅR *********************
+.*...MINAAR
+.*.if x&udaar < x&udminaar1
+.*.th .go FEJL6
+.*.if x&udaar > x&udminaar1
+.*.th .go OK1
+.***** HER TESTES PÅ MÅNEDER OG DAG ***************************************
+.if x&udmd < x&fmd
+.th .go FEJL6
+.if x&udmd > x&fmd
+.th .go OK1
+.if x&uddag < x&fdag
+.th .go FEJL6
+.el .go OK1
+.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
+...FEJL6
+.mg /T/Man skal være mellem 60 og 76 år ved udbetalingsstart/
+...OK1
+.** TEST PÅ ANTAL UDBETALINGSÅR *******************************************
+.if X&GENANTUDÅR < X10
+.or X&GENANTUDÅR > X25
+.th .mg /T/Antal udbetalingsår skal være mellem 10 og 25 år/
+.***************
+.*.ar INDBARBPCT on
+.*tp 71mm right 144mm
+.*.tp 32mm 71mm right
+.* ARBEJDSGIVERORDNING ***
+.****arbejdsgiver procentindbetaling **
+.*.if &L'&GENARBPCT gt 0
+.*.or &L'&GENARBKOMB gt 0
+.*.th .go PCT
+.*.el .go PCTSLUT
+.*...PCT
+.*.if &L'&RESULTA gt 6
+.*.th .mg /T/PENSIONSBIDRAG STØRRE END 100,00 %/
+.*.if &L'&RESULTA lt 6
+.*.th .go ALTOK4
+.*.if X&RESULTA gt X100,00
+.*.th .mg /T/PENSIONSBIDRAG STØRRE END 100,00 %/
+...ALTOK4
+.*¤¤&RESULTA.
+.*.br
+.*&GENDATO12.,
+.*.if &L'&GENARBPCT gt 0
+.*.th .go PCTSLUT
+.***** her deles kombinationskontonr op i to parametre
+.*.se kombiregnr = substr &GENKOMBKTO 1 4
+.*.se kombiktonr = substr &GENKOMBKTO 5 7
+.*¤&kombiregnr &kombiktonr
+.*...PCTSLUT
+.*.ar off
+.*********************************
+.*.ar INDBARBKONTP on
+.*.if &L'&GENARBPCT gt 0
+.*.or &L'&GENARBKOMB gt 0
+.*.th .go SKRIV2
+.*.el .go SKRIV2SL
+.*...SKRIV2
+.*.tp 25mm char ,
+.*¤&GENARB %
+.*.br
+.*¤&GENMED %
+.*...SKRIV2SL
+.*.ar off
+.***************************
+.*.ar INDBARBENG on
+.*** arbejdsgiver engangsindskud *****
+.*.if &L'&GENARBENGA gt 0
+.*.th .go AENG
+.*.el .go AENGSL
+.*...AENG
+.*.tp 40mm right 63mm 85mm right
+.*¤¤¤&RESULTA
+.*.br
+.*¤&RESULTA ¤&GENDATO12
+.*...AENGSL
+.*.ar off
+.*********************
+.*.ar INDBARBKONTA on
+.*.if &L'&GENARBENGA gt 0
+.*.th .go SKRIV3
+.*.el .go SKRIV3SL
+.*...SKRIV3
+.*.tp 50mm char ,
+.*¤&GENARB
+.*.br
+.*¤&GENMED
+.*...SKRIV3SL
+.*.ar off
+.***************************
+.*.if &L'&GENARBENGA > 0
+.*.th .go UDBET
+.*.ar INDAAR on
+.*.se alder = &udaar - &faar1
+.*.se alder1 = &alder - 1
+.*&alder1
+.*.ar off
+.***************************
+...UDBET
+.ar UDBETALING on
+.tp 38mm 60mm 105mm 137mm
+.*.se alder = &udaar - &faar1
+.*.se alderslut = &alder + &GENANTUDÅR - 1
+¤¤&GENSTART ¤&udaar ¤&B40KON12..
+.sp 0.5mm
+¤&GENANTUDÅR ¤¤¤&B40KON30..
+.ar off
+.da side1  20mm 35mm width 175mm
+.da oversk 20mm 32mm width 150mm
+.***********************************
+.ar oversk on
+:SWISS12.
+:FED.
+.if &L'&GENARBFAST gt 0
+.th .us Aftale om ratepension - Arbejdsgiver - Overført fra andet PI
+.th .go OVSSLUT
+.if &L'&GENARBFKOM gt 0
+.th .us Aftale om ratepension - Arbejdsgiver - Overført fra andet PI
+.th .go OVSSLUT
+.if &L'&GENARBPCT gt 0
+.th .us Aftale om ratepension - Arbejdsgiver - Overført fra andet PI
+.th .go OVSSLUT
+.if &L'&GENARBKOMB gt 0
+.th .us Aftale om ratepension - Arbejdsgiver - Overført fra andet PI
+.th .go OVSSLUT
+.if &L'&GENARBENGA gt 0
+.th .us Aftale om ratepension - Arbejdsgiver - Overført fra andet PI
+.th .go OVSSLUT
+.el .us Ingen ratepensionsaftale - Overført fra andet PI
+...OVSSLUT
+:SKRSLUT.
+.ar off
+.***********************************
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kontohaver og evt.arbejdsgiver *****
+.bx new left 87.5mm right
+.sp 28mm
+.***** her laves kassen til pengeinstitut og regnr *****
+.bx new left 87.5mm right
+.sp 8.5mm
+.***** her laves kassen til kontonr og depotnr *****
+.hr 87.5mm right
+.vr 130.5mm
+.sp 8.5mm
+.***** her laves kassen til formål *****
+.bx new left right
+.vr off
+.sp 5mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.***** her laves kassen til indbetalinger   ************
+.bx new left right
+.sp 40mm
+.***** her laves kassen til placering af opsparing******
+.bx new left right
+.sp 10mm
+.***** her laves kassen til udbetalinger    ************
+.bx new left right
+.sp 24mm
+.***** her laves kassen til begunstigede   ************
+.bx new left right
+.sp 92mm
+.*  .sp 50mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx off
+.*****************
+.ar off
+.****************************************
+.da BEGUNSDØD1     25mm 220mm   width 168mm
+.da PERSON         25mm 265mm   width 168mm
+.****************************************
+.if &L'&GENNAVNBD1 eq 0
+.an &L'&GENNAVNBD2 eq 0
+.an &L'&GENNAVNBD3 eq 0
+.th .go TESTOK
+.if &L'&GENPERGRP1 eq 0
+.an &L'&GENPERGRP2 eq 0
+.th .go TESTOK
+.el .mg /T/enten individuelle begunstigede eller persongrupper/
+...TESTOK
+.***************************************
+.if &L'&RESULTE gt 6
+.th .mg /T/Summen af de begunstigedes andel% > 100,00/
+.if &L'&RESULTE lt 6
+.th .go ANDEL
+.if X&RESULTE eq X100,00
+.th .go ANDELOK
+.el .mg /T/Summen af de begunstigedes andel% > 100,00/
+...ANDEL
+.if X&RESULTE eq X0,00
+.th .go ANDELOK
+.el .mg /T/Summen af de begunstigedes andel% < 100,00/
+...ANDELOK
+.******************************************
+.ar BEGUNSDØD1 on
+.tp 88mm 90mm
+.** FØRSTE og ANDEN BEGUNSTIGEDE *******
+.if &l'&GENNAVNBD1 > 0
+.th &GENNAVNBD1
+.el .go BEGUN2
+.if &l'&GENNAVNBD2 > 0
+.th .ct ¤¤&GENNAVNBD2
+.el .go EJBEGUN2
+.br
+&GENRELABD1 ¤¤&GENRELABD2
+.br
+.if &L'&GENCPRBD1 > 0
+.th CPR.nr. &GENCPRBD1
+.if &L'&GENCPRBD2 > 0
+.th .ct ¤¤CPR.nr. &GENCPRBD2
+.br
+.if &GENPCTBD1 > 0,00
+.an &GENPCTBD2 = 0,00
+.th .mg /T/Enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD1 = 0,00
+.an &GENPCTBD2 > 0,00
+.th .mg /T/Enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD1 > 0,00
+.th &GENPCTBD1 %
+.if &GENPCTBD2 > 0,00
+.th .ct ¤¤&GENPCTBD2 %
+.sp
+.go BEGUN3
+...EJBEGUN2
+.** FØRSTE og TREDIE  BEGUNSTIGEDE *******
+.if &l'&GENNAVNBD3 > 0
+.th .ct ¤¤&GENNAVNBD3
+.el .go EJBEGUN3
+.br
+&GENRELABD1 ¤¤&GENRELABD3
+.br
+.if &L'&GENCPRBD1 > 0
+.th CPR.nr. &GENCPRBD1
+.if &L'&GENCPRBD3 > 0
+.th .ct ¤¤CPR.nr. &GENCPRBD3
+.br
+.if &GENPCTBD1 > 0,00
+.an &GENPCTBD3 = 0,00
+.th .mg /T/Enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD1 = 0,00
+.an &GENPCTBD3 > 0,00
+.th .mg /T/Enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD1 > 0,00
+.th &GENPCTBD1 %
+.if &GENPCTBD3 > 0,00
+.th .ct ¤¤&GENPCTBD3 %
+.go SLUTBGU
+...EJBEGUN3
+.** KUN FØRSTE BEGUNSTIGEDE *******
+.br
+&GENRELABD1
+.br
+.if &L'&GENCPRBD1 > 0
+.th CPR.nr. &GENCPRBD1
+.br
+.if &GENPCTBD1 > 0,00
+.th &GENPCTBD1 %
+.go SLUTBGU
+...BEGUN2
+.** ANDEN og TREDIE  BEGUNSTIGEDE *******
+.if &L'&GENNAVNBD2 > 0
+.th &GENNAVNBD2
+.el .go BEGUN3
+.if &l'&GENNAVNBD3 > 0
+.th .ct ¤¤&GENNAVNBD3
+.el .go KUNBEG2
+.br
+&GENRELABD2 ¤¤&GENRELABD3
+.br
+.if &L'&GENCPRBD2 > 0
+.th CPR.nr. &GENCPRBD2
+.if &L'&GENCPRBD3 > 0
+.th .ct ¤¤CPR.nr. &GENCPRBD3
+.br
+.if &GENPCTBD2 > 0,00
+.an &GENPCTBD3 = 0,00
+.th .mg /T/Enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD2 = 0,00
+.an &GENPCTBD3 > 0,00
+.th .mg /T/Enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD2 > 0,00
+.th &GENPCTBD2 %
+.if &GENPCTBD3 > 0,00
+.th .ct ¤¤&GENPCTBD3 %
+.go SLUTBGU
+...KUNBEG2
+.** KUN ANDEN BEGUNSTIGEDE *******
+.br
+&GENRELABD2
+.br
+.if &L'&GENCPRBD2 > 0
+.th CPR.nr. &GENCPRBD2
+.br
+.if &GENPCTBD2 > 0,00
+.th &GENPCTBD2 %
+.go SLUTBGU
+...BEGUN3
+.** KUN TREDIE BEGUNSTIGEDE *******
+.if &l'&GENNAVNBD3 > 0
+.th &GENNAVNBD3
+.el .go SLUTBGU
+.br
+&GENRELABD3
+.br
+.if &L'&GENCPRBD3 > 0
+.th CPR.nr. &GENCPRBD3
+.br
+.if &GENPCTBD1 > 0,00
+.an &GENPCTBD3 = 0,00
+.th .mg /T/enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD1 = 0,00
+.an &GENPCTBD3 > 0,00
+.th .mg /T/enten ligedeling (pct=0,00) eller andel% > 0,00/
+.if &GENPCTBD3 > 0,00
+.th &GENPCTBD3 %
+...SLUTBGU
+.ar off
+.**************
+.ar PERSON on
+&GENPERGRP1
+.br
+&GENPERGRP2
+.ar off
+.**********************
+:SWISS8.
+.da KONTOH     21mm    44mm   width  85mm
+.da ARBG      108.5mm  44mm   width  85mm
+.da PI         21mm    73mm   width  85mm
+.da CPRNR     108.5mm  73mm   width  85mm
+.da KONTONR   108.5mm  83mm   width  45mm
+.da DEPNR     151mm    83mm   width  45mm
+.da TEKST      21mm    94mm   width 170mm
+.da INDBET     21mm   104mm   width 170mm
+.*************************************
+.ar KONTOH on
+Kontohaver
+.ar off
+.***********************
+.ar ARBG on
+.if &L'&GENARBFAST gt 0
+.or &L'&GENARBFKOM gt 0
+.or &L'&GENARBPCT gt 0
+.or &L'&GENARBKOMB gt 0
+.or &L'&GENARBENGA gt 0
+.th Arbejdsgiver
+.th .sp 22mm
+.th CVR-nr.
+.ar off
+.**********************
+.ar PI on
+Pengeinstitut
+.ar off
+.**********************
+.ar CPRNR on
+CPR-nr.
+.ar off
+.*********************
+.ar KONTONR on
+Kontonr.
+.ar off
+.**************************
+.ar DEPNR on
+Depotnr.
+.ar off
+.**************************
+.ar TEKST on
+Undertegnede parter indgår herved aftale om oprettelse af ratepension,
+med virkning fra
+.ar off
+.**************************
+.ar INDBET on
+Indbetalinger
+.sp
+Ordningen er sat i bero.
+.*** test hvilken ordning **************************
+.*.if &L'&GENARBFAST gt 0
+.*.or &L'&GENARBFKOM gt 0
+.*.th .go ARBFAST
+.*.if &L'&GENARBPCT gt 0
+.*.or &L'&GENARBKOMB gt 0
+.*.th .go ARBPCT
+.*.if &L'&GENARBENGA gt 0
+.*.th .go ARBENGA
+.*.el .go INDBSLUT
+.**** ARBEJDSGIVERORDNINGER ****
+.****arbejdsgiver fast beløb  og kombination ***************
+.*...ARBFAST
+.*.tp 82mm 144mm
+.*.if x&GENLØNINDB = x1
+.*.th Arbejdsgiver indbetaler et fast beløb på ¤kr pr. år.
+.*.th .go AA1
+.*Arbejdsgiver indbetaler et fast beløb på ¤kr
+.*.if x&GENLØNINDB = x2
+.*.th pr. halvår,
+.*.if x&GENLØNINDB = x3
+.*.th pr. kvartal,
+.*.if x&GENLØNINDB = x4
+.*.th pr. måned,
+.*.if x&GENLØNINDB = x5
+.*.th pr. 14. dag,
+.*.if x&GENLØNINDB = x6
+.*.th pr. uge,
+.*svarende til ¤¤kr. årlig.
+.*...AA1
+.*.br
+.*.if &L'&GENARBFKOM gt 0
+.*.th .go ARBKOMB
+.**** kun arb fast beløb ******
+.*.tp 46mm
+.*Beløbet ¤kr. indbetales første gang den
+.*.sp
+.*.go INDB2
+.*...ARBKOMB
+.****  Kun for fast aftale komb ********
+.*.tp 46mm 109mm 144mm
+.*Beløbet ¤kr. indbetales første gang den
+.*.ct ¤, efter fradrag af det i henhold til loven fastsatte
+.*maksimumsbeløb for indbetaling på kapitalpension, der
+.*indbetales til kapitalpensionskontonr. ¤ifølge særskilt aftale.
+.****  både fast aftale og kombinationsaftale ******
+.*...INDB2
+.*.sp
+.*.tp 47mm
+.*Af pensionsbidraget betaler:
+.*.sp 3mm
+.*- Arbejdsgiver ¤kr og
+.*.br
+.*- Kontohaver   ¤kr
+.*.sp
+.**** test for pristalsregulering ************
+.*.tp 64mm
+.*.if &L'&GENPRISTAL gt 0
+.*.or &L'&GENPRIFRI gt 0
+.*.th Indbetalingen pristalreguleres årligt på grundlag af
+.*.el .sp
+.*.el .go INDBVIDR
+.*.if x&GENPRISTAL = x1
+.*.th forbrugerprisindekset.
+.*.th .go INDBVIDR
+.*.if x&GENPRISTAL = x2
+.*.th nettoprisindekset.
+.*.th .go INDBVIDR
+.*.if x&GENPRISTAL = x3
+.*.th timelønsindekset.
+.*.th .go INDBVIDR
+.*.if x&GENPRISTAL = x4
+.*.th lønindekset.
+.*.th .go INDBVIDR
+.*.if &L'&GENPRIFRI gt 0
+.*.th .ct ¤&GENPRIFRI..
+.*.go INDBVIDR
+.****arbejdsgiver procentindbetaling  *****
+.*...ARBPCT
+.*tp 40mm 73mm 156mm 166mm
+.*.tp 24mm 59mm 73mm
+.*Arbejdsgiver indbetaler et pensionsbidrag på ¤¤¤%
+.*.if x&GENLØNINDB = x1
+.*.th pr. år
+.*.if x&GENLØNINDB = x2
+.*.th pr. halvår
+.*.if x&GENLØNINDB = x3
+.*.th pr. kvartal
+.*.if x&GENLØNINDB = x4
+.*.th pr. måned
+.*.if x&GENLØNINDB = x5
+.*.th pr. 14. dag
+.*.if x&GENLØNINDB = x6
+.*.th pr. uge
+.*.if &L'&GENARBKOMB gt 0
+.*.th .go PCTKOMB
+.*** kun for arbgiv pct ************
+.*.ct  af kontohavers pensionsberettigede løn, første gang den
+.*.sp2
+.*.go INDB4
+.**** kun for arbgiv pct komb *******************
+.*...PCTKOMB
+.*.ct  af kontohavers pensionsberettigede løn, første gang den
+.*.br
+.*¤efter fradrag af det i henhold til loven fastsatte
+.*maksimumsbeløb for indbetaling på kapitalpension, der
+.*indbetales til
+.*.br
+.*kapitalpensionskontonr. ¤¤ifølge særskilt aftale.
+.*.go INDB4
+.*** fælles for arbgiv pct med og uden komb ************
+.*...INDB4
+.*.sp
+.*Af pensionsbidraget betaler:
+.*.sp
+.*- Arbejdsgiver
+.*.br
+.*- Kontohaver
+.*.sp2
+.****slutlinie fælles for fast og pct *****
+.*...INDBVIDR
+.*.br
+.*.tp 79mm
+.*Aftalen om indbetaling er gældende indtil kontohaver fylder ¤år,
+.*dog kun så længe kontohaver er ansat i virksomheden.
+.*.go INDBSLUT
+.****arbejdsgiver engangsindskud **********
+.*...ARBENGA
+.*.tp 90mm
+.*Arbejdsgiver indbetaler et engangsindskud på ¤kr.
+.*.br
+.*.tp 43mm
+.*Beløbet ¤kr. indbetales den
+.*.sp
+.*.tp 49mm
+.*Af pensionsbidraget betaler:
+.*.sp
+.*- Arbejdsgiver ¤kr og
+.*.br
+.*- Kontohaver   ¤kr
+.*.go INDBSLUT
+.**********************************************************
+.*...INDBSLUT
+.ar off
+.*************afsnittet fortsætter i t5 ********
+.da PLACERING    21mm 146mm width 170mm
+.da UDBETAL      21mm 158mm width 170mm
+.da BEGUNSTIG    21mm 184mm width 170mm
+.*************************************
+.ar PLACERING on
+Placering af opsparing
+.br
+Kontohaver aftaler med &BANKNAVN., hvordan opsparingen skal placeres inden
+for rammerne af den til enhver tid gældende lovgivning.
+.ar off
+.*********************************
+.ar UDBETAL on
+.tp 81mm 115mm 142mm
+Udbetaling
+.sp
+Rateudbetalingen til kontohaver
+.ct  begyndes den ¤, og i kalenderåret ¤fylder kontohaver ¤år.
+.sp 1mm
+.tp 43mm
+Udbetalingen sker i rater over ¤år, således at sidste rate udbetales i
+det kalenderår, hvor kontohaver fylder
+.sp 1mm
+Rateudbetaling kan desuden påbegyndes ved kontohavers varigt nedsatte
+funktionsevne, som efter reglerne i lov om socialpension berettiger
+kontohaver til højeste eller mellemste førtidspension.
+.ar off
+.**********************************
+.ar BEGUNSTIG on
+Begunstigede udbetaling ved død
+.sp
+Ved kontohavers død udbetales indestående til kontohavers "nærmeste
+pårørende", medmindre kontohaver har aftalt andet med &BANKNAVN., jf.
+generelle vilkår pkt. 5.
+.sp
+I stedet for udbetaling til "nærmeste pårørende" ønskes følgende personer
+begunstiget: (Vælg mellem ægtefælle, én person der har fælles bopæl med
+kontohaver ved indsættelsen (samlever), fraskilt ægtefælle, livsarvinger
+(børn, børnebørn o.s.v.), stedbørn og disses livsarvinger).
+.sp
+Hvis flere personer er begunstigede udbetales opsparingen til lige deling,
+d.v.s. med samme beløb til hver, medmindre andet er bestemt. Hvis en af de
+begunstigede dør, tilfalder dennes andel den/de øvrige begunstigede til
+lige deling, med mindre andet er bestemt.
+.sp 35mm
+eller
+.sp
+følgende persongruppe(r) ønskes begunstiget: (Vælg mellem ægtefælle,
+livsarvinger (børn, børnebørn o.s.v.) - uden at nævne navne.):
+...BUND1
+.ar off
+.*********************************
+:SKRSLUT.
+.pa
+:COUR10.
+.ti ¤ 05
+.*************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO
+.ar off
+.*************************************************************
+.******************************************************************
+.da NAVN           25mm  71mm  width 170mm
+.da BEGUNSUBS1     25mm  101mm width 84mm
+.da BEGUNSUBS2    115mm  101mm width 84mm
+.da AFTALER        23mm  132mm width 170mm
+.da AFSL           25mm  256mm width 170mm
+.******************************************************************
+.if &L'&RESULTF gt 6
+.th .mg /T/Summen af de subsidiære.begun.s andel% > 100,00/
+.if &L'&RESULTF lt 6
+.th .go SUBDEL
+.if X&RESULTF eq X100,00
+.th .go SUBDELOK
+.el .mg /T/Summen af de subsidiære.begun.s andel% > 100,00/
+...SUBDEL
+.if X&RESULTF eq X0,00
+.th .go SUBDELOK
+.el .mg /T/Summen af de subsidiære.begun.s andel% ej 100,00/
+...SUBDELOK
+.******************************************************************
+.ar NAVN on
+.ce &NAVN
+.ar off
+.******************************************************************
+.ar BEGUNSUBS1 on
+&GENNAVNSB1
+.br
+&GENRELASB1
+.br
+&GENCPRSB1
+.br
+.if &GENPCTSB1 > 0,00
+.th &GENPCTSB1
+.ar off
+.*************************************
+.ar BEGUNSUBS2 on
+&GENNAVNSB2
+.br
+&GENRELASB2
+.br
+&GENCPRSB2
+.br
+.if &GENPCTSB2 > 0,00
+.th &GENPCTSB2
+.ar off
+.*************************************
+.ar AFTALER on
+.if &L'&BECTEKST05 = 0 .an &L'&BECTEKST06 > 0
+.th .sp
+.el &BECTEKST05.
+.if &L'&BECTEKST06 = 0 .an &L'&BECTEKST07 > 0
+.th .sp
+.el &BECTEKST06.
+.if &L'&BECTEKST07 = 0 .an &L'&BECTEKST08 > 0
+.th .sp
+.el &BECTEKST07.
+.if &L'&BECTEKST08 = 0 .an &L'&BECTEKST09 > 0
+.th .sp
+.el &BECTEKST08.
+.if &L'&BECTEKST09 = 0 .an &L'&BECTEKST10 > 0
+.th .sp
+.el &BECTEKST09.
+.if &L'&BECTEKST10 = 0 .an &L'&BECTEKST11 > 0
+.th .sp
+.el &BECTEKST10.
+.if &L'&BECTEKST11 = 0 .an &L'&BECTEKST12 > 0
+.th .sp
+.el &BECTEKST11.
+.if &L'&BECTEKST12 = 0 .an &L'&BECTEKST13 > 0
+.th .sp
+.el &BECTEKST12.
+.if &L'&BECTEKST13 = 0 .an &L'&BECTEKST14 > 0
+.th .sp
+.el &BECTEKST13.
+.if &L'&BECTEKST14 = 0 .an &L'&BECTEKST15 > 0
+.th .sp
+.el &BECTEKST14.
+.if &L'&BECTEKST15 = 0 .an &L'&BECTEKST16 > 0
+.th .sp
+.el &BECTEKST15.
+.if &L'&BECTEKST16 = 0 .an &L'&BECTEKST17 > 0
+.th .sp
+.el &BECTEKST16.
+.if &L'&BECTEKST17 = 0 .an &L'&BECTEKST18 > 0
+.th .sp
+.el &BECTEKST17.
+.if &L'&BECTEKST18 = 0 .an &L'&BECTEKST19 > 0
+.th .sp
+.el &BECTEKST18.
+.if &L'&BECTEKST19 = 0 .an &L'&BECTEKST20 > 0
+.th .sp
+.el &BECTEKST19.
+.if &L'&BECTEKST20 = 0 .an &L'&BECTEKST21 > 0
+.th .sp
+.el &BECTEKST20.
+.if &L'&BECTEKST21 = 0 .an &L'&BECTEKST22 > 0
+.th .sp
+.el &BECTEKST21.
+.if &L'&BECTEKST22 = 0 .an &L'&BECTEKST23 > 0
+.th .sp
+.el &BECTEKST22.
+.if &L'&BECTEKST23 = 0 .an &L'&BECTEKST24 > 0
+.th .sp
+.el &BECTEKST23.
+.if &L'&BECTEKST24 = 0 .an &L'&BECTEKST25 > 0
+.th .sp
+.el &BECTEKST24.
+.if &L'&BECTEKST25 = 0 .an &L'&BECTEKST26 > 0
+.th .sp
+.el &BECTEKST25.
+.if &L'&BECTEKST26 = 0 .an &L'&BECTEKST27 > 0
+.th .sp
+.el &BECTEKST26.
+.if &L'&BECTEKST27 = 0 .an &L'&BECTEKST28 > 0
+.th .sp
+.el &BECTEKST27.
+.if &L'&BECTEKST28 = 0 .an &L'&BECTEKST29 > 0
+.th .sp
+.el &BECTEKST28.
+.if &L'&BECTEKST29 = 0 .an &L'&BECTEKST30 > 0
+.th .sp
+.el &BECTEKST29.
+.if &L'&BECTEKST30 = 0 .an &L'&BECTEKST31 > 0
+.th .sp
+.el &BECTEKST30.
+.if &L'&BECTEKST31 = 0 .an &L'&BECTEKST32 > 0
+.th .sp
+.el &BECTEKST31.
+.if &L'&BECTEKST32 = 0 .an &L'&BECTEKST33 > 0
+.th .sp
+.el &BECTEKST32.
+.if &L'&BECTEKST33 = 0 .an &L'&BECTEKST34 > 0
+.th .sp
+.el &BECTEKST33.
+.if &L'&BECTEKST34 = 0 .an &L'&BECTEKST35 > 0
+.th .sp
+.el &BECTEKST34.
+.if &L'&BECTEKST35 = 0 .an &L'&BECTEKST36 > 0
+.th .sp
+.el &BECTEKST35.
+.if &L'&BECTEKST36 = 0 .an &L'&BECTEKST37 > 0
+.th .sp
+.el &BECTEKST36.
+.ar off
+.*************************************
+.ar AFSL on
+.tp 88mm
+&NAVN ¤&GENNAVN1
+.sp 9.5mm
+.ce &BANKNAVN
+.ar off
+.*************************************
+.da oversk 20mm 32mm width  80mm
+.da side1a 20mm 39mm width 175mm
+.***********************************''
+.ar oversk on
+:SWISS12.
+:FED.
+.us Aftale om ratepension - fortsat
+:SKRSLUT.
+.ar off
+.*************************************
+.ar side1a on
+.***** her laves kassen begunstigelse ************
+.bx new left right
+.sp 20mm
+.***** her laves kassen til kontohaver. underskrift ******
+.bx new left right
+.sp 12mm
+.***** her laves kassen begunstigelse ************
+.bx new left right
+.sp 50mm
+.***** her laves kassen til væsentlige aftaler *********
+.bx new left right
+.sp 100mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til generelle vilkår  **********
+.bx new left right
+.sp 10mm
+.***** her laves kassen til kontohaver/arbejdsg. underskrift ******
+.bx new left 87.5mm right
+.sp 12mm
+.***** her laves kassen til pi- underskrift ******
+.bx new left right
+.sp 12mm
+.bx off
+.bx can
+.ar off
+.*********************************
+:SWISS8.
+.******************************************
+.da BEGUNSAML  21mm  40.5mm width 170mm
+.da AFTAL      21mm 128mm width 175mm
+.da KTOHAVR    21mm  62.5mm width 170mm
+.da SUBBEGUN   21mm  76.5mm width 170mm
+.da UNDTEKST   21mm 235.5mm width 170mm
+.da UNDKONTO   21mm 246.5mm width 85mm
+.da UNDARB    108.5mm 246.5mm width 85mm
+.da UNDPI      21mm 260mm width 170mm
+.******************************************
+.ar BEGUNSAML on
+Ved begunstigelse af "samlever":
+.sp
+Jeg erklærer hermed, at min samlever, som jeg har begunstiget, har fælles
+folkeregisteradresse med mig. Jeg har fået oplyst, at manglende fælles
+folkeregisteradresse på begunstigelsestidspunktet medfører, at
+pensionsordningen skal ophæves med 60 pct.'s afgift til staten, samt at
+jeg ikke har fradragsret for indbetalinger efter begunstigelsestidspunktet,
+ligesom eventuel pensionsafkastskat mv. skal reguleres.
+.ar off
+.**********************
+.ar KTOHAVR on
+.tp 144mm
+Kontohavers underskrift¤Dato:
+.ar off
+.**********************
+.ar SUBBEGUN on
+Subsidiær begunstigelse
+.sp
+Er den /de begunstigede alle døde, udbetales indestående til kontohavers
+"nærmest pårørende", med mindre kontohaver har aftalt andet med &BANKNAVN.,
+jævnfør generelle vilkår punkt 5.
+.sp
+I stedet for "nærmeste pårørende" skal følgende begunstiges subsidiært:
+.ar off
+.******************************************
+.ar AFTAL on
+Væsentlige aftaler/forudsætninger
+.ar off
+.******************************************
+.ar UNDTEKST on
+Vedlagte "Generelle vilkår for ratepension" dateret &DATO er
+gældende for denne aftale. Jeg erklærer hermed at have modtaget vilkårene,
+og at &BANKNAVN har gennemgået vilkårene med mig.
+.ar off
+.******************************************
+.ar UNDKONTO on
+.tp 60mm
+Kontohavers underskrift¤Dato:
+.ar off
+.******************************************
+.ar UNDARB on
+.if &L'&GENNAVN1 gt 0
+.tp 56.5mm
+.th Arbejdsgivers underskrift¤Dato:
+.ar off
+.******************************************
+.ar UNDPI on
+.tp 144mm
+Pengeinstituttets underskrift¤Dato:
+.ar off
+.******************************************
+.pa

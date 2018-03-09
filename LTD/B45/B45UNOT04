@@ -1,0 +1,187 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.su off
+.se by = substr &GENADR4 6 25
+.su on
+.*******
+.*TEST PÅ OM DER ER TASTET 1,2 ELLER 3 I VALG AF INSTRUMENT **************
+.if &GENVALG > 0
+.an &GENVALG < 4
+.th .go TYPEOK
+.el .mg/T/Valg af instrument skal være 1, 2 eller 3./
+...TYPEOK
+.*******
+.if &GENVALG = 1
+.th .se instru = 'andele'
+.if &GENVALG = 2
+.th .se instru = 'aktier'
+.if &GENVALG = 3
+.th .se instru = 'anparter'
+.**********
+.if &L'&BECNOM = 0
+.an &L'&STKDEC = 0
+.an &L'&STKHEL = 0
+.th .mg/T/Udfyld enten nominel-felt eller ét af stk-felterne/
+.**********
+.if &L'&BECNOM > 0
+.an &L'&STKDEC > 0
+.an &L'&STKHEL = 0
+.th .mg/T/Udfyld enten nominel-felt eller ét af stk-felterne/
+.**********
+.if &L'&BECNOM > 0
+.an &L'&STKHEL > 0
+.an &L'&STKDEC = 0
+.th .mg/T/Udfyld enten nominel-felt eller ét af stk-felterne/
+.**********
+.if &L'&STKDEC > 0
+.an &L'&STKHEL > 0
+.th .mg/T/Kun ét af stk-felterne må være udfyldt/
+.**********
+.if &L'&BECNOM > 0
+.th .se valg1 = 'nominelt'
+.if &L'&STKDEC > 0
+.th .se valg1 = 'stk.'
+.if &L'&STKHEL > 0
+.th .se valg1 = 'stk.'
+.**********
+.* ændring af banknavn til at følge banksteds-banknavn
+.*.if &L'&BANKNAVN GT 0
+.*.th .se BANKNAVN = 'Sydbank A/S'
+.se BANKNAVN = 'Sydbank A/S'
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.us Meddelelse om salg af unoterede kapitalandele
+.sp
+.**************************************************************************
+.*******************************
+Hermed meddeles det, at
+.sp
+.*******************************
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp
+.*******************************
+.if &L'&BECNOM > 0
+.th .go TXT1
+.el .go TXT1END
+...TXT1
+har solgt &valg1.
+:VS. &BECNOM.
+&instru. udstedt i
+&U'&GENMØNTK.
+i
+...TXT1END
+.*********************
+.if &L'&STKDEC > 0
+.th .go TXT2
+.el .go TXT2END
+...TXT2
+har solgt
+:VS. &STKDEC.
+&valg1. &instru. udstedt i
+&U'&GENMØNTK.
+i
+...TXT2END
+.*********************
+.if &L'&STKHEL > 0
+.th .go TXT3
+.el .go TXT3END
+...TXT3
+har solgt
+:VS. &STKHEL.
+&valg1. &instru. udstedt i
+&U'&GENMØNTK.
+i
+...TXT3END
+.sp
+.*******************************
+&GENADR1.
+.br
+&GENADR2.
+.br
+&GENADR3.
+.br
+&GENADR4.
+.br
+&GENADR5.
+.***********SLUT****************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.da MODTAG 25mm 49mm
+.**************************************************************************
+.ar MODTAG on
+&GENADR1
+.br
+&GENADR2
+.br
+&GENADR3
+.br
+&GENADR4
+.br
+&GENADR5
+.ar off
+.***********************************************************************
+.sp 2
+.ce on
+Med venlig hilsen
+.sp 3
+Sydbank
+.sp
+.ce off

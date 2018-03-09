@@ -1,0 +1,257 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.oc **
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T:OMTALE &OMTALEF
+:VERDA09.
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.****************************************
+.ar VEND on
+:COUR6.
+&BRUGERNR
+.br
+B20BOLIG29
+.ar off
+.pm 20mm
+.ll 170mm
+.sp 20mm
+:FED.Tillæg til indlånskonto &B20KONTO01. i kombination med AL-Prioritet
+&IREGKTO..
+:SKRSLUT.
+.sp
+&SJEG har optaget AL-Prioritet i kombination med indlånskonto.
+.sp
+AL-Prioritet reguleres af bestemmelserne i pantebrev.
+.sp
+Der gælder følgende særlige vilkår for indlånskontoen:
+.sp
+:FED.Gyldighedsperiode::SKRSLUT.
+.br
+De særlige rentevilkår er gældende fra det tidspunkt, hvor AL-Prioritet
+nr. &IREGKTO. forrentes over for banken.
+.sp
+Hvis AL-Prioritet indfries, ophører de særlige rentevilkår for
+indlånskontoen, hvorefter de almindelige rentevilkår for kontoen er
+gældende.
+.sp
+Hvis banken opsiger AL-Prioritet som følge af misligholdelse eller, hvis
+lånet af anden årsag forfalder til betaling, ændres rentevilkårene for
+indlånskontoen, således at indeståendet på kontoen fra opsigelsen eller
+forfaldstidspunktet forrentes med bankens til enhver tid gældende rente for
+kontoen uden den særlige aftale.
+.sp
+:FED.Forrentning::SKRSLUT.
+.br
+Indlånskontoens almindelige rentevilkår suppleres på følgende måde:
+.sp
+-
+.in 2.5mm nobreak
+indestående på indlånskontoen, indtil et beløb svarende til restgælden på
+prioritetslånet, forrentes med samme rente som prioritetslånet forrentes
+med
+.br
+.in 0mm
+-
+.in 2.5mm nobreak
+indestående på indlånskontoen derudover forrentes efter bankens til
+enhver tid gældende variable rente for samme type indlån (uden sammenhæng
+med prioritetslån). Bankens almindelige indlånsrentesatser fremgår på
+bankens hjemmeside samt ved skiltning i bankens filialer
+.br
+.in 0mm
+-
+.in 2.5mm nobreak
+rente af indeståendet beregnes kvartalsvist bagud så længe de supplerende
+vilkår er gældende
+.in 0mm
+.sp
+:FED.Eksempel::SKRSLUT.
+.br
+Restgælden på AL-Prioritet udgør kr. 300.000, og indeståendet på
+indlånskontoen er kr. 350.000. Indeståendet vil blive forrentet således:
+.sp
+-
+.in 2.5mm nobreak
+De første kr. 300.000, som svarer til restgælden på lånet, vil blive
+forrentet med den samme rente som på lånet.
+.in 0mm
+.br
+-
+.in 2.5mm nobreak
+Det overskydende beløb, kr. 50.000, vil blive forrentet med bankens til
+enhver tid gældende rente for kontoen uden denne særlige aftale, og uden
+medregning af indeståendet, der svarer til lånet.
+.in 0mm
+.sp
+De supplerende vilkår er gældende fra det tidspunkt, hvor prioritetslånet
+forrentes over for banken.
+.br
+Hvis,
+.br
+-
+.in 2.5mm nobreak
+prioritetslånet indfries ophører de supplerende rentevilkår
+.in 0mm
+.br
+-
+.in 2.5mm nobreak
+prioritetslånet misligholdes, opsiges eller forfalder af anden årsag,
+bortfalder de supplerende rentevilkår på forfaldstidspunktet for
+prioritetslånets restgæld
+.in 0mm
+.sp
+Bankens "almindelig forretningsbetingelser for privatkunder" er gældende, i
+det omfang de ikke er fraveget i denne aftale.
+.sp2
+Enig i ovennævnte:
+.sp2
+.sp3
+_______________________________________
+.br
+.if &L'&NAVN > 0 .an &L'&MEDNAVN > 0
+.th &NAVN og &MEDNAVN
+.if &L'&NAVN > 0 .an &L'&MEDNAVN = 0
+.th &NAVN
+.if &L'&NAVN = 0 .an &L'&MEDNAVN > 0
+.th &MEDNAVN

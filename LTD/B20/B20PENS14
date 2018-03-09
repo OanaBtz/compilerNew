@@ -1,0 +1,889 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **
+.**************************************************************
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.ar OVERSK on
+.tp 75mm 128mm
+:SWISS12.:FED.
+Indberetning af overførsel af Ratepension -
+.if &L'&B20TEST01 > 0
+.th til andet pengeinstitut
+.if &L'&B20TEST02 > 0
+.th fra andet pengeinstitut
+.if &L'&B20TEST03 > 0
+.th Sammenlægning af konti
+.if &L'&B20TEST04 > 0
+.th til forsikringsselskab
+.if &L'&B20TEST05 > 0
+.th fra forsikringsselskab
+:SKRSLUT
+.ar off
+.da KUNDEOPL     25mm  35mm width 90mm
+.****** Her testes på hvor mange krydser der er sat ******
+.se taeller = 0
+.if &L'&B20TEST01 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST02 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST03 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST04 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST05 gt 0
+.th .se taeller = &taeller + 1
+.*********************************
+.if x&taeller gt x1
+.th .mg/T/Der kan kun udskrives et brev af gangen/
+.********************************
+.da SIDE1 20mm  37mm   width 175mm
+.*********************************
+.ar SIDE1 on
+.if &L'&B20TEST01 > 0
+.th .go videre1
+.el .go slut1
+...videre1
+.bx left 87,5mm right
+.tp 88,5mm 125mm 132,25mm
+:SWISS8.
+.in 1mm
+Til: ¤Kontohaver:
+.sp 6mm
+.hr 87,5mm right
+.vr 131,25mm
+¤Kontonr. ¤¤¤CPR nr.
+.sp 6mm
+.hr 87,5mm right
+.vr off
+¤Depotnr.
+.sp 6mm
+.bx off
+.bx can
+.bx can
+.***********************
+:SWISS10.
+.in 1mm
+:FED
+Konto tilknyttet (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Puljeordning i indeværende år, udmeldt den           /        -20
+.sp 4mm
+¤Millionærkonto nr.
+.sp
+.bx off
+.********************
+:SWISS10.
+.in 1mm
+:FED
+VP Depot (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Diverse depot og VP gebyrer er bogført af filialen
+.sp 4mm
+¤Depotet konto til konto overføres først - når godkendelse er givet af
+Særlig indlån
+.sp
+.bx off
+.********************
+:SWISS10.
+.in 1mm
+:FED
+Følgende vedlægges
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 5mm 10mm 90mm 95mm 100mm
+:SWISS8.
+¤*¤Kopi af overførselsanmodning
+.sp 4mm
+¤*¤Kontrakt
+.sp 4mm
+¤*¤Evt. tillæg
+.sp 4mm
+¤*¤Evt. skriftlig tilladelse fra arbejdsgiver
+.sp
+:FED.
+Vedr. forsikring:
+:SKRSLUT.
+:SWISS8.
+.sp
+¤*¤Police - Hvis tilknyttet individuelle forsikring(er) overføres
+.sp 4mm
+¤*¤Dokumentation med kundens underskrift vedlægges - Hvis tilknyttet
+individuelle forsikring(er) opsiges
+.sp 4mm
+¤*¤Dokumentation for opsigelse med kundens/nyt PI's underskrift samt PIR's
+kopi af brev sendt til kunden - Hvis PFA, Gruppeliv
+.br
+¤¤Pension/Kritisk sygdom/Tab af erhvervsevne opsiges
+.sp
+.bx off
+.*********************
+:SWISS10.
+.in 1mm
+:FED
+Fri tekst
+:SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+:SWISS10.
+.in 1mm
+:FED
+Underskrift
+:SKRSLUT.
+.********* her laves kassen til underskrifter ***************
+.bx left right
+.tp 130mm
+:SWISS8.
+Pengeinstituttets underskrift ¤Dato: &DATO
+.sp 24mm
+:SKRSLUT
+.bx off
+...slut1
+.ar off
+.da SIDE4 20mm 76.5mm width 175mm
+.****************************************
+.ar SIDE4 on
+.if &L'&B20TEST01 > 0
+.th .go videre4
+.el .go slut4
+...videre4
+.************** konti *************************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.*********************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 11mm
+.************  VP depot ******************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.******************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+...slut4
+.ar off
+.da KUNDEOPL     25mm  47mm width 90mm
+.da KUNDE      112.5mm 44mm width 90mm
+.da KTOOPL     112.5mm 54mm width 90mm
+.da CPR        155mm 54mm width 45mm
+.da DEPOT      112.5mm 64mm width 90mm
+.******************************************************************
+.ar KUNDEOPL on
+.if &L'&B20TEST04 > 0 .or &L'&B20TEST05 > 0 .or &L'&B20TEST02 > 0
+.th .br
+.th Arbejdernes Landsbank
+.th .br
+.th Pension & Forsikring
+.th .br
+.th Vesterbrogade 5
+.th .br
+.th 1502 København V
+.th .br
+.el
+.el &BKNAVN
+.el .br
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.ar off
+.*************************************
+.ar KUNDE on
+&NAVN
+.ar off
+.**************************************
+.ar KTOOPL on
+.***** HER DELES REG- OG KONTONUMMER OP I TO PARAMETRE *******
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+&regnr &ktonr
+.ar off
+.*************************************************************
+.ar CPR on
+&KTOKUNDENR
+.af off
+.*************************************************************
+.ar DEPOT on
+&B20KTONR01
+.ar off
+.da TEKST        25mm 189mm   width 165mm
+.da AFSLUT      20mm 234mm width 175mm
+.*******************************************
+.ar TEKST on
+.if &L'&B20TEST01 > 0
+.th &B20TEKST61
+.th &B20TEKST62
+.th &B20TEKST63
+.th &B20TEKST64
+.ar off
+.******************
+.ar AFSLUT on
+.ce on
+.if &L'&B20TEST01 > 0
+.th &BANKNAVN
+.ce off
+.ar off
+.da SIDE2 20mm 37mm width 175mm
+.**********************
+.ar SIDE2 on
+.if &L'&B20TEST02 > 0
+.th .go videre2
+.el .go slut2
+...videre2
+.bx left 87,5mm right
+.tp 88,5mm 125mm 132,25mm
+:SWISS8.
+.in 1mm
+Til: ¤Kontohaver:
+.sp 6mm
+.hr 87,5mm right
+.vr 131,25mm
+¤Kontonr. ¤¤¤CPR nr.
+.sp 6mm
+.hr 87,5mm right
+.vr off
+¤Depotnr.
+.sp 6mm
+.bx off
+.bx can
+.bx can
+.******************
+:SWISS10.
+.in 1mm
+:FED
+Konto/kontrakt (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Konto er oprettet - Beløb indsat med TK 279
+.sp 4mm
+¤Underskrifter på APF-kontrakten indhentes efterfølgende
+.sp
+.bx off
+.********************
+:SWISS10.
+.in 1mm
+:FED
+Følgende vedlægges
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 5mm 10mm 90mm 95mm 100mm
+:SWISS8.
+¤*¤Kontrakter
+.sp 4mm
+¤*¤Kontrakt mv. for eksisterende konto ved sammenlægning med AL-pension
+.sp 4mm
+¤*¤Evt. tillæg
+.sp 4mm
+¤*¤Evt. skriftlig tilladelse fra arbejdsgiver
+.sp 4mm
+¤*¤Overførselsbrev fra afgivende pengeinstitut
+.sp 4mm
+¤*¤Formular 07.008 (P36-skema) samt evt.
+.sp 4mm
+¤*¤Evt. formular 07.15 (P36A-depot), hvis VP overføres fra andet PI
+.sp
+:FED.
+Vedr. forsikring:
+:SKRSLUT.
+:SWISS8.
+.sp
+¤*¤Kopi af police/begæring - Hvis tilsvarende forsikring(er) er
+tegnet/godkendt
+.sp 4mm
+¤*¤Dokumentation med kundens underskrift vedlægges - Hvis tilknyttet
+individuelle forsikring(er) opsiges
+.sp
+.bx off
+.**********************
+:SWISS10.
+.in 1mm
+:FED
+PBS, hvis udbetaling er startet (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Ændring foretaget
+.sp
+.bx off
+.********************
+:SWISS10.
+.in 1mm
+:FED
+Fri tekst
+:SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+.******************
+:SWISS10.
+.in 1mm
+:FED
+Underskrift
+:SKRSLUT.
+.********* her laves kassen til underskrifter ***************
+.bx left right
+.tp 130mm
+:SWISS8.
+Pengeinstituttets underskrift ¤Dato: &DATO
+.sp 24mm
+:SKRSLUT
+.bx off
+...slut2
+.ar off
+.da SIDE5 20mm 76.5mm width 175mm
+.****************************************
+.ar SIDE5 on
+.if &L'&B20TEST02 > 0
+.th .go videre5
+.el .go slut5
+...videre5
+.************** konti *************************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 3mm
+.***************************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 88mm
+.************** PBS, hvis udbetaling er startet **************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+...slut5
+.ar off
+.da TEKST        25mm 193mm width 165mm
+.da AFSLUT      20mm 237mm width 175mm
+.******************************************
+.ar TEKST on
+.if &L'&B20TEST02 > 0
+.th &B20TEKST61
+.th &B20TEKST62
+.th &B20TEKST63
+.th &B20TEKST64
+.ar off
+.******************
+.ar AFSLUT on
+.if &L'&B20TEST02 > 0
+.th .ce &BANKNAVN
+.ar off
+.da SIDE3 20mm 37mm width 175mm
+.******************************
+.ar SIDE3 on
+.if &L'&B20TEST03 > 0
+.th .go videre3
+.el .go slut3
+...videre3
+.bx left 87,5mm right
+.tp 88,5mm 125mm 132,25mm
+:SWISS8.
+.in 1mm
+Til: ¤Kontohaver:
+.sp 6mm
+.hr 87,5mm right
+.vr 131,25mm
+¤Kontonr. ¤¤¤CPR nr.
+.sp 6mm
+.hr 87,5mm right
+.vr off
+¤Depotnr.
+.sp 6mm
+.bx off
+.bx can
+.bx can
+.***********************
+:SWISS10.
+.in 1mm
+:FED
+Konto tilknyttet (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Puljeordning i indeværende år, udmeldt den          /     -20
+.sp 4mm
+¤Millionærkonto nr.
+.sp 4mm
+¤VP Depot - Depotet konto til konto overføres først, når godkendelse er
+givet af Særlig indlån
+¤Bemærk: Gebyr pålægges ved overførsel af depotet
+.sp
+.bx off
+.******************
+:SWISS10.
+.in 1mm
+:FED
+Følgende vedlægges
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 5mm 10mm 90mm 95mm 100mm
+:SWISS8.
+¤*¤Kontrakt(er) på både den ophørende og fortsættende konto
+.sp 4mm
+¤*¤Evt. tillæg
+.sp 4mm
+¤*¤Evt. skriftlig tilladelse fra arbejdsgiver
+.sp
+.bx off
+.**********************
+:SWISS10.
+.in 1mm
+:FED
+Følgende foretages (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Debiteringskonto på tilknyttede forsikringer er ændret
+.sp 4mm
+¤Underskrifter på kontrakten indhentes efterfølgende
+.sp
+.bx off
+.*****************
+:SWISS10.
+.in 1mm
+:FED
+Udbetaling
+:SKRSLUT.
+.bx left right
+.sp 3mm
+:SWISS8.
+¤Beløbet skal indsættes på konto nr.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:COUR10.
+&B20KTONR02
+:SKRSLUT.
+:SWISS8.
+.sp
+Bemærk! Der pålægges pensionskontoen gebyr for sammenlægning.
+:SKRSLUT.
+.bx off
+.**********************
+:SWISS10.
+.in 1mm
+:FED
+Fri tekst
+:SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+.*********************
+:SWISS10.
+.in 1mm
+:FED
+Underskrift
+:SKRSLUT.
+.********* her laves kassen til underskrifter ***************
+.bx left 87.5mm right
+.tp 1mm 57.5mm 88.5mm 135mm
+:SWISS8.
+¤Kontohavers underskrift ¤Dato: ¤Pengeinstituttets underskrift ¤Dato:&DATO
+.sp 30mm
+:SKRSLUT
+.bx off
+...slut3
+.ar off
+.da SIDE6 20mm 77mm width 175mm
+.****************************************
+.ar SIDE6 on
+.if &L'&B20TEST03 > 0
+.th .go videre6
+.el .go slut6
+...videre6
+.************** konto *********************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.***************************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.***************************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 43mm
+.************** følgende foretages ***************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.***************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+...slut6
+.ar off
+.da TEKST        25mm 182mm width 165mm
+.da UNDERSKRKU 20mm 232mm width 87mm
+.da UNDERSKRPI 107mm 232mm width 87mm
+.******************************************************************
+.ar TEKST on
+.if &L'&B20TEST03 > 0
+.th &B20TEKST61
+.th &B20TEKST62
+.th &B20TEKST63
+.th &B20TEKST64
+.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+.ce on
+.if &L'&B20TEST03 > 0
+.th &NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+.ce on
+.if &L'&B20TEST03 > 0
+.th &BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+.da SIDE7 20mm  37mm   width 175mm
+.*********************************
+.ar SIDE7 on
+.if &L'&B20TEST04 > 0
+.th .go videre7
+.el .go slut7
+...videre7
+.bx left 87,5mm right
+.tp 88,5mm 125mm 132,25mm
+:SWISS8.
+.in 1mm
+Til: ¤Kontohaver:
+.sp 6mm
+.hr 87,5mm right
+.vr 131,25mm
+¤Kontonr. ¤¤¤CPR nr.
+.sp 6mm
+.hr 87,5mm right
+.vr off
+¤Depotnr.
+.sp 6mm
+.bx off
+.bx can
+.bx can
+.*****************
+:SWISS10.
+.in 1mm
+:FED
+Konto tilknyttet (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm 30mm
+:SWISS8.
+¤Puljeordning i indeværende år, udmeldt den               /         -20
+.sp 4mm
+¤Millionærkonto nr.
+.sp 4mm
+¤VP Depot ¤ - Værdipapirer solgt
+.br
+¤¤ - Diverse depot og VP gebyrer er bogført af filialen
+.sp
+.bx off
+.**************************
+:SWISS10.
+:FED
+.in 1mm
+Følgende vedlægges
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 5mm 10mm
+:SWISS8.
+¤*¤Kopi af overførselsanmodning
+.sp 4mm
+¤*¤Kontrakt
+.sp 4mm
+¤*¤Evt. tillæg
+.sp 4mm
+¤*¤Evt. skriftlig tilladelse fra arbejdsgiver
+.sp
+:FED.
+Vedr. forsikring:
+.sp
+:SKRSLUT.
+¤*¤Dokumentation med kundens underskrift vedlægges - Hvis tilknyttet
+individuelle forsikring(er) opsiges
+.sp 4mm
+¤*¤PIR's kopi af brev sendt til kunden - Hvis PFA-Gruppeliv Pension er
+opsagt af banken
+.sp
+.bx off
+.****************
+:SWISS10.
+.in 1mm
+:FED
+Fri tekst
+:SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+:SWISS10.
+.in 1mm
+:FED
+Underskrift
+:SKRSLUT.
+.********* her laves kassen til underskrifter ***************
+.bx left right
+.tp 130mm
+:SWISS8.
+Pengeinstituttets underskrift ¤Dato: &DATO
+.sp 24mm
+:SKRSLUT
+.bx off
+...slut7
+.ar off
+.da SIDE8 20mm 77.5mm width 175mm
+.****************************************
+.ar SIDE8 on
+.if &L'&B20TEST04 > 0
+.th .go videre8
+.el .go slut8
+...videre8
+.************** konto tilknyttet ****************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+...slut8
+.ar off
+.da TEKST        25mm 167mm width 165mm
+.da AFSLUT       20mm 211mm width 175mm
+.********************************
+.ar TEKST on
+.if &L'&B20TEST04 > 0
+.th &B20TEKST61
+.th &B20TEKST62
+.th &B20TEKST63
+.th &B20TEKST64
+.ar off
+.******************
+.ar AFSLUT on
+.ce on
+.if &L'&B20TEST04 > 0
+.th &BANKNAVN
+.ce off
+.ar off
+.da SIDE5 20mm 37mm width 175mm
+.*********************************
+.ar SIDE5 on
+.if &L'&B20TEST05 > 0
+.th .go videre5
+.el .go slut5
+...videre5
+.bx left 87,5mm right
+.tp 88,5mm 125mm 132,25mm
+:SWISS8.
+.in 1mm
+Til: ¤Kontohaver:
+.sp 6mm
+.hr 87,5mm right
+.vr 131,25mm
+¤Kontonr. ¤¤¤CPR nr.
+.sp 6mm
+.hr 87,5mm right
+.vr off
+¤Depotnr.
+.sp 6mm
+.bx off
+.bx can
+.bx can
+.***********************************
+:SWISS10.
+.in 1mm
+:FED
+Konto/kontrakt (sæt x)
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 13mm
+:SWISS8.
+¤Konto er oprettet - Beløb indsat med TK 279
+.sp 4mm
+¤Underskrifter på APF-kontrakten indhentes efterfølgende
+.sp
+.bx off
+.**************************
+:SWISS10.
+:FED
+.in 1mm
+Følgende vedlægges
+:SKRSLUT.
+.bx left right
+.sp 3mm
+.tp 5mm 10mm
+:SWISS8.
+¤*¤Ny pensionskontrakt
+.sp 4mm
+¤*¤Kontrakt mv. for eksisterende konto ved sammenlægning med AL-pension
+.sp 4mm
+¤*¤Forsikringspolice eller overførselsbrev fra afgivende forsikringsselskab
+.sp
+:FED.
+Vedr. forsikring
+:SKRSLUT.
+.sp
+¤*¤Kopi af police/begæring - Hvis tilsvarende forsikring(er) er tegnet/
+godkendt
+.sp 4mm
+¤*¤Dokumentation med kundens underskrift vedlægges - Hvis tilknyttet
+individuelle forsikring(er) opsiges
+.sp
+.bx off
+.******************
+:SWISS10.
+.in 1mm
+:FED
+Fri tekst
+:SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+.******************
+:SWISS10.
+.in 1mm
+:FED
+Underskrift
+:SKRSLUT.
+.********* her laves kassen til underskrifter ***************
+.bx left right
+.tp 130mm
+:SWISS8.
+Pengeinstituttets underskrift ¤Dato: &DATO
+.sp 24mm
+:SKRSLUT
+.bx off
+...slut5
+.ar off
+.da SIDE10 20mm 77.5mm width 175mm
+.****************************************
+.ar SIDE10 on
+.if &L'&B20TEST05 > 0
+.th .go videre10
+.el .go slut10
+...videre10
+.************* konto ********
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.*************
+.bx new 5mm 8mm
+.sp 1.5mm
+.bx off
+...slut10
+.ar off
+.da TEKST        25mm 149mm width 165mm
+.da AFSLUT       20mm 193mm width 175mm
+.********************************
+.ar TEKST on
+.if &L'&B20TEST05 > 0
+.th &B20TEKST61
+.th &B20TEKST62
+.th &B20TEKST63
+.th &B20TEKST64
+.ar off
+.******************
+.ar AFSLUT on
+.ce on
+.if &L'&B20TEST05 > 0
+.th &BANKNAVN
+.ce off
+.ar off

@@ -1,0 +1,164 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ll 175mm
+.* Parameterafsnit
+.**************************************************************************
+.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
+.*for at nuv. banker kan fortsætte med at bruge disse.*********************
+.**************************************************************************
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.*Valider at der findes data i mindst eet af Garantimodt.adresse-felterne
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm
+.da MODTAGER 20mm 49mm
+.da AFSENDER 125mm 40mm width 60mm depth 50mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+G08GAR05-1
+.ar off
+.ar MODTAGER on
+&GARMODADR1
+.br
+&GARMODADR2
+.br
+&GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.ar AFSENDER on
+:COUR8.
+&BANKNAVN.
+.br
+&AFDGIRO.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.sp2
+&DATO.
+.ar AFSENDER off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Nedskrivning af arbejdsgaranti nr. &regnr. &ktonr.
+.sp
+.**************************************************************************
+.sk
+Såfremt De mod forventning ikke er enig i nedskrivningen af garantien skal
+De kontakte os inden 14 dage.
+.*******************************
+.* Garanti - Nedskrivning - 5 år - brevtekst
+.*** SÆTTER BREVINTERNE PARAMETRE AFHÆNGIG AF INDTASTNING ***************
+.se BECBELOB1 = &BECBELOB1
+.se BECBELOB2 = &BECBELOB2
+.if .&BECBELOB1 = .0,00
+.th .se 2pct '&RESULTA.'
+.el .se 2pct '&RESULTB.'
+.if .&BECBELOB1 = .0,00
+.th .se saldo '&RESULTC.'
+.el .se saldo '&BECBELOB1.'
+.*******************************
+.br
+For god ordens skyld skal vi herved meddele Dem,
+at den af pengeinstituttet stillede arbejdsgaranti, stor
+.sk
+.ce
+.us &saldo. kr.
+.sk
+udstedt på foranledning af
+.sk
+.IN 31mm
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.sk
+.IN
+vedrørende entreprisen
+.sk
+.IN 31mm
+&BECTEKST10.
+.br
+&BECTEKST11.
+.br
+&BECTEKST12.
+.IN
+.sk
+er nedskrevet til 2% af entreprisesummen eller til
+.sk
+.ce
+.us &2pct. kr.
+.sk
+pr. &BECDATOA., idet der efter det for
+pengeinstituttet oplyste er forløbet et år fra
+afleveringstidspunktet. Der henvises til AB-92 §6 stk. 4.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

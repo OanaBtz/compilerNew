@@ -1,0 +1,318 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
+.*
+.*Default er 1 værge
+.se vtext1 = 'værge'
+.se OMTALEF = 'jeg'
+.*Men, hvis der nu er 2? ;O)
+.if &L'&B32CPRNRV2 gt 0
+.th .se vtext1 = 'værger'
+.th .se OMTALEF = 'vi'
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL1TXT  25mm 90mm width 170mm
+.da FEJL2TXT  25mm 90mm width 170mm
+.da HEADER1   25mm 110mm width 170mm
+.da VÆRGEOV   25mm 30mm width 155mm
+.da VÆRGE1    25mm 37mm width 155mm
+.da VÆRGE2   115mm 37mm width 85mm
+.da VÆRGENR   25mm 67mm width 155mm
+.da KTOHAVER  25mm 75mm width 155mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se ktcpr1 = substr &KTOKNDNR1 1 6
+.se ktcpr2 = substr &KTOKNDNR1 7 4
+.se v1cpr1 = substr &KUNDENR 1 6
+.se v1cpr2 = substr &KUNDENR 7 4
+.se v2cpr1 = substr &B32CPRNRV2 1 6
+.se v2cpr2 = substr &B32CPRNRV2 7 4
+.su on
+.**************************************************************************
+.ar HEADER1 on
+.tp 50mm right 165mm right
+:FED.Tillæg til eksisterende aftale:SKRSLUT.¤¤Dato &DATO.
+.br
+:FED.Netbank 13-17:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VÆRGEOV on
+:FED.
+.if &L'&B32CPRNRV2 gt 0
+.th Værger
+.el Værge
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.**************************************************************************
+.ar VÆRGE1 on
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.ar off
+.ar VÆRGE2 on
+&B32NAVNV2
+.br
+&B32COADRV2
+.br
+&B32GADEV2
+.br
+&B32BYV2
+.br
+&B32LANDV2
+.ar off
+.**************************************************************************
+.ar VÆRGENR on
+.tp 90mm
+CPR-nr. &v1cpr1.-&v1cpr2.
+.if &L'&B32CPRNRV2 gt 0
+.th .ct ¤CPR-nr. &v2cpr1.-&v2cpr2.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+:FED.Kontohaver:SKRSLUT
+.sp
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp 1mm
+CPR-nr. &ktcpr1.-&ktcpr2.
+.ar off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.th .go KTDEPSL
+.br
+&regnr5.-&ktonr5.
+...KON6
+.if &L'&B32PIKON6. = 0
+.th .go KTDEPSL
+.br
+&regnr6.-&ktonr6.
+...KTDEPSL
+.sp 15mm
+.dr tynd weight 0.1mm
+.tp 30mm 90mm 115mm
+.if &L'&B32NAVNV2 > 0
+.th .hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
+.th Dato¤&NAVN.¤Dato¤&B32NAVNV2.
+.el .hr tynd 5mm 25mm 30mm 85mm
+.el Dato¤&NAVN.
+.th .go KTDEPSL
+.br
+.if &L'&B32PIKON2. > 0
+.and &L'&B32PIDEP2. > 0
+.th &regnr2.-&ktonr2.¤&deprg2.-&depnr2.
+.th .go KON3
+.if &L'&B32PIKON2. > 0
+.and &L'&B32PIDEP2. = 0
+.th &regnr2.-&ktonr2.
+.th .go KON3
+.if &L'&B32PIKON2. = 0
+.and &L'&B32PIDEP2. > 0
+.th ¤&deprg2.-&depnr2.
+.th .go KON3
+...KON3
+.if &L'&B32PIKON3. = 0
+.and &L'&B32PIDEP3. = 0
+.th .go KTDEPSL
+.br
+.if &L'&B32PIKON3. > 0
+.and &L'&B32PIDEP3. > 0
+.th &regnr3.-&ktonr3.¤&deprg3.-&depnr3.
+.th .go KON4
+.if &L'&B32PIKON3. > 0
+.and &L'&B32PIDEP3. = 0
+.th &regnr3.-&ktonr3.
+.th .go KON4
+.if &L'&B32PIKON3. = 0
+.and &L'&B32PIDEP3. > 0
+.th ¤&deprg3.-&depnr3.
+.th .go KON4
+...KON4
+.if &L'&B32PIKON4. = 0
+.and &L'&B32PIDEP4. = 0
+.th .go KTDEPSL
+.br
+.if &L'&B32PIKON4. > 0
+.and &L'&B32PIDEP4. > 0
+.th &regnr4.-&ktonr4.¤&deprg4.-&depnr4.
+.th .go KON5
+.if &L'&B32PIKON4. > 0
+.and &L'&B32PIDEP4. = 0
+.th &regnr4.-&ktonr4.
+.th .go KON5
+.if &L'&B32PIKON4. = 0
+.and &L'&B32PIDEP4. > 0
+.th ¤&deprg4.-&depnr4.
+.th .go KON5
+...KON5
+.if &L'&B32PIKON5. = 0
+.hy off
+.sp 88mm
+.tp 8mm 16mm
+Dette tillæg erstatter alle eksisterende adgange udstedt af &vtext1.
+for &KTONAVN.
+.sp 3mm
+Som &vtext1. for &KTONAVN. giver &JEG. adgang til at disponere over
+følgende konti, samt se følgende depoter via Nykredit Netbank 13-17.
+.sp 3mm
+.tp 80mm
+.se regnr1 = substr &B32PIKON1 1 4
+.se ktonr1 = substr &B32PIKON1 5 7
+.se regnr2 = substr &B32PIKON2 1 4
+.se ktonr2 = substr &B32PIKON2 5 7
+.se regnr3 = substr &B32PIKON3 1 4
+.se ktonr3 = substr &B32PIKON3 5 7
+.se regnr4 = substr &B32PIKON4 1 4
+.se ktonr4 = substr &B32PIKON4 5 7
+.se regnr5 = substr &B32PIKON5 1 4
+.se ktonr5 = substr &B32PIKON5 5 7
+.se regnr6 = substr &B32PIKON6 1 4
+.se ktonr6 = substr &B32PIKON6 5 7
+.se deprg1 = substr &B32PIDEP1 1 4
+.se depnr1 = substr &B32PIDEP1 5 6
+.se deprg2 = substr &B32PIDEP2 1 4
+.se depnr2 = substr &B32PIDEP2 5 6
+.se deprg3 = substr &B32PIDEP3 1 4
+.se depnr3 = substr &B32PIDEP3 5 6
+.se deprg4 = substr &B32PIDEP4 1 4
+.se depnr4 = substr &B32PIDEP4 5 6
+Konto/konti:¤Depot(er)
+.if &L'&B32PIKON1. = 0
+.and &L'&B32PIDEP1. = 0
+.th .go KTDEPSL
+.br
+.if &L'&B32PIKON1. > 0
+.and &L'&B32PIDEP1. > 0
+.th &regnr1.-&ktonr1.¤&deprg1.-&depnr1.
+.th .go KON2
+.if &L'&B32PIKON1. > 0
+.and &L'&B32PIDEP1. = 0
+.th &regnr1.-&ktonr1.
+.th .go KON2
+.if &L'&B32PIKON1. = 0
+.and &L'&B32PIDEP1. > 0
+.th ¤&deprg1.-&depnr1.
+.th .go KON2
+...KON2
+.if &L'&B32PIKONT2. = 0
+.and &L'&B32PIDEP2. = 0

@@ -1,0 +1,173 @@
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+B20CHE02
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA10.
+:FED.
+Anmodning om spærring af check
+:SKRSLUT
+:SKRSLUT
+.sp
+.**************************************************************************
+.th hæves på ovennævnte konto.
+.th .sp
+.if &L'&BECTEKST32 > 0
+.th Yderligere oplysninger:
+.th .sp
+.th &BECTEKST32
+.th &BECTEKST33
+.th &BECTEKST34
+.th &BECTEKST35
+.sp 2
+&EKSPBY., den &DATO
+.sp 3
+.if &U'X&BECPJN3 eq XM
+.or &U'X&BECPJN3 eq XK
+.th .go ANMELDER
+.el .mg /T/Anmelder skal være K eller M (ktohaver/mktohaver)/
+...ANMELDER
+.if &L'&MEDNAVN gt 0
+.th .go ANMELD1
+.el .go NEXT1
+...ANMELD1
+.if &U'X&BECPJN3 eq XM
+.th .go MEDNAVN1
+.el .go NEXT1
+...MEDNAVN1
+.tp 30mm center
+.hr 0mm for 60mm
+.br
+¤&MEDNAVN
+.go SLUT
+...NEXT1
+.tp 30mm center
+.hr 0mm 60mm
+.br
+¤&KTONAVN.
+.go SLUT
+...SLUT
+.*
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+Herved anmodes &BANKNAVN om at spærre nedenstående
+check:
+.sp 2
+.tp 70mm
+Kontonr.: ¤&regnr.-&ktonr.
+.br
+.if &L'&BECCHECK02 > 0
+.th .go afs1
+.el .go afs2
+...afs1
+Check nr.: ¤&BECCHECK01 - &BECCHECK02
+.go videre
+...afs2
+Check nr.: ¤&BECCHECK01
+.go videre
+...videre
+.sp
+.if &L'&BECDEBET01 > 0
+.th .se becdebet01 = &BECDEBET01
+.th Beløb i kr.: ¤&becdebet01
+.th .sp
+Kontohavers navn: ¤&KTONAVN.
+.br
+Kontohavers adresse: ¤&KTOGADE.
+.br
+Kontohavers postnr. og by: ¤&KTOBY.
+.sp
+.if &L'&MEDNAVN gt 0
+.th .go MEDNAVN
+.el .go NEXT
+...MEDNAVN
+Medkontohavers navn: ¤&MEDNAVN.
+.br
+Medkontohavers adresse: ¤&MEDGADE.
+.br
+Medkontohavers postnr. og by: ¤&MEDBY.
+.sp
+.go NEXT
+...NEXT
+.if &L'&BECTEKST30 > 0
+.th Ordre: ¤&BECTEKST30.
+.th .sp
+.if &L'&BECTEKST31 > 0
+.th Årsag: ¤&BECTEKST31.
+.th .sp
+.if &L'&BECDEBET02 > 0
+.th .se becdebet02 = &BECDEBET02
+.th Gebyr for spærring kr. &becdebet02
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc ** check - spærring
+.**************************************************************************
+.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
+.*for at nuv. banker kan fortsætte med at bruge disse.*********************
+.**************************************************************************
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************

@@ -1,0 +1,637 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+.*********************** AFSNIT OG AREALER ********************************
+.da OVERSKR   25mm 59mm width 170mm
+.da TEKST     25mm 85mm width 170mm
+.ti ¤ 05
+.tp 30mm 85mm 120mm
+.********************** OVERSKRIFT ****************************************
+.ar OVERSKR on
+Aftale om elektronisk tinglysning vedrørende ejerpantebrev
+kr. :VS.&B19BELØB
+.br
+med pant i matr. nr. &B19TX50A &B19TX50B &B19TX50C &B19TX50D
+.br
+.if &L'&B19TX30B gt 0
+.th Debitorer: &NAVN og &B19TX30B
+.el Debitor: &NAVN
+.br
+Lyst første gang: &B19DATO Løbenr. &B19TX13A
+.ar off
+.************************* PÅTEGNING **************************************
+.ar TEKST on
+Ejerpantebrevet transporteres og overdrages til
+.if &L'&B19TX30B gt 0
+.th .go 2
+.el .go 1
+...2
+&NAVN og &B19TX30B., der
+har erhvervet den pantsatte ejendom, og som ved sine
+underskrifter på nærværende påtegning overtager ejerpantebrevet som
+debitorer og kreditorer.
+.go MED
+...1
+&NAVN., der
+har erhvervet den pantsatte ejendom, og som ved sin
+underskrift på nærværende påtegning overtager ejerpantebrevet som
+debitor og kreditor.
+...MED
+.sp
+Debitor bemyndiger hermed
+.sp
+&BANKNAVN., &AFDNAVN., &AFDGADE., &AFDBY - telefon &AFDTLF
+.sp
+til på mine/vore vegne at underskrive
+påtegninger af enhver art vedrørende ejerpantebrevet, herunder
+kvitterings-, transport-, moderations- og relaksationspåtegninger.
+.if &L'&B19TX1G gt 0
+.th .go PANT
+.el .go SLUT
+...PANT
+.sp
+Ejerpantebrevet må fremtidig alene respektere følgende
+pantehæftelser:
+.sp
+.tp 5mm left 35mm right 45mm left
+.if &U'&B19TX1G = K
+.th ¤Kr. ¤&B19BELØB10 ¤&B19TX60A
+.if &U'&B19TX1G = E
+.th ¤Euro ¤&B19BELØB10 ¤&B19TX60A
+.if &L'&B19L1 gt 0
+.th .br
+.th ¤¤¤&B19L1
+.if &L'&B19TX1H gt 0
+.th .go ANDEN
+.el .go SLUT
+...ANDEN
+.if &U'&B19TX1H = K
+.th .br
+.th ¤Kr. ¤&B19BELØB11 ¤&B19TX60B
+.if &U'&B19TX1H = E
+.th .br
+.th ¤Euro ¤&B19BELØB11 ¤&B19TX60B
+.if &L'&B19L2 gt 0
+.th .br
+.th ¤¤¤&B19L2
+.if &L'&B19TX1I gt 0
+.th .go TRED
+.el .go SLUT
+...TRED
+.if &U'&B19TX1I = K
+.th .br
+.th ¤Kr. ¤&B19BELØB12 ¤&B19TX60C
+.if &U'&B19TX1I = E
+.th .br
+.th ¤Euro ¤&B19BELØB12 ¤&B19TX60C
+.if &L'&B19L3  gt 0
+.th .br
+.th ¤¤¤&B19L3
+.if &L'&B19TX1D gt 0
+.th .go FIRE
+.el .go SLUT
+...FIRE
+.if &U'&B19TX1D = K
+.th .br
+.th ¤Kr. ¤&B19BELØB13 ¤&B19TX60D
+.if &U'&B19TX1D = E
+.th .br
+.th ¤Euro ¤&B19BELØB13 ¤&B19TX60D
+.if &L'&B19L4  gt 0
+.th .br
+.th ¤¤¤&B19L4
+.if &L'&B19TX1E gt 0
+.th .go FEM
+.el .go SLUT
+...FEM
+.if &U'&B19TX1E = K
+.th .br
+.th ¤Kr. ¤&B19BELØB14 ¤&B19TX60E
+.if &U'&B19TX1E = E
+.th .br
+.th ¤Euro ¤&B19BELØB14 ¤&B19TX60E
+.if &L'&B19L5  gt 0
+.th .br
+.th ¤¤¤&B19L5
+.if &L'&B19TX1F gt 0
+.th .go SEKS
+.el .go SLUT
+...SEKS
+.if &U'&B19TX1F = K
+.th .br
+.th ¤Kr. ¤&B19BELØB15 ¤&B19TX59A
+.if &U'&B19TX1F = E
+.th .br
+.th ¤Euro ¤&B19BELØB15 ¤&B19TX59A
+.if &L'&B19L6  gt 0
+.th .br
+.th ¤¤¤&B19L6
+.if &L'&B19TX1J gt 0
+.th .go SYV
+.el .go SLUT
+...SYV
+.if &U'&B19TX1J = K
+.th ¤Kr. ¤&B19BELØB16 ¤&B19TX60F
+.if &U'&B19TX1J = E
+.th ¤Euro ¤&B19BELØB16 ¤&B19TX60F
+.if &L'&B19L7 gt 0
+.th .br
+.th ¤¤¤&B19L7
+.if &L'&B19TX1K gt 0
+.th .go OTTE
+.el .go SLUT
+...OTTE
+.if &U'&B19TX1K = K
+.th .br
+.th ¤Kr. ¤&B19BELØB17 ¤&B19TX60G
+.if &U'&B19TX1K = E
+.th .br
+.th ¤Euro ¤&B19BELØB17 ¤&B19TX60G
+.if &L'&B19L8 gt 0
+.th .br
+.th ¤¤¤&B19L8
+.if &L'&B19TX1L gt 0
+.th .go NI
+.el .go SLUT
+...NI
+.if &U'&B19TX1L = K
+.th .br
+.th ¤Kr. ¤&B19BELØB18 ¤&B19TX60H
+.if &U'&B19TX1L = E
+.th .br
+.th ¤Euro ¤&B19BELØB18 ¤&B19TX60H
+.if &L'&B19L9  gt 0
+.th .br
+.th ¤¤¤&B19L9
+.if &L'&B19TX1M gt 0
+.th .go TI
+.el .go SLUT
+...TI
+.if &U'&B19TX1M = K
+.th .br
+.th ¤Kr. ¤&B19BELØB19 ¤&B19TX60I
+.if &U'&B19TX1M = E
+.th .br
+.th ¤Euro ¤&B19BELØB19 ¤&B19TX60I
+.if &L'&B19L10 gt 0
+.th .br
+.th ¤¤¤&B19L10
+.if &L'&B19TX1N gt 0
+.th .go ELLEVE
+.el .go SLUT
+...ELLEVE
+.if &U'&B19TX1N = K
+.th .br
+.th ¤Kr. ¤&B19BELØB20 ¤&B19TX60J
+.if &U'&B19TX1N = E
+.th .br
+.th ¤Euro ¤&B19BELØB20 ¤&B19TX60J
+.if &L'&B19L11 gt 0
+.th .br
+.th ¤¤¤&B19L11
+.if &L'&B19TX1O gt 0
+.th .go TOLV
+.el .go SLUT
+...TOLV
+.if &U'&B19TX1O = K
+.th .br
+.th ¤Kr. ¤&B19BELØB21 ¤&B19TX60K
+.if &U'&B19TX1O = E
+.th .br
+.th ¤Euro ¤&B19BELØB21 ¤&B19TX60K
+.if &L'&B19L12 gt 0
+.th .br
+.th ¤¤¤&B19L12
+.if &L'&B19TX1P gt 0
+.th .go TRETTEN
+.el .go SLUT
+...TRETTEN
+.if &U'&B19TX1P = K
+.th .br
+.th ¤Kr. ¤&B19BELØB22 ¤&B19TX60L
+.if &U'&B19TX1P = E
+.th .br
+.th ¤Euro ¤&B19BELØB22 ¤&B19TX60L
+.if &L'&B19L13 gt 0
+.th .br
+.th ¤¤¤&B19L13
+...SLUT
+.sp
+Med hensyn til de ejendommen påhvilende byrder og servitutter henvises
+til ejendommens blad i tingbogen.
+.sp
+Ejerpantebrevets øvrige vilkår og bestemmelser forbliver uændrede.
+.sp
+Undertegnede giver ved sin underskrift &BANKNAVN bemyndigelse til at
+udstede, signere og tinglyse en elektronisk påtegning i overensstemmelse
+med dette dokument. &BANKNAVN kan overlade udstedelsen, signering
+og/eller tinglysning af påtegningen til en samarbejdspartner.
+.********* UNDERSKRIFTER OVERDRAGER OG ERHVERVER **************************
+.tp 30mm 85mm 120mm
+.sp2
+.if &L'&B19TX1A gt 0
+.th .go OVERD
+.el .go FULDM
+...OVERD
+&B19TX20A ¤, den ¤¤,den
+.sp
+Som overdrager: ¤¤Som erhverver:
+.sp4
+.hr 5mm 75mm 85mm 160mm
+.br
+&B19TX30C ¤¤&NAVN
+.*********** UNDERSKRIFT MEDDEBITOR MEN INGEN MEDOVERDRAGER ***************
+.if &L'&B19TX30B gt 0
+.an &L'&B19TX30D eq 0
+.th .go DEB1
+.el .go KRE
+...DEB1
+.sp4
+.hr 85mm 160mm
+¤¤&B19TX30B
+.go END
+.*********** UNDERSKRIFT MEDOVERDRAGER MEN INGEN MEDDEBITOR ***************
+...KRE
+.if &L'&B19TX30D gt 0
+.an &L'&B19TX30B eq 0
+.th .go KRE1
+.el .go DEBKRE
+...KRE1
+.sp4
+.hr 0mm 75mm
+&B19TX30D
+.go END
+.*********** UNDERSKRIFT MEDDEBITOR OG MEDOVERDRAGER **********************
+...DEBKRE
+.if &L'&B19TX30B gt 0
+.an &L'&B19TX30D gt 0
+.th .sp4
+.th .hr 5mm 75mm 85mm 160mm
+.th &B19TX30D ¤¤&B19TX30B
+.go END
+.*********** UNDERSKRIFTER IFØLGE FULDMAGT ********************************
+...FULDM
+.if &L'&B19TX1B gt 0
+.th .go UND1
+.el .go END
+.*********** UNDERSKRIFTER IFØLGE FULDMAGT FLERE OVERDRAGERE **************
+...UND1
+¤, den ¤¤,den
+.br
+.if &L'&B19TX30D gt 0
+.th For overdragerne &B19TX30C og &B19TX30D:  ¤¤Som erhverver:
+.th .br
+.th (ifølge fuldmagt)
+.el For overdrager &B19TX30C (ifølge fuldmagt): ¤¤Som erhverver:
+.sp4
+.hr 5mm 75mm 85mm 160mm
+.br
+¤¤&NAVN
+.if &L'&B19TX30B gt 0
+.th .sp4
+.th .hr 85mm 160mm
+¤¤&B19TX30B
+.th .go END
+.***************** ELEKTRONISK UNDERSKRIFT AF SÆLGERS PI ******************
+...END
+.if &L'&B19TX1C gt 0
+.th .go END1
+.el .go END2
+...END1
+¤¤¤,den
+.sp
+Underskrives ikke for/af overdrager, da kreditor- ¤¤Som erhverver:
+.br
+skifte underskrives elektronisk af sælgers PI
+.sp4
+.hr 85mm 160mm
+.br
+¤¤&NAVN
+.if &L'&B19TX30B gt 0
+.th .sp4
+.th .hr 85mm 160mm
+.th ¤¤&B19TX30B
+.th .sp
+.go END2
+.sp2
+...END2
+.*** ELEKTRONISK UNDERSKRIFT AF KURATOR IFM. SÆLGERS KONKURS *************
+.if &L'&B19TX1Q gt 0
+.th .go END3
+.el .go VITT
+...END3
+¤¤¤,den
+.sp
+Underskrives elektronisk af kurator,  ¤¤Som erhverver:
+.th .br
+da sælger er u/konkurs
+.sp4
+.hr 85mm 160mm
+.br
+¤¤&NAVN
+.if &L'&B19TX30B gt 0
+.th .sp4
+.th .hr 85mm 160mm
+.th ¤¤&B19TX30B
+.go VITT
+.sp2
+...VITT
+.************** TIL VITTERLIGHED FOR PANTEDEBITOR *************************
+.if &L'&B19TX30D gt 0
+.th .go 2V
+.el .go 1V
+...2V
+.sp
+Til vitterlighed om underskrifternes ægthed, dateringens rigtighed
+og underskrivernes myndighed for så vidt angår nye pantedebitorer:
+.go UND
+...1V
+.sp
+Til vitterlighed om underskriftens ægthed, dateringens rigtighed
+og underskriverens myndighed for så vidt angår ny pantedebitor:
+...UND
+.sp
+Navn:¤¤Navn:
+.br
+Stilling:¤¤Stilling:
+.br
+Bopæl:¤¤Bopæl:
+.br
+Underskrift:¤¤Underskrift:
+.hr 25mm 75mm 105mm 160mm
+.********** TIL VITTERLIGHED FOR OVERDRAGEREN *****************************
+.sp 2
+.if &L'&B19TX30D gt 0
+.th .go VITO2
+.el .go VITO1
+...VITO2
+Til vitterlighed om underskrifternes ægthed, dateringens rigtighed
+og underskrivernes myndighed for så vidt angår overdragerne:
+.go UNDER
+...VITO1
+Til vitterlighed om underskriftens ægthed, dateringens rigtighed
+og underskriverens myndighed for så vidt angår overdrager:
+.go UNDER
+...UNDER
+.sp
+Navn:¤¤Navn:
+.br
+Stilling:¤¤Stilling:
+.br
+Bopæl:¤¤Bopæl:
+.br
+Underskrift:¤¤Underskrift:
+.hr 25mm 75mm 105mm 160mm
+.ar off
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm  280mm width 180mm rotate -90
+.da OVERSKR 20mm   32mm width 175mm
+.da BOX     20mm   40mm width 175mm
+.da ID      20mm   47mm width 175mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Aftale om tinglysning af transport og fuldmagt
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.br
+&KONTROL1 kl. &KLOKKESLET ¤&DATO
+.ar off
+.********************KASSE TIL ID OG AFGIFT*******************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 50mm 100mm 140mm
+.bx left right
+.if &L'&B19TX30B gt 0
+.th ¤Kundenr. ¤Meddebitors kundenr. ¤Afgift ¤Udskrevet
+.el ¤Kundenr. ¤¤Afgift ¤Udskrevet
+.sp 6mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 225mm
+.bx off
+.ar off
+.********************ID OG AFGIFT******************************************
+.ar ID on
+:SWISS9.
+.tp 1mm 50mm 90mm 140mm
+¤&KUNDENR ¤&B19CPR1 ¤&B19BELØB1 kr. ¤&DATO
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 25mm
+.*rh off
+.*rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.bm 25mm

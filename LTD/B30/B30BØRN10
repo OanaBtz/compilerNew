@@ -1,0 +1,294 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*TEST PÅ HENVENDELSE *****************************************************
+.if &U'X&B30BREV ne XJ
+.an &U'X&B30BREV ne XN
+.th .mg/T/Oprettet via Brev: Skriv J eller N/
+.if &U'X&B30MAIL ne XJ
+.an &U'X&B30MAIL ne XN
+.th .mg/T/Oprettet via Mail: Skriv J eller N/
+.if &U'X&B30TELEFON ne XJ
+.an &U'X&B30TELEFON ne XN
+.th .mg/T/Oprettet via Telefon: Skriv J eller N/
+.*TEST PÅ OM DER ER VALGT HENVENDELSESFORM ********************************
+.se henv = 0
+.if &U'X&B30BREV = XJ
+.th .se henv = &henv + 1
+.el .se henv = &henv
+.if &U'X&B30MAIL = XJ
+.th .se henv = &henv + 1
+.el .se henv = &henv
+.if &U'X&B30TELEFON = XJ
+.th .se henv = &henv + 1
+.el .se henv = &henv
+.if &henv = 0
+.th .mg/T/Oprettet via: Skriv J til pr. Brev, mail eller telefon/
+.if &henv > 1
+.th .mg/T/Oprettet via: Skriv J til enten pr. Brev, mail eller telefon/
+.****************
+.if &U'X&B30BEDSTE ne XJ
+.an &U'X&B30BEDSTE ne XN
+.th .mg/T/Oprettet af bedsteforældre: Skriv J eller N/
+.****************
+.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
+.su off
+.se cprcvr = substr &INDKUNDENR 1 2
+.su on
+.******************************
+.if &U'&B30MEDSKUN = J
+.an x&cprcvr = x43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.****************
+.if x&B30ANTAL < x1
+.th .mg/T/Antal konti, skal være mindst 1/
+.****************
+.if &U'X&B30BETIND = XJ
+.or &U'X&B30BETIND = XN
+.th .go OKBETIND
+.th .mg/T/Betalingsanmodninger: Skriv J eller N/
+.****************
+...OKBETIND
+.if &U'&B30BETIND eq N
+.th .go NIXBETP
+.***************************
+.if &L'&B30YDL > 0
+.an x&GENIDTO001 ne x01.01.1800
+.an &L'&B30FREK1 > 0
+.th .go EJBETP1
+.el .mg/T/Felterne til betalingsanmodning 1 skal indtastes/
+.****************
+...EJBETP1
+.if &B30FREK1 < 1
+.or &B30FREK1 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5 på lån1 /
+.****************
+.if x&B30ANTAL = x1
+.th .go NIXBETP
+.********
+.if &L'&B30BELÅN2 > 0
+.an &L'&B30LÅNKRE2 > 0
+.an x&GENIDTOFØR ne x01.01.1800
+.an &L'&B30FREK2 > 0
+.th .go EJBETP2
+.el .mg/T/Felterne til betalingsanmodning 2 skal indtastes/
+...EJBETP2
+.if &B30FREK2 < 1
+.or &B30FREK2 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5 på lån2 /
+...NIXBETP
+.************
+.***
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+OPRETTELSE AF BØRNEOPSPARING
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.su off
+.se konto = substr &KTONR 1 2
+.su on
+.**MIDLERTIDIGE PARAMETRE *************************************************
+.if &B30ANTAL = 1
+.th .se aftal = 'en børneopsparing'
+.th .se aftaler = 'to eksemplarer af aftale om'
+.th .se barn = '&KTONAVN.'
+.el .se aftal = 'børneopsparingskonti'
+.el .se aftaler = 'aftalerne om'
+.****************
+.if &B30ANTAL > 1
+.an &U'&B30BEDSTE = J
+.th .se barn = '&DINE børnebørn'
+.if &B30ANTAL > 1
+.an &U'&B30BEDSTE = N
+.th .se barn = '&DINE børn'
+.**************************************************************************
+.if &U'&B30BREV eq J
+.th I forlængelse af &DIT brev
+.if &U'&B30TELEFON eq J
+.th Som telefonisk aftalt
+.if &U'&B30MAIL eq J
+.th I forlængelse af &DIN mail
+skal vi herved bekræfte, at vi har oprettet
+&aftal til &barn..
+.sp
+.*TEST PÅ KUNDEOPRETTELSE *************************************************
+.if &U'&B30MEDSKUN eq J
+.th .go MEDKUN
+.el .go MEDKUNSL
+...MEDKUN
+Vedlagte kundeoprettelse og
+.if &B30ANTAL eq 1
+.th aftale om
+.el aftalerne om
+børneopsparing beder vi &DIG venligst underskrive. Kundeoprettelsen og
+.if &B30ANTAL eq 1
+.th det originale eksemplar af aftalen
+.el de originale eksemplarer af aftalerne
+bedes returneret i vedlagte svarkuvert. &ÅCONT
+.go BETIND
+...MEDKUNSL
+Vedlagte
+.if &B30ANTAL eq 1
+.th aftale
+.el aftaler
+om børneopsparing beder vi &DIG venligst underskrive. &ÅCONT
+.if &B30ANTAL eq 1
+.th Det originale eksemplar af aftalen
+.el De originale eksemplarer af aftalerne
+bedes returneret i vedlagte svarkuvert. &ÅCONT
+.sp
+...BETIND
+.*TEST PÅ BETALINGSANMODNING **********************************************
+.if &U'&B30BETIND eq J
+.th .go BETANM
+.el .go BETANMSL
+...BETANM
+Endvidere vedlægges
+.if &B30ANTAL = 1
+.th en betalingsanmodning,
+.el betalingsanmodninger,
+som kan benyttes, såfremt &DU
+ønsker at oprette
+.if &B30ANTAL = 1
+.th en fast overførsel via BetalingsService til kontoen.
+.el faste overførsler via BetalingsService til kontiene.
+.sp
+...BETANMSL
+.kp on
+.if &U'&B30MEDSKUN eq J
+.th .sp
+.th Bankens almindelige forretningsbetingelser vedlægges.
+.th .sp
+.th Vi byder &DIG velkommen som kunde i banken.
+.th .sp
+.******
+.if &L'&GENTEKST1 gt 0
+.th &GENTEKST1. &GENTEKST2. &GENTEKST3. &GENTEKST4. &GENTEKST5
+.th &GENTEKST6. &GENTEKST7. &GENTEKST8. &GENTEKST9. &GENTEKST10.
+.th .sp
+Ønsker &DU yderligere oplysninger, er &DU velkommen til at kontakte os.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

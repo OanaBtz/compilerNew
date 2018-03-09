@@ -1,0 +1,172 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre og test på regtype ********************************************
+.if &REGTYPE ne 2200
+.an &REGTYPE ne 2210
+.an &REGTYPE ne 2201
+.an &REGTYPE ne 2211
+.th .mg/T/Der skal vælges en konto med regtype 2200, 2201, 2210 eller 2211/
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da IDOPL 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar IDOPL on
+:COUR8.
+Reg.nr. &regnr
+.br
+Kontonummer &ktonr
+.br
+:FED.&REGTYPELNG.:SKRSLUT.
+.br
+CPR-nr./CVR-nr. &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Kontoaftale
+.sp
+.tp 8mm
+.**************************************************************************
+&BANKNAVN. har nu gennemført kreditvurdering og bevilget en
+&REGTYPELNG. konto med maksimum på &MAXIMUM. kr.
+.sp 3mm
+Inden for de næste 10 dage, modtager du kort og pinkode med posten.
+.sp 3mm
+Kortet har op til 45 dages rentefri kredit.
+.if x&REGTYPE = x2210
+.th .go REVOL
+.if x&REGTYPE = x2211
+.th .go REVOL
+.el .go NOREVOL
+...REVOL
+Ved udnyttelse af den revolverende kredit (delvis tilbagebetaling)
+tilskrives rente primo hver måned.
+.sp 3mm
+Udlånsrenten udgør for tiden &TOTDEB1.% p.a.
+.sp 3mm
+Renten er variabel og kan til enhver tid ændres af &BANKNAVN. i henhold til
+bankens almindelige forretningsbetingelser for privatkunder med tillæg.
+.sp 3mm
+...NOREVOL
+&BANKNAVN. afregner forbruget fra din konto &DEBREGNR.&DEBKTONR1. primo
+hver måned. Du skal selv sørge for, at der står penge nok på kontoen til
+at dække det forbrug, der afregnes.
+.of
+.sp
+.if x&REGTYPE = x2210
+.th .go VILKÅRR
+.if x&REGTYPE = x2211
+.th .go VILKÅRR
+.el .go VILKÅRNR
+...VILKÅRR
+For kontoen gælder betingelserne i kreditaftalen. Du kan læse
+kortholderregler, forsikringsbetingelser og &BANKNAVN.s almindelige
+forretningsbetingelser for privatkunder på brf.dk
+.sp 5mm
+.go NETBANK
+...VILKÅRNR
+For kontoen gælder vilkårene fra bestillingsblanketten. Du kan læse
+kortholderregler, forsikringsbetingelser og &BANKNAVN.s almindelige
+forretningsbetingelser for privatkunder på brf.dk
+.sp 5mm
+...NETBANK
+.us Netbank
+.sp 5mm
+Du kan følge bevægelserne og se saldo på din &REGTYPELNG. konto i
+BRFnetbank.
+.of
+.sp 5mm
+Hvis du ikke har BRFnetbank i dag, så kontakt os for at blive oprettet.
+.of
+.sp 5mm
+Hvis du har spørgsmål, er du velkommen til at kontakte BRFkredits
+kundecenter på telefon 70 10 21 00. Kundecentret har åbent alle ugens
+dage kl. 9.00-21.00.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

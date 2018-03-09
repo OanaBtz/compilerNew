@@ -1,0 +1,96 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.******************* ATT FELT I ADR. **************************************
+.if &U'X&UDSKRSTED = XD
+.th .da ATT 24mm 68.5mm width 80mm
+.el .da ATT 20mm 68.5mm width 80mm
+.ar ATT on
+:COUR10.
+.if &L'&GENATT gt 0
+.th Att.: &GENATT
+.ar off
+.su off
+.se reg = substr &B48KONTO1 1 4
+.se kto = substr &B48KONTO1 5 11
+.su on
+.if &B48PJN3 = 1
+.th .se korttype = 'Dankort'
+.if &B48PJN3 = 2
+.th .se korttype = 'Visa/Dankort'
+.if &B48PJN3 = 3
+.th .se korttype = 'Hævekort'
+.if &B48PJN3 = 4
+.th .se korttype = 'Ungdomshævekort'
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+17.04.2002
+.ar off
+.***********************************************************************
+.*************************************************
+.da TEKST    25mm 110mm width 170mm
+.*************************************************
+.ar TEKST on
+:FED.&korttype &B11KTNR til kontonr. &reg &kto:SKRSLUT.
+.sp
+Vi har dags dato modtaget meddelelse om at ovennævnte kort, afsendt
+d. &B48DATO., endnu ikke er aktiveret til brug.
+.sp
+Såfremt dette ikke er sket inden 7 dage, bliver kortet automatisk
+spærret. Er den fremsendte/udleverede aktiveringskode bortkommet, er du
+velkommen til at kontakte os for at få foretaget kortaktiveringen.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

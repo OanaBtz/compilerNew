@@ -14,6 +14,7 @@ extern int yylex();
 void yyerror(char *msg);
 std:: vector <Node*> list;
 Node docNode(DOCUMENT, "");
+bool silent = false;
 
 #include "./parser/printing.cpp"
 #include "./parser/treebuilding.cpp"
@@ -213,471 +214,472 @@ TOKEN		:	TOKEN DA
             |   NEW_LINE
             ;            
 DA          :   DA_T                                    {
-                                                            cout<< "DEFINE AREA ";
+                                                            if(!silent)cout<< "DEFINE AREA ";
                                                             Node* daNode = new Node(AREADEFINITION, "");
                                                             list.push_back(daNode);
                                                         }
             ;
 BR          :   BR_T                                    {
-                                                            cout<< "BREAK ";
+                                                            if(!silent)cout<< "BREAK ";
                                                             Node* brNode = new Node(LINEBREAK, "");
                                                             list.push_back(brNode);
                                                         }
             ;
 NV          :   NV_T                                    {
-                                                            cout<< "NV ";
+                                                            if(!silent)cout<< "NV ";
                                                             Node* nvNode = new Node(NV, "");
                                                             list.push_back(nvNode);
                                                         }
             ;
 PAGE        :   PAGE_T                                  {
-                                                            cout<< "PAGE ";
+                                                            if(!silent)cout<< "PAGE ";
                                                             Node* pageNode = new Node(PAGE, "");
                                                             list.push_back(pageNode);
                                                         }
             ;
 NY          :   NY_T                                    {
-                                                            cout<< "NY ";
+                                                            if(!silent)cout<< "NY ";
                                                             Node* nyNode = new Node(NY, "");
                                                             list.push_back(nyNode);
                                                         }
             ;
 ENY         :   ENY_T                                   {
-                                                            cout<< "ENY ";
+                                                            if(!silent)cout<< "ENY ";
                                                             Node* enyNode = new Node(ENY, "");
                                                             list.push_back(enyNode);
                                                         }
             ;
 COMMENT     :   COMMENT_T                               {
-                                                            cout<< "COMMENT "; 
+                                                            if(!silent)cout<< "COMMENT "; 
                                                             Node* commentNode = new Node(COMMENT, "");
                                                             list.push_back(commentNode);                                                           
                                                         }
             ;
 TI          :   TI_T                                    {
-                                                            cout<< "TI ";     
+                                                            if(!silent)cout<< "TI ";     
                                                             Node* tiNode = new Node(TI, "");
                                                             list.push_back(tiNode);                                                           
                                                         }
             ;
 IN          :   IN_T                                    {
-                                                            cout<< "IN ";      
+                                                            if(!silent)cout<< "IN ";      
                                                             Node* inNode = new Node(IN, "");
                                                             list.push_back(inNode);                                                          
                                                         }
             ;
 IR          :   IR_T                                    {
-                                                            cout<< "IR ";  
+                                                            if(!silent)cout<< "IR ";  
                                                             Node* irNode = new Node(IR, "");
                                                             list.push_back(irNode);                                                              
                                                         }
             ;
 FO          :   FO_T                                    {
-                                                            cout<< "FO ";                                                            
+                                                            if(!silent)cout<< "FO ";                                                            
                                                             Node* foNode = new Node(FO, "");
                                                             list.push_back(foNode);
                                                         }
             ;
 ON          :   ON_T                                    {
-                                                            cout<< "ON ";  
+                                                            if(!silent)cout<< "ON ";  
                                                             Node* onNode = new Node(ON, "");
                                                             list.push_back(onNode);                                                              
                                                         }
             ;
 GOTO        :   GOTO_T                                  {
-                                                            cout<< "GOTO ";      
+                                                            if(!silent)cout<< "GOTO ";      
                                                             Node* goNode = new Node(GO, "");
                                                             list.push_back(goNode);                                                          
                                                         }
             ;
 LL          :   LL_T                                    {
-                                                            cout<< "LL ";     
+                                                            if(!silent)cout<< "LL ";     
                                                             Node* llNode = new Node(LL, "");
                                                             list.push_back(llNode);                                                           
                                                         }
             ;
 RH          :   RH_T                                    {
-                                                            cout<< "RH ";  
+                                                            if(!silent)cout<< "RH ";  
                                                             Node* rhNode = new Node(RH, "");
                                                             list.push_back(rhNode);                                                              
                                                         }
             ;
 CT          :   CT_T                                    {
-                                                            cout<< "CT ";    
+                                                            if(!silent)cout<< "CT ";    
                                                             Node* ctNode = new Node(CT, "");
                                                             list.push_back(ctNode);                                                            
                                                         }
             ;
 PA          :   PA_T                                    {
-                                                            cout<< "PA ";    
+                                                            if(!silent)cout<< "PA ";    
                                                             Node* paNode = new Node(PA, "");
                                                             list.push_back(paNode);                                                            
                                                         }
             ;
 DR          :   DR_T                                    {
-                                                            cout<< "DR ";   
+                                                            if(!silent)cout<< "DR ";   
                                                             Node* drNode = new Node(DR, "");
                                                             list.push_back(drNode);                                                          
                                                         }
             ;
 WEIGHT      :   WEIGHT_T                                {
-                                                            cout<< "WEIGHT ";       
+                                                            if(!silent)cout<< "WEIGHT ";       
                                                             Node* weightNode = new Node(WEIGHT, "");
                                                             list.push_back(weightNode);                                                          
                                                         }
             ;
 KP          :   KP_T                                    {
-                                                            cout<< "KEEP ";       
+                                                            if(!silent)cout<< "KEEP ";       
                                                             Node* kpNode = new Node(KP, "");
                                                             list.push_back(kpNode);                                                          
                                                         }
             ;
 EXECUTE     :   EXECUTE_T                               {
-                                                            cout<< "EXECUTE ";
+                                                            if(!silent)cout<< "EXECUTE ";
                                                             Node* executeNode = new Node(EXECUTE, "");
                                                             list.push_back(executeNode);                                                                 
                                                         }
             ;
 IF          :   IF_T                                    {
-                                                            cout<< "IF ";          
+                                                            if(!silent)cout<< "IF ";          
                                                             Node* ifNode = new Node(IF, "");
                                                             list.push_back(ifNode);                                                       
                                                         }
             ;
 RI          :   RI_T                                    {
-                                                            cout<< "RI ";
+                                                            if(!silent)cout<< "RI ";
                                                             Node* riNode = new Node(RI, "");
                                                             list.push_back(riNode);                                                                 
                                                         }
             ;
 OI          :   OI_T                                    {
-                                                            cout<< "OI "; 
+                                                            if(!silent)cout<< "OI "; 
                                                             Node* oiNode = new Node(OI, "");
                                                             list.push_back(oiNode);                                                                
                                                         }
             ;
 CB          :   CB_T                                    {
-                                                            cout<< "CB ";     
+                                                            if(!silent)cout<< "CB ";     
                                                             Node* cbNode = new Node(CB, "");
                                                             list.push_back(cbNode);                                                            
                                                         }
             ;
 SC          :   SC_T                                    {
-                                                            cout<< "SC ";  
+                                                            if(!silent)cout<< "SC ";  
                                                             Node* paNode = new Node(PA, "");
                                                             list.push_back(paNode);                                                               
                                                         }
             ;
 MC          :   MC_T                                    {
-                                                            cout<< "MC ";   
+                                                            if(!silent)cout<< "MC ";   
                                                             Node* mcNode = new Node(MC, "");
                                                             list.push_back(mcNode);                                                              
                                                         }
             ;
 QU          :   QU_T                                    {
-                                                            cout<< "QU ";     
+                                                            if(!silent)cout<< "QU ";     
                                                             Node* quNode = new Node(QU, "");
                                                             list.push_back(quNode);                                                            
                                                         }
             ;
 HW          :   HW_T                                    {
-                                                            cout<< "HW ";     
+                                                            if(!silent)cout<< "HW ";     
                                                             Node* hwNode = new Node(HW, "");
                                                             list.push_back(hwNode);                                                            
                                                         }  
             ;  
 IL          :   IL_T                                    {
-                                                            cout<< "IL ";     
+                                                            if(!silent)cout<< "IL ";     
                                                             Node* ilNode = new Node(IL, "");
                                                             list.push_back(ilNode);                                                            
                                                         }
             ;
 OC          :   OC_T                                    {
-                                                            cout<< "OC ";   
+                                                            if(!silent)cout<< "OC ";   
                                                             Node* ocNode = new Node(OC, "");
                                                             list.push_back(ocNode);                                                              
                                                         }
             ;
 BC          :   BC_T                                    {
-                                                            cout<< "BC ";
+                                                            if(!silent)cout<< "BC ";
                                                             Node* bcNode = new Node(BC, "");
                                                             list.push_back(bcNode);                                                                 
                                                         }
             ;
 IS          :   IS_T                                    {
-                                                            cout<< "IS ";     
+                                                            if(!silent)cout<< "IS ";     
                                                             Node* isNode = new Node(IS, "");
                                                             list.push_back(isNode);                                                            
                                                         }
             ;
 UP          :   UP_T                                    {
-                                                            cout<< "UP ";     
+                                                            if(!silent)cout<< "UP ";     
                                                             Node* upNode = new Node(UP, "");
                                                             list.push_back(upNode);                                                            
                                                         }
             ;
 LS          :   LS_T                                    {
-                                                            cout<< "LS ";     
+                                                            if(!silent)cout<< "LS ";     
                                                             Node* lsNode = new Node(LS, "");
                                                             list.push_back(lsNode);                                                            
                                                         }
             ;
 TU          :   TU_T                                    {
-                                                            cout<< "TU ";     
+                                                            if(!silent)cout<< "TU ";     
                                                             Node* tuNode = new Node(TU, "");
                                                             list.push_back(tuNode);                                                            
                                                         }
             ;
 EL          :   EL_T                                    {
-                                                            cout<< "EL ";     
+                                                            if(!silent)cout<< "EL ";     
                                                             Node* elNode = new Node(ELSE, "");
                                                             list.push_back(elNode);                                                            
                                                         }
             ;
 TH          :   TH_T                                    {
-                                                            cout<< "TH ";     
+                                                            if(!silent)cout<< "TH ";     
                                                             Node* thNode = new Node(THEN, "");
                                                             list.push_back(thNode);                                                            
                                                         }
             ;
 OR          :   OR_T                                    {
-                                                            cout<< "OR ";     
+                                                            if(!silent)cout<< "OR ";     
                                                             Node* orNode = new Node(OR, "");
                                                             list.push_back(orNode);                                                            
                                                         }
             ;
 CD          :   CD_T                                    {
-                                                            cout<< "CD ";     
+                                                            if(!silent)cout<< "CD ";     
                                                             Node* cdNode = new Node(CD, "");
                                                             list.push_back(cdNode);                                                            
                                                         }
             ;
 TD          :   TD_T                                    {
-                                                            cout<< "TD ";     
+                                                            if(!silent)cout<< "TD ";     
                                                             Node* tdNode = new Node(TD, "");
                                                             list.push_back(tdNode);                                                            
                                                         }
             ;
 SU          :   SU_T                                    {
-                                                            cout<< "SU ";  
+                                                            if(!silent)cout<< "SU ";  
                                                             Node* suNode = new Node(SU, "");
                                                             list.push_back(suNode);                                                               
                                                         }
             ;
 DM          :   DM_T                                    {
-                                                            cout<< "DM ";     
+                                                            if(!silent)cout<< "DM ";     
                                                             Node* dmNode = new Node(DM, "");
                                                             list.push_back(dmNode);                                                            
                                                         }
             ;
 GS          :   GS_T                                    {
-                                                            cout<< "GS ";
+                                                            if(!silent)cout<< "GS ";
                                                             Node* gsNode = new Node(GS, "");
                                                             list.push_back(gsNode);                                                                 
                                                         }
             ;
 TB          :   TB_T                                    {
-                                                            cout<< "TB ";   
+                                                            if(!silent)cout<< "TB ";   
                                                             Node* tbNode = new Node(TB, "");
                                                             list.push_back(tbNode);                                                               
                                                         }
             ;
 SK          :   SK_T                                    {
-                                                            cout<< "SK ";             
+                                                            if(!silent)cout<< "SK ";             
                                                             Node* skNode = new Node(SK, "");
                                                             list.push_back(skNode);                                                     
                                                         }
             ;
 CE          :   CE_T                                    {
-                                                            cout<< "CE ";     
+                                                            if(!silent)cout<< "CE ";     
                                                             Node* ceNode = new Node(CE, "");
                                                             list.push_back(ceNode);                                                             
                                                         }
             ;
 CL          :   CL_T                                    {
-                                                            cout<< "CL ";     
+                                                            if(!silent)cout<< "CL ";     
                                                             Node* clNode = new Node(CL, "");
                                                             list.push_back(clNode);                                                             
                                                         }
             ;
 AN          :   AN_T                                    {
-                                                            cout<< "AN ";
+                                                            if(!silent)cout<< "AN ";
                                                             Node* anNode = new Node(AND, "");
                                                             list.push_back(anNode);                                                                  
                                                         }
             ;
 OF          :   OF_T                                    {
-                                                            cout<< "OF ";
+                                                            if(!silent)cout<< "OF ";
                                                             Node* ofNode = new Node(OF, "");
                                                             list.push_back(ofNode);                                                                  
                                                         }
             ;
 HR          :   HR_T                                    {
-                                                            cout<< "HR ";     
+                                                            if(!silent)cout<< "HR ";     
                                                             Node* hrNode = new Node(HR, "");
                                                             list.push_back(hrNode);                                                             
                                                         }
             ;
 VR          :   VR_T                                    {
-                                                            cout<< "VR ";     
+                                                            if(!silent)cout<< "VR ";     
                                                             Node* vrNode = new Node(VR, "");
                                                             list.push_back(vrNode);                                                             
                                                         }
             ;
 HY          :   HY_T                                    {
-                                                            cout<< "HY ";     
+                                                            if(!silent)cout<< "HY ";     
                                                             Node* hyNode = new Node(HY, "");
                                                             list.push_back(hyNode);                                                             
                                                         }
             ;
 NOTEQUAL    :   NOTEQUAL_T                              {
-                                                            cout<< "NOTEQUAL ";
+                                                            if(!silent)cout<< "NOTEQUAL ";
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                  
                                                         }
             ;
 EQUAL       :   EQUAL_T                                 {
-                                                            cout<< "EQUAL ";      
+                                                            if(!silent)cout<< "EQUAL ";      
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                               
                                                         }
             ;
 GTHAN       :   GTHAN_T                                 {
-                                                            cout<< "GTHAN ";  
+                                                            if(!silent)cout<< "GTHAN ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 LTHAN       :   LTHAN_T                                 {
-                                                            cout<< "LTHAN ";  
+                                                            if(!silent)cout<< "LTHAN ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 GTHANE      :   GTHANE_T                                {
-                                                            cout<< "GTHANE ";  
+                                                            if(!silent)cout<< "GTHANE ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 LTHANE      :   LTHANE_T                                {
-                                                            cout<< "LTHANE ";  
+                                                            if(!silent)cout<< "LTHANE ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 OFF         :   OFF_T                                   {
-                                                            cout<< "OFF ";  
+                                                            if(!silent)cout<< "OFF ";  
                                                             Node* offNode = new Node(OFF, "");
                                                             list.push_back(offNode);                                                                 
                                                         }  
             ;
 UPPERCASE   :   UPPERCASE_T                             {
-                                                            cout<< "UPPERCASE ";  
+                                                            if(!silent)cout<< "UPPERCASE ";  
                                                             Node* uppercaseNode = new Node(CONDITION, $1);
                                                             list.push_back(uppercaseNode);                                                                 
                                                         }
             ;
 LENGTH      :   LENGTH_T                                {
-                                                            cout<< "LENGTH ";             
+                                                            if(!silent)cout<< "LENGTH ";             
                                                             Node* lengthNode = new Node(CONDITION, $1);
                                                             list.push_back(lengthNode);                                                                   
                                                         }
             ;
 AR          :   AR_T                                    {
-                                                            cout<< "AR ";    
+                                                            if(!silent)cout<< "AR ";    
                                                             Node* arNode = new Node(AREA, "");
                                                             list.push_back(arNode);                                                                            
                                                         }
             ;
 BX          :   BX_T                                    {
-                                                            cout<< "BX "; 
+                                                            if(!silent)cout<< "BX "; 
                                                             Node* boxNode = new Node(BOX, "");
                                                             list.push_back(boxNode);                                                                
                                                         }
             ;
 SP          :   SP_T                                    {
-                                                            cout<< "SP "; 
+                                                            if(!silent)cout<< "SP "; 
                                                             Node* spNode = new Node(SP, "");
                                                             list.push_back(spNode);                                                               
                                                         }
             ;
 SE          :   SE_T                                    {
-                                                            cout<< "SE ";     
+                                                            if(!silent)cout<< "SE ";     
                                                             Node* seNode = new Node(SE, "");
                                                             list.push_back(seNode);                                                           
                                                         }
             ;
 US          :   US_T                                    {
-                                                            cout<< "US ";     
+                                                            if(!silent)cout<< "US ";     
                                                             Node* usNode = new Node(US, "");
                                                             list.push_back(usNode);                                                           
                                                         }
             ;
 TM          :   TM_T                                    {
-                                                            cout<< "TM ";    
+                                                            if(!silent)cout<< "TM ";    
                                                             Node* tmNode = new Node(TM, "");
                                                             list.push_back(tmNode);                                                            
                                                         }
             ;
 BM          :   BM_T                                    {
-                                                            cout<< "BM ";             
+                                                            if(!silent)cout<< "BM ";             
                                                             Node* bmNode = new Node(BM, "");
                                                             list.push_back(bmNode);                                                   
                                                         }
             ;
 PM          :   PM_T                                    {
-                                                            cout<< "PM ";   
+                                                            if(!silent)cout<< "PM ";   
                                                             Node* pmNode = new Node(PM, "");
                                                             list.push_back(pmNode);                                                              
                                                         }
             ;
 WIDTH       :   WIDTH_T                                 {
-                                                            cout<< "WIDTH "; 
+                                                            if(!silent)cout<< "WIDTH "; 
                                                             Node* widthNode = new Node(WIDTH, "");
                                                             list.push_back(widthNode);                                                                
                                                         }
             ;
 TP          :   TP_T                                    {
-                                                            cout<< "TP "; 
+                                                            if(!silent)cout<< "TP "; 
                                                             Node* tpNode = new Node(TP, "");
                                                             list.push_back(tpNode);                                                                
                                                         }
             ;
 TA          :   TA_T                                    {
-                                                            cout<< "TA ";              
+                                                            if(!silent)cout<< "TA ";              
                                                             Node* taNode = new Node(TA, "");
                                                             list.push_back(taNode);                                                   
                                                         }
             ;
 ROTATE      :   ROTATE_T                                {
-                                                            cout<< "ROTATE ";   
+                                                            if(!silent)cout<< "ROTATE ";   
                                                             Node* rotateNode = new Node(ROTATE, "");
                                                             list.push_back(rotateNode);                                                              
                                                         }
             ;
 DEPTH       :   DEPTH_T                                 {
-                                                            cout<< "DEPTH "; 
+                                                            if(!silent)cout<< "DEPTH "; 
                                                             Node* depthNode = new Node(DEPTH, "");
                                                             list.push_back(depthNode);                                                                
                                                         }
             ;
 SUBSTR      :   SUBSTR_T                                {
-                                                            cout<< "SUBSTR ";     
+                                                            if(!silent)cout<< "SUBSTR ";     
                                                             Node* substrNode = new Node(SUBSTR, "");
                                                             list.push_back(substrNode);                                                            
                                                         }
             ;
 MF          :   MF_T                                    {
-                                                            cout<<"****************************Missing functionality************************* command: "<<$1<<endl;
+                                                            cout<<"Missing functionality! command: "<<$1<<endl;
+                                                            exit(1);
                                                         }
             ;
 UNKNOWN     :   UNKNOWN_T                               {
-                                                            cout<<"*******************************UNKNOWN TOKEN*******************************************"<<endl;
+                                                            if(!silent)cout<<"*******************************UNKNOWN TOKEN*******************************************"<<endl;
                                                         }
             ;
 MG          :   MG_T                                    {
-                                                            cout<< "MG "; 
+                                                            if(!silent)cout<< "MG "; 
                                                             Node* mgNode = new Node(MG, "");
 															string s = $1;
 															Node* mgTNode = new Node(MG_TYPE, s.substr(4, 1));
@@ -688,67 +690,67 @@ MG          :   MG_T                                    {
                                                         }
             ;
 SIZE        :   SIZE_T                                  {
-                                                            cout<<$1<<" ";    
+                                                            if(!silent)cout<<$1<<" ";    
                                                             Node* sizeNode = new Node(SIZE, $1);
                                                             list.push_back(sizeNode);                                                             
                                                         }  
             ;              
 STYLE       :   STYLE_T                                 {
-                                                            cout<<$1<<" ";  
+                                                            if(!silent)cout<<$1<<" ";  
                                                             Node* styleNode = new Node(FONT, $1);
                                                             list.push_back(styleNode);                                                               
                                                         }
             ;
 VAR_UP      :   VAR_UP_T                                {
-                                                            cout<< "VAR_UP ";            
+                                                            if(!silent)cout<< "VAR_UP ";            
                                                             Node* varNode = new Node(VARIABLE, $1);
                                                             list.push_back(varNode);                                                     
                                                         }
             ;
 VAR         :   VAR_T                                   {
-                                                            cout<< "VAR ";  
+                                                            if(!silent)cout<< "VAR ";  
                                                             Node* varNode = new Node(VARIABLE, $1);
                                                             list.push_back(varNode);                                                               
                                                         }
             ;
 NUM         :   NUM_T                                   {
-                                                            cout<<$1<<" ";   
+                                                            if(!silent)cout<<$1<<" ";   
                                                             Node* numNode = new Node(NUMBER, $1);
                                                             list.push_back(numNode);                                                              
                                                         }
             ;
 IDENT       :   IDENT_T                                 {
-                                                            cout<<$1<<" "; 
+                                                            if(!silent)cout<<$1<<" "; 
                                                             Node* stringNode = new Node(STRING, $1);
                                                             list.push_back(stringNode);                                                                
                                                         }
             ;
 LABEL       :   LABEL_T                                 {
-                                                            cout<<$1<<" ";  
+                                                            if(!silent)cout<<$1<<" ";  
                                                             Node* labelNode = new Node(LABEL, $1);
                                                             list.push_back(labelNode);                                                               
                                                         } 
             ;   
 MATHEX      :   MATHEX_T                                {
-                                                            cout<<$1<<" ";       
+                                                            if(!silent)cout<<$1<<" ";       
                                                             Node* mathexNode = new Node(MATHEX, $1);
                                                             list.push_back(mathexNode);                                                          
                                                         }
             ;
 NEW         :   NEW_T                                   {
-                                                            cout<<"NEW"<<" ";  
+                                                            if(!silent)cout<<"NEW"<<" ";  
                                                             Node* newNode = new Node(NEW, "");
                                                             list.push_back(newNode);                                                               
                                                         } 
             ;   
 SET         :   SET_T                                   {
-                                                            cout<<"SET"<<" ";       
+                                                            if(!silent)cout<<"SET"<<" ";       
                                                             Node* setNode = new Node(SET, "");
                                                             list.push_back(setNode);                                                          
                                                         }
             ;
 NEW_LINE    :   NEW_LINE_T                              {
-                                                            cout<< "NEW LINE "<<std::endl;
+                                                            if(!silent)cout<< "NEW LINE "<<std::endl;
                                                             Node* newlineNode = new Node(NEWLINE, "");
                                                             list.push_back(newlineNode);                                                                 
                                                         }
@@ -763,22 +765,30 @@ void yyerror(char *msg){
 	exit(1);
 }
 
-int main(){
+int main(int argc, char* argv[]){
+
+    for(int i = 0; i < argc; i++)
+    {
+        if(strcmp(argv[i], "silent") == 0)
+        {
+            silent = true;
+        }
+    }
 
 	list.push_back(&docNode);
 
-	cout<< std::endl << std::endl <<"*******************YYPARSE*********************"<<std::endl;
+	if(!silent)cout<< std::endl << std::endl <<"*******************YYPARSE*********************"<<std::endl;
 	
     yyparse();
 	
-    cout<< endl << endl <<"*******************LIST OF NODES*********************"<<endl;
-	//printList(list);
+    if(!silent)cout<< endl << endl <<"*******************LIST OF NODES*********************"<<endl;
+	if(!silent)printList(list);
 
-    cout<< endl << endl <<"****************START TREE BUILDING*******************"<<endl;
+    if(!silent)cout<< endl << endl <<"****************START TREE BUILDING*******************"<<endl;
     startTreeBuilding(list);
 
-    cout<< endl << endl <<"****************TREE*******************"<<endl;
-    printTree(list[0], 0);
+    if(!silent)cout<< endl << endl <<"****************TREE*******************"<<endl;
+    if(!silent)printTree(list[0], 0);
 
     cout<<"Template generated successfully!"<<endl<<endl;
 }

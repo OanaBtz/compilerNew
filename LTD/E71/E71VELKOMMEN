@@ -1,0 +1,267 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*********************GENEREL OPSÆTNING************************************
+:swiss11.
+.fo on
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 105mm width 150mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 275mm width 180mm rotate -90
+.* Bundtekst m. afsenderoplysninger
+.da BUND 24mm 285mm
+.* Sted + dato
+.da STED 140mm 85mm
+.*********************BUNDTEKST********************************************
+.ar BUND on
+:SWISS7.
+:FED.
+Capinordic Bank A/S .
+:SKRSLUT.
+Strandvejen 58 . Box 69 . DK-2900 Hellerup . Tlf +45 8816 3000 .
+Fax +45 8816 3003 . www.capinordicbank.com
+.ar off
+.*********************STED + DATO******************************************
+.ar STED on
+:SWISS9.
+Hellerup, &DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+Velkommen til Capinordic Bank
+:SKRSLUT.
+.ar off
+.rh on
+.sp
+.**************************************************************************
+.sp 96mm
+.rh off
+.*sidehoveddefinition slutter**********************************************
+.rh execute
+.*linielængde**************************************************************
+.ll 155mm
+.da VEND 7mm 275mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 44 + 13MM (TOPMARGIN) = 66MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 44mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+:tiltale &TILTALEF
+.su off
+.se knr = substr &KUNDENR 1 2
+.su on
+.if &L'&E71ALTKÆRE <> 0
+.th Kære &E71ALTKÆRE.
+.if x&knr <> x00
+.an &L'&E71ALTKÆRE = 0
+.th Kære &NAVN.
+.sp
+I forbindelse med oprettelse af nyt kundeforhold i Capinordic Bank,
+fremsender vi følgende:
+.in 10mm
+.if &L'&KTOÅBBL > 0
+.th .sp
+.th *¤
+:KURSIV.
+.th &KTOÅBBL
+:SKRSLUT
+.th i to eksemplarer
+.if &L'&PENAFT > 0
+.th .sp
+:KURSIV.
+.th *¤ Pensionsaftale
+:SKRSLUT.
+.th i to eksemplarer.
+.if &L'&AFTWEB > 0
+.an x&knr <> x00
+.th .sp
+.th *¤ Brev
+.th med oplysning om brugernummer til Webbank samt adgangskode vil blive
+.th ¤ fremsendt særskilt. Første gang du logger på Webbank på
+.th ¤ www.capinordicbank.com, skal du bruge det tilhørende brugernummer
+.th og din
+.th ¤ adgangskode. Når du er logget på, skal du godkende den elektroniske
+.th ¤ Webbankkontrakt, som du præsenteres for. Herefter er du klar til at
+.th benytte
+.th ¤ Webbank.
+.if x&knr <> x00
+.an &L'&AFTWEB > 0
+.if &L'&BRAFTWEB > 0
+.an x&knr = x00
+.th .sp
+.th *¤
+:KURSIV.
+.th Aftale om Webbank
+:SKRSLUT.
+.th og
+:KURSIV.
+.th Brugeraftale om Webbank
+:SKRSLUT.
+.th i to eksemplarer
+.if &L'&BRAFTWEB > 0
+.an x&knr = x00
+.in +3mm
+.th Første gang I logger på Webbank på
+.th www.capinordicbank.com,
+.th skal I bruge det tilhørende brugernummer og en adgangskode, som vil
+.th blive sendt til jer snarest.
+.in -3mm
+.if &L'&AFWEVAE > 0
+.th .sp
+:KURSIV.
+.th *¤Aftale om Webbank værdipapirhandel
+:SKRSLUT.
+.th i to eksemplarer.
+.sp
+.in 0mm
+.if &L'&AFTWEB > 0
+.or &L'&BRAFTWEB > 0
+.or &L'&PENAFT > 0
+.or &L'&KTOÅBBL > 0
+.th .go UNDER
+.el .go ENDUNDER
+...UNDER
+&SDU bedes underskrive og returnere det ene af de vedlagte eksemplarer til
+Banken i vedlagte svarkuvert. Det andet eksemplar er en kopi til &DIG..
+.sp
+Når Banken har modtaget de underskrevne dokumenter, opretter vi
+aftalerne omgående.
+...ENDUNDER
+.if &L'&FULDWEB <> 0
+.th .sp
+:FED.
+.th Fuldmagt til Webbank
+:SKRSLUT.
+.br
+.th Vi sender desuden som aftalt
+:KURSIV.
+.th Fuldmagt til Webbank
+:SKRSLUT.
+.th i tre
+.su off
+.se knr = substr &KUNDENR 1 2
+.su on
+.if x&knr = x00
+.an &L'&FULDWEB > 0
+.th eksemplarer. &DU bedes sammen med fuldmagtshaver underskrive og
+.th returnere det ene eksemplar til Banken i vedlagte svarkuvert. Desuden
+.th er der et eksemplar til &DIG som fuldmagtsgiver og et eksemplar til
+.th fuldmagtshaver.
+.th .sp
+.th Brugernummer og adgangskode sendes separat til fuldmagtshaver. Har
+.th fuldmagtshaver allerede en Webbank aftale hos Capinordic Bank, skal
+.th dette brugernummer og den tilhørende adgangskode forsat benyttes.
+.if x&knr <> x00
+.an &L'&FULDWEB <> 0
+.th eksemplarer. Du bedes sammen med fuldmagtshaver underskrive og
+.th returnere det ene eksemplar til Banken i vedlagte svarkuvert. Desuden
+.th er der et eksemplar til &DIG som fuldmagtsgiver og et eksemplar til
+.th fuldmagtshaver.
+.th .sp
+.th Brugernummer og adgangskode sendes separat til fuldmagtshaver. Har
+.th fuldmagtshaver allerede en Webbank-aftale hos Capinordic Bank, skal
+.th dette brugernummer og den tilhørende adgangskode fortsat benyttes.
+.su off
+.se knr = substr &KUNDENR 1 2
+.su on
+.sp
+.if &LEGI <> 0
+.an x&knr = x00
+:FED.
+.th Kopi af legitimation
+:SKRSLUT.
+.br
+.th &SDU bedes desuden vedlægge en kopi af pas/kørekort på den/de
+.th tegningsberettigede og en
+.th kopi af aktuel selskabsudskrift fra Erhvervs- og Selskabsstyrelsen.
+.th Dette er nødvendigt, for at Banken kan overholde
+.th gældende lovgivning i forbindelse med oprettelse af kundeforhold.
+.th .sp
+.if &LEGI <> 0
+.an x&knr <> x00
+:FED.
+.th Kopi af legitimation
+:SKRSLUT.
+.br
+.th &SDU bedes desuden vedlægge en kopi af &DIT pas/kørekort og
+.th sygesikringsbevis. Dette er nødvendigt, for at Banken kan overholde
+.th gældende lovgivning i forbindelse med oprettelse af kundeforhold.
+.th .sp
+.kp on
+Har &DU spørgsmål, er &DU
+.if &TILTALEF = du
+.th velkommen
+.el velkomne
+til at kontakte Capinordic Bank, Banksupport på
+.br
++45 8816 3000.
+.sp
+Vi takker for &DIT valg af Capinordic Bank og ser frem til et langvarigt
+samarbejde.
+.sp2
+Med venlig hilsen
+.br
+Capinordic Bank
+.sp3
+&GENEKSP.
+.br
+&GENTITEL.
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

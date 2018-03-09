@@ -1,0 +1,107 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*************GENEREL OPSÆTNING********************************************
+:TILTALE &TILTALEF
+:COUR10.
+.fo left
+.ti ¤ 05
+.*************AREAL-DEFINITIONER*******************************************
+.da START 20mm 100mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************ROTERET BREVNAVN*********************************************
+.ar VEND on
+:COUR6.
+B55SIKK10
+.ar off
+.*************STARTPOSITION AF BREVET, INCL. OVERSKRIFT********************
+.ar START on
+.us on
+.if &BECTEST02 eq 1
+.th Vedr. lån nr. &KTONR med n
+.if &BECTEST02 eq 2
+.th &SDU bedes indfri en kassekredit
+.if &BECTEST01 eq 1
+.th &DU har kautioneret for
+.if &BECTEST01 eq 2
+.th &DU har stillet sikkerhed for
+.us off
+.sp
+.***********************************************************************
+.se regnr = substr &BECKONTO01 1 4
+.se ktonr = substr &BECKONTO01 5 7
+I brev pr. den &BECDATO1 meddelte vi &DIG., at vi har opsagt
+.if &BECTEST02 eq 1
+.th lån nr. &regnr &ktonr
+.if &BECTEST02 eq 2
+.th kassekredit nr. &regnr &ktonr
+til fuld indfrielse. &BECTEKST30 har ikke indfriet
+.if &BECTEST02 eq 1
+.th lånet
+.if &BECTEST02 eq 2
+.th kassekreditten
+indenfor den anførte tidsfrist, og vi beder &DIG derfor som
+.if &BECTEST01 eq 1
+.th kautionist indfri
+.if &BECTEST01 eq 2
+.th deponent indfri
+.if &BECTEST02 eq 1
+.th lånet.
+.if &BECTEST02 eq 2
+.th kassekreditten.
+.sp
+.if &BECTEST02 eq 1
+.th Såfremt lånet, kr. &BECBELOB4
+.if &BECTEST02 eq 2
+.th Såfremt kassekreditten, kr. &BECBELOB4
+med tillæg af renter til indfrielsesdagen, ikke er indbetalt senest den
+&BECDATO2., ser vi os nødsaget til, uden yderligere varsel at overgive
+sagen til retslig inkasso. Hvis &DU ikke kan indfri
+.if &BECTEST02 eq 1
+.th lånet
+.if &BECTEST02 eq 2
+.th kassekreditten
+indenfor tidsfristen og eventuelt ønsker en afviklingsaftale, bedes &DU
+kontakte &EKSPNAVN..
+.if &L'&BECTEKST1 > 0
+.th .sp
+&BECTEKST1
+&BECTEKST2
+&BECTEKST3
+&BECTEKST4
+.*************************************************************************

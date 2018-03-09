@@ -1,0 +1,680 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **
+.**************************************************************
+:COUR10.
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:DUTCH6.
+B29AKP02                     CVR-nr. 13 88 46 76, hjemsted Farum, Danmark
+.br
+&DATO
+.ar off
+.**************************************************************
+.******************************************************************
+.da KUNDEOPL       25mm  48mm width 84mm
+.da ARBGOPL       118mm  48mm width 84mm
+.da CPRSENR       118mm  68mm width 84mm
+.da PIOPL          25mm  76.6mm width 84mm
+.da KTOOPL        118mm  78mm width 76mm
+.da DATO          118mm  93.7mm width 20mm
+.da INDBOPL        24mm 106.5mm width 178mm
+.da LØNINDA       168mm 106.2mm width 35mm
+.da LØNINDP        88mm 106.2mm width 35mm
+.da INDDATON       54mm 128.3mm width 35mm
+.da INDDATOJ      54.7mm 131.3mm width 35mm
+.da UDBÅR          28mm 143.6mm width 168mm
+.da ANDET          25mm  180mm width 168mm
+.da AFSL           25mm  229mm width 170mm
+.******************************************************************
+.ti ^ 05
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************
+.ar ARBGOPL on
+ &GENNAVN1
+.br
+ &GENGADE1
+.br
+ &GENBY
+.ar off
+.*************************************
+.ar CPRSENR on
+&GENSENR
+.ar off
+.*************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE *******
+.se regnr = substr &GENREGKTO 1 4
+.se ktonr = substr &GENREGKTO 5 7
+.tp 43mm
+&KUNDENR
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE *******
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ^&dregnr &depnr
+.ar off
+.*************************************
+.ar DATO on
+ 
+.ar off
+.*************************************
+.ar INDBOPL on
+.if &L'&GENKTNR1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th Du har indtastet i privat og arbejdsgiver ordning vælg kun 1 ordning
+.th .go bund
+.if &L'&GENNAVN1 eq 0
+.th .go EJ
+.* ARBEJDSGIVERORDNING
+...ARB
+.sp
+.tp 101.7mm right
+.if &L'&GENBRT gt 0
+.th ^&GENBRT
+.th .sp 2mm
+.el .sp 5.5mm
+.if &l'&GENARB gt 0
+.th ^&GENARB
+.th .br
+.el .sp
+.if &L'&GENMED gt 0
+.th ^&GENMED
+.el
+.go SLUT
+.*
+.* IKKE ARBEJDSGIVERORDNING
+.*
+...EJ
+.*** privat ordning *********
+.tp 37mm
+.***  HER OPDELES KONTONR I TO PARAMETRE *********************************
+.se regnr2 = substr &GENKTNR1 1 4
+.se ktonr2 = substr &GENKTNR1 5 7
+.if &L'&GENKR gt 0
+.th .sp 3.3mm
+.th .sp7mm
+.th ^&GENKR
+.th .sp 1.7mm
+.el
+.el .sp 8.2mm
+.tp 42mm 95mm
+.sp2mm
+^&regnr2 &ktonr2  ^&GENDATO4
+.sp
+...SLUT
+.ar off
+.*************************************
+.*** her skrives en tekst efter beløb, ved arbejdsgiverordning ****
+.ar LØNINDA on
+.sp2
+.if &L'&GENBRT lt 1
+.th .go AA
+.el
+.if x&GENLØNINDB = x1
+.th .sp7mm
+.th kr. pr. år
+.if x&GENLØNINDB = x2
+.th .sp7mm
+.th kr. pr. kvartal
+.if x&GENLØNINDB = x3
+.th .sp7mm
+.th kr. pr. måned
+.if x&GENLØNINDB = x4
+.th .sp7mm
+.th kr. pr. 14. dag
+.el
+.if &L'&GENLØNINDB eq 0
+.th .go AA
+...AA
+.ar off
+.*************************************
+.*** her skrives en tekst efter beløb, ved privatordning **********
+.ar LØNINDP on
+.sp
+.if &L'&GENKR lt 1
+.th .go PP
+.el
+.if x&GENLØNINDB = x1
+.th .sp7mm
+.th kr. pr. år
+.if x&GENLØNINDB = x2
+.th .sp7mm
+.th kr. pr. kvartal
+.if x&GENLØNINDB = x3
+.th .sp7mm
+.th kr. pr. måned
+.if x&GENLØNINDB = x4
+.th .sp7mm
+.th kr. pr. 14. dag
+.el
+.if &L'&GENLØNINDB eq 0
+.th .go PP
+...PP
+.ar off
+.*************************************
+.ar INDDATON on
+.if &U'&GENPRISTAL = N
+.an &L'&GENNAVN1 gt 0
+.th &GENTILMED
+.ar off
+.*************************************
+.ar INDDATOJ on
+.if &U'&GENPRISTAL = J
+.an &L'&GENNAVN1 gt 0
+.th &GENTILMED
+.ar off
+.*************************************
+.ar UDBÅR on
+.if &L'&GENNAVN1 gt 0
+.th .tp 114mm
+.el .tp 76mm
+^&GENALDER
+.sp 18mm
+.tp 4mm 38mm
+^&GENBEGCPR.^&GENBEGNAVN
+.ar off
+.*************************************
+.ar ANDET on
+&GENANDET &GENANDET1 &GENANDET2 &GENANDET3 &GENANDET4 &GENANDET5 &GENANDET6
+.ar off
+.*************************************
+.ar AFSL on
+.sp 8mm
+.tp 88mm
+&NAVN ^&GENNAVN1
+.sp 4.7mm
+.tp 148mm
+^&DATO8
+.sp 3mm
+.tp 61mm
+^&BANKNAVN
+.sp 9mm
+.tp 88mm
+&GENMEKSP ^&GENEKSP
+.br
+&GENMTITEL ^&GENTITEL
+...bund
+.ar off
+.*************************************
+.da side1 20mm 35mm width 175mm
+.da oversk 20mm 32mm width 80mm
+.ar oversk on
+:SWISS12.
+:FED.
+.us Aftale om kapitalpension
+:SKRSLUT.
+.ar off
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kontohaver og evt.arbejdsgiver *****
+.bx new left 87.5mm right
+.sp 28mm
+.***** her laves kassen til pengeinstitut og regnr *****
+.bx new left 87.5mm right
+.sp 8.5mm
+.***** her laves kassen til kontonr og depotnr *****
+.hr 87.5mm right
+.vr 130.5mm
+.sp 8.5mm
+.***** her laves kassen til formål *****
+.bx new left right
+.vr off
+.sp 5mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.***** her laves kassen til indbetalinger   ************
+.bx new left right
+.sp 31mm
+.***** her laves kassen til udbetalinger    ************
+.bx new left right
+.sp 36mm
+.***** her laves kassen til andre aftaler   ************
+.bx new left right
+.sp 28mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til generelle vilkår  **********
+.bx new left right
+.sp 5mm
+.***** her laves kassen til kontohaver/arbejdsg. underskrift ******
+.bx new left right
+.sp 27mm
+.***** her laves kassen til pi- underskrift ******
+.bx new left right
+.sp 28mm
+.bx off
+.bx can
+.ar off
+.ti ^ 05
+:SWISS8.
+.da KONTOH     21mm 44mm width 85mm
+.da ARBG      108.5mm 44mm width 85mm
+.da PI         21mm 73mm width 85mm
+.da CPRNR     108.5mm 73mm width 85m
+.da KONTONR   108.5mm 83mm width 45mm
+.da DEPNR   151mm 83mm width 45mm
+.da TEKST      21mm 94mm width 170mm
+.da INDBET     21mm 104mm width 170mm
+.da UDBETAL    21mm 137.8mm width 170mm
+.da ANDRE      21mm 175mm width 170mm
+.da UNDTEKST   21mm 210mm width 170mm
+.da UNDKONTO   21mm 216mm width 85mm
+.da UNDARB    108.5mm 216mm width 85mm
+.da UNDPI      21mm 245.5mm width 170mm
+.******************************************
+.ar KONTOH on
+Kontohaver
+.ar off
+.******************************************
+.ar ARBG on
+.if &L'&GENNAVN1 gt 0
+.th Arbejdsgiver
+.th .sp 22mm
+.th SE-nr.
+.ar off
+.******************************************
+.ar PI on
+Pengeinstitut
+.ar off
+.******************************************
+.ar CPRNR on
+CPR-nr.
+.ar off
+.******************************************
+.ar KONTONR on
+Kontonr.
+.ar off
+.******************************************
+.ar DEPNR on
+Depotnr.
+.ar off
+.******************************************
+.ar TEKST on
+Undertegnede parter indgår herved aftale om oprettelse af kapitalpension.
+.ar off
+.******************************************
+.ar INDBET on
+Indbetalinger
+.sp
+.*** privat ordning *********
+.if &L'&GENKTNR1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th Du har indtastet i privat og arbejdsgiver ordning vælg kun 1 ordning
+.th .go off
+.if &L'&GENNAVN1 gt 0
+.th .go ARB
+Som bidrag kan årligt indbetales op til det i henhold til loven
+fastsatte maksimumbeløb.
+.sp4mm
+Indbetalingerne aftales til
+.sp4mm
+.tp 74mm
+Beløbet overføres fra kontonr.: ^første gang den
+.sp4mm
+I tilfælde af manglende dækning kan Pen-Sam Bank A/S undlade
+overførslen.
+.el
+.sk
+.go SLUT
+.*
+.****** ARBEJDSGIVERORDNING **********
+...ARB
+.tp 105mm
+.if &U'X&GENVÆRDI eq X2
+.th .se KRPR = '%'
+.el .se KRPR = 'kr.'
+.if &L'&GENNAVN1 gt 0
+.th Som bidrag betaler arbejdsgiver, som led i pensionsordning ^&KRPR af
+.th medarbejderens bruttoløn
+.th .sp
+.th Det er mellem parterne aftalt at
+.th bidraget tilvejebringes med: ^&KRPR fra arbejdsgiver og
+.th .br
+.th ^&KRPR fra medarbejder
+.sp
+.if &U'&GENPRISTAL = J
+.th Bidraget pristalsreguleres.
+.el
+.sp
+.tp 57mm
+Bidrag betales til og med: ^Bidraget betales dog kun, så længe
+kontohaver er ansat i virksomheden.
+...SLUT
+.ar off
+.******************************************
+.ar UDBETAL on
+Udbetaling
+.sp
+.tp 126mm
+.if &L'&GENNAVN1 gt 0
+.th Kontoens indestående kan udbetales til kontohaver, uden arbejdsgivers
+.th samtykke, ved det fyldte ^år eller
+.th ved invaliditet forinden, som efter reglerne i lov om social pension
+.th berettiger kontohaver til højeste eller mellemste førtidspension.
+.el .tp 88mm
+.el Kontoens indestående kan
+.el udbetales til kontohaver ved det fyldte ^år eller
+.el ved invaliditet forinden, som efter reglerne i lov om social pension
+.el berettiger kontohaver til højeste eller mellemste førtidspension.
+.el .sp
+.el Desuden kan kontoens indestående udbetales i tilfælde af visse
+.el livstruende sygdomme hos kontohaver, eller ved en af
+.el Ligningsrådets godkendte tidligere pensionsalder.
+.sp
+Udbetaling ved død sker direkte til "nærmeste pårørende" med mindre
+kontohaver har indsat en anden som begunstiget, se generelle vilkår
+pkt.3.
+.sp
+.if &L'&GENBEGCPR gt 0
+.th Indsættelse af begunstiget:
+.th .br
+.th .tp 37mm  124mm
+.th Cpr-nr. ^navn ^Subsidiært nærmeste pårørende.
+.ar off
+.******************************************
+.ar ANDRE on
+Andre aftaler
+.ar off
+.ar UNDTEKST on
+I øvrigt gælder de generelle vilkår for kapitalpension,
+som er optrykt i aftalens bilag og udleveret med aftalen.
+.ar off
+.******************************************
+.ar UNDKONTO on
+.tp 60mm
+Kontohavers underskrift^Dato:
+.ar off
+.******************************************
+.ar UNDARB on
+.if &L'&GENNAVN1 gt 0
+.tp 56.5mm
+.th Arbejdsgivers underskrift^Dato:
+.ar off
+.******************************************
+.ar UNDPI on
+.tp 144mm
+Pengeinstituttets underskrift^Dato:
+...off
+.ar off
+.******************************************
+.pa
+.da side2 20mm 38mm width 185mm
+.ar side2 on
+:SWISS10.
+.in 1mm
+:FED.
+Generelle vilkår for kapitalpension
+:SKRSLUT.
+.ar side2 on
+.in 0mm
+.bx 0mm 175mm
+.sp 228mm
+.bx off
+.ar off
+.ti ^ 05
+.ll 68
+.da tekst 21mm 44mm width 170mm
+.in 1mm
+:SWISS8.
+.ar tekst on
+.in 0mm
+Vilkårene gælder, medmindre andet udtrykkeligt er aftalt. Vilkårene kan
+ændres i overensstemmelse med Lov om beskatning af pensionsordninger.
+.sp 3mm
+Kapitalpensionen kan ikke overdrages, hverken til eje, sikkerhed eller på
+anden måde gøres til genstand for retsforfølgning fra kreditorers side.
+Hvis kontohaver kommer under konkurs, kan konkursboet forlange at evt.
+uforholdsmæssige store indbetalinger i løbet af de seneste tre år, set
+i forhold til kontohavers formuestand indbetales til konkursboet.
+.sp 5mm
+:SWISS10.
+.tp 5mm
+1. ^Indbetalinger
+:SWISS8.
+.sp 7mm
+.in 5mm
+Indbetalingerne indsættes i &BANKNAVN på en kapitalpensionskonto
+tilhørende kontohaver.
+.sp
+På en privatordning må der kun indbetales af kontohaver.
+.sp 5mm
+.in 0mm
+:SWISS10.
+.tp 5mm
+2. ^Placering af opsparing
+.sp 7mm
+:SWISS8.
+^Kontoens indestående placeres på kontantkonto.
+Kontant indskud forrentes med en af &BANKNAVN. fastsat rente.
+.br
+.in 0mm
+.sp 3mm
+.in 5mm
+&BANKNAVN sender mindst én gang årligt meddelelse til kontohaver
+med angivelse af indbetalinger, tilskrevne afkast og betalt
+realrenteafgift.
+.sp 5mm
+:SWISS10.
+.in 0mm
+.tp 5mm
+3. ^Begunstigelse
+.sp 7mm
+:SWISS8.
+.in 5mm
+Som begunstiget til at få opsparingen udbetalt efter kontohavers død
+kan indsættes ægtefælle, herunder fraskilt ægtefælle, livsarvinger
+(dvs. børn, børnebørn osv.) herunder stedbørn og disses livsarvinger samt
+kontohavers "nærmeste pårørende". Med "nærmeste pårørende" menes
+kontohavers ægtefælle, kontohavers livsarvinger eller kontohavers arvinger
+efter testamente eller efter loven i nævnte prioriterede rækkefølge. Dette
+betyder, at kontohavers livsarvinger kun anses for indsat, hvis kontohaver
+ikke efterlader sig ægtefælle, og at kontohavers arvinger efter testamente
+eller efter loven kun anses for indsat, hvis kontohaver hverken efterlader
+sig ægtefælle eller livsarvinger. Blandt den nævnte personkreds kan
+kontohaver indsætte én eller flere begunstigede. Begunstigelsen eller
+ændringer af en sådan skal ske skriftligt til &BANKNAVN..
+Begunstigelsen kan gøres uigenkaldelig.
+.sp 3mm
+Såfremt der er indsat en begunstiget, udbetales opsparingen i tilfælde af
+kontohavers død direkte, dvs. uden om dødsboet, til den begunstigede.
+Såfremt der ikke er indsat begunstigede, tilfalder opsparingen dødsboet.
+.in 0mm
+.sp 5mm
+:SWISS10.
+.tp 5mm
+4. ^Udbetalinger/skatteregler
+.sp 7mm
+:SWISS8.
+.in 5mm
+Kontoens indestående kan tidligst udbetales, når kontohaver er fyldt 60 år
+eller ved lavere pensionsalder godkendt af Ligningsrådet og skal
+udbetales senest ved det fyldte 70. år. Forinden udbetaling kan ske, skal
+kontohaver afgive en erklæring om, hvorvidt der findes anden
+kapitalpension eller kapitalforsikring i pensionsøjemed.
+.br
+.sp 3mm
+For indbetalinger til kapitalpensionsordninger, herunder
+kapitalforsikringer, er der fastsat en generel overgrænse på 25.000 kr.
+årligt. Dette beløb gælder for 1987 og reguleres hvert år efter
+reguleringstallet i personskattelovens § 20. Fradrag for indbetalinger til
+kapitalpensionen skal dog kunne rummes i kontohavers personlige indkomst i
+det pågældende indkomstår.
+.sp 3mm
+:SWISS8.
+.in 5mm
+Indbetalinger, kan fradrages i den personlige
+indkomst ved beregning af amts-, kommune- og kirkeskat samt ved beregning
+af bund- og mellemskat til staten.
+.sp 3mm
+Ved udbetaling efter det fyldte 60. år, ved invaliditet, ved livstruende
+syddom, ved godkendt tidligere pensionsalder
+eller ved død
+udbetales opsparingen med fradrag af en afgift på 40 pct. til staten af
+kontoens indestående, reduceret med afgifter i henhold til
+pensionsafkastbeskatningsloven.
+.sp 3mm
+Hvis Ligningsrådet har godkendt en tidligere pensionsalder, eller
+hvis der indtræder en varigt nedsat funktionsevne for kontohaver, som
+berettiger til højeste eller mellemste førtidspension, eller hvis
+kontohaver får diagnostiseret en livstruende sygdom, kan kapitalpensionen
+udbetales helt eller delvist, før kontohaver fylder 60 år.  Der kan kun
+udbetales en gang på baggrund af hver af disse begivenheder.
+.sp 3mm
+Kontohaver skal derfor en gang for alle beslutte sig for, hvor mange
+kapitalpensionsmidler, der er behov for i forbindelse med den konkrete
+begivenhed.  Hvis der først er sket udbetaling f.eks på grund
+af en livstruende sygdom, kan der ikke senere udbetales på grund af en
+varigt nedsat funktionsevne, der skyldes den samme livstruende sygdom.
+.ar off
+.pa
+.da side3 20mm 38mm width 185mm
+.ar side3 on
+:SWISS10.
+.in 1mm
+:FED.
+Generelle vilkår for kapitalpension
+:SKRSLUT.
+.in 0mm
+.bx 0mm 175mm
+.sp 228mm
+.bx off
+.ar off
+.ti ^ 05
+.ll 68
+.da tekst 21mm 44mm width 170mm
+.in 1mm
+:SWISS8.
+.ar tekst on
+.in 0mm
+.sp 5mm
+:SWISS10.
+.tp 5mm
+4. ^Udbetalinger/skatteregler, forsat
+.sp 7mm
+:SWISS8.
+.in 5mm
+Det fremgår af en bekendtgørelse udstedt af Skatteministeren, hvilke
+livstruende sygdomme, der giver mulighed for udbetaling.  Udover disse
+sygdomme, kan Told- & Skattestyrelsen give en kontohaver tilladelse til
+udbetaling ved andre livstruende sygdomme.  Kontohaver skal dokumentere
+den livstruende sygdom overfor pengeinstituttet ved en særlig blanket
+udstedt af en læge.
+.sp 3mm
+Forinden udbetalingen kan ske, skal kontohaver afgive erklæring om,
+hvilke kapitalpensionsmidler der ønskes udbetalt og med hvilken
+begrundelse.
+.sp 3mm
+Udbetales kontoens indestående på et andet tidspunkt, dvs. i strid med
+aftalens bestemmelser, skal der betales en endelig afgift på 60 pct.
+.sp 3mm
+Udbetales kontoens indestående i forbindelse med orlov, skal der betales
+indkomstskat.
+.sp 3mm
+Ved udbetaling til begunstigede fratrækker pengeinstituttet desuden
+boafgift til staten ifølge gældende lov.
+.in 0mm
+.sp 5mm
+:SWISS10.
+.tp 5mm
+5. ^Indvirkning på efterløn
+.sp 7mm
+:SWISS8.
+.in 5mm
+Hvis kontohaver går på efterløn indenfor to år efter udstedelse af
+efterlønsbeviset, og inden kontohaver har arbejdet minimum 3.120
+timer (som fuldtidsforsikret) i den periode, nedsættes efterlønnen med
+med 3 pct. af kapitalpensionens værdi ved det 60. år efter fradrag af et
+bundfradrag.  Der sker fradrag i efterlønnen, uanset om kapitalpensionen
+udbetales eller ej.
+.sp 3mm
+Hvis kontohaver venter med at gå på efterløn til to år efter
+efterlønsbevisets udstedelse og efter kravet om 3.120 timer (som
+fuldtidsforsikret) er opfyldt, sker der ingen nedsættelse af efterlønnen
+på baggrund af kapitalpensionen.
+.in 0mm
+.sp 5mm
+:SWISS10.
+.tp 5mm
+.ar off
+.da side3 20mm 38mm width 185mm
+.ar side3 on
+:SWISS10.
+.in 1mm
+:FED.
+Generelle vilkår for kapitalpension
+:SKRSLUT.
+.in 0mm
+.bx 0mm 175mm
+.sp 228mm
+.bx off
+.ar off
+.ar off

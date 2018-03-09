@@ -1,0 +1,836 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* Brevnavn hentes fra parametren BREVNAVN
+.se gruinv = 1
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.*****
+.if x&ÅPN = x1
+.th .se FSID = 1
+.*PN 1
+.*PA NOSTART
+.se tma = 34mm
+.TM &tma
+.*if x&MIBB8 = 12
+.*th .se c = 3.0mm
+.*el .se c = 4.0mm
+.se  c = 2.0mm
+.se  o = 4.0mm
+.se o2 = 8.0mm
+:DUTCH14.
+.rf on
+.sp 5mm
+:DUTCH8.
+.ir
+.ll 184mm
+.sx /1.11.2005//  Side  &ÅPN  af  4 /
+.sp 5mm
+.rf off
+.rf execute
+.ti ^ 05
+.rh on
+.da OVSK 105mm 10mm WIDTH 99mm
+.ar OVSK on
+.bx left right
+.in 2mm
+.ir 2mm
+:DUTCH14.
+Forsikringsbetingelser for
+Gruppeinvaliderente
+tegnet hos
+Topdanmark Livsforsikring A/S
+.br
+.*med &MIBB8 måneders karensperiode
+Gældende fra og med den 01.01.2006
+.bx off
+.ar off
+.rh off
+.rh execute
+.*************************
+.***** BETINGELSER ALENE
+.*if x&ÅTM ne x34mm
+.*if x&ÅTM ne x8
+.if x&forsbil ne x1
+.th .sp 22mm
+.*************************
+:DUTCH10.
+.cd 2 0 93mm
+.cl 89mm
+.*tp 4mm
+.tp 4mm 8mm 12mm
+.*****
+...INVB4SL
+.****** Slutning *****
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.*************************
+.du add fleks-job syg-doms-til-stan-den fleks-job-bet
+.*DUTCH10.
+.*cd 2 0 93mm
+.*cl 87mm
+.*tp 5mm
+:DUTCH12.:FED.
+1. Forsikringsaftaleloven
+:DUTCH10.
+.sp &c.
+Hvor forhold ikke er nævnt eller ikke er fraveget
+Forsikringsaftaleloven, gælder Forsikringsaftaleloven.
+.sp &c.
+:DUTCH12.:FED.
+2. Optagelse og ikrafttrædelse
+:DUTCH10.
+.sp &c.
+Optagelse i gruppeinvaliderenteforsikringen er betinget af, at der
+efter Topdanmarks skøn gives tilfredsstillende
+risikooplysninger, herunder oplysninger om
+helbredsforhold.
+.sp &c.
+Dækning under gruppeinvaliderenteforsikringen indtræder den 1. i den
+måned, hvor begæringen er underskrevet.
+.sp &c.
+Ved forhøjelse af gruppeinvaliderenteforsikringen gælder samme
+regler som ved optagelse i gruppeinvaliderenteforsikringen.
+.sp &c.
+Er der ved tegningen eller senere af forsikrede
+givet urigtige eller ufuldstændige
+oplysninger, er retsvirkningerne som beskrevet i
+Forsikringsaftalelovens § 4-10.
+.sp &c.
+:DUTCH12.:FED.
+.of &o.
+3. ^Hvad skal der til, før der bevilges præmiefritagelse og
+udbetaling af gruppeinvaliderente?
+:DUTCH10.
+.of
+.sp &c.
+.of &o.
+a. ^Nedsættes forsikredes erhvervsevne med mellem 1/2 og 2/3 af den
+fulde erhvervsevne, ydes halv præmiefritagelse og der udbetales halv
+gruppeinvaliderente. Nedsættes forsikredes erhvervsevne med 2/3 eller
+mere af den fulde erhvervsevne, ydes fuld præmiefritagelse samt
+udbetaling af hele gruppeinvaliderenten.
+.of
+.sp &c.
+.of &o.
+b. ^Genvindes erhvervsevnen således, at erhvervsevnetabet udgør mellem 1/2
+og 2/3, ydes halv præmiefritagelse og der udbetales halv
+gruppeinvaliderente. Genvindes erhvervsevnen således, at erhvervsevnetabet
+udgør mindre end 1/2, stopper udbetalingen helt og der skal igen betales
+fuld præmie.
+.of
+.sp &c.
+.of &o.
+c. ^Fastsættelsen af graden af erhvervsevnetabet sker på grundlag af en
+lægelig vurdering af
+erhvervsevnetabet (medicinsk erhvervsevnetab), samt oplysninger om, hvad
+forsikrede er i stand til at tjene ved egen arbejdsindsats, når
+erhvervsevnetabet tages i betragtning (medicinsk
+erhvervsevnetab). Såvel det medicinske som det økonomiske erhvervsevnetab
+skal opfylde
+betingelserne for at der kan ske udbetaling, jf. dog reglerne nedenfor om
+fleksjob.
+.of
+.sp &c.
+.of &o.
+d. ^Når det skal fastsættes, hvad forsikrede er i stand til at tjene ved
+egen arbejdsindsats medregnes løn, ledighedsydelse, samt eventuelle andre
+offentlige eller private tilskud, som forsikrede direkte eller indirekte er
+eller kan være berettiget til at modtage, som led i hel eller delvis
+forbliven på
+arbejdsmarkedet som selvstændig eller lønmodtager.
+.of
+.sp &c.
+.of &o.
+e. ^Topdanmarks vurdering af erhvervsevnetabet sker uafhængigt af den
+vurdering, de offentlige myndigheder og andre forsikringsselskaber
+foretager. Topdanmarks vurdering sker altså uden hensyntagen til, om der
+bevilges ydelser fra det offentlige eller andre forsikringsselskaber.
+.of
+.sp &c.
+...INVB4SL
+.****** Slutning *****
+.* Parm BANKNAVN indsat istedet for Midtbank d. 7/8-2001
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.*************************
+.*tp 5mm
+.us
+Ledighedsydelse:
+.br
+Har forsikrede ret til ledighedsydelse fra det offentlige, bortfalder
+retten til udbetaling fra denne
+forsikring, hvis forsikrede ikke accepterer et efter Topdanmarks skøn
+rimeligt tilbud om ansættelse i fleksjob eller ikke tager imod et efter
+Topdanmarks skøn rimeligt tilbud om uddannelse, der kan
+forbedre mulighederne for at få arbejde. Udbetalingen bortfalder endvidere,
+hvis forsikrede er
+selvforskyldt ledig efter et fleksjob.
+.sp &c.
+Udbetalingen genoptages efter reglerne i disse betingelser, hvis forsikrede
+bevilges førtidspension eller får et fleksjob.
+.sp &c.
+.us
+Fleksjob:
+.br
+Er forsikrede i fleksjob reguleres forholdet af denne bestemmelse. Opfylder
+forsikrede det medicinske erhvervsevnetab, dækker forsikringen efter
+reglerne i a. og b. Dog nedsættes dækningen med den del af indtægten ved
+fleksjobbet (inklusivt offentligt tilskud), der overstiger den
+førtidspensionsydelse, forsikrede ville have været berettiget til fra det
+offentlige. Denne nedsættelse sker uanset om betingelsen om det økonomiske
+erhvervsevnetab er opfyldt.
+.sp &c.
+Udbetalingen fra forsikringen beregnes pr. det tidspunkt, hvor Topdanmark
+accepterer betalingspligten under fleksjob, og udbetalingen fortsætter med
+det beregnede beløb inklusiv eventuel regulering af forsikringsydelsen
+indtil forsikrede ikke længere er i fleksjob, aftalen om fleksjob ændrer
+karakter eller forsikrede ikke længere er berettiget til udbetaling fra
+forsikringen af andre grunde.
+.sp &c.
+.us
+Midlertidig erhvervsevnetab:
+.br
+Ved midlertidig erhvervsevnetab forstås, at forsikrede er ude af stand til
+at passe sit nuværende/hidtidige arbejde. Ved halv midlertidig
+erhvervsevnetab forstås, at forsikrede alene kan passe sit arbejde i et
+omfang svarende til 1/2 eller mindre. Hvis forsikrede kan passe sit arbejde
+i større omfang end 1/2, er erhvervsevnetabet ikke 1/2.
+.sp &c.
+Udbetaling ved midlertidig erhvervsevnetab sker i starten af perioden med
+nedsat erhvervsevne efter karenstidens udløb. Når Topdanmark har foretaget
+en vurdering af, om forsikrede varigt har mistet erhvervsevnen, ophører
+forsikredes ret til udbetaling ved midlertidig erhvervsevnetab.
+.sp &c.
+.us
+Varigt erhvervsevnetab:
+.br
+Bliver forsikrede ved med at være sygemeldt og har sygdomstilstanden
+stabiliseret sig i et sådant omfang, at hans fremtidige erhvervsevne kan
+vurderes, foretages en vurdering af, om hans erhvervsevne varigt er nedsat
+til 1/2, respektive 2/3. Denne vurdering foretages under alle
+omstændigheder senest 18 måneder efter den 1. sygedag. Vurderingen kan dog
+foretages på et hvilket som helst tidspunkt, efter tilstanden har
+stabiliseret sig. Topdanmark kan dog for et begrænset tidsrum - en eller
+flere gange - udskyde vurderingen af det varige erhvervsevnetab. Så længe
+udskydelsen varer, sker der udbetaling efter reglerne om midlertidig
+erhvervsevnetab.
+.sp &c.
+Bedømmelsen sker under hensyntagen til forsikredes nuværende tilstand.
+.sp &c.
+Erhvervsmulighederne skal bedømmes både indenfor forsikredes eget fag,
+tidligere arbejdsområde, indenfor beslægtede fag eller fag, der er egnede i
+den konkrete situation. Det er således den
+generelle erhvervsevne og ikke erhvervsevnen i forsikredes erhverv, der
+skal være nedsat.
+.sp &c.
+Ved forsikredes længerevarende erhvervsevnetab foretages derfor et skøn
+over, om forsikrede må anses for egnet til omskoling. Hvis forsikrede anses
+for egnet til omskoling, og den generelle
+erhvervsevne ikke er nedsat med halvdelen, respektive 2/3, stopper
+bevillingen. Der bevilges altså ikke i selve omskolingsperioden.
+.sp &c.
+.****
+...INVB4SL
+.****** Slutning *****
+.if .&gruinv. ne .1
+.th .go INVB4ASL
+.TM &tma
+.*-------------------------
+:DUTCH12.:FED.
+4. Anmeldelse af erhvervsevnetab
+:DUTCH10.
+.sp &c.
+Skadesbehandlingen foretages af Topdanmark.
+.sp &c.
+.us
+Udbetaling af gruppeinvaliderente
+.sp &c.
+.of &o.
+a. ^Anmeldelse af erhvervsevnetab sker på en særlig
+blanket, der fås ved henvendelse til Topdanmark.
+Blanketten udfyldes af forsikrede og egen
+læge.
+.of
+.sp &c.
+.of &o.
+b. ^Forsikrede er forpligtet til at give de oplysninger, samt give
+tilladelse til at Topdanmark indhenter de lægelige oplysninger, som
+Topdanmark anser for nødvendige for at afgøre betalingspligten. Giver
+forsikrede ikke de nødvendige oplysninger og tilladelser, har forsikrede
+ikke ret til
+udbetaling.
+.of
+.sp &c.
+.of &o.
+c. ^Udbetaling af gruppeinvaliderente og præmiefritagelse får
+virkning fra den dag, hvor nedsættelsen af
+.* erhvervsevnen har varet uafbrudt i 3 måneder. Gruppeinvaliderenten
+erhvervsevnen har varet uafbrudt i karansperioden. Gruppeinvaliderenten
+udbetales månedlig forud, og starter den 1. i måneden
+efter karensperiodens udløb.
+.of
+.sp &c.
+.of &o.
+d. ^Sker skadesanmeldelsen senere end 1 år efter det tidspunkt, hvor
+forsikrede har fået kundskab om de omstændigheder, der begrunder
+kravet, omfatter dækningen ikke tiden forud for fremsættelsen
+af kravet.
+.of
+.sp &c.
+.of &o.
+e. ^Det er en forudsætning, at nedsættelsen af erhvervsevnen ikke er
+fremkaldt med fortsæt, og at det alene skyldes helbredsmæssige årsager.
+.of
+.sp &c.
+.****** Slutning *****
+...INVB4ASL
+.****** Slutning *****
+.*PA NOSTART
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.TM &tma
+.*************************
+:DUTCH10.
+.*tp 5mm 10mm
+:DUTCH10.
+.of &o.
+f. ^Hvis forsikrede bliver rask og får samme lidelse indenfor 1 år fra
+raskmeldingen, kan ny udbetaling bevilges uden ny karensperiode.
+.of
+.sp &c.
+.of &o.
+g. ^Forsikrede skal være under nødvendig lægebehandling og følge lægens
+råd.  Undladelse heraf kan medføre, at Topdanmark ophører med at betale
+forsikringsydelsen.
+.of
+.sp &c.
+.of &o.
+h. ^Topdanmark er berettiget til at indhente oplysninger hos enhver,
+der har behandlet forsikrede samt til at lade forsikrede
+undersøge af en læge i Danmark.
+.of
+.sp &c.
+.of &o.
+i. ^Forsikrede skal underrette Topdanmark, hvis helbredstilstanden
+forbedres. Topdanmark kan til enhver tid kræve dokumentation for
+erhvervsevnetabet.
+.of
+.sp &c.
+:DUTCH12.:FED.
+5. Hvilke skader er ikke dækket?
+:DUTCH10.
+.sp &c.
+Forsikringen dækker kun erhvervsevnetab opstået i
+forsikringstiden.
+.sp &c.
+Forsikringen giver ikke ret til forsikringsydelsen, når tabet af
+erhvervsevnen skyldes:
+.sp &c.
+.of &o.
+a. ^Sygdom eller ulykkestilfælde, som forsikrede eller sikrede har
+fremkaldt med vilje (fortsætlig) eller  ved grov uagtsomhed eller som
+følge af selvmordsforsøg.
+.of
+.sp &c.
+.of &o.
+b. ^Sygdom eller ulykkestilfælde, som følge af selvforskyldt
+beruselse, deltagelse i slagsmål, misbrug af alkohol, narkotika og
+stoffer med lignende virkning.
+.of
+.sp &c.
+.of &o.
+c. ^Sygdom eller ulykkestilfælde som følge af udløsning af
+atomenergi (fission eller fusion) og radioaktivt henfald.
+.of
+.sp &c.
+.of &o.
+d. ^Nervøse klager, der ikke lægeligt kan betegnes som længevarende
+psykisk lidelse.
+.of
+.sp &c.
+.of &o.
+e. ^Sygdom eller ulykkestilfælde, hvis der ikke i forbindelse med
+lægelig undersøgelse kan påvises objektive tegn på tilstedeværelsen af
+mén eller sygdom (f.eks. hvor der alene er tale om subjektive
+klager over smerter, gener eller lignende).
+.of
+.sp &c.
+.of &o.
+f. ^Sygdom eller ulykkestilfælde som følge af rejser eller ophold
+udenfor Danmark, hvor risikoen er forøget på grund af krig eller
+krigslignende tilstand, herunder borgerkrig eller hvor der
+officielt er advaret mod sundhedsfare eller epidemiske tilstande.
+.of
+.sp &c.
+.of &o.
+g. ^Sygdom eller ulykkestilfælde som direkte eller indirekte
+følge af krig, krigslignende forhold, oprør eller borgerlige
+uroligheder, med mindre forsikringen har været uafbrudt i kraft
+de sidste 6 måneder inden krigstilstandens eller fareforøgelsens
+indtræden og deltagelse i krigstjeneste eller lignende
+tjeneste sker inden for de danske militære værn eller efter den
+danske regerings ordre. Deltagelse i anden krigstjeneste er
+aldrig dækket af forsikringen.
+.of
+.sp &c.
+.of &o.
+h. ^Sygdom eller ulykkestilfælde pådraget under træning eller
+deltagelse i:
+.of
+.sp &c.
+.of &o2.
+^1. ^Motorvæddeløb af enhver art bortset fra nationale løb
+afholdt i Danmark indenfor færdselslovens rammer.
+.of
+.sp &c.
+^2. ^Bjergbestigning.
+.sp &c.
+.of &o2.
+^3. ^Enhver form for flyvning, herunder f.eks. ballonflyvning,
+faldskærmsudspring, elastikspring, drageflyvning,
+dog bortset fra deltagelse som passager i offentlig godkendt
+lufttrafik.
+.of
+.sp &c.
+.of &o2.
+^4. ^Sportsudøvelse i form af karate, boksning, judo og anden
+kampsport, samt dykning med dykker- og frømandsudstyr.
+.of
+.sp &c.
+.of &o2.
+^5. ^Enhver sportsudøvelse, der sker på professionelt eller
+halvprofessionelt grundlag.
+.of
+.sp &c.
+.of &o.
+i. ^Den forøgede risiko nævnt i punkterne f og h dækkes dog, hvis
+forsikringen har været uafbrudt i kraft det sidste år før
+forsikringsbegivenhedens indtræden.
+.of
+.sp &c.
+.****** Slutning *****
+.*cd
+.*cl
+...INVB4SL
+.****** Slutning *****
+.*PA NOSTART
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.TM &tma
+.*************************
+:DUTCH10.
+.*tp 5mm 10mm 15mm
+:DUTCH12.:FED.
+.of &o.
+6. ^Utilfredshed med Topdanmarks afgørelse?
+:DUTCH10.
+.of
+.sp &c.
+Hvis forsikrede ikke er tilfreds med med behandlingen af en
+forsikringssag, kan sagen forelægges:
+.sp &c.
+  ^^Ankenævnet for Forsikring
+  ^^Anker Heegaards Gade 2
+  ^^1572  København K
+  ^^Tlf.  nr.  33 15 89 00 - mellem kl. 10.00 og 13.00
+.sp &c.
+.of &o.
+a.   ^Ankenævnet kan dog kun behandler klager hvis
+forsikringstageren:
+.of
+.sp &c.
+.of &o2.
+^1. ^Forgæves har prøvet at få en tilfredsstillende ordning med
+Topdanmark.
+.of
+.sp &c.
+.of &o2.
+^2. ^Ikke inden 3 uger har fået svar på en skriftlig henvendelse til
+Topdanmark.
+.of
+.sp &c.
+.of &o2.
+^3. ^Til Ankenævnet betales et gebyr, som er fastsat af Ankenævnet.
+Gebyret betales tilbage, hvis forsikrede helt eller delvist
+får medhold i klagen, hvis klagen afvises eller tilbagekaldes af
+forsikrede.
+.of
+.sp &c.
+.of &o.
+b. ^Klagen skal sendes til Ankenævnet på et særligt klageskema, som
+udleveres ved henvendelse til:
+.of
+.sp &c.
+^1.  ^Topdanmark.
+.sp &c.
+^2. ^Forbrugerrådet
+ ^^Købmagergade 7
+ ^^1150 København K
+ ^^Tlf.  nr.  33 13 63 11
+.sp &c.
+:DUTCH12.:FED.
+.of &o.
+7. ^Utilfredshed med erhvervsevnetabets størrelse?
+:DUTCH10.
+.of
+.sp &c.
+Hvis det efter forelæggelse af sagen for såvel forsikredes læge som
+Topdanmarks læge ikke har været muligt at nå til enighed om graden
+af forsikredes erhvervsevnetab, fastsættes denne endeligt ved
+voldgift.
+.sp &c.
+Voldgiftskendelsen er endelig, hvis forsikrede
+forinden kendelsens afsigelse er blevet orienteret om muligheden
+for Ankenævnsbehandling.
+.sp &c.
+.of &o.
+a. ^Hver af parterne vælger en voldgiftsmand, som skal være
+læge, og som er specialist indenfor det pågældende sygdomsområde.
+.of
+.sp &c.
+.of &o.
+b. ^Inden de begynder deres arbejde, vælger voldgiftsmændene en
+opmand, der skal være læge. Kan de ikke blive enige om valget,
+udpeges opmanden af Den almindelige danske Lægeforening.
+.of
+.sp &c.
+.of &o.
+c. ^Opmanden træder kun til, hvis voldgiftsmændene ikke kan blive
+enige om fastsættelsen af graden af erhvervsevnetab, og træffer
+da afgørelse inden for grænserne af voldgiftsmændenes ansættelser.
+.of
+.sp &c.
+.of &o.
+d. ^Voldgiftsretten træffer tillige bestemmelse om, hvorledes
+omkostningerne i forbindelse med voldgiftssagen skal fordeles.
+.of
+.sp &c.
+:DUTCH12.:FED.
+.of &o.
+8. ^Anmeldelse af jobskifte og arbejdsledighed
+:DUTCH10.
+.of
+.sp &c.
+Forsikringen er tegnet under forudsætning af et af Topdanmark
+accepteret erhverv. Såfremt forsikrede skifter til andet erhverv
+eller bliver arbejdsledig, skal dette anmeldes til Topdanmark, og
+på blanketter som &BANKNAVN har udleveret til forsikrede:
+.sp &c.
+.of &o.
+a. ^Jobskifte skal anmeldes senest 1 måned efter skiftet har fundet
+sted.
+.sp &c.
+Forsikrede modtager efterfølgende meddelelse om forsikringen kan
+fortsætte.
+.of
+.sp &c.
+b. ^Arbejdsledighed anmeldes således:
+.sp &c.
+.of &o2.
+^1.  ^Når ledigheden er opstået før den 1. juli anmeldes dette
+senest den 1. december i samme kalenderår.
+.sp &c.
+Oprindelig forsikringsdækning opretholdes i det kalenderår,
+hvor ledigheden opstod.
+.of
+.sp &c.
+.of &o2.
+^2. ^Når ledigheden er opstået efter den 1. juli anmeldes dette
+senest den 1. december i det efterfølgende kalenderår.
+.sp &c.
+Oprindelig forsikringsdækning opretholdes såvel i det kalenderår,
+hvor ledigheden opstod  samt i det efterfølgende kalenderår.
+.of
+.sp &c.
+.of &o.
+c. ^Der skal ikke foretages anmeldelse i forbindelse med orlov.
+.of
+.sp &c.
+.of &o.
+d. ^Har Topdanmark ikke fået underretning om ændring i
+risikoforholdene, udsætter forsikrede sig for kun at få
+forsikringsydelse svarende til forholdet mellem den præmie, der
+er betalt og den, der skulle have været betalt, hvis Topdanmark
+havde fået besked om ændringen før erhvervsevnetabet
+indtrådte. Ville Topdanmark have ophævet forsikringen,
+tilbagebetaler Topdanmark præmie for resten af den
+forsikringsperiode, der er betalt for.
+.of
+.sp &c.
+.****** Slutning *****
+.*cd
+.*cl
+...INVB4SL
+.****** Slutning *****
+.*PA NOSTART
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.TM &tma
+.*se c = 3.5mm
+.*************************
+:DUTCH10.
+.*tp 5mm 10mm
+:DUTCH12.:FED.
+9. Regulering af forsikringen
+:DUTCH10.
+.sp &c
+Såvel præmie som forsikringsydelsen fastsættes for et år ad gangen.
+.sp &c
+Er udbetalingen af gruppeinvaliderenten påbegyndt, foretages der en
+pristalsregulering af ydelsen i udbetalingsperioden.
+.sp &c.
+:DUTCH12.:FED.
+10. Præmiebetalingen
+:DUTCH10.
+.sp &c
+Præmien forfalder helårligt forud pr. 1. januar.
+.sp &c
+Fra tilmeldingsdagen og kalenderåret ud betales en forholdsvis
+præmie.  Præmien beregnes fra den 1. i den måned, hvori
+tilmeldingen sker.
+.sp &c
+&BANKNAVN er berettiget til at opkræve et administrationsgebyr.
+.sp &c
+&BANKNAVN opkræver præmien hos forsikrede.
+.sp &c.
+:DUTCH12.:FED.
+11. Forældelse
+:DUTCH10.
+.sp &c
+Forsikrede skal anmelde sit krav over for Topdanmark.
+.sp &c
+Krav om udbetaling af forsikringsydelsen i tilfælde af midlertidig
+erhvervsevnetab eller varigt erhvervsevnetab skal fremsættes
+inden 1 år efter det tidspunkt, da forsikrede har fået
+kundskab om de omstændigheder, der begrunder kravet.
+.sp &c
+Forsikringen omfatter ikke dækningen for tiden forud for
+fremsættelsen af kravet, hvis dette først rejses efter, at der er
+forløbet 1 år.
+.sp &c.
+:DUTCH12.:FED.
+12. Forsikringens ophør
+:DUTCH10.
+.sp &c
+Forsikringsdækningen kan af forsikrede eller af
+&BANKNAVN opsiges skriftlig til udgangen af et kalenderår.
+Forsikringen ophører hvis præmien ikke bliver betalt.
+.sp &c
+Hvis pensionskontoen ophæves, ophører dækningen ved udgangen af det
+kalenderår, hvori ophævelsen sker.
+.sp &c
+Hvis indbetalingen til pensionskontoen ophører - eller de
+skattemæssige indbetalinger er mindre end 1.200 kr.  årligt ud over
+de forsikringspræmier, der hæves på pensionskontoen - ophører
+forsikringen ved udgangen af det år, hvori indbetalingen
+ophører/nedsættes.
+.sp &c
+Dækningen ophører senest ved udgangen af det år, hvori forsikrede
+fylder 60 år.
+.sp &c
+Forsikringen ophører, hvis Topdanmark og &BANKNAVN opsiger aftalen
+overfor hinanden.
+.sp &c.
+Forsikringen ophører, hvis Finanstilsynets krav om
+mindstetilslutning til gruppen ikke er opfyldt.
+.sp &c.
+:DUTCH12.:FED.
+13. Ændring af forsikringsbetingelserne
+:DUTCH10.
+.sp &c
+Topdanmark kan ændre forsikringsbetingelser og tarif for allerede
+etablerede forsikringer. Er
+ændringerne til ugunst for forsikrede, så skal ændringerne foretages med 1
+måneds skriftlig varsel til et præmieforfald.
+.sp &c.
+Pristalsregulering og præmiestigninger i forbindelse med hovedforfald
+pga. forsikredes alder,
+gruppens alderssammensætning, skadesforløbet eller udviklingen i ordningen
+er ikke en ændring af tariffen, og kan derfor ske uden varsel.
+.sp &c.
+Forsikringen kan opsiges af forsikrede til det tidspunkt, hvor ændringerne
+træder i kraft.
+.sp &c.
+.****
+:DUTCH12.:FED.
+14. Hvor dækker forsikringen
+:DUTCH10.
+.sp &c
+.of 5mm
+a. ^Forsikringen dækker:
+.of
+.sp &c
+.of &o2.
+^1. ^I Danmark, herunder Færøerne og Grønland. Samt under ferieophold
+i op til 12 måneder - bortset fra de tilfælde, der er nævnt i
+punkterne f og g i afsnit 5 - Hvilke skader er ikke dækket?
+.of
+.sp &c
+.of &o2.
+^2. ^Under ophold op til 12 måneder i et EU-land, Schweiz eller
+Norge.
+.of
+.sp &c
+.of &o2.
+^3. ^Under ophold ud over 12 måneder i et EU-land, Schweiz eller
+Norge, når forsikrede er tilknyttet en
+dansk/international virksomhed, med aftale om udstationering
+og tilbagevending til Danmark efter et antal år.
+.of
+.sp &c
+.of &o.
+b. ^Hvis forsikrede tager fast ophold uden for Danmark i mere
+end 1 år, ophører dækningen.
+.sp &c
+Topdanmark skal have besked, så snart forsikrede ved, at
+opholdet vil vare længere end 1 år.
+.sp &c
+.of
+.****** Slutning *****
+...INVB4SL
+.****** Slutning *****
+.*PA NOSTART
+.if .&gruinv. ne .1
+.th .go INVB4SL
+.TM &tma
+.*se c = 3.5mm
+.*************************
+:DUTCH10.
+.*tp 5mm 10mm
+:DUTCH12.:FED.
+15. Sprog og tilsyn
+:DUTCH10.
+.sp &c
+De dokumenter, der indgår i aftalegrundlaget og efterfølgende bliver
+udleveret i forsikringstiden, affattes på dansk.
+.sp &c
+Topdanmark er underlagt tilsyn af Finanstilsynet.
+.sp &c.
+:DUTCH12.:FED.
+16. Fortrydelse af forsikringen
+:DUTCH10.
+.sp &c
+Efter kapitel 1a i forsikringsaftaleloven har du fortrydelsesret.
+.sp &c
+Fortrydelsesfristen er 30 dage. Fristen regnes fra den dag, hvor du har
+modtaget
+forsikringsbetingelserne. Fristen regnes dog tidligst fra det tidspunkt,
+hvor du har modtaget underretning om, at forsikringsaftalen er indgået,
+hvis du har fået forsikringsbetingelserne på et tidligere
+tidspunkt.
+.sp &c.
+Inden fortrydelsesfristens udløb skal du underrette Topdanmark
+Livsforsikring om, at du har fortrudt aftalen. Underretningen kan f.eks.
+gives pr. post eller e-mail og det er tilstrækkeligt, at du sender
+fortrydelsen inden fristens udløb.
+.sp &c.
+Underretning om, at du har fortrudt aftalen skal gives til:
+.sp &c.
+Topdanmark Livsforsikring A/S
+.br
+Borupvang 4
+.br
+2750 Ballerup
+.sp &c.
+.****** Slutning *****
+.cd
+.cl
+.rh cancel
+.TM 32mm
+...INVB4SL
+.****** Slutning *****

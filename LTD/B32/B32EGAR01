@@ -1,0 +1,726 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* Valider at garantitypevalget er udfyldt -------------------------------
+.if &L'&GENVALG1 = 0
+.th .mg/T/Valg af garantitype ej udfyldt
+.*
+.*  Valider at der er tastet et validt valg -------------------------------
+.if &GENVALG1 eq 1
+.or &GENVALG1 eq 2
+.or &GENVALG1 eq 3
+.or &GENVALG1 eq 4
+.or &GENVALG1 eq 5
+.or &GENVALG1 eq 6
+.th .go VALMODT
+.el .mg/T/Valg af garantitype ugyldig
+.*
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt ------
+...VALMODT
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.*
+.* Valider at garantibeløbet er udfyldt------------------------------------
+.if &L'&B32BELOB = 0
+.th .mg/T/Garantibeløb ej udfyldt (frigør evt. med PF10)
+.*
+.* Valider at garantiens udløbsdato er udfyldt ----------------------------
+.* Fjernet - udløbsdato ej krav iflg. aftale med Tenna den 6/7-2011 /PER
+.*
+.* ------------------------------------------------------------------------
+.* Valideringer afhængig af garantitype -----------------------------------
+.**********************************
+.if &GENVALG1 eq 1
+.or &GENVALG1 eq 2
+.or &GENVALG1 eq 3
+.th .go VAL123
+.el .go VAL4
+.**********************************
+.*
+.* Fælles valideringer for betalings-, leverance- & tilbudsgarantien ------
+.*
+...VAL123
+.* Valider at garantiart er udfyldt ---------------------------------------
+.if &L'&GENVALG2 = 0
+.th .mg/T/Garantiart ej udfyldt
+.*
+.* Valider (1=anfordringsgar. 2=vilkårsgaranti) ---------------------------
+.if &GENVALG2. lt 1
+.or &GENVALG2. gt 2
+.th .mg/T/Garantiart er ugyldig
+.*
+.* Valider at beskrivelse af kontrakt er udfyldt --------------------------
+.if &L'&BECTEKST01 = 0
+.th .mg/T/Beskrivelse af indgået kontrakt ej udfyldt
+.*
+.* Valider at kontraktdatoen er udfyldt på --------------------------------
+.if &L'&GENDATO1 = 0
+.th .mg/T/Dato for indgåelse af kontrakt ej udfyldt
+.*
+.* Valider at præcisering af sikrede forpl. er udfyldt på tilbudsgaranti --
+.if &GENVALG1 eq 3
+.an &L'&BECTEKST05 = 0
+.th .mg/T/Præcisering af den sikrede forpligtelse ej udfyldt
+.*
+.go ALTOK
+.* ------------------------------------------------------------------------
+.* Validering af spillegaranti --------------------------------------------
+...VAL4
+.**********************************
+.if &GENVALG1 eq 4
+.th .go VALSPIL
+.el .go VAL5
+.**********************************
+.*
+...VALSPIL
+.* P.t. ingen valideringer på spillegarantier, men der er plads til dem ---
+.go ALTOK
+.*
+.* ------------------------------------------------------------------------
+.* Valideringer af tvangsauktionsgarantien --------------------------------
+...VAL5
+.**********************************
+.if &GENVALG1 eq 5
+.th .go VALTVNG
+.el .go VAL6
+.**********************************
+.*
+...VALTVNG
+.* Valider at matrikelnummer er udfyldt -----------------------------------
+.if &L'&BECTEKST10 = 0
+.th .mg/T/Matrikelnummer ej udfyldt
+.*
+.* Valider at ejendommens adresse er udfyldt på ---------------------------
+.if &L'&BECTEKST11 = 0
+.an &L'&BECTEKST12 = 0
+.th .mg/T/ejendommens adresse ej udfyldt
+.*
+.* Valider at tvangsauktionsdato er udfyldt -------------------------------
+.if &L'&GENDATO3 = 0
+.th .mg/T/Tvangsauktionsdato ej udfyldt
+.*
+.go  ALTOK
+.* ------------------------------------------------------------------------
+.*
+.* Validerring af huslejegarantien ----------------------------------------
+...VAL6
+.*********************************
+.if &GENVALG1 eq 6
+.th .go VALHUSL
+.el .go VAL7
+.*********************************
+.*
+...VALHUSL
+.*
+.* Valider at garantiart er udfyldt ---------------------------------------
+.if &L'&GENVALG3 = 0
+.th .mg/T/Garantiart ej udfyldt
+.*
+.* Valider (1=anfordringsgar. 2=vilkårsgaranti) ---------------------------
+.if &GENVALG3. lt 1
+.or &GENVALG3. gt 2
+.th .mg/T/Garantiart er ugyldig
+.*
+.* Valider at adressen på det lejede er udfyldt --------------------------
+.if &L'&BECTEKST20 = 0
+.th .mg/T/Ejendommens adresse ej udfyldt
+.*
+.* Valider at lejeaftalens dato er udfyldt på ----------------------------
+.if &L'&GENDATO2 = 0
+.th .mg/T/Dato for indgåelse af lejeaftale ej udfyldt
+.*
+.go ALTOK
+.* ------------------------------------------------------------------------
+.*
+...VAL7
+.th .mg/T/Alvorlig fejl - kontakt standardbrevgruppen på BEC.
+.*
+...ALTOK
+.* Når vi hertil er ALT OK ------------------------------------------------
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.*************************
+.if x&GENVALG1 eq 3
+.th Tilbudsgaranti
+.el Garanti
+.*************************
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.* FLG. PARAMETER SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE ****************************************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 113mm 40mm width 50mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.** SIDESKIFT
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.*************************
+.if x&GENVALG1 eq 3
+.th Tilbudsgaranti
+.el Garanti
+.*************************
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.* FLG. PARAMETER SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE ****************************************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 113mm 40mm width 50mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX1 25mm 40mm width 170mm
+.**************************************************************************
+.ar REGARTX1 on
+:VERDA12.
+:FED.
+Regaranti - Erhverv
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+Undertegnede &KTONAVN
+.**************************
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN.
+.**************************
+(herefter
+garantianmoder) anmoder ved min underskrift på nærværende
+regarantierklæring &BANKNAVN. (herefter garantistiller) om at
+afgive ovenstående garanti for min/vores regning og risiko og
+indestår garantistiller for enhver følge af den stillede garanti.
+.sp 3mm
+Endvidere forpligter garantianmoder sig til, hvis garantistiller
+måtte ønske det, omgående at stille en af garantistiller godkendt
+sikkerhed op til garantiens maksimum.
+.sp 5mm
+:FED.
+Betaling af krav under garantien
+:SKRSLUT.
+.br
+Såfremt garantien er udformet som en anfordringsgaranti, er
+garantianmoder indforstået med, at garantistiller betaler krav
+under garantien, når garantimodtager beder om det, uden at der har
+været en retssag og uden at have kontaktet garantianmoder først.
+Dette gælder dog ikke, hvis der er aftalt særlige
+udbetalingsvilkår for garantien.
+.sp 3mm
+Garantistiller betaler krav i henhold til garantien uden at tage
+stilling til, om det underliggende krav (skyldforholdet mellem
+garantianmoder og garantimodtager) er forfaldent og gyldigt.
+Eventuelle tvister om dette skyldforhold er garantistiller
+uvedkommende og skal efterfølgende afgøres mellem garantimodtager
+og garantianmoder.
+.sp 3mm
+Garantianmoder er indforstået med, at udbetaling derfor kan
+forekomme på trods af garantianmoders indvending mod betalingen.
+Garantianmoder giver derfor afkald på indsigelser over for
+garantistillers regreskrav mod garantianmoder. Garantianmoder
+giver ligeledes over for garantistillers regreskrav afkald på at
+fremsætte andre indsigelser (herunder om modregning), som
+garantianmoder måtte have over for garantimodtager.
+.sp 3mm
+Såfremt garantien er udformet som en garanti under AB 92/ABT 93,
+er garantianmoder indforstået med, at garantistiller kan foretage
+udbetaling til garantimodtager på trods af garantianmoders
+indgivelse af begæring til Voldgiftsnævnet om sagkyndig
+beslutning, hvis garantistiller fra garantianmoder ikke forinden
+udbetaling skriftligt har modtaget orientering om denne begæring.
+.sp 3mm
+Såfremt garantistiller har stillet kontragaranti over for en
+udenlandsk bank, accepterer garantianmoder, at garantistiller
+altid betaler krav herunder også selvom der er indsigelser.
+.sp 3mm
+Beløb, som garantistiller måtte udbetale i henhold til garantien,
+forrentes med garantistillers til enhver tid gældende udlånsrente
+fra udbetalingstidspunktet.
+.sp 5mm
+:FED.
+Garantianmoders hæftelse
+:SKRSLUT.
+.br
+Garantianmoder forpligter sig til på 1. skriftlige anfordring fra
+garantistiller og uden rettergang at indbetale til garantistiller
+ethvert beløb, som garantistiller har betalt i henhold til
+garantien sammen med alle omkostninger, som garantistiller måtte
+have i den forbindelse.
+.sp 3mm
+Garantianmoders hæftelse over for garantistiller gælder, indtil
+garantistiller ikke længere er forpligtet ifølge garantien.
+.sp 3mm
+Garantistiller er i øvrigt til enhver tid berettiget til uden
+varsel at opsige garantien over for garantianmoder med den
+virkning, at garantistiller herefter kan gøre krav gældende over
+for garantianmoder, som om garantien var blevet effektiv for sit
+maksimale beløb over for garantianmoder. Dette gælder uanset
+garantiens gyldighedsperiode og hvilke forpligtelser garantien
+sikrer.
+.sp 3mm
+Uanset om garantistiller har frigivet garantianmoders hæftelse for
+garantien, gælder hæftelsen fortsat, hvis ophøret af garantien
+senere bliver omstødt af et eventuelt konkursbo. Det samme gælder,
+hvis eventuelle sikkerheder, der er stillet over for
+garantistiller for garantien eller provenuet af sikkerhederne,
+senere bliver omstødt.
+.sp 3mm
+Garantianmoder er opmærksom på, at der kan komme krav, som
+garantistiller har pligt til at betale, som garantianmoder hæfter
+for, selvom der står en udløbsdato i garantien.
+.sp 3mm
+Såfremt garantianmoder på et senere tidspunkt ønsker at få ændret
+garantien, gælder betingelserne i nærværende aftale også for den
+ændrede garanti.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX2 25mm 40mm width 170mm
+.*
+.ar REGARTX2 on
+Garantianmoder giver garantistiller transport i beløb, der er
+betalt under garantien, og som garantimodtager eventuelt skal
+betale tilbage, inklusive påløbne renter.
+.sp 5mm
+:FED.
+Garantistillers erstatningsansvar
+:SKRSLUT.
+.br
+Garantistiller er ikke ansvarlig for følgerne af forsinkelse,
+bortkomst og andre uregelmæssigheder i forbindelse med
+forsendelser af breve, dokumenter, telefax og lignende.
+.sp 3mm
+Garantistiller er erstatningsansvarlig, hvis garantistiller på
+grund af fejl eller forsømmelser opfylder aftalte forpligtelser
+for sent eller mangelfuldt.
+.sp 3mm
+Selv på de områder, hvor der gælder et strengere ansvar, er
+garantistiller ikke ansvarlig for tab, som skyldes
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤nedbrud i/manglende adgang til IT-systemer eller
+beskadigelser af data i disse systemer, der kan henføres til
+nedennævnte begivenheder, uanset om det er garantistiller
+selv eller en ekstern leverandør, der står for driften af
+systemerne,
+.of
+.of 5mm
+*¤svigt i garantistillers strømforsyning eller
+telekommunikation, lovindgreb eller forvaltningsakter,
+naturkatastrofer, krig, oprør, borgerlige uroligheder,
+sabotage, terror eller hærværk (herunder computervirus og
+hacking),
+.of
+.of 5mm
+*¤strejke, lockout, boykot eller blokade, uanset om konflikten
+er rettet mod eller iværksat af garantistiller selv eller
+dens organisation, og uanset konfliktens årsag. Det gælder
+også, når konflikten kun rammer dele af garantistiller
+.of
+.of 5mm
+*¤andre omstændigheder, som er uden for garantistillers
+kontrol.
+.of
+.sp 3mm
+Garantistillers ansvarsfrihed gælder ikke, hvis
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤garantistiller burde have forudset det forhold, som er årsag
+til tabet, da aftalen blev indgået, eller burde have undgået
+eller overvundet årsagen til tabet,
+.of
+.of 5mm
+*¤lovgivningen under alle omstændigheder gør garantistiller
+ansvarlig for det forhold, som er årsag til tabet.
+.of
+.sp 3mm
+Garantianmoder accepter i øvrigt garantistillers almindelige
+forretningsbetingelser, der også er gældende for garantien
+medmindre disse er fraveget i nærværende regarantiaftale.
+Garantianmoder har modtaget et eksemplar af garantistillers
+Bankguide  og har gjort sig bekendt med indholdet.
+.sp 3mm
+Garantianmoder accepterer garantistillers til enhver tid gældende
+priser for garantier. Priserne oplyses efter anmodning og kan
+findes på &B32WWWNYK..
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.*************************************************************************
+.*  hvis medktohav. udskriv 2 underskrifts linier eller kun 1.
+.*
+.if &L'&MEDNAVN eq 0
+.th ¤¤¤
+.el ¤¤¤¤¤
+.*************************************************************************
+.*  hvis medktohav. udskriv begge navne ellers kun kontohavers
+.*
+.tp 2mm 34mm 107mm
+.if &L'&MEDNAVN eq 0
+.th ¤Dato ¤&KTONAVN
+.el ¤Dato ¤&KTONAVN. ¤&MEDNAVN
+.*************************************************************************
+.ar off
+.** SIDESKIFT
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.*************************
+.if x&GENVALG1 eq 3
+.th Tilbudsgaranti
+.el Garanti
+.*************************
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.* FLG. PARAMETER SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE ****************************************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 113mm 40mm width 50mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX1 25mm 40mm width 170mm
+.**************************************************************************
+.ar REGARTX1 on
+:VERDA12.
+:FED.
+Regaranti - Erhverv
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+Undertegnede &KTONAVN
+.**************************
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN.
+.**************************
+(herefter
+garantianmoder) anmoder ved min underskrift på nærværende
+regarantierklæring &BANKNAVN. (herefter garantistiller) om at
+afgive ovenstående garanti for min/vores regning og risiko og
+indestår garantistiller for enhver følge af den stillede garanti.
+.sp 3mm
+Endvidere forpligter garantianmoder sig til, hvis garantistiller
+måtte ønske det, omgående at stille en af garantistiller godkendt
+sikkerhed op til garantiens maksimum.
+.sp 5mm
+:FED.
+Betaling af krav under garantien
+:SKRSLUT.
+.br
+Såfremt garantien er udformet som en anfordringsgaranti, er
+garantianmoder indforstået med, at garantistiller betaler krav
+under garantien, når garantimodtager beder om det, uden at der har
+været en retssag og uden at have kontaktet garantianmoder først.
+Dette gælder dog ikke, hvis der er aftalt særlige
+udbetalingsvilkår for garantien.
+.sp 3mm
+Garantistiller betaler krav i henhold til garantien uden at tage
+stilling til, om det underliggende krav (skyldforholdet mellem
+garantianmoder og garantimodtager) er forfaldent og gyldigt.
+Eventuelle tvister om dette skyldforhold er garantistiller
+uvedkommende og skal efterfølgende afgøres mellem garantimodtager
+og garantianmoder.
+.sp 3mm
+Garantianmoder er indforstået med, at udbetaling derfor kan
+forekomme på trods af garantianmoders indvending mod betalingen.
+Garantianmoder giver derfor afkald på indsigelser over for
+garantistillers regreskrav mod garantianmoder. Garantianmoder
+giver ligeledes over for garantistillers regreskrav afkald på at
+fremsætte andre indsigelser (herunder om modregning), som
+garantianmoder måtte have over for garantimodtager.
+.sp 3mm
+Såfremt garantien er udformet som en garanti under AB 92/ABT 93,
+er garantianmoder indforstået med, at garantistiller kan foretage
+udbetaling til garantimodtager på trods af garantianmoders
+indgivelse af begæring til Voldgiftsnævnet om sagkyndig
+beslutning, hvis garantistiller fra garantianmoder ikke forinden
+udbetaling skriftligt har modtaget orientering om denne begæring.
+.sp 3mm
+Såfremt garantistiller har stillet kontragaranti over for en
+udenlandsk bank, accepterer garantianmoder, at garantistiller
+altid betaler krav herunder også selvom der er indsigelser.
+.sp 3mm
+Beløb, som garantistiller måtte udbetale i henhold til garantien,
+forrentes med garantistillers til enhver tid gældende udlånsrente
+fra udbetalingstidspunktet.
+.sp 5mm
+:FED.
+Garantianmoders hæftelse
+:SKRSLUT.
+.br
+Garantianmoder forpligter sig til på 1. skriftlige anfordring fra
+garantistiller og uden rettergang at indbetale til garantistiller
+ethvert beløb, som garantistiller har betalt i henhold til
+garantien sammen med alle omkostninger, som garantistiller måtte
+have i den forbindelse.
+.sp 3mm
+Garantianmoders hæftelse over for garantistiller gælder, indtil
+garantistiller ikke længere er forpligtet ifølge garantien.
+.sp 3mm
+Garantistiller er i øvrigt til enhver tid berettiget til uden
+varsel at opsige garantien over for garantianmoder med den
+virkning, at garantistiller herefter kan gøre krav gældende over
+for garantianmoder, som om garantien var blevet effektiv for sit
+maksimale beløb over for garantianmoder. Dette gælder uanset
+garantiens gyldighedsperiode og hvilke forpligtelser garantien
+sikrer.
+.sp 3mm
+Uanset om garantistiller har frigivet garantianmoders hæftelse for
+garantien, gælder hæftelsen fortsat, hvis ophøret af garantien
+senere bliver omstødt af et eventuelt konkursbo. Det samme gælder,
+hvis eventuelle sikkerheder, der er stillet over for
+garantistiller for garantien eller provenuet af sikkerhederne,
+senere bliver omstødt.
+.sp 3mm
+Garantianmoder er opmærksom på, at der kan komme krav, som
+garantistiller har pligt til at betale, som garantianmoder hæfter
+for, selvom der står en udløbsdato i garantien.
+.sp 3mm
+Såfremt garantianmoder på et senere tidspunkt ønsker at få ændret
+garantien, gælder betingelserne i nærværende aftale også for den
+ændrede garanti.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX2 25mm 40mm width 170mm
+.*
+.ar REGARTX2 on
+Garantianmoder giver garantistiller transport i beløb, der er
+betalt under garantien, og som garantimodtager eventuelt skal
+betale tilbage, inklusive påløbne renter.
+.sp 5mm
+:FED.
+Garantistillers erstatningsansvar
+:SKRSLUT.
+.br
+Garantistiller er ikke ansvarlig for følgerne af forsinkelse,
+bortkomst og andre uregelmæssigheder i forbindelse med
+forsendelser af breve, dokumenter, telefax og lignende.
+.sp 3mm
+Garantistiller er erstatningsansvarlig, hvis garantistiller på
+grund af fejl eller forsømmelser opfylder aftalte forpligtelser
+for sent eller mangelfuldt.
+.sp 3mm
+Selv på de områder, hvor der gælder et strengere ansvar, er
+garantistiller ikke ansvarlig for tab, som skyldes
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤nedbrud i/manglende adgang til IT-systemer eller
+beskadigelser af data i disse systemer, der kan henføres til
+nedennævnte begivenheder, uanset om det er garantistiller
+selv eller en ekstern leverandør, der står for driften af
+systemerne,
+.of
+.of 5mm
+*¤svigt i garantistillers strømforsyning eller
+telekommunikation, lovindgreb eller forvaltningsakter,
+naturkatastrofer, krig, oprør, borgerlige uroligheder,
+sabotage, terror eller hærværk (herunder computervirus og
+hacking),
+.of
+.of 5mm
+*¤strejke, lockout, boykot eller blokade, uanset om konflikten
+er rettet mod eller iværksat af garantistiller selv eller
+dens organisation, og uanset konfliktens årsag. Det gælder
+også, når konflikten kun rammer dele af garantistiller
+.of
+.of 5mm
+*¤andre omstændigheder, som er uden for garantistillers
+kontrol.
+.of
+.sp 3mm
+Garantistillers ansvarsfrihed gælder ikke, hvis
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤garantistiller burde have forudset det forhold, som er årsag
+til tabet, da aftalen blev indgået, eller burde have undgået
+eller overvundet årsagen til tabet,
+.of
+.of 5mm
+*¤lovgivningen under alle omstændigheder gør garantistiller
+ansvarlig for det forhold, som er årsag til tabet.
+.of
+.sp 3mm
+Garantianmoder accepter i øvrigt garantistillers almindelige
+forretningsbetingelser, der også er gældende for garantien
+medmindre disse er fraveget i nærværende regarantiaftale.
+Garantianmoder har modtaget et eksemplar af garantistillers
+Bankguide  og har gjort sig bekendt med indholdet.
+.sp 3mm
+Garantianmoder accepterer garantistillers til enhver tid gældende
+priser for garantier. Priserne oplyses efter anmodning og kan
+findes på &B32WWWNYK..
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.*************************************************************************
+.*  hvis medktohav. udskriv 2 underskrifts linier eller kun 1.
+.*
+.if &L'&MEDNAVN eq 0
+.th ¤¤¤
+.el ¤¤¤¤¤
+.*************************************************************************
+.*  hvis medktohav. udskriv begge navne ellers kun kontohavers
+.*
+.tp 2mm 34mm 107mm
+.if &L'&MEDNAVN eq 0
+.th ¤Dato ¤&KTONAVN
+.el ¤Dato ¤&KTONAVN. ¤&MEDNAVN
+.*************************************************************************
+.ar off
+.** SIDESKIFT
+.pa

@@ -79,13 +79,14 @@ extern int yylex();
 void yyerror(char *msg);
 std:: vector <Node*> list;
 Node docNode(DOCUMENT, "");
+bool silent = false;
 
 #include "./parser/printing.cpp"
 #include "./parser/treebuilding.cpp"
 
 
 
-#line 89 "y.tab.c" /* yacc.c:339  */
+#line 90 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -316,11 +317,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 24 "compiler.y" /* yacc.c:355  */
+#line 25 "compiler.y" /* yacc.c:355  */
 
 	char tokens[1000];
 
-#line 324 "y.tab.c" /* yacc.c:355  */
+#line 325 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -337,7 +338,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 341 "y.tab.c" /* yacc.c:358  */
+#line 342 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -644,34 +645,34 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    34,    34,    35,    36,    37,    38,    39,    40,    41,
-      42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
-      52,    53,    54,    55,    56,    57,    58,    59,    60,    61,
-      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
-      72,    73,    74,    75,    76,    77,    78,    79,    80,    81,
-      82,    83,    84,    85,    86,    87,    88,    89,    90,    91,
-      92,    93,    94,    95,    96,    97,    98,    99,   100,   101,
-     102,   103,   104,   105,   106,   107,   108,   109,   110,   111,
-     112,   113,   114,   115,   116,   117,   118,   119,   120,   121,
-     122,   123,   124,   125,   126,   127,   128,   129,   130,   131,
-     132,   133,   134,   135,   136,   137,   138,   139,   140,   141,
-     142,   143,   144,   145,   146,   147,   148,   149,   150,   151,
-     152,   153,   154,   155,   156,   157,   158,   159,   160,   161,
-     162,   163,   164,   165,   166,   167,   168,   169,   170,   171,
-     172,   173,   174,   175,   176,   177,   178,   179,   180,   181,
-     182,   183,   184,   185,   186,   187,   188,   189,   190,   191,
-     192,   193,   194,   195,   196,   197,   198,   199,   200,   201,
-     202,   203,   204,   205,   206,   207,   208,   209,   210,   211,
-     212,   213,   215,   221,   227,   233,   239,   245,   251,   257,
-     263,   269,   275,   281,   287,   293,   299,   305,   311,   317,
-     323,   329,   335,   341,   347,   353,   359,   365,   371,   377,
-     383,   389,   395,   401,   407,   413,   419,   425,   431,   437,
-     443,   449,   455,   461,   467,   473,   479,   485,   491,   497,
-     503,   509,   515,   521,   527,   533,   539,   545,   551,   557,
-     563,   569,   575,   581,   587,   593,   599,   605,   611,   617,
-     623,   629,   635,   641,   647,   653,   659,   665,   671,   675,
-     679,   690,   696,   702,   708,   714,   720,   726,   732,   738,
-     744,   750
+       0,    35,    35,    36,    37,    38,    39,    40,    41,    42,
+      43,    44,    45,    46,    47,    48,    49,    50,    51,    52,
+      53,    54,    55,    56,    57,    58,    59,    60,    61,    62,
+      63,    64,    65,    66,    67,    68,    69,    70,    71,    72,
+      73,    74,    75,    76,    77,    78,    79,    80,    81,    82,
+      83,    84,    85,    86,    87,    88,    89,    90,    91,    92,
+      93,    94,    95,    96,    97,    98,    99,   100,   101,   102,
+     103,   104,   105,   106,   107,   108,   109,   110,   111,   112,
+     113,   114,   115,   116,   117,   118,   119,   120,   121,   122,
+     123,   124,   125,   126,   127,   128,   129,   130,   131,   132,
+     133,   134,   135,   136,   137,   138,   139,   140,   141,   142,
+     143,   144,   145,   146,   147,   148,   149,   150,   151,   152,
+     153,   154,   155,   156,   157,   158,   159,   160,   161,   162,
+     163,   164,   165,   166,   167,   168,   169,   170,   171,   172,
+     173,   174,   175,   176,   177,   178,   179,   180,   181,   182,
+     183,   184,   185,   186,   187,   188,   189,   190,   191,   192,
+     193,   194,   195,   196,   197,   198,   199,   200,   201,   202,
+     203,   204,   205,   206,   207,   208,   209,   210,   211,   212,
+     213,   214,   216,   222,   228,   234,   240,   246,   252,   258,
+     264,   270,   276,   282,   288,   294,   300,   306,   312,   318,
+     324,   330,   336,   342,   348,   354,   360,   366,   372,   378,
+     384,   390,   396,   402,   408,   414,   420,   426,   432,   438,
+     444,   450,   456,   462,   468,   474,   480,   486,   492,   498,
+     504,   510,   516,   522,   528,   534,   540,   546,   552,   558,
+     564,   570,   576,   582,   588,   594,   600,   606,   612,   618,
+     624,   630,   636,   642,   648,   654,   660,   666,   672,   677,
+     681,   692,   698,   704,   710,   716,   722,   728,   734,   740,
+     746,   752
 };
 #endif
 
@@ -1674,785 +1675,786 @@ yyreduce:
   switch (yyn)
     {
         case 182:
-#line 215 "compiler.y" /* yacc.c:1646  */
+#line 216 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "DEFINE AREA ";
+                                                            if(!silent)cout<< "DEFINE AREA ";
                                                             Node* daNode = new Node(AREADEFINITION, "");
                                                             list.push_back(daNode);
                                                         }
-#line 1684 "y.tab.c" /* yacc.c:1646  */
+#line 1685 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 183:
-#line 221 "compiler.y" /* yacc.c:1646  */
+#line 222 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "BREAK ";
+                                                            if(!silent)cout<< "BREAK ";
                                                             Node* brNode = new Node(LINEBREAK, "");
                                                             list.push_back(brNode);
                                                         }
-#line 1694 "y.tab.c" /* yacc.c:1646  */
+#line 1695 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 184:
-#line 227 "compiler.y" /* yacc.c:1646  */
+#line 228 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "NV ";
+                                                            if(!silent)cout<< "NV ";
                                                             Node* nvNode = new Node(NV, "");
                                                             list.push_back(nvNode);
                                                         }
-#line 1704 "y.tab.c" /* yacc.c:1646  */
+#line 1705 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 185:
-#line 233 "compiler.y" /* yacc.c:1646  */
+#line 234 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "PAGE ";
+                                                            if(!silent)cout<< "PAGE ";
                                                             Node* pageNode = new Node(PAGE, "");
                                                             list.push_back(pageNode);
                                                         }
-#line 1714 "y.tab.c" /* yacc.c:1646  */
+#line 1715 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 186:
-#line 239 "compiler.y" /* yacc.c:1646  */
+#line 240 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "NY ";
+                                                            if(!silent)cout<< "NY ";
                                                             Node* nyNode = new Node(NY, "");
                                                             list.push_back(nyNode);
                                                         }
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1725 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 187:
-#line 245 "compiler.y" /* yacc.c:1646  */
+#line 246 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "ENY ";
+                                                            if(!silent)cout<< "ENY ";
                                                             Node* enyNode = new Node(ENY, "");
                                                             list.push_back(enyNode);
                                                         }
-#line 1734 "y.tab.c" /* yacc.c:1646  */
+#line 1735 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 188:
-#line 251 "compiler.y" /* yacc.c:1646  */
+#line 252 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "COMMENT "; 
+                                                            if(!silent)cout<< "COMMENT "; 
                                                             Node* commentNode = new Node(COMMENT, "");
                                                             list.push_back(commentNode);                                                           
                                                         }
-#line 1744 "y.tab.c" /* yacc.c:1646  */
+#line 1745 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 189:
-#line 257 "compiler.y" /* yacc.c:1646  */
+#line 258 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TI ";     
+                                                            if(!silent)cout<< "TI ";     
                                                             Node* tiNode = new Node(TI, "");
                                                             list.push_back(tiNode);                                                           
                                                         }
-#line 1754 "y.tab.c" /* yacc.c:1646  */
+#line 1755 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 190:
-#line 263 "compiler.y" /* yacc.c:1646  */
+#line 264 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "IN ";      
+                                                            if(!silent)cout<< "IN ";      
                                                             Node* inNode = new Node(IN, "");
                                                             list.push_back(inNode);                                                          
                                                         }
-#line 1764 "y.tab.c" /* yacc.c:1646  */
+#line 1765 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 191:
-#line 269 "compiler.y" /* yacc.c:1646  */
+#line 270 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "IR ";  
+                                                            if(!silent)cout<< "IR ";  
                                                             Node* irNode = new Node(IR, "");
                                                             list.push_back(irNode);                                                              
                                                         }
-#line 1774 "y.tab.c" /* yacc.c:1646  */
+#line 1775 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 192:
-#line 275 "compiler.y" /* yacc.c:1646  */
+#line 276 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "FO ";                                                            
+                                                            if(!silent)cout<< "FO ";                                                            
                                                             Node* foNode = new Node(FO, "");
                                                             list.push_back(foNode);
                                                         }
-#line 1784 "y.tab.c" /* yacc.c:1646  */
+#line 1785 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 193:
-#line 281 "compiler.y" /* yacc.c:1646  */
+#line 282 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "ON ";  
+                                                            if(!silent)cout<< "ON ";  
                                                             Node* onNode = new Node(ON, "");
                                                             list.push_back(onNode);                                                              
                                                         }
-#line 1794 "y.tab.c" /* yacc.c:1646  */
+#line 1795 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 194:
-#line 287 "compiler.y" /* yacc.c:1646  */
+#line 288 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "GOTO ";      
+                                                            if(!silent)cout<< "GOTO ";      
                                                             Node* goNode = new Node(GO, "");
                                                             list.push_back(goNode);                                                          
                                                         }
-#line 1804 "y.tab.c" /* yacc.c:1646  */
+#line 1805 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 195:
-#line 293 "compiler.y" /* yacc.c:1646  */
+#line 294 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "LL ";     
+                                                            if(!silent)cout<< "LL ";     
                                                             Node* llNode = new Node(LL, "");
                                                             list.push_back(llNode);                                                           
                                                         }
-#line 1814 "y.tab.c" /* yacc.c:1646  */
+#line 1815 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 196:
-#line 299 "compiler.y" /* yacc.c:1646  */
+#line 300 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "RH ";  
+                                                            if(!silent)cout<< "RH ";  
                                                             Node* rhNode = new Node(RH, "");
                                                             list.push_back(rhNode);                                                              
                                                         }
-#line 1824 "y.tab.c" /* yacc.c:1646  */
+#line 1825 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 197:
-#line 305 "compiler.y" /* yacc.c:1646  */
+#line 306 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "CT ";    
+                                                            if(!silent)cout<< "CT ";    
                                                             Node* ctNode = new Node(CT, "");
                                                             list.push_back(ctNode);                                                            
                                                         }
-#line 1834 "y.tab.c" /* yacc.c:1646  */
+#line 1835 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 198:
-#line 311 "compiler.y" /* yacc.c:1646  */
+#line 312 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "PA ";    
+                                                            if(!silent)cout<< "PA ";    
                                                             Node* paNode = new Node(PA, "");
                                                             list.push_back(paNode);                                                            
                                                         }
-#line 1844 "y.tab.c" /* yacc.c:1646  */
+#line 1845 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 199:
-#line 317 "compiler.y" /* yacc.c:1646  */
+#line 318 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "DR ";   
+                                                            if(!silent)cout<< "DR ";   
                                                             Node* drNode = new Node(DR, "");
                                                             list.push_back(drNode);                                                          
                                                         }
-#line 1854 "y.tab.c" /* yacc.c:1646  */
+#line 1855 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 200:
-#line 323 "compiler.y" /* yacc.c:1646  */
+#line 324 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "WEIGHT ";       
+                                                            if(!silent)cout<< "WEIGHT ";       
                                                             Node* weightNode = new Node(WEIGHT, "");
                                                             list.push_back(weightNode);                                                          
                                                         }
-#line 1864 "y.tab.c" /* yacc.c:1646  */
+#line 1865 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 201:
-#line 329 "compiler.y" /* yacc.c:1646  */
+#line 330 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "KEEP ";       
+                                                            if(!silent)cout<< "KEEP ";       
                                                             Node* kpNode = new Node(KP, "");
                                                             list.push_back(kpNode);                                                          
                                                         }
-#line 1874 "y.tab.c" /* yacc.c:1646  */
+#line 1875 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 202:
-#line 335 "compiler.y" /* yacc.c:1646  */
+#line 336 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "EXECUTE ";
+                                                            if(!silent)cout<< "EXECUTE ";
                                                             Node* executeNode = new Node(EXECUTE, "");
                                                             list.push_back(executeNode);                                                                 
                                                         }
-#line 1884 "y.tab.c" /* yacc.c:1646  */
+#line 1885 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 203:
-#line 341 "compiler.y" /* yacc.c:1646  */
+#line 342 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "IF ";          
+                                                            if(!silent)cout<< "IF ";          
                                                             Node* ifNode = new Node(IF, "");
                                                             list.push_back(ifNode);                                                       
                                                         }
-#line 1894 "y.tab.c" /* yacc.c:1646  */
+#line 1895 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 204:
-#line 347 "compiler.y" /* yacc.c:1646  */
+#line 348 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "RI ";
+                                                            if(!silent)cout<< "RI ";
                                                             Node* riNode = new Node(RI, "");
                                                             list.push_back(riNode);                                                                 
                                                         }
-#line 1904 "y.tab.c" /* yacc.c:1646  */
+#line 1905 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 205:
-#line 353 "compiler.y" /* yacc.c:1646  */
+#line 354 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "OI "; 
+                                                            if(!silent)cout<< "OI "; 
                                                             Node* oiNode = new Node(OI, "");
                                                             list.push_back(oiNode);                                                                
                                                         }
-#line 1914 "y.tab.c" /* yacc.c:1646  */
+#line 1915 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 206:
-#line 359 "compiler.y" /* yacc.c:1646  */
+#line 360 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "CB ";     
+                                                            if(!silent)cout<< "CB ";     
                                                             Node* cbNode = new Node(CB, "");
                                                             list.push_back(cbNode);                                                            
                                                         }
-#line 1924 "y.tab.c" /* yacc.c:1646  */
+#line 1925 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 207:
-#line 365 "compiler.y" /* yacc.c:1646  */
+#line 366 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "SC ";  
+                                                            if(!silent)cout<< "SC ";  
                                                             Node* paNode = new Node(PA, "");
                                                             list.push_back(paNode);                                                               
                                                         }
-#line 1934 "y.tab.c" /* yacc.c:1646  */
+#line 1935 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 208:
-#line 371 "compiler.y" /* yacc.c:1646  */
+#line 372 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "MC ";   
+                                                            if(!silent)cout<< "MC ";   
                                                             Node* mcNode = new Node(MC, "");
                                                             list.push_back(mcNode);                                                              
                                                         }
-#line 1944 "y.tab.c" /* yacc.c:1646  */
+#line 1945 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 209:
-#line 377 "compiler.y" /* yacc.c:1646  */
+#line 378 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "QU ";     
+                                                            if(!silent)cout<< "QU ";     
                                                             Node* quNode = new Node(QU, "");
                                                             list.push_back(quNode);                                                            
                                                         }
-#line 1954 "y.tab.c" /* yacc.c:1646  */
+#line 1955 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 210:
-#line 383 "compiler.y" /* yacc.c:1646  */
+#line 384 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "HW ";     
+                                                            if(!silent)cout<< "HW ";     
                                                             Node* hwNode = new Node(HW, "");
                                                             list.push_back(hwNode);                                                            
                                                         }
-#line 1964 "y.tab.c" /* yacc.c:1646  */
+#line 1965 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 211:
-#line 389 "compiler.y" /* yacc.c:1646  */
+#line 390 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "IL ";     
+                                                            if(!silent)cout<< "IL ";     
                                                             Node* ilNode = new Node(IL, "");
                                                             list.push_back(ilNode);                                                            
                                                         }
-#line 1974 "y.tab.c" /* yacc.c:1646  */
+#line 1975 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 212:
-#line 395 "compiler.y" /* yacc.c:1646  */
+#line 396 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "OC ";   
+                                                            if(!silent)cout<< "OC ";   
                                                             Node* ocNode = new Node(OC, "");
                                                             list.push_back(ocNode);                                                              
                                                         }
-#line 1984 "y.tab.c" /* yacc.c:1646  */
+#line 1985 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 213:
-#line 401 "compiler.y" /* yacc.c:1646  */
+#line 402 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "BC ";
+                                                            if(!silent)cout<< "BC ";
                                                             Node* bcNode = new Node(BC, "");
                                                             list.push_back(bcNode);                                                                 
                                                         }
-#line 1994 "y.tab.c" /* yacc.c:1646  */
+#line 1995 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 214:
-#line 407 "compiler.y" /* yacc.c:1646  */
+#line 408 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "IS ";     
+                                                            if(!silent)cout<< "IS ";     
                                                             Node* isNode = new Node(IS, "");
                                                             list.push_back(isNode);                                                            
                                                         }
-#line 2004 "y.tab.c" /* yacc.c:1646  */
+#line 2005 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 215:
-#line 413 "compiler.y" /* yacc.c:1646  */
+#line 414 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "UP ";     
+                                                            if(!silent)cout<< "UP ";     
                                                             Node* upNode = new Node(UP, "");
                                                             list.push_back(upNode);                                                            
                                                         }
-#line 2014 "y.tab.c" /* yacc.c:1646  */
+#line 2015 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 216:
-#line 419 "compiler.y" /* yacc.c:1646  */
+#line 420 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "LS ";     
+                                                            if(!silent)cout<< "LS ";     
                                                             Node* lsNode = new Node(LS, "");
                                                             list.push_back(lsNode);                                                            
                                                         }
-#line 2024 "y.tab.c" /* yacc.c:1646  */
+#line 2025 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 217:
-#line 425 "compiler.y" /* yacc.c:1646  */
+#line 426 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TU ";     
+                                                            if(!silent)cout<< "TU ";     
                                                             Node* tuNode = new Node(TU, "");
                                                             list.push_back(tuNode);                                                            
                                                         }
-#line 2034 "y.tab.c" /* yacc.c:1646  */
+#line 2035 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 218:
-#line 431 "compiler.y" /* yacc.c:1646  */
+#line 432 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "EL ";     
+                                                            if(!silent)cout<< "EL ";     
                                                             Node* elNode = new Node(ELSE, "");
                                                             list.push_back(elNode);                                                            
                                                         }
-#line 2044 "y.tab.c" /* yacc.c:1646  */
+#line 2045 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 219:
-#line 437 "compiler.y" /* yacc.c:1646  */
+#line 438 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TH ";     
+                                                            if(!silent)cout<< "TH ";     
                                                             Node* thNode = new Node(THEN, "");
                                                             list.push_back(thNode);                                                            
                                                         }
-#line 2054 "y.tab.c" /* yacc.c:1646  */
+#line 2055 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 220:
-#line 443 "compiler.y" /* yacc.c:1646  */
+#line 444 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "OR ";     
+                                                            if(!silent)cout<< "OR ";     
                                                             Node* orNode = new Node(OR, "");
                                                             list.push_back(orNode);                                                            
                                                         }
-#line 2064 "y.tab.c" /* yacc.c:1646  */
+#line 2065 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 221:
-#line 449 "compiler.y" /* yacc.c:1646  */
+#line 450 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "CD ";     
+                                                            if(!silent)cout<< "CD ";     
                                                             Node* cdNode = new Node(CD, "");
                                                             list.push_back(cdNode);                                                            
                                                         }
-#line 2074 "y.tab.c" /* yacc.c:1646  */
+#line 2075 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 222:
-#line 455 "compiler.y" /* yacc.c:1646  */
+#line 456 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TD ";     
+                                                            if(!silent)cout<< "TD ";     
                                                             Node* tdNode = new Node(TD, "");
                                                             list.push_back(tdNode);                                                            
                                                         }
-#line 2084 "y.tab.c" /* yacc.c:1646  */
+#line 2085 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 223:
-#line 461 "compiler.y" /* yacc.c:1646  */
+#line 462 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "SU ";  
+                                                            if(!silent)cout<< "SU ";  
                                                             Node* suNode = new Node(SU, "");
                                                             list.push_back(suNode);                                                               
                                                         }
-#line 2094 "y.tab.c" /* yacc.c:1646  */
+#line 2095 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 224:
-#line 467 "compiler.y" /* yacc.c:1646  */
+#line 468 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "DM ";     
+                                                            if(!silent)cout<< "DM ";     
                                                             Node* dmNode = new Node(DM, "");
                                                             list.push_back(dmNode);                                                            
                                                         }
-#line 2104 "y.tab.c" /* yacc.c:1646  */
+#line 2105 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 225:
-#line 473 "compiler.y" /* yacc.c:1646  */
+#line 474 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "GS ";
+                                                            if(!silent)cout<< "GS ";
                                                             Node* gsNode = new Node(GS, "");
                                                             list.push_back(gsNode);                                                                 
                                                         }
-#line 2114 "y.tab.c" /* yacc.c:1646  */
+#line 2115 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 226:
-#line 479 "compiler.y" /* yacc.c:1646  */
+#line 480 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TB ";   
+                                                            if(!silent)cout<< "TB ";   
                                                             Node* tbNode = new Node(TB, "");
                                                             list.push_back(tbNode);                                                               
                                                         }
-#line 2124 "y.tab.c" /* yacc.c:1646  */
+#line 2125 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 227:
-#line 485 "compiler.y" /* yacc.c:1646  */
+#line 486 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "SK ";             
+                                                            if(!silent)cout<< "SK ";             
                                                             Node* skNode = new Node(SK, "");
                                                             list.push_back(skNode);                                                     
                                                         }
-#line 2134 "y.tab.c" /* yacc.c:1646  */
+#line 2135 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 228:
-#line 491 "compiler.y" /* yacc.c:1646  */
+#line 492 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "CE ";     
+                                                            if(!silent)cout<< "CE ";     
                                                             Node* ceNode = new Node(CE, "");
                                                             list.push_back(ceNode);                                                             
                                                         }
-#line 2144 "y.tab.c" /* yacc.c:1646  */
+#line 2145 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 229:
-#line 497 "compiler.y" /* yacc.c:1646  */
+#line 498 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "CL ";     
+                                                            if(!silent)cout<< "CL ";     
                                                             Node* clNode = new Node(CL, "");
                                                             list.push_back(clNode);                                                             
                                                         }
-#line 2154 "y.tab.c" /* yacc.c:1646  */
+#line 2155 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 230:
-#line 503 "compiler.y" /* yacc.c:1646  */
+#line 504 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "AN ";
+                                                            if(!silent)cout<< "AN ";
                                                             Node* anNode = new Node(AND, "");
                                                             list.push_back(anNode);                                                                  
                                                         }
-#line 2164 "y.tab.c" /* yacc.c:1646  */
+#line 2165 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 231:
-#line 509 "compiler.y" /* yacc.c:1646  */
+#line 510 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "OF ";
+                                                            if(!silent)cout<< "OF ";
                                                             Node* ofNode = new Node(OF, "");
                                                             list.push_back(ofNode);                                                                  
                                                         }
-#line 2174 "y.tab.c" /* yacc.c:1646  */
+#line 2175 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 232:
-#line 515 "compiler.y" /* yacc.c:1646  */
+#line 516 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "HR ";     
+                                                            if(!silent)cout<< "HR ";     
                                                             Node* hrNode = new Node(HR, "");
                                                             list.push_back(hrNode);                                                             
                                                         }
-#line 2184 "y.tab.c" /* yacc.c:1646  */
+#line 2185 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 233:
-#line 521 "compiler.y" /* yacc.c:1646  */
+#line 522 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "VR ";     
+                                                            if(!silent)cout<< "VR ";     
                                                             Node* vrNode = new Node(VR, "");
                                                             list.push_back(vrNode);                                                             
                                                         }
-#line 2194 "y.tab.c" /* yacc.c:1646  */
+#line 2195 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 234:
-#line 527 "compiler.y" /* yacc.c:1646  */
+#line 528 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "HY ";     
+                                                            if(!silent)cout<< "HY ";     
                                                             Node* hyNode = new Node(HY, "");
                                                             list.push_back(hyNode);                                                             
                                                         }
-#line 2204 "y.tab.c" /* yacc.c:1646  */
+#line 2205 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 235:
-#line 533 "compiler.y" /* yacc.c:1646  */
+#line 534 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "NOTEQUAL ";
+                                                            if(!silent)cout<< "NOTEQUAL ";
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                  
                                                         }
-#line 2214 "y.tab.c" /* yacc.c:1646  */
+#line 2215 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 236:
-#line 539 "compiler.y" /* yacc.c:1646  */
+#line 540 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "EQUAL ";      
+                                                            if(!silent)cout<< "EQUAL ";      
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                               
                                                         }
-#line 2224 "y.tab.c" /* yacc.c:1646  */
+#line 2225 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 237:
-#line 545 "compiler.y" /* yacc.c:1646  */
+#line 546 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "GTHAN ";  
+                                                            if(!silent)cout<< "GTHAN ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2234 "y.tab.c" /* yacc.c:1646  */
+#line 2235 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 238:
-#line 551 "compiler.y" /* yacc.c:1646  */
+#line 552 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "LTHAN ";  
+                                                            if(!silent)cout<< "LTHAN ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2244 "y.tab.c" /* yacc.c:1646  */
+#line 2245 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 239:
-#line 557 "compiler.y" /* yacc.c:1646  */
+#line 558 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "GTHANE ";  
+                                                            if(!silent)cout<< "GTHANE ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2254 "y.tab.c" /* yacc.c:1646  */
+#line 2255 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 240:
-#line 563 "compiler.y" /* yacc.c:1646  */
+#line 564 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "LTHANE ";  
+                                                            if(!silent)cout<< "LTHANE ";  
                                                             Node* comparisonNode = new Node(COMPARISON, "");
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2264 "y.tab.c" /* yacc.c:1646  */
+#line 2265 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 241:
-#line 569 "compiler.y" /* yacc.c:1646  */
+#line 570 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "OFF ";  
+                                                            if(!silent)cout<< "OFF ";  
                                                             Node* offNode = new Node(OFF, "");
                                                             list.push_back(offNode);                                                                 
                                                         }
-#line 2274 "y.tab.c" /* yacc.c:1646  */
+#line 2275 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 242:
-#line 575 "compiler.y" /* yacc.c:1646  */
+#line 576 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "UPPERCASE ";  
+                                                            if(!silent)cout<< "UPPERCASE ";  
                                                             Node* uppercaseNode = new Node(CONDITION, (yyvsp[0].tokens));
                                                             list.push_back(uppercaseNode);                                                                 
                                                         }
-#line 2284 "y.tab.c" /* yacc.c:1646  */
+#line 2285 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 243:
-#line 581 "compiler.y" /* yacc.c:1646  */
+#line 582 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "LENGTH ";             
+                                                            if(!silent)cout<< "LENGTH ";             
                                                             Node* lengthNode = new Node(CONDITION, (yyvsp[0].tokens));
                                                             list.push_back(lengthNode);                                                                   
                                                         }
-#line 2294 "y.tab.c" /* yacc.c:1646  */
+#line 2295 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 244:
-#line 587 "compiler.y" /* yacc.c:1646  */
+#line 588 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "AR ";    
+                                                            if(!silent)cout<< "AR ";    
                                                             Node* arNode = new Node(AREA, "");
                                                             list.push_back(arNode);                                                                            
                                                         }
-#line 2304 "y.tab.c" /* yacc.c:1646  */
+#line 2305 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 245:
-#line 593 "compiler.y" /* yacc.c:1646  */
+#line 594 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "BX "; 
+                                                            if(!silent)cout<< "BX "; 
                                                             Node* boxNode = new Node(BOX, "");
                                                             list.push_back(boxNode);                                                                
                                                         }
-#line 2314 "y.tab.c" /* yacc.c:1646  */
+#line 2315 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 246:
-#line 599 "compiler.y" /* yacc.c:1646  */
+#line 600 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "SP "; 
+                                                            if(!silent)cout<< "SP "; 
                                                             Node* spNode = new Node(SP, "");
                                                             list.push_back(spNode);                                                               
                                                         }
-#line 2324 "y.tab.c" /* yacc.c:1646  */
+#line 2325 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 247:
-#line 605 "compiler.y" /* yacc.c:1646  */
+#line 606 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "SE ";     
+                                                            if(!silent)cout<< "SE ";     
                                                             Node* seNode = new Node(SE, "");
                                                             list.push_back(seNode);                                                           
                                                         }
-#line 2334 "y.tab.c" /* yacc.c:1646  */
+#line 2335 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 248:
-#line 611 "compiler.y" /* yacc.c:1646  */
+#line 612 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "US ";     
+                                                            if(!silent)cout<< "US ";     
                                                             Node* usNode = new Node(US, "");
                                                             list.push_back(usNode);                                                           
                                                         }
-#line 2344 "y.tab.c" /* yacc.c:1646  */
+#line 2345 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 249:
-#line 617 "compiler.y" /* yacc.c:1646  */
+#line 618 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TM ";    
+                                                            if(!silent)cout<< "TM ";    
                                                             Node* tmNode = new Node(TM, "");
                                                             list.push_back(tmNode);                                                            
                                                         }
-#line 2354 "y.tab.c" /* yacc.c:1646  */
+#line 2355 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 250:
-#line 623 "compiler.y" /* yacc.c:1646  */
+#line 624 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "BM ";             
+                                                            if(!silent)cout<< "BM ";             
                                                             Node* bmNode = new Node(BM, "");
                                                             list.push_back(bmNode);                                                   
                                                         }
-#line 2364 "y.tab.c" /* yacc.c:1646  */
+#line 2365 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 251:
-#line 629 "compiler.y" /* yacc.c:1646  */
+#line 630 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "PM ";   
+                                                            if(!silent)cout<< "PM ";   
                                                             Node* pmNode = new Node(PM, "");
                                                             list.push_back(pmNode);                                                              
                                                         }
-#line 2374 "y.tab.c" /* yacc.c:1646  */
+#line 2375 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 252:
-#line 635 "compiler.y" /* yacc.c:1646  */
+#line 636 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "WIDTH "; 
+                                                            if(!silent)cout<< "WIDTH "; 
                                                             Node* widthNode = new Node(WIDTH, "");
                                                             list.push_back(widthNode);                                                                
                                                         }
-#line 2384 "y.tab.c" /* yacc.c:1646  */
+#line 2385 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 253:
-#line 641 "compiler.y" /* yacc.c:1646  */
+#line 642 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TP "; 
+                                                            if(!silent)cout<< "TP "; 
                                                             Node* tpNode = new Node(TP, "");
                                                             list.push_back(tpNode);                                                                
                                                         }
-#line 2394 "y.tab.c" /* yacc.c:1646  */
+#line 2395 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 254:
-#line 647 "compiler.y" /* yacc.c:1646  */
+#line 648 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "TA ";              
+                                                            if(!silent)cout<< "TA ";              
                                                             Node* taNode = new Node(TA, "");
                                                             list.push_back(taNode);                                                   
                                                         }
-#line 2404 "y.tab.c" /* yacc.c:1646  */
+#line 2405 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 255:
-#line 653 "compiler.y" /* yacc.c:1646  */
+#line 654 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "ROTATE ";   
+                                                            if(!silent)cout<< "ROTATE ";   
                                                             Node* rotateNode = new Node(ROTATE, "");
                                                             list.push_back(rotateNode);                                                              
                                                         }
-#line 2414 "y.tab.c" /* yacc.c:1646  */
+#line 2415 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 256:
-#line 659 "compiler.y" /* yacc.c:1646  */
+#line 660 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "DEPTH "; 
+                                                            if(!silent)cout<< "DEPTH "; 
                                                             Node* depthNode = new Node(DEPTH, "");
                                                             list.push_back(depthNode);                                                                
                                                         }
-#line 2424 "y.tab.c" /* yacc.c:1646  */
+#line 2425 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 257:
-#line 665 "compiler.y" /* yacc.c:1646  */
+#line 666 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "SUBSTR ";     
+                                                            if(!silent)cout<< "SUBSTR ";     
                                                             Node* substrNode = new Node(SUBSTR, "");
                                                             list.push_back(substrNode);                                                            
                                                         }
-#line 2434 "y.tab.c" /* yacc.c:1646  */
+#line 2435 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 258:
-#line 671 "compiler.y" /* yacc.c:1646  */
+#line 672 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<"****************************Missing functionality************************* command: "<<(yyvsp[0].tokens)<<endl;
+                                                            cout<<"Missing functionality! command: "<<(yyvsp[0].tokens)<<endl;
+                                                            exit(1);
                                                         }
-#line 2442 "y.tab.c" /* yacc.c:1646  */
+#line 2444 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 259:
-#line 675 "compiler.y" /* yacc.c:1646  */
+#line 677 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<"*******************************UNKNOWN TOKEN*******************************************"<<endl;
+                                                            if(!silent)cout<<"*******************************UNKNOWN TOKEN*******************************************"<<endl;
                                                         }
-#line 2450 "y.tab.c" /* yacc.c:1646  */
+#line 2452 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 260:
-#line 679 "compiler.y" /* yacc.c:1646  */
+#line 681 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "MG "; 
+                                                            if(!silent)cout<< "MG "; 
                                                             Node* mgNode = new Node(MG, "");
 															string s = (yyvsp[0].tokens);
 															Node* mgTNode = new Node(MG_TYPE, s.substr(4, 1));
@@ -2461,121 +2463,121 @@ yyreduce:
 															list.push_back(mgTNode);
 															list.push_back(mgStrNode);                                                               
                                                         }
-#line 2465 "y.tab.c" /* yacc.c:1646  */
+#line 2467 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 261:
-#line 690 "compiler.y" /* yacc.c:1646  */
+#line 692 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<(yyvsp[0].tokens)<<" ";    
+                                                            if(!silent)cout<<(yyvsp[0].tokens)<<" ";    
                                                             Node* sizeNode = new Node(SIZE, (yyvsp[0].tokens));
                                                             list.push_back(sizeNode);                                                             
                                                         }
-#line 2475 "y.tab.c" /* yacc.c:1646  */
+#line 2477 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 262:
-#line 696 "compiler.y" /* yacc.c:1646  */
+#line 698 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<(yyvsp[0].tokens)<<" ";  
+                                                            if(!silent)cout<<(yyvsp[0].tokens)<<" ";  
                                                             Node* styleNode = new Node(FONT, (yyvsp[0].tokens));
                                                             list.push_back(styleNode);                                                               
                                                         }
-#line 2485 "y.tab.c" /* yacc.c:1646  */
+#line 2487 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 263:
-#line 702 "compiler.y" /* yacc.c:1646  */
+#line 704 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "VAR_UP ";            
+                                                            if(!silent)cout<< "VAR_UP ";            
                                                             Node* varNode = new Node(VARIABLE, (yyvsp[0].tokens));
                                                             list.push_back(varNode);                                                     
                                                         }
-#line 2495 "y.tab.c" /* yacc.c:1646  */
+#line 2497 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 264:
-#line 708 "compiler.y" /* yacc.c:1646  */
+#line 710 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "VAR ";  
+                                                            if(!silent)cout<< "VAR ";  
                                                             Node* varNode = new Node(VARIABLE, (yyvsp[0].tokens));
                                                             list.push_back(varNode);                                                               
                                                         }
-#line 2505 "y.tab.c" /* yacc.c:1646  */
+#line 2507 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 265:
-#line 714 "compiler.y" /* yacc.c:1646  */
+#line 716 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<(yyvsp[0].tokens)<<" ";   
+                                                            if(!silent)cout<<(yyvsp[0].tokens)<<" ";   
                                                             Node* numNode = new Node(NUMBER, (yyvsp[0].tokens));
                                                             list.push_back(numNode);                                                              
                                                         }
-#line 2515 "y.tab.c" /* yacc.c:1646  */
+#line 2517 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 266:
-#line 720 "compiler.y" /* yacc.c:1646  */
+#line 722 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<(yyvsp[0].tokens)<<" "; 
+                                                            if(!silent)cout<<(yyvsp[0].tokens)<<" "; 
                                                             Node* stringNode = new Node(STRING, (yyvsp[0].tokens));
                                                             list.push_back(stringNode);                                                                
                                                         }
-#line 2525 "y.tab.c" /* yacc.c:1646  */
+#line 2527 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 267:
-#line 726 "compiler.y" /* yacc.c:1646  */
+#line 728 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<(yyvsp[0].tokens)<<" ";  
+                                                            if(!silent)cout<<(yyvsp[0].tokens)<<" ";  
                                                             Node* labelNode = new Node(LABEL, (yyvsp[0].tokens));
                                                             list.push_back(labelNode);                                                               
                                                         }
-#line 2535 "y.tab.c" /* yacc.c:1646  */
+#line 2537 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 268:
-#line 732 "compiler.y" /* yacc.c:1646  */
+#line 734 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<(yyvsp[0].tokens)<<" ";       
+                                                            if(!silent)cout<<(yyvsp[0].tokens)<<" ";       
                                                             Node* mathexNode = new Node(MATHEX, (yyvsp[0].tokens));
                                                             list.push_back(mathexNode);                                                          
                                                         }
-#line 2545 "y.tab.c" /* yacc.c:1646  */
+#line 2547 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 269:
-#line 738 "compiler.y" /* yacc.c:1646  */
+#line 740 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<"NEW"<<" ";  
+                                                            if(!silent)cout<<"NEW"<<" ";  
                                                             Node* newNode = new Node(NEW, "");
                                                             list.push_back(newNode);                                                               
                                                         }
-#line 2555 "y.tab.c" /* yacc.c:1646  */
+#line 2557 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 270:
-#line 744 "compiler.y" /* yacc.c:1646  */
+#line 746 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<<"SET"<<" ";       
+                                                            if(!silent)cout<<"SET"<<" ";       
                                                             Node* setNode = new Node(SET, "");
                                                             list.push_back(setNode);                                                          
                                                         }
-#line 2565 "y.tab.c" /* yacc.c:1646  */
+#line 2567 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 271:
-#line 750 "compiler.y" /* yacc.c:1646  */
+#line 752 "compiler.y" /* yacc.c:1646  */
     {
-                                                            cout<< "NEW LINE "<<std::endl;
+                                                            if(!silent)cout<< "NEW LINE "<<std::endl;
                                                             Node* newlineNode = new Node(NEWLINE, "");
                                                             list.push_back(newlineNode);                                                                 
                                                         }
-#line 2575 "y.tab.c" /* yacc.c:1646  */
+#line 2577 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2579 "y.tab.c" /* yacc.c:1646  */
+#line 2581 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2803,7 +2805,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 758 "compiler.y" /* yacc.c:1906  */
+#line 760 "compiler.y" /* yacc.c:1906  */
 
 
 void yyerror(char *msg){
@@ -2812,22 +2814,30 @@ void yyerror(char *msg){
 	exit(1);
 }
 
-int main(){
+int main(int argc, char* argv[]){
+
+    for(int i = 0; i < argc; i++)
+    {
+        if(strcmp(argv[i], "silent") == 0)
+        {
+            silent = true;
+        }
+    }
 
 	list.push_back(&docNode);
 
-	cout<< std::endl << std::endl <<"*******************YYPARSE*********************"<<std::endl;
+	if(!silent)cout<< std::endl << std::endl <<"*******************YYPARSE*********************"<<std::endl;
 	
     yyparse();
 	
-    cout<< endl << endl <<"*******************LIST OF NODES*********************"<<endl;
-	//printList(list);
+    if(!silent)cout<< endl << endl <<"*******************LIST OF NODES*********************"<<endl;
+	if(!silent)printList(list);
 
-    cout<< endl << endl <<"****************START TREE BUILDING*******************"<<endl;
+    if(!silent)cout<< endl << endl <<"****************START TREE BUILDING*******************"<<endl;
     startTreeBuilding(list);
 
-    cout<< endl << endl <<"****************TREE*******************"<<endl;
-    printTree(list[0], 0);
+    if(!silent)cout<< endl << endl <<"****************TREE*******************"<<endl;
+    if(!silent)printTree(list[0], 0);
 
     cout<<"Template generated successfully!"<<endl<<endl;
 }

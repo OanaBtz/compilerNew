@@ -1,0 +1,527 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:COUR10.
+.*****************************************************************
+.* Resultatet af sammentællingen er forskellig fra 100% = FEJLMEDDELSE
+.*****************************************************************
+.if x&B19TX2A = x10
+.th .go FEJL
+.el .go NOFEJL
+...FEJL
+.if x&RESULTA ne x100
+.th .mg/T/Sum af puljefordelingen skal være = 100% - RET INDTASTNINGEN!
+.go FEJLEND
+...NOFEJL
+.if x&RESULTA ne x0
+.th .mg/T/Du må ikke indtaste puljefordeling, når du har valgt profil 1-9!
+...FEJLEND
+.******************************* ÆNDRINGER I AFTALEN: *********************
+.* Pfa. Thomas B. Poulsen er der sat udløbsdato på PULJE01/02/04/05/11
+.* Vi benytter fremover Lokal Puljeinvest
+.* 15.3.2017 - 9910/hk
+.*----------------------------------------------------------------------
+.* pfa. Thomas B. Poulsen er dokumentet ændret som følge af ændring
+.* til Lokal Puljeinvest.
+.* 2.2.2017 / hk
+.*----------------------------------------------------------------------
+.* 01.10.2013 Ændret sammensætningen i pulje 4,5,6,7,8
+.* pfa.. Thomas B. Poulsen
+.* 9910/hk
+.*----------------------------------------------------------------------
+.* 20. juni 2012 Tilføjet mulighed for profilvalg 1-9 med forudfyldte
+.* procentsatser foruden den valgfrie indtastning af puljesammensætning.
+.* pfa. Investering og Pension, Sandie S. Johansen
+.* 9910/hk
+.*----------------------------------------------------------------------
+.* 19.05.2011 Tilføjet sammentælling i parameter og tekstafsnit.
+.* pfa. Thomas B. Poulsen, Rådgivningscentret
+.* 9910/hk
+.*******************************
+.* 30.09.2010 Ændret rækkefølge på: Korte dk-obl, Lange dk-obl,
+.* udenl. aktier, Danske aktier, Kontantkonto
+.* pfa. Investering og Pension, Sandie S. Johansen
+.* 9910/hk
+.*******************************
+.* 07.09.2010 Tilføjet afkrydsning "Investeringsstrategien har højere
+.*risiko end inv.profilaftalen anbefaler"
+.* pfa. Investering og Pension, Sandie S. Johansen
+.* 9910/hk
+.*******************************
+.* 09.02.2010 Oprettet som kopi af Ribas puljeaftale
+.* pfa. Investering og Pension, Sandie S. Johansen
+.* 9910/hk
+.*******************************
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+.***********************************
+.da KASSE 20mm 32mm width 175mm
+.**********************************
+.ar KASSE on
+.tp 175mm right
+:VERDA12.
+:FED.
+Aftale om Pensionspulje
+:SKRSLUT.
+.***** her laves kassen til kunde  *****
+.bx left 87.5mm right
+.sp 15mm
+.hr 87.5mm right
+.sp 15mm
+.bx new left right
+.sp 70mm
+.bx new left right
+.sp 55mm
+.bx new left 87.5mm right
+.sp 15mm
+.bx new left 87.5mm right
+.sp 45mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.ar off
+.*******************************************
+:SKRSLUT.
+:SWISS9.
+.*******************************************************
+.da KUNDE      21mm     40mm width 85mm
+.da KTONR      108mm    40mm width 85mm
+.da KUNDENR    108mm    57mm width 85mm
+.da TEKST      21mm     80mm width 170mm
+.da RISIKO2    108mm   207mm width 85mm
+.da BKUNS      21mm    224mm width 170mm
+.da KUUNS      108mm   224mm width 85mm
+.ti ¤ 05
+.*******************************************************
+.ar KUNDE on
+Kunde
+.ar off
+.*******************************************************
+.ar KTONR on
+Regnr. kontonummer
+.ar off
+.*******************************************************
+.ar KUNDENR on
+Kundenummer
+.ar off
+.*******************************************************
+.ar TEKST on
+Oprettelse  pr.
+.sp
+Ovenstående oprettelsesdato er kun gældende, hvis banken har modtaget
+aftalen retur i underskrevet stand senest den sidste bankdag i måneden
+forud for den angivne dato. Hvis aftalen bliver modtaget retur senere,
+vil aftalen træde i kraft den 1. i den efterfølgende måned.
+.sp
+Mellem &BANKNAVN og ovennævnte indgås herved aftale om puljeordning
+efter de vilkår, der er anført på næste side.
+.sp
+.************************************************************************
+Der aftales følgende sammensætning af opsparingen:
+.tp 30mm 36mm 110mm
+.sp 40mm
+.**********************************************************************
+Ovennævnte fordeling svarer til investeringsstrategi &B19TX2A..
+.sp 6mm
+Nuværende værdipapirer i depot nr. _______________________ ønskes
+solgt.
+.sp 5mm
+Ja ____     Nej ____
+.sp 5mm
+Dog ønsker jeg at beholde følgende papirer:
+.sp 25mm
+.ar off
+:SWISS8.
+.*******************************************************
+.ar BKUNS on
+.tp 55mm
+Bankens underskrift ¤Dato
+.ar off
+.*******************************************************
+.ar KUUNS on
+:SWISS9.
+.tp 55mm
+Jeg har gjort mig bekendt med og accepteret de vilkår, der er anført på
+næste side samt &BANKNAVN.s Almindelige forretningsbetingelser. Jeg har
+modtaget og accepteret bankens retningslinier for administration af puljen.
+.sp 5mm
+:SWISS8.
+Kundens underskrift ¤Dato
+.ar off
+.********************************************************
+.ar RISIKO2 on
+.if &B19TX1A = 0
+.th .go END2
+.if &B19TX1A = 1
+.th .go RISK2H
+.if &B19TX1A = 2
+.th .go RISK2L
+...RISK2H
+:SWISS9.
+Jeg er indforstået med, at risikoen i investeringsstrategien for
+.br
+denne kontrakt er højere end det min investeringsprofilaftale
+.br
+anbefaler.
+.go END2
+...RISK2L
+:SWISS9.
+Jeg er indforstået med, at risikoen i investeringsstrategien for
+.br
+denne kontrakt er lavere end det min investeringsprofilaftale
+.br
+anbefaler.
+.go END2
+...END2
+.ar off
+:SKRSLUT.
+.************************************************
+.ar off
+.*******************************************
+.da NAVN       26mm       48mm width   83mm
+.da KONTO      115mm      48mm width   83mm
+.da KUND       115mm      65mm width   83mm
+.*******************************************
+:SKRSLUT.
+:COUR10.
+.ar NAVN on
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+.th &GADE
+.th .br
+.th &BY
+.el &GADE
+.el .br
+.el &BY
+.ar off
+.**********************************
+.ar KONTO on
+&IREGKTO
+.ar off
+.**********************************
+.ar KUND on
+&KUNDENR
+.ar off
+.**********************************
+.ar off
+.*******************************************
+.da OPRET      45mm   79.5mm width  168mm
+.da PULJE      35mm  115mm   width  150mm
+.da DEPOT      28mm  159mm   width  150mm
+.da DATO3      85mm  223.5mm   width   83mm
+.da BKUND      23mm  263mm   width   83mm
+.da KNDNAVN   109mm  267mm   width   85mm
+.*******************************************
+.ti ¤ 05
+:SKRSLUT.
+:COUR10.
+.**********************************
+.ar OPRET on
+&B19DATO3
+.ar off
+.****************************************
+.ar PULJE on
+.if &B19TX2A = 1
+.th 100% Mixpulje Minimum
+.th .go END
+.if &B19TX2A = 2
+.th 100% Mixpulje Lav
+.th .go END
+.if &B19TX2A = 3
+.th 100% Mixpulje Middel
+.th .go END
+.if &B19TX2A = 4
+.th 100% Mixpulje Lav
+.th .go END
+.if &B19TX2A = 5
+.th 100% Mixpulje Middel
+.th .go END
+.if &B19TX2A = 6
+.th 100% Mixpulje Høj
+.th .go END
+.if &B19TX2A = 7
+.th 100% Mixpulje Middel
+.th .go END
+.if &B19TX2A = 8
+.th 100% Mixpulje Høj
+.th .go END
+.in 0mm
+.if &B19TX2A = 9
+.th .go PROFIL9
+.if &B19TX2A = 10
+.th .go PROFIL10
+.********************** PROFIL 9 ********************
+...PROFIL9
+.tp 80mm right 90mm 100mm
+.ar DATO3 on
+&DATO8
+.*****************************************
+.ar KNDNAVN on
+.ce
+&NAVN ;.br
+.ar off
+.*****************************************
+.ar BKUND on
+.ce
+&BANKNAVN ;.br
+.ce
+&AFDNAVN
+.ar off
+Korte danske obligationer ¤0%
+.sp 1,5mm
+Lange danske obligationer ¤20%
+.sp 1,5mm
+Udenlandske aktier ¤40%
+.sp 1,5mm
+Danske aktier ¤40%
+.sp 1,5mm
+Kontantkonto ¤0% ¤= ¤:FED.:US.100%:SKRSLUT.
+.go END
+.********************** PROFIL 10 VALGFRI ***********
+...PROFIL10
+.tp 80mm right 90mm 100mm
+Korte danske obligationer ¤&B19TX3B.%
+.sp 1,5mm
+Lange danske obligationer ¤&B19TX3C.%
+.sp 1,5mm
+Udenlandske aktier ¤&B19TX3D.%
+.sp 1,5mm
+Danske Aktier ¤&B19TX3A.%
+.sp 1,5mm
+Kontantkonto ¤&B19TX3E.%     ¤= ¤:FED.:US.&RESULTA.%:SKRSLUT.
+.ar off
+.go END
+.****************************************************
+...END
+.ar DEPOT on
+.tp 50mm
+¤&B19TX14A
+.sp 4.5mm
+.tp 7mm 16mm 22mm
+.if &L'&B19TX14A gt 0
+.th .go VIDERE
+.el .go SLUT
+...VIDERE
+.if &U'&B19TX3F = JA
+.sp 1mm
+.th x
+.if &U'&B19TX3F = NEJ
+.th ¤¤x
+.sp 12mm
+¤&B19TX50A
+.sp 1,5mm
+¤&B19TX50B
+.sp 1,5mm
+¤&B19TX50C
+.ar off
+.go SLUT
+.******************************************
+...SLUT
+.** SIDESKIFT
+.pa
+.** SIDESKIFT
+.pa
+.** SIDESKIFT
+.pa
+.ar off

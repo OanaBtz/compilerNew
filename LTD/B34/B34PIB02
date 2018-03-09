@@ -1,0 +1,358 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.da KONTOH1 25mm 184mm width 170mm
+.da MELLEMR 114mm 205.2mm width 85mm
+.da BETRUKNE 25mm 211.7mm width 90mm
+.da ORIGINAL 114mm 213.9mm width 85mm
+.da FOTOKOPI 114mm 222.4mm width 85mm
+.da MEDANDET 114mm 230.5mm width 85mm
+.da DATOREF 25mm 247.5mm width 90mm
+.da BETPI 116mm 252.5mm width 85mm
+.**************************************************************************
+.ar KONTOH1 on
+.tp 91mm
+.*TLFNR BENYTTES IKKE I OKRPI02, DA DER ER REGISTRERET MANGE TLF.NUMRE I **
+.*OKR, MEN DET KUN ER MULIGT AT FÅ HENTET ÉT TLF.NUMMER. ******************
+.*TLFNR ER I OKRPI02 IKKE RETURNERET, OG DEN ER SKYGGET *******************
+.if &L'&TLFNR gt 0
+.th &NAVN ¤&TLFNR
+.el &NAVN
+.sp 4.5mm
+&GADE ¤&BY
+.ar off
+.************************************************
+.ar BETRUKNE on
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.************************************************
+.ar MELLEMR on
+.if &L'&GENTRÆK gt 0
+.th X
+.el
+.ar off
+.************************************************
+.ar ORIGINAL on
+.if &L'&GENORIG gt 0
+.th X
+.el
+.ar off
+.************************************************
+.ar FOTOKOPI on
+.if &L'&GENMEDD gt 0
+.th X
+.el
+.ar off
+.************************************************
+.ar MEDANDET on
+.tp 4mm
+.if &L'&GENAMED gt 0
+.th X¤&GENAMED
+.el
+.ar off
+.************************************************
+.ar DATOREF on
+.tp 8mm
+&DATO
+.sp 8mm
+.if &L'&GENKORTREF > 0
+.th &GENKORTREF
+.el &GENEKSP
+.sp 3mm
+.if &L'&GENTLFNR > 0
+.th ¤&GENTLFNR
+.el ¤&AFDTLF
+.br
+¤&AFDFAX
+.ar off
+.************************************************
+.ar BETPI on
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp 3mm
+&GENEKSP
+.ar off
+.************************************************
+:GL.
+.*************************************************
+.* Definition af arealer
+.da BANKOPL         7  9 width 35
+.da POSTVEDR       43  9 width 35
+.*************************************************
+.ar BANKOPL on
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.*************************************************
+.ar POSTVEDR on
+.if &L'&GENCHLBNR gt 0
+.th X
+.el &ÅRB
+.sp 2
+.if &L'&GENCHLBNR eq 0
+.th X
+.ar off
+.*************************************************
+:EGL.
+:GL.
+.*******************************************************
+.* Definition af arealer
+.*******************************************************
+.da CHECKOPL       0 20 width 49 depth 3
+.da CHECKOPL1      0 20 width 49 depth 3
+.da ARKIV         48 20 width 35
+.da KORTOPL        0 25 width 49 depth 3
+.da KORTOPL1       0 25 width 49 depth 3
+.da FORRETNR      48 25 width 60
+.da YDERL          7 28 width 60
+.da AFKRYDS1       7 33 width 5
+.da AFKRYDS2      31 33 width 5
+.da AFKRYDS3      54 33 width 21
+.da AARSAG1       56 35 width 21
+.da AARSAG        56 37 width 21
+.*******************************************************
+.ar CHECKOPL on
+.tp 7 21 26 47 right 48
+.if &L'&GENCHLBNR gt 0
+.an &L'&NAVN gt 0
+.th ¤&GENCHLBNR ¤&REGNR ¤&KTONR1 ¤&GENBELØB3
+.el ¤&GENCHLBNR
+.ar off
+.*******************************************************
+.ar CHECKOPL1 on
+.tp 47 right
+.if &L'&GENCHLBNR gt 0
+.an &L'&NAVN eq 0
+.th ¤&GENBELØB3
+.ar off
+.*******************************************************
+.ar KORTOPL on
+.tp 7 21 26 47 right 48
+.if &L'&GENCHLBNR = 0
+.an &L'&NAVN gt 0
+.th ¤&GENKORT ¤&REGNR ¤&GENKORTNR ¤&GENBELØB3
+.el ¤&GENKORT
+.ar off
+.*******************************************************
+.ar KORTOPL1 on
+.tp 47 right 48
+.if &L'&GENCHLBNR = 0
+.an &L'&NAVN eq 0
+.th ¤&GENBELØB3.
+.ar off
+.*******************************************************
+.ar ARKIV on
+.tp 8 18
+&BANKREGNR ¤&GENDATOI2 ¤&GENREF2
+.ar off
+.*******************************************************
+.ar FORRETNR on
+&GENNR
+.ar off
+.*******************************************************
+.ar YDERL on
+.tp 38
+.if &L'&GENAFVISES gt 0
+.th X
+.th .sp
+.th ¤&GENAFVISES
+.ar off
+.*******************************************************
+.ar AFKRYDS1 on
+.if &L'&GENDÆK = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENCHKON = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENDØD = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar AFKRYDS2 on
+.if &L'&GENKONK = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENOPH = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENBETST = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar AFKRYDS3 on
+.if &L'&GENKSPÆR = 0
+.th &ÅRB
+.el X
+.sp
+.tp 2
+.if &L'&GENÅRSAG1 = 0
+.th &ÅRB
+.el X
+.sp
+.tp 2
+.if &L'&GENÅRSAG = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar AARSAG1 on
+.if &L'&GENÅRSAG1 gt 0
+.th &GENÅRSAG1
+.ar off
+.ar AARSAG on
+.if &L'&GENÅRSAG gt 0
+.th &GENÅRSAG
+.ar off
+.*******************************************************
+:EGL.
+:GL.
+.*******************************************************
+.* Definition af arealer
+.*******************************************************
+.da KTOOPL1        7 41 width 35
+.da KTOOPL2       43 41 width 35
+.da BETRUKNE       7 46 width 35
+.da AFKRYDS5      43 46 width 24
+.da DATO1          7 56 width 35
+.da INITIA         7 61 width 35
+.da BETRUK        43 61 width 35
+.*******************************************************
+.ar KTOOPL1 on
+&NAVN
+.sp
+&GADE
+.ar off
+.*******************************************************
+.ar KTOOPL2 on
+.su off
+.se b = substr &TLFNR 1 2
+.su on
+.if &L'&TLFNR = 0
+.or X&b eq X00
+.th &ÅRB
+.el &TLFNR
+.sp
+&BY
+.ar off
+.*******************************************************
+.ar BETRUKNE on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar AFKRYDS5 on
+.fo off
+.tp 2
+.if &L'&GENTRÆK = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENORIG = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENMEDD = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENAMED = 0
+.th &ÅRB
+.el X ¤&GENAMED
+.fo on
+.ar off
+.*******************************************************
+.ar DATO1 on
+&DATO
+.ar off
+.*******************************************************
+.ar INITIA on
+.tp 30
+&GENEKSP
+.ar off
+.*******************************************************
+.ar BETRUK on
+.ce on
+&BANKNAVN
+.br
+&AFDNAVN
+.ce off
+.ar off
+.*******************************************************
+:EGL.
+:NY.
+.da OVERSKR 20mm 32mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Forespørgsel/meddelelse vedr. postering clearet dokumentløst
+.hr 0mm 127mm
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+OKRPI02
+.ar off
+.**************************************************************************
+:ENY.

@@ -1,0 +1,279 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+:DUTCH12.
+:tiltale &TILTALEM
+.FO LEFT
+.**** Arealer ******
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.***************** Adressen begynder
+.ar adresse on
+I.L. KortSystemer A/S
+.br
+Industrigrenen 13
+.br
+2635 Ishøj
+.ar off
+.ar afsender on
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon:¤&GENTLFNR
+.BR
+Telefax:¤&AFDFAX
+.BR
+E-mail:¤&GENEMAIL
+.BR
+.SP10mm
+&DATO
+.ar off
+.ar tekst on
+:FED.Bestilling på ID-kort:SKRSLUT.
+.sp 3mm
+På basis af vedlagte grundkort bestiller vi
+.if &U'&B65PMED2 EQ J
+.TH ID-kort
+.el et ID-kort
+med løbenummer :FED.&B65P1.:SKRSLUT..
+.SP 3MM
+Vi beder jer sende
+.if &U'&B65PMED2 EQ J
+.TH de
+.el det
+færdige ID-kort til
+.IF &U'&B65PJN1 EQ B
+.TH Roskilde Bank, &AFDNAVN
+.TH .GO THEEND
+.if &U'&B65PJN1 EQ K
+.TH .GO KUNDE1
+...KUNDE1
+.IF &U'&B65PMED1 EQ J
+.TH &MEDNAVN
+.IF &U'&B65PMED2 EQ J
+.TH &KTONAVN. og &MEDNAVN
+.if &U'&B65PMED1 EQ N
+.an &U'&B65PMED2 EQ N
+.TH &KTONAVN
+...THEEND
+i vedlagte kuvert.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+.su off
+.*se a = substr &AFDNAVN 1 4
+.SU ON
+.*IF X'&a = XSTED
+.*th .go STEDET
+.GO HILSEN
+...STEDET
+Vi ses på STEDET
+.GO HILSLUT
+...HILSEN
+Med venlig hilsen
+.sp 15MM
+&GENEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL
+...HILSLUT
+.ar off
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+B65Idkort 0404
+.AR OFF
+.***sideskift til fx erklæringer
+.pa
+.br
+.ti ¤ 05
+:DUTCH12.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.***** Valg af modtager/e *****************************
+.if &U'&B65PJN1 EQ B
+.TH .GO BANK
+.EL .GO KUND
+...KUND
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.GO AFS
+...BANK
+Roskilde Bank
+.br
+&AFDNAVN
+.BR
+&GENEKSP
+.BR
+&AFDGADE
+.BR
+&AFDBY
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon:¤&GENTLFNR
+.BR
+Telefax:¤&AFDFAX
+.BR
+E-mail:¤&GENEMAIL
+.BR
+.AR OFF
+.ar tekst on
+.sp 10mm
+:FED.Nyt ID-kort:SKRSLUT.
+.sp 6mm
+Hermed fremsendes
+.if &U'&B65PJN1 EQ K
+.an &U'&B65PMED2 = J
+.TH .GO to1
+.if &U'&B65PJN1 EQ B
+.TH .GO to2
+.if &U'&B65PJN1 EQ K
+.an &U'&B65PMED2 = N
+.TH &DIT nye ID-kort som blev bestilt &DATO..
+.TH .GO ENDE
+...to1
+de ID-kort I har bestilt &DATO. med løbenummer &B65P1..
+.GO ENDE
+...to2
+.if &L'&B65P1 GT 12
+.TH de
+.el det
+ID-kort I har bestilt &DATO. med løbenummer &B65P1..
+...ENDE
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+.su off
+.*se a = substr &AFDNAVN 1 4
+.SU ON
+.*IF X'&a = XSTED
+.*th .go STEDET
+.GO HILSEN
+...STEDET
+Vi ses på STEDET
+.GO HILSLUT
+...HILSEN
+Med venlig hilsen
+.sp 15MM
+&GENEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL
+...HILSLUT
+.ar off
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+B65Idkort 0404
+.AR OFF

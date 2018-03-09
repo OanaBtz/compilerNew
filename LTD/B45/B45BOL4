@@ -1,0 +1,291 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.if &U'&UDSKRSTED eq C
+.an &IREGKTO eq 60606060600
+.th .mg /T/Brevet kan ikke udskrives centralt med kontonr. 6060 6060600 +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+DiBa Bank
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon 5575 4000 ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: besked@diba.dk
+.sp 1mm
+.
+sp 1mm.
+if &U'&UDSKRSTED eq C.
+th &DATO.
+up off.
+ar off.
+ar sor on.
+if &U'&UDSKRSTED ne C.
+th .go USOR.
+if &L'&MEDNAVN gt 1.
+an &L'&NAVN gt 28.
+th .go USOR.
+if &L'&MEDNAVN lt 1.
+an &L'&STILL gt 28.
+th .go USOR6
+060.
+..USOR.
+ar off.
+ar med on.
+if &U'&UDSKRSTED eq C.
+th :BRED.:FED..
+*.th MEDDELELSE.
+ar off:
+verda11..
+in 3mm.
+ll 172mm.
+sp3.
+fo left.
+if &U'&B45ANBEFAL eq J.
+th ANBEFALET.
+th .br.
+if &L'&MEDNAVN gt 1.
+th .go MEDNAVN&
+STILL.
+br&
+NAVN.
+br&
+COADR.
+br&
+GADE.
+br&
+BY.
+br&
+LAND.
+go ATT.
+..MEDNAVN&
+NAVN.
+bro
+g &MEDNAVN.
+br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.if &U'&TILTALEF eq DE
+.th .go TILTALE
+.if &E'&MEDNAVN eq 0
+.th .go TILTALE
+.if &L'&MEDNAVN gt 1
+.th .se TILTALEF = I
+...TILTALE
+:tiltale &TILTALEF
+.su off
+.se a = substr &STARTIND8 1 5
+.se b = substr &DATO8 6 5
+.se c = substr &KRESATS 1 4
+.su on
+:FED.
+.br
+Boligsparekontrakt - præmieberettigede formål
+:SKRSLUT.
+ 
+Med dette brev vil vi gerne informere dig om, at du har penge til gode
+hos staten, nemlig i form af en 4% skattefri præmie på din
+Boligsparekontrakt nr. &IREGKTO..
+ 
+Vi vedlægger en oversigt over, hvad &DU kan bruge din opsparing til,
+hvis du ønsker præmien fra staten udbetalt.
+ 
+Har &DU planer om at bygge om, modernisere eller flytte, så tal med os
+forinden. Og har &DU forbedret &DIN bolig efter den &STARTIND8.,
+så tag regningerne med i banken.
+ 
+Din opsparing udgør i dag &SALDO kr. hvortil kommer rente siden sidste
+rentetilskrivning - og ikke mindst
+præmien på
+&AKKPRMIE kr. - hvis du altså kan dokumentere et præmieberettiget
+formål.
+ 
+Kontakt
+.if &L'&EKSPNAVN lt 2
+.el &EKSPNAVN
+.th os
+og hør mere om dine muligheder.
+.if &L'&B45FRIL1A lt 1
+.th .go NOSUP
+.if &ÅLC lt 18
+.th .sp
+.th .ri Fortsættes
+.th .pa
+.th .sp18
+.th .ri Fortsat
+.th .sp
+.el .sp
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+...NOSUP
+.im (b45syvar)
+.sp 2
+.TP 71MM
+Med venlig hilsen
+ 
+&BDbank
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+:verda05. &BDcvr - &BDswift
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+.pa
+:GL.&&??#
+.pl 66
+.in 19
+.ll 109:EGL.
+.in 5
+.sp 3
+:verda18.Bilag til boligsparekontrakt
+.br
+:verda10.
+______________________________________________________________
+ 
+ 
+.up Hvad kan boligopsparingen bruges til?
+ 
+Der er ingen regler for, hvordan pengene skal bruges -
+men vil &DU opnå den
+.br
+skattefrie præmie på 4%, skal opsparingen anvendes til
+helårsbolig. Det kan
+.br
+være køb af grund, opførelse eller køb af egen bolig,
+betaling af indskud eller
+.br
+depositum i forbindelse med lejemål samt andre
+:KURSIV.præmieberettigede formål. :SKRSLUT.
+ 
+ 
+.up Eksempler på præmieberettigede formål
+ 
+Indretning af nyt badeværelse, udskiftning af tag, udskiftning
+af faste tæpper
+.br
+eller anden belægning, nye vinduer, udgifter til maling,
+opsætning af nyt
+.br
+tapet o.lign. samt etablering af alle former for anlæg
+(f.eks. antenneanlæg,
+.br
+gas- og elforsyningsledninger, oliefyr
+m.v.). Tillige opførelse af tilbygninger,
+.br
+som er :KURSIV.fast tilknyttet :SKRSLUT.helårsboligen, f.eks. en
+udestue.
+ 
+ 
+.up Eksempler på ikke-præmieberettigede formål
+ 
+Opførelse af garage og carport, etablering af haveanlæg
+(f.eks. terrasse og
+.br
+drivhus), swimmingpool, møbler, gardiner o.lign. samt
+hårde hvidevarer.
+.br
+Sidstnævnte er dog præmieberettiget, hvis de udgør en
+mindre del af en
+.br
+samlet forbedring, f.eks. ved anskaffelse af nyt køkken. Det
+samme gælder
+.br
+i øvrigt udskiftning af blandingsbatterier,
+elinstallationer m.v.
+ 
+ 
+.up Husk!
+ 
+At regninger (ikke bon'er) skal være specificerede og udstedt i &DIT navn.
+.br
+Ældre regninger kan bruges, blot de er udstedt efter oprettelse af kontoen.
+ 
+______________________________________________________________
+ 
+ 
+&EKSPBY., den &RESULTZ
+ 
+DiBa Bank

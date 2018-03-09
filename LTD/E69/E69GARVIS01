@@ -1,0 +1,1046 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.su off
+.se year = substr &DATO 7 4
+.su on
+.**************************************************************************
+.* Er der svaret J eller N til Returadresse i tekst *
+.if &U'&E69VALG1 = J
+.or &U'&E69VALG1 = N
+.th .go INDOK1
+.el .mg/T/Der skal svares (J)a eller (N)ej til Returadresse i tekst/
+...INDOK1
+.* Er der svaret J eller N til Medarbejderunderskrift *
+.if &U'&E69VALG3 = J
+.or &U'&E69VALG3 = N
+.th .go INDOK3
+.el .mg/T/Der skal svares (J)a eller (N)ej til Medarbejderunderskrift/
+...INDOK3
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+&E69KRENAVN.
+.br
+&E69KREADR1.
+.br
+&E69KREADR2.
+.br
+&E69KREADR3.
+.br
+&E69KREADR4.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+GARANTI
+.br
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+.* Cpr/Cvr-nummer: &KTOKNDNR1.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 56mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*
+.dr tynd weight 0.2mm
+.**************************************************************************
+På foranledning af
+.sp
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp 12mm
+indestår &BANKNAVN. for et beløb indtil
+.sp
+.ce on
+:FED.
+DKK &RESULTG.
+:SKRSLUT.
+.ce off
+.sp
+skriver &RESULTGT1.&RESULTGT2..
+.sp
+:FED.
+Til sikkerhed for
+:SKRSLUT.
+.br
+Garantien er stillet i henhold til Udlændingelovens § 4 stk. 2, hvor det
+påhviler den herboende at stille sikkerhed for at udlændingen efter
+indrejse ikke - uden fornøden tilladelse - opholder sig i Danmark eller
+andet Schengenland udover det tidsrum, der er angivet i det udstedte visum,
+og at udlændingen i øvrigt opfylder betingelserne for det udstedte visum.
+.sp
+Udgifter til gebyrer, herunder udgifter vedrørende oprettelse og udbetaling
+afholdes uden omkostning for Udlændingestyrelsen.
+.sp
+Garantien gælder i 18 måneder fra &E69DATO1. og er uopsigelig i
+gyldighedsperioden.
+.sp
+:FED.
+Gyldighed og påkrav
+:SKRSLUT.
+.br
+Garantien er gyldig til &E69DATO2..
+.sp
+Påkrav i henhold til garantien skal være &BANKNAVN. i hænde senest
+14 dage efter udløbet af gyldighedsperioden, idet garantien i modsat fald
+er bortfaldet.
+.sp
+:FED.
+Udbetaling
+:SKRSLUT.
+.br
+Beløb under garantien udbetales på første skriftlige anfordring med
+angivelse af beløbet.
+.sp
+Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
+garantikreditor med urette måtte foranledige udbetalt er samtidig hermed
+overdraget til &BANKNAVN. til sikkerhed for garantien. Som følge
+heraf kan garantikreditor med frigørende virkning alene foretage
+tilbagebetaling inkl. renter til banken.
+.sp
+Hvis banken må indfri garantien, har banken ret til dividende af det
+betalte beløb i garantirekvirentens bo, selvom dennes forpligtelser overfor
+garantikreditor ikke er fuldt dækket, og selvom banken har betalt efter
+bobehandlingens påbegyndelse.
+.sp
+Efter garantiens bortfald bedes denne garantierklæring returneret til
+&BANKNAVN
+.if &E69VALG1 = J
+.th , &AFDBNKNAVN., &AFDGADE., &AFDBY.
+af ordensmæssige grunde.
+.sp
+I øvrigt gælder Spar Nord Bank A/S's almindelige forretningsbetingelser.
+.sp 6mm
+.kp on
+Dato:
+.sp 6mm
+&BANKNAVN.
+.sp 12mm
+.hr tynd 0mm 65mm
+.kp off
+.** SIDESKIFT
+.pa
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+&E69KRENAVN.
+.br
+&E69KREADR1.
+.br
+&E69KREADR2.
+.br
+&E69KREADR3.
+.br
+&E69KREADR4.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+REGARANTI
+.br
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+.* Cpr/Cvr-nummer: &KTOKNDNR1.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 56mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*
+.**************************************************************************
+.* Er der svaret J eller N til Vis vitterlighedstekst *
+.if &U'&E69VITV1 = J
+.or &U'&E69VITV1 = N
+.th .go VITOK1
+.el .mg/T/Der skal svares (J)a eller (N)ej til Fuld tekst/
+...VITOK1
+.*
+.**************************************************************************
+.*
+.su off
+.if &E69DEBHPV1 = 1
+.th .go DEB
+.if &E69DEBHPV1 = 2
+.th .go MEDDEB
+...DEB
+ 
+...MEDDEB
+ 
+.se year = substr &DATO 7 4
+.su on
+.*
+.**************************************************************************
+.*
+.**************************************************************************
+.*
+.dr tynd weight 0.2mm
+.tp 2mm 72mm
+.**************************************************************************
+.* Definition af variabel *************************************************
+.su off
+.if x&E69DEBHPV1 = x1
+.or x&E69DEBHPV1 = x2
+.or x&E69DEBHPV1 = x3
+.or &L'&E69PNTCPR0 > 0
+.or &L'&E69PNTCPR1 > 0
+.th .se pantok = 'OK'
+.if &L'&E69KAUCPR0 > 0
+.or &L'&E69KAUCPR1 > 0
+.th .se kauok = 'OK'
+.su on
+.**************************************************************************
+På foranledning af
+.sp
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp 12mm
+indestår &BANKNAVN. for et beløb indtil
+.sp
+.ce on
+:FED.
+DKK &RESULTG.
+:SKRSLUT.
+.ce off
+.sp
+skriver &RESULTGT1.&RESULTGT2..
+.sp
+:FED.
+Til sikkerhed for
+:SKRSLUT.
+.br
+Garantien er stillet i henhold til Udlændingelovens § 4 stk. 2, hvor det
+påhviler den herboende at stille sikkerhed for at udlændingen efter
+indrejse ikke - uden fornøden tilladelse - opholder sig i Danmark eller
+andet Schengenland udover det tidsrum, der er angivet i det udstedte visum,
+og at udlændingen i øvrigt opfylder betingelserne for det udstedte visum.
+.sp
+Udgifter til gebyrer, herunder udgifter vedrørende oprettelse og udbetaling
+afholdes uden omkostning for Udlændingestyrelsen.
+.sp
+Garantien gælder i 18 måneder fra &E69DATO1. og er uopsigelig i
+gyldighedsperioden.
+.sp
+:FED.
+Gyldighed og påkrav
+:SKRSLUT.
+.br
+Garantien er gyldig til &E69DATO2..
+.sp
+Påkrav i henhold til garantien skal være &BANKNAVN. i hænde senest
+14 dage efter udløbet af gyldighedsperioden, idet garantien i modsat fald
+er bortfaldet.
+.sp
+:FED.
+Udbetaling
+:SKRSLUT.
+.br
+Beløb under garantien udbetales ddpå første skriftlige anfordring med
+angivelse af beløbet.
+.sp
+Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
+garantikreditor med urette måtte foranledige udbetalt er samtidig hermed
+overdraget til &BANKNAVN. til sikkerhed for garantien. Som følge
+heraf kan garantikreditor med frigørende virkning alene foretage
+tilbagebetaling inkl. renter til banken.
+.sp
+Hvis banken må indfri garantien, har banken ret til dividende af det
+betalte beløb i garantirekvirentens bo, selvom dennes forpligtelser overfor
+garantikreditor ikke er fuldt dækket, og selvom banken har betalt efter
+bobehandlingens påbegyndelse.
+.sp
+Efter garantiens bortfald bedes denne garantierklæring returneret til  af
+ordensmæssige grunde.I øvrigt gælder &BANKNAVN.'s almindelige
+forretningsbetingelser.
+.br
+ 
+.sp
+Jeg/Vi anmoder herved &BANKNAVN. om for min/vor regning at afgive
+en garanti af ovennævnte/vedhæftede ordlyd. Jeg/vi forpligter mig/os til at
+indbetale på anfordring uanset indsigelse til &BANKNAVN. ethvert
+beløb, som den måtte komme til at udrede som følge af denne garanti.
+.sp
+&BANKNAVN. har ikke pligt til at gennemgå fremsatte krav med hensyn
+til forfald og gyldighed.
+.sp
+Med mindre det står skrevet i garantien, at &BANKNAVN. først skal
+betale under garantien, når der foreligger enten aftaler mellem
+garantikreditor og mig/os eller endelig dom eller voldgiftsafgørelse, er
+jeg/vi indforstået med at &BANKNAVN. har ret til uden forudgående
+rettergang ved påkrav at honorere krav fra garantikreditor om betaling.
+Betalte beløb forrentes til en af &BANKNAVN. fastsat sats, og
+jeg/vi bemyndiger herved uigenkaldeligt &BANKNAVN. til at debitere
+mig/os for beløb, der betales under garantien. Jeg/vi er indforstået med,
+at eventuelle tvister i forbindelse med honorerede krav afgøres
+efterfølgende mellem undertegnede og garantikreditor.
+.sp
+Jeg/vi er indforstået med at &BANKNAVN. har ret til at opsige
+mellemværendet til enhver tid.
+.sp
+Uanset om garantien måtte indeholde en gyldighedsperiode er jeg/vi
+indforstået med, at denne hæftelse vedbliver at bestå, indtil &BANKNAVN.
+overfor mig/os bekræfter, at jeg/vi er frigjort for mine/vore forpligtelser
+i medfør af garantien.
+.sp
+Skulle garantien senere blive ændret efter min/vor instruktion, vil denne
+hæftelse være gældende for så vidt angår den ændrede garanti.
+.sp
+Jeg/vi forpligter mig/os til at betale den til enhver tid af &BANKNAVN.
+fastsatte garantiprovision, idet &BANKNAVN. til enhver tid kan ændre
+garantiprovisionssatsen.
+.sp
+&BANKNAVN. bedes debitere min/vor konto for provision,
+stiftelsesomkostninger samt eventuelle udenlandske omkostninger af enhver
+art i medfør af garantien.
+.sp
+Sikkerheder, som &BANKNAVN. måtte have eller få deponeret eller indestående
+eller på anden måde beroende i &BANKNAVN. skal tjene til sikkerhed for
+garantien.
+.sp
+De krav på tilbagesøgning og tilbagebetaling som kan opstå, såfremt det
+viser sig at garantikreditor med urette foranlediger udbetaling under
+garantien, overdrages herved til &BANKNAVN. til sikkerhed for garantien.
+.if &pantok = OK
+.th .go PANT
+.el .go NOPANT
+...PANT
+.tp 02mm 72mm
+.sp
+:FED
+Pant
+:SKRSLUT
+.br
+cil yderligere sikkerhed for skadesløs opfyldelse af samtlige debitors
+forpligtelser ifølge nærværende dokument, gives der i henhold til særskilt
+pantsætningserklæring pant i effekter tilhørende:
+.br
+.if x&E69DEBHPV1 = x4
+.th .go NOPNT
+.if x&E69DEBHPV1 = x3
+...DEBMED
+.kp on
+¤&KTOSTILL.¤&MEDSTILL.
+.br
+¤&KTONAVN.¤&MEDNAVN.
+.br
+¤&KTOCO.¤&MEDCO.
+.br
+¤&KTOGADE.¤&MEDGADE.
+.br
+¤&KTOBY.¤&MEDBY.
+.br
+¤&KTOLAND.¤&MEDLAND.
+.sp
+.kp off
+.go PNT
+...MED
+.kp on
+¤&MEDSTILL.
+.br
+¤&MEDNAVN.
+.br
+¤&MEDCO.
+.br
+¤&MEDGADE.
+.br
+¤&MEDBY.
+.br
+¤&MEDLAND.
+.sp
+.kp off
+.go PNT
+...DEB
+.kp on
+¤&KTOSTILL.
+.br
+¤&KTONAVN.
+.br
+¤&KTOCO.
+.br
+¤&KTOGADE
+.br
+¤&KTOBY.
+.br
+¤&KTOLAND.
+.sp
+.kp off
+...PNT
+.if &L'E69PNTCPR0 > 0
+.an &L'E69PNTCPR1 > 0
+.th .go MEDPNT1
+.el .go MEDPNT0
+...MEDPNT0
+.if &L'&E69PNTCPR0 > 0
+.th .kp on
+.th .sp
+.th ¤&E69PNTCPR0.
+.th ¤&E69PNTNVN0.
+.th ¤&E69PNTADR0.
+.th ¤&E69PNTPBY0.
+.th .kp off
+.go NOPNT
+...MEDPNT1
+.kp on
+.sp
+.th ¤&E69PNTCPR0.¤&E69PNTCPR1.
+.th ¤&E69PNTNVN0.¤&E69PNTNVN2.
+.th ¤&E69PNTADR0.¤&E69PNTADR3.
+.th ¤&E69PNTPBY0.¤&E69PNTPBY4.
+.kp off
+.sp
+...NOPNT
+Såfremt pant er stillet af debitor, hæfter pantet sekundært for, hvad
+debitor i øvrigt er eller måtte blive &BANKNAVN. skyldig.
+...NOPANT
+.if &kauok = OK
+.th .go KAU
+.el .go NOKAU
+...KAU
+.tp 02mm 72mm
+.sp
+:FED
+Kaution
+:SKRSLUT
+.br
+For skadesløs opfyldelse af samtlige debitors forpligtelser iflg.
+nærværende dokument indestår underskrevne som selvskyldnerkautionist(er):
+.if &L'E69KAUCPR0 > 0
+.an &L'E69KAUCPR1 > 0
+.th .go MEDKAU1
+.el .go MEDKAU0
+...MEDKAU0
+.if &L'&E69KAUCPR0 > 0
+.th .kp on
+.th .sp
+.th ¤&E69KAUCPR0.
+.th ¤&E69KAUNVN0.
+.th ¤&E69KAUADR0.
+.th ¤&E69KAUPBY0.
+.th .kp off
+.go NOKAU
+...MEDKAU1
+.kp on
+.sp
+¤&E69KAUCPR0.¤&E69KAUCPR1.
+¤&E69KAUNVN0.¤&E69KAUNVN2.
+¤&E69KAUADR0.¤&E69KAUADR3.
+¤&E69KAUPBY0.¤&E69KAUPBY4.
+.kp off
+.sp
+Såfremt der er flere kautionister, bemyndiges enhver af kautionisterne til
+på de øvrige kautionisters vegne at modtage meddelelse i henhold til Lov om
+finansiel virksomhed, og andre meddelelser om gældsforholdet.
+.sp
+Underskrevne kautionist(er) erklærer sig indforstået med, at ovennævnte
+pant tjener forlods til sikkerhed for, hvad debitor af en hvilken som helst
+grund måtte være eller blive &BANKNAVN. skyldig, hvorfor den enkelte
+kautionist ingen forventning har om regres mod pantet.
+.sp
+Se særskilt kautionsdokument.
+.sp
+...NOKAU
+.sp
+.tp 02mm 72mm
+:FED.
+Som garantirekvirent:
+:SKRSLUT.
+.if &L'&MEDNAVN > 0
+.th .go MEDNV1
+.el .go MEDNV0
+...MEDNV0
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm
+¤&KTONAVN.
+.kp off
+.go NOMEDNV1
+...MEDNV1
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&KTONAVN ¤&MEDNAVN
+.kp off
+...NOMEDNV1
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69KAUNVN0.¤&E69KAUNVN1.
+.kp off
+.******** Kautionist 3 og kautionist 4
+.if &L'&E69KAUCPR2 > 0
+.an &L'&E69KAUCPR3 > 0
+.th .go MEDKNV3
+.el .go MEDKNV2
+...MEDKNV2
+.if &L'&E69KAUCPR2 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69KAUNVN2
+.th .kp off
+.go KNBUND
+...MEDKNV3
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69KAUNVN2. ¤&E69KAUNVN3.
+.kp off
+.******** Kautionist 5 og kautionist 6
+.if &L'&E69KAUCPR4 > 0
+.an &L'&E69KAUCPR5 > 0
+.th .go MEDKNV5
+.el .go MEDKNV4
+...MEDKNV4
+.if &L'&E69KAUCPR4 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69KAUNVN4
+.th .kp off
+.go KNBUND
+...MEDKNV5
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69PNTNVN8
+.th .kp off
+.go PNBUND
+...MEDPN9
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69PNTNVN8. ¤&E69PNTNVN9.
+.kp off
+...PNBUND
+.******** Kautionist 1 og kautionist 2
+.if &L'&E69KAUCPR0 > 0
+.an &L'&E69KAUCPR1 > 0
+.th .go MEDKNV1
+.el .go MEDKNV0
+...MEDKNV0
+.if &L'&E69KAUCPR0 > 0
+.th .kp on
+.th .sp 15mm
+.th :FED.
+.th Som selvskyldnerkautionister:
+.th :SKRSLUT.
+.th .sp
+.* .th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69KAUNVN0
+.th .kp off
+.go KNBUND
+...MEDKNV1
+.kp on
+.th :FED.
+.sp 15mm
+.th Som selvskyldnerkautionister:
+.th :SKRSLUT.
+.th .sp
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69PNTNVN4
+.th .kp off
+.go PNBUND
+...MEDPN5
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69PNTNVN4. ¤&E69PNTNVN5.
+.kp off
+.******** Pantsætter 7 og pantsætter 8
+.if &L'&E69PNTCPR6 > 0
+.an &L'&E69PNTCPR7 > 0
+.th .go MEDPN7
+.el .go MEDPN6
+...MEDPN6
+.if &L'&E69PNTCPR6 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69PNTNVN6
+.th .kp off
+.go PNBUND
+...MEDPN7
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69PNTNVN6. ¤&E69PNTNVN7.
+.kp off
+.******** Pantsætter 9 og pantsætter 10
+.if &L'&E69PNTCPR8 > 0
+.an &L'&E69PNTCPR9 > 0
+.th .go MEDPN9
+.el .go MEDPN8
+...MEDPN8
+.if &L'&E69PNTCPR8 > 0
+.el .go MEDPN0
+...MEDPN0
+.if &L'&E69PNTCPR0 > 0
+.* .th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69PNTNVN0
+.th .kp off
+.go PNBUND
+...MEDPN1
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69PNTNVN0.¤&E69PNTNVN1.
+.kp off
+.******** Pantsætter 3 og pantsætter 4
+.if &L'&E69PNTCPR2 > 0
+.an &L'&E69PNTCPR3 > 0
+.th .go MEDPN3
+.el .go MEDPN2
+...MEDPN2
+.if &L'&E69PNTCPR2 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69PNTNVN2
+.th .kp off
+.go PNBUND
+...MEDPN3
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69PNTNVN2. ¤&E69PNTNVN3.
+.kp off
+.******** Pantsætter 5 og pantsætter 6
+.if &L'&E69PNTCPR4 > 0
+.an &L'&E69PNTCPR5 > 0
+.th .go MEDPN5
+.el .go MEDPN4
+...MEDPN4
+.if &L'&E69PNTCPR4 > 0
+.**************************************************************************
+.ti ¤ 05
+.dr tynd weight 0.2mm
+.tp 2mm 72mm
+.***************************
+.* .tp 2mm
+.* .in 0mm
+.******** Overskrift: "Som pantsætter"
+.if &L'&E69PNTCPR0 > 0
+.or &L'&E69PNTCPR1 > 0
+.or x&E69DEBHPV1 = x1
+.or x&E69DEBHPV1 = x2
+.or x&E69DEBHPV1 = x3
+.th .kp on
+.th .sp 15mm
+.th :FED.
+.th Som pantsætter(e)
+.th :SKRSLUT.
+.th .sp
+.******** Pantsætter = debitor + meddebitor
+.if x&E69DEBHPV1 = x3
+.th ¤Dato:¤Dato:
+.th .sp 15mm
+.th .hr tynd 0mm 65mm 70mm 135mm
+.th ¤&KTONAVN ¤&MEDNAVN
+.if &L'&E69PNTCPR0 = 0
+.an &L'&E69PNTCPR1 = 0
+.th .kp off
+.******** Pantsætter = meddebitor
+.if x&E69DEBHPV1 = x2
+.th ¤Dato:
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&MEDNAVN
+.if &L'&E69PNTCPR0 = 0
+.an &L'&E69PNTCPR1 = 0
+.th .kp off
+.******** Pantsætter = debitor
+.if x&E69DEBHPV1 = x1
+.th ¤Dato:
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&KTONAVN
+.if &L'&E69PNTCPR0 = 0
+.an &L'&E69PNTCPR1 = 0
+.th .kp off
+.******** Pantsætter 1 og pantsætter 2
+.if &L'&E69PNTCPR0 > 0
+.an &L'&E69PNTCPR1 > 0
+.th .go MEDPN1
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69KAUNVN8. ¤&E69KAUNVN9.
+.kp off
+...KNBUND
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69KAUNVN4. ¤&E69KAUNVN5.
+.kp off
+.******** Kautionist 7 og kautionist 8
+.if &L'&E69PNTKAU6 > 0
+.an &L'&E69PNTKAU7 > 0
+.th .go MEDKNV7
+.el .go MEDKNV6
+...MEDKNV6
+.if &L'&E69KAUCPR6 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69KAUNVN6
+.th .kp off
+.go KNBUND
+...MEDKNV7
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&E69KAUNVN6. ¤&E69KAUNVN7.
+.kp off
+.******** Kautionist 9 og kautionist 10
+.if &L'&E69PNTKAU8 > 0
+.an &L'&E69PNTKAU9 > 0
+.th .go MEDKNV9
+.el .go MEDKNV8
+...MEDKNV8
+.if &L'&E69PNTKAU8 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤&E69KAUNVN8
+.th .kp off
+.go KNBUND
+...MEDKNV9
+.kp on
+.sp 15mm
+¤Dato:¤Dato:
+.br
+.sp 15mm
+.*
+.dr tynd weight 0.2mm
+.**************************************************************************
+.if &U'&E69VITV1 = J
+.th .go VITT
+.el .go NOVITT
+...VITT
+.sp 10mm
+.kp on
+Til vitterlighed om ægte underskrift, dateringens rigtighed og
+udstederens myndighed:
+.sp 8mm
+.in 1mm
+.tp 85mm
+Navn:¤Navn:
+.hr tynd 15mm 73mm 101mm 159mm
+.sp 6mm
+Stilling:¤Stilling:
+.hr tynd 15mm 73mm 101mm 159mm
+.sp 6mm
+Bopæl:¤Bopæl:
+.hr tynd 15mm 73mm 101mm 159mm
+.kp off
+...NOVITT
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.********************GENEREL OPSÆTNING*************************************
+.if &L'&E69FRITXT1 = 0
+.an &L'&E69FRITXT2 = 0
+.an &L'&E69FRITXT3 = 0
+.an &L'&E69FRITXT4 = 0
+.an &L'&E69FRITXT5 = 0
+.th .go NONOTA
+:VERDA10.
+.fo left
+.ti ¤ 05
+.dr tynd weight 0.2mm
+.dr normal weight 0.3mm
+.********************AREAL-DEFINITIONER************************************
+.* Højre:
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Venstre - kundeopl
+.da KUNDEOPL 20mm 40mm width 100mm
+.**************************************************************************
+.********************START-POSITION AF OVERSKRIFT**************************
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+Nota
+.br
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.ir 0mm
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.* Afstand fra kundeoplysninger til brødtekst *****************************
+.sp 76mm
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+...NONOTA
+.*
+.dr tynd weight 0.2mm
+.dr normal weight 0.3mm
+.**************************************************************************
+.tp 1mm 153mm right
+.if &L'&E69FRITXT1 > 0
+.or &L'&E69FRITXT2 > 0
+.or &L'&E69FRITXT3 > 0
+.or &L'&E69FRITXT4 > 0
+.or &L'&E69FRITXT5 > 0
+.th .go NOTA
+.el .go NONOTA
+...NOTA
+Omkostninger ved oprettelse af garantien
+.sp
+ 
+.hr tynd left right
+.vr tynd 120mm
+¤Tekst¤Beløb i DKK
+.hr tynd left right
+...FRITXT1
+.if &L'&E69FRITXT1 = 0
+.th .go FRITXT2
+¤&E69FRITXT1.¤&RESULTA.
+.br
+...FRITXT2
+.if &L'&E69FRITXT2 = 0
+.th .go FRITXT3
+¤&E69FRITXT2.¤&RESULTB.
+.br
+...FRITXT3
+.if &L'&E69FRITXT3 = 0
+.th .go FRITXT4
+¤&E69FRITXT3.¤&RESULTC.
+.br
+...FRITXT4
+.if &L'&E69FRITXT4 = 0
+.th .go FRITXT5
+¤&E69FRITXT4.¤&RESULTD.
+.br
+...FRITXT5
+.if &L'&E69FRITXT5 = 0
+.th .go NOFRITXT
+¤&E69FRITXT5.¤&RESULTE.
+.br
+...NOFRITXT
+.hr tynd left right
+.* .vr tynd 115mm
+¤I alt - hæves på konto &E69GENLKTO.¤&RESULTF.
+.hr tynd left right
+.vr off
+...NONOTA
+.** SIDESKIFT
+.pa

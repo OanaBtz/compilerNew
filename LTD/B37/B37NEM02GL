@@ -1,0 +1,249 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cprcvr = substr &KUNDENR 1 2
+.su on
+.************************
+.*su off
+.se knr1 = substr &KUNDENR 1 6
+.se knr2 = substr &KUNDENR 7 4
+.se knr = '&knr1.-&knr2.'
+.*su on
+.************************
+.* KUNDENR = 3. mand
+.se byt = 3
+.* KUNDENR = KONTOHAVER
+.if x&knr. = x&KTOKUNDENR.
+.th .se byt = 0
+.* KUNDENR = MEDKTOHAVER
+.if x&knr. = x&MEDKUNDENR.
+.th .se byt = 1
+.if &byt = 3
+.th .mg/T/Brevet må ikke bruges til 3. mand/
+.**************************************************************************
+.if &cprcvr > 31
+.th .mg/T/Der kan ikke oprettes NemKonto til konstruerede kundenumre/
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Aftale om NemKonto
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+:SWISS8.
+.bx left 87.5mm right
+.if x&byt = x1
+.th ¤for (Medkontohaver) ¤Kontohaver
+.el ¤for (Kontohaver) ¤Medkontohaver
+.sp 23mm
+.bx new left 87.5mm right
+¤CPR-nr./CVR-nr. ¤CPR-nr./CVR-nr.
+.sp 5mm
+.bx new left 87.5mm right
+¤¤NemKontonr.
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.************ INDHOLD *****************************************************
+:SWISS10.:FED.
+Indhold
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 7mm
+.bx off
+.************ PENGEINSTITUTTET ********************************************
+:SWISS10.:FED.
+NemKontoen føres i
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+¤Pengeinstitut
+.sp 23mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 20mm
+.bx off
+.ar off
+.**************************************************************************
+.if x&byt = x1
+.th .da MEDOPL            25mm  46mm width 80mm
+.th .da KTOHVR         112.5mm 46mm width 80mm
+.th .da MEDCPR            25mm 73mm width 80mm
+.th .da KTOCPR         112.5mm 73mm width 80mm
+.el .da MEDOPL         112.5mm  46mm width 80mm
+.el .da KTOHVR            25mm 46mm width 80mm
+.el .da MEDCPR         112.5mm 73mm width 80mm
+.el .da KTOCPR            25mm 73mm width 80mm
+.da KTONR          112.5mm 82.5mm width 80mm
+.da KTOPIOPL          25mm  111mm width 80mm
+.da UNDERSKR          50mm  155mm width 85mm
+.**************************************************************************
+.*ar KUNDEOPL on
+.*&NAVN
+.*br
+.*&COADR
+.*br
+.*&GADE
+.*br
+.*&BY
+.*ar off
+.**************************************************************************
+.ar MEDOPL on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.ar off
+.**************************************************************************
+.ar KTOHVR on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.**************************************************************************
+.*ar KNDCPR on
+.*&KUNDENR
+.*ar off
+.**************************************************************************
+.ar MEDCPR on
+&MEDKUNDENR
+.ar off
+.**************************************************************************
+.ar KTOCPR on
+&KTOKUNDENR
+.ar off
+.**************************************************************************
+.ar KTONR on
+&regnr.-&ktonr
+.ar off
+.**************************************************************************
+.ar UNDERSKR on
+.ce on
+.if &cprcvr = 00
+.th .go UNDERSL
+.if &cprcvr < 32
+.an &byt = 0
+.th &KTONAVN
+.if &cprcvr < 32
+.an &byt = 1
+.th &MEDNAVN
+...UNDERSL
+.ce off
+.ar off
+.**************************************************************************
+.ar KTOPIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SWISS8.
+.**************************************************************************
+.da INDHOLD        21mm  93mm width 165mm
+.da UNDER         21mm  139mm width 160mm
+.**************************************************************************
+.ar INDHOLD on
+Økonomistyrelsen har fastsat, at alle borgere og virksomheder skal anvise
+en NemKonto. Herefter vil alle udbetalinger fra det offentlige blive
+indsat på den valgte konto (NemKonto).
+.ar off
+.**************************************************************************
+.ar UNDER on
+.if &cprcvr = 00
+.th .go VIRK1
+.if &cprcvr < 32
+.th .go BORGER1
+.*VIRKSOMHEDER*************************************************************
+...VIRK1
+Undertegnede virksomhed
+ønsker at anvende ovenstående konto som NemKonto.
+.sp 12mm
+.tp 72.5mm center
+.hr left 25mm 30mm 115mm
+.br
+Dato ¤Tegningsberettigedes underskrift
+.go UNDSL1
+.*BORGERE******************************************************************
+...BORGER1
+Undertegnede ønsker at anvende ovenstående konto som NemKonto.
+.sp 12mm
+.tp 72.5mm center
+.hr left 25mm 30mm 115mm
+.br
+Dato
+...UNDSL1
+.ar off
+.**************************************************************************

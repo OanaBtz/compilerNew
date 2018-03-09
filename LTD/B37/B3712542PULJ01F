@@ -1,0 +1,1582 @@
+.** SIDESKIFT
+.pa
+.* Parameter og TEST afsnit test tilføjet 22.3.2012 es
+.* TEST af rigtig indtastet strategi
+.if x&B37N20 ne x00 .an x&RESULTA = x100
+.el .go TST1
+.*g /I/ værdi: B37N20 = x&B37N20.x og RESULTA = x&RESULTA.x
+.mg /T/ Individuelle %-er SKAL være 0 ved valg af STRATEGI ikke = 00
+...TST1
+.if x&B37N20 = x00 ;.th .se strateg 'Valgfri'         ;.th .go PULINDV
+.if x&B37N20 = x11 ;.th .se strateg 'Kort/Forsigtig'
+.th .se B37PULJE1 '90'
+.th .se B37PULJE2 ' 0'
+.th .se B37PULJE3 ' 0'
+.th .se B37PULJE4 ' 5'
+.th .se B37PULJE5 ' 5'
+.th .se B37PULJE6 ' 0'
+.th .go PULSTRA
+.if x&B37N20 = x21 ;.th .se strateg 'Mellem/Forsigtig'
+.th .se B37PULJE1 '65'
+.th .se B37PULJE2 '10'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 ' 5'
+.th .se B37PULJE5 '15'
+.th .se B37PULJE6 ' 0'
+.th .go PULSTRA
+.if x&B37N20 = x31 ;.th .se strateg 'Lang/Forsigtig'
+.th .se B37PULJE1 '45'
+.th .se B37PULJE2 '20'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 ' 7'
+.th .se B37PULJE5 '18'
+.th .se B37PULJE6 ' 5'
+.th .go PULSTRA
+.if x&B37N20 = x12 ;.th .se strateg 'Kort/Neutral'
+.th .se B37PULJE1 '55'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 ' 0'
+.th .se B37PULJE4 ' 7'
+.th .se B37PULJE5 '15'
+.th .se B37PULJE6 ' 8'
+.th .go PULSTRA
+.if x&B37N20 = x22 ;.th .se strateg 'Mellem/Neutral'
+.th .se B37PULJE1 '30'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 '12'
+.th .se B37PULJE5 '28'
+.th .se B37PULJE6 '10'
+.th .go PULSTRA
+.if x&B37N20 = x32 ;.th .se strateg 'Lang/Neutral'
+.th .se B37PULJE1 '15'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 '10'
+.th .se B37PULJE4 '15'
+.th .se B37PULJE5 '35'
+.th .se B37PULJE6 '10'
+.th .go PULSTRA
+.if x&B37N20 = x13 ;.th .se strateg 'Kort/Risikovillig'
+.th .se B37PULJE1 '40'
+.th .se B37PULJE2 ' 5'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 '12'
+.th .se B37PULJE5 '30'
+.th .se B37PULJE6 ' 8'
+.th .go PULSTRA
+.if x&B37N20 = x23 ;.th .se strateg 'Mellem/Risikovillig'
+.th .se B37PULJE1 '10'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 '17'
+.th .se B37PULJE5 '43'
+.th .se B37PULJE6 '10'
+.th .go PULSTRA
+.if x&B37N20 = x33 ;.th .se strateg 'Lang/Risikovillig'
+.th .se B37PULJE1 ' 0'
+.th .se B37PULJE2 ' 5'
+.th .se B37PULJE3 '10'
+.th .se B37PULJE4 '21'
+.th .se B37PULJE5 '50'
+.th .se B37PULJE6 '14'
+.th .go PULSTRA
+.* Strategi er fejlindtastet
+.mg /T/ Strategi kan kun være 00,11,12,13,21,22,23,31,32,33 ikke &B37N20.
+...PULSTRA
+...PULINDV
+.* Parameter og TEST afsnit
+.if x&B37N20 ne x00 .an x&RESULTA = x0
+.th .go PULOK
+.if x&RESULTA = x100 .or x&RESULTA = x0
+.th .go PULOK
+.mg /T/ Pulje % skal være 0 eller 100, din indtastning giver ialt &RESULTA
+...PULOK
+.* Hvis pulje % = 0 og strategi = valgfri udskrives blank skema
+.if x&RESULTA = x0 .an x&B37N20 = x00
+.th .se B37PULJE1 ''
+.th .se B37PULJE2 ''
+.th .se B37PULJE3 ''
+.th .se B37PULJE4 ''
+.th .se B37PULJE5 ''
+.th .se B37PULJE6 ''
+.th .se strateg '                       '
+.*th .se strateg '_______________________'
+.* Parameterafsnit
+.* GENSTREG8 tilføjet og rækkefølge/skærmvisning ændret 26.3.2012 es
+.se tilmeld = pens
+.se puvilk = 1
+.th Udbetaling i utide
+.ar off
+.***********
+...UNSKR
+.***********
+.ar UNSK on
+&EKSPBY., den &DATO
+.sp 20mm
+.if &E'&NAVNI = 1
+.th .ce &NAVNI
+.el .ce &KTONAVN
+.ar off
+.br
+&REGTYPE &REGTYPELNG
+.br
+.if &E'&FRIDATO = 1 ;.th .se bi '&FRIDATO.' ;.el .se bi ' '
+ ¤&bi
+.br
+¤&SALDO
+.ar off
+.***********
+.ar DATO on
+&B37DATO
+.ar off
+.***********
+.if &E'&B37PULJE1 = 0
+.th .go UDTR
+.ar PUL1 on
+.tp 17mm right 45mm
+ ¤&B37PULJE1. ¤
+.ar off
+.ar PUL2 on
+.tp 17mm right 45mm
+ ¤&B37PULJE2. ¤
+.ar off
+.ar PUL3 on
+.tp 17mm right 45mm
+ ¤&B37PULJE3. ¤
+.ar off
+.ar PUL4 on
+.tp 17mm right 45mm
+ ¤&B37PULJE4. ¤
+.ar off
+.ar PUL5 on
+.tp 17mm right 45mm
+ ¤&B37PULJE5. ¤
+.ar off
+.ar PUL6 on
+.tp 17mm right 45mm
+ ¤&B37PULJE6. ¤
+.ar off
+...UDTR
+.if &E'&MIBJN3 = 0
+.th .go UNSKR
+.ar UDTA on
+.if .&U'&MIBJN3 = .O
+.th Overførsel til andet pengeinstitut
+.if .&U'&MIBJN3 = .K
+.th Kontoen skal stå kontant fremover
+.if .&U'&MIBJN3 = .B
+.th Udbetaling ved udløb
+.if .&U'&MIBJN3 = .U
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d.10.8.05 puljenr tekst tilføjet
+.* d.30.3.07 Ænring af obl.navn og boksplacering.
+.* d.26.3.12 Ænring af afstand mellem PUL1-6.
+.*if x&RESULTA = x100
+.*th .go PULOK
+.*mg /T/ Pulje % skal være 100, du har &RESULTA
+...PULOK
+.da NAVN  25mm  46mm
+.*da CPR  115mm  46mm
+.da CPR  105mm  46mm
+.da PI    25mm  56mm
+.*da KTOO 127mm  56mm
+.da KTOO 117mm  56mm
+.da DATO  61mm  80mm
+.da UDTA  25mm  99mm
+.da PUL1  55mm 113.30mm
+.*da PUL2  55mm 124.28mm
+.da PUL2  55mm 122.28mm
+.*da PUL3  55mm 135.26mm
+.da PUL3  55mm 131.26mm
+.*da PUL4  55mm 146.24mm
+.da PUL4  55mm 140.24mm
+.*da PUL5  55mm 157.22mm
+.da PUL5  55mm 149.22mm
+.*da PUL6  55mm 168.20mm
+.da PUL6  55mm 158.20mm
+.da UNSK  25mm 234mm WIDTH 170mm
+.ti ¤ 05
+:COUR10.
+.***********
+.ar NAVN on
+&KTONAVN
+.ar off
+.***********
+.ar CPR on
+&KTOKUNDENR
+.ar off
+.***********
+.ar PI on
+&BKNAVN
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.***********
+.ar KTOO on
+.tp 9mm
+&REGNR &KTONR1
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d. 28. og 31.1.00 Overskrift og mindre tekstkorrikttur Es
+.* d. 20.12.00 Pulje 6 tilføjet og MIX kasser fjernet Es
+.* d. 04.07.03 Banknavn rettet til parameter &BANKNAVN
+.* d. 10.8.05 Pulje nr. tekst tilføjet
+.* d. 29.9.05 Pulje gebyr for børneops fjernet
+.* d. 30.3.07 Ændring af oblnavne korrektion af boksplacering.
+.* d. 23.3.12 Indsat linie med risikoprofil i PULJE
+.da BOKS 20mm 33mm width 180mm
+.da PULJE 59mm  98mm width 114mm
+.da MIXK 119.5mm 103mm width 60mm
+.da PUTXTU 21mm  110mm width 86mm
+.da PUTXT1 22mm  183mm width 86mm
+.da PUTXT2 112mm  183mm width 86mm
+.dr tynd WEIGHT 0.1mm
+.*se a = 7.5mm
+.se a = 5.5mm
+.ti ¤ 05
+.****************
+.if &E'&FRIDATO = 1
+.th .se sty 'Handelsbankens'
+.th .se ty 'børneopsparing'
+.el .se sty 'Handelsbankens'
+.el .se ty 'pension'
+.ar BOKS on
+.if &E'&B37PULJE1 = 1
+.th .se oversk '&sty. Puljer - Puljeskift'
+.el .se oversk '&sty. Puljer - Udtræden'
+.if &E'&tilmeld = 1
+.th .se oversk '&sty. Puljer - Tilmelding'
+:SWISS12.:FED.
+.us
+&oversk
+.is 1
+:SWISS12.
+.* RETTET d. 28.1.1999 Es
+.*- tillæg til aftale om &ty.sopsparing
+- tillæg til aftale om &ty.
+.if &E'&FRIDATO = 0
+.th .ct sopsparing
+:SWISS8.
+.sp
+.in 1mm
+.ir 1mm
+.*tp 91mm
+.tp 81mm
+.****************
+.*bx left 90mm right
+.bx left 80mm right
+.sp 0.1mm
+Kontohavers navn: ¤Kundenr:
+.sp 5mm
+.hr left right
+.sp 0.1mm
+Pengeinstitut: ¤Kontooplysninger:
+.sp 1.9mm
+¤Kontonr.
+.sp 0.5mm
+¤Reg.type
+.sp 0.5mm
+.if &E'&FRIDATO = 1 ;.th .se bi 'Bindingsperiode' ;.el .se bi ' '
+ ¤&bi
+.sp 0.5mm
+¤Indestående  kr.
+.sp 1mm
+.bx off
+.****************
+:SWISS10.:FED.
+Betingelser
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 3mm
+Med virkning fra og med den:
+.sp 3mm
+.hr left right
+.se bet1b ' '
+.if &E'&B37PULJE1 = 1
+.th .se bet1a 'ønskes deltagelse i &BANKNAVN.s puljeordning'
+.th .se bet1b 'ændret til følgende: '
+.el .se bet1a 'ønskes udtræden af &BANKNAVN.s puljeordning'
+.el .se bet1a '&bet1a. af følgende årsag: '
+.if &E'&tilmeld = 1
+.th .se bet1b 'med følgende puljemix: '
+&bet1a &bet1b
+.sp 130mm
+.bx off
+.*ar off
+.****************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 0.1mm
+.if &E'&NAVNI = 1
+.th Kontoopretter:
+.el Kontohaver:
+.sp 30mm
+.bx off
+.ar off
+.****************
+.if &E'&B37PULJE1 = 0
+.th .go PENS
+.ar PULJE on
+.bx left 110mm
+.tp 10mm 52mm 45mm
+.sp 2.0mm
+¤  ANFØR % ¤¤
+.sp 2.0mm
+.*br
+.*¤¤¤sæt X (kun 1)
+.hr tynd left 110mm
+.*sp 7mm
+.sp 4.5mm
+ ¤  % i pulje 1 (Obligationer - korte)
+.sp &a
+ ¤  % i pulje 2 (Obligationer - mellemlange)
+.sp &a
+ ¤  % i pulje 3 (Obligationer - lange & indeks)
+.sp &a
+ ¤  % i pulje 4 (Aktier - Danmark)
+.sp &a
+ ¤  % i pulje 5 (Aktier - Global)
+.sp &a
+ ¤  % i pulje 6 (Aktier - Eurolande)
+.sp 5mm
+.in +5mm
+.ir +5mm
+Ovennævnte fordeling svarer til
+&BANKNAVN.s
+.sp 1mm
+nuværende strategi:
+.us &strateg.
+.*sp 5mm
+.sp 3mm
+.bx off
+.ar off
+.****************
+.**************** PENS
+...PENS
+.if .&ty = .børneopsparing
+.th .go BARN
+.if &E'&B37PULJE1 = 0
+.th .go UDTRP
+.if &E'&tilmeld = 1
+.th .go TILMELDP
+.ar PUTXT1 on
+:SWISS8.
+I øvrigt fortsætter pensionsordningen på uændrede vilkår - herunder
+""Vilkår for &BANKNAVN.s pensionspuljer
+"samt folderen "&BANKNAVN.s Puljer". Jeg har tidliger
+emodtaget et eksempla
+raf begge
+..s
+kJeg er indforstået med, at der beregnes et gebyr på p.t. kr. 500,00 fo
+rpuljeskift i perioden 1.5.-1.12
+..ar of
+f.go SLU
+T.*****
+*...TILMELD
+P.ar PUTXT1 o
+n:SWISS8
+.I puljen indskydes indestående på ovennævnte konto samt fremtidig
+eindbetalinger på kontoen
+..s
+pFor puljedeltagelsen gælder endvider
+e"Vilkår for &BANKNAVN.s pensionspuljer
+"samt "&BANKNAVN.s Puljer", hvoraf jeg har modtaget et eksempla
+raf begge
+..s
+pDesuden har jeg modtaget oplysninger om de enkelte puljers procentvis
+eafkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år
+..ar of
+f.go SLU
+T.**********
+*...UDTR
+P.ar PUTXTU o
+n:SWISS8
+.Jeg er indforstået med, at et eventuelt skyldigt afkast fr
+apuljedeltagelsen bliver hævet på ovennævnte konto
+..ar of
+f.go SLU
+T.**************** BØR
+N...BAR
+N.if &E'&B37PULJE1 = 
+0.th .go UDTR
+B.if &E'&tilmeld = 
+1.th .go TILMELD
+B.ar PUTXT1 o
+n:SWISS8
+.I øvrigt fortsætter børneopsparingsordningen på uændrede vilkår - herunde
+r"Vilkår for &BANKNAVN.s pensionspuljer" o
+g"&BANKNAVN.s Puljer", so
+mjeg tidliger
+ehar fået udleveret
+..*sp 3.5m
+m.*Gebyr fo
+r.*puljeskift i løbet af puljeåret skal indbetales af kontoopretter
+..ar of
+f;T.go SLUT
+.******
+...TILMELDB
+.ar PUTXT1 on
+:SWISS8.
+I puljen indskydes indestående på ovennævnte konto samt fremtidige
+indbetalinger på kontoen.
+.sp 3.5mm
+For puljedeltagelsen gælder endvidere
+"Vilkår for &BANKNAVN.s pensionspuljer" samt folderen "&BANKNAVN.s Puljer".
+.br
+Nævnte materiale er modtaget.
+.sp 3.5mm
+Desuden har jeg modtaget oplysninger om de enkelte puljers procentvise
+afkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år.
+.sp 3.5mm
+.ar off
+.ar PUTXT2 on
+:SWISS8.
+.*Gebyr for udtræden eller puljeskift i løbet af puljeåret skal
+.*indbetales af kontoopretter.
+.*sp 3.5mm
+Udtræden eller puljeskift i forbindelse med årsskifte eller ved
+børneopsparingskontoens frigivelse er gebyrfri.
+.ar off
+.go SLUT
+.***********
+...UDTRB
+.ar PUTXTU on
+:SWISS8.
+Jeg er indforstået med, at et eventuelt skyldigt afkast fra
+puljedeltagelsen bliver hævet på ovennævnte &ty.skonto.
+.*sp
+.*Gebyr for udtræden i løbet af puljeåret skal indbetales af kontoopretter.
+.ar off
+...SLUT
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* Param.afsnit ændret fra IREGKTO til KUNDENR den 18.9.2013 es til blank
+.* GENSTREG8 tilføjet og rækkefølge/skærmvisning ændret 26.3.2012 es
+.se tilmeld = pens
+.se puvilk = 1
+.* ÆNDRING FRA IREGKTO TIL KUNDENR
+.se KTOKUNDENR = &KUNDENR.
+.se KTONAVN = '&NAVN.'
+.*if x&IREGKTO. = x
+.*th .se REGNR = ''
+.*th .se KTONR1 = ''
+.*el .se REGNR  = substr '&IREGKTO.' 1 4
+.*el .se KTONR1 = substr '&IREGKTO.' 5 7
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.*da KUNDKOPI 174.1mm 34.4mm
+.da KUNDKOPI 174.1mm 24.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+.da DOKKT 20mm 277mm width 175mm
+.**************************************************************************
+.*go SLUT
+.ar DOKKT on
+.dr tynd WEIGHT 0.1mm
+.ti ¤ 05
+.tp 2mm 91mm
+:SWISS6.
+¤Til &BANKNAVN.s noteringer (dato og initialer)
+.sp 0.5mm
+.bx new tynd 25mm 50mm / 86mm 109mm / 145mm 170mm
+.sp 0.5mm
+.tp 2mm 60mm 120mm
+¤EDB-registrering ¤Evt. juridisk kontrol ¤Afsluttende kontrol
+.*br
+.*sp 1mm
+.bx off
+.*bx off
+.ar off
+...SLUT
+.** SIDESKIFT
+.pa
+.th Udbetaling i utide
+.ar off
+.***********
+...UNSKR
+.***********
+.ar UNSK on
+&EKSPBY., den &DATO
+.sp 20mm
+.if &E'&NAVNI = 1
+.th .ce &NAVNI
+.el .ce &KTONAVN
+.ar off
+.br
+&REGTYPE &REGTYPELNG
+.br
+.if &E'&FRIDATO = 1 ;.th .se bi '&FRIDATO.' ;.el .se bi ' '
+ ¤&bi
+.br
+¤&SALDO
+.ar off
+.***********
+.ar DATO on
+&B37DATO
+.ar off
+.***********
+.if &E'&B37PULJE1 = 0
+.th .go UDTR
+.ar PUL1 on
+.tp 17mm right 45mm
+ ¤&B37PULJE1. ¤
+.ar off
+.ar PUL2 on
+.tp 17mm right 45mm
+ ¤&B37PULJE2. ¤
+.ar off
+.ar PUL3 on
+.tp 17mm right 45mm
+ ¤&B37PULJE3. ¤
+.ar off
+.ar PUL4 on
+.tp 17mm right 45mm
+ ¤&B37PULJE4. ¤
+.ar off
+.ar PUL5 on
+.tp 17mm right 45mm
+ ¤&B37PULJE5. ¤
+.ar off
+.ar PUL6 on
+.tp 17mm right 45mm
+ ¤&B37PULJE6. ¤
+.ar off
+...UDTR
+.if &E'&MIBJN3 = 0
+.th .go UNSKR
+.ar UDTA on
+.if .&U'&MIBJN3 = .O
+.th Overførsel til andet pengeinstitut
+.if .&U'&MIBJN3 = .K
+.th Kontoen skal stå kontant fremover
+.if .&U'&MIBJN3 = .B
+.th Udbetaling ved udløb
+.if .&U'&MIBJN3 = .U
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d.10.8.05 puljenr tekst tilføjet
+.* d.30.3.07 Ænring af obl.navn og boksplacering.
+.* d.26.3.12 Ænring af afstand mellem PUL1-6.
+.*if x&RESULTA = x100
+.*th .go PULOK
+.*mg /T/ Pulje % skal være 100, du har &RESULTA
+...PULOK
+.da NAVN  25mm  46mm
+.*da CPR  115mm  46mm
+.da CPR  105mm  46mm
+.da PI    25mm  56mm
+.*da KTOO 127mm  56mm
+.da KTOO 117mm  56mm
+.da DATO  61mm  80mm
+.da UDTA  25mm  99mm
+.da PUL1  55mm 113.30mm
+.*da PUL2  55mm 124.28mm
+.da PUL2  55mm 122.28mm
+.*da PUL3  55mm 135.26mm
+.da PUL3  55mm 131.26mm
+.*da PUL4  55mm 146.24mm
+.da PUL4  55mm 140.24mm
+.*da PUL5  55mm 157.22mm
+.da PUL5  55mm 149.22mm
+.*da PUL6  55mm 168.20mm
+.da PUL6  55mm 158.20mm
+.da UNSK  25mm 234mm WIDTH 170mm
+.ti ¤ 05
+:COUR10.
+.***********
+.ar NAVN on
+&KTONAVN
+.ar off
+.***********
+.ar CPR on
+&KTOKUNDENR
+.ar off
+.***********
+.ar PI on
+&BKNAVN
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.***********
+.ar KTOO on
+.tp 9mm
+&REGNR &KTONR1
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d. 28. og 31.1.00 Overskrift og mindre tekstkorrikttur Es
+.* d. 20.12.00 Pulje 6 tilføjet og MIX kasser fjernet Es
+.* d. 04.07.03 Banknavn rettet til parameter &BANKNAVN
+.* d. 10.8.05 Pulje nr. tekst tilføjet
+.* d. 29.9.05 Pulje gebyr for børneops fjernet
+.* d. 30.3.07 Ændring af oblnavne korrektion af boksplacering.
+.* d. 23.3.12 Indsat linie med risikoprofil i PULJE
+.da BOKS 20mm 33mm width 180mm
+.da PULJE 59mm  98mm width 114mm
+.da MIXK 119.5mm 103mm width 60mm
+.da PUTXTU 21mm  110mm width 86mm
+.da PUTXT1 22mm  183mm width 86mm
+.da PUTXT2 112mm  183mm width 86mm
+.dr tynd WEIGHT 0.1mm
+.*se a = 7.5mm
+.se a = 5.5mm
+.ti ¤ 05
+.****************
+.if &E'&FRIDATO = 1
+.th .se sty 'Handelsbankens'
+.th .se ty 'børneopsparing'
+.el .se sty 'Handelsbankens'
+.el .se ty 'pension'
+.ar BOKS on
+.if &E'&B37PULJE1 = 1
+.th .se oversk '&sty. Puljer - Puljeskift'
+.el .se oversk '&sty. Puljer - Udtræden'
+.if &E'&tilmeld = 1
+.th .se oversk '&sty. Puljer - Tilmelding'
+:SWISS12.:FED.
+.us
+&oversk
+.is 1
+:SWISS12.
+.* RETTET d. 28.1.1999 Es
+.*- tillæg til aftale om &ty.sopsparing
+- tillæg til aftale om &ty.
+.if &E'&FRIDATO = 0
+.th .ct sopsparing
+:SWISS8.
+.sp
+.in 1mm
+.ir 1mm
+.*tp 91mm
+.tp 81mm
+.****************
+.*bx left 90mm right
+.bx left 80mm right
+.sp 0.1mm
+Kontohavers navn: ¤Kundenr:
+.sp 5mm
+.hr left right
+.sp 0.1mm
+Pengeinstitut: ¤Kontooplysninger:
+.sp 1.9mm
+¤Kontonr.
+.sp 0.5mm
+¤Reg.type
+.sp 0.5mm
+.if &E'&FRIDATO = 1 ;.th .se bi 'Bindingsperiode' ;.el .se bi ' '
+ ¤&bi
+.sp 0.5mm
+¤Indestående  kr.
+.sp 1mm
+.bx off
+.****************
+:SWISS10.:FED.
+Betingelser
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 3mm
+Med virkning fra og med den:
+.sp 3mm
+.hr left right
+.se bet1b ' '
+.if &E'&B37PULJE1 = 1
+.th .se bet1a 'ønskes deltagelse i &BANKNAVN.s puljeordning'
+.th .se bet1b 'ændret til følgende: '
+.el .se bet1a 'ønskes udtræden af &BANKNAVN.s puljeordning'
+.el .se bet1a '&bet1a. af følgende årsag: '
+.if &E'&tilmeld = 1
+.th .se bet1b 'med følgende puljemix: '
+&bet1a &bet1b
+.sp 130mm
+.bx off
+.*ar off
+.****************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 0.1mm
+.if &E'&NAVNI = 1
+.th Kontoopretter:
+.el Kontohaver:
+.sp 30mm
+.bx off
+.ar off
+.****************
+.if &E'&B37PULJE1 = 0
+.th .go PENS
+.ar PULJE on
+.bx left 110mm
+.tp 10mm 52mm 45mm
+.sp 2.0mm
+¤  ANFØR % ¤¤
+.sp 2.0mm
+.*br
+.*¤¤¤sæt X (kun 1)
+.hr tynd left 110mm
+.*sp 7mm
+.sp 4.5mm
+ ¤  % i pulje 1 (Obligationer - korte)
+.sp &a
+ ¤  % i pulje 2 (Obligationer - mellemlange)
+.sp &a
+ ¤  % i pulje 3 (Obligationer - lange & indeks)
+.sp &a
+ ¤  % i pulje 4 (Aktier - Danmark)
+.sp &a
+ ¤  % i pulje 5 (Aktier - Global)
+.sp &a
+ ¤  % i pulje 6 (Aktier - Eurolande)
+.sp 5mm
+.in +5mm
+.ir +5mm
+Ovennævnte fordeling svarer til
+&BANKNAVN.s
+.sp 1mm
+nuværende strategi:
+.us &strateg.
+.*sp 5mm
+.sp 3mm
+.bx off
+.ar off
+.****************
+.**************** PENS
+...PENS
+.if .&ty = .børneopsparing
+.th .go BARN
+.if &E'&B37PULJE1 = 0
+.th .go UDTRP
+.if &E'&tilmeld = 1
+.th .go TILMELDP
+.ar PUTXT1 on
+:SWISS8.
+I øvrigt fortsætter pensionsordningen på uændrede vilkår - herunder
+""Vilkår for &BANKNAVN.s pensionspuljer
+"samt folderen "&BANKNAVN.s Puljer". Jeg har tidliger
+emodtaget et eksempla
+raf begge
+..s
+kJeg er indforstået med, at der beregnes et gebyr på p.t. kr. 500,00 fo
+rpuljeskift i perioden 1.5.-1.12
+..ar of
+f.go SLU
+T.*****
+*...TILMELD
+P.ar PUTXT1 o
+n:SWISS8
+.I puljen indskydes indestående på ovennævnte konto samt fremtidig
+eindbetalinger på kontoen
+..s
+pFor puljedeltagelsen gælder endvider
+e"Vilkår for &BANKNAVN.s pensionspuljer
+"samt "&BANKNAVN.s Puljer", hvoraf jeg har modtaget et eksempla
+raf begge
+..s
+pDesuden har jeg modtaget oplysninger om de enkelte puljers procentvis
+eafkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år
+..ar of
+f.go SLU
+T.**********
+*...UDTR
+P.ar PUTXTU o
+n:SWISS8
+.Jeg er indforstået med, at et eventuelt skyldigt afkast fr
+apuljedeltagelsen bliver hævet på ovennævnte konto
+..ar of
+f.go SLU
+T.**************** BØR
+N...BAR
+N.if &E'&B37PULJE1 = 
+0.th .go UDTR
+B.if &E'&tilmeld = 
+1.th .go TILMELD
+B.ar PUTXT1 o
+n:SWISS8
+.I øvrigt fortsætter børneopsparingsordningen på uændrede vilkår - herunde
+r"Vilkår for &BANKNAVN.s pensionspuljer" o
+g"&BANKNAVN.s Puljer", so
+mjeg tidliger
+ehar fået udleveret
+..*sp 3.5m
+m.*Gebyr fo
+r.*puljeskift i løbet af puljeåret skal indbetales af kontoopretter
+..ar of
+f;T.go SLUT
+.******
+...TILMELDB
+.ar PUTXT1 on
+:SWISS8.
+I puljen indskydes indestående på ovennævnte konto samt fremtidige
+indbetalinger på kontoen.
+.sp 3.5mm
+For puljedeltagelsen gælder endvidere
+"Vilkår for &BANKNAVN.s pensionspuljer" samt folderen "&BANKNAVN.s Puljer".
+.br
+Nævnte materiale er modtaget.
+.sp 3.5mm
+Desuden har jeg modtaget oplysninger om de enkelte puljers procentvise
+afkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år.
+.sp 3.5mm
+.ar off
+.ar PUTXT2 on
+:SWISS8.
+.*Gebyr for udtræden eller puljeskift i løbet af puljeåret skal
+.*indbetales af kontoopretter.
+.*sp 3.5mm
+Udtræden eller puljeskift i forbindelse med årsskifte eller ved
+børneopsparingskontoens frigivelse er gebyrfri.
+.ar off
+.go SLUT
+.***********
+...UDTRB
+.ar PUTXTU on
+:SWISS8.
+Jeg er indforstået med, at et eventuelt skyldigt afkast fra
+puljedeltagelsen bliver hævet på ovennævnte &ty.skonto.
+.*sp
+.*Gebyr for udtræden i løbet af puljeåret skal indbetales af kontoopretter.
+.ar off
+...SLUT
+.rf cancel
+.*PA NOSTART
+.da PULJE 20mm 222mm width 180mm
+.dr tynd weight 0.1mm
+.*Puljesammensætning
+.ar PULJE on
+.in 2mm
+:SWISS14.:FED.
+.ce
+Puljesammensætning
+:SWISS8.
+.sp 1mm
+.ce
+31. marts 2017 i 1.000 kr.
+.sp 3mm
+.bx left right
+.vr tynd 55mm
+.tp 73mm right 93mm right 113mm right 133mm right 153mm right 173mm right
+                ^Pulje 1 ^Pulje 2 ^Pulje 3 ^Pulje 4 ^Pulje 5 ^Pulje 6 ^
+.hr tynd left right
+.sp 1mm
+ Kontant            ^  8.274 ^  3.951 ^  6.147 ^  5.990 ^ 16.313 ^  2.247 ^
+ Indeksobligationer ^      0 ^      0 ^ 74.125 ^      0 ^      0 ^      0 ^
+ Obligationer       ^412.098 ^348.133 ^140.822 ^      0 ^      0 ^      0 ^
+ Aktier             ^      0 ^      0 ^      0 ^509.016 ^604.342 ^219.298 ^
+ Investeringsandele ^      0 ^      0 ^      0 ^      0 ^      0 ^      0 ^
+ Øvrige             ^      0 ^      0 ^      0 ^      0 ^      0 ^      0 ^
+.sp 1mm
+.hr tynd left right
+ I alt              ^420.372 ^352.084 ^221.094 ^515.006 ^620.655 ^221.545 ^
+.br
+.bx off
+.vr off
+.ar off
+&p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+&p -  obligationer       ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+&h                       ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+Puljeafkast &f           ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^.
+sp 1mm.
+hr tynd left right.
+sp 1mm:
+FED. 3. Kvartal 2017 :SKRSLUT. 
+&p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+&p -  obligationer       ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+&h                       ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+Puljeafkast &f           ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^.
+sp 1mm.
+hr tynd left right.
+sp 1mm 
+:FED. 4. Kvartal 2017 :SKRSLUT. 
+&p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+&p -  obligationer       ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+&h                       ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^ 
+Puljeafkast &f           ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^   0,00^.
+sp 1mm.
+hr tynd left right.
+sp 1mm.
+sp 1mm.
+*****.
+hr tynd left right.
+sp 1mm:
+FED. 2016 Pct. p.a. :SKRSLUT. 
+Skattefrit afkast        ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^ 
+&p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^ -0,67 ^  2,65 ^  3,36 ^ 
+&p -  obligationer       ^  1,22 ^  2,95 ^  4,02 ^  0,00 ^  0,00 ^  0,00 ^ 
+&h                       ^ -0,51 ^ -0,73 ^ -0,70 ^ -1,40 ^ -1,79 ^ -1,59 ^ 
+Puljeafkast &f           ^  0,71 ^  2,22 ^  3,32 ^ -2,07 ^  0,86 ^  1,77 ^.
+sp 1mm.
+hr tynd left right.
+sp 1mm:
+FED. 2015 Pct. p.a. :SKRSLUT. 
+Skattefrit afkast        ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^ 
+&p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^ 40,42 ^ 12,79 ^  7,09 ^ 
+&p -  obligationer       ^ -0,05 ^  0,28 ^  2,02 ^  0,00 ^  0,00 ^  0,00 ^ 
+&h                       ^ -0,51 ^ -0,76 ^ -0,68 ^ -1,42 ^ -3,57 ^ -1,57 ^ 
+Puljeafkast &f           ^ -0,56 ^  0,48 ^  1,34 ^ 39,00 ^  9,22 ^  5,52 ^.
+sp 1mm.
+hr tynd left right.
+sp 1mm:
+FED. 2014 Pct. p.a. :SKRSLUT. 
+Skattefrit afkast        ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^  0,00 ^ 
+&p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^ 22,61 ^ 13,05 ^  3,29 ^ 
+&p -  obligationer       ^  1,21 ^  2,39 ^  6,02 ^  0,00 ^  0,00 ^  0,00 ^ 
+&h                       ^  0,00 ^ -0,01 ^ -0,02 ^ -0,46 ^ -0,43 ^ -0,76 ^
+.*PA NOSTART
+.se p 'Pensionsskattepligtig'
+.se h 'Handelsomkostninger'
+.se f 'før administrationsomk.'
+.da PULJEA 20mm 40mm width 180mm
+.dr tynd weight 0.1mm
+.rf on
+.ll 180mm
+:SWISS8.
+.sp 0.1mm
+.tp 3mm
+.of 3mm
+* ^De oplyste afkast
+procenter er opgjort på puljeniveau og kan således
+ikke bruges som et udtryk for den enkelte kundes afkastprocent.
+.br
+.of
+.sp 5mm
+.rf off
+.rf execute
+.ar PULJEA on
+:SWISS14.:FED.
+.ce
+Puljeafkast *
+:SWISS8.
+.sp
+.in 2mm
+.bx left right
+.vr tynd 55mm
+.ti ^ 05
+.tp 68mm center 88mm center 110mm center 128mm center
+.tp add 148mm center 168mm center
+                ^Pulje 1^Pulje 2^Pulje 3^Pulje 4^Pulje 5^Pulje 6^
+        ^Obligationer^Obligationer^Obligationer^Aktier^Aktier^Aktier^
+                                      ^  ^  ^  ^ ^ ^    ^
+                ^Korte^Mellemlange^Lange & Indeks^Danmark^Global^Eurolande^
+                ^        ^    ^        ^        ^        ^        ^
+.tp 73mm right 93mm right 113mm right 133mm right 153mm right 173mm right
+.hr tynd left right
+.sp 1mm
+:FED. 1. Kvartal 2017 :SKRSLUT.
+ 
+ &p -  aktier             ^  0,00 ^  0,00 ^  0,00 ^  8,48 ^  7,74 ^  6,70 ^
+ &p -  obligationer       ^  0,26 ^  0,60 ^  0,27 ^  0,00 ^  0,00 ^  0,00 ^
+ &h                       ^ -0,13 ^ -0,17 ^ -0,17 ^ -0,30 ^ -0,59 ^ -0,36 ^
+ Puljeafkast &f           ^  0,13 ^  0,43 ^  0,10 ^  8,18 ^  7,15 ^  6,34 ^
+.sp 1mm
+.hr tynd left right
+.sp 1mm
+:FED. 2. Kvartal 2017 :SKRSLUT.
+Puljeafkast &f           ^  1,21 ^  2,38 ^  6,00 ^ 22,15 ^ 12,62 ^  2,53 ^.
+*****.
+sp 1mm.
+br.
+*****.
+sp 1mm.
+bx off.
+vr off.
+ar off
+.rh cancel
+.if x&puvilk = x1
+.el .go PUVSLUT
+.da BEST 20mm 29mm width 170mm
+.TM 13mm
+.PL 288mm
+.PN 1
+.ti ¤ 05
+.fo on
+.se b = 1.2mm
+.se x = 2.1mm
+.se y = 0.8mm
+.*ir 0mm
+.***
+.RH on
+.sp 10mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.* Version og sidetal i bunden
+.da FODX 20mm 282mm width 180mm
+.ar FODX on
+.tp 170mm right
+:COUR6.
+PGR001-19082003 ¤Side &ÅPN. af 2¤
+.ar off
+:SWISS12.:FED.
+Vilkår for Handelsbankens pensionspuljer
+.sp 5mm
+.RH off
+.RH execute
+.*****
+.dm ovf on
+:DUTCH10.:FED.
+&*
+:SKRSLUT.:DUTCH8.
+.sp 0.5mm
+.dm off
+.*****
+.dm ovu on
+.us on
+.*is 0.1mm
+&*
+.us off
+.sp 0.2mm
+.dm off
+.******
+:COUR10.
+:DUTCH10.
+.sp 10mm
+.PN 2
+.ir 0mm
+.ar BEST on
+:DUTCH9.
+Direktionen for
+:FED.
+Handelsbanken DK, filial af Svenska Handelsbanken AB
+:SKRSLUT.
+har den 21. december 2012 godkendt nedenstående
+vilkår for Handelsbankens puljeadministration vedrørende placering af
+midlerne fra Handelsbankens pensionspuljer 1-6, jf. bekendtgørelse om
+puljepension m.v. nr. 1359 af 22. december 2011. Enhver ændring af
+vilkårene kræver bestyrelsens godkendelse.
+.ar off
+.*******************
+.sp 3mm
+.cd 2 0mm 87mm
+.cl 83mm
+:DUTCH8.
+.ovf Generelle vilkår
+.ovu Rente- og afkastberegning
+Puljeåret følger kalenderåret.
+.br
+Rentesatsen og renteberegningen af kontantindestående er fuldstændig
+identisk med rentesatsen og beregningen på en individuel
+kapitalpensionskonto, oprettet i
+Handelsbanken. Dog vil rentesatsen altid følge den højeste af de
+differentierede rentesatser. Til beregningen bruges det faktiske antal dage
+i året.
+.br
+Afkastet af puljens investeringer beregnes hver måned med udgangspunkt i
+kurserne den sidste børsdag i måneden. Afkastet tilskrives en gang årligt,
+medio januar. Afkastet for puljerne bliver ifølge
+pensionsafkastbeskatningsloven specificeret i henholdsvis afgiftsfrit
+afkast og fuldt afgiftspligtigt afkast. Pensionsafkastskatten trækkes på
+kontoen i januar det næstfølgende år.
+.sp &b.
+.ovu Opbevaring af værdipapirerne
+Til opbevaring af værdipapirerne er der oprettet et selvstændigt
+VP-kontonummer, hvori værdipapirerne placeres efter indkøbet. Der kan
+således ikke opstå tvivl om værdipapirernes, de udtrukne beløbs eller
+udbyttebeløbenes ejerforhold.
+.sp &b.
+.ovu Handelsbemyndigelse
+Disponering af pensionspuljernes midler kan kun foretages af
+kapitalforvaltningschefen eller den puljeansvarlige i Handelsbankens
+Kapitalforvaltningsafdeling. Det påhviler disse personer at påse, at
+afgivne ordrer handles i umiddelbar forlængelse af ordreafgivelsen.
+.sp &b.
+.ovf Pensionspulje 1
+.ovu Investeringsstrategi
+I denne pulje investeres der hovedsageligt i korte danske obligationer.
+Herudover kan der i mindre omfang investeres i korte udenlandske
+obligationer. Den gennemsnitlige optionsjusterede varighed på disse
+obligationer må maksimalt være 2 år. Ved varighed forstås den
+gennemsnitligt vejede restløbetid på obligationerne, idet der tages højde
+for rentebetalinger, afdrag samt deres tidsprofil. Optionsjusteringen tager
+hensyn til ekstraordinære udtræk på realkreditobligationer, som reducerer
+den gennemsnitlige løbetid. Investering i disse aktiver opfylder kravene i
+Lov om finansiel virksomhed § 50, stk. 1
+og 2, som angiver, hvad puljer må investere
+i. Det må forventes, at afkastet vil være udsat for udsving på kort sigt,
+mens det på lang sigt vil være stabilt. Puljens afkast er skattepligtigt og
+beskattes med en pensionsafkastbeskatning svarende til den til enhver tid
+gældende beskatning, jf pensionsafkastbeskatningsloven. Der
+kan være fastsat en garantirente eller garanti mod
+negativt afkast. Der henvises til særskilt puljebrochure. Ved udtræden i
+løbet af året - hvor der ikke er tale om pensionsordningens ophør - er
+banken ikke forpligtet af en eventuel garanti. Udtrædende puljedeltagere
+kan således ikke gøre krav gældende mod banken, såfremt en eventuel garanti
+ikke er opfyldt de enkelte måneder.
+.sp &b.
+.ovu Handelsvilkår
+Afregningskursen for puljens investeringer vil være identisk med den kurs,
+som Handelsbanken handler til i obligationsmarkedet. Der beregnes ingen
+kursskæring. Såfremt en handelsordre fra puljen ikke nødvendiggør, at
+Handelsbanken skal handle i markedet, bliver afregningskursen fastsat som
+markedskursen på det tidspunkt, ordren kommer til obligationshandlerens
+kendskab. Er der ikke handlet i den pågældende obligationsserie på
+kursfastsættelsestidspunktet, eller er kursen på anden vis uaktuel, vil
+prisfastsættelsen ske med udgangspunkt i den effektive rente på en
+tilsvarende anden obligation. Kurtagen ved køb og salg udgør maksimalt 3/4
+promille af kursværdien samt evt. udenlandske omkostninger. Foruden evt.
+omkostninger i forbindelse med opbevaring af udenlandske værdipapirer
+beregnes der ikke depotomkostninger eller andre handelsomkostninger.
+.sp &b.
+.ovu Administrationsomkostninger
+For deltagelse i Handelsbankens pensionspulje 1 beregnes der et
+administrationsgebyr, der er gradueret i forhold til den enkelte deltagers
+gennemsnitlige månedlige saldo i puljen.
+.sp &b.
+.tp &x.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 0 og 249.999 beregnes 0,50%
+p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 250.000 og 499.999 beregnes
+0,30% p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger over 500.000 beregnes 0,10% p.a.
+.of
+.sp &b.
+Gebyret fratrækkes i afkastet, inden pensionsafkastskatten beregnes.
+.*sp &b.
+.cb
+...PUVSLUT
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.if x&puvilk = x1
+.el .go PUVSLUT
+.*
+.ovf Pensionspulje 2
+.ovu Investeringsstrategi
+I denne pulje investeres der hovedsageligt i danske obligationer med lang
+løbetid. Herudover kan der i mindre omfang investeres i udenlandske
+obligationer med lang løbetid. Den gennemsnitlige optionsjusterede varighed
+skal være minimum 2 år. Ved varighed forstås den gennemsnitligt vejede
+restløbetid på obligationerne, idet der tages højde for rentebetalinger,
+afdrag samt deres tidsprofil. Optionsjusteringen tager hensyn til
+ekstraordinære udtræk på realkreditobligationer, som reducerer den
+gennemsnitlige løbetid. Investering i disse aktiver opfylder kravene i
+Lov om finansiel virksomhed §50, stk. 1 og 2, som angiver, hvad puljer må
+investere i. Som følge af puljens varighedsbegrænsning må det forventes, at
+afkastet vil være udsat for udsving. Puljens afkast er skattepligtigt og
+beskattes med en pensionsafkastbeskatning svarende til den til enhver tid
+gældende beskatning, jf pensionsafkastbeskatningsloven.
+.sp &b.
+.ovu Handelsvilkår
+Afregningskursen for puljens investeringer vil være identisk med den kurs,
+som Handelsbanken handler til i obligationsmarkedet. Der beregnes ingen
+kursskæring. Såfremt en handelsordre fra puljen ikke nødvendiggør, at
+Handelsbanken skal handle i markedet, bliver afregningskursen fastsat som
+markedskursen på det tidspunkt, ordren kommer til obligationshandlerens
+kendskab. Er der ikke handlet i den pågældende obligationsserie på
+kursfastsættelsestidspunktet, eller er kursen på anden vis uaktuel, vil
+prisfastsættelsen ske med udgangspunkt i den effektive rente på en
+tilsvarende anden obligation. Kurtagen ved køb og salg udgør maksimalt 3/4
+promille af kursværdien samt evt. udenlandske omkostninger. Foruden evt.
+omkostninger i forbindelse med opbevaring af udenlandske værdipapirer
+beregnes der ikke depotomkostninger eller andre handelsomkostninger.
+.sp &b.
+.ovu Administrationsomkostninger
+For deltagelse i Handelsbankens pensionspulje 2 beregnes der et
+administrationsgebyr, der er gradueret i forhold til den enkelte deltagers
+gennemsnitlige månedlige saldo i puljen.
+.sp &b.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 0 og 249.999 beregnes 0,75%
+p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 250.000 og 499.999 beregnes
+0,50% p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger over 500.000 beregnes 0,25% p.a.
+Gebyret fratrækkes i afkastet, inden pensionsafkastskatten beregnes.
+.of
+.sp &b.
+.ovf Pensionspulje 3
+.ovu Investeringsstrategi
+I denne pulje investeres der i danske indeksobligationer samt
+ikkeindekserede obligationer med en gennemsnitlig optionsjusteret varighed
+på minimum 2 år. Ved varighed forstås den gennemsnitligt vejede restløbetid
+på obligationerne, idet der tages højde for
+rentebetalinger, afdrag samt deres tidsprofil. Optionsjusteringen tager
+hensyn til ekstraordinære udtræk på realkreditobligationer, som reducerer
+den gennemsnitlige løbetid. Investering i disse aktiver opfylder kravene i
+Lov om finansiel virksomhed § 50, stk. 1 og 2, som angiver, hvad puljer må
+investere i. Det må forventes, at puljens afkast vil være udsat for
+udsving. Puljens afkast er delvist skattefrit. Den skattepligtige andel af
+afkastet beskattes med en pensionsafkastbeskatning svarende til den til
+enhver tid gældende beskatning, jf pensionsafkastbeskatningsloven.
+.sp &b.
+.ovu Handelsvilkår
+Afregningskursen for puljens investeringer vil være identisk med den kurs,
+som Handelsbanken handler til i obligationsmarkedet. Der beregnes ingen
+kursskæring. Såfremt en handelsordre fra puljen ikke nødvendiggør, at
+Handelsbanken skal handle i markedet, bliver
+afregningskursen fastsat som markedskursen på det tidspunkt, ordren kommer
+til obligationshandlerens kendskab. Er der ikke handlet i den pågældende
+obligationsserie på kursfastsættelsestidspunktet, eller er kursen på anden
+vis uaktuel, vil prisfastsættelsen ske med udgangspunkt i den effektive
+rente på en tilsvarende anden obligation. Kurtagen ved køb og salg udgør
+maksimalt 3/4 promille af kursværdien. Der bliver ikke beregnet
+depotomkostninger eller andre handelsomkostninger.
+.*sp &b.
+.cb
+...PUVSLUT
+.if x&puvilk = x1
+.el .go PUVSLUT
+.*
+.ovu Administrationsomkostninger
+For deltagelse i Handelsbankens pensionspulje 3 beregnes der et
+administrationsgebyr, der er gradueret i forhold til den enkelte deltagers
+gennemsnitlige månedlige saldo i puljen.
+.sp &b.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 0 og 249.999 beregnes 0,75%
+p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 250.000 og 499.999 beregnes
+0,50% p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger over 500.000 beregnes 0,25% p.a.
+.of
+.sp &b.
+Gebyret fratrækkes i afkastet, inden pensionsafkastskatten beregnes.
+.sp &b.
+.ovf Pensionspulje 4
+.ovu Investeringsstrategi
+I denne pulje må der kun investeres i børsnoterede danske aktier, tegnings-
+og aktieretter, konvertible obligationer og/eller investeringsforeninger,
+som investerer i danske aktier, og som er omfattet af lov om
+investeringsforeninger. Desuden kan puljen indgå terminsforretninger, købe
+og sælge futures, erhverve optioner og warrants samt udstede optioner,
+såfremt de nævnte forretninger opfylder bestemmelserne i § 13-22 i
+Finanstilsynets puljebekendtgørelse nr. 1359 af 22. december 2011.
+Investering i disse aktiver og finansielle instrumenter opfylder kravene i
+Lov om finansiel virksomhed §50, stk. 1 og 2, som angiver, hvad puljer må
+investere i. Puljens midler vil blive investeret i et stort antal selskaber
+fordelt på flere brancher. Det tilstræbes, at 70% af midlerne investeres i
+OMXC20-aktier, og at vægtningen i det enkelte selskab i vidt omfang følger
+vægtningen i KFX-indekset. Der er dog mulighed for at overvægte i
+enkeltaktier, såfremt det anses for hensigtsmæssigt. På trods af ovennævnte
+risikospredning kan puljens afkast være udsat for store periodiske udsving.
+Puljens afkast er skattepligtigt og beskattes med en
+pensionsafkastbeskatning svarende til den til enhver tid gældende
+beskatning, jf. pensionsafkastbeskatningsloven.
+.sp &b.
+.ovu Handelsvilkår
+Afregningskursen for puljens investeringer vil være identisk med den kurs,
+som Handelsbanken handler til i aktiemarkedet. Der beregnes ingen
+kursskæring. Såfremt en handelsordre fra puljen ikke nødvendiggør, at
+Handelsbanken skal handle i markedet, bliver afregningskursen fastsat som
+markedskursen på det tidspunkt, ordren kommer til aktiehandlerens kendskab.
+Kurtagen ved køb og salg udgør maksimalt ½% af kursværdien. Der bliver ikke
+beregnet depotomkostninger eller andre handelsomkostninger.
+.sp &b.
+.ovu Administrationsomkostninger
+For deltagelse i Handelsbankens pensionspulje 4 beregnes der et
+administrationsgebyr, der er gradueret i forhold til den enkelte deltagers
+gennemsnitlige månedlige saldo i puljen.
+.sp &b.
+.of &x.
+*¤For den del af saldoen som ligger mellem 0 og 249.999 beregnes 1,00% p.a.
+.of
+.sp &y.
+.of &x.
+*¤For den del af saldoen som ligger mellem 250.000 og 499.999 beregnes
+0,75% p.a.
+.of
+.sp &y.
+.of &x.
+*¤For den del af saldoen som ligger over 500.000 beregnes 0,50% p.a.
+.of
+.sp &b.
+Gebyret fratrækkes i afkastet, inden pensionsafkastskatten beregnes.
+.sp &b.
+.ovf Pensionspulje 5
+.ovu Investeringsstrategi
+I denne pulje må der kun investeres i aktier, tegnings- og aktieretter og
+konvertible obligationer, som er noteret på en dansk eller udenlandsk børs,
+og/eller investeringsforeninger, som investerer i danske eller udenlandske
+aktier, og som er omfattet af lov om investeringsforeninger. Desuden kan
+puljen indgå terminsforretninger, købe og sælge futures, erhverve optioner
+og
+warrants samt udstede optioner, såfremt de nævnte forretninger opfylder
+bestemmelserne i § 13-22 i Finanstilsynets puljebekendtgørelse nr. 1359 af
+22. december 2011. Investering i disse aktiver og finansielle instrumenter
+opfylder kravene i Lov om finansiel virksomhed §50, stk. 1 og 2, som
+angiver, hvad puljer må investere i. Puljens midler vil blive investeret i
+et stort antal selskaber fordelt på flere lande og brancher og maksimalt
+10% i et enkelt selskab. På trods af ovennævnte risikospredning kan puljens
+afkast være udsat for store periodiske udsving. Puljens afkast er
+skattepligtigt og beskattes med en
+pensionsafkastbeskatning svarende til den til enhver tid gældende
+beskatning, jf. pensionsafkastbeskatningsloven.
+.sp &b.
+...PUVSLUT
+.if x&puvilk = x1
+.el .go PUVSLUT
+.*
+.ovu Handelsvilkår
+Afregningskursen for puljens investeringer vil være identisk med den kurs,
+som Handelsbanken handler til i aktiemarkedet. Der beregnes ingen
+kursskæring. Såfremt en handelsordre fra puljen ikke nødvendiggør, at
+Handelsbanken skal handle i markedet, bliver afregningskursen fastsat som
+markedskursen på det tidspunkt, ordren kommer til aktiehandlerens kendskab.
+Kurtagen ved køb og salg af danske og udenlandske aktier samt af danske og
+udenlandske investeringsforeninger, der investerer i udenlandske aktier,
+udgør maksimalt ½% af kursværdien samt evt. udenlandske omkostninger.
+Hertil kommer evt. omkostninger i forbindelse med opbevaring af udenlandske
+værdipapirer. Der bliver ikke beregnet yderligere depotomkostninger eller
+andre handelsomkostninger.
+.sp &b.
+.ovu Administrationsomkostninger
+For deltagelse i Handelsbankens pensionspulje 5 beregnes der et
+administrationsgebyr, der er gradueret i forhold til den enkelte deltagers
+gennemsnitlige månedlige saldo i puljen.
+.sp &b.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 0 og 249.999 beregnes
+1,25% p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 250.000 og 499.999 beregnes
+1,00% p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger over 500.000 beregnes 0,75% p.a.
+.of
+.sp &b.
+Gebyret fratrækkes i afkastet, inden pensionsafkastskatten beregnes.
+.sp &b.
+.ovf Pensionspulje 6
+.ovu Investeringsstrategi
+I denne pulje må der kun investeres i aktier, tegnings- og aktieretter og
+konvertible obligationer, som er børsnoteret, og/eller
+investeringsforeninger, som investerer i udenlandske aktier, og som er
+omfattet af lov om investeringsforeninger. De underliggende papirer skal
+være udstedt af virksomheder hjemmehørende i lande tilsluttet euroen.
+Puljen kan desuden indgå terminsforretninger, købe og sælge futures,
+erhverve optioner og warrants samt udstede optioner, såfremt de nævnte
+forretninger opfylder bestemmelserne i § 13-22 i Finanstilsynets
+puljebekendtgørelse nr. 1359 af 22. december
+2011. Investering i disse aktiver og finansielle instrumenter opfylder
+kravene i Lov om finansiel virksomhed §50, stk. 1 og 2, som angiver, hvad
+puljer må investere i. Puljens midler vil blive investeret i et stort antal
+selskaber fordelt på flere lande og brancher og maksimalt 10% i et enkelt
+selskab. På trods af ovennævnte risikospredning kan puljens afkast være
+udsat for store periodiske udsving. Puljens afkast er skattepligtigt, og
+beskattes med en
+pensionsafkastbeskatning svarende til den til enhver tid gældende
+beskatning, jf. pensionsafkastbeskatningsloven.
+.sp &b.
+.ovu Handelsvilkår
+Afregningskursen for puljens investeringer vil være identisk med den kurs,
+som Handelsbanken handler til i aktiemarkedet. Der beregnes ingen
+kursskæring. Såfremt en handelsordre fra puljen ikke
+nødvendiggør, at Handelsbanken skal handle i markedet, bliver
+afregningskursen fastsat som markedskursen på det tidspunkt, ordren kommer
+til aktiehandlerens kendskab. Kurtagen ved køb og salg af udenlandske
+aktier samt af danske og udenlandske investeringsforeninger, der investerer
+i udenlandske aktier, udgør maksimalt ½% af kursværdien samt evt.
+udenlandske omkostninger. Foruden evt. omkostninger i forbindelse med
+opbevaring af udenlandske værdipapirer beregnes der ikke depotomkostninger
+eller andre handelsomkostninger.
+.sp &b.
+.ovu Administrationsomkostninger
+For deltagelse i Handelsbankens pensionspulje 6 beregnes der et
+administrationsgebyr, der er gradueret i forhold til den enkelte deltagers
+gennemsnitlige månedlige saldo i puljen.
+.sp &b.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 0 og 249.999 beregnes 1,25%
+p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger mellem 250.000 og 499.999 beregnes
+1,00% p.a.
+.of
+.sp &y.
+.of &x.
+* ¤For den del af saldoen som ligger over 500.000 beregnes 0,75% p.a.
+.of
+.sp &b.
+Gebyret fratrækkes i afkastet, inden pensionsafkastskatten beregnes.
+...PUVSLUT

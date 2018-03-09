@@ -1,0 +1,869 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+:SWISS9.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+.*.if &B65P2U EQ 2
+.*.TH Reference:¤&GENEKSP
+.*.TH .br
+Telefon ¤&GENTLFNR
+.BR
+Telefax ¤&AFDFAX
+.br
+E-mail ¤&GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference:
+.TH .br
+.th  &B65DREF
+.TH .SP6mm
+.EL .SP10mm
+:SWISS11.
+&DATO
+.ar off
+.ar tekst on
+&DATO
+.ar off
+.ar tekst on
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEF
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R eq N
+.th .GO NOREC
+:FED.Anbefalet:SKRSLUT.
+.SP 6MM
+...NOREC
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon¤&GENTLFNR
+.br
+E-mail¤&GENEMAIL
+.BR
+.SP10mm
+.* datoregning
+.su off
+.se s = substr &SALDO 2
+.SE a = substr &RESULTB 2
+.SU ON
+.ti ¤ 05
+.TP 129MM right 130mm
+:FED.Opsigelse af konto &KTONR1:SKRSLUT.
+.Sp 3MM
+&B65P20. &B65P21. &B65P22. &B65P23
+&RESULTA. i henhold til vores "Almindelige forretnings- og
+lånebetingelser".
+.SP 3MM
+.*Restgæld:¤&SALDO.¤kr.
+Restgæld:¤&s.¤kr.
+.br
+Rente &B65P2. - &RESULTA.:¤&B65P1.¤kr.
+.br
+.if &B65P151 GT 0
+.TH Gebyr:¤&B65P151.¤kr.
+.th .br
+.sp 3mm
+.*I alt at betale::FED.¤&RESULTB.¤kr.:SKRSLUT.
+:SWISS11.
+I alt at betale:¤&a.¤kr.
+.sp 3mm
+Det samlede beløb skal indbetales senest 14 dage fra i dag, det vil sige
+.br
+den &RESULTA.. Bemærk, at der vil påløbe renter af det samlede, skyldige
+beløb indtil betaling sker.
+.sp 3mm
+.**************** AFSNIT TIL FS FINANS **********************************
+.if &U'&B65PFB = F
+.th Vi beder &JER derfor indbetale beløbet til vores konto i Arbejdernes
+.th Landsbank, reg.nr. 5301 konto 0418297. Det er vigtigt, at &DU angiver
+.th referencenummer 9981 &B65TEXT105 på
+.th indbetalingen. Referencenummeret sikrer korrekt registrering af
+.th indbetalingen.
+.th .sp
+.*************** HER SLUTTER AFSNIT TIL FS FINANS ***********************
+Har vi ikke modtaget det samlede beløb senest den &RESULTA., igangsætter vi
+uden yderligere varsel, inddrivelse af det skyldige beløb. Det betyder, at
+der påløber yderligere omkostninger på for &JER..
+.sp 3mm
+.IF &U'&B65PJN1 EQ J
+.TH .GO BLOCK
+.EL .GO NOBLOCK
+...BLOCK
+Vi gør opmærksom på, at vi har spærret alle betalingsaftaler, fx
+Betalingsservice, og eventuelle
+betalingskort pr. dags dato, ligesom Visa/Dankort er sat
+på spærreliste.
+.br
+Ved klage
+over spærring af betalingskort, skrives til
+Datatilsynet, Borgergade 28, 5., 1300 København K.
+.sp 3mm
+...NOBLOCK
+.**Vi realiserer efter fristens udløb de sikkerheder, herunder kaution der
+.**er stillet over for os.
+.if &U'&B65PJN4 EQ E
+.TH .GO CHE
+.EL .GO KAU
+...CHE
+Vi indberetter &DIG også med navn, adresse, stilling og cpr-nummer til
+Pengeinstitutternes
+Check- og Kortmisbrugerregister hvor &DU vil være registret i to år.
+I de to år kan &DU ikke oprette check- og dankortkonti i
+danske pengeinstitutter.
+.sp 3mm
+&SDU kan få bekræftet indholdet af registreringen ved at skrive til
+Finansrådet, Amaliegade 7, 1265 København K.
+.sp 3mm
+...KAU
+.if &U'&B65PJN3 EQ K
+.TH Vi realiserer efter fristens udløb de sikkerheder, herunder kaution
+.th der er stillet over for os. Vi har samtidig skrevet til
+.th kautionist(er).
+.th .sp 3mm
+.if &U'&B65PJN3 EQ D
+.th Vi realiserer efter fristens udløb de sikkerheder, herunder kaution
+.th der er stillet over for os. Vi har samtidig skrevet til
+.th deponent(er).
+.th .sp 3mm
+.**************** overføres til side 2********************************
+.*.IF &U'&B65PFB EQ F
+.*.or &U'&B65PJN4 = J
+.if &U'&B65PJN1 = J
+.th .pa
+.th .sp5
+.el
+.****************************************************
+Dette brev er samtidig et rentepåkrav i henhold til Rentelovens §3, stk. 1,
+og i medfør af Rentelovens §5, stk. 1, fastsættes renten til
+referencesatsen
+med et tillæg på 7%, med mindre vi har aftalt en højere forrentning.
+.sp 3mm
+.if &L'&B65R > 0
+.th Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 3mm
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.AR OFF
+.** SIDESKIFT
+.pa
+.IF &L'&MEDNAVN LT 1
+.TH .GO NOMED
+.EL .GO YESMED
+...YESMED
+.FO LEFT
+:tiltale &TILTALE
+.**** Arealer ******
+.da adressem 33mm 33mm width 85mm
+.da afsenderm 124mm 36mm
+.da tekstm 33mm 90mm width 135mm
+.DA VENDE 7MM 270MM WIDTH 180MM rotate -90
+.ar VENDE on
+:SWISS6.
+&BREVNAVN - :FED.Medkontohaver:SKRSLUT
+.AR OFF
+:SWISS11.
+.***************** Adressen begynder
+.ar adressem on
+:SWISS11.
+.if &L'&B65R > 0
+.th :FED.
+.th Anbefalet
+.th :SKRSLUT.
+.th .sp
+:SWISS11.
+.TH .SP3MM
+.IF &L'&MEDSTILL GT 0
+.TH &U'&c.&d
+.TH .br
+&MEDNAVN
+.br
+.IF &L'&MEDCO GT 0
+.TH &MEDCO
+.TH .br
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.******************** afsenderafsnit**********************************
+.ar afsenderm on
+:SWISS9.
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp
+CVR &BANKSENR
+.TP 20MM
+.br
+Telefon: &GENTLFNR
+.BR
+E-mail: &GENEMAIL
+:SWISS11.
+.SP 6mm
+&DATO
+.ar off
+.ar tekstm on
+.ti ¤ 05
+.TP 129MM right 130mm
+:FED.Opsigelse af konto &KTONR1:SKRSLUT.
+.Sp 3MM
+:SWISS11.
+&B65P20. &B65P21. &B65P22. &RESULTA. i henhold til vores
+"Almindelige forretnings- og lånebetingelser".
+.SP 3MM
+Restgæld:¤&s.¤kr.
+.br
+Rente &B65P2. - &RESULTA.:¤&B65P1.¤kr.
+.br
+.if &B65P151 GT 0
+.TH Gebyr:¤&B65P151.¤kr.
+.th .br
+.sp 3mm
+I alt at betale:¤&a.¤kr.
+.sp 3mm
+:SWISS11.
+Det samlede beløb skal indbetales senest 14 dage fra i dag, det vil sige
+.br
+den &RESULTA.. Bemærk, at der vil påløbe renter af det samlede, skyldige
+beløb indtil betaling sker.
+.sp 3mm
+.************************AFSNIT til FS Finans
+.if &U'&B65PFB = F
+.th Vi beder &JER derfor indbetale beløbet til vores konto i Arbejdernes
+.th Landsbank, reg.nr. 5301 konto 0418297. Det er vigtigt, at &DU angiver
+.th referencenummer 9981 &B65TEXT105 på
+.th indbetalingen. Referencenummeret sikrer korrekt registrering af
+.th indbetalingen.
+.th .sp
+.******************** HER SLUTTER AFSNIT TIL FS FINANS *************
+Har vi ikke modtaget det samlede beløb senest den &RESULTA., igangsætter vi
+uden yderligere varsel, inddrivelse af det skyldige beløb. Det betyder, at
+der påløber yderligere omkostninger på for &JER..
+.sp 3mm
+.IF &U'&B65PJN1 EQ J
+.TH .GO BLOCK
+.EL .GO NOBLOCK
+...BLOCK
+Vi gør opmærksom på, at vi har spærret alle betalingsaftaler, fx
+Betalingsservice, og eventuelle
+betalingskort pr. dags dato, ligesom Visa/Dankort er sat
+på spærreliste.
+.br
+Ved klage
+over spærring af betalingskort, skrives til
+Datatilsynet, Borgergade 28,5., 1300 København K.
+.sp 3mm
+...NOBLOCK
+.*Vi realiserer efter fristens udløb de sikkerheder, herunder kaution der
+.*er stillet over for os.
+.if &U'&B65PJN4 EQ E
+.th .go CHE
+.el .go KAU
+...CHE
+Vi indberetter &DIG også men navn, adresse, stilling og cpr-nummer til
+Pengeinstitutternes Check- og Kortmisbrugerregister hvor &DU vil være
+registreret i to år. I de to år kan &DU ikke oprette check- og
+dankortkonti i danske pengeinstitutter
+.sp 3mm
+&SDU kan få bekræftet indholdet af registrering ved at skrive til
+Finansrådet, Amaliegade 7, 1265 Købehavn K.
+.sp 3mm
+...KAU
+.if &U'&B65PJN3 EQ K
+.th Vi realiserer efter fristens udløb de sikkerheder, herunder kaution
+.th der er stillet over for os. Vi har samtidig skrevet til
+.TH kautionist(er).
+.th .sp 3mm
+.if &U'&B65PJN3 EQ D
+.th Vi realiserer efter fristens udløb de sikkerheder, herunder kaution
+.th der er stillet over for os. Vi har samtidig skrevet til
+.TH deponent(er).
+.th .sp 3mm
+.*******************
+.***************************
+.*.if &U'&B65PFB EQ F
+.*.or &U'&B65PJN4 = J
+.if &U'&B65PJN1 = J
+.th .pa
+.th .sp5
+.el
+.*****************
+Dette brev er samtidig et rentepåkrav i henhold til Rentelovens §3, stk. 1,
+og i medfør af Rentelovens §5, stk. 1, fastsættes renten til
+referencesatsen
+med et tillæg på 7%, med mindre vi har aftalt en højere forrentning.
+.sp 3mm
+.if &U'&B65R > 0
+.th Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.pa
+...NOMED
+.if &U'&B65PJN3 EQ J
+.TH .GO BREV
+.EL .GO NOBREV
+...BREV
+.su off
+.SE a = substr &RESULTB 2
+.su on
+.FO LEFT
+:tiltale &TILTALE
+.**** Arealer ******
+.da adressek 33mm 36mm width 85mm
+.da afsenderk 124mm 36mm
+.da tekstk 33mm 90mm width 135mm
+.DA VENDK 7MM 270MM WIDTH 180MM rotate -90
+.ar VENDK on
+:SWISS6.
+&BREVNAVN - :FED.Kautionist:SKRSLUT
+.AR OFF
+.***************** Adressen begynder
+.ar adressek on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.IF &L'&GENSTILL GT 0
+.TH &GENSTILL
+.TH .br
+&GENNAVN
+.br
+.IF &L'&GENCO GT 0
+.TH &GENCO
+.*tH &B65PH2
+.th .br
+&GENGADE
+.BR
+&GENBY
+.br
+...on
+&GENLAND
+.ar off
+.ar afsenderk on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon:¤&GENTLFNR
+.BR
+E-mail:¤&GENEMAIL
+.SP 6mm
+&DATO
+.ar off
+.ar tekstk on
+.TP 129MM right 130mm
+:FED.Opsigelse af konto &KTONR1.:SKRSLUT.
+.Sp 3MM
+Vi har opsagt konto &KTONR1., som &DU er
+kautionist for, til fuld indfrielse
+over for &KTONAVN. pr. den &RESULTA. da aftalen er misligholdt.
+.SP 3MM
+Restgæld:¤&s.¤kr.
+.br
+Rente &B65P2. - &RESULTA.:¤&B65P1.¤kr.
+.br
+.if &B65P151 GT 0
+.TH Gebyr:¤&B65P151.¤kr.
+.th .br
+.sp 3mm
+.*I alt at betale:¤&RESULTB.¤kr.
+I alt at betale:¤&a.¤kr.
+.sp 3mm
+Hvis restgælden plus renter
+.IF &B65P151 GT 0
+.TH og gebyr
+ikke er indbetalt
+inden &RESULTA., lader vi uden yderligere varsel
+sagen gå til inkasso via bankens advokat.
+Dette medfører :FED.betydelige yderligere omkostninger:SKRSLUT.
+til bankens ekspedition, advokat og de
+nødvendige retslige skridt. Sikkerhederne vil blive
+realiseret uden yderligere varsel, det vil sige solgt eller på anden
+vis gjort til kontanter.
+.sp 3mm
+Bemærk at vi under alle omstændigheder beregner
+rente af vores tilgodehavende.
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.pa
+...NOBREV
+.if &L'X&B65P321 gt 1
+.TH .GO BREV2
+.EL .GO NOBREV2
+...BREV2
+.FO LEFT
+:tiltale &TILTALE
+.**** Arealer ******
+.da adressek 33mm 36mm width 85mm
+.da afsenderk 124mm 36mm
+.da tekstk 33mm 90mm width 135mm
+.DA VENDK 7MM 270MM WIDTH 180MM rotate -90
+.ar VENDK on
+:SWISS6.
+&BREVNAVN - :FED.Kautionist:SKRSLUT
+.AR OFF
+.***************** Adressen begynder
+.ar adressek on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.IF &L'&B65P320 GT 0
+.TH &B65P320
+.TH .br
+&B65P321
+.br
+.IF &L'&B65P322 GT 0
+.TH &B65P322
+.*TH &B65PH2
+.th .br
+&B65P323
+.BR
+&B65P324
+.br
+...on
+&GENLAND
+.ar off
+.ar afsenderk on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon:¤&GENTLFNR
+.BR
+E-mail:¤&GENEMAIL
+.SP 6mm
+&DATO
+.ar off
+.ar tekstk on
+.TP 129MM right 130mm
+:FED.Opsigelse af konto &KTONR1.:SKRSLUT.
+.Sp 3MM
+Vi har opsagt konto &KTONR1., som &DU er
+kautionist for, til fuld indfrielse
+over for &KTONAVN. pr. den &RESULTA. da aftalen er misligholdt.
+.SP 3MM
+Restgæld:¤&s.¤kr.
+.br
+Rente &B65P2. - &RESULTA.:¤&B65P1.¤kr.
+.br
+.if &B65P151 GT 0
+.TH Gebyr:¤&B65P151.¤kr.
+.th .br
+.sp 3mm
+.*I alt at betale:¤&RESULTA.¤kr.
+I alt at betale:¤&a.¤kr.
+.sp 3mm
+Hvis restgælden plus renter
+.IF &B65P151 GT 0
+.TH og gebyr
+ikke er indbetalt
+inden &RESULTA., lader vi uden yderligere varsel
+sagen gå til inkasso via bankens advokat.
+Dette medfører :FED.betydelige yderligere omkostninger:SKRSLUT.
+til bankens ekspedition, advokat og de
+nødvendige retslige skridt. Sikkerhederne vil blive
+realiseret uden yderligere varsel, det vil sige solgt eller på anden
+vis gjort til kontanter.
+.sp 3mm
+Bemærk at vi under alle omstændigheder beregner
+rente af vores tilgodehavende.
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.pa
+...NOBREV2
+.if &L'X&B65P331 gt 1
+.TH .GO BREV3
+.EL .GO NOBREV3
+...BREV3
+.FO LEFT
+:tiltale &TILTALE
+.**** Arealer ******
+.da adressek 33mm 36mm width 85mm
+.da afsenderk 124mm 36mm
+.da tekstk 33mm 90mm width 135mm
+.DA VENDK 7MM 270MM WIDTH 180MM rotate -90
+.ar VENDK on
+:SWISS6.
+&BREVNAVN - :FED.Kautionist:SKRSLUT
+.AR OFF
+.***************** Adressen begynder
+.ar adressek on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.IF &L'&B65P320 GT 0
+.TH &B65P330
+.TH .br
+&B65P331
+.br
+.IF &L'&B65P332 GT 0
+.TH &B65P332
+.*TH &B65PH2
+.th .br
+&B65P333
+.BR
+&B65P334
+.br
+...on
+&GENLAND
+.ar off
+.ar afsenderk on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon:¤&GENTLFNR
+.BR
+E-mail:¤&GENEMAIL
+.SP 6mm
+&DATO
+.ar off
+.ar tekstk on
+.TP 129MM right 130mm
+:FED.Opsigelse af konto &KTONR1.:SKRSLUT.
+.Sp 3MM
+Vi har opsagt konto &KTONR1., som &DU er
+kautionist for, til fuld indfrielse
+over for &KTONAVN. pr. den &RESULTA. da aftalen er misligholdt.
+.SP 3MM
+Restgæld:¤&s.¤kr.
+.br
+Rente &B65P2. - &RESULTA.:¤&B65P1.¤kr.
+.br
+.if &B65P151 GT 0
+.TH Gebyr:¤&B65P151.¤kr.
+.th .br
+.sp 3mm
+.*I alt at betale:¤&RESULTA.¤kr.
+I alt at betale:¤&a.¤kr.
+.sp 3mm
+Hvis restgælden plus renter
+.IF &B65P151 GT 0
+.TH og gebyr
+ikke er indbetalt
+inden &RESULTA., lader vi uden yderligere varsel
+sagen gå til inkasso via bankens advokat.
+Dette medfører :FED.betydelige yderligere omkostninger:SKRSLUT.
+til bankens ekspedition, advokat og de
+nødvendige retslige skridt. Sikkerhederne vil blive
+realiseret uden yderligere varsel, det vil sige solgt eller på anden
+vis gjort til kontanter.
+.sp 3mm
+Bemærk at vi under alle omstændigheder beregner
+rente af vores tilgodehavende.
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.pa
+...NOBREV3
+.if &L'X&B65P341 gt 1
+.TH .GO BREV4
+.EL .GO NOBREV4
+...BREV4
+.FO LEFT
+:tiltale &TILTALE
+.**** Arealer ******
+.da adressek 33mm 36mm width 85mm
+.da afsenderk 124mm 36mm
+.da tekstk 33mm 90mm width 135mm
+.DA VENDK 7MM 270MM WIDTH 180MM rotate -90
+.ar VENDK on
+:SWISS6.
+&BREVNAVN - :FED.Kautionist:SKRSLUT
+.AR OFF
+.***************** Adressen begynder
+.ar adressek on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.IF &L'&B65P340 GT 0
+.TH &B65P340
+.TH .br
+&B65P341
+.br
+.IF &L'&B65P342 GT 0
+.TH &B65P342
+.*TH &B65PH2
+.th .br
+&B65P343
+.BR
+&B65P344
+.br
+...on
+&GENLAND
+.ar off
+.ar afsenderk on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+Telefon:¤&GENTLFNR
+.BR
+E-mail:¤&GENEMAIL
+.SP 6mm
+&DATO
+.ar off
+.ar tekstk on
+.TP 129MM right 130mm
+:FED.Opsigelse af konto &KTONR1.:SKRSLUT.
+.Sp 3MM
+Vi har opsagt konto &KTONR1., som &DU er
+kautionist for, til fuld indfrielse
+over for &KTONAVN. pr. den &RESULTA. da aftalen er misligholdt.
+.SP 3MM
+Restgæld:¤&s.¤kr.
+.br
+Rente &B65P2. - &RESULTA.:¤&B65P1.¤kr.
+.br
+.if &B65P151 GT 0
+.TH Gebyr:¤&B65P151.¤kr.
+.th .br
+.sp 3mm
+.*I alt at betale:¤&RESULTA.¤kr.
+I alt at betale:¤&a.¤kr.
+.sp 3mm
+Hvis restgælden plus renter
+.IF &B65P151 GT 0
+.TH og gebyr
+ikke er indbetalt
+inden &RESULTA., lader vi uden yderligere varsel
+sagen gå til inkasso via bankens advokat.
+Dette medfører :FED.betydelige yderligere omkostninger:SKRSLUT.
+til bankens ekspedition, advokat og de
+nødvendige retslige skridt. Sikkerhederne vil blive
+realiseret uden yderligere varsel, det vil sige solgt eller på anden
+vis gjort til kontanter.
+.sp 3mm
+Bemærk at vi under alle omstændigheder beregner
+rente af vores tilgodehavende.
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.pa
+...NOBREV4

@@ -1,0 +1,356 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **Uddannelseserklæring
+:GL.
+&&??#
+:EGL.
+.ti ¤ 05
+.fo left
+:NY.
+:COUR10.
+:ENY.
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*Areal definition for kontohaver
+.da KTOHAVER 20mm 57mm width 84mm
+.*Areal definition for pengeinstituttet
+.da PI 110mm 57mm width 84mm
+.*Areal definition for kundenr./kontonr
+.da KUNDENR 20mm 85mm width 84mm
+.***********************************************************
+.ar KTOHAVER on
+.us Kontohaver
+.sp
+&STILL.
+.br
+&NAVN.
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.***********************************************************
+.ar PI on
+.us Kontoførende pengeinstitut
+.sp
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.***********************************************************
+.ar KUNDENR on
+.tp 40mm 94mm
+Kontonr.¤&LANGKTONR.
+.br
+Kundenr.¤&KTOKUNDENR
+.sp
+.ar off
+.*************************************************************
+.* Uddataoverskrift
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Uddataoverskrift
+.da OVERSKR 20mm 110mm width 175mm
+.*************************************************************
+.ar VEND on
+:COUR6.
+BECUDD01
+.ar off
+.*************************************************************
+.ar OVERSKR on
+.us Uddannelseserklæring
+.sp
+.*************************************************************
+.th .se valg = 'som engangsbeløb'
+.el
+.se regnr = substr &REGKTO 1 4
+.se ktonr = substr &REGKTO 5 10
+Beløb á kr. &ÅCONT
+:VS. &GENBELQB.
+bedes udbetalt &valg og overført til mit kontonr. &regnr &ktonr..
+.sp
+.if &U'X&GENHVER ne XE
+.th Første gang den &GENDATO1 og sidste gang den &GENDATO2..
+.sp 9mm
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Jeg erklærer, &uddstart &DATO1 &uddstop
+.th .br
+.th &DATO2..
+.th .sp
+.th .go SLUT
+.********************** Hvis flere moduler er valgt ******************
+.********************** Uddannelse ***********************************
+Jeg erklærer,
+.sp
+.tp 15mm
+.if &L'&GENTEKST1 gt 0
+.th ¤&studium
+.th .sp
+.tp 30mm
+.th ¤&GENTEKST1
+.*********************************************************************
+.th .sp
+.********************** Kursus **************************************
+.tp 15mm
+.if &L'&GENTEKST3 gt 0
+.th ¤&kursus
+.th .sp
+.*********************************************************************
+.tp 30mm
+.th ¤&GENTEKST3
+.th .sp
+.********************** Uddannelsesperiode ***************************
+.tp 15mm
+.if &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th ¤&uddstart &DATO1 &uddstop &DATO2..
+.th .sp
+.********************** Meddelelse om ophør **************************
+.if &L'&GENTEKST1 gt 0
+.an &L'&GENTEKST3 gt 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Jeg erklærer, at jeg straks vil meddele banken, hvis min
+.th studieaktivitet eller deltagelse i nævnte kursus ophører.
+.th .sp
+.********************** Ratestørrelse og antal ***********************
+...SLUT
+.in 0mm
+.if &U'X&GENHVER eq XU
+.th .se valg = 'i ugentlige rater'
+.if &U'X&GENHVER eq XM
+.th .se valg = 'i månedlige rater'
+.if &U'X&GENHVER eq XE
+.us INDHOLD
+.sp
+.se studium = 'at jeg vil være studieaktiv indenfor følgende:'
+.se kursus = 'at jeg i mindre end 1 år vil deltage i følgende kursus:'
+.se uddstart = 'at uddannelsesperioden starter den'
+.se uddstop = 'og slutter den'
+.********************** Kun studium valgt ****************************
+.if &L'&GENTEKST1 gt 0
+.an &L'&GENTEKST3 eq 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th .go START1
+.el .go NEXT
+...START1
+Jeg erklærer, &studium
+.sp
+.ce &GENTEKST1
+.sp
+.if &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Uddannelsesperioden starter den &DATO1 &uddstop &DATO2..
+.th .sp
+Jeg vil straks meddele banken, hvis min studieaktivitet ophører.
+.sp
+.go SLUT
+.********************** Kun kursus valgt ****************************
+...NEXT
+.if &L'&GENTEKST1 eq 0
+.an &L'&GENTEKST3 gt 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th .go START2
+.el .go NEXT1
+...START2
+Jeg erklærer, &kursus
+.sp
+.ce &GENTEKST3
+.sp
+.if &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Uddannelsesperioden starter den &DATO1 &uddstop &DATO2..
+.th .sp
+Jeg vil straks meddele banken, hvis min deltagelse i nævnte kursus
+ophører.
+.sp
+.go SLUT
+.********************** Kun uddannelsesperiode valgt *****************
+...NEXT1
+.if &L'&GENTEKST1 eq 0
+.an &L'&GENTEKST3 eq 0
+.us UNDERSKRIFT
+.sp 12mm
+.tp 72mm
+.se streg = '__________________________________'
+&streg ¤, den¤&streg
+.sp 17mm
+.if &L'&VÆRGE gt 1
+.se streg = '__________________________________'
+.tp 85mm
+.th &streg ¤&streg
+.th .br
+.th &NAVN.¤&VÆRGE
+.th .sp
+.th ¤Værges underskrift, hvis kontohaver ikke
+.th .br
+.th ¤er fyldt 18 år
+.th .br
+.if &L'&VÆRGE lt 1
+.th .ce on
+.th &streg
+.th .br
+.th &NAVN
+.th .ce off
+.ar off
+.*************************************************************
+.pa
+.*************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************************************************************
+.ar VEND on
+:COUR6.
+BECUDD01
+.br
+Kl. &KLOKKESLET. &DATO.
+.ar off
+.*************************************************************
+.* Overskrift
+.da OVER1 20mm 65mm width 170mm
+.* Del-overskrift
+.da OVER2 20mm 79mm width 170mm
+.* Kolonne 1 af regelsættet
+.da KOLONNE1 20mm 90mm width 78mm
+.*****************************************************************
+.ar OVER1 on
+.us Tillæg til uddannelseserklæring - uddrag af regler
+.ar off
+.*****************************************************************
+.ar OVER2 on
+Uddrag af regler for uddannelsesopsparing oprettet i henhold til lov
+nr. 727 af 29. oktober 1986 samt senere ændringer og bekendtgørelser.
+.ar off
+.*****************************************************************
+.ar KOLONNE1 on
+:COUR10.
+Statens præmie
+.sp
+:COUR8.
+Staten yder en præmie på 4% p.a. af den til enhver tid foretagne
+opsparing (incl. tilskrevne renter, men excl. statens præmie). Det
+er en betingelse, at udbetaling finder sted i overensstemmelse med
+undervisningsministeriets regler i bekendtgørelse om
+.hw ud-dan-nel-ses-op-spa-ring.
+Præmiebeløbet, der afholdes af
+.hw stats-kas-sen,
+er fritaget for indkomstskat.
+.sp
+Præmien beregnes ved opsparingsperiodens
+.hw af-slut-ning
+i forbindelse med
+udbetaling fra kontoen til en præmieberettiget uddannelse.
+Uddannelseskontoen tilskrives ved hvert
+.hw ud-be-ta-lings-års
+udløb eller ved en
+.hw præ-mie-be-ret-ti-gen-de
+uddannelses afslutning en forholdsmæssig andel af det samlede
+.hw præ-mie-be-løb.
+:COUR10.
+.sp 5mm
+Udbetaling
+:COUR8.
+.sp
+Udbetaling med præmie kan påbegyndes ved kontohavers fyldte 16. år, dog
+tidligst 3 år efter første indbetaling på kontoen. Udbetaling sker uden
+opsigelse. Udbetaling med præmie kan kun ske i forbindelse med kontohavers
+påbegyndelse af en præmieberettigende uddannelse. Kontohaver skal over for
+pengeinstituttet dokumentere påbegyndelsen af en sådan uddannelse ved
+forevisning af indskrivningsbevis eller lignende.
+.sp
+Udbetaling kan højst udgøre kr. 24.000 incl. præmien årligt, og
+udbetalingen finder sted i 12 månedlige lige store rater. Det årlige
+maksimumbeløb reguleres efter
+.hw un-der-vis-nings-mi-ni-ste-riets
+nærmere bestemmelse.
+.sp
+Udbetalingsåret starter ved første udbetaling fra kontoen, og udbetaling
+kan tidligst finde sted ved uddannelsens påbegyndelse.
+.ar off
+.*****************************************************************
+.***************************************************************
+:COUR10.
+.* Kolonne 2 af regelsættet
+.da KOLONNE2 108mm 97.8mm width 78mm
+.*****************************************************************
+.ar KOLONNE2 on
+:COUR8.
+Begynder kontohaver på en uddannelse, der er af kortere varighed end 2
+måneder, kan udbetalingen fra "opsparing til egen uddannelse" højst andrage
+kr. 3.000 pr. uge. Er kontoen en "opsparing til børns uddannelse" er kun
+uddannelser af mindst 1 års normeret varighed præmieberettiget.
+.sp
+Kontohaver er forpligtet til straks at meddele, hvis
+studieaktiviteten/deltagelsen i kurset ophører.
+.sp
+Hvis kontohaveren i uddannelsesåret ophører med at være studieaktiv
+eller deltage i det pågældende kursus, tilskrives der ikke kontoen præmie
+for perioden. Kontoen ophører med at være en uddannelseskonto, medmindre
+kontohaveren tilbagefører det udbetalte beløb.
+.sp 2
+Udbetaling uden præmie kan til enhver tid ske mod opsigelse eller
+dekortberegning i følgende tilfælde:
+.sp
+.in 10mm
+- Kontohavers død
+.br
+- Kontohavers konkurs
+.br
+- Skifte af ægtefællers fællesbo,
+.br
+.in 14mm
+separation, skilsmisse eller bodeling
+.br
+.in 10mm
+- Kontohavers emigration.
+.in 0mm
+.sp
+Endvidere kan opsparingen hæves uden præmie - og uden opsigelse - 3 år
+efter første
+.hw ind-be-ta-ling.
+.sp
+En konto, hvorfra der foretages deludbetaling uden præmie, betragtes ikke
+mere som en uddannelseskonto. Herefter kan der ikke tilskrives præmie,
+og der kan ikke foretages yderligere indskud.
+.ar off

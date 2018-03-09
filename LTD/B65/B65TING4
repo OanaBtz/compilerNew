@@ -1,0 +1,317 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* PARAMETERAFSNIT
+.* Teksten ligger i AFSNIT T
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.se TR = ' '
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.*.if &fundet = 0 .TLADR2 &post
+.*.if &fundet = 0 .TLADR3 &post
+.*.if &fundet = 0 .TLADR4 &post
+.*.if &fundet = 0 .TLADR5 &post
+.*.if &fundet = 0 .go EJFUND
+.if &fundet = 1
+.th .go RET
+.el .go EJFUND
+.**************************************************************************
+...RET
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.th .se gb = substr '&TB.' 7 28
+.th .se TR = '&GENRET. &gb.'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0003 .se TN = 'Andelsboligbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .2100 .se TN = 'Skibsregistret'
+.th .se TR = ' '
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+.th .se TR = ' '
+.if .&post1 = .9500 .se TN = 'Tinglysningsretten'
+.th .se TR = ' '
+...EJFUND
+...DM
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0001
+.or &ITLPN = 0002
+.or &ITLPN = 0003
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .se ktonr = '0216 4069152155'
+.th .go SLUT
+.if &ITLPN = 0110
+.th .se TG 'C. Pløyensgøta 1'
+.th .se TB '110  Tórshavn'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 9500
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500 Hobro'
+.th .se ktonr = ''
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ********
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENRET  = '&TR.'
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENRET.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**********************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL *********
+:GL.
+&GENRET.
+.br
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
+.* Tinglysning - Effekter - brevnavn mv.
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.dr thin weight 0.1mm
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.ll 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+B65TING4
+.ar off
+.* Tinglysnings-følgebrev
+.TI ¤ 05
+.tp 5MM 38MM 56MM
+.da afsender 128mm 37mm width 80mm
+.da overskrift 25mm 94mm width 165mm
+.da tekst 25mm 113mm width 165mm
+.******* arealer slut ***************
+.ar afsender on
+:COUR8.
+.tp 20mm
+&AFDNAVN
+.BR
+&AFDGADE
+.BR
+&AFDBY
+.BR
+&GENEKSP
+.br
+.if &L'&B65P51 GT 1
+.TH Reference: &B65P321
+.TH .br
+Telefon:¤&GENTLFNR
+.BR
+Telefax:¤&AFDFAX
+.SP 10MM
+&DATO
+.AR OFF
+.ar overskrift on
+.if &U'&GENJANEJ EQ J
+.TH Roskilde Bank er trådt ud af storkundeordningen pr. 1. juli 2005.
+.th .sp 3mm
+.el .sp 6mm
+:FED.
+.IF &L'&B65P5 GT 0
+.TH Matr.nr. &B65P5
+.if &L'&B65P30 GT 0
+.TH Indreg.nr./stel nr.: &B65P30.
+.if &L'&B65P50 GT 0
+.TH Andelsbolig &B65P50.
+.IF &L'&B65P31 GT O
+.TH &B65P31
+.br
+.if &L'&B65P40 GT 0
+.TH Ejer: &B65P40
+.if &L'&B65NAVN GT 0
+.TH og &B65NAVN
+:SKRSLUT.
+.AR OFF
+.AR tekst on
+Vi vedlægger
+.sp 3mm
+&B65P10
+.br
+&B65P11
+.br
+&B65P12
+.br
+&B65P13
+.br
+&B65P14
+.sp 3mm
+til
+.sp 3mm
+.tp 5MM 60MM
+.if x&U'&B65PJN1 eq xJ
+.th *¤Tinglysning
+.th .sp 2mm
+.if x&U'&B65PJN2 eq xJ
+.th *¤Annullation af retsanmærkning
+.TH .sp 2mm
+.if x&U'&B65PJN3 eq xJ
+.th *¤Lysning af påtegning
+.th .sp 2mm
+.if x&U'&B65PJN4 eq xJ
+.th *¤Aflysning
+.th .sp 2mm
+.if &L'&B65P1 gt 0
+.th *¤&B65P1
+.th .sp 2mm
+.sp 3mm
+.if x&U'&B65PJN6 eq xJ
+.or x&U'&B65PJN7 eq xJ
+.or x&U'&B65PJN8 eq xJ
+.or &L'&B65P2 gt 0
+.or &L'&B65P3 gt 0
+.or &L'&B65P4 gt 0
+.th Desuden vedlægges
+.th .sp 3mm
+.if x&U'&B65PJN6 eq xJ
+.th *¤Skøde
+.th .sp 2mm
+.if x&U'&B65PJN10 eq xJ
+.th *¤Adkomsterklæring
+.th .sp 2mm
+.if x&U'&B65PJN12 eq xJ
+.th *¤BBR/OIS udskrift
+.th .sp 2mm
+.if x&U'&B65PJN7 eq xJ
+.th *¤Dåbsattest
+.th .sp 2mm
+.if x&U'&B65PJN8 eq xJ
+.th *¤Vielsesattest
+.th .sp 2mm
+.if x&U'&B65PJN14 eq xJ
+.th *¤Udskrift fra Erhvervs- og selskabsstyrelsen
+.th .sp 2mm
+.if &L'&B65P2 gt 0
+.th *¤&B65P2
+.th .sp 2mm
+.if &L'&B65P3 gt 0
+.th *¤&B65P3
+.th .sp 2mm
+.if &L'&B65P4 gt 0
+.th *¤Check til dækning af stempelomkostninger på &B65P4. kr.
+.th .sp 3mm
+.if &L'&BECBELOB4 eq 0
+.an &L'&BECBELOB5 eq 0
+.an &L'&ktonr = 0
+.th .go BETSLUT
+.***********
+.if &L'&BECBELOB5 eq 0
+.th .go CHECK
+Til dækning af tinglysningsfgift
+overføres
+:VS. &BECBELOB5
+kr. til kontonr. &ktonr..
+.sk
+...CHECK
+.if &L'&BECBELOB4 gt 0
+.th Til dækning af tinglysningsafgift vedlægges i check
+.th :VS. &BECBELOB4
+.th kr.
+.th .sk
+.if &U'&B65PJN11 EQ J
+.TH .GO UNDERS
+.EL .GO NOUND
+...UNDERS
+Bemærk at iht. Roskilde Banks underskriftcirkulære skal
+bl.a. visse tinglysningsdokumenter
+alene være forsynet med :FED.én:SKRSLUT.
+underskrift.
+...NOUND
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+.su off
+.*se a = substr &AFDNAVN 1 4
+.SU ON
+.*IF X'&a = XSTED
+.*th .go STEDET
+.GO HILSEN
+...STEDET
+Vi ses på STEDET
+.GO HILSLUT
+...HILSEN
+Med venlig hilsen
+.sp 15MM
+&GENEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL
+...HILSLUT
+.ar off

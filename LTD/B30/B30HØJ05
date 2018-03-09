@@ -1,0 +1,185 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***********************
+.* Dette brev kan bruges på 2 måder.
+.* Enten ved at det er nøglen i brevet (IREGKTO)
+.*  der bliver lønkontoen
+.* Eller ved at det er en indtastet lønkontonummer (B30KTOLØN)
+.*  der bliver lønkontoen.
+.* Det styres af en parameter (B30LØNJN) der sættes til værdien J
+.* når det er IREGKTO der bruges
+.*  eller den sættes til værdien N
+.* når det er B30KTOLØN der skal bruges.
+.*
+.* Parameterne er skyggede, der hvor de ikke bruges.
+.**************************************
+.su off
+.se cprcvr = substr &KTOKNDNR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.****************
+.if &U'&B30LØNMEDK = J
+.or &U'&B30LØNMEDK = N
+.th .go OKBLØNP
+.el .mg/T/Der skal tastes Ja eller Nej til Flyt løn medkontohaver/
+...OKBLØNP
+.************
+.if &U'&B30LØNMEDK = N
+.th .go EJBLØNP
+.if &L'&MEDNAVN = 0
+.th .mg/T/Der er ingen medktohaver og derfor kan lønbrev ikke udskrives/
+.if &L'&B30KONTO = 0
+.th .mg/T/Medkontohavers lønkonto skal indtastes/
+...EJBLØNP
+.***************
+.if &U'&B30FLYTLØN = N
+.th .go EJLØNO1
+.***************
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 160mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30HØJ05
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+TIL LØNKONTORET
+:SKRSLUT.
+.ar off
+.***************************************
+.* SIDEHOVED SIDE 1 (MED Y = 56,5 +13MM (TOPMARGIN) = 69.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 56,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+...EJLØNO1
+.**************
+.if &U'&B30FLYTLØN = N
+.th .go EJLØNO2
+.***************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.****************
+.ar VEND on
+:CALIB8.
+B30HØJ05
+.ar off
+.****************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...EJLØNO2
+.**************
+.if &U'&B30FLYTLØN = N
+.th .go EJLØNT
+.**************************************
+.tp 24mm 87mm
+.if &cprcvr = 43
+.th Navn: ¤&KTONAVN  ¤KND-nr.: &KTOKNDNR1
+.el Navn: ¤&KTONAVN  ¤CPR-nr.: &KTOKNDNR1
+.********
+.if &L'&KTOCO > 0
+.th .br
+.th C/O-adr.: ¤&KTOCO
+.*****
+.br
+Adresse: ¤&KTOGADE
+.br
+Postnr.: ¤&KTOBY
+.*******
+.if &L'&KTOLAND > 0
+.th .br
+.th Land: ¤&KTOLAND
+.***********
+.sp 2
+Det meddeles herved, at min løn fremover skal indsættes på kontonr.
+.if &U'X&B30LØNJN = XJ
+.th &IREGKTO..
+.el 6771 000&B30KTOLØN..
+.**************
+...EJLØNT
+.if &U'&B30FLYTLØN = N
+.th .go EJLØNT2
+.************ Underskrift **************************
+.sp3
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato    ¤&KTONAVN
+.kp off
+.********* SLUT   ******************************************
+...EJLØNT2
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

@@ -1,0 +1,194 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:TILTALE &TILTALEF
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.DA dato 20mm 85mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.AR hoved on
+.* Chekcer om der skal udskrives til medktohaver
+.IF &U'&B47MKTOH EQ M
+.AN &MEDKUNDENR NE 000000-0000
+.th .GO MEDKTOH
+.* Check om der skal udskrives begge
+.IF &U'&B47MKTOH EQ B
+.AN &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.sp
+:FED.&B47ATT :SKRSLUT.
+.br
+.GO SLUT
+...MEDKTOH
+.* ADRESSEOPLYSNINGER PÅ MEDKONTOHAVER
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.sp
+.* Er der indtastet en Attention, udskrives oplysningen
+:FED.&B47ATT :SKRSLUT.
+...SLUT
+.AR off
+.*
+.AR dato on
+.RI ON
+&DATO.
+.RI OFF
+.AR off
+.DA TEKST 20mm 100mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.* ------------------------------------------------------------
+.AR TEKST ON
+.sp2
+.if &U'&B47P04 = L
+.th .se ktotype = 'lønkonto'
+.el .se ktotype = 'Alt i Et-konto'
+.* --------------------------------------------------------
+:FED.
+.br
+&SDIN &ktotype. med kredit nr.: &IREGKTO. :SKRSLUT.
+.sp
+Da &DU. fik kreditten, aftalte vi at genforhandle den
+senest den &RESULTB..
+.sp
+.if &U'&B47PJN1 = J
+.th Vi vil gerne forlænge &DIN. kredit, men send os for god ordens
+.th skyld kopi af følgende:
+.if &U'&B47PJN2 = J
+.th .sp
+.th Såfremt &DU ønsker kreditten forlænget, eller at starte en
+.th tilbagebetaling, bedes &DU venligst udfylde forsiden af vedlagte
+.th låneansøgning, samt sende mig kopi af følgende:
+.if &U'&B47PJN3 = J
+.th .sp
+.th Såfremt &DU ønsker kreditten forlænget, eller at starte en
+.th tilbagebetaling, bedes &DU venligst sende mig kopi af følgende:
+.if &U'&B47PJN4 = J
+.th .sp
+.th Da dette tidspunkt nu nærmer sig, skal vi have aftalt hvordan
+.th &DIN kredit skal tilbagebetales. &SDU bedes derfor venligst
+.th udfylde vedlagte låneansøgning, ligesom side 2 bedes udfyldt
+.th med forslag til hvordan tilbagebetalingen skal ske. Desuden
+.th bedes følgende sendt i kopi:
+.sp
+.if &MEDKUNDENR = 000000-0000
+.th .go KUNDE
+.el .go MEDKUNDE
+...KUNDE
+.if &U'&B47PJN5 = J
+.th - Seneste lønseddel
+.th .br
+.if &U'&B47PJN6 = J
+.th - Seneste slutopgørelse fra Told & Skat
+.th .br
+.if &U'&B47PJN7 = J
+.th - Aktuel forskudsopgørelse fra Told & Skat
+.th .br
+.if &U'&B47PJN8 = J
+.th - Oversigt over &DINE eventuelle konti, hos andre pengeinstitutter
+.th .br
+.if &U'&B47PJN9 = J
+.th - Seneste terminskvitteringer på ejerboligen
+.th .br
+.GO SLUT
+...MEDKUNDE
+.if &U'&B47PJN5 = J
+.th - Seneste lønseddel for jer begge to
+.th .br
+.if &U'&B47PJN6 = J
+.th - Seneste slutopgørelse fra Told & Skat for jer begge to
+.th .br
+.if &U'&B47PJN7 = J
+.th - Aktuel forskudsopgørelse fra Told & Skat for jer begge to
+.th .br
+.if &U'&B47PJN8 = J
+.th - Oversigt over &DINE eventuelle konti, hos andre pengeinstitutter
+.th .br
+.if &U'&B47PJN9 = J
+.th - Seneste terminskvitteringer på ejerboligen
+.th .br
+...SLUT
+.if &L'&B47P01 gt 1
+.th - &B47P01
+.th .br
+.if &L'&B47P02 gt 1
+.th - &B47P02
+.th .br
+.if &L'&B47P03 gt 1
+.th - &B47P03
+.th .br
+.sp
+.if &U'&B47PJN10 = J
+.th Såfremt &DU ønsker &DIN kredit forhøjet, bedes &DU venligst udfylde
+.th den låneansøgning, jeg har vedlagt.
+.th .sp
+Derefter kontakter jeg &DIG., så vi kan aftale de
+fremtidige vilkår for &DIN &ktotype. med kredit.
+.br
+.*
+.sp 1
+Med venlig hilsen
+.sp
+.sp
+&B47NAVN.
+.ar off

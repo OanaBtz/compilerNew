@@ -1,0 +1,984 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.if &L'MEDNAVN = 0
+.th .se min = 'min'
+.th .se mine = 'mine'
+.th .se jeg = 'Jeg'
+.el .se min = 'vores'
+.el .se mine = 'vores'
+.el .se jeg = 'Vi'
+.******** Kontonummer **************
+.su off
+.se kto1 = substr &LANGKTONR 1 4
+.se kto2 = substr &LANGKTONR 5 3
+.se kto3 = substr &LANGKTONR 8 2
+.se kto4 = substr &LANGKTONR 10 5
+.se knd1 = substr &KTOKNDNR1 1 6
+.se knd2 = substr &KTOKNDNR1 7 4
+.if &U'X&GENKTOTP01 = XK
+.th .se konto = 'Kapitalpension'
+.if &U'X&GENKTOTP01 = XR
+.th .se konto = 'Ratepension'
+.if &U'X&GENKTOTP01 = XL
+.th .se konto = 'LD Kapitalpension'
+.if &U'X&GENKTOTP01 = XA
+.th .se konto = 'Aldersopsparing'
+.su on
+.*Test på om kontotypefeltet er udfyldt korrekt:**************************
+.if &U'X&GENKTOTP01 ne XA
+.an &U'X&GENKTOTP01 ne XK
+.an &U'X&GENKTOTP01 ne XL
+.an &U'X&GENKTOTP01 ne XR
+.th .mg/T/Kontotypen: Gyldige typer: A, K, L eller R/
+.**************************************************************************
+.*Test på om begunstigelsen er ny eller et tillæg*************************
+.if &U'X&GENVALG1 ne XN
+.an &U'X&GENVALG1 ne XT
+.th .mg/T/Angiv om erklæringen er ny eller et tillæg: N=ny, T=tillæg/
+.**************************************************************************
+.*Test på om begunstigelsen er genkaldelig eller uigenkaldelig************
+.if &U'X&GENVALGA ne XG
+.an &U'X&GENVALGA ne XU
+.th .mg/T/Er begunstigelsen genkaldelig eller uigenkaldelig? Skriv G el U/
+.**************************************************************************
+.*Test på valg af begunstigelsestype: B, N, Æ, P eller T *****************
+.if &U'X&GENVALGA1 ne XB
+.an &U'X&GENVALGA1 ne XN
+.an &U'X&GENVALGA1 ne XÆ
+.an &U'X&GENVALGA1 ne XP
+.an &U'X&GENVALGA1 ne XT
+.th .mg/T/Indtast korrekt type af begunstigelese: B, A, Æ, P eller T/
+.**************************************************************************
+.*Test på valg af slægtsforhold: B, S, eller L ***************************
+.if &U'X&GENVALGB1 ne XB
+.an &U'X&GENVALGB1 ne XS
+.an &U'X&GENVALGB1 ne XL
+.th .mg/T/Indtast korrekt valg af slægtsforhold: B, S, eller L/
+.**************************************************************************
+.*Test på valg af SUBSIDIÆR BEGUNSTIGELSE ********************************
+.*Følgende valg er mulige:Angiv valg P/A/N
+.if &U'X&GENVALGC ne XP
+.an &U'X&GENVALGC ne XA
+.an &U'X&GENVALGC ne XN
+.th .mg/T/Subsidiær begunstigelse, vælg P, A eller N/
+.**************************************************************************
+.if &U'X&GENVALGC = XN
+.th .go SUBX
+.if &U'X&GENVALGC = XP
+.th .se valgc1 = 'Nærmeste pårørende'
+.an &U'X&GENVALGC = XA
+.th .se valgc1 = 'Andre'
+.**************************************************************************
+.*TEST PÅ 1. subsidiær begunstiget  *******************
+.se subs1 = 0
+.if &L'&GENCPR6 > 0
+.th .se subs1 = &subs1 + 1
+.el .se subs1 = &subs1
+.if &L'&GENNAVN6 > 0
+.th .se subs1 = &subs1 + 1
+.el .se subs1 = &subs1
+.if &L'&GENVALGA6 > 0
+.th .se subs1 = &subs1 + 1
+.el .se subs1 = &subs1
+.if &L'&GENVALGB6 > 0
+.th .se subs1 = &subs1 + 1
+.el .se subs1 = &subs1
+.if &L'&GENPCTS1 > 0
+.th .se subs1 = &subs1 + 1
+.el .se subs1 = &subs1
+.if x&subs1 > x0
+.an x&subs1 < x5
+.th .mg/T/Udfyld manglende felter vedr. 1. subsidiære begunstiget/
+.*****************************************************************
+.*TEST PÅ 2. subsidiær begunstiget  *******************
+.se subs2 = 0
+.if &L'&GENCPR7 > 0
+.th .se subs2 = &subs2 + 1
+.el .se subs2 = &subs2
+.if &L'&GENNAVN7 > 0
+.th .se subs2 = &subs2 + 1
+.el .se subs2 = &subs2
+.if &L'&GENVALGA7 > 0
+.th .se subs2 = &subs2 + 1
+.el .se subs2 = &subs2
+.if &L'&GENVALGB7 > 0
+.th .se subs2 = &subs2 + 1
+.el .se subs2 = &subs2
+.if &L'&GENPCTS2 > 0
+.th .se subs2 = &subs2 + 1
+.el .se subs2 = &subs2
+.if x&subs2 > x0
+.an x&subs2 < x5
+.th .mg/T/Udfyld manglende felter vedr. 2. subsidiære begunstiget/
+.*****************************************************************
+.*TEST PÅ 3. subsidiær begunstiget  *******************
+.se subs3 = 0
+.if &L'&GENCPR8 > 0
+.th .se subs3 = &subs3 + 1
+.el .se subs3 = &subs3
+.if &L'&GENNAVN8 > 0
+.th .se subs3 = &subs3 + 1
+.el .se subs3 = &subs3
+.if &L'&GENVALGA8 > 0
+.th .se subs3 = &subs3 + 1
+.el .se subs3 = &subs3
+.if &L'&GENVALGB8 > 0
+.th .se subs3 = &subs3 + 1
+.el .se subs3 = &subs3
+.if &L'&GENPCTS3 > 0
+.th .se subs3 = &subs3 + 1
+.el .se subs3 = &subs3
+.if x&subs3 > x0
+.an x&subs3 < x5
+.th .mg/T/Udfyld manglende felter vedr. 3. subsidiære begunstiget/
+.*****************************************************************
+.*TEST PÅ 4. subsidiær begunstiget  *******************
+.se subs4 = 0
+.if &L'&GENCPR9 > 0
+.th .se subs4 = &subs4 + 1
+.el .se subs4 = &subs4
+.if &L'&GENNAVN9 > 0
+.th .se subs4 = &subs4 + 1
+.el .se subs4 = &subs4
+.if &L'&GENVALGA9 > 0
+.th .se subs4 = &subs4 + 1
+.el .se subs4 = &subs4
+.if &L'&GENVALGB9 > 0
+.th .se subs4 = &subs4 + 1
+.el .se subs4 = &subs4
+.if &L'&GENPCTS4 > 0
+.th .se subs4 = &subs4 + 1
+.el .se subs4 = &subs4
+.if x&subs4 > x0
+.an x&subs4 < x5
+.th .mg/T/Udfyld manglende felter vedr. 4. subsidiære begunstiget/
+.*****************************************************************
+.*TEST PÅ 5. subsidiær begunstiget  *******************
+.se subs5 = 0
+.if &L'&GENCPR10 > 0
+.th .se subs5 = &subs5 + 1
+.el .se subs5 = &subs5
+.if &L'&GENNAVN10 > 0
+.th .se subs5 = &subs5 + 1
+.el .se subs5 = &subs5
+.if &L'&GENVALGA10 > 0
+.th .se subs5 = &subs5 + 1
+.el .se subs5 = &subs5
+.if &L'&GENVALGB10 > 0
+.th .se subs5 = &subs5 + 1
+.el .se subs5 = &subs5
+.if &L'&GENPCTS5 > 0
+.th .se subs5 = &subs5 + 1
+.el .se subs5 = &subs5
+.if x&subs5 > x0
+.an x&subs5 < x5
+.th .mg/T/Udfyld manglende felter vedr. 5. subsidiære begunstiget/
+...SUBX
+.*************************************************************************
+.*fortsættes i p2-modulet
+.********************
+.*TEST SÆREJE ***********************
+.if &U'X&GENJANEJ1 = XN
+.or &U'X&GENJANEJ1 = XJ
+.th
+.el .mg/T/Valg af Særeje: Skriv enten J(Ja) eller N(Nej)/
+.************************************
+.if &U'X&GENJANEJ1 = XN
+.th .go SÆEXIT
+.if &U'X&GENJANEJ1 = XJ
+.th
+.if &U'X&GENJANEJ2 = XS
+.or &U'X&GENJANEJ2 = XF
+.or &U'X&GENJANEJ2 = XK
+.th
+.el .mg/T/Angiv særejetype: S=skilsmisse, F=fuldstændigt, K=kombination/
+.if &U'X&GENJANEJ3 = XA
+.or &U'X&GENJANEJ3 = XK
+.th
+.el .mg/T/Særejen gælder: A=Alle begunstigede, K=kun nogle begunstigede/
+.******************************************************************
+.if &U'X&GENJANEJ3 = XA
+.th .go SÆEXIT
+.*TEST PÅ 1. særeje begunstigede *******************
+.se sars1 = 0
+.if &L'&GENCPR11 > 0
+.th .se sars1 = &sars1 + 1
+.el .se sars1 = &sars1
+.if &L'&GENNAVN11 > 0
+.th .se sars1 = &sars1 + 1
+.el .se sars1 = &sars1
+.if x&sars1 > x0
+.an x&sars1 < x2
+.th .mg/T/Udfyld manglende felter vedr. 1. særeje begunstigede/
+.*****************************************************************
+.*TEST PÅ 2. særeje begunstigede *******************
+.se sars2 = 0
+.if &L'&GENCPR12 > 0
+.th .se sars2 = &sars2 + 1
+.el .se sars2 = &sars2
+.if &L'&GENNAVN12 > 0
+.th .se sars2 = &sars2 + 1
+.el .se sars2 = &sars2
+.if x&sars2 > x0
+.an x&sars2 < x2
+.th .mg/T/Udfyld manglende felter vedr. 2. særeje begunstigede/
+.*****************************************************************
+.*TEST PÅ 3. særeje begunstigede *******************
+.se sars3 = 0
+.if &L'&GENCPR13 > 0
+.th .se sars3 = &sars3 + 1
+.el .se sars3 = &sars3
+.if &L'&GENNAVN13 > 0
+.th .se sars3 = &sars3 + 1
+.el .se sars3 = &sars3
+.if x&sars3 > x0
+.an x&sars3 < x2
+.th .mg/T/Udfyld manglende felter vedr. 3. særeje begunstigede/
+.*****************************************************************
+.*TEST PÅ 4. særeje begunstigede *******************
+.se sars4 = 0
+.if &L'&GENCPR14 > 0
+.th .se sars4 = &sars4 + 1
+.el .se sars4 = &sars4
+.if &L'&GENNAVN14 > 0
+.th .se sars4 = &sars4 + 1
+.el .se sars4 = &sars4
+.if x&sars4 > x0
+.an x&sars4 < x2
+.th .mg/T/Udfyld manglende felter vedr. 4. særeje begunstigede/
+.*****************************************************************
+.*TEST PÅ 5. særeje begunstigede *******************
+.se sars5 = 0
+.if &L'&GENCPR15 > 0
+.th .se sars5 = &sars5 + 1
+.el .se sars5 = &sars5
+.if &L'&GENNAVN15 > 0
+.th .se sars5 = &sars5 + 1
+.el .se sars5 = &sars5
+.if x&sars5 > x0
+.an x&sars5 < x2
+.th .mg/T/Udfyld manglende felter vedr. 5. særeje begunstigede/
+.*****************************************************************
+...SÆEXIT
+.*****************************************************************
+.*TEST BÅNDLÆGGELSE *****************
+.if &U'X&GENJANEJ4 = XN
+.or &U'X&GENJANEJ4 = XJ
+.th
+.el .mg/T/Valg af Båndlæggelse: Skriv enten J(Ja) eller N(Nej)/
+.************************************
+.if &U'X&GENJANEJ4 = XN
+.th .go BÅEXIT
+.if &U'X&GENJANEJ4 = XJ
+.th
+.if &U'X&GENJANEJ5 = XA
+.or &U'X&GENJANEJ5 = XK
+.th
+.el .mg/T/Båndlæggelsen gælder: A(alle be.) eller K(kun nogle begun.)/
+.******************************************************************
+.*TEST PÅ 1. begunstigede ved båndlæggelse *******************
+.se banb1 = 0
+.if &L'&GENCPR16 > 0
+.th .se banb1 = &banb1 + 1
+.el .se banb1 = &banb1
+.if &L'&GENNAVN16 > 0
+.th .se banb1 = &banb1 + 1
+.el .se banb1 = &banb1
+.if x&banb1 > x0
+.an x&banb1 < x2
+.th .mg/T/Udfyld manglende felter vedr. 1. begunstigede ved båndlæggelse/
+.******************************************************************
+.*TEST PÅ 2. begunstigede ved båndlæggelse *******************
+.se banb2 = 0
+.if &L'&GENCPR17 > 0
+.th .se banb2 = &banb2 + 1
+.el .se banb2 = &banb2
+.if &L'&GENNAVN17 > 0
+.th .se banb2 = &banb2 + 1
+.el .se banb2 = &banb2
+.if x&banb2 > x0
+.an x&banb2 < x2
+.th .mg/T/Udfyld manglende felter vedr. 2. begunstigede ved båndlæggelse/
+.******************************************************************
+.*TEST PÅ 3. begunstigede ved båndlæggelse *******************
+.se banb3 = 0
+.if &L'&GENCPR18 > 0
+.th .se banb3 = &banb3 + 1
+.el .se banb3 = &banb3
+.if &L'&GENNAVN18 > 0
+.th .se banb3 = &banb3 + 1
+.el .se banb3 = &banb3
+.if x&banb3 > x0
+.an x&banb3 < x2
+.th .mg/T/Udfyld manglende felter vedr. 3. begunstigede ved båndlæggelse/
+.******************************************************************
+.*TEST PÅ 4. begunstigede ved båndlæggelse *******************
+.se banb4 = 0
+.if &L'&GENCPR19 > 0
+.th .se banb4 = &banb4 + 1
+.el .se banb4 = &banb4
+.if &L'&GENNAVN19 > 0
+.th .se banb4 = &banb4 + 1
+.el .se banb4 = &banb4
+.if x&banb4 > x0
+.an x&banb4 < x2
+.th .mg/T/Udfyld manglende felter vedr. 4. begunstigede ved båndlæggelse/
+.******************************************************************
+.*TEST PÅ 5. begunstigede ved båndlæggelse *******************
+.se banb5 = 0
+.if &L'&GENCPR20 > 0
+.th .se banb5 = &banb5 + 1
+.el .se banb5 = &banb5
+.if &L'&GENNAVN20 > 0
+.th .se banb5 = &banb5 + 1
+.el .se banb5 = &banb5
+.if x&banb5 > x0
+.an x&banb5 < x2
+.th .mg/T/Udfyld manglende felter vedr. 5. begunstigede ved båndlæggelse/
+.******************************************************************
+.if &U'X&GENJANEJ6 = XE
+.or &U'X&GENJANEJ6 = XR
+.or &U'X&GENJANEJ6 = XL
+.th
+.el .mg/T/Rådighed over udbetaling: E(på én gang), R(rater), L(livstid)/
+.**********************
+.if &U'X&GENJANEJ6 = XR
+.th
+.el .go BÅEXIT
+.**********************
+.if &U'X&GENJANEJ6 = XR
+.an &L'X&GENJANEJ7 = 0
+.th .mg/T/Rentevalg skal udfyldes/
+.**********************
+.if &U'X&GENJANEJ7 = XK
+.or &U'X&GENJANEJ7 = XL
+.th
+.el .mg/T/Rentevalg: der: K=Tillægges kapitalen, L=udbetales løbende/
+.**********************
+.if &U'X&GENJANEJ6 = XR
+.an &L'X&GENVALG14 = 0
+.th .mg/T/Båndlæggelsen ophører i det fyldte år? Udfyld år!/
+.******************************************************************
+.if &L'X&GENVALG14 > 0
+.an &L'X&GENVALG15 = 0
+.th .mg/T/Antal rater skal udfyldes/
+.******************************************************************
+...BÅEXIT
+.*Opsætning af GENVALGA1 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA1 = XB
+.th .se valga1 = 'Boet'
+.if &U'X&GENVALGA1 = XN
+.th .se valga1 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA1 = XÆ
+.th .se valga1 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA1 = XP
+.th .se valga1 = 'Persongrupper'
+.if &U'X&GENVALGA1 = XT
+.th .se valga1 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA2 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA2 = XB
+.th .se valga2 = 'Boet'
+.if &U'X&GENVALGA2 = XN
+.th .se valga2 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA2 = XÆ
+.th .se valga2 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA2 = XP
+.th .se valga2 = 'Persongrupper'
+.if &U'X&GENVALGA2 = XT
+.th .se valga2 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA3 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA3 = XB
+.th .se valga3 = 'Boet'
+.if &U'X&GENVALGA3 = XN
+.th .se valga3 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA3 = XÆ
+.th .se valga3 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA3 = XP
+.th .se valga3 = 'Persongrupper'
+.if &U'X&GENVALGA3 = XT
+.th .se valga3 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA4 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA4 = XB
+.th .se valga4 = 'Boet'
+.if &U'X&GENVALGA4 = XN
+.th .se valga4 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA4 = XÆ
+.th .se valga4 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA4 = XP
+.th .se valga4 = 'Persongrupper'
+.if &U'X&GENVALGA4 = XT
+.th .se valga4 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA5 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA5 = XB
+.th .se valga5 = 'Boet'
+.if &U'X&GENVALGA5 = XN
+.th .se valga5 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA5 = XÆ
+.th .se valga5 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA5 = XP
+.th .se valga5 = 'Persongrupper'
+.if &U'X&GENVALGA5 = XT
+.th .se valga5 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGB1 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB1 = XB
+.th .se valgb1 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB1 = XS
+.th .se valgb1 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB1 = XL
+.th .se valgb1 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB2 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB2 = XB
+.th .se valgb2 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB2 = XS
+.th .se valgb2 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB2 = XL
+.th .se valgb2 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB3 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB3 = XB
+.th .se valgb3 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB3 = XS
+.th .se valgb3 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB3 = XL
+.th .se valgb3 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB4 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB4 = XB
+.th .se valgb4 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB4 = XS
+.th .se valgb4 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB4 = XL
+.th .se valgb4 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB5 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB5 = XB
+.th .se valgb5 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB5 = XS
+.th .se valgb5 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB5 = XL
+.th .se valgb5 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*SUBSIDIÆR BEGUNSTIGELSE ************************************************
+.*Opsætning af GENVALGA6 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA6 = XB
+.th .se valga6 = 'Boet'
+.if &U'X&GENVALGA6 = XN
+.th .se valga6 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA6 = XÆ
+.th .se valga6 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA6 = XP
+.th .se valga6 = 'Persongrupper'
+.if &U'X&GENVALGA6 = XT
+.th .se valga6 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA7 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA7 = XB
+.th .se valga7 = 'Boet'
+.if &U'X&GENVALGA7 = XN
+.th .se valga7 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA7 = XÆ
+.th .se valga7 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA7 = XP
+.th .se valga7 = 'Persongrupper'
+.if &U'X&GENVALGA7 = XT
+.th .se valga7 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA8 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA8 = XB
+.th .se valga8 = 'Boet'
+.if &U'X&GENVALGA8 = XN
+.th .se valga8 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA8 = XÆ
+.th .se valga8 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA8 = XP
+.th .se valga8 = 'Persongrupper'
+.if &U'X&GENVALGA8 = XT
+.th .se valga8 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA9 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA9 = XB
+.th .se valga9 = 'Boet'
+.if &U'X&GENVALGA9 = XN
+.th .se valga9 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA9 = XÆ
+.th .se valga9 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA9 = XP
+.th .se valga9 = 'Persongrupper'
+.if &U'X&GENVALGA9 = XT
+.th .se valga9 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGA10 - BEGUNSTIGELSESTYPE ****************************
+.if &U'X&GENVALGA10 = XB
+.th .se valga10 = 'Boet'
+.if &U'X&GENVALGA10 = XN
+.th .se valga10 = 'Nærmeste begunstiget'
+.if &U'X&GENVALGA10 = XÆ
+.th .se valga10 = 'Nærmeste pårørende'
+.if &U'X&GENVALGA10 = XP
+.th .se valga10 = 'Persongrupper'
+.if &U'X&GENVALGA10 = XT
+.th .se valga10 = 'Testamente'
+.*************************************************************************
+.*Opsætning af GENVALGB6 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB6 = XB
+.th .se valgb6 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB6 = XS
+.th .se valgb6 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB6 = XL
+.th .se valgb6 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB7 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB7 = XB
+.th .se valgb7 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB7 = XS
+.th .se valgb7 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB7 = XL
+.th .se valgb7 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB8 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB8 = XB
+.th .se valgb8 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB8 = XS
+.th .se valgb8 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB8 = XL
+.th .se valgb8 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB9 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB9 = XB
+.th .se valgb9 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB9 = XS
+.th .se valgb9 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB9 = XL
+.th .se valgb9 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.*Opsætning af GENVALGB10 - SLÆGTSFORHOLD *********************************
+.if &U'X&GENVALGB10 = XB
+.th .se valgb10 = 'Børn og børns livsarvinger'
+.if &U'X&GENVALGB10 = XS
+.th .se valgb10 = 'Samlevers livsarvinger'
+.if &U'X&GENVALGB10 = XL
+.th .se valgb10 = 'Stedbørn og disses livsarvinger'
+.*************************************************************************
+.if &U'X&GENJANEJ2 = XS
+.th .se sertyp = 'Skilsmissesæreje'
+.if &U'X&GENJANEJ2 = XF
+.th .se sertyp = 'Fuldstændigt særeje'
+.if &U'X&GENJANEJ2 = XK
+.th .se sertyp = 'Kombinationssæreje'
+.*************************************************************************
+.*RESULTA
+.**************************************************************************
+.*Test på andel ikke er anderledes end 100% ******************************
+.if &L'&RESULTA > 6
+.th .mg /T/Summen af de begunstigedes andel i % er større end 100,00/
+.if &L'&RESULTA < 6
+.th .mg /T/Summen af de begunstigedes andel i % er mindre end 100,00/
+.if X&RESULTA = X100,00
+.th .go ANDELOK
+.el .mg /T/Summen af de begunstigedes andel% > 100,00/
+...ANDELOK
+.*RESULTB
+.**************************************************************************
+.*Test på andel ikke er anderledes end 100% ******************************
+.if &L'&RESULTB gt 6
+.th .mg /T/Summen af de subsidiære begunstigedes andel% > 100,00/
+.if &L'&RESULTB lt 6
+.th .mg /T/Summen af de subsidiære begunstigedes andel% < 100,00/
+.if X&RESULTB eq X100,00
+.th .go ANDLBOK
+.el .mg /T/Summen af de subsidiære begunstigedes andel% > 100,00/
+...ANDLBOK
+.***********
+.fo left
+.ti ¤ 05
+:VERDA09.
+.*.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.da START 20mm 80mm width 167mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Brevhoved adresseoplysninger
+.da KUNDEOPL  20mm   50mm width 80mm
+.da BREVOPL   90mm   40mm width 80mm
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+.if &L'&KTOSTILL = 0
+.th &ÅRB
+.el &KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND
+.ar off
+.*************************************
+.ar BREVOPL on
+.ri 5
+:FED.
+Begunstigelseserklæring
+.br
+&konto.
+:SKRSLUT.
+.br
+Kontonummer: &kto2.-&kto3.-&kto4.
+.br
+Cpr-nummer: &knd1.-&knd2.
+.br
+Dato: &DATO.
+.ar off
+.***************************************
+.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 90mm
+.bm 26mm
+.*.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.in 2mm
+.****************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 32MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.****************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.****************
+.sp 89mm
+.bm 26mm
+.*.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...NOOPRO2
+.*************************************************************************
+.if &U'&GENVALG1 = T
+.th .go TILL
+.if &U'&GENVALG1 = N
+.th .go NYOV
+...TILL
+:VERDA11.
+:FED.
+Tillæg til bestående begunstigelseserklæring om særeje eller båndlæggelse
+:SKRSLUT.
+:VERDA09.
+.go VID1
+...NYOV
+:VERDA11.
+:FED.
+Begunstigelseserklæring om særeje eller båndlæggelse
+:SKRSLUT.
+:VERDA09.
+.go VID1
+...VID1
+:SKRSLUT.
+:VERDA09.
+.sp 5mm
+Jeg ønsker at indsætte nedenstående som
+.if &U'&GENVALGA = G
+.th genkaldeligt
+.el uigenkaldeligt
+begunstiget på min &konto.:
+.sp 3mm
+:VERDA08.
+.*****************************
+.tp 1mm 25mm 65mm 103mm 150mm
+.*****************************
+.dr tynd weight 0.2mm
+.*****************************
+¤CPR-nummer:¤Navn:¤Type:¤Slægtsforhold:¤Andel(%)
+.br
+.hr tynd 0mm 163mm
+.if &L'&GENCPR1 > 0
+.th ¤&GENCPR1.¤&GENNAVN1.¤&valga1.¤&valgb1.¤&GENPCT1.
+.th .sp 1.5mm
+.el &ÅRB
+.*****************************
+.if &L'&GENCPR2 > 0
+.th ¤&GENCPR2.¤&GENNAVN2.¤&valga2.¤&valgb2.¤&GENPCT2.
+.th .sp 1.5mm
+.el .hr tynd 0mm 163mm
+.el .go FSÆR
+.*****************************
+.if &L'&GENCPR3 > 0
+.th ¤&GENCPR3.¤&GENNAVN3.¤&valga3.¤&valgb3.¤&GENPCT3.
+.th .sp 1.5mm
+.el .hr tynd 0mm 163mm
+.el .go FSÆR
+.*****************************
+.if &L'&GENCPR4 > 0
+.th ¤&GENCPR4.¤&GENNAVN4.¤&valga4.¤&valgb4.¤&GENPCT4.
+.th .sp 1.5mm
+.el .hr tynd 0mm 163mm
+.el .go FSÆR
+.*****************************
+.if &L'&GENCPR5 > 0
+.th ¤&GENCPR5.¤&GENNAVN5.¤&valga5.¤&valgb5.¤&GENPCT5.
+.th .hr tynd 0mm 163mm
+.*.th .sp 1.5mm
+.*****************************
+...FSÆR
+.if &L'&GENCPR2 > 0
+.th .sp 1.5mm
+.el .go SÆREJE
+:VERDA09.
+Hvis flere personer er begunstigede udbetales opsparingen til lige
+deling, d.v.s. med samme beløb til hver, medmindre andet er bestemt. Hvis
+én af de begunstigede dør, tilfalder dennes andel den / de øvrige
+begunstigede til lige deling, medmindre andet er bestemt.
+...SÆREJE
+.tp 1mm 25mm 65mm 103mm 150mm
+.if &U'X&GENVALGC = XN
+.th .go SUBSIX
+.sp 5mm
+:VERDA09.
+:FED.
+Subsidiær begunstigelse
+:SKRSLUT.
+.if &L'&GENCPR6 > 0
+.th .sp 1.5mm
+.el .go SUBSIX
+Er den/de begunstigede døde, ønskes indestående udbetalt til kontohavers
+"nærmeste pårørende", medmindre kontohaver har aftalt andet med
+&BANKNAVN., jvf. "Generelle vilkår for &BANKNAVN. &konto.".
+.sp 3mm
+Følgende skal begunstiges susidiært:
+.sp 1.5mm
+.*****************************
+:VERDA08.
+¤CPR-nummer:¤Navn:¤Type:¤Slægtsforhold:¤Andel(%)
+.br
+.hr tynd 0mm 163mm
+.if &L'&GENCPR6 > 0
+.th ¤&GENCPR6.¤&GENNAVN6.¤&valga6.¤&valgb6.¤&GENPCTS1.
+.th .sp 1.5mm
+.el &ÅRB
+.*****************************
+.if &L'&GENCPR7 > 0
+.th ¤&GENCPR7.¤&GENNAVN7.¤&valga7.¤&valgb7.¤&GENPCTS2.
+.th .sp 1.5mm
+.el .hr tynd 0mm 163mm
+.el .go SUBSIX
+.*****************************
+.if &L'&GENCPR8 > 0
+.th ¤&GENCPR8.¤&GENNAVN8.¤&valga8.¤&valgb8.¤&GENPCTS3.
+.th .sp 1.5mm
+.el .hr tynd 0mm 163mm
+.el .go SUBSIX
+.*****************************
+.if &L'&GENCPR9 > 0
+.th ¤&GENCPR9.¤&GENNAVN9.¤&valga9.¤&valgb9.¤&GENPCTS4.
+.th .sp 1.5mm
+.el .hr tynd 0mm 163mm
+.el .go SUBSIX
+.*****************************
+.if &L'&GENCPR10 > 0
+.th ¤&GENCPR10.¤&GENNAVN10.¤&valga10.¤&valgb10.¤&GENPCTS5.
+.th .hr tynd 0mm 163mm
+.*****************************
+...SUBSIX
+Jeg bekræfter samtidig, at jeg fra &BANKNAVN. har modtaget en detaljeret
+rådgivning om betydning / konsekvenser af at indsætte den begunstigede som
+uigenkaldelig. Herunder de problemstillinger, der kan opstå i forbindelse
+med, at jeg måtte ønske at tilbagekalde begunstigelsen eller udbetale min
+pensionsordning i utide.
+.sp 5mm
+.if &U'X&GENJANEJ1 = XN
+.th .go SÆREX
+.tp 5mm
+:VERDA09.
+:FED.
+Særeje
+:SKRSLUT.
+.br
+Som et led i begunstigelsen bestemmer jeg, at udbetaling fra
+pensionsordningen skal være særeje for den/de begunstigede.
+.br
+Særejet skal være:
+.sp 1.5mm
+*¤&sertyp.
+.sp 5mm
+.if &U'X&GENJANEJ3 = XA
+.th .go SÆREX
+.if &U'X&GENJANEJ3 = XK
+.th
+Særejet gælder kun for følgende:
+.sp 1.5mm
+.if &L'&GENCPR11 > 0
+.an &L'&GENNAVN11 > 0
+.th &GENCPR11., &GENNAVN11.
+.************
+.if &L'&GENCPR12 > 0
+.an &L'&GENNAVN12 > 0
+.th .br
+.th &GENCPR12., &GENNAVN12.
+.************
+.if &L'&GENCPR13 > 0
+.an &L'&GENNAVN13 > 0
+.th .br
+.th &GENCPR13., &GENNAVN13.
+.************
+.if &L'&GENCPR14 > 0
+.an &L'&GENNAVN14 > 0
+.th .br
+.th &GENCPR14., &GENNAVN14.
+.************
+.if &L'&GENCPR15 > 0
+.an &L'&GENNAVN15 > 0
+.th .br
+.th &GENCPR15., &GENNAVN15.
+.sp 5mm
+...SÆREX
+.*************************
+.if &U'X&GENJANEJ4 = XN
+.th .go BÅNEX
+.tp 5mm
+:VERDA09.
+:FED.
+Båndlæggelse
+:SKRSLUT.
+.br
+Som et led i beunstigelsen bestemmer jeg, at udbetaling af
+pensionsordningen skal være båndlagt.
+.sp 3mm
+.if &U'X&GENJANEJ5 = XA
+.th Båndlæggelsen gælder alle begunstigede.
+.th .go BÅNEX
+.if &U'X&GENJANEJ5 = XK
+.th
+Båndlæggelsen gælder kun for følgende:
+.sp 1.5mm
+.if &L'&GENCPR16 > 0
+.an &L'&GENNAVN16 > 0
+.th &GENCPR16., &GENNAVN16.
+.************
+.if &L'&GENCPR17 > 0
+.an &L'&GENNAVN17 > 0
+.th .br
+.th &GENCPR17., &GENNAVN17.
+.************
+.if &L'&GENCPR18 > 0
+.an &L'&GENNAVN18 > 0
+.th .br
+.th &GENCPR18., &GENNAVN18.
+.************
+.if &L'&GENCPR19 > 0
+.an &L'&GENNAVN19 > 0
+.th .br
+.th &GENCPR19., &GENNAVN19.
+.************
+.if &L'&GENCPR20 > 0
+.an &L'&GENNAVN20 > 0
+.th .br
+.th &GENCPR20., &GENNAVN20.
+.sp 3mm
+.if &U'X&GENJANEJ6 = XE
+.th Det båndlagte beløb udbetales på én gang.
+.th .go BÅNEX
+.if &U'X&GENJANEJ6 = XL
+.th Det båndlagte beløb er båndlagt for livstid.
+.th .go BÅNEX
+.if &U'X&GENJANEJ6 = XR
+.th
+:KURSIV.
+Rådighed over udbetalingen:
+:SKRSLUT.
+.br
+.of 5mm
+*¤Udbetalingen skal være båndlagt indtil det fyldte &GENVALG14., hvorefter
+den udbetales i &GENVALG15. lige store årlige rater.
+.of
+.sp 3mm
+.if &U'X&GENJANEJ7 = XK
+.or &U'X&GENJANEJ7 = XL
+.th
+.el .go BÅNEX
+:KURSIV.
+Renter fra den båndlagte udbetaling:
+:SKRSLUT.
+.br
+.if &U'X&GENJANEJ7 = XK
+.th
+.of 5mm
+*¤Renter skal tillægges kapitalen og fortsat være båndlagt.
+.of
+.sp 3mm
+.go BÅNEX
+.if &U'X&GENJANEJ7 = XL
+.th
+.of 5mm
+*¤Renter skal udbetales løbende.
+.of
+.sp 3mm
+.go BÅNEX
+...BÅNEX
+.*UNDERSKRIFT *************************************************************
+.tp _/50mm
+.sp 5mm
+Dato¤
+.sp 14mm
+.hr tynd 0mm 80mm
+.br
+&KTONAVN.
+.sp 10mm
+Ovenstående begunstigelse er noteret.
+.sp 10mm
+Dato¤
+.sp 14mm
+.hr tynd 0mm 80mm
+.br
+&BANKNAVN.

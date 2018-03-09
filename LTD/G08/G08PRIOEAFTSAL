@@ -1,0 +1,715 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*Valider indtastning af nye lån *****************************************
+.*TEST  nyt lån 1
+...VALNYT1
+.if &L'&G08KRED1  = 0
+.an &L'&G08HVDST1 = 0
+.th .go SLUTNYT
+.if &L'&G08KRED1  > 0
+.an &L'&G08HVDST1 > 0
+.th
+.el .mg/T/Een eller flere parametre i nye lån 1 er IKKE udfyldt/
+.*TEST  nyt lån 2
+.if &L'&G08KRED2  = 0
+.an &L'&G08HVDST2 = 0
+.th .go SLUTNYT
+.if &L'&G08KRED2  > 0
+.an &L'&G08HVDST2 > 0
+.th
+.el .mg/T/Een eller flere parametre i nyt lån2 er IKKE udfyldt/
+...SLUTNYT
+.if x&cprcvr1 = x00
+.th .se kuntxt = 'CVR-nummer'
+.**************************************************************************
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr1 > x00
+.an x&cprcvr1 < x32
+.th .se kuntxt = 'CPR-nummer'
+.**************************************************************************
+.* Individuelle valideringer
+.**************************************************************************
+.if &L'&G08ADRESSE = 0
+.th .mg/T/Ejendommens adresse skal udfyldes/
+.if &L'&G08RKKTO = 0
+.th .mg/T/Lånesagskontonr skal udfyldes/
+.*************************************************************************
+.su off
+.se cprcvr1 = substr &KTOKNDNR1 1 2
+.se cprcvr2 = substr &KTOKNDNR1 1 6
+.se cprcvr3 = substr &KTOKNDNR1 7 4
+.*** NY(E) LÅN ***
+.if &G08LTYP1 = 1
+.th .se ltype1 = 'Fastforrentet lån'
+.if &G08LTYP1 = 2
+.th .se ltype1 = 'Variabelt forrentet lån'
+.if &G08LTYP2 = 1
+.th .se ltype2 = 'Fastforrentet lån'
+.if &G08LTYP2 = 2
+.th .se ltype2 = 'Variabelt forrentet lån'
+.if &G08LTYP3 = 1
+.th .se ltype3 = 'Fastforrentet lån'
+.if &G08LTYP3 = 2
+.th .se ltype3 = 'Variabelt forrentet lån'
+.if &G08LTYP4 = 1
+.th .se ltype4 = 'Fastforrentet lån'
+.if &G08LTYP4 = 2
+.th .se ltype4 = 'Variabelt forrentet lån'
+.*** LÅN DER INDFRIES***
+.su off
+.se cprcvr1 = substr &KTOKNDNR1 1 2
+.se cprcvr2 = substr &KTOKNDNR1 1 6
+.se cprcvr3 = substr &KTOKNDNR1 7 4
+.if &G08ILTYP1 = 1
+.th .se lantype1 = 'Fastforrentet lån'
+.if &G08ILTYP1 = 2
+.th .se lantype1 = 'Variabelt forrentet lån'
+.if &G08ILTYP2 = 1
+.th .se lantype2 = 'Fastforrentet lån'
+.if &G08ILTYP2 = 2
+.th .se lantype2 = 'Variabelt forrentet lån'
+.if &G08ILTYP3 = 1
+.th .se lantype3 = 'Fastforrentet lån'
+.if &G08ILTYP3 = 2
+.th .se lantype3 = 'Variabelt forrentet lån'
+.if &G08ILTYP4 = 1
+.th .se lantype4 = 'Fastforrentet lån'
+.if &G08ILTYP4 = 2
+.th .se lantype4 = 'Variabelt forrentet lån'
+.su on
+.*************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr1 > x31
+.th .se kuntxt = 'Kundenummer'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.th .hr tynd 5mm 50mm
+.th .br
+.th ¤&G08MEDNA2.
+...SLUT
+.sp 10mm
+:FED.&BANKNAVN.::SKRSLUT.
+.sp 5mm
+Dato:
+.sp 5mm
+.hr tynd 5mm 50mm
+.kp off
+.kp on
+:COUR10.
+:FED.
+Underskrift
+:SKRSLUT.
+.br
+Undertegnede erklærer at jeg har modtaget kopi af denne aftale og
+lånetilbud, samt at jeg er blevet nøje rådgivet i overensstemmelse med
+det ovenfor anførte.
+.br
+Ved min underskrift bekræfter og tiltræder jeg samtidig de foran anførte
+transporter, pantsætninger for de af &BANKNAVN. afgivne
+garantier og bekræfter, at jeg personligt indestår for at holde
+&BANKNAVN. skadesløs for samtlige &BANKNAVN. udlæg og
+udbetalinger i sagen samt for betaling af samtlige sagsomkostninger.
+.br
+Undertegnede erklærer at være bekendt med &BANKNAVN.s
+Almindelige forretningsbetingelser, som er en del af vilkårene for denne
+aftale. De kan til enhver tid findes på &BANKNAVN.s hjemmeside.
+.br
+For handel med realkreditobligationer gælder &BANKNAVN.s Betingelser
+for handel med værdipapirer, Politik for ordre udførelse og
+Politik for håndtering af interessekonflikter som kunden i forbindelse med
+tiltrædelse af denne aftale bekræfter leveres via &BANKNAVN.s hjemmeside.
+.sp 5mm
+Dato:
+.sp 5mm
+.tp 7mm 62mm 105mm
+.if &MEDKNDNR1 ne 0000000000
+.th .hr tynd 5mm 50mm 115mm 160mm
+.th .br
+.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.el .hr tynd 5mm 50mm
+.el .br
+.el ¤&KTONAVN.
+.sp 10mm
+.if &L'&G08MEDNR4. > 0
+.an &L'&G08MEDNR3. > 0
+.an &L'&G08MEDNR2. > 0
+.th .hr tynd 5mm 50mm 60mm 105mm 115mm 160mm
+.th .br
+.th ¤&G08MEDNA2. ¤&G08MEDNA3. ¤&G08MEDNA4.
+.th .go SLUT
+.if &L'&G08MEDNR3. > 0
+.an &L'&G08MEDNR2. > 0
+.th .hr tynd 5mm 50mm 60mm 105mm
+.th .br
+.th ¤&G08MEDNA2. ¤&G08MEDNA3.
+.th .go SLUT
+.if &L'&G08MEDNR2. > 0
+.sp 20mm
+:FED.Låntagers erklæringer :SKRSLUT.
+.sp
+Eventuelle indeståelser, som sparekassen måtte afgive overfor
+kreditforeningen, bedes afgivet for min/vor regning, idet jeg/vi indestår
+sparekassen for skadesløs betaling af ethvert beløb, som denne måtte
+udlægge i forbindelse med gennemførelse af nærværende prioritering.
+.sp
+Transport i provenue af kreditforeningslån:
+.tp 80mm right
+.sp
+:USENKEL.
+Kreditforening:¤Hovedstol:
+:SKRSLUT.
+.br
+&G08KRED1.¤&G08HVDST1.
+.if &L'&G08KRED2. > 0
+.th .br
+.th &G08KRED2.¤&G08HVDST2.
+.if &L'&G08KRED3. > 0
+.th .br
+.th &G08KRED3.¤&G08HVDST3.
+.if &L'&G08KRED4. > 0
+.th .br
+.th &G08KRED4.¤&G08HVDST4.
+.sp
+etableret med pant i ejendommen, matr. nr. &G08MATRNR..
+.sp
+Undertegnede overdrager herved, til sikkerhed for, hvad jeg/vi til enhver
+tid måtte være eller blive Den Jyske Sparekasse skyldig, mit/vort
+indestående på lånesagskonto nr. &G08RKKTO., alternativt
+prioriteringsdepot nr. &G08DEPOT. med den til enhver tid værende
+saldo/værdi til sparekassen.
+.sp
+Kontoen forrentes med renesats p.t. &TOTKRE1.%.
+.br
+Transporten omfatter tillige renter af indeståendet.
+.sp
+Jeg/vi er orienteret om det forventede tidsforløb af sagen, samt
+forudsætningerne for lånesagens gennemførelse.
+.sp
+Jeg giver &BANKNAVN. uigenkaldelig fuldmagt til at underskrive alle de
+for sagens gennemførelse dokumenter, herunder tinglysning af pantebrev(e)
+til realkreditinstituttet iht. særskilt lånetilbud og rykningspåtegninger
+på evt. ejerpantebrev(e).
+.sp
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+Dato:
+.sp 8mm
+.tp 7mm 62mm 105mm
+.hr tynd 5mm 50mm
+.br
+¤&KTONAVN.
+.sp 10mm
+Foranstående transport er anmeldt overfor mig og noteret
+.sp 8mm
+.tp 7mm 62mm 105mm
+.hr tynd 5mm 50mm
+.br
+¤&G08NAVN. (køber)
+.sp 10mm
+.tp 7mm 62mm 105mm
+.hr tynd 5mm 50mm
+.br
+¤&G08NAVN4. (pi/adv købesum dep)
+.if &L'&GENKRYDS4 > 0
+.th .sp 10mm
+.th .tp 7mm 62mm 105mm
+.th .hr tynd 5mm 50mm
+.th .br
+.th ¤&GENNAVN2. (garantistiller)
+.th .sp 10mm
+.th .tp 7mm 62mm 105mm
+.th .hr tynd 5mm 50mm
+.th .br
+.th ¤&GENNAVN3. (købers advokat)
+.sp 10mm
+Jeg/vi giver &BANKNAVN. uigenkaldelig fuldmagt til at underskrive alle de
+for sagens gennemførelse dokumenter, herunder tinglysning af pantebrev(e)
+til realkreditinstituttet iht. særskilt lånetilbud og rykningspåtegninger
+på evt. ejerpantebrev(e).
+...TRANSSLUT
+.if &L'&GENKRYDS3 > 0
+.th
+.el .go TRANSSLUT
+.dr tyk weight 0.5mm
+.sp 20mm
+:FED.Transport provenu ved salg af ejendom :SKRSLUT.
+.sp
+Til sikkerhed for prompte og skadesløs betaling af hvad
+.sp
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp
+Cpr-nummer: &KTOKNDNR1.
+.sp
+af hvilken som helst grund måtte være eller blive &BANKNAVN. skyldig,
+transporterer og overdrager jeg hermed uigenkaldeligt til &BANKNAVN.
+det af mig tilkomne provenu ved salg af ejendommen &G08MATRNR.,
+beliggende &G08ADRESSE. til &G08NAVN. overtagelsesdato den &GENDATO..
+.sp
+Jeg bekræfter, at nærværende transport ikke præjudiceres af andre
+transporter, hverken anmeldte eller ikke anmeldte, og jeg forpligter mig
+til slå længe nærværende transport er i kraft, ikke at borttransportere
+nogen del af mit tilgodehavende i henhold til ovennævnte.
+.sp
+&BANKNAVN. er som følge af nærværende transport eneberettiget til
+at modtage og kvittere for ethvert beløb, der tilkommer mig i henhold
+til ovennævnte.
+.sp
+I det hele taget skal &BANKNAVN. være berettiget til at udøve
+samtlige de mig tilkommende beføjelser med hensyn til den til
+&BANKNAVN. tiltransporterede fordring.
+.sp
+.if &L'&GENKRYDS4 > 0
+.th Indtil &G08NAVN. har deponeret købesummen i &G08NAVN4. er vores
+.th tilgodehavende sikret ved garanti &G08KONTO2. stillet af &GENNAVN2.
+.th Der gives endvidere transport i betalinger under denne garanti.
+.th .sp
+.if &L'&GENKRYDS5 > 0
+.th Når det ved nærværende erklæring til &BANKNAVN. transporterede
+.th beløb er deponeret i.h.t. købsaftalen, pantsættes indestående på
+.th deponeringskonto nr. &G08KONTO. samtidig hermed til sikkerhed for
+.th enhver forpligtelse, som jeg måtte have eller få overfor &BANKNAVN..
+.th .sp
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.if &L'&GENKRYDS2 > 0
+.an &L'&G08KRED2. > 0
+.an &L'&G08KRED3. > 0
+.an &L'&G08KRED4. > 0
+.th
+.el .go LAANTYP4
+.dr tyk weight 0.5mm
+.tp 15mm 20mm 40mm
+.sp 20mm
+:FED.Indfrielse af bestående lån i ejendommen, der ikke skal overtages
+:SKRSLUT.
+.sp
+.us Lån nr. 4:
+.sp
+Kreditforening:¤¤¤&G08KRED4.
+.br
+Låntype:¤¤¤&ltype4.
+.br
+Opr. hovedstol:¤¤¤&G08HVDST4.
+.br
+Rente fast/var:¤¤¤&G08RENTE4.
+.sp
+Indfrielse:
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer til
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤dagskurs til indfrielse
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer på
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤kurskontrakt til indfrielse pr.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Der er kurstabskonto tilknyttet lån, der skal indfries
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤Kurstabskonto kan ikke overføres til nyt lån med kortere løbetid
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Kopi af indfrielseskvittering skal tilsendes købers rådgiver
+.br
+.hr tyk 5mm 10mm
+.vr off
+.sp
+...LAANTYP4
+.**************************************************************************
+.tp 50mm 100mm 150mm
+.dr tynd weight 0.1mm
+.fo left
+.ti ¤ 05
+:COUR10.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.da HEADER1   25mm  30mm width 170mm
+.da HEADER2   25mm  45mm width 170mm
+.**************************************************************************
+.ar HEADER1 on
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp 6mm
+.if &MEDKNDNR1 ne 0000000000
+.th Medkontohaver:
+.th .br
+.th &MEDNAVN.
+.th .sp 13mm
+.el .sp 19mm
+- har indgået en aftale om salg/indfrielse
+vedrørende ejendommen beliggende:
+.sp
+Adresse: &G08ADRESSE.
+.sp
+Ekspedition og rådgivning i sagen vedrører følgende:
+.sp2
+.tp 20mm
+.if &L'&GENKRYDS1 > 0
+.th ¤- Salg af fast ejendom
+.th .br
+.if &L'&GENKRYDS2 > 0
+.th ¤- Indfrielse af bestående lån
+.th .br
+.if &L'&GENKRYDS3 > 0
+.th ¤- Transport provenu ved salg af ejendom
+.th .br
+.ar off
+.ar HEADER2 on
+.tp 110mm 170mm right
+:FED.
+¤¤Aftale om salg af fast ejendom
+:SKRSLUT.
+.br
+.if &kuntxt. = CPR-nummer
+.th ¤&kuntxt.:¤&cprcvr2.-&cprcvr3.
+.el ¤&kuntxt.:¤&KTOKNDNR1.
+¤Dato:¤&DATO.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.dr tyk weight 0.5mm
+.sp 20mm
+:FED.Salg af fast ejendom :SKRSLUT.
+.sp
+Beliggende: &G08ADRESSE.
+.sp
+Endelig købsaftale er gennemgået - Overtagelsesdato &GENDATO..
+.sp
+Deponeringskonto &G08KONTO. er etableret - rentesats &GENRENTE.% p.t.
+.sp
+Lånesagskonto &G08RKKTO. er etableret, maksimum kr. &G08BELØB4.
+rentesats &TOTKRE1.%.
+.br
+Der kan i henhold til købsaftalens ordlyd tidligst disponeres over den
+deponerede købesum, når der foreligger endeligt tinglyst, anmærkningsfrit
+skøde til køber på de i købsaftalen anførte vilkår.
+.sp
+Hvis nyt skøde er lyst med retsanmærkninger, der kan indfries med de
+deponerede midler, kan der disponeres til indfrielse af disse, med accept
+fra sælgers advokat.
+.sp
+.if &L'&GENTEKST > 0
+.th Bestående lån i ejendommen, der skal overtages af køber:
+.th .br
+.th &GENTEKST.
+.th .sp
+.if &G08EPBHND1. = 1
+.th Ejerpantebrev(e) aflyses af tingbogen
+.if &G08EPHHND1. = 2
+.th Ejerpantebrev(e) overtages af ny ejer
+.if &L'&G08EKSGEB.  = 0
+.an &L'&G08EKSRAB.  = 0
+.an &L'&G08EKSNET.  = 0
+.an &L'&G08GAPRBLB. = 0
+.an &L'&G08QGEBBLB. = 0
+.th .go INGENGEB
+.kp on
+:COUR10.
+:FED.
+Omkostninger og gebyrer:
+:SKRSLUT.
+.if &L'&G08EKSGEB. > 0
+.th
+.el .go GARANTI
+.*EKSPEDITONSGEBYR
+.tp 140mm right 142mm 160mm right 162mm
+.br
+Ekspedition af sagen:¤&G08EKSGEB.¤kr.
+.if &L'&G08EKSRAB. > 0
+.th
+.el .go QVRGEB
+.br
+Rabat på ekspedition af sagen:¤&G08EKSRAB.¤kr.
+.br
+Ekspedition af sagen - efter rabat:¤&G08EKSNET.¤kr.
+.br
+...QVRGEB
+.if &L'&G08QGEBTXT > 0
+.th
+.el .go GEBSLUT
+.br
+.th &G08QGEBTXT.¤&G08QGEBBLB.¤kr.
+...GEBSLUT
+.sp
+.kp off
+...INGENGEB
+:COUR10
+.kp on
+Omkostninger til realkreditinstitutter samt afgift til staten ved
+tinglysning af det nye realkreditpantebrev er ikke medtaget i
+opgørelsen. Disse vil fremgå af tilbud fra
+realkreditinstituttet. Omkostninger til evt. efterfinansiering, private
+panthavere samt evt. fast og variabel tinglysningsafgift til
+prioritets - eller ejerpantebreve er heller ikke medtaget i opgørelsen.
+.sp
+.kp off
+.kp on
+For at gennemføre denne aftale er der oprettet en realkreditkonto
+nr. &G08RKKTO. til brug for alle betalinger i forbindelse med
+lånesagen, herunder evt. indfrielse af lån og betaling af samtlige
+omkostninger m.v.
+.br
+.kp off
+.kp on
+Såfremt der er behov for det, oprettes der særskilt
+udlægskonto/kredit. Kundens egen opsparing og evt. pengeinstitutlån
+m.v. indsættes på denne konto.
+.br
+Der oprettes særskilt kreditaftale, hvis der er behov for dette.
+.sp
+.kp off
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.vr off
+.sp
+.if &L'&G08KONTO1 > 0
+.th .hr tyk 5mm 10.5mm
+.th .vr tyk 5mm 10mm
+.th ¤¤Når købesum er frigivet, skal sparekasselån &G08KONTO1. indfries
+.th .br
+.th .hr tyk 5mm 10mm
+.th .vr off
+.th .sp
+...LAANTYP
+.if &L'&GENKRYDS2 > 0
+.th
+.el .go LAANTYP
+.dr tyk weight 0.5mm
+.tp 15mm 20mm 40mm
+.sp 20mm
+:FED.Indfrielse af bestående lån i ejendommen, der ikke skal overtages
+:SKRSLUT.
+.sp
+.us Lån nr. 1:
+.sp
+Kreditforening:¤¤¤&G08KRED1.
+.br
+Låntype:¤¤¤&ltype1.
+.br
+Opr. hovedstol:¤¤¤&G08HVDST1.
+.br
+Rente fast/var:¤¤¤&G08RENTE1.
+.sp
+Indfrielse:
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer til
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤dagskurs til indfrielse
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer på
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤kurskontrakt til indfrielse pr.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Der er kurstabskonto tilknyttet lån, der skal indfries
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤Kurstabskonto kan ikke overføres til nyt lån med kortere løbetid
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Kopi af indfrielseskvittering skal tilsendes købers rådgiver
+.br
+.hr tyk 5mm 10mm
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.if &L'&GENKRYDS2 > 0
+.an &L'&G08KRED2. > 0
+.th
+.el .go LAANTYP2
+.dr tyk weight 0.5mm
+.tp 15mm 20mm 40mm
+.sp 20mm
+:FED.Indfrielse af bestående lån i ejendommen, der ikke skal overtages
+:SKRSLUT.
+.sp
+.us Lån nr. 2:
+.sp
+Kreditforening:¤¤¤&G08KRED2.
+.br
+Låntype:¤¤¤&ltype2.
+.br
+Opr. hovedstol:¤¤¤&G08HVDST2.
+.br
+Rente fast/var:¤¤¤&G08RENTE2.
+.sp
+Indfrielse:
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer til
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤dagskurs til indfrielse
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer på
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤kurskontrakt til indfrielse pr.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Der er kurstabskonto tilknyttet lån, der skal indfries
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤Kurstabskonto kan ikke overføres til nyt lån med kortere løbetid
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Kopi af indfrielseskvittering skal tilsendes købers rådgiver
+.br
+.hr tyk 5mm 10mm
+.vr off
+.sp
+...LAANTYP2
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.if &L'&GENKRYDS2 > 0
+.an &L'&G08KRED2. > 0
+.an &L'&G08KRED3. > 0
+.th
+.el .go LAANTYP3
+.dr tyk weight 0.5mm
+.tp 15mm 20mm 40mm
+.sp 20mm
+:FED.Indfrielse af bestående lån i ejendommen, der ikke skal overtages
+:SKRSLUT.
+.sp
+.us Lån nr. 3:
+.sp
+Kreditforening:¤¤¤&G08KRED3.
+.br
+Låntype:¤¤¤&ltype3.
+.br
+Opr. hovedstol:¤¤¤&G08HVDST3.
+.br
+Rente fast/var:¤¤¤&G08RENTE3.
+.sp
+Indfrielse:
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer til
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤dagskurs til indfrielse
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Obligationsindfrielse - der opkøbes obligationer på
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤kurskontrakt til indfrielse pr.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Der er kurstabskonto tilknyttet lån, der skal indfries
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤Kurstabskonto kan ikke overføres til nyt lån med kortere løbetid
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+¤¤Kopi af indfrielseskvittering skal tilsendes købers rådgiver
+.br
+.hr tyk 5mm 10mm
+.vr off
+.sp
+...LAANTYP3
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

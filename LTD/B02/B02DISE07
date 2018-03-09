@@ -1,0 +1,148 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.br
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 50mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Kvittering
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.******************Her starter definationen af nye arealer*****************
+.da AREAL01 23mm 35mm width 170mm
+.da AREAL02 26mm 85mm width 170mm
+.da AREAL03 23mm 210mm width 170mm
+.******************Her slutter definationen af nye arealer*****************
+.ar AREAL01 on
+.tp 100mm 110mm
+.if &B02VALG3 eq 1
+.th .go hop1
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.br
+.sp &BLANKLIN.
+.sp 4
+&DATO.
+.go hop2
+...hop1
+&BANKNAVN
+.br
+&B02AFD
+...hop2
+.ar AREAL02 on
+Undertegnede har modtaget følgende effekter
+.in 10mm
+.sp
+&B02TEXT1.
+&B02TEXT2.
+&B02TEXT3.
+&B02TEXT4.
+&B02TEXT5.
+&B02TEXT6.
+&B02TEXT7.
+&B02TEXT8.
+&B02TEXT9.
+&B02TEXT10.
+&B02TEXT11.
+&B02TEXT12.
+&B02TEXT13.
+&B02TEXT14.
+&B02TEXT15.
+.in 0mm
+.sp
+for hvilket herved kvitteres.
+.ar AREAL03 on
+.ce on
+.if &B02VALG3 eq 1
+.th .go hop3
+&BANKNAVN
+.sp
+&B02AFD.
+.sp 2
+&B02NAVN
+.go hop4
+...hop3
+.ce off
+Dato:
+.ce on
+.sp 4
+______________________________
+.br
+&NAVN.
+...hop4
+.ce off
+.ar off

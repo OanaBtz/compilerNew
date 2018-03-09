@@ -1,0 +1,47 @@
+:print.
+.IF &PEN30002 = månedligt
+.TH .SE FREK = 12
+.IF &PEN30002 = kvartalsvis
+.TH .SE FREK = 4
+.IF &PEN30002 = halvårligt
+.TH .SE FREK = 2
+.IF &PEN30002 = årligt
+.TH .SE FREK = 1
+.IF &L'&PEN10006 <= 3
+.TH .SE TAL1 = &PEN10006
+.TH .SE TAL2 = 0
+.IF &L'&PEN10006 = 5
+.TH .SE TAL1 = SUBSTR &PEN10006 3 3
+.TH .SE TAL2 = SUBSTR &PEN10006 1 1
+.IF &L'&PEN10006 = 6
+.TH .SE TAL1 = SUBSTR &PEN10006 4 3
+.TH .SE TAL2 = SUBSTR &PEN10006 1 2
+.IF &L'&PEN10006 = 7
+.TH .SE TAL1 = SUBSTR &PEN10006 5 3
+.TH .SE TAL2 = SUBSTR &PEN10006 1 3
+.SE BELAAR = &TAL2.&TAL1
+.SE NBELFREK = &BELAAR / &FREK
+.IF &L'&NBELFREK <= 3
+.TH .SE TAL1 = &NBELFREK
+.TH .SE TAL2 = 0
+.IF &L'&NBELFREK = 4
+.TH .SE TAL1 = SUBSTR &NBELFREK 2 3
+.TH .SE TAL2 = SUBSTR &NBELFREK 1 1
+.IF &L'&NBELFREK = 5
+.TH .SE TAL1 = SUBSTR &NBELFREK 3 3
+.TH .SE TAL2 = SUBSTR &NBELFREK 1 2
+.IF &L'&NBELFREK = 6
+.TH .SE TAL1 = SUBSTR &NBELFREK 4 3
+.TH .SE TAL2 = SUBSTR &NBELFREK 1 3
+.IF &TAL2 = 0
+.TH .SE ABELFREK = &TAL1
+.EL .SE ABELFREK = &TAL2..&TAL1
+Årlig indbetaling (alfa) .........: &PEN10006
+.br
+Beløb pr. år (numerisk) ..........: &BELAAR
+.br
+Frekvens (numerisk) ..............: &FREK
+.br
+Beløb pr. år / frekvens (numerisk): &NBELFREK
+.br
+Beløb pr. frekvens (alfa) ........: &ABELFREK

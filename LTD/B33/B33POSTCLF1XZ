@@ -1,0 +1,211 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.oc  **Fosp/medd vedr clearing
+.fo left
+.ti > 05
+.*************************************************
+.* Definition af arealer
+.da BANKOPL         7  9 width 35
+.da ARKIV          43 11 width 35
+.*************************************************
+.ar BANKOPL on
+&BKNAVN
+.br
+.if &L'&BKAFD gt 0
+.th &BKAFD
+.th .br
+.th &BKADR
+.th .br
+.th &BKBY
+.el &BKADR
+.el .br
+.el &BKBY
+.ar off
+.*************************************************
+.ar ARKIV on
+:GL..TP 8 18:EGL.
+:NY..TP 20MM 46MM:ENY.
+&BANKREGNR >&GENARK >&GENREF
+.ar off
+.*************************************************
+.*******************************************************
+.* Definition af arealer
+.*******************************************************
+.da CHECKOPL       0 20 width 49 depth 3
+.da POST          50 19 width 5
+.da KORTOPL        0 25 width 49 depth 3
+.da YDERL          7 28 width 60
+.da AFKRYDS1       7 33 width 5
+.da AFKRYDS2      31 33 width 5
+.da AFKRYDS3      54 33 width 21
+.da BETRUKNE       7 41 width 35
+.da KTOOPL        43 41 width 35
+.da TLFNR         48 47 width 15
+.da AFKRYDS4       7 50 width 5
+.da AFKRYDS5      31 50 width 40
+.da DATO1          7 56 width 35
+.da BETRPI         7 61 width 35
+.da INDLPI        43 61 width 35
+.*******************************************************
+.ar CHECKOPL on
+:GL..TP 7 21 29 47 RIGHT 48:EGL.
+.if &L'&GENCHLBNR gt 0
+.th >&GENCHLBNR >&REGNR >&KTONR >&GENBELØB.>
+.el
+.ar off
+.*******************************************************
+.ar KORTOPL on
+:GL..TP 7 21 29 47 RIGHT 48:EGL.
+.if &L'&GENCHLBNR = 0
+.th >&GENKORT >&REGNR >&GENKORTNR >&GENBELØB.>
+.el
+.ar off
+.*******************************************************
+.ar POST on
+.if &L'&GENPOST = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENHKORT1 = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENDKNOTA = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENAPOST = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar YDERL on
+:GL..TP 38:EGL.
+.if &L'&GENAFVISES gt 0
+.th X
+.th .sp
+.th >&GENAFVISES
+.ar off
+.*******************************************************
+.ar AFKRYDS1 on
+.if &L'&GENDÆK = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENCHKON = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENDØD = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar AFKRYDS2 on
+.if &L'&GENKONK = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENOPH = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENBETST = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar AFKRYDS3 on
+.if &L'&GENKSPÆR = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENFALSK = 0
+.th &ÅRB
+.el X
+.sp
+:GL..TP 2:EGL.
+.if &L'&GENÅRSAG = 0
+.th &ÅRB
+.el X >&GENÅRSAG
+.ar off
+.*******************************************************
+.ar BETRUKNE on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+.ar off
+.*******************************************************
+.ar KTOOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+.ar off
+.*******************************************************
+.ar  TLFNR on
+&GENKUTLF
+.ar off
+.*******************************************************
+.ar AFKRYDS4 on
+.if &L'&GENTRÆK = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENORIG = 0
+.th &ÅRB
+.el X
+.ar off
+.*******************************************************
+.ar AFKRYDS5 on
+.if &L'&GENMEDD = 0
+.th &ÅRB
+.el X
+.sp
+.if &L'&GENAMED = 0
+.th &ÅRB
+.el X >&GENAMED
+.ar off
+.*******************************************************
+.ar DATO1 on
+&DATO
+.ar off
+.*******************************************************
+.ar BETRPI on
+:GL..TP 30:EGL.
+:NY..TP 76MM:ENY.
+&BANKNAVN >&GENINI
+.ar off
+.*******************************************************
+.ar INDLPI on
+&BKNAVN
+.br
+&BKAFD
+.ar off
+.*******************************************************
+.se antlin = &ÅLC - 1
+.sp &antlin
+:GL.:BECFORM.B33S30:EGL.

@@ -1,0 +1,285 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc  **VISA/Dankort udløb
+.*** Definer siden som et areal *******************************************
+.*da side 20mm 33,5mm width 175mm
+.da side 20mm 40mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.sp 53mm
+.bx off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.sp 83mm
+.bx off
+.sp 41mm
+:FED.
+.*** MERKUR's noteringer **************************************************
+MERKUR's noteringer                                      &GENEKSP
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 55mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+.ar off
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+B87KORTBEST
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af Visa/Dankort/Hævekort
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**************************************************************************
+.da undertegnede 21mm 48.5mm width 173mm
+.da erkl 21mm 108mm width 173mm
+.da underskrift 21mm 185mm width 173mm
+.da banken1 76mm 235mm width 125mm
+.da banken2 21mm 235mm width 57mm
+.**************************************************************************
+:SWISS8.
+.tp 88.5mm
+.**************************************************************************
+.SU OFF
+.se reg = substr &BECKONTO01 1 4
+.se kto = substr &BECKONTO01 5 7
+.su on
+.**************************************************************************
+.se TYPE = ''
+.if &BECTEST01 EQ 1
+.th .se TYPE = 'Dankort'
+.th .se TYPE1 = '(type 50)'
+.if &BECTEST01 EQ 2
+.th .se TYPE = 'Visa/Dankort'
+.th .se TYPE1 = '(type 40)'
+.if &BECTEST01 EQ 3
+.th .se TYPE = 'Hævekort'
+.th .se TYPE1 = '(type 21)'
+.if &BECTEST01 EQ 4
+.th .se TYPE = 'Ungdoms VISA-Electron'
+.th .se TYPE1 = '(type  1)'
+.if &BECTEST01 EQ 5
+.th .se TYPE = 'VISA-Electron'
+.th .se TYPE1 = '(type  2)'
+.**************************************************************************
+.ar undertegnede on
+.sp 0.3mm
+¤Bestillingsdato:
+.sp 0.4mm
+¤Kortnr.:
+.sp 0.4mm
+¤Bestillings nr.:
+.sp 4.2mm
+CPR.nr.: ¤Samme PIN kode:
+.if &L'&BECTEST03 gt 0
+.th .sp 0.4mm
+.th ¤Aut. genbestilling:
+.sp
+.sp 0.4mm
+bestiller herved et &TYPE &TYPE1 til konto nr.
+.if &L'&BECTEKST01 gt 0
+.th .go afs
+.el .go afs1
+...afs
+.br
+til fuldmagtshaver:
+.sp 4,6mm
+¤Bestillings nr.:
+.sp 4,2mm
+CPR.nr.:¤Samme PIN kode:
+.if &L'&BECTEST05 gt 0
+.th .sp 0,4mm
+.th ¤Aut. genbestilling:
+.el .go afs1
+...afs1
+.ar off
+.**************************************************************************
+.ar erkl ON
+.if &L'&BECTEKST01 gt 0
+.th Vi erklærer os indforståede
+.el Jeg erklærer mig indforstået
+med at opbevare &TYPE kortet på betryggende vis samt
+at godtgøre &BANKNAVN de tab, som denne direkte
+eller indirekte måtte pådrage sig, som følge af at dette ikke
+overholdes.
+.sp
+Jeg bekræfter at have modtaget Merkur's forretningsbetingelser for
+.if x&BECTEST01 eq x5
+.th VISA Electronkort
+.if x&BECTEST01 eq x4
+.th Ungdoms VISA Electronkort
+.if x&BECTEST01 eq x3
+.th Hævekort.
+.if x&BECTEST01 eq x2
+.th VisaKort.
+.if x&BECTEST01 eq x1
+.th Dankort.
+.sp
+Gebyr for brug af &TYPE kortet hæves på ovennævnte konto. Kontoudskrift
+udsendes ved fyldt udskrift, ultimo året eller efter aftale.
+Dog modtages ingen kontoudskrifter, hvis kunden er tilmeldt Netbank.
+.sp
+.if &L'&BECTEKST01 gt 0
+.th Fuldmagten er gældende så længe fuldmagtshaverens &TYPE
+.th ikke er tilbageleveret til &BANKNAVN..
+.th .sp
+.el .go afs2
+...afs2
+Såfremt kontoen lukkes eller ophæves, skal &TYPE kortet
+tilbageleveres til &BANKNAVN..
+.if &BECTEST01 EQ 2 .or &BECTEST01 EQ 4
+.th .sp 13mm
+.el .sp 16mm
+.TP 33mm 70mm
+.if &L'&BECTEKST01 gt 0
+.th ¤____________ ¤_____________________________________________
+.th .br
+.th  ¤Dato ¤Fuldmagtshavers underskrift
+.th .sp 15mm
+.el .sp 27mm
+¤____________ ¤_____________________________________________
+.br
+¤Dato ¤Underskrift
+.ar off
+.**************************************************************************
+.sp 170mm
+.ar banken1 on
+:SWISS8.
+.tp 20mm 40mm 60mm 80mm 100mm
+Legitimation ¤Kort ¤Kontrol EDB ¤Kontrol RKI/ ¤Kort modtaget/ ¤Kort udlev./
+.br
+forevist ¤bestilt ¤  ¤checkmisbrug ¤PIN bestilt ¤autoriseret
+.sp 4mm
+Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato:
+.sp 6mm
+Mrk.: ¤Mrk.: ¤Mrk.: ¤Mrk.: ¤Mrk.: ¤Mrk.:
+.AR OFF
+.ar banken2 on
+:SWISS8.
+VIGTIGT:
+.sp 5mm
+:FED
+Adresse kontrolleret
+.br
+på bestillingstidspunktet
+:SKRSLUT.
+.sp 4mm
+Kontrolciffer noteret
+.br
+ved modtagelsen af kort
+.ar off
+.go slut
+...slut
+:SKRSLUT.
+.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DEN ER ***
+.**** LÆNGERE END 26 TEGN ER DER LAVET FEJL I KORTBESTILLINGEN OG NAVNET **
+.**** SKAL RETTES I FUNKTION 3101 *****************************************
+.if &L'&NAVN > 26
+.th Kundens navn må være på max. 26 karakterer pga.
+.th navnelængden på det bestilte kort funktion 3105. Afbestil kortet,
+.th ret navnet i funktion 3101, genbestil
+.th kortet og udskriv brevet igen.
+.th .go slut
+.**************************************************************************
+.da under 25mm 48.5mm width 173mm
+.**************************************************************************
+.ar under on
+.TP 15mm 120mm
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+&NAVN ¤¤&DATO1
+.br
+&GADE ¤¤&BECKORTNR
+.br
+&BY ¤¤&BECBEST01
+.sp
+¤&KUNDENR ¤&PIN
+.if &L'&BECTEST03 > 0
+.th .br
+.th ¤¤Ja
+.sp
+.if &BECTEST01 EQ 4
+.th ¤                                &reg &kto..
+.el ¤                            &reg &kto..
+.if &L'&BECTEKST01 gt 0
+.th .go afs
+.el .go afs1
+...afs
+.sp
+.if &U'&BECTEST04 = J
+.th .se PIN1 = 'Ja'
+.el .se PIN1 = 'Nej'
+.sp
+&BECTEKST01 ¤¤&BECBEST02
+.sp 1
+¤&BECCPR01 ¤&PIN1
+.if &L'&BECTEST05 > 0
+.th .br
+.th ¤¤Ja
+.el .go afs1
+...afs1
+.ar off
+.**************************************************************************
+.go slut
+...slut

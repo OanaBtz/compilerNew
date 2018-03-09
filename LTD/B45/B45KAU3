@@ -1,0 +1,377 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.im (b45syvar)
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.if &U'&UDSKRSTED eq C
+.an &KUNDENR eq 4450606060
+.th .mg /T/Brevet kan ikke udskrives centralt med kundenr. 4450606060 +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+
+.if &U'&TILTALEF eq DE
+.th .go TILTALE
+.if &E'&MEDNAVN eq 0
+.th .go TILTALE
+.if &L'&MEDNAVN gt 1
+.th .se TILTALEF = I
+...TILTALE
+:TILTALE &TILTALEF
+:FED.
+.br
+.if &L'&MEDNAVN gt 1
+.th Kaution for &KTONAVN og &MEDNAVN
+.el Kaution for &KTONAVN
+.br
+:SKRSLUT.
+ 
+I henhold til &DIT tilsagn om kaution fremsender vi hermed
+kautionsdokument,
+der bedes underskrevet og tilbagesendt til os.
+ 
+Frankeret svarkuvert er
+vedlagt.
+.im (b45syvar)
+.if &L'&GENTLFNR lt 9
+.th .mg/T/Der mangler et blanktegn i GENTLFNR i Proj. 99, funktion 75003.
+.if &L'&GENTLFNR gt 9
+.th .mg/T/Der må kun være ét blanktegn i GENTLFNR i P99, funktion 75003.
+.if &BREVNAVN eq B45INV18
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45BOL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KØB5
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT7
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT8
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR12
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KORT17
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA8
+.th .go ALIGEVEL
+.if &E'&B45NR eq 1 .an &B45NR ne 7
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+.kp on
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+.kp off
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+I
+ øvrigt gælder bankens almindelige bestemmelser forl
+ån og kreditter også ;.brf
+or nærværende kautionserklæring. 
+:
+KURSIV.________________, den 
+S
+om selvskyldnerkautionist:                               Til vitterlighed:.
+br:
+SKRSLUT..
+da z 8mm 290mm width 50mm rotate -90.
+ar z on:
+SWISS6.&
+BREVNAVN &U'&UDSKRSTED.-&SANTKUNDE.-&SANTBANK &U'&ARKIV &BRUGERNR:
+SKRSLUT..
+ar off
+omkostninger og dernæst til nedbringelse af den i øvrigt sikrede gæld. Ind-
+.br
+betaling fra debitor anvendes, hvis kreditfaciliteten kun er delvis sikret
+ved ;.br
+kaution, først til nedbringelse af den usikrede del.
+ 
+Banken forbeholder sig ret til at realisere de af debitor eller trediemand
+evt. ;.br
+stillede sikkerheder og afskrive provenuet efter bankens frie valg.
+ 
+Kautionisten har således ingen regresret i sådanne sikkerheder, og banken
+.br
+har ingen pligt til forlods at søge sig fyldestgjort i sådanne.
+ 
+Nærværende dokument kan
+tjene som grundlag for tvangsfuldbyrdelse hos ;.br
+kautionisten i henhold til Retsplejelovens pgf. 478, stk. 1, nr. 5.
+ 
+.ri Fortsættes
+.pa
+.sp 10
+.ri Fortsat
+ 
+Søgsmål, der vedrører nærværende kaution kan, såfremt banken ønsker det,
+.br
+anlægges ved retten i den retskreds, hvor banken eller den kontoførende
+.br
+bankfilial er beliggende, efter kald og varsel som til indenfor
+retskredsens ;.br
+boende, ligesom banken kan lade sådanne sager behandle og pådømme ved
+.br
+underret uden hensyn til sagsgenstandens størrelse.
+ 
+Underskrevne kautionist bekræfter, at banken har gennemgået
+betingelserne ;.br
+for og konsekvenserne af kautionsforpligtelsen. Jeg er herunder
+gjort bekendt ;.br
+med, at banken kan kræve, at jeg straks indfrier den del af forpligtelsen,
+jeg har ;.br
+påtaget mig at kautionere for, hvis debitor ikke opfylder sin
+betalingsforpligtelse. ;.br
+Jeg er klar over,
+at det ikke kun er debitors manglende betaling (restance), som ;.br
+banken
+kan kræve. Jeg
+er indforstået med, at det er hele kautionsforpligtelsen;.br
+samt
+renter heraf,
+der forfalder til betaling, hvis debitor ikke betaler en ydelse ;.br
+til tiden.
+.th .go ENKELT
+omkostninger af enhver;.br
+art samt evt. overtræk.
+.go VIDERE
+...KAUTION
+er
+begrænset til ;.br
+:vs. &B45KAUTION
+kr., hvortil kommer
+renter, provision og omkostninger
+af enhver art;.br
+af dette beløb.
+ 
+Kautionen består &B45VEDBLIV..
+.go VIDERE
+...ENKELT
+omkostninger af enhver art ;.br
+vedr. &B45ENKELT
+.br
+&B45ANDET..
+...VIDERE
+ 
+.if &L'&B45FRIL1A lt 2
+.th .go VIDER2
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+ 
+...VIDER2
+Banken er berettiget til uden kautionistens tilladelse at give debitor
+henstand. ;.br
+Skulle debitor eller kautionisten komme under bobehandling er banken,
+indtil ;.br
+den er fuldt dækket, berettiget til at oppebære dividende, også af
+det krav, ;.br
+der måtte tilkomme en kautionist i kraft af hans regresret, hvad
+enten regres- ;.br
+kravet er opstået før eller efter bobehandlingens begyndelse.
+ 
+Indbetaling fra kautionister anvendes først til dækning af renter,
+provision og ;.br
+.pa
+.if &L'&B45ENKELT gt 1 .an &L'&B45KAUTION gt 1
+.th .mg /T/Brevet kan ikke udskrives - modstridende kautionsbegreber. T+++
+.su off
+.se a = substr &KTOKUNDENR 1 6
+.se b = substr &KTOKUNDENR 8 4
+.su on
+.in 5
+.sp 5
+:SWISS20.Kautionsdokument (erhverv)
+:SWISS12.
+.br
+_____________________________________________________________
+ 
+:FED.
+.if &L'&B45KAUTION gt 1
+.th Selvskyldnerkaution (begrænset beløb)
+.if &L'&B45ENKELT gt 1
+.th Selvskyldnerkaution (enkel facilitet)
+.if &L'&B45ENKELT lt 2 .an &L'&B45KAUTION lt 2
+.th Selvskyldnerkaution (ubegrænset beløb)
+:SKRSLUT.
+ 
+Undertegnede selvskyldnerkautionist :KURSIV.
+ 
+    &NAVN., &GADE., &BY :SKRSLUT.
+ 
+indestår herved som selvskyldnerkautionist og således solidarisk hæftende
+.br
+for opfyldelse af enhver forpligtelse, nuværende og fremtidige, som debitor
+ 
+:KURSIV.
+.if &L'&MEDNAVN gt 1
+.th .go MED
+    &KTONAVN., &KTOGADE., &KTOBY :SKRSLUT.
+.go FORT
+...MED
+    &KTONAVN og &MEDNAVN :SKRSLUT.
+...FORT
+ 
+nu har eller senere måtte få over for
+&BDbank.,
+herunder enhver af ;.br
+bankens filialer og afdelinger. Kautionsforpligtelsen
+.if &L'&B45KAUTION gt 1
+.th .go KAUTION
+omfatter samtlige debitors;.br
+forpligtelser, herunder betaling af renter,
+provision og
+.if &L'&B45ENKELT gt 1

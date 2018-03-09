@@ -1,0 +1,242 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.da FEJL 20mm 60mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Ansøgning om familiekort
+:SKRSLUT.
+:SWISS10.
+.br
+Kan kun udfyldes hvis der allerede er bestilt et privatkort til samme
+kortkonto.
+.ar off
+.*************************************************************************
+.**AREALER*****************************************************************
+.da SIDE 20mm 44mm width 175mm
+.*KORTHOLDER-OPLYSNINGER***************************************************
+.ar SIDE on
+.tp 1mm
+:SWISS10.
+:FED.
+Kortholderoplysninger
+:SKRSLUT.
+:SWISS6.(oplysninger om familiekortholder)
+.bx left right
+:SWISS8.
+¤Navn
+.sp 5mm
+:SWISS8.
+.bx new left right
+¤Adresse
+.sp 5mm
+.tp 1mm 41mm
+.bx new left 40mm right
+¤Postnr. ¤By
+.sp 5mm
+.bx new left right
+¤CPR-nr.
+.sp 5mm
+.bx new left right
+.sp 28mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.*INDESTÅELSESERKLÆRING ***************************************************
+:SWISS10.
+:FED.
+Indeståelseserklæring
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 76mm
+.bx off
+.*PENGEINSTITUT ***********************************************************
+:SWISS10.
+:FED.
+Pengeinstitut
+:SKRSLUT.
+:SWISS8.
+.tp  88.5mm
+.bx left 87.5mm right
+¤Tlf.nr.
+.sp 5mm
+.hr 87.5mm right
+¤Faxnr.
+.sp 5mm
+.bx off
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da KORTHOLD 25mm 53.5mm width 170mm
+.*a KTHVR 45mm 166mm width 150mm
+.*  Forsøg med centerering
+.da KTHVR 48mm 166mm width 90mm
+.da KTNR 55mm 179.5mm width 80mm
+.da PI 25mm 204mm width 169mm
+.da PITLF 112.5mm 208mm width 85mm
+.da PIFAX 112.5mm 217mm width 85mm
+.*SUBSTRINGS **************************************************************
+.su off
+.se postnr = substr &BY 1 4
+.se bynavn = substr &BY 7 28
+.su on
+.*FAMILIEKORTHOLDER *******************************************************
+.ar KORTHOLD on
+.tp 40mm
+&NAVN
+.sp 6mm
+&GADE
+.sp 6mm
+&postnr ¤&bynavn
+.sp 6mm
+&KUNDENR
+.ar off
+.**KORTHOLDER / KONTOHAVER ************************************************
+.ar KTHVR on
+.if &L'&KTNAVN. > 0
+.*  Forsøg med centerering
+.*h &KTNAVN.
+.th .ce &KTNAVN.
+.ar off
+.**KORTNUMMER *************************************************************
+.ar KTNR on
+.if &L'&PANNR. > 0
+.th &PANNR.
+.el .sp
+.br
+.if &L'&KTTYPTLNG. > 0
+.th &KTTYPTLNG.
+.ar off
+.*PENGEINSTITUT ***********************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar PITLF on
+&AFDTLF
+.ar off
+.**************************************************************************
+.ar PIFAX on
+&AFDFAX
+.ar off
+.******************************************************************
+.*** Linie 14-22 - Anden formulering end BEC's idet vi fremadrettet ikke
+.*** udleverer kortbestemmelser, forsikringsbetingelser og prisliste.
+.*** I stedet henvises til www.vestjyskbank.dk/kortbetingelser
+.*** 03.10.2011 /1910/BML
+.**AREALER*****************************************************************
+.da KORTHLD1 21mm 87mm width 173mm
+.da KORTHLD2 21mm 111mm width 173mm
+.da INDESTERKL 21mm 121mm width 173mm
+.da NAVN 21mm 167mm width 171mm
+.*KORTHOLDER-OPLYSNINGER***************************************************
+.ar KORTHLD1 on
+:SWISS8.
+Jeg har modtaget orientering om regler og vilkår for anvendelse af
+kortet, ligesom jeg bekræfter rigtigheden af oplysningerne i denne
+ansøgning. Kortbestemmelser samt Prisliste kan
+til enhver tid findes på
+:USENKEL.www.vestjyskbank.dk/kortbetingelser:SKRSLUT.. Ved
+ansøgning om familiekort
+er jeg bekendt med, at der ikke er knyttet en særskilt rejseforsikring til
+familiekortet. Det aftalte forbrugsmaksimum omfatter det samlede forbrug
+for begge kort.
+.sp 3mm
+Hæftelsen kan kun ophøre med virkning fra det tidspunkt, hvor det udstedte
+.*
+.*   Skal muligvis være ubetinget igen
+.*
+.if &L'&KTTYPT2LNG. > 0
+.th &KTTYPT2LNG.
+.el kort
+er leveret tilbage til &BANKNAVN., og samtlige tilgodehavender er betalt.
+.ar off
+.*KORTHOLDER UNDERSKRIFT***************************************************
+.ar KORTHLD2 on
+:SWISS8.
+.tp _/35mm _/170mm
+Dato ¤ Familiekortholders underskrift ¤
+.ar off
+.*INDESTÅELSESERKLÆRING ***************************************************
+.ar INDESTERKL on
+:SWISS8.
+Ovennævnte, som er min ægtefælle, samlever eller mit hjemmeboende barn over
+18 år, gives fuldmagt til at disponere på min kortkonto ved familiekort.
+.sp 3mm
+Jeg er indforstået med, at ovennævnte familiekort udstedes, og at jeg som
+meddebitor hæfter for enhver forpligtelse, der måtte opstå som følge heraf.
+Hæftelsen gælder indtil det tidspunkt, hvor det udstedte kort er leveret
+tilbage til &BANKNAVN., og samtlige tilgodehavender er indfriet.
+.sp 3mm
+Som kortholder er jeg ansvarlig for alt forbrug på kortkontoen, uanset om
+betalingerne er foretaget med familiekort eller mit eget kort, ifølge
+kortbestemmelserne.
+.sp 3mm
+Fuldmagten gælder, indtil &BANKNAVN modtager en skriftlig
+tilbagekaldelse. Familiekortet skal hurtigst muligt efter tilbagekaldelsen
+klippes over og sendes til &BANKNAVN..
+.ar off
+.**************************************************************************
+.ar NAVN on
+:SWISS8.
+.tp _/120mm
+Kontohavers navn ¤
+.sp 10mm
+.tp 80mm
+Kontohavers kortnummer ¤(16 cifre. Nummeret står på forsiden af kontohavers
+kort).
+.sp 10mm
+.tp _/120mm
+Kontohavers underskrift ¤
+.ar off

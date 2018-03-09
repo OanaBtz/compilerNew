@@ -1,0 +1,106 @@
+.tiltale &TILTALEF
+.* SIDEINDSTILLINGER
+.ti > 05
+.pm 6
+.ll 72
+.* Kommando til formboksen
+&&??#
+.* Her starter selve brevhovedets tekst
+.sp4
+&KTONAVN
+.br
+.* Er der C/O-adresse, så udskrives denne
+.if &L'&KTOCO GT 1
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.* Er der indtastet en Attention, udskrives oplysningen
+.if &L'&B47ATT NE 1
+.th .sp
+.th Att.: &B47ATT
+.th .br
+.el .sp 2
+.* Hvis der er skrevet C/O-adresse, så udskrives der ikke en blank linie
+.if &L'&KTOCO EQ 1
+.th .sp 4
+.el .sp 3
+.TP 72 right
+>Valby den &DATO.
+.sp 3
+.* Så er brevhovedets tekst færdig.
+.*
+.sp2
+#1B#5B1m
+.* Placering af overskrift i "kort" udgave
+.if x&U'&B47PJN1 = xN .an x&U'&B47PJN2 = xN .an x&U'&B47PJN3 = xN
+.th .sp4
+.br
+.if &L'&B474 gt 1
+.th Din Selvpensionering har konto nr. &KTONR med tilhørende
+.th .br
+.th depot nr. &B474..
+.el Din Selvpensionering har konto nr. &KTONR
+.br
+#1B#5B0m
+.br
+.if x&U'&B47PJN1 = xJ
+.th Mine kolleger og jeg byder dig velkommen som kunde i Din Bank.
+.th Vi vil gøre vort bedste for at betjene dig.
+.th .sp
+Vi har fået overført din selvpensionering fra &BKNAVN..
+.br
+Kontoens indestående er #1B#5B1m &SALDO kr. #1B#5B0m
+.sp
+.if &L'&B474 gt 1
+.th Du vil modtage besked fra Værdipapircentralen om overførslen af
+.th dine værdipapirer.
+.th .sp
+Aftalen fortsætter på uændrede vilkår.
+.sp
+.* Er der indtastet et regnnr, skrives der overførselsoplysninger
+.if &L'&B47P23 lt 4
+.th .go SPRING
+.se ovf = ' '
+.if &U'&B47PJN6 eq T
+.th .se ovf = '14. dag'
+.if &U'&B47PJN6 eq M
+.th .se ovf = måned
+.if &U'&B47PJN6 eq K
+.th .se ovf = kvartal
+.if &U'&B47PJN6 eq H
+.th .se ovf = halvår
+.* Slut på variabeltildeling.
+.* Overførselsafsnit
+.ll 116
+Der overføres fremover #1B#5B1m&B47P21. #1B#5B0mkr. #1B#5B1mpr. &ovf.
+#1B#5B0mfra reg. nr. #1B#5B1m&B47P23.#1B#5B0m,
+.br
+konto nr. #1B#5B1m&B47P24.#1B#5B0m, første gang
+#1B#5B0mden #1B#5B1m&RESULTA..#1B#5B0m
+.if &U'&B47PJN4 = J
+.th Overførslen sker
+.th .br
+.th via BetalingsService.
+.ll 72
+.sp
+...SPRING
+.if x&U'&B47PJN2 = xJ
+.th Din kopi af kontrakten er vedlagt.
+.th .sp
+.if x&U'&B47PJN3 = xJ
+.th Jeg ser frem til et godt samarbejde, og hvis du har spørgsmål,
+.th er du altid velkommen til at kontakte mig eller en af mine kolleger.
+.th .sp
+.* Definition af areal til PS-tekst om realrenteafgift
+.DA NBTEXT 6 60 width 72
+.AR NBTEXT ON
+&&??##1B#5B1m
+.br
+PS. #1B#5B0m #x4
+.in5
+Du skal være opmærksom på, at realrenteafgiften næste gang beregnes -
+både af den rente der blev tilskrevet ved årsskiftet, samt den rente
+der er tilskrevet ved overførslen af kontoen til os.
+.AR OFF

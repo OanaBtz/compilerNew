@@ -1,0 +1,229 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da MNAVN 110mm 41.5mm width 70mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.da CPR 25mm 70mm width 95mm
+.da MEDCPR 110mm 70mm width 70mm
+.*************NAVN OG ADRESSE****************
+.fo left
+:SWISS11.
+.ar NAVN on
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+.sp 3
+.ar off
+.ar CPR on
+Cpr.nr.: &KTOKUNDENR.
+.ar off
+.ar MNAVN on
+.if &L'&MEDNAVN = 0
+.th .go SLUT
+.if &U'&B02VÆLG eq J
+.th &MEDSTILL
+.br
+&MEDNAVN.
+.br
+&MEDCO.
+.br
+&MEDGADE.
+.br
+&MEDBY.
+.br
+&MEDLAND.
+.sp 3
+.ar off
+.ar MEDCPR on
+Cpr.nr.: &MEDKUNDENR.
+...SLUT
+.ar off
+.**************** SLUT **********************
+.*
+.*********************GENEREL OPSÆTNING************************************
+:OMTALE &OMTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 60mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Uigenkaldelig fuldmagt
+.br
+:SKRSLUT.
+(Andelsbolig)
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.********************** adr.tekst forneden *****************
+.da AMBK 10mm 287mm width 195mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD.,
+.******** 5201 BN *****************
+.if &B02BKST eq 520100
+.or &B02BKST gt 520100
+.th .ct  &AFDGADE., &AFDBY., tlf. &telefon., CVR.nr. 32049664
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 = 4521
+.or &KONTROL1 = 4522
+.or &KONTROL1 = 4523
+.or &KONTROL1 = 4524
+.or &KONTROL1 = 4525
+.or &KONTROL1 = 4526
+.th .ct  Åboulevarden 49, 8000 Aarhus C, tlf. 46 34 80 90, CVR.nr. 32321577
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 ne 4521
+.or &KONTROL1 ne 4522
+.or &KONTROL1 ne 4523
+.or &KONTROL1 ne 4524
+.or &KONTROL1 ne 4525
+.or &KONTROL1 ne 4526
+.th .ct  Uplandsgade 2, 2300 København S, tlf.,
+.th .ct  46 34 80 00, CVR.nr. 32321577
+.th .go slut
+.ce off
+...slut
+.ar off
+.**************************************************************************
+.da TEXT 25mm 30mm width 175mm
+.ar TEXT on
+Undertegnede
+.sp 14
+giver herved &BANKNAVN uigenkaldelig fuldmagt til på &MINE vegne at
+modtage det provenu, &JEG som
+.if &OMTALEF = jeg
+.th andelshaver
+.if &OMTALEF = vi
+.th andelshavere
+modtager fra
+andelsboligforeningen i forbindelse med det forestående salg af &MIN
+andel i boligforeningen &B02TEXT2..
+.sp
+Som følge heraf, er &BANKNAVN berettiget
+til for &MIG at underskrive eventuelle
+nødvendige dokumenter i forbindelse med salget.
+.sp
+Endvidere er banken eneberettiget til at modtage og kvittere for provenuet
+af salget.
+.sp
+Provenuet ved salget afskrives på &MIN skyld til banken.
+.sp
+&SJEG er bekendt med at andelsboligforeningen straks modtager
+kopi af denne fuldmagt.
+.if &L'&MEDNAVN > 0
+.th .go SLUT1
+.el
+.tp 95mm
+.sp 5
+Dato:
+.sp 4
+.hr 0mm 80mm
+:SWISS8.
+.br
+&KTONAVN
+:SWISS10.
+.if &L'&MEDNAVN = 0
+.th .go SLUT2
+...SLUT1
+.tp 95mm
+.sp 5
+Dato: ¤Dato:
+.sp 4
+.hr 0mm 80mm 95mm 175mm
+:SWISS8.
+.br
+&KTONAVN ¤&MEDNAVN
+:SWISS10.
+...SLUT2
+.sp 5
+Til vitterlighed om underskriftens ægthed, dateringens rigtighed og
+underskrivers myndighed:
+:SWISS10.
+.sp 3
+Navn: ¤Navn:
+.sp
+Adresse: ¤Adresse:
+.sp
+By: ¤By:
+.sp3
+.hr 0mm 80mm 95mm 175mm
+.br
+:SWISS8.
+Underskrift ¤Underskrift

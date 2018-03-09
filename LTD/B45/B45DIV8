@@ -1,0 +1,221 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.if &U'&UDSKRSTED eq C
+.an &IREGKTO eq 60606060600
+.th .mg /T/Brevet kan ikke udskrives centralt med kontonr. 6060 6060600 +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+DiBa Bank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+DK-&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon +45 &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon +45 &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+.
+sp 1mm.
+if &U'&UDSKRSTED eq C.
+th &EDATO.
+up off.
+ar off.
+ar sor on.
+if &U'&UDSKRSTED ne C.
+th .go USOR.
+if &L'&MEDNAVN gt 1.
+an &L'&NAVN gt 28.
+th .go USOR.
+if &L'&MEDNAVN lt 1.
+an &L'&STILL gt 28.
+th .go USOR6
+060.
+..USOR.
+ar off.
+ar med on.
+if &U'&UDSKRSTED eq C.
+th :BRED.:FED..
+*.th INFORMATION.
+ar off:
+VERDA11..
+in 3mm.
+ll 172mm.
+sp3.
+fo left.
+if &U'&B45ANBEFAL eq J.
+th Registered (R).
+th .br.
+if &L'&MEDNAVN gt 1.
+th .go MEDNAVN&
+STILL.
+br&
+NAVN.
+br&
+COADR.
+br&
+GADE.
+br&
+BY.
+br&
+LAND.
+go ATT.
+..MEDNAVN&
+NAVN.
+bro
+g &MEDNAVN.
+br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &RESULTZ
+.th .sp 3
+.el .sp 4
+.fo off
+.br
+:FED.
+.br
+&B45OVERSKR
+:SKRSLUT.
+.sp
+.ti > 05
+.tp 160mm right
+.* Skriv teksten herunder. Hjælp: Ryk cursoren til skærmens top og tast F1.
+.sp 2
+.if &E'&GENMEKSP eq 1
+.th .go NY
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &B45STILL2 1 1
+.se k = &U'&j
+.se l = substr &B45STILL2 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+Yours faithfully
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&B45NAVN2 = 0
+.th &GENEKSP
+.el &B45NAVN2 ¤&GENEKSP
+.br
+.if &L'&B45STILL2 = 0
+.an &L'&B45NAVN2 gt 0
+.th .go SLUT
+.if &L'&B45STILL2 gt 0
+.an &L'&B45NAVN2 gt 0
+.an &L'&GENTITEL gt 0
+.th &k.&l ¤&h.&i
+.th .go SLUT
+.el &h.&i
+.go SLUT
+...NY
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+Yours faithfully
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+...SLUT
+.da z 5mm 290mm width 150mm rotate -90
+.ar z on
+.fo left
+:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off

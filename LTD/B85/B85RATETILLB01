@@ -1,0 +1,146 @@
+.*
+.bm0
+.rf sup
+.ll 73
+.pl 66
+.ti > 05
+.******************************************************************
+.da KUNDEOPL         8  7 width 34
+.da ARBGOPL         43  9 width 34
+.da PIOPL            8 15 width 70
+.da KTOOPL          49 15 width 30
+.da VIRKNING        34 20 width 70
+.da INDBETAL        10 24 width 60
+.da VILKAAR         17 29 width 60
+.da UDBETAL          9 32 width 60
+.da FORSIKR          9 42 width 60
+.da AFSLUT           8 55 width 80
+.******************************************************************
+.ar KUNDEOPL on
+.tp 5
+.if &L'&STILL gt 0
+.th &STILL
+.th .br
+.el .sp
+&NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+.th &GADE
+.th .br
+.th &BY
+.th .sp
+.el &GADE
+.el .br
+.el &BY
+.el .sp2
+>&KTOKUNDENR
+.ar off
+.*************************************
+.ar ARBGOPL on
+.tp 4
+&GENNAVN1
+.br
+&GENGADE1
+.br
+&GENBY
+.sp
+>&GENSENR
+.ar off
+.*************************************
+.ar PIOPL on
+.if &L'&BANKNAVN gt 28
+.th .tp 0
+.el .tp 5
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar KTOOPL on
+.tp 17
+&REGNR
+.sp
+&KTONR >&GENDEPNR
+.ar off
+.*************************************
+.ar VIRKNING on
+&DATO8
+.ar off
+.*************************************
+.ar INDBETAL on
+&GENT1 ;.br
+&GENT2 ;.br
+&GENT3 ;.br
+.tp 22
+>&GENT4
+.ar off
+.*************************************
+.ar VILKAAR on
+&GENBELØB ;.br
+.tp 30
+>&GENBELØB1 ;.br
+.ar off
+.*************************************
+.ar UDBETAL on
+.tp 20 49
+.if &L'&GENDATO = 0
+.th .go START1
+.if &GENDATO3 lt 10 or &GENDATO3 gt 20
+.th .mg /I/Udbetalingsperioden skal være mellem 10 og 20 år.
+.th .mg /T/Prøv igen.
+...START1
+>&GENSTART >&GENDATO3 ;.br
+.tp 12
+>&GENFREK
+.if &L'&GENUDBFORL gt 0
+.th .sp 4
+.th  X
+.*.if &L'&GENFREK eq 0 an &L'&GENSTART gt 0
+.el .sp 2
+.el  X
+.ar off
+.*************************************
+.ar FORSIKR on
+.if &L'&GENFORSIKR gt 0
+.th &GENFORSIKR
+.th .br
+.el .sp
+.tp 14 40
+.if &L'&GENBELØB2 gt 0 .an &L'&GENTYPE gt 0
+.th >  &GENBELØB2 >&GENTYPE
+.th .br
+.el .sp
+.tp 13 34
+.if &L'&GEN19 gt 0
+.th >     &GEN19
+.th .sp 2
+.tp 7
+.if &L'&GENANDET gt 0
+.th >&GENANDET
+.th .br
+.th >&GENAND1
+.br
+.tp 11 47
+.br
+.ar off
+.*************************************
+.ar AFSLUT on
+.sp1
+.tp 35
+&GENNAVN1
+.sp 2
+>&DATO1
+.sp 2
+&NAVN >&BANKNAVN
+.br
+.ar off
+.*************************************
+.se antlin = &ÅLC
+.sp &antlin
+.ri on
+.oc   ** tillæg til ratepension
+:becform.b85152

@@ -1,0 +1,448 @@
+.*
+.**************************************************************************
+.***** BEREGN ANTAL DAGE PR MD FOR DAGS DATO ******************************
+.if x&mdr = x01
+.th .se ddprmd = 31
+.if x&mdr = x02
+.th .se ddprmd = 28
+.if x&mdr = x03
+.th .se ddprmd = 31
+.if x&mdr = x04
+.th .se ddprmd = 30
+.if x&mdr = x05
+.th .se ddprmd = 31
+.if x&mdr = x06
+.th .se ddprmd = 30
+.if x&mdr = x07
+.th .se ddprmd = 31
+.if x&mdr = x08
+.th .se ddprmd = 31
+.if x&mdr = x09
+.th .se ddprmd = 30
+.if x&mdr = x10
+.th .se ddprmd = 31
+.if x&mdr = x11
+.th .se ddprmd = 30
+.if x&mdr = x12
+.th .se ddprmd = 31
+.**************************************************************************
+.se skudar = 365
+.se nyddmm = &fdag..&fmdr.
+.se nyfdma = &nyddmm..&faarh.
+.se ndmm = &fmdr*&fdprmd.
+.se ndaa = &faarh*&skudar.
+.se nddm = &fdag.+&ndmm.
+.se ndage = &fdag.+&ndmm.+&ndaa.
+.se dmm = &mdr*&ddprmd.
+.se daa = &aar*365
+.se ddage = &dag.+&dmm.+&daa.
+.se ddiff = &ddage.-&ndage.
+.se dalder = &ddiff./&skudar.
+.su on
+.if x&lnr > x6999
+.an x&lnr < x8000
+.an x&faar > x57
+.th .se faarh = 1800 + &faar.
+.th .se cprid = 12
+.if x&lnr > x7999
+.an x&lnr < x9000
+.an x&faar < x58
+.th .se faarh = 2000 + &faar.
+.th .se cprid = 13
+.if x&lnr > x7999
+.an x&lnr < x9000
+.an x&faar > x57
+.th .se faarh = 1800 + &faar.
+.th .se cprid = 14
+.if x&lnr > x8999
+.an x&lnr <= x9999
+.an x&faar < x37
+.th .se faarh = 2000 + &faar.
+.th .se cprid = 15
+.if x&lnr > x8999
+.an x&lnr <= x9999
+.an x&faar > x36
+.th .se faarh = 1900 + &faar.
+.th .se cprid = 16
+.***** BEREGN ANTAL DAGE PR MD FOR FØDSELSDAG *****************************
+.if x&fmdr = x01
+.th .se fdprmd = 31
+.if x&fmdr = x02
+.th .se fdprmd = 28
+.if x&fmdr = x03
+.th .se fdprmd = 31
+.if x&fmdr = x04
+.th .se fdprmd = 30
+.if x&fmdr = x05
+.th .se fdprmd = 31
+.if x&fmdr = x06
+.th .se fdprmd = 30
+.if x&fmdr = x07
+.th .se fdprmd = 31
+.if x&fmdr = x08
+.th .se fdprmd = 31
+.if x&fmdr = x09
+.th .se fdprmd = 30
+.if x&fmdr = x10
+.th .se fdprmd = 31
+.if x&fmdr = x11
+.th .se fdprmd = 30
+.if x&fmdr = x12
+.th .se fdprmd = 31
+.*
+.su off
+.***** HER DELES DAGSDATO OP I DATO, MÅNED OG ÅR **************************
+.se aar = substr &DATO 7 4
+.se mdr = substr &DATO 4 2
+.se dag = substr &DATO 1 2
+.***** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
+.se lnr = substr &E69CPR 7 4
+.se faar = substr &E69CPR 5 2
+.se fmdr = substr &E69CPR 3 2
+.se fdag = substr &E69CPR 1 2
+.***** FIND ÅRHUNDREDE FOR FØDSELSÅR (KUNDENR) ****************************
+.if x&lnr < x4000
+.th .se faarh = 1900 + &faar.
+.th .se cprid = 1-4
+.if x&lnr > x3999
+.an x&lnr < x5000
+.an x&faar < x37
+.th .se faarh = 2000 + &faar.
+.th .se cprid = 5
+.if x&lnr > x3999
+.an x&lnr < x5000
+.an x&faar > x36
+.th .se faarh = 1900 + &faar.
+.th .se cprid = 6
+.if x&lnr > x4999
+.an x&lnr < x6000
+.an x&faar < x58
+.th .se faarh = 2000 + &faar.
+.th .se cprid = 7
+.if x&lnr > x4999
+.an x&lnr < x6000
+.an x&faar > x57
+.th .se faarh = 1800 + &faar.
+.th .se cprid = 8
+.if x&lnr > x5999
+.an x&lnr < x7000
+.an x&faar < x58
+.th .se faarh = 2000 + &faar.
+.th .se cprid = 9
+.if x&lnr > x5999
+.an x&lnr < x7000
+.an x&faar > x57
+.th .se faarh = 1800 + &faar.
+.th .se cprid = 10
+.if x&lnr > x6999
+.an x&lnr < x8000
+.an x&faar < x58
+.th .se faarh = 2000 + &faar.
+.th .se cprid = 11
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.*.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.*.BR
+.*.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.*.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp
+Hvis pantsætter flytter forsikringen til andet forsikringsselskab, gives
+samtidigt samtykke til at panthaverdeklarationen overføres til det nye
+forsikringsselskab.
+.sp
+Er pantet stillet af tredjemand har debitor pligt til at betale
+forsikringspræmie, hvis den ikke betales af tredjemand.
+.br
+&BANKNAVN. kan i erhvervsforhold give debitor henstand uden tilladelse fra
+tredjemand, som har stillet sikkerhed.
+.sp
+:FED.7. Omstødelse:SKRSLUT.
+.br
+&BANKNAVN. kan kræve frigivet pant genetableret, hvis &BANKNAVN. har
+frigivet pantet i forbindelse med dispositioner, som kræves omstødt.
+.sp
+:FED.8. Meddelelser:SKRSLUT.
+.br
+Alle meddelelser, som pantsætteren måtte modtage vedrørende de pantsatte
+effekter, er denne pligtig omgående at sende til &BANKNAVN..
+.sp
+.kp on
+:FED.9. Tvangsfuldbyrdelse:SKRSLUT.
+.br
+Eventuel realisation af panterettigheder sker efter forudgående varsel til
+pantsætter ved tvangsauktion eller på anden måde, som &BANKNAVN. skønner
+mere hensigtsmæssig, herunder realisation ved &BANKNAVN.'s egen
+foranstaltning.
+.sp
+.kp off
+Inden &BANKNAVN. sælger effekterne, sendes et anbefalet brev, hvor
+pantsætter med en uges varsel opfordres til at opfylde &BANKNAVN.s krav.
+Det gælder dog ikke, hvis omgående salg er nødvendigt for at undgå eller
+begrænse et tab.
+.sp
+Ved pant i værdipapirer omfattet af værdipapirhandelsloven er &BANKNAVN. i
+erhvervskundeforhold berettiget til at realisere straks, jf. lov om
+værdipapirhandel § 58j.
+.sp
+:FED.10. Pant i forsikringssummer:SKRSLUT.
+.br
+Har &BANKNAVN. pant i bil, båd, løsøre eller fast ejendom, har pantsætter
+pligt til at kasko- og brandforsikre det pantsatte.
+.sp
+Pant i fast ejendom omfatter tillige pant i ejendommens forsikring, jf.
+Justitsministeriets almindelige betingelser. Pant i løsøre/køretøjer/båd
+omfatter tillige pant i forsikringssummer pantsat via
+panthaverdeklarationer.
+.sp
+Pantsætter tiltræder ved sin underskrift, at forsikringsselskabet anmodes
+om at notere panthaverdeklarationen i overensstemmelse med gældende vilkår.
+.sp
+Pantsætter meddeler i forbindelse med underskriften af
+pantsætningserklæringen samtykke til, at panthaver og det til enhver tid
+værende forsikringsselskab må udveksle alle typer oplysninger inkl. cpr.
+nr./cvr. nr. om forsikringsforholdet herunder bortfald af kaskodækning og
+evt. præmierestancer.
+til at udøve alle de rettigheder, som aktionærer og anpartshavere har efter
+gældende selskabslove, selskabets vedtægter, eventuelle ejeraftaler og
+lignede, herunder stemmeretten. Denne ret omfatter dog ikke stemmeret på
+aktier noteret på Nasdaq OMX Copenhagen A/S eller anden autoriseret
+markedsplads.
+.sp
+Udøvelse af stemmeretten på pantsatte aktier, anparter og lignende kan kun
+ske såfremt debitors lån/engagement er misligholdt. Såfremt &BANKNAVN.
+ønsker at udnytte stemmeretten gives pantsætter skriftlig meddelelse herom.
+.sp
+Så længe meddelelse ikke er givet, påhviler anmeldelsespligten efter
+Selskabsloven ikke &BANKNAVN., men pantsætter.
+&BANKNAVN. har ingen pligt til forlods at søge dækning i det stillede
+pant,
+.sp
+ligesom &BANKNAVN. har valgfrihed med hensyn til anvendelsen af pantet i
+forhold til debitors samlede engagement.
+.sp
+.kp on
+:FED.4. Udgifter angående pantet:SKRSLUT.
+.br
+&BANKNAVN. kan forlange betaling af gebyr for opbevaring og håndtering af
+pantsatte effekter. &BANKNAVN. kan tillige forlange betaling for afgifter
+til myndigheder vedrørende pantsatte effekter, herunder i forbindelse med
+iagttagelse af den relevante sikringsakt.
+.sp
+.kp off
+&BANKNAVN. kan også forlange betaling af &BANKNAVN.'s udgifter til at
+varetage sine interesser som panthaver, herunder eventuelle udgifter til
+betaling af forsikringspræmie, besigtigelse af det pantsatte, udgifter til
+juridisk bistand m.v.
+.sp
+:FED.5. Afkast af pantet:SKRSLUT.
+.br
+Panteretten omfatter surrogater for pantet.
+.sp
+Under pantsætningen er indbefattet rente og udbytte af enhver art af det
+pantsatte, herunder bonus på livsforsikringspolicer, lejeindtægter og
+lignende. Panteretten omfatter retten til nytegning af kapitalandele, til
+fondsandele, til tegning af konvertible obligationer, udbyttegivende
+gældsbreve eller lignende.
+.sp
+Hvis pantsatte obligationer udtrækkes, og der købes andre i stedet for de
+udtrukne, er &BANKNAVN. bemyndiget til over for VP Securities A/S at begære
+registrering af panteret over disse.
+.sp
+&BANKNAVN. er berettiget, men ikke forpligtet til at oppebære renter og
+udbytte til betaling af afdrag, renter og omkostninger.
+.sp
+:FED.6. Henstand:SKRSLUT.
+.tp 3mm
+:SWISS8.
+.**************************************************************************
+.* :SWISS10.
+.* :FED.Regler for pant:SKRSLUT.
+.* .sp
+:SWISS8.
+:FED.1. Panterettens omfang:SKRSLUT.
+.br
+Pantet tjener til sikkerhed for betaling af kapital, renter, provision,
+sagsomkostninger og andre udgifter, som er afholdt i forbindelse med
+inddrivelse af skylden i henhold til nærværende aftale.
+.sp
+Pantet tjener tillige til sikkerhed for enhver anden forpligtelse, som
+pantsætter nu har eller senere måtte få over for &BANKNAVN..
+.sp
+Såfremt pantsætter over for &BANKNAVN. stiller aktiver i
+virksomhedsordningen til sikkerhed for privat gæld, er pantsætter af
+&BANKNAVN. oplyst om, at pantsætningen i visse tilfælde kan have
+skattemæssige konsekvenser i henhold til virksomhedsskatteloven.
+Pantsætter opfordres af &BANKNAVN. til at søge skattemæssig rådgivning ved
+advokat eller revisor vedrørende de skattemæssige konsekvenser af
+pantsætningen overfor &BANKNAVN..
+.sp
+:FED.2. Forringelse af pantet:SKRSLUT.
+.br
+Hvis pantets værdi forringes væsentligt, kan &BANKNAVN. stille krav om, at
+debitor ekstraordinært nedbringer gælden/maksimum eller, at debitor stiller
+yderligere sikkerhed, der svarer til den forringelse, der er sket. I modsat
+fald kan &BANKNAVN. betragte aftalen som misligholdt.
+.sp
+Hvis pantet omfatter forsikringspolice, er pantsætter pligtig til på
+anfordring at forevise &BANKNAVN. behørig kvittering for præmiens rettidige
+betaling.
+.sp
+Pantsatte forsikringspolicer skal holdes i kraft, indtil gælden er betalt.
+.sp
+:FED.3. &BANKNAVN.s rettigheder over det pantsatte:SKRSLUT.
+.br
+&BANKNAVN. kan udøve alle pantsætters rettigheder over det pantsatte,
+uanset om gælden er forfalden eller ej, for eksempel modtage og kvittere
+for ethvert beløb ifølge det pantsatte, opsige og inddrive, kvittere samt
+transportere pantsatte fordringer og pantebreve til sig selv eller andre
+samt hæve beløb på pantsatte indlånskonti.
+.sp
+Ved udøvelsen af disse rettigheder er dette dokument legitimation for
+&BANKNAVN. også i forhold til offentlige myndigheder, såsom
+tinglysningsmyndigheder og skibsregistre i ind- og udland.
+.sp
+Ved pantsætning af aktier, anparter og lignende er &BANKNAVN. berettiget
+.** SIDESKIFT
+.pa
+.**************************************************************************
+.ti ¤ 05
+.**************************************************************************
+Du må ikke bruge dette dokument!
+.sp
+Du skal i stedet bruge Underpantsætning....... i Word
+.sp
+.sp
+CPR: &E69CPR.
+.br
+Fødselsår: &faar.
+.br
+Løbenr: &lnr.
+.br
+ID: &cprid.
+.br
+Fødselsår: &faarh.
+.br
+Ny fødselsdato: &nyfdma.
+.br
+Dags dato: &DATO.
+.br
+Antal dage fødselsdato: &ndage.
+.br
+Antal dage dags dato: &ddage.
+.br
+Dage diff: &ddiff.
+.br
+.if x&dalder. >= x18
+.th Alder >= 18
+.el Alder < 18
+.br
+Alder: &dalder.
+...NOCPR
+.sp 10mm
+.tp 7mm 92mm
+.hr tynd 5mm 85mm 90mm 170mm
+.br
+¤Underskrift¤Underskrift
+.sp 5mm
+.hr tynd 5mm 85mm 90mm 170mm
+:SWISS8
+.br
+¤Navn (i blokbogstaver)¤Navn (i blokbogstaver)
+.sp 5mm
+.hr tynd 5mm 85mm 90mm 170mm
+.br
+¤Stilling (i blokbogstaver)¤Stilling (i blokbogstaver)
+.sp 5mm
+.hr tynd 5mm 85mm 90mm 170mm
+.br
+¤Adresse (i blokbogstaver)¤Adresse (i blokbogstaver)
+.sp 5mm
+.hr tynd 5mm 85mm 90mm 170mm
+.br
+¤Postnr./by (i blokbogstaver)¤Postnr/by (i blokbogstaver)
+.kp off
+...VITNEJ
+ 
+.**************************************************************************
+.dr tynd weight 0.1mm
+:SWISS8
+.kp on
+.sp 95mm
+.*UNDERSKRIFT *************************************************************
+.* .hr tynd 5mm 50mm
+.tp 37.5mm center 132.5mm center
+.* .br
+ Dato
+.sp 15mm
+.if x&E69USKRV1 = x4
+.or x&E69USKRV1 = x3
+.or x&E69USKRV1 = x2
+.th .go 2UNDSK
+.if x&E69USKRV1 = x1
+.th .go 1UNDSK
+.el .go UNSKRS
+...2UNDSK
+.hr tynd 5mm 85mm 90mm 170mm
+¤&E69USKRT1.¤&E69USKRT2.
+.sp 10mm
+.if x&E69USKRV1 = x4
+.th .go 4UNDSK
+.if x&E69USKRV1 = x3
+.th .go 3UNDSK
+.el .go UNSKRS
+...1UNDSK
+.hr tynd 5mm 85mm
+¤&E69USKRT1.
+.sp 10mm
+.go UNSKRS
+...4UNDSK
+.hr tynd 5mm 85mm 90mm 170mm
+¤&E69USKRT3.¤&E69USKRT4.
+.sp 10mm
+.go UNSKRS
+...3UNDSK
+.hr tynd 5mm 85mm
+¤&E69USKRT3.
+.sp 10mm
+.go UNSKRS
+...UNSKRS
+.kp off
+.if &U'&GENJANEJ = J
+.th .go VITJA
+.el .go VITNEJ
+...VITJA
+.kp on
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed:

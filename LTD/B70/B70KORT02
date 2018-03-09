@@ -1,0 +1,119 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*Parametre
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.us Bekræftelse vedr. spærring af &B11KTTYPT
+.sp
+.*************************************************************************
+.if X&B11KTTYPE > X10
+.an X&B11KTTYPE < X55
+.th .go KORTOK
+.el .mg/T/Ikke et hævekort, Dankort eller VISA-Dankort/
+...KORTOK
+Vi har den &DATO8 kl. &GENSPAERKL modtaget anmodning om spærring af
+følgende &B11KTTYPT.:
+.sp
+.in 6
+Registreringsnr.: &B11KTREGNR
+.br
+Kortnr.         : &B11KTNR
+.br
+Kontonr.        : &B11KTKTONR
+.if &L'&GENDATO4 gt 0
+.th .br
+.th Udstedelsesdato : &GENDATO4
+.sp
+.in 0
+.se satning = 'Kortet blev anmodet spærret som følge af, at'
+.se taeller = 0
+.if &L'&GENTAB gt 0
+.th .se taeller = &taeller +1
+.if &L'&GENSTJ gt 0
+.th .se taeller = &taeller +1
+.if &L'&GENKEN gt 0
+.th .se taeller = &taeller +1
+.if &L'&GENÅRSSPR gt 0
+.th .se taeller = &taeller +1
+.if &taeller = 0
+.th .mg/T/Spærringsårsag mangler/
+.if &taeller gt 1
+.th .mg/T/En og kun en spærringsanmodning/
+.if &L'&GENTAB gt 0
+.th .se aarsag = 'kortet er tabt/bortkommet den'
+.th &satning &aarsag &GENTAB..
+.th .go SLUT
+.**************************************************************
+.if &L'&GENSTJ gt 0
+.th .se aarsag = 'kortet formodes stjålet den'
+.th &satning &aarsag &GENSTJ..
+.th .go SLUT
+.**************************************************************
+.if &L'&GENKEN gt 0
+.th .se aarsag = 'PIN-koden er uretmæssigt bekendt.'
+.th &satning &aarsag.
+.th .go SLUT
+.**************************************************************
+.if &L'&GENÅRSSPR gt 0
+.th &satning &GENÅRSSPR..
+.th .go SLUT
+.**************************************************************
+Kortet blev anmodet spærret som følge af:
+.sp
+.in 6
+.if &L'&GENTAB gt 0
+.th at kortet er tabt/bortkommet den &GENTAB
+.th .br
+.if &L'&GENSTJ gt 0
+.th at kortet formodes stjålet den &GENSTJ
+.th .br
+.if &L'&GENKEN gt 0
+.th at PIN-koden er uretmæssigt bekendt
+.th .br
+.if &L'&GENÅRSSPR gt 0
+.th &GENÅRSSPR
+.in 0
+...SLUT
+.sp
+.if &L'&GENDATO1 gt 0
+.th Politianmeldelse er foretaget den &GENDATO1..
+.sp
+Kortet er sidst retmæssigt benyttet den &GENDATO7..
+.br
+.***********************************************************
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

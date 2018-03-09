@@ -1,0 +1,190 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+:VERDA09.
+:TILTALE &TILTALEM
+.LL 174mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm width 61mm
+.da tekst 33mm 90mm width 141mm
+.***** Opdeling af stillingsbetegnelse *******
+.su off
+.se a = substr &FSTILL 1 1
+.se b = substr &FSTILL 2
+.su on
+.***** Adresse ******
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP 3MM
+&U'&a.&b
+.br
+&NAVN
+.br
+.IF &L'&COADR GT 0
+.TH &COADR
+.TH .br
+.IF &L'&B65PH2 NE 0
+.TH &B65PH2
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+:SKRSLUT.
+.ar off
+.ar afsender on
+:VERDA08.
+.tp 50mm right
+.if &U'&B65PJN2 eq B
+.th ¤Fisketorvet 4-6
+.th .br
+.th ¤5000 Odense C
+.th .sp
+.th ¤Telefon 66 14 04 74
+.th .br
+.th ¤info@fsbank.dk
+.el ¤Algade 16
+.el .br
+.el ¤4000 Roskilde
+.el .sp
+.el ¤Telefon 46 34 84 00
+.el .br
+.el ¤info@fsfinans.dk
+.sp
+¤Kundenummer &KUNDENR
+.IF &L'&B65DREF GT 0
+.TH &DIN reference
+.TH .br
+.th  &B65DREF
+.TH .SP6mm
+.EL .SP8mm
+:SKRSLUT.
+:VERDA09.
+¤&DATO.
+:SKRSLUT.
+.ar off
+.***** Brevnavnet i venstre side ******
+.fo left
+.ti ¤ 05
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN
+:SKRSLUT.
+.ar off
+.***** Herfra begynder teksten ******
+.ar tekst on
+:VERDA09.
+.ti ¤ 05
+.tp 10mm 15mm
+.************* VARIABLER START **************
+.if &U'&B65PJN2 eq F
+.th .se afsfirma = 'FS Finans'
+.th .se afscvr = '31633052'
+.th .se afstelf= '46 34 84 00'
+.el .se afsfirma = 'FS Bank'
+.el .se afscvr = '32467687'
+.el .se afstelf= '66 14 04 74'
+.if &U'&B65PJN1 eq N
+.th .se firma2 = 'Nova Bank Fyn'
+.th .se cvr2 = '32467687'
+.th .se spaltdto = '10. juni 2011'
+.if &U'&B65PJN1 eq R
+.th .se firma2 = 'Roskilde Bank'
+.th .se cvr2 = '31633052'
+.th .se spaltdto = '10. juni 2011'
+.if &U'&B65PJN1 eq E
+.th .se firma2 = 'EBH Bank'
+.th .se cvr2 = '31868106'
+.th .se spaltdto = '17. juni 2011'
+.************* VARIABLER SLUT ***************
+.if &U'&B65PJN2 eq B
+.an &U'&B65PJN1 eq N
+.th .go OMDANNET
+.if &U'&B65PJN2 eq F
+.an &U'&B65PJN1 eq R
+.th .go OMDANNET
+.el .go OVERDRAG
+...OMDANNET
+:FED.&firma2 er omdannet til &afsfirma.
+:SKRSLUT
+.sp
+I forbindelse med gennemførelsen af en forenkling af koncernstrukturen
+i Finansiel Stabilitet er &firma2 (CVR nr. &cvr2.) pr. 10. juni 2011
+omdannet til &afsfirma (CVR nr. &afscvr.):
+.sp
+Alle krav og rettigheder i henhold til pantsætningsaftale vedrørende pant i
+.br
+- Konto
+.br
+- Depot
+.br
+i
+.sp
+Ændringen betyder at der herefter alene kan foretages indbetalinger i
+henhold til kautionen med frigørende virkning til &afsfirma A/S.
+.go RESTBREV
+...OVERDRAG
+:FED.Meddelelse om overdragelse af kaution
+:SKRSLUT
+.sp
+I forbindelse med gennemførelsen af en forenkling af koncernstrukturen i
+Finansiel Stabilitet har &firma2 A/S (CVR nr. &cvr2.) som led i en
+spaltning pr. &spaltdto overdraget følgende til &afsfirma A/S
+(CVR nr. &afscvr.):
+.sp
+Alle krav og rettigheder i henhold til kaution udstedt af Dem for
+&B65PK1 som debitor.
+.sp
+Der kan herefter alene foretages indbetalinger i henhold til kautionen
+med frigørende virkning til &afsfirma A/S.
+.go RESTBREV
+...RESTBREV
+.sp
+Er der spørgsmål til ovennævnte, er De velkommen til at kontakte os på
+.br
+telefon &afstelf..
+.sp
+Med venlig hilsen
+.sp 10mm
+&afsfirma A/S
+.ar off

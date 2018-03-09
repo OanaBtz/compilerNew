@@ -1,0 +1,223 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.*************NAVN OG ADRESSE****************
+.*TILTALE &TILTALEF
+.fo left
+:SWISS11.
+.*****************SLUT***********************
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Særlige betingelser til
+.br
+AndelsBoligKreditaftalen
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.da AREAL01 25mm 50mm width 170mm
+.ar AREAL01 on
+:swiss10.:FED.
+.tp 25mm 90mm 125mm
+.if &L'&MEDNAVN eq 0
+.th Låntager: ¤¤Kontonummer:
+.el Låntagere:¤¤Kontonummer:
+.sp
+:SKRSLUT.
+:SWISS10.
+&KTONAVN ¤¤&REGNR &KTONR
+.sp
+&MEDNAVN
+.sp 12mm
+:SWISS10.:FED.
+Nedenstående særlige betingelser er gældende for AndelsBoligKreditaftalen.
+:SKRSLUT.
+:SWISS10.
+.sp 5mm
+.********HER FRAVÆLGES A AFSNIT RENTE *********************************
+.if X&B02RENTE1 gt X0
+.th .go rente
+.el .go rentevæk
+.*****
+...rente
+.tp 6mm
+.in 6mm after 1
+A.¤Renten er variabel og fastsat til p.t.
+.*********** HER VÆLGES MARKEDSRENTE U/TILLÆG *****************************
+.if &B02RENTE1 gt 0
+.th .ct  Cibor 3, p.t. &B02RENTE1 % p.a. (referencerenten)
+.th med et tillæg på p.t. &B02RENTE2 % p.a. (rentetillæg),
+.th i alt p.t. &RESULTA % p.a.
+.sp
+Cibor 3 reguleres dagligt.
+.sp
+Renten er variabel, således at &BANKNAVN kan vælge såvel en ny
+referencerente som ændre rentetillægget, hvis betingelserne i punkt 2 i
+aftalens almindelige bestemmelser for lån og kreditter og punkt 4 i
+&BANKNAVN.'s almindelige forretningsbetingelser er opfyldt.
+...rentevæk
+.sp
+.in 0
+.in 6mm after 1
+.if X&B02RENTE1 gt X0
+.th B.   Aftalen ophører uden yderligere varsel den &B02DATO., og kreditten
+.el A.   Aftalen ophører uden yderligere varsel den &B02DATO., og kreditten
+.*¤Aftalen ophører uden yderligere varsel den &B02DATO., og kreditten
+forfalder dermed til fuld indfrielse. Er låntager
+ikke i stand til at indfri
+kreditten på ophørstidspunktet, kan &BANKNAVN kræve andelen solgt eller
+tvangsrealiseret i henhold til aftalens almindelige bestemmelser.
+.in 0mm
+.sp
+.in 6mm after 1
+.if X&B02RENTE1 gt X0
+.th C.   Låntager
+.el B.   Låntager
+må ikke uden at informere banken skriftligt udleje andelen, der er pantsat
+til banken som sikkerhed for engagementet. Udlejes andelen uden
+underretning af banken, er dette at betragte som en misligholdelse af
+aftalen og dermed en forfaldsgrund i henhold til aftalens vilkår for
+misligholdelse og forfaldsgrunde.
+.in 0mm
+.sp
+.in 6mm after 1
+.if X&B02RENTE1 GT X0
+.th D.   Som en forudsætning for AndelsBoligKreditaftalen bekræfter
+.el C.   Som en forudsætning for AndelsBoligKreditaftalen bekræfter
+låntager, at
+den til banken pantsatte andel er behørigt brandforsikret og ikke
+tilhører følgende kategorier:
+.sp
+- Hele eller dele af andelsboligen anvendes til erhverv eller har
+erhvervsstatus.
+.br
+- Andelsboligen er en kælderlejlighed.
+.br
+- Andelsboligen er en lavtliggende stuelejlighed med direkte adgang
+fra gaden.
+.br
+- Andelsboligen er et klubværelse eller en 1-værelses lejlighed uden køkken
+eller bad.
+.br
+- Andelsboligen er en lejlighed med fælles toilet, fælles køkken eller
+fælles bad.
+.br
+- En andelsbolig uden bad og toilet og uden mulighed for indretning heraf.
+.in 0mm
+.sp
+.in 6mm after 1
+.if X&B02RENTE1 gt X0
+.th E.   Låntager
+.el D.   Låntager
+er gjort opmærksom på, at aftalen om AndelsBoligkreditten kan ændre på
+muligheden for at modtage ydelser eller tilskud fra det offentlige,
+herunder eksempelvis personlige tillæg i henhold til lov om social
+pension. Låntager
+bør selv søge rådgivning herom, eksempelvis ved egen
+bopælskommune.
+.in 0mm
+.sp
+.in 6mm after 1
+.if X&B02RENTE1 gt X0
+.th F.   Låntager
+.el E.   Låntager
+er gjort opmærksom på, at visse andelsboligforeninger opkræver gebyr
+for ekspedition af adkomsterklæringen. Gebyrets størrelse varierer
+fra andelsboligforening til andelsboligforening.
+.sp
+.in 0mm
+.tp 90mm
+:swiss10.
+.br
+.if &L'&MEDNAVN eq 0
+.th Jeg
+.el Vi
+accepterer ovenstående bestemmelser og erklærer herved at have gennemlæst
+og fået orientering om ovennævnte forhold i forbindelse med indgåelse af
+denne AndelsBoligKreditaftale.
+.sp 3
+______________________ , den _________________
+.sp
+.if &L'&MEDNAVN eq 0
+.th Som låntager:
+.el Som låntagere:
+.sp 10mm
+__________________________________________________________________________
+.br
+:SWISS8.
+&KTONAVN ¤&MEDNAVN
+.ar off

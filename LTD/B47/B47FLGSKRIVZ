@@ -1,0 +1,155 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:TILTALE &TILTALEF
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.DA dato 20mm 85mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.AR hoved on
+.* Chekcer om der skal udskrives til medktohaver
+.IF &U'&B47MKTOH EQ M
+.AN &MEDKUNDENR NE 000000-0000
+.th .GO MEDKTOH
+.* Check om der skal udskrives begge
+.IF &U'&B47MKTOH EQ B
+.AN &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.sp
+:FED.&B47ATT :SKRSLUT.
+.br
+.GO SLUT
+...MEDKTOH
+.* ADRESSEOPLYSNINGER PÅ MEDKONTOHAVER
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.sp
+.* Er der indtastet en Attention, udskrives oplysningen
+:FED.&B47ATT :SKRSLUT.
+...SLUT
+.AR off
+.*
+.AR dato on
+.RI ON
+&DATO.
+.RI OFF
+.AR off
+.DA TEKST 20mm 120mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.* ------------------------------------------------------------
+.AR TEKST ON
+.br
+.if &B47KAP gt 1
+.th Som aftalt modtager du følgende &B47KAP kontrakter til underskrift:
+.th .sp
+.el Som aftalt modtager du følgende kontrakt til underskrift:
+.el .sp
+.ti 05 >
+.tp 30mm
+:FED.
+.if &U'&B471 eq J
+.th >Kapitalpension mellem dig og din arbejdsgiver
+.th .sp
+.if &U'&B477 eq J
+.th >Ratepension mellem dig og din arbejdsgiver
+.th .sp
+.if &U'&B478 eq J
+.th >Privattegnet Ratepension
+.th .sp
+.if &U'&B473 eq J
+.th >Privattegnet Kapitalpension
+.th .sp
+.if &U'&B475 eq J
+.th >Tillægsaftale til Kapitalpension
+.th .sp
+.if &U'&B472 eq J
+.th
+.th >Børneopsparing på &B47NAVNET..
+.th .sp
+:SKRSLUT.
+Vi ser frem til et fortsat godt samarbejde.
+.if &U'&B471 eq J
+.or &U'&B477 eq J
+.th For pensionen med arbejdsgiver skal kontrakten
+.th underskrives af både dig og din arbejdsgiver
+.th og den ene kopi returneres herefter til &BANKNAVN..
+.th .sp
+.if &U'&B473 eq J
+.or &U'&B478 eq J
+.th For den privattegnede pension skal kontrakten og kopien
+.th underskrives, men kun kopien skal returneres til &BANKNAVN..
+.th .sp
+.if &U'&B475 eq J
+.th Både du, din tidligere arbejdsgiver og
+.th din nye arbejdsgiver skal underskrive tillægsaftalen, hvorefter du
+.th sender den retur til os i vedlagte kuvert.
+.th .sp
+Vi ser frem til et fortsat godt samarbejde.
+.*
+.sp 1
+Med venlig hilsen
+.sp
+.sp 2
+&B47NAVN.
+.ar off

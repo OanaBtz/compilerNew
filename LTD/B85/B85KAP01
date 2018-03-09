@@ -1,0 +1,220 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.**************************************************************
+:COUR10.
+.ti ¤ 05
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B85KAP01
+.br
+&DATO
+.ar off
+.**************************************************************
+.******************************************************************
+.da KUNDEOPL       25mm  48mm width 84mm
+.da ARBGOPL       116mm  48mm width 84mm
+.da CPRSENR       120mm  68.6mm width 84mm
+.da PIOPL          25mm  76.6mm width 84mm
+.da KTOOPL        118mm  78mm width 76mm
+.da INDBOPLP       62mm 125mm width 80mm
+.da INDBARBPCT     42mm 109.5mm width 168mm
+.da INDBARBFAST    21mm 109.5mm width 168mm
+.da DATO          142mm 125mm width 20mm
+.da INDDATON       54mm 128.3mm width 35mm
+.da INDDATOJ      54.7mm 131.3mm width 35mm
+.da BEGUNSDØD1     25mm  223mm width 84mm
+.da BEGUNSDØD2    118mm  223mm width 84mm
+.da PERSON         25mm  260mm width 168mm
+.da FORTSÆT       160mm  270mm width 20mm
+.******************************************************************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************
+.ar ARBGOPL on
+ &GENNAVN1
+.br
+ &GENGADE1
+.br
+ &GENBY
+.ar off
+.*************************************
+.ar CPRSENR on
+&GENSENR
+.ar off
+.*************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETER ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.tp 43mm
+&KTOKNDNR1
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE *******
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.*************************************
+.ar INDBARBPCT on
+.* ARBEJDSGIVERORDNING ***************
+.if &L'&GENKTNR1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th .mg /T/Vælg kun en ordning, arbejdsgiver eller privat/
+.th .go BUND
+.el
+.****arbejdsgiver procentindbetaling ***************
+.if &U'X&GENVÆRDI eq X2
+.th .go PCT
+.el .go PCTSLUT
+...PCT
+.tp 47mm right
+¤&B85BRT
+.br
+&GENDATO4..
+.sp 8.5mm
+.tp 11mm right
+¤&GENARB
+.br
+¤&GENMED
+...PCTSLUT
+.ar off
+.******************************************
+.ar INDBARBFAST on
+.****arbejdsgiver fast beløb ***************
+.if &U'X&GENVÆRDI eq X1
+.th .go FAST
+.el .go FASTSLUT
+...FAST
+.tp 27mm right 30mm right 66mm right 70mm 117mm right
+.if &L'&RESULTA gt 6
+.th .mg /T/BELØB STØRRE END 35.200/
+.th .go BUND
+.if &L'&RESULTA eq 6
+.th .go SAMME
+.if &L'&RESULTA lt 6
+.th .go ALTOK
+...SAMME
+.if X&RESULTA gt X35.200
+.th .mg /T/BELØB STØRRE END 35.200/
+.th .go BUND
+.el ¤¤¤&GENBRT ¤¤&RESULTA
+.el .br
+.el ¤¤&GENBRT ¤¤&GENDATO4..
+.el .sp 11.5mm
+.el ¤&GENARB
+.el .br
+.el ¤&GENMED
+.el .go FASTSLUT
+...ALTOK
+¤¤¤&GENBRT ¤¤&RESULTA
+¤¤&GENBRT ¤¤&GENDATO4..
+.sp 11.5mm
+¤&GENARB
+.br
+¤&GENMED
+...FASTSLUT
+.ar off
+.******************************************
+.ar INDBOPLP on
+.*** privat ordning *********
+.***  HER OPDELES KONTONR I TO PARAMETRE ***********
+.se regnr2 = substr &GENKTNR1 1 4
+.se ktonr2 = substr &GENKTNR1 5 11
+.tp 69mm
+.if &L'&GENKR gt 0
+.an &L'&GENNAVN1 eq 0
+.an &L'&GENLØNINDB gt 0
+.th &GENKR ¤&GENDATO4
+.th .sp 2.6mm
+.th .tp 12mm
+.th &regnr2 ¤&ktonr2
+.**********
+.if &L'&GENKR gt 0
+.an &L'&GENNAVN1 eq 0
+.an &L'&GENLØNINDB eq 0
+.th .tp 54mm
+.th &GENKR ¤&GENDATO4
+.th .sp 2.6mm
+.th .tp 12mm
+.th &regnr2 ¤&ktonr2
+.**********
+.if &L'&GENKR eq 0
+.an &L'&GENNAVN1 eq 0
+.th &ÅRB
+.th .sp 2.6mm
+.th .tp 12mm
+.th &regnr2 ¤&ktonr2
+.ar off
+.*************************************
+.ar BEGUNSDØD1 on
+&GENNAVNBD1
+.br
+&GENRELABD1
+.br
+&GENGADEBD1
+.br
+&GENBYBD1
+.br
+&GENTLFBD1
+.br
+&GENCPRBD1
+.ar off
+.*************************************
+.ar BEGUNSDØD2 on
+&GENNAVNBD2
+.br
+&GENRELABD2
+.br
+&GENGADEBD2
+.br
+&GENBYBD2
+.br
+&GENTLFBD2
+.br
+&GENCPRBD2
+.ar off
+.**********************************
+.ar PERSON on
+&GENPERGRP1
+.br
+&GENPERGRP2
+.ar off
+.*************************************
+.ar FORTSÆT on
+:SWISS10.
+.ri
+fortsættes.
+...BUND
+.ar off
+.*************************************

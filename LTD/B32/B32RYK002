@@ -1,0 +1,226 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
+.** sidste 1-10 posteringer fra kontoen.
+.*
+.*
+:VERDA09.
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 25mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.fo left
+.ti # 05
+:VERDA09.
+.in 1mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Vores ref. - husk at det skal findes i funktion 75003
+.da REF 160mm 70mm width 40mm
+.* Dato
+.da DATO 160mm 85mm width 40mm
+.******************** VORES REF *******************************************
+.ar REF on
+.tp 18mm
+:VERDA07.
+Vores ref. #&GENKORTREF
+:SKRSLUT.
+.ar off
+.******************** DATO ************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+:SKRSLUT.
+.ar off
+.******************** AREAL-DEFINITIONER **********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 95mm width 135mm
+.**************************************************************************
+.su off
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 7
+.su on
+.***************** STARTPOSITION FOR BREVET, INCL OVERSKRIFT *************
+.ar START on
+:FED.
+Inddækning af overtræk
+:SKRSLUT.
+.sp
+Kontonr. &reg &kto. er fortsat i overtræk - pr. dags dato
+nu med
+.sp
+.ce
+&OVERTRÆK kr.
+.sp
+Beløbet bedes indbetalt inden 7 dage fra dags dato.
+.sp
+Hvis beløbet ikke indbetales inden fristen, kan &B32NYK. uden
+yderligere varsel opsige engagementet til fuld indfrielse.
+.sp
+Se venligst bort fra denne skrivelse, hvis beløbet allerede er
+indbetalt.
+.sp
+.******* RYKGEBYR skal være minimum 4. Tester på dette og værdi = 0,00 ***
+.if x&RYKGEBYR > x0,00
+.th Vi opkræver &RYKGEBYR. kr. i gebyr for denne rykkerskrivelse.
+.th .sp
+.********************
+.****** her kommer evt. tekst, der er udfyldt manuelt ******
+.if &L'&RYKTXTL1A. > 0
+.or &L'&RYKTXTL1B. > 0
+.or &L'&RYKTXTL2A. > 0
+.or &L'&RYKTXTL2B. > 0                                                    .
+.th &RYKTXTL1A.&RYKTXTL1B.&RYKTXTL2A.&RYKTXTL2B
+.th .sp
+Kontakt undertegnede hvis der er spørgsmål til ovenstående.
+.sp 10mm
+:COUR8.
+.tp 24mm 92mm 120mm 132mm char , 160mm 170mm char ,
+Dato ¤Tekst ¤Rte. ¤Indsat ¤¤Saldo
+.br
+¤¤Fra ¤- = hævet ¤¤- = debet
+.dr tynd weight 0,1
+.hr tynd left 182mm
+&B11DATO10 ¤&B11TEKST10 ¤&B11VALØR10 ¤¤&B11INDSA10 ¤¤&B11SALDO10
+.br
+&B11DATO11 ¤&B11TEKST11 ¤&B11VALØR11 ¤¤&B11INDSA11 ¤¤&B11SALDO11
+.br
+&B11DATO12 ¤&B11TEKST12 ¤&B11VALØR12 ¤¤&B11INDSA12 ¤¤&B11SALDO12
+.br
+&B11DATO13 ¤&B11TEKST13 ¤&B11VALØR13 ¤¤&B11INDSA13 ¤¤&B11SALDO13
+.br
+&B11DATO14 ¤&B11TEKST14 ¤&B11VALØR14 ¤¤&B11INDSA14 ¤¤&B11SALDO14
+.br
+&B11DATO15 ¤&B11TEKST15 ¤&B11VALØR15 ¤¤&B11INDSA15 ¤¤&B11SALDO15
+.br
+&B11DATO16 ¤&B11TEKST16 ¤&B11VALØR16 ¤¤&B11INDSA16 ¤¤&B11SALDO16
+.br
+&B11DATO17 ¤&B11TEKST17 ¤&B11VALØR17 ¤¤&B11INDSA17 ¤¤&B11SALDO17
+.br
+&B11DATO18 ¤&B11TEKST18 ¤&B11VALØR18 ¤¤&B11INDSA18 ¤¤&B11SALDO18
+.br
+&B11DATO19 ¤&B11TEKST19 ¤&B11VALØR19 ¤¤&B11INDSA19 ¤¤&B11SALDO19
+
+.sp 10mm
+:VERDA09.
+Med venlig hilsen
+.br
+&B32NYK.
+.sp 3
+&GENEKSP
+:VERDA07.
+.br
+&GENTITEL.
+.br
+.if &L'&GENTLFNR. > 0
+.th Tlf. &GENTLFNR.
+.ar off
+.************** Areal definitioner ****************************************
+.da BUNDV 25mm 271mm width 50mm
+.da BUNDH 160mm 269mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+:VERDA05.
+&BANKNAVN.
+.br
+CVR. nr. &BANKSENR
+.ar off
+.**************************************************************************
+.ar BUNDH on
+:VERDA07.
+&BANKNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.br
+&B32WWWNYK
+.ar off

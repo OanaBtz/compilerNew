@@ -1,0 +1,266 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.oc **
+.**************************************************************
+:COUR10.
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B87kaptom
+.br
+&DATO
+.ar off
+.**************************************************************
+.******************************************************************
+.da KUNDEOPL       25mm  48mm width 84mm
+.da ARBGOPL       118mm  48mm width 84mm
+.da CPRSENR       118mm  68mm width 84mm
+.da PIOPL          25mm  76.6mm width 84mm
+.da KTOOPL        118mm  78mm width 76mm
+.da DATO          118mm  93.7mm width 20mm
+.da INDBOPL        24mm 106.5mm width 178mm
+.da LØNINDA       168mm 106.2mm width 35mm
+.da LØNINDP        88mm 106.2mm width 35mm
+.da INDDATON       54mm 128.3mm width 35mm
+.da INDDATOJ      54.7mm 131.3mm width 35mm
+.da FORSIKR        25mm 143.5mm width 168mm
+.da UDBÅR          28mm 175.2mm width 168mm
+.da ANDET          25mm  210mm width 168mm
+.da AFSL           25mm  247.5mm width 170mm
+.******************************************************************
+.ti ^ 05
+.ar KUNDEOPL on
+&B87TOMNAVN
+.br
+&B87TOMGADE
+.br
+&B87TOMBY
+.ar off
+.*************************************
+.ar ARBGOPL on
+ &GENNAVN1
+.br
+ &GENGADE1
+.br
+ &GENBY
+.ar off
+.*************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE *******
+.se regnr = substr &B87REGKTO 1 4
+.se ktonr = substr &B87REGKTO 5 7
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE *******
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ^&dregnr &depnr
+.ar off
+.*************************************
+.ar DATO on
+&B87DATOTOM
+.ar off
+.*************************************
+.* ARBEJDSGIVERORDNING
+...ARB
+.sp
+.tp 101.7mm right
+.ar off
+.*** her skrives en tekst efter beløb, ved arbejdsgiverordning ****
+.ar LØNINDA on
+.sp
+.ar off
+.*************************************
+.ar FORSIKR on
+.tp 94mm
+^&GENFORSIKR
+.sp 6mm
+&GENFORTXT
+.br
+&GENFORTXT1
+.br
+&GENFORTXT2
+.ar off
+.*************************************
+.ar ANDET on
+&GENANDET &GENANDET1 &GENANDET2 &GENANDET3 &GENANDET4 &GENANDET5 &GENANDET6
+.ar off
+.*************************************
+.ar AFSL on
+.sp 22mm
+.ce &BANKNAVN
+...bund
+.ar off
+.*************************************
+.ti ^ 05
+:SWISS8.
+.da KONTOH     21mm 44mm width 85mm
+.da ARBG      108.5mm 44mm width 85mm
+.da PI         21mm 73mm width 85mm
+.da CPRNR     108.5mm 73mm width 85m
+.da KONTONR   108.5mm 83mm width 45mm
+.da DEPNR   151mm 83mm width 45mm
+.da TEKST      21mm 94mm width 170mm
+.da INDBET     21mm 104mm width 170mm
+.da FORSIK     21mm 137.8mm width 170mm
+.da UDBETAL    21mm 169.5mm width 170mm
+.da ANDRE      21mm 206mm width 170mm
+.da UNDTEKST   21mm 241.5mm width 170mm
+.da UNDKONTO   21mm 247mm width 85mm
+.da UNDARB    108.5mm 247mm width 85mm
+.da UNDPI      21mm 260.8mm width 170mm
+.******************************************
+.ar KONTOH on
+Kontohaver
+.ar off
+.******************************************
+.ar ARBG on
+Arbejdsgiver
+.th .sp 22mm
+.th SE-nr.
+.ar off
+.******************************************
+.ar PI on
+Pengeinstitut
+.ar off
+.******************************************
+.ar CPRNR on
+CPR-nr.
+.ar off
+.******************************************
+.ar KONTONR on
+Kontonr.
+.ar off
+.******************************************
+.ar DEPNR on
+Depotnr.
+.ar off
+.******************************************
+.ar TEKST on
+Indgår hermed aftale om oprettelse af kapitalpension med virkning fra den:
+.ar off
+.******************************************
+.ar INDBET on
+Indbetalinger
+.sp
+.*** privat ordning *********
+.if &L'&GENKTNR1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th Du har indtastet i privat og arbejdsgiver ordning vælg kun 1 ordning
+.th .go off
+.if &L'&GENNAVN1 gt 0
+.th .go ARB
+.th Som bidrag indbetales kr.
+.th .sp2mm
+.el
+.el Arbejdsgiver betaler          %.     Medarbejderen betaler          %.
+.el .sp2mm
+.tp 53mm 118mm
+.th Bidraget pristalsreguleres ^Overføres fra kontonr.: ^Bidrag betales til
+.th og med:
+.tp 63mm
+.el
+.th Overføres fra kontonr.: ^Bidrag betales til og med:
+.el
+.sk
+.go SLUT
+.*
+.****** ARBEJDSGIVERORDNING **********
+...ARB
+.tp 105mm
+.th .se KRPR = '%'
+.el .se KRPR = 'kr.'
+.th Som bidrag betaler arbejdsgiver, som led i pensionsordning ^&KRPR af
+.th medarbejderens bruttoløn
+.th .sp
+.th Det er mellem parterne aftalt at
+.th bidraget tilvejebringes med: ^&KRPR fra arbejdsgiver og
+.th .br
+.th ^&KRPR fra medarbejder
+.sp
+.th Bidraget pristalsreguleres.
+.el
+.sp
+.tp 57mm
+Bidrag betales til og med: ^Bidraget betales dog kun, så længe
+kontohaver er ansat i virksomheden.
+...SLUT
+.ar off
+.******************************************
+.ar FORSIK on
+Forsikringsdækning
+.sp
+Der søges ved pengeinstituttets foranstaltning tegnet følgende
+forsikring(er) i:
+.sp
+Forsikringstype:
+.ar off
+.******************************************
+.ar UDBETAL on
+Udbetaling
+.sp
+.tp 126mm
+.th Kontoens indestående kan udbetales til kontohaver, uden arbejdsgivers
+.th samtykke, ved det fyldte ^år eller
+.th ved invaliditet forinden, som efter reglerne i lov om social pension
+.th berettiger kontohaver til højeste eller mellemste førtidspension.
+.el .tp 88mm
+.el Kontoens indestående kan
+.el udbetales til kontohaver ved det fyldte ^år eller
+.el ved invaliditet forinden, som efter reglerne i lov om social pension
+.el berettiger kontohaver til højeste eller mellemste førtidspension.
+.sp
+Udbetaling ved død sker direkte til "nærmeste pårørende" med mindre
+kontohaver har indsat en anden som begunstiget, se generelle vilkår
+pkt.3.
+.sp
+.th Indsættelse af begunstiget:
+.th .br
+.th .tp 37mm  124mm
+.th Cpr-nr. ^navn ^Subsidiært nærmeste pårørende.
+.ar off
+.******************************************
+.ar ANDRE on
+Andre aftaler
+.ar off
+.ar UNDTEKST on
+I øvrigt gælder de generelle vilkår for kapitalpension,
+som er optrykt i aftalens bilag og udleveret med aftalen.
+.ar off
+.******************************************
+.ar UNDKONTO on
+.tp 60mm
+Kontohavers underskrift^Dato:
+.ar off
+.ar UNDARB on
+.tp 50mm
+Arbejdsgivers underskrift^Dato:
+.ar off
+.******************************************
+.ar UNDPI on
+.tp 144mm
+Pengeinstituttets underskrift^Dato:
+...off
+.ar off
+.******************************************
+.pa

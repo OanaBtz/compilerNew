@@ -1,0 +1,410 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************
+.da VEND 4mm 250mm width 180mm rotate -90
+.****** HER SKRIVES DET ROTEREDE BREVNAVN **********************
+.ar VEND on
+:COUR6.
+B19OVFOPLB1
+.ar off
+.***********************************************************************
+.* Her afgøres, hvilken type kontoen er.
+.* Hvis regtypen er større end 8499, er det en boliopsparing. (1)
+.* Hvis der er indtastet dato for udbetalingsstart, så er det en
+.* uddannelsesopsparing under udbetaling. (3)
+.* Hvis der ikke er indtastet dato for udbetalingsstart, så er det en
+.* uddannelsesopsparing. (2)
+.*************************************
+.if &REGTYPE > 8499
+.th .se type = 1
+.th .go HOP
+.if &L'&B19DATO1 gt 0
+.th .se type = 3
+.el .se type = 2
+...HOP
+.*************************************
+.if &type = 1
+.th .se kontoform = 'boligopsparing'
+.if &type = 2
+.th .se kontoform = 'uddannelsesopsparing'
+.if &type = 3
+.th .se kontoform = 'udd.ops. under udbetaling'
+.*************************************
+.* Dette afsnit finder afd.adr. ud fra reg.nr. på kontoen
+.if &REGNR = 7600
+.th .se a = 'Holstebro afdeling'
+.th .se b = 'Vestergade 1'
+.th .se c = '7500  Holstebro'
+.th .se d = '96 63 31 40'
+.if &REGNR = 7601
+.th .se a = 'Landbrugscenter'
+.th .se b = 'Vestergade 1'
+.th .se c = '7500  Holstebro'
+.th .se d = '96 63 32 00'
+.if &REGNR = 7602
+.th .se a = 'Struer afdeling'
+.th .se b = 'Vestergade 5'
+.th .se c = '7600  Struer'
+.th .se d = '96 63 34 00'
+.if &REGNR = 7604
+.th .se a = 'Herning afdeling'
+.th .se b = 'Dalgasgade 29 B'
+.th .se c = '7400  Herning'
+.th .se d = '96 63 25 00'
+.if &REGNR = 7605
+.th .se a = 'Viborg afdeling'
+.th .se b = 'St. Sct. Pederstræde 4'
+.th .se c = '8800  Viborg'
+.th .se d = '96 63 26 00'
+.if &REGNR = 7606
+.th .se a = 'Esbjerg afdeling'
+.th .se b = 'Kongensgade 70'
+.th .se c = '6700  Esbjerg'
+.th .se d = '96 63 27 00'
+.if &REGNR = 7607
+.th .se a = 'Fjernkunde afdeling'
+.th .se b = 'Dalgasgade 29 B'
+.th .se c = '7400 Herning'
+.th .se d = '96 63 20 00'
+.if &REGNR = 7608
+.th .se a = 'Kundeservice afdeling'
+.th .se b = 'Dalgasgade 29 B'
+.th .se c = '7400 Herning'
+.th .se d = '96 63 20 00'
+.if &REGNR = 7730
+.th .se a = 'Lemvig afdeling'
+.th .se b = 'Torvet 4-5'
+.th .se c = '7620 Lemvig'
+.th .se d = '96 63 23 00'
+.if &REGNR = 7730-047
+.th .se a = 'Lemvig afdeling'
+.th .se b = 'Torvet 4-5'
+.th .se c = '7620 Lemvig'
+.th .se d = '96 63 23 00'
+.if &REGNR = 7732
+.th .se a = 'Kolding afdeling'
+.th .se b = 'Ndr. Ringvej 51'
+.th .se c = '6000 Kolding'
+.th .se d = '96 63 28 00'
+.if &REGNR = 7733
+.th .se a = 'Horsens afdeling'
+.th .se b = 'Grønlandsvej 1 B'
+.th .se c = '8700 Horsens'
+.th .se d = '96 63 29 00'
+.if &REGNR = 7734
+.th .se a = 'Silkeborg afdeling'
+.th .se b = 'Borgergade 28'
+.th .se c = '8600 Silkeborg'
+.th .se d = '96 63 37 00'
+.if &REGNR = 7735
+.th .se a = 'Thyborøn afdeling'
+.th .se b = 'Bredgade 2'
+.th .se c = '7680 Thyborøn'
+.th .se d = '96 63 24 00'
+.if &REGNR = 7736
+.th .se a = 'Lemvig afdeling'
+.th .se b = 'Torvet 4-5'
+.th .se c = '7620 Lemvig'
+.th .se d = '96 63 23 00'
+.if &REGNR = 7737
+.th .se a = 'Lemvig afdeling'
+.th .se b = 'Torvet 4-5'
+.th .se c = '7620 Lemvig'
+.th .se d = '96 63 23 00'
+.if &REGNR = 7738
+.th .se a = 'Randers afdeling'
+.th .se b = 'Store Voldgade 4'
+.th .se c = '8900 Randers C'
+.th .se d = '96 63 30 00'
+.if &REGNR = 7739
+.th .se a = 'Aarhus afdeling'
+.th .se b = 'Åboulevarden 67'
+.th .se c = '8000 Århus C'
+.th .se d = '96 63 36 00'
+.if &REGNR = 7740
+.th .se a = 'Ikast afdeling'
+.th .se b = 'Sieferts Plads 1'
+.th .se c = '7430 Ikast'
+.th .se d = '96 63 24 50'
+.if &REGNR = 7650
+.th .se a = 'Ringkøbing afdeling'
+.th .se b = 'Torvet 2'
+.th .se c = '6950  Ringkøbing'
+.th .se d = '99 75 32 00'
+.if &REGNR = 7651
+.th .se a = 'Skjern afdeling'
+.th .se b = 'Bredgade 38'
+.th .se c = '6900  Skjern'
+.th .se d = '97 35 13 22'
+.if &REGNR = 7652
+.th .se a = 'Videbæk afdeling'
+.th .se b = 'Bredgade 38'
+.th .se c = '6920  Videbæk'
+.th .se d = '97 17 13 33'
+.if &REGNR = 7655
+.th .se a = 'Horsens afdeling'
+.th .se b = 'Grønlandsvej 1 B'
+.th .se c = '8700 Horsens'
+.th .se d = '96 63 29 00'
+.if &REGNR = 7656
+.th .se a = 'Hvide Sande afdeling'
+.th .se b = 'Bredgade 4'
+.th .se c = '6960  Hvide Sande'
+.th .se d = '97 31 13 22'
+.*****************************************
+.* Arealer m.v.
+.da BOX 18mm 58mm
+.da OVERSKR 20mm 45mm
+.da MODTPI1 20mm 60mm
+.da MODTPI2 25mm 65mm
+.da AFSPI1 110mm 60mm
+.da AFSPI2 115mm 65mm
+.da KTOHAV1 20mm 100mm
+.da KTOHAV2 25mm 105mm
+.da KTOFORM1 110mm 100mm
+.da KTOFORM2 115mm 105mm
+.da KTONR1 110mm 110mm
+.da KTONR2 115mm 115mm
+.da KUNNR1 110mm 120mm
+.da KUNNR2 115mm 125mm
+.da KTOOPL1 20mm 140mm
+.da KTOOPL2 25mm 145mm width 170mm
+.da FREMSEND1 20mm 230mm
+.da FREMSEND2 25mm 235mm
+.da DATOREF1 20mm 250mm
+.da DATOREF2 25mm 255mm
+.da UNDERSKR1 110mm 250mm
+.da UNDERSKR2 115mm 265mm width 80mm
+.* Formularen
+.*************************************************
+.ar BOX on
+.bx 0mm 180mm
+.vr 90mm
+.sp 38mm
+.hr 0mm for 180mm
+.sp 8mm
+.hr 90mm for 90mm
+.sp 8mm
+.hr 90mm for 90mm
+.sp 17mm
+.hr 0mm for 180mm
+.vr off
+.sp 88mm
+.hr 0mm for 180mm
+.sp 18mm
+.hr 0mm for 180mm
+.vr 90mm
+.sp 33mm
+.bx off
+.vr off
+.ar off
+.*************************************************
+.ar OVERSKR on
+:SWISS14.
+:FED.
+Overførselsoplysninger vedr. &kontoform
+:SKRSLUT.
+.ar off
+.*************************************************
+.ar MODTPI1 on
+:SWISS8.
+Modtagende penginstitut
+.ar off
+.*************************************************
+.ar AFSPI1 on
+:SWISS8.
+Afsendende pengeinstitut
+.ar off
+.*************************************************
+.ar KTOHAV1 on
+:SWISS8.
+Kontohaver
+.ar off
+.*************************************************
+.ar KTOFORM1 on
+:SWISS8.
+Kontoform
+.ar off
+.*************************************************
+.ar KTONR1 on
+:SWISS8.
+Kontonummer
+.ar off
+.*************************************************
+.ar KUNNR1 on
+:SWISS8.
+Kundenummer
+.ar off
+.*************************************************
+.ar KTOOPL1 on
+:SWISS8.
+Kontooplysninger
+.ar off
+.*************************************************
+.ar FREMSEND1 on
+:SWISS8.
+Vedlagt fremsendes
+.ar off
+.*************************************************
+.ar DATOREF1 on
+:SWISS8.
+Dato og reference
+.ar off
+.*************************************************
+.ar UNDERSKR1 on
+:SWISS8.
+Pengeinstituttets underskrift
+.ar off
+.*************************************************
+.* Udfyldelse med COUR10
+.***************************************
+.ar MODTPI2 on
+&BKNAVN ;.br
+&BKAFD ;.br
+&BKADR ;.br
+&BKBY ;.br
+.ar off
+.***************************************
+.ar AFSPI2 on
+Vestjysk Bank ;.br
+&a ;.br
+&b ;.br
+&c ;.br
+.ar off
+.***************************************
+.ar KTOHAV2 on
+&STILL ;.br
+&NAVN ;.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+&GADE ;.br
+&BY ;.br
+.ar off
+.***************************************
+.ar KTOFORM2 on
+&kontoform
+.ar off
+.***************************************
+.ar KTONR2 on
+&REGNR &KTONR
+.ar off
+.***************************************
+.ar KUNNR2 on
+&KTOKUNDENR
+.ar off
+.***************************************
+.ar KTOOPL2 on
+.***
+.ti > 05
+.tp 115mm 165mm right
+.***
+.if &type = 1
+.th .go BOLIG
+.if &type = 2
+.th .go UDDOPS
+.if &type = 3
+.th .go UDDUDB
+.***
+...BOLIG
+Dato for første indskud >den >&STARTIND8
+.sp 5mm
+Præmie pr. overførselsdag >kr. >&B19BELØB2
+.sp 5mm
+Præmieberettiget saldo pr. overførselsdag >kr. >&B19BELØB3
+.sp 5mm
+Beløb til overførsel >kr. >&B19BELØB1
+.go SPRING
+.***
+...UDDOPS
+Dato for første indskud >den >&STARTIND8
+.sp 5mm
+Præmie pr. 31/12-1993 >kr. >&AKKPRMIE
+.sp 5mm
+Præmieberettiget saldo pr. 31/12-1993 >kr. >&AKKSALDO
+.sp 5mm
+Beløb til overførsel >kr. >&B19BELØB1
+.go SPRING
+.***
+...UDDUDB
+Dato for første indskud >den >&STARTIND8
+.sp 5mm
+Udbetalingsperiodens start >den >&B19DATO1
+.sp 5mm
+Udbetalingsperiodens udløb >den >&B19DATO2
+.sp 5mm
+Præmie pr. 31/12-1993 >kr. >&AKKPRMIE
+.sp 5mm
+Præmieberettiget saldo pr. 31/12-1993 >kr. >&AKKSALDO
+.sp 5mm
+Tilgodehavende "restpræmie" >kr. >&B19BELØB4
+.sp 5mm
+Udbetaling i rater a >kr. >&B19BELØB5
+.sp 5mm
+Ubetalt ialt i indeværende udbetalingsår >kr. >&B19BELØB6
+.sp 5mm
+Beløb til overførsel >kr. >&B19BELØB1
+.go SPRING
+.***
+...SPRING
+.ar off
+.***************************************
+.ar FREMSEND2 on
+.if &type = 1
+.th boligsparekontrakt
+.if &type = 2
+.th aftale om uddannelsesopsparing
+.if &type = 3
+.th aftale om uddannelsesopsparing
+.th .br
+.th erklæring om at være studieaktiv
+.th .br
+.th kopi af indskrivningsbevis eller lignende
+.th .br
+.ar off
+.***************************************
+.ar DATOREF2 on
+&DATO
+.sp 5mm
+Vores ref.: &GENEKSP
+.ar off
+.***************************************
+.ar UNDERSKR2 on
+.ce on
+Vestjysk Bank
+.br
+&AFDNAVN
+.ce off
+.ar off
+.***************************************

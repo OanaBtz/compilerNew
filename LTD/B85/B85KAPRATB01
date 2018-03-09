@@ -1,0 +1,239 @@
+.*
+.****************  Diverse tests og opsætninger
+.bm 0
+.sp 3
+.in 3
+.pl 86
+.ti > 05
+.su off
+.****************  GENINDUD = ' ' Ikke skift på bank
+.****************  GENINDUD = 'I' Egen bank er indtrædende
+.****************  GENINDUD = 'U' Egen bank er udtrædende
+.if &L'&GENINDUD eq 0
+.th .se glregnr = &REGNR
+.th .se glktonr = &KTONR
+.th .se gldepnr = &GENDEPNR1
+.th .se glbank  = &BANKNAVN
+.th .se glafd   = &AFDNAVN
+.th .se glafdby = &AFDBY
+.th .se nyregnr = ' '
+.th .se nyktonr = ' '
+.th .se nydepnr = ' '
+.th .se nybank  = ' '
+.th .go ARB
+.if &U'&GENINDUD eq U
+.th .se glregnr = &REGNR
+.th .se glktonr = &KTONR
+.th .se gldepnr = &GENDEPNR1
+.th .se glbank  = &BANKNAVN
+.th .se glafd   = &AFDNAVN
+.th .se glafdby = &AFDBY
+.th .se nyregnr = &BANKREGNR
+.th .se nyktonr = &GENKTO
+.th .se nydepnr = &GENDEPNR
+.th .se nybank  = &BKNAVN
+.th .go ARB
+.if &U'&GENINDUD eq I
+.th .se glregnr = &BANKREGNR
+.th .se glktonr = &GENKTO
+.th .se gldepnr = &GENDEPNR
+.th .se glbank  = &BKNAVN
+.th .se glafd   = &BKAFD
+.th .se glafdby = &BKBY
+.th .se nyregnr = &REGNR
+.th .se nyktonr = &KTONR
+.th .se nydepnr = &GENDEPNR1
+.th .se nybank  = &BANKNAVN
+...ARB
+.****************  arb = BL (INGEN arbejdsgiver udskrives)
+.****************  arb = NY (Ny arbejdsgiver udskrives)
+.****************  arb = GL (Gl arbejdsgiver udskrives)
+.se arb = BL
+.if &L'&GENT1 gt 0
+.th .se arb = NY
+.th .go B010
+.if &L'&GENNAVN1 gt 0
+.th .se arb = GL
+...B010
+.****************  Test på ordning1
+.se ordn1 = N
+.if &L'&GENT1 gt 0
+.an &L'&GENNAVN1 gt 0
+.th .se ordn1 = A
+.th .go B020
+.if &L'&GENT1 gt 0
+.th .se ordn1 = B1
+.th .go B020
+.if &U'&GENUDGÅR eq J
+.th .se ordn1 = B2
+...B020
+.su on
+.****************  Kontohaver
+.cl 35
+.cd 2 1 36
+.tp 7
+.sp &BLANKLIN
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.se antlin = &ÅLC - 54
+.sp &antlin
+>&KTOKUNDENR
+.sp
+.****************  Udskriv gl bank
+&glbank
+.br
+&glafd
+.br
+&glafdby
+.br
+.****************  Arbejdsgiver
+...C020
+.cb
+.tb 7 21
+.if &arb eq BL
+.th .sp 8
+.th .go C200
+.if &arb eq GL
+.th .go C070
+.****************  Indtrædende arbejdsgiver
+.se antal = 2
+.if &L'&GENT1 eq 0
+.th .se antal = &antal + 1
+.if &L'&GENT5 eq 0
+.th .se antal = &antal + 1
+.if &L'&GENT6 eq 0
+.th .se antal = &antal + 1
+.sp &antal
+&GENT1
+.br
+&GENT5
+.br
+&GENT6
+.sp 2
+>&GENSENR1
+.go C200
+.****************  Gl arbejdsgiver
+...C070
+.se antal = 2
+.if &L'&GENNAVN1 eq 0
+.th .se antal = &antal + 1
+.if &L'&GENGADE eq 0
+.th .se antal = &antal + 1
+.if &L'&GENBY eq 0
+.th .se antal = &antal + 1
+.sp &antal
+&GENNAVN1
+.br
+&GENGADE
+.br
+&GENBY
+.sp 2
+>&GENSENR
+.****************  Gl. regnr ktonr & depotnr
+...C200
+.*se antlin = &ÅLC - 51
+.sp 1
+&glregnr
+.sp
+&glktonr >&gldepnr
+.****************  Afslut hoved
+...C250
+.sc
+.se antlin = &ÅLC - 46
+.sp &antlin
+.tp 30
+.da BKUNDER 41 58
+.****************  Aftaledato
+>&GENIDTO001
+.****************  Test på aftaleordning
+.if &ordn1 eq N
+.th .go D300
+.if &ordn1 eq B1
+.th .go D100
+.if &ordn1 eq B2
+.th .go D200
+.****************  Ordning A (gl + ny arbejdsgiver)
+.sp 3
+.tp 8
+>&GENT1
+.sp 3
+>&GENNAVN1
+.sp 9
+.go D300
+.****************  Ordning B1 (Ny arbejdsgiver)
+...D100
+.sp 9
+.tp 4 8 42
+>>&GENT1 >X
+.sp 2
+>X
+.sp 4
+.go D300
+.****************  Ordning B2 (Gl arbejdsgiver)
+...D200
+.sp 10
+.tp 4 8 42
+>>&GENNAVN1 >X
+.sp 3
+>X
+.sp 2
+.****************  Skift på pengeinstitut
+...D300
+.if &ktof eq E
+.th .sp 6
+.th .go D400
+.tb 10 25 48
+.se antlin = &ÅLC - 28
+.sp &antlin
+>&nyregnr >&nyktonr >&nydepnr
+.br
+>&nybank
+.****************  Begunstiget
+...D400
+.se antlin = &ÅLC - 23
+.sp &antlin
+.if &L'&GENBEGUN1 eq 0
+.th .go D500
+.tb 7 47
+>&GENBEGUN1 >&GENCPR
+.****************  Underskrifter
+...D500
+.se antlin = &ÅLC - 19
+.sp &antlin
+.cl 34
+.mc
+.ce on
+.sp 4
+.* &GENNAVN1.&ÅRB
+.br
+.sp 5
+.* &NAVN
+.cb
+.if &L'&GENINDUD eq 0
+.th .sp 5
+.el .sp 5
+.* &GENT1.&ÅRB
+.sp
+.* &nybank.&ÅRB
+.* .se antlin = &ÅLC - 9
+.* .sp &antlin
+.******************************
+.ar BKUNDER on
+&glbank
+.ce off
+.ar BKUNDER off
+.******************************
+.sc
+.****************
+.se antlin = &ÅLC
+.sp &antlin
+.ri on
+.oc  ** Denne linie fjernes
+:becform.b85260

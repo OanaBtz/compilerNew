@@ -1,0 +1,293 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da MNAVN 110mm 41.5mm width 70mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.da CPR 25mm 70mm width 95mm
+.da MEDCPR 110mm 70mm width 70mm
+.*************NAVN OG ADRESSE****************
+.fo left
+:SWISS11.
+.ar NAVN on
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+.sp 3
+.ar off
+.ar CPR on
+Cpr.nr.: &KTOKUNDENR.
+.ar off
+.ar MNAVN on
+.if &U'&B02VÆLG eq J
+.th &MEDSTILL
+.br
+&MEDNAVN.
+.br
+&MEDCO.
+.br
+&MEDGADE.
+.br
+&MEDBY.
+.br
+&MEDLAND.
+.sp 3
+.ar off
+.ar MEDCPR on
+.if X&MEDKUNDENR eq X000000-0000
+.th .go slut
+Cpr.nr.: &MEDKUNDENR.
+...slut
+.ar off
+.**************** SLUT **********************
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftale om Højrentekonto
+.ri off
+.ar off
+.**************************************************************************
+.*
+.da TEXT 25mm 30mm width 160mm
+.ar TEXT on
+.sp 11
+Undertegnede anmoder herved om oprettelse af Højrentekonto
+konto nr. &IREGKTO..
+.*.su off
+.*.se kontonr1 = substr &IREGKTO 1 4
+.*.se kontonr2 = substr &IREGKTO 5 11
+.*.su on
+.br
+.sp 2
+:SWISS11.
+:FED.
+Kontobetingelser
+:SKRSLUT
+.sp
+:SWISS10.:FED.
+Forudsætning
+.br
+:SKRSLUT
+:SWISS11.
+Der skal indsættes min. kr. 25.000. Sidste frist for
+indskud er den 30. juni 2009.
+.sp
+:SWISS10.:FED.
+Forrentning
+.br
+:SKRSLUT
+:SWISS11.
+Kontoen forrentes med en variabel rentesats på
+.if &REGTYPE eq 6020
+.th p.t. &GNDRTEKD1.%.
+.if &REGTYPE eq 6021
+.th p.t. &TOTKRE1.%.
+.sp
+Renten
+tilskrives én gang årligt den sidste bankdag i kalenderåret.
+.sp
+Beløb, der ønskes udbetalt, skal opsiges til udbetaling med et varsel på
+.if &REGTYPE eq 6020
+.th 6 måneder.
+.if &REGTYPE eq 6021
+.th 12 måneder.
+Det er en forudsætning for udbetaling, at banken har noteret det opsagte
+beløb på det opsigelses-/underskriftkort, som er udleveret til kontoen.
+.sp
+:SWISS10.:FED.
+Udbetaling og dekort
+.br
+:SKRSLUT
+:SWISS11.
+Beløb opsagt til udbetaling kan hæves uden dekortberegning i en periode
+på 30 kalenderdage efter den dato til hvilken beløbet er opsagt til
+udbetaling til (herefter kaldet "udbetalingsdatoen").
+.sp
+Ved udbetaling af beløb på andre tidspunkter end i perioden fra
+udbetalingsdatoen og 30 kalenderdage frem, vil der blive beregnet og
+opkrævet en dekort på
+.if &REGTYPE eq 6020
+.th p.t. 2,5%
+.if &REGTYPE eq 6021
+.th p.t. 5,0%
+af det udbetalte beløb.
+.sp
+Hvis et opsagt beløb ikke hæves i en periode på 30 kalenderdage efter
+udbetalingsdatoen, må beløbet opsiges på ny.
+.sp
+Eventuelt opkrævet dekort i løbet af et kalenderår modregnes i
+kalenderårets tilskrevne kredit-
+.br
+rente. Det herefter fremkomne beløb vil
+blive indberettet til SKAT. Såfremt dekorten overstiger den tilskrevne
+kreditrente,
+vil differencen blive indberettet som negativ rente til SKAT.
+.sp
+Tilskrevne rentebeløb kan hæves uden opsigelse og uden dekortberegning i
+indtil 30 kalenderdage efter rentetilskrivningsdagen.
+.sp
+For regler om validering, tilskrivning af renter og provision m.m. henvises
+der i øvrigt til særskilt blad for "Beregning af rente og provision", som
+udleveres sammen med denne kontrakt.
+.da UND 25mm 247mm width 75mm
+.ar UND on
+Den
+.sp 5
+.tp 55mm
+.hr 0mm 80mm
+.br
+:SWISS8
+&NAVN ¤¤&MEDNAVN
+.da AMAG 115mm 247mm width 75mm
+.ar AMAG on
+.*.in 15mm
+.ce Den
+.*.in 0mm
+.sp 2
+.ce A M A G E R B A N K E N
+:SWISS9.
+.sp
+.ce &B02AFD
+.pa
+.************************ Her starter side 1 ******************************
+.ar TEXT1 on
+:SWISS10.
+.sp 10
+Klip kortet ud og fold det.
+.da TEXT 20mm 100mm width 85mm
+.ar TEXT on
+:SWISS11.
+.hr 0mm 172mm
+.vr 0mm 86mm 172mm
+.sp 2mm
+.in 2mm
+Kontonr.: :FED. &IREGKTO :SKRSLUT.
+.if &B02VALG12 eq 2
+.th   Millionærkonto
+.sp 2mm
+:SWISS9.
+Opsagte beløb
+.br
+.bx 2mm 17mm 39mm 63mm 83mm
+.bx on
+.ti ¤ 05
+.tp 3mm 18mm 40mm 64mm 84mm
+:SWISS8.
+:FED.
+¤Den ¤Er opsagt kr. ¤Til udbetaling pr. ¤Notering
+.sp 2mm
+:SWISS8.
+.hr 2mm 83mm
+.sp 4mm
+.hr 2mm 83mm
+.sp 4mm
+.hr 2mm 83mm
+.sp 4mm
+.hr 2mm 83mm
+.sp 4mm
+.hr 2mm 83mm
+.sp 4mm
+.bx off
+.sp 1mm
+.in 10mm
+:SWISS14. :FED.
+&BANKNAVN
+:SWISS8.
+.sp 1mm
+.hr 0mm 172mm
+.******************* Her starter side 2 ******************************
+.da TEXT1 107mm 105mm width 82mm
+.ar TEXT1 on
+:SWISS8.
+Hæves opsagte beløb ikke inden 1 måned efter opsigelsesfristens udløb,
+bliver det opsagte beløb stående på de samme vilkår og må opsiges påny,
+hvis beløbet ønskes hævet. Dette gælder også for de tilskrevne renter,
+såfremt de ikke hæves senest 1 måned efter tilskrivningen.
+.sp
+Der henvises i øvrigt til bankens almindelige forretningsbetingelser.
+.sp
+Ved kontant hævning i kassen fremvises dette kort sammen med anden gyldig
+legitimation.
+.sp 2mm
+Dato/underskrift:
+.sp 4mm
+______________________________________________________
+.br
+&NAVN                               &MEDNAVN

@@ -1,0 +1,408 @@
+.* parameterafsnit
+.* Parameterafsnit
+.* Til Privat låneansøgning
+.* Engagementsoversigt
+.se EN1  = substr '&MIBBEL7.' 21 35
+.se EN2  = substr '&MIBBEL8.' 21 35
+.se EN3  = substr '&MIBBEL9.' 21 35
+.se EN4  = substr '&MIBBEL10.' 21 35
+.se EN5  = substr '&MIBBEL11.' 21 35
+.se EN6  = substr '&MIBBEL14.' 21 35
+.se EL1  = substr '&MIBBEL7.' 1 4
+.se EL2  = substr '&MIBBEL8.' 1 4
+.se EL3  = substr '&MIBBEL9.' 1 4
+.se EL4  = substr '&MIBBEL10.' 1 4
+.se EL5  = substr '&MIBBEL11.' 1 4
+.se EL6  = substr '&MIBBEL14.' 1 4
+.se ED1  = substr '&MIBBEL7.' 6 4
+.se ED2  = substr '&MIBBEL8.' 6 4
+.se ED3  = substr '&MIBBEL9.' 6 4
+.se ED4  = substr '&MIBBEL10.' 6 4
+.se ED5  = substr '&MIBBEL11.' 6 4
+.se ED6  = substr '&MIBBEL14.' 6 4
+.se ES1  = substr '&MIBBEL7.' 11 4
+.se ES2  = substr '&MIBBEL8.' 11 4
+.se ES3  = substr '&MIBBEL9.' 11 4
+.se ES4  = substr '&MIBBEL10.' 11 4
+.se ES5  = substr '&MIBBEL11.' 11 4
+.se ES6  = substr '&MIBBEL14.' 11 4
+.se EK1  = substr '&MIBBEL7.' 16 4
+.se EK2  = substr '&MIBBEL8.' 16 4
+.se EK3  = substr '&MIBBEL9.' 16 4
+.se EK4  = substr '&MIBBEL10.' 16 4
+.se EK5  = substr '&MIBBEL11.' 16 4
+.se EK6  = substr '&MIBBEL14.' 16 4
+.se NEL1 = &V'&EL1
+.se NEL2 = &V'&EL2
+.se NEL3 = &V'&EL3
+.se NEL4 = &V'&EL4
+.se NEL5 = &V'&EL5
+.se NEL6 = &V'&EL6
+.se NED1 = &V'&ED1
+.se NED2 = &V'&ED2
+.se NED3 = &V'&ED3
+.se NED4 = &V'&ED4
+.se NED5 = &V'&ED5
+.se NED6 = &V'&ED6
+.se NES1 = &V'&ES1
+.se NES2 = &V'&ES2
+.se NES3 = &V'&ES3
+.se NES4 = &V'&ES4
+.se NES5 = &V'&ES5
+.se NES6 = &V'&ES6
+.se NEK1 = &V'&EK1
+.se NEK2 = &V'&EK2
+.se NEK3 = &V'&EK3
+.se NEK4 = &V'&EK4
+.se NEK5 = &V'&EK5
+.se NEK6 = &V'&EK6
+.* Kollonnetestværdier
+.se NELTEST '&T'&NEL1.&T'&NEL2.&T'&NEL3.&T'&NEL4.&T'&NEL5.&T'&NEL6.'
+.se NEDTEST '&T'&NED1.&T'&NED2.&T'&NED3.&T'&NED4.&T'&NED5.&T'&NED6.'
+.se NESTEST '&T'&NES1.&T'&NES2.&T'&NES3.&T'&NES4.&T'&NES5.&T'&NES6.'
+.se NEKTEST '&T'&NEK1.&T'&NEK2.&T'&NEK3.&T'&NEK4.&T'&NEK5.&T'&NEK6.'
+.* Kollonnetest
+.if &NELTEST <> NNNNNN .th .se fejlL 'Limit-kolonnen, ' ;.el .se fejlL ' '
+.if &NEDTEST <> NNNNNN .th .se fejlD 'GSik-kolonnen, ' ;.el .se fejlD ' '
+.if &NESTEST <> NNNNNN .th .se fejlS 'NSik-kolonnen, ' ;.el .se fejlS ' '
+.if &NEKTEST <> NNNNNN .th .se fejlK 'Indlån-kolonnen, ' ;.el .se fejlK ' '
+.* Linietestværdier
+.se NE1TEST '&T'&NEL1.&T'&NED1.&T'&NES1.&T'&NEK1.'
+.se NE2TEST '&T'&NEL2.&T'&NED2.&T'&NES2.&T'&NEK2.'
+.se NE3TEST '&T'&NEL3.&T'&NED3.&T'&NES3.&T'&NEK3.'
+.se NE4TEST '&T'&NEL4.&T'&NED4.&T'&NES4.&T'&NEK4.'
+.se NE5TEST '&T'&NEL5.&T'&NED5.&T'&NES5.&T'&NEK5.'
+.se NE6TEST '&T'&NEL6.&T'&NED6.&T'&NES6.&T'&NEK6.'
+.* Linietest
+.if &NE1TEST <> NNNN .th .se f1 ' 1,' ;.el .se f1 ' '
+.if &NE2TEST <> NNNN .th .se f2 ' 2,' ;.el .se f2 ' '
+.if &NE3TEST <> NNNN .th .se f3 ' 3,' ;.el .se f3 ' '
+.if &NE4TEST <> NNNN .th .se f4 ' 4,' ;.el .se f4 ' '
+.if &NE5TEST <> NNNN .th .se f5 ' 5,' ;.el .se f5 ' '
+.if &NE6TEST <> NNNN .th .se f6 ' 6,' ;.el .se f6 ' '
+.* Fejl meddelelse vedr. Eng. ovs.
+.if &L'&fejlL <> 1
+.or &L'&fejlD <> 1
+.or &L'&fejlS <> 1
+.or &L'&fejlK <> 1 ;.th .go FEJL ;.el .go A
+...FEJL
+.th .MG /i/  PRIVATKUNDELÅNEANSØGNING udskrevet af &MIBVREF.
+.th .MG /i/  Vedr. &NAVN kundenr: &KTOKUNDENR.
+.th .MG /i/
+.th .mg /i/ Der er konstateret fejl i Fremtidig engagement
+.th .mg /i/ &fejlL.&fejlD.&fejlS.&fejlK.linie &f1.&f2.&f3.&f4.&f5.&f6.
+.th .mg /i/
+.th .mg /i/ &MIBSTREG3
+.th .mg /i/ &MIBBEL7
+.th .mg /i/ &MIBBEL8
+.th .mg /i/ &MIBBEL9
+.th .mg /i/ &MIBBEL10
+.th .mg /i/ &MIBBEL11
+.th .mg /i/ &MIBBEL14
+.th .mg /i/
+.th .mg /i/ Der må KUN være "tal og - for negative tal" i beløbs-kolonner
+.th .mg /i/ Kommaer må kun findes i kolonner under kommaer i overskriften.
+.th .mg /i/ Kommaer er kun til hjælp for din indtastning. Må gerne slettes.
+.th .mg /t/ TRYK på PF3, ret ovenstående på BREVVARIABLER og prøv igen.
+...A
+.* parameterafsnit
+.* parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.pw +8
+.pl 68
+.tm 0
+.bm 1
+.if &E'&MIBBLANK = 0 ;.th .im MIBBLANK
+.if &E'&MIBKONVO = 0 .im MIBKONVO
+.if &E'&MIBKR = 0 .im MIBKRNY
+.da NAVN   07 04 PAGE WIDTH 62
+.da MNAVN  07 08 PAGE
+.da KNNR   52 04 PAGE WIDTH 61
+.da AKANS  07 09 PAGE
+.da FRENG  07 12 PAGE
+.da SATSER 07 29 PAGE
+.da SATSER1 47 29 PAGE
+.da BESKR   10 40 PAGE
+.da RAMSTA 07 03 PAGE
+.da RAMSLU 75 64 PAGE
+.ti ^ 05
+.da ENGUDV 00 38 BODY
+.da ENGSIK 00 43 BODY
+.da REGN   46 45 BODY
+.oc  ** Privat låneansøgning **
+.oc  &&??##1B<#1B#5B2 I#1B#5B?1200 K
+.se t1 '.tp 25 54 RIGHT 64 RIGHT 74 RIGHT 84 RIGHT'
+.se t2 '.tp 53 RIGHT 61 RIGHT 69 RIGHT 77 RIGHT 85 RIGHT'
+.se t3 '.tp ./45 53 RIGHT 61 RIGHT 69 RIGHT 77 RIGHT 85 RIGHT'
+.se fb '#1B#5B1m#1B#5B17a'
+.se fb1 '#1B#5B1m'
+.se fb2 '#1B#5B17a'
+.se ns '#1B#5B0m'
+.ll 86
+.ll +20
+.ir +20
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* TEST afsnit
+.* Rentabilitet
+.se rentt = 4
+.if .&RENTA1BEL = .0,00 .se rentt = &rentt - 1
+.if .&RENTA2BEL = .0,00 .se rentt = &rentt - 1
+.if .&RENTA3BEL = .0,00 .se rentt = &rentt - 1
+.if .&RENTA4BEL = .0,00 .se rentt = &rentt - 1
+.if .&rentt = .4 .se rentabil = '&RESULTA
+.if .&rentt = .3 .se rentabil = '&RESULTC
+.if .&rentt = .2 .se rentabil = '&RESULTB
+.if .&rentt = .1 .se rentabil = '&RESULTD
+.if .&rentt = .0 .se rentabil = '&RESULTA
+.if .&rentt = .0 .an .&MIBB1 = .0 .se rentabil = 'INGEN'
+.* A-KASSE
+.se akas = NEJ
+.if &U'&MIBJN1 = J .se akas    = JA
+.* BUDGETKONTO
+.se regtype = NEJ
+.if &U'&MIBJN2 = J .se regtype = JA
+.* ANPARTER
+.se anpa = NEJ
+.if &U'&MIBJN3 = J .se anpa = JA
+.* BØRN
+.se barn = 0
+.if .&U'&FAMTYPE1  = .BARN/FORÆLDRE .se barn = &barn + 1
+.if .&U'&FAMTYPE2  = .BARN/FORÆLDRE .se barn = &barn + 1
+.if .&U'&FAMTYPE3  = .BARN/FORÆLDRE .se barn = &barn + 1
+.if .&U'&FAMTYPE4  = .BARN/FORÆLDRE .se barn = &barn + 1
+.if .&MIBB2 ne .0
+.th .su off
+.th .se barn = &barn + &MIBB2
+.th .su on
+.if .&U'&FAMTYPE4 ne . .se barn '&barn el.fl.'
+.* DEBETRENTESATS
+.*it all
+.se knak = 0
+.se drtsats = &LSDEBSATS
+.if .&LSDEBSATS <> .0,000 .se knak = &knak + 1
+.if .&LSDFDEBSI1 <> .0,000 .se knak = &knak + 1
+.if .&drtsats    =  .0,000 .se drtsats = &LSDFDEBSI1
+.if .&LSDFDEBSI2 <> .0,000 .se knak = &knak + 1
+.if .&drtsats    =  .0,000 .se drtsats = &LSDFDEBSI2
+.if &knak > 1 .se drtsats = '&drtsats knæk'
+.*it off
+.* DEBETRENTESATS
+.*se drtsats = &LSDEBSATS
+.*if .&REGTYPE = .1500 .OR &REGTYPE = 1501 .se drtsats = '&LSDFDEBSI1 knæk'
+.* Til PRIVAT låneansøgning 2.modul
+.* Engagementsoversigt
+.* su off muliggør beregning af ++)
+.su off
+.* Sammentælling af Blanco (su off muliggør beregning af ++)
+.se NEB1  = &NEL1 - &NED1 - &NES1
+.se NEB2  = &NEL2 - &NED2 - &NES2
+.se NEB3  = &NEL3 - &NED3 - &NES3
+.se NEB4  = &NEL4 - &NED4 - &NES4
+.se NEB5  = &NEL5 - &NED5 - &NES5
+.se NEB6  = &NEL6 - &NED6 - &NES6
+.* Sæt negativ blanco til 0
+.if &NEB1 < 0 .se NEB1 = 0
+.if &NEB2 < 0 .se NEB2 = 0
+.if &NEB3 < 0 .se NEB3 = 0
+.if &NEB4 < 0 .se NEB4 = 0
+.if &NEB5 < 0 .se NEB5 = 0
+.if &NEB6 < 0 .se NEB6 = 0
+.* Sammentælling af kollonner (su off muliggør beregning af ++)
+.se ELT  = &NEL1 + &NEL2 + &NEL3 + &NEL4 + &NEL5 + &NEL6
+.se EDT  = &NED1 + &NED2 + &NED3 + &NED4 + &NED5 + &NED6
+.se EST  = &NES1 + &NES2 + &NES3 + &NES4 + &NES5 + &NES6
+.se EBT  = &NEB1 + &NEB2 + &NEB3 + &NEB4 + &NEB5 + &NEB6
+.se EKT  = &NEK1 + &NEK2 + &NEK3 + &NEK4 + &NEK5 + &NEK6
+.su on
+.* Fjern højrestillede blanke
+.MIBBLANK EL1
+.MIBBLANK EL2
+.MIBBLANK EL3
+.MIBBLANK EL4
+.MIBBLANK EL5
+.MIBBLANK EL6
+.MIBBLANK ED1
+.MIBBLANK ED2
+.MIBBLANK ED3
+.MIBBLANK ED4
+.MIBBLANK ED5
+.MIBBLANK ED6
+.MIBBLANK ES1
+.MIBBLANK ES2
+.MIBBLANK ES3
+.MIBBLANK ES4
+.MIBBLANK ES5
+.MIBBLANK ES6
+.MIBBLANK EK1
+.MIBBLANK EK2
+.MIBBLANK EK3
+.MIBBLANK EK4
+.MIBBLANK EK5
+.MIBBLANK EK6
+.ar FRENG on
+.sx //=//
+&t2
+.ir -20
+ &fb1.FREMTIDIGT ENGAGEMENT (tkr.): &fb2.^LIMIT ^GL.SIK ^NYESIK ^BLANCO ^
+.ct INDLÅN ^&ns
+.ir +20
+&t3
+  &EN1 ^^&EL1 ^&ED1 ^&ES1 ^&NEB1 ^&EK1 ^
+.br
+  &EN2 ^^&EL2 ^&ED2 ^&ES2 ^&NEB2 ^&EK2 ^
+.br
+  &EN3 ^^&EL3 ^&ED3 ^&ES3 ^&NEB3 ^&EK3 ^
+.br
+  &EN4 ^^&EL4 ^&ED4 ^&ES4 ^&NEB4 ^&EK4 ^
+.br
+  &EN5 ^^&EL5 ^&ED5 ^&ES5 ^&NEB5 ^&EK5 ^
+.br
+  &EN6 ^^&EL6 ^&ED6 ^&ES6 ^&NEB6 ^&EK6 ^
+&t2
+ ^---- ^---- ^---- ^---- ^---- ^
+.br
+       ^&ELT ^&EDT ^&EST ^&EBT ^&EKT ^
+.sx //-//
+.KONVO MIBBEL3
+.KONVO MIBBEL4
+.KONVO MIBBEL5
+.KONVO MIBBEL15
+.KONVO MIBBEL16
+.KONVO MIBBEL17
+.KONVO MIBBEL18
+.tp 28 RIGHT 32 47 RIGHT 52 67 RIGHT
+ (tkr.)     MB-aktier: ^&MIBBEL2.^Pension: ^&MIBBEL3.^O-depot: ^&MIBBEL4.^
+.sk
+.tp 47 RIGHT 50 64 RIGHT 67 81 RIGHT
+ SIKKERHEDER.........: Letrealisable: ^&MIBBEL5.^Priv.ejd: ^&MIBBEL15.^Løs
+.ct øre: ^&MIBBEL16.^
+                       Kaution......: ^&MIBBEL17.^Øvrige..: ^&MIBBEL18.^
+.sk
+ NÆSTE GENFORHANDLING: &MIBPRDAT2       ^H:   &MIBBEL19.^
+.*is 4
+.ct Livsforsikring ........: ^^^&MIBBEL20.^
+.ar off
+.se stst = &EDT.+&EST.-&MIBBEL5.-&MIBBEL15.-&MIBBEL16.-&MIBBEL17.-&MIBBEL18
+.if &V'&stst > 5 .or &V'&stst < -5
+.th .MG /i/  PRIVATKUNDELÅNEANSØGNING udskrevet af &MIBVREF.
+.th .MG /i/  Vedr. &NAVN kundenr: &KTOKUNDENR.
+.th .MG /i/
+.th .MG /i/  Difference: FREMTIDIG ENG. - SIKKERHEDER = &stst
+.th .MG /t/  Returner til indtastningsbilledet og korriger fejlen
+.rf on
+.ir 18
+   Krydssalg..............: &MIBOBJK10
+.sx / /=//
+   Største risici.........: &MIBOBJK4
+                          : &MIBOBJK5
+.br
+.is 3
+.if &U'&MIBJN4 = J
+.th   Ansøgning bevilget idet: &MIBOBJK1
+.el   Ans.indstilles bev idet: &MIBOBJK1
+                          : &MIBOBJK2
+                          : &MIBOBJK3
+.sx / /-//
+.us
+                            &MIBMAAL1
+   INDSTILLES.............: &MIBOBJK6
+   BEVILGET...............: &MIBOBJK7
+   EFTERRETNING...........: &MIBOBJK8
+.br
+#1BM#1BM#1B#5B1m#1B#5B2;73fLÅNEANSØGNING #1B#5B3;73fPRIVATKUNDEENGAGEMENT
+#1B#5B1%x#1B#5B#3B68 G
+.rf off
+.rf execute
+.ar RAMSTA on
+#1B#5B2;0;#7B
+.ar off
+.ar RAMSLU on
+#1BK#1B#5B18a#1B#5B#7D
+.ar off
+.ar NAVN on
+ NAVN: &STILL
+       &NAVN
+       &GADE
+       &BY
+.ar off
+.ar MNAVN on
+ MEDKONTOHAVER: &MEDSTILL. &MEDNAVN
+.ar off
+.ar KNNR on
+  KUNDENUMMER: &KTOKUNDENR
+  R-KODE.....: &RENTABILKD
+  AFDELING...: &AFDNAVN
+  DATO-INIT..: &DXBDATE. - &MIBVREF.
+.ar off
+.ar AKANS on
+.sx //=//
+&t1
+.ir -20
+ &fb1.AKTUEL ANSØGNING: &fb2.^KONTOART^^FORLÆNG^FORHØJ^AFVIKLING^&ns
+Konto &IREGKTO.^&REGTYPEKRT.^^&RESULTH.^.c
+t &RESULTI.^&RESULTG. mdr.^.i
+r +20.a
+r off.a
+r SATSER on.s
+x //=//.t
+p 35 RIGHT 36.i
+f &OMKBELOB1 = 0,00 .se OMKBELOB1 = 0.e
+l .KONVO OMKBELOB1.e
+l .KONVKR OMKBELOB1 &ANTDEC.e
+l .se OMKBELOB1 = &KR.e
+l .KONVO OMKBELOB1.i
+f &OMKBELOB4 = 0,00 .se OMKBELOB4 = 0.e
+l .KONVO OMKBELOB4.e
+l .KONVKR OMKBELOB4 &ANTDEC.e
+l .se OMKBELOB4 = &KR.e
+l .KONVO OMKBELOB4.K
+ONVO RESULTE.K
+ONVO RESULTF.i
+f &RAADIG = 0,00 .se RAADIG = 0.e
+l .KONVO RAADIG.e
+l .KONVKR RAADIG &ANTDEC.e
+l .se RAADIG = &KR.e
+l .KONVO RAADIG.i
+f &L'&OMKTEKST1 > 0 .se omt1e 'ISION' ;.el .se omt1e ' ' &
+OMKTEKST1.&omt1e ^&OMKBELOB1 &
+OMKTEKST4.SGEBYR ^&OMKBELOB4 R
+entesats............:^&drtsats R
+entabilitet.........:^&rentabil.s
+x //-//.t
+p 42 RIGHT S
+kattepligt.formue &RESULTM..tkr:^&MIBBEL1.^ N
+etto årsindkomst. &LOENPR..tkr:^&RESULTE.^ -
+   husstandsindk. &HUSSTPR..tkr:^&RESULTF.^ R
+ådighedsbeløb.....&RAADIGPR...md:^&RAADIG.^.s
+x //=//.a
+r off.a
+r SATSER1 on.t
+p 28 RIGHT 29.s
+p C
+ivilstand. &CIVILSTPR...: &CIVILST B
+oligform.. &BOLIGFRMPR...: &BOLIGFRM A
+nsat år... &ANSATPR...: &ANSAT.s
+e MIBEMNE1 = SUBSTR '&MIBEMNE1.' 1 35 -
+  sted: &MIBEM351.s
+p.t
+p 27  
+   A-kasse........:  &akas  ^Anparter...: &anpa  
+   Kunde antal år.:  &KUNDEAAR.  ^Budgetskema: &regtype  
+   Antal børn u/18:  &barn
+.ar off
+.ar BESKR on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 25 er SIDSTE linie
+.* Du må skrive 13 linier tekst ialt.
+.* Det vil sige resten af siden. Begynd på linie 5. Afslut med PF3
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.

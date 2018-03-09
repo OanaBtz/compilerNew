@@ -1,0 +1,1974 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&STILL
+.BR
+&NAVN
+.BR
+&COADR
+.BR
+&GADE
+.BR
+&BY  &LAND
+.SK
+:EGL.
+.* Parametre
+.***** PROFILTEST **********
+.se WEBHBORS = ''
+.if &B37EM3N1 = 301 ;.th .go PAP
+.if &B37EM3N1 = 311 ;.th .go PAP
+.if &B37EM3N1 = 350 ;.th .go PAP
+.if &B37EM3N1 = 302 ;.th .go PAP
+.if &B37EM3N1 = 312 ;.th .go PAP
+.if &B37EM3N1 = 303 ;.th .go PAP
+.if &B37EM3N1 = 313 ;.th .go PAP
+.go PAPFEJL
+...PAP
+.*se WEBHBORS = J
+.*se B37AFSIDE = 2
+.*se B37EJSIDE = 0
+.*se B37EJDATO = 0
+.go PAPOK
+...PAPFEJL
+.MG /T/  Ingen dokumenter til profil &B37EM3N1 /
+...PAPOK
+.se bovejl = N
+.if &B37EM3N1 = 303 ;.th .se bovejl = J
+.if &B37EM3N1 = 313 ;.th .se bovejl = J
+.se B37BREV = '&BREVNAVN.-1'
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 84mm
+.da PIOPL      25mm 71.6mm width 84mm
+.da KUNDENR    113mm 48mm width 84mm
+.da BRUGER     113mm 61mm width 76mm
+.da FORHOLD    25mm 117.5mm width 165mm
+.da UNDERSKRKU 20mm 267.5mm width 87mm
+.da UNDERSKRPI 107mm 267.5mm width 87mm
+.*******************************************************
+:COUR6.
+.ar KUNDEOPL on
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+.if x&E'&LAND = x1
+.th &BY  &LAND
+.el &BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+:COUR10.
+&BANKNAVN
+.br
+.if x&E'&AFDNAVN = x1
+.th &AFDNAVN
+.th .br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:COUR10.
+&KUNDENR
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*&GENBRUGNR
+.*ar off
+.*******************************************************
+.*.ar FORHOLD on
+.*&GENTEKST1
+.*.br
+.*&GENTEKST2
+.*.br
+.*&GENTEKST3
+.*.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+:COUR10.
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:COUR10.
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+.da OVERSK 20mm 32mm width 180mm
+.da SIDE1 20mm 39.0mm width 175mm
+.*********************
+.da VEND 7mm 275mm width 180mm rotate -90
+.*********************
+.*ar VEND on
+.*COUR6.
+.*if &E'&B37BREV = 1
+.*th &B37BREV
+.*el &BREVNAVN
+.*br
+.*tp 25mm
+.*^&DATO
+.*ar off
+.*********************
+.ar OVERSK on
+:SWISS14.:FED.
+.us
+Aftale om værdipapirhandlers udførelse
+.ar off
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kunde og cpr-nr ********
+.bx new left 87.5mm right
+.sp 11mm
+.***** her laves kassen til kontonr *****
+.*hr 87.5mm right
+.sp 11mm
+.***** her laves kassen til Pengeinstituttet *********
+.bx new left right
+.sp 22mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Formål
+:SKRSLUT.
+.***** her laves kassen til Formål ********************
+.bx new left right
+.sp 26mm
+.bx off
+.*****her laves kassen til Afregning af værdipaprihandler **
+:SWISS10.
+:FED.
+Afregning af værdipapirhandler
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx off
+.***** her laves kassen til Dokumenter  ***************
+:SWISS10.
+:FED.
+Dokumenter
+:SKRSLUT.
+.bx left right
+.sp 61mm
+.bx off
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi. underskrift ******
+.bx left right
+.sp 5.5mm
+.bx new left 87.5mm right
+.sp 30.5mm
+.bx off
+.bx can
+.bx can
+.ar off
+.tm 30mm
+.******************************************************
+.ti ^ 05
+.da KUNDE      21mm       44mm width 150mm
+.da PI         21mm     67.5mm width 85mm
+.da KUNDENR    108.5mm  44mm width 85mm
+.da BRUGER     108.5mm  57.5mm width 85mm
+.da FORM1     22mm     96.5mm width 80mm
+.da FORM2    108.5mm     96.5mm width 80mm
+.da AFREGN1    22mm    129.5mm width  80mm
+.da AFREGN2    108.5mm 129.5mm width  80mm
+.da KOLONNE1   22mm      166mm width 80mm
+.da KOLONNE2  108.5mm    166mm width 80mm
+.da HENV       22mm      234.5mm width 175mm
+.da UNDERSKRKU 21mm      240mm width 85mm
+.da UNDERSKRPI 108.5mm   240mm width 85mm
+.*******************************************************
+.ar KUNDE on
+:SWISS8.
+Kunde
+.ar off
+.*******************************************************
+.ar PI on
+:SWISS8.
+Pengeinstitut
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:SWISS8.
+CPR./SE-nummer:
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*SWISS8.
+.*Brugernummer:
+.*ar off
+.*******************************************************
+.ar FORM1 on
+:SWISS8.
+Mellem KUNDEN og &BANKNAVN. (i det følgende benævnt BANKEN)
+indgås nærværende aftale (i det følgende benævnt AFTALEN).
+ 
+AFTALEN finder anvendelse på enhver handel i værdipapirer
+optaget til notering på Københavns Fondsbørs A/S, som KUNDEN
+måtte indgå med BANKEN. Alle sådanne handler er i det følgende
+benævnt værdipapirhandler.
+.ar off
+.ar FORM2 on
+:SWISS8.
+AFTALEN regulerer afregningsformen for værdipapirhandler indgået
+mellem KUNDEN og BANKEN i overensstemmelse med Københavns
+Fondsbørs' børsetiske regler (i det følgende benævnt børsetiske
+regler).
+.ar off
+.*******************************************************
+.ar AFREGN1 on
+:SWISS8.
+Det aftales, at BANKEN til enhver tid er berettiget til at
+afregne værdipapirhandler indgået mellem KUNDEN og BANKEN til
+markedskurs. Vilkårene for markedskursafregning er fastlagt i
+"Vilkår for handel med værdipapirer i &BANKNAVN.", som er
+vedlagt AFTALEN.
+ 
+BANKEN er således i overensstemmelse med børsetiske regler § 6
+stk. 1, 2. pkt., berettiget til at fravige børsetiske regler § 6
+stk. 2 om strakshandel og gennemsnitshandel.
+.ar off
+.*******************************************************
+.ar AFREGN2 on
+:SWISS8.
+Der henvises generelt til "Vilkår for handel med værdipapirer i
+&BANKNAVN." samt børsetiske regler.
+ 
+Denne aftale vedrører alene afregningsformen for
+værdipapirhandler og berører på ingen måde andre aftaler, der
+måtte være indgået mellem KUNDEN og BANKEN.
+.ar off
+.*******************************************************
+.ar KOLONNE1 on
+:SWISS8.
+KUNDEN erklærer ved sin underskrift på AFTALEN at have modtaget
+et eksemplar af følgende dokumenter:
+ 
+  * Kopi af AFTALEN
+ 
+  * "Vilkår for handel med værdipapirer i &BANKNAVN."
+.ar off
+.*******************************************************
+.ar HENV on
+:SWISS8.
+Alle henvendelser vedrørende AFTALEN skal ske til: Midtbank i
+den filial, hvor KUNDEN er kontoførende.
+.ar off
+.*******************************************************
+.go KOL2SL
+.ar KOLONNE2 on
+:SWISS8.
+&BANKNAVN er ikke forpligtet til at gennemføre ordrer, såfremt jeg
+anmelder betalingsstandsning,
+kommer under konkursbehandling, afgår ved døden, indleder
+gældssanering eller forhandler om tvangsakkord.
+.sp 3mm
+Aftalen omfatter samtlige mine nuværende og fremtidige depoter i
+&BANKNAVN.. Der kan dog kun handles til/fra depoter, som det i øvrigt er
+muligt at disponere over.
+.sp 3mm
+Handel til/fra særlige depoter, herunder depoter med
+dispositionsbegrænsning, kan ikke finde sted uden særskilt aftale.
+.sp 3mm
+Jeg erklærer ved min underskrift på denne aftale at have modtaget eller
+være bekendt med: Vilkår
+for systemet, vilkår for handel med værdipapirer via "&PRODNAVN.",
+&BANKNAVN.s almindelige
+.hw for-ret-nings-be-tin-gel-ser,
+forretningsbetingelser for depot og forretningsbetingelser
+vedr. handel med værdipapirer. Forretningsbetingelser vedr. handel med
+værdipapirer finder anvendelse for enhver handel med
+værdipapirer mellem mig og banken uanset om jeg har afgivet ordre om køb
+eller salg af værdipapirer via &PRODNAVN eller på anden måde.
+.sp 3mm
+Såfremt jeg ønsker at kunne registrere ordrer, som skal afregnes til
+"Markedskurs" skal der indgås særskilt aftale herom.
+.ar off
+...KOL2SL
+.*******************************************************
+.ar UNDERSKRKU on
+:SWISS8.
+.tp 57mm
+Kundens underskrift ^Dato:
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:SWISS8.
+.tp 56.5mm
+Pengeinstituttets underskrift ^Dato:
+.ar off
+.*******************************************************
+.*pa
+.tm 30mm
+.** SIDESKIFT
+.pa
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.*da KUNDKOPI 20mm 71.4mm
+.da KUNDKOPI 184.1mm 31.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.if X&B37EJKOP = X1
+.th .go EJKOP
+.KUNKOP
+...EJKOP
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 84mm
+.da PIOPL      25mm 71.6mm width 84mm
+.da KUNDENR    113mm 48mm width 84mm
+.da BRUGER     113mm 61mm width 76mm
+.da FORHOLD    25mm 117.5mm width 165mm
+.da UNDERSKRKU 20mm 267.5mm width 87mm
+.da UNDERSKRPI 107mm 267.5mm width 87mm
+.*******************************************************
+:COUR6.
+.ar KUNDEOPL on
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+.if x&E'&LAND = x1
+.th &BY  &LAND
+.el &BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+:COUR10.
+&BANKNAVN
+.br
+.if x&E'&AFDNAVN = x1
+.th &AFDNAVN
+.th .br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:COUR10.
+&KUNDENR
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*&GENBRUGNR
+.*ar off
+.*******************************************************
+.*.ar FORHOLD on
+.*&GENTEKST1
+.*.br
+.*&GENTEKST2
+.*.br
+.*&GENTEKST3
+.*.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+:COUR10.
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:COUR10.
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+.da OVERSK 20mm 32mm width 180mm
+.da SIDE1 20mm 39.0mm width 175mm
+.*********************
+.da VEND 7mm 275mm width 180mm rotate -90
+.*********************
+.*ar VEND on
+.*COUR6.
+.*if &E'&B37BREV = 1
+.*th &B37BREV
+.*el &BREVNAVN
+.*br
+.*tp 25mm
+.*^&DATO
+.*ar off
+.*********************
+.ar OVERSK on
+:SWISS14.:FED.
+.us
+Aftale om værdipapirhandlers udførelse
+.ar off
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kunde og cpr-nr ********
+.bx new left 87.5mm right
+.sp 11mm
+.***** her laves kassen til kontonr *****
+.*hr 87.5mm right
+.sp 11mm
+.***** her laves kassen til Pengeinstituttet *********
+.bx new left right
+.sp 22mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Formål
+:SKRSLUT.
+.***** her laves kassen til Formål ********************
+.bx new left right
+.sp 26mm
+.bx off
+.*****her laves kassen til Afregning af værdipaprihandler **
+:SWISS10.
+:FED.
+Afregning af værdipapirhandler
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx off
+.***** her laves kassen til Dokumenter  ***************
+:SWISS10.
+:FED.
+Dokumenter
+:SKRSLUT.
+.bx left right
+.sp 61mm
+.bx off
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi. underskrift ******
+.bx left right
+.sp 5.5mm
+.bx new left 87.5mm right
+.sp 30.5mm
+.bx off
+.bx can
+.bx can
+.ar off
+.tm 30mm
+.******************************************************
+.ti ^ 05
+.da KUNDE      21mm       44mm width 150mm
+.da PI         21mm     67.5mm width 85mm
+.da KUNDENR    108.5mm  44mm width 85mm
+.da BRUGER     108.5mm  57.5mm width 85mm
+.da FORM1     22mm     96.5mm width 80mm
+.da FORM2    108.5mm     96.5mm width 80mm
+.da AFREGN1    22mm    129.5mm width  80mm
+.da AFREGN2    108.5mm 129.5mm width  80mm
+.da KOLONNE1   22mm      166mm width 80mm
+.da KOLONNE2  108.5mm    166mm width 80mm
+.da HENV       22mm      234.5mm width 175mm
+.da UNDERSKRKU 21mm      240mm width 85mm
+.da UNDERSKRPI 108.5mm   240mm width 85mm
+.*******************************************************
+.ar KUNDE on
+:SWISS8.
+Kunde
+.ar off
+.*******************************************************
+.ar PI on
+:SWISS8.
+Pengeinstitut
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:SWISS8.
+CPR./SE-nummer:
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*SWISS8.
+.*Brugernummer:
+.*ar off
+.*******************************************************
+.ar FORM1 on
+:SWISS8.
+Mellem KUNDEN og &BANKNAVN. (i det følgende benævnt BANKEN)
+indgås nærværende aftale (i det følgende benævnt AFTALEN).
+ 
+AFTALEN finder anvendelse på enhver handel i værdipapirer
+optaget til notering på Københavns Fondsbørs A/S, som KUNDEN
+måtte indgå med BANKEN. Alle sådanne handler er i det følgende
+benævnt værdipapirhandler.
+.ar off
+.ar FORM2 on
+:SWISS8.
+AFTALEN regulerer afregningsformen for værdipapirhandler indgået
+mellem KUNDEN og BANKEN i overensstemmelse med Københavns
+Fondsbørs' børsetiske regler (i det følgende benævnt børsetiske
+regler).
+.ar off
+.*******************************************************
+.ar AFREGN1 on
+:SWISS8.
+Det aftales, at BANKEN til enhver tid er berettiget til at
+afregne værdipapirhandler indgået mellem KUNDEN og BANKEN til
+markedskurs. Vilkårene for markedskursafregning er fastlagt i
+"Vilkår for handel med værdipapirer i &BANKNAVN.", som er
+vedlagt AFTALEN.
+ 
+BANKEN er således i overensstemmelse med børsetiske regler § 6
+stk. 1, 2. pkt., berettiget til at fravige børsetiske regler § 6
+stk. 2 om strakshandel og gennemsnitshandel.
+.ar off
+.*******************************************************
+.ar AFREGN2 on
+:SWISS8.
+Der henvises generelt til "Vilkår for handel med værdipapirer i
+&BANKNAVN." samt børsetiske regler.
+ 
+Denne aftale vedrører alene afregningsformen for
+værdipapirhandler og berører på ingen måde andre aftaler, der
+måtte være indgået mellem KUNDEN og BANKEN.
+.ar off
+.*******************************************************
+.ar KOLONNE1 on
+:SWISS8.
+KUNDEN erklærer ved sin underskrift på AFTALEN at have modtaget
+et eksemplar af følgende dokumenter:
+ 
+  * Kopi af AFTALEN
+ 
+  * "Vilkår for handel med værdipapirer i &BANKNAVN."
+.ar off
+.*******************************************************
+.ar HENV on
+:SWISS8.
+Alle henvendelser vedrørende AFTALEN skal ske til: Midtbank i
+den filial, hvor KUNDEN er kontoførende.
+.ar off
+.*******************************************************
+.go KOL2SL
+.ar KOLONNE2 on
+:SWISS8.
+&BANKNAVN er ikke forpligtet til at gennemføre ordrer, såfremt jeg
+anmelder betalingsstandsning,
+kommer under konkursbehandling, afgår ved døden, indleder
+gældssanering eller forhandler om tvangsakkord.
+.sp 3mm
+Aftalen omfatter samtlige mine nuværende og fremtidige depoter i
+&BANKNAVN.. Der kan dog kun handles til/fra depoter, som det i øvrigt er
+muligt at disponere over.
+.sp 3mm
+Handel til/fra særlige depoter, herunder depoter med
+dispositionsbegrænsning, kan ikke finde sted uden særskilt aftale.
+.sp 3mm
+Jeg erklærer ved min underskrift på denne aftale at have modtaget eller
+være bekendt med: Vilkår
+for systemet, vilkår for handel med værdipapirer via "&PRODNAVN.",
+&BANKNAVN.s almindelige
+.hw for-ret-nings-be-tin-gel-ser,
+forretningsbetingelser for depot og forretningsbetingelser
+vedr. handel med værdipapirer. Forretningsbetingelser vedr. handel med
+værdipapirer finder anvendelse for enhver handel med
+værdipapirer mellem mig og banken uanset om jeg har afgivet ordre om køb
+eller salg af værdipapirer via &PRODNAVN eller på anden måde.
+.sp 3mm
+Såfremt jeg ønsker at kunne registrere ordrer, som skal afregnes til
+"Markedskurs" skal der indgås særskilt aftale herom.
+.ar off
+...KOL2SL
+.*******************************************************
+.ar UNDERSKRKU on
+:SWISS8.
+.tp 57mm
+Kundens underskrift ^Dato:
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:SWISS8.
+.tp 56.5mm
+Pengeinstituttets underskrift ^Dato:
+.ar off
+.*******************************************************
+.*pa
+.tm 30mm
+.**********************************************************
+.PN 1
+.** SIDESKIFT
+.pa
+.* Parametre
+.se WEBHBORS = J
+.se B37AFSIDE = 2
+.se B37EJSIDE = 0
+.se B37EJDATO = 0
+.se B37BREV = '&BREVNAVN.-5'
+.tm 49mm
+.if &E'&B37BOHA5 = 0
+.th .sp 8mm
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.**********************************************************
+.da SIDENR 155mm 33.5mm width 60mm
+.**********************************************************
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*************** ROTERET BREVNAVN *********
+.if .&B37EJTID = .1 ;.th .go EJTID
+.da MBVEND 7mm 250mm width 180mm rotate -90
+.ar MBVEND on
+:COUR6.
+.*B37
+.sp
+&DATO
+.ar off
+...EJTID
+.**********************************************************
+.* Børshandel - Vilkår for handel med værdipapirer i Midtbank (1.del)
+.if &boavar. = N
+.th .go ASLUT
+.se MBWV '&WEBSYSNAVN. værdipapirhandel'
+.se MBW '&WEBSYSNAVN.'
+.if &L'&WEBHBORS. = 0
+.th .se MBWV = '&MBW.'
+.fo left
+.ti ^ 05
+.dr tynd weight 0.1mm
+.*tm 53mm
+.bm 10mm
+.**** SIDEHOVED ****
+.if &E'&B37BOHA5 = 0
+.th .sp 11mm
+.ll 175mm
+.rh on
+.da box 20mm 35mm width 175mm
+.ar box on
+:SWISS12.:FED.
+.us
+Bilag 1 til "Aftale om &MBWV."
+.sp 3mm
+:SWISS10.:FED.
+&MBWV.
+- priser, åbningstider, tidsfrister mm.
+:SWISS8.
+.*sp 3mm
+.*bx tynd left right
+.bx left right
+.sp 225mm
+.bx off
+.ar off
+.*******
+.da VEND 7mm 275mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV
+.br
+.tp 25mm
+^&DATO
+.ar off
+.*******
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.da SIDENR 155mm 33.5mm width 60mm
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*******
+.if &E'&B37BOHA5 = 0
+.th .go EJKOP
+.da KUNDKOPI 184.1mm 31.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+...EJKOP
+.*******
+.rh off
+.rh execute
+.************************
+.cd 2 0mm 87.5mm
+.cl 86mm
+.in 2mm
+.******* SIDEHOVED SLUT ****
+.se b = 3mm
+.se a = 2mm
+.se c = 1mm
+.se d = 0
+.***** OVERSKRIFTSMACRO **
+.dm OV on
+.sp 5mm
+:SWISS10.:FED.
+&*
+:SKRSLUT.:SWISS8.
+.sp &a
+.dm off
+.***** OVERSKRIFTSMACRO UDEN SP FØR **
+.dm OVUSPF on
+:SWISS10.:FED.
+&*
+:SKRSLUT.:SWISS8.
+.sp &a
+.dm off
+.**** OVERSK2 (fed)***
+.dm OV2 on
+:FED.
+&*
+:SKRSLUT.
+.sp &c
+.dm off
+.**** OVERSKK (Kursiv)***
+.dm OVK on
+:KURSIV.
+.us
+&*
+:SKRSLUT.
+.sp &c
+.dm off
+.**** FED ***
+.dm FED on
+:FED.
+&*
+:SKRSLUT.
+.dm off
+.**** OVERSK (TOP)***
+.*Sp 5mm
+.dm TOP on
+.*ll 175mm
+.*cd 1
+.*cl
+.*SWISS14.:FED.
+.*us
+.*Bilag 1 til "Aftale om &MBWV."
+.*sp 5mm
+.*SWISS12.:FED.
+.*&MBWV.
+.*- priser, åbningstider, tidsfrister mm.
+.*SWISS8.
+.*sp 3mm
+.*in 2mm
+.*bx tynd 0mm 175mm
+.***** TEKST i KOLONNER ***
+.*cd 2 0mm 91mm
+.*cd 2 0mm 87.5mm
+.*cl 86mm
+.dm off
+.**** OVERSK (BUND)***
+.dm BUND on
+.*cd 1
+.*cl 175mm
+.*in
+.*bx off
+.dm off
+.**** AFSLUT (BSLUT)***
+.dm BSLUT on
+.cd
+.cl
+.in
+.rh cancel
+.se B37BOHA5 = 1
+.dm off
+.**********
+.ti ^ 05
+...T0
+.se a = 0.6mm
+.TOP
+...ASLUT
+.* Bilag 1 - "Aftale om Midtbank WEBbank (værdipapirhandel) (1.del)
+.if &boavar. = N
+.th .go ASLUT
+.OVUSPF Brug af &MBWV.
+.sp &a
+I &WEBSYSNAVN. kan der maksimalt overføres beløb svarende til kr.
+250.000 pr. døgn.
+Denne grænse påvirker ikke kundens adgang til at foretage
+værdipapirhandler via &WEBSYSNAVN..
+ 
+Oprettelse i &WEBSYSNAVN., overførsler mellem egne konti, logon samt
+kontoudskrifter udskrevet via &WEBSYSNAVN. er gratis.
+ 
+Overførsler til andre konti  i &BANKNAVN. eller andre
+pengeinstitutter, samt betaling af indbetalingskort, koster kr. 1,00
+pr. stk. Fremsendelse af særskilt kvittering koster kr. 5,00 pr. stk.
+ 
+Omkostningerne beregnes kvartalsvis, og der beregnes en minimumsafgift
+pr. kvartal på kr. 10,00, uanset om der er foretaget
+omkostningsbelagte transaktioner.
+.tp 85mm right
+.OV Åbningstider
+ 
+.FED &WEBSYSNAVN. generelt
+.sp &a
+Forespørgsler på depoter, konti og oversigter
+.ct ^alle dage 6.30-2.00^
+ 
+.*** UDEN VÆRDIPAPIRHANDEL ***
+.if &E'&WEBHBORS = 0
+.th .go SLUBO
+.if &L'&WEBHBORS. = 0
+.th .go SLUBO
+.FED &WEBSYSNAVN. værdipapirhandel
+.sp &b
+Registrering af
+.FED gennemsnitskursordrer
+.ct ^alle dage 6.30-2.00^
+.sp &d
+(bemærk tidsfrister for afregning)
+.sp &b
+Registrering af
+.FED markedskursordrer
+^alle dage 6.30-2.00^
+.sp &d
+(bemærk tidsfrister for afregning)
+.sp &b
+Registrering af
+.FED limiterede ordrer
+^alle dage 6.30-2.00^
+;T.sp &d
+(bemærk tidsfrister for afregning)
+.sp &b
+Indgåelse af
+.FED strakshandler
+^man.-tors. 9.30-22.00^
+.sp &d
+^fre. 9.30-17.00^
+.sp &b
+Registrering af
+.FED Børsordrer
+^alle dage 6.30-2.00^
+.sp &b
+Gyldige børsordrer videreformidles til handel på Københavns
+Fondsbørs i Børsens åbningstid på børsdage  ^9.00-17.00^
+.OV Tidsfrister for ordreregistrering/-afregning
+.sp &a
+.FED Gennemsnitskursordrer
+.sp &d
+til afregning samme børsdag ^inden kl. 10.30^
+.sp &d
+(Ordrer indlagt efter kl. 10.30 afregnes tidligst næste børsdag)
+ 
+Såfremt det ikke har været muligt at afregne en gennemsnitskurs-
+ordre inden for 8 kalenderdage, slettes ordren automatisk
+ 
+.FED Markedskursordrer
+.sp &d
+til afregning samme børsdag ^inden kl. 16.00^
+.sp &d
+(Ordrer indlagt efter kl. 16.00 afregnes tidligst næste børsdag)
+ 
+Såfremt det ikke har været muligt at afregne en
+markedskursordre inden for 8 kalenderdage, slettes ordren automatisk.
+ 
+.FED Limiterede ordrer
+.sp &d
+til evt. afregning samme børsdag ^inden kl. 16.00
+.sp &d
+(Ordrer indlagt efter kl. 16.00 afregnes tidligst næste børsdag)
+ 
+Såfremt en limiteret ordre indlægges med en limiteringskurs,
+der afviger mere end 10% fra aktuel markedskurs, er &BANKNAVN.
+berettiget til at afvise ordren.
+ 
+En limiteret ordre skal indlægges med en fremtidig
+gyldighedsperiode på op til 14 kalenderdage,
+inkl. afgivelsesdagen. Efter udløb af gyldighedsperioden slettes
+ordren automatisk, såfremt den ikke er afregnet.
+
+.FED Børsordrer
+.sp &d
+videreformidles til handel på Københavns
+Fondsbørs i Børsens åbningstid på børsdage   ^9.00-17.00^
+ 
+Børsordrer skal indlægges med en fremtidig gyldighedsperiode
+på op til 8 kalenderdage, inkl. afgivelsesdagen.
+ 
+Såfremt en børsordre indlægges med en limiteringskurs,
+der afviger mere end 10% fra aktuel markedskurs, er &BANKNAVN.
+berettiget til at afvise ordren.
+.OV Hvilke værdipapirer kan handles i &WEBSYSNAVN.?
+.sp &a
+I &WEBSYSNAVN. kan følgende værdipapirer som udgangspunkt handles:
+ 
+Aktier, der er noteret på Københavns Fondsbørs
+.sp &a
+Obligationer, der er noteret på Københavns Fondsbørs
+.sp &a
+Investeringsforeningsbeviser, der er noteret på Københavns Fondsbørs
+.sp &a
+Unoterede investeringsforeningsbeviser
+ 
+For visse handelstyper er der ikke adgang til at indlægge ordrer om
+køb, såfremt papiret ikke har været handlet inden for de seneste 3
+børsdage.
+ 
+Børsordrer kan kun registreres på aktier og
+investeringsforeningsbeviser noteret på Københavns Fondsbørs.
+ 
+Efter omstændighederne kan andre værdipapirer være tilgængelige for
+handel i &WEBSYSNAVN..
+ 
+&BANKNAVN. kan til enhver tid begrænse udbudet af værdipapirer, der
+kan handles via &WEBSYSNAVN..
+ 
+Såfremt et værdipapir ikke kan handles via &WEBSYSNAVN., kan handel
+ske ved henvendelse til en af &BANKNAVN.s filialer.
+.OV Handelsomkostninger ved værdipapirhandel via &WEBSYSNAVN.
+ 
+.FED Kurtage
+.sp &d
+Her er gengivet bankens gældende og mest almindelige kurtagesatser i
+&WEBSYSNAVN..
+ 
+For alle handelstyper gælder følgende kurtagesatser for værdipapirer,
+der er noteret på København Fondsbørs:
+ 
+Danske aktier
+.sp &d
+og investeringsforeningsbeviser ^0,50 % af kursværdi,^
+.sp &d
+^min. kr. 75,-^
+ 
+Danske obligationer ^0,10 % af kursværdi,
+.sp &d
+^min. kr. 75,-^
+ 
+Aktier - ej VP-papirer ^som danske aktier^
+.sp &d
+^+ kr. 375,- pr. eksp.^
+...SLUBO
+.BUND
+...ASLUT
+.* Bilag 1a- "Aftale om Midtbank WEBbank (værdipapirhandel)
+.if &boavar. = N
+.th .go ASLUT
+.if &L'&WEBHBORS. = 0
+.th .go ASLUT
+.PA
+.TOP
+.FED Børshandel
+.sp &d
+Delafregning af børsordrer vil kunne medføre, at der betales
+minimumskurtage for hver børsdag ordren delhandles/handles
+- der vil dog maksimalt beregnes 1 kurtagebeløb pr. dag der handles.
+ 
+.FED Limiteret handel
+.sp &d
+Indlæggelse af limiteret ordre udløser et gebyr på kr. 75,-. Gebyret
+hæves på kundens konto,
+når ordren indlægges, og skal betales, uanset om ordren fører til
+endelig handel. I forbindelse
+med afregning vil der blive beregnet sædvanlig kurtage. Delafregning
+af limiterede ordrer vil
+kunne medføre, at der betales minimumskurtage for hver børsdag ordren
+delhandles/handles. Der
+vil dog maksimalt blive beregnet 1 kurtagebeløb pr. dag der
+handles.
+ 
+.FED Tillæg/fradrag
+.sp &d
+På markedskurshandler i obligationer vil der blive beregnet et
+tillæg/fradrag til kursen inden
+afregning.
+ 
+På gennemsnitskurshandler i alle værdipapirer vil der blive beregnet
+et tillæg/fradrag til
+kursen
+inden afregning.
+ 
+Alle andre handler afregnes uden kursskæring.
+.OV Beløbsgrænser
+.sp &b
+.FED Gennemsnitskurshandel (maksimum)
+.sp &d
+Aktier
+og investeringsforeningsbeviser (kursværdi)^kr. 30.000^
+Obligationer (nominelt) ^kr. 100.000^
+ 
+.FED Markedskurshandel (maksimum)
+.sp &d
+Aktier
+og investeringsforeningsbeviser (kursværdi)^kr. 1.000.000^
+;TObligationer (nominelt)^kr. 2.500.000^
+ 
+.FED Limiteret handel
+.sp &d
+Aktier
+og investeringsforeningsbeviser (kursværdi)^kr. 1.000.000^
+Obligationer (nominelt) ^kr. 2.500.000^
+ 
+.FED Strakskurshandel (maksimum)
+.sp &d
+Aktier og investeringsforeningsbeviser (kursværdi)^kr. 150.000^
+Obligationer (nominelt) ^kr. 250.000^
+ 
+.FED Børshandel
+.sp &d
+Aktier og noterede investeringsforeningsbeviser
+.br
+(maks. kursværdi) ^kr. 1.000.000^
+ 
+Kursværdien af aktive børsordrer (både køb og salg) må ikke overstige
+kr. 1.000.000
+.OV Kursinformation
+.sp &a
+Via Midtbank WEBbank er der gratis adgang til kursinformation fra
+Københavns
+Fondsbørs, der er 15
+minutter forsinket.
+ 
+Kunden kan desuden abonnere på realtidsinformation fra Københavns
+Fondsbørs. Adgang til
+realtidskurser kræver, at kunden underskriver Aftale vedr. benyttelse
+af kursinformation, og
+koster kr. 150,- pr. kvartal.
+.BUND
+.BSLUT
+...ASLUT
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.**********************************************************
+.da SIDENR 155mm 33.5mm width 60mm
+.**********************************************************
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*************** ROTERET BREVNAVN *********
+.if .&B37EJTID = .1 ;.th .go EJTID
+.da MBVEND 7mm 250mm width 180mm rotate -90
+.ar MBVEND on
+:COUR6.
+.*B37
+.sp
+&DATO
+.ar off
+...EJTID
+.**********************************************************
+.**********************************************************
+.PN 1
+.** SIDESKIFT
+.pa
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.*da KUNDKOPI 20mm 71.4mm
+.da KUNDKOPI 184.1mm 31.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.if X&B37EJKOP = X1
+.th .go EJKOP
+.KUNKOP
+...EJKOP
+.* Parametre
+.se WEBHBORS = J
+.se B37AFSIDE = 2
+.se B37EJSIDE = 0
+.se B37EJDATO = 0
+.se B37BREV = '&BREVNAVN.-5'
+.tm 49mm
+.if &E'&B37BOHA5 = 0
+.th .sp 8mm
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.**********************************************************
+.da SIDENR 155mm 33.5mm width 60mm
+.**********************************************************
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*************** ROTERET BREVNAVN *********
+.if .&B37EJTID = .1 ;.th .go EJTID
+.da MBVEND 7mm 250mm width 180mm rotate -90
+.ar MBVEND on
+:COUR6.
+.*B37
+.sp
+&DATO
+.ar off
+...EJTID
+.**********************************************************
+.* Børshandel - Vilkår for handel med værdipapirer i Midtbank (1.del)
+.if &boavar. = N
+.th .go ASLUT
+.se MBWV '&WEBSYSNAVN. værdipapirhandel'
+.se MBW '&WEBSYSNAVN.'
+.if &L'&WEBHBORS. = 0
+.th .se MBWV = '&MBW.'
+.fo left
+.ti ^ 05
+.dr tynd weight 0.1mm
+.*tm 53mm
+.bm 10mm
+.**** SIDEHOVED ****
+.if &E'&B37BOHA5 = 0
+.th .sp 11mm
+.ll 175mm
+.rh on
+.da box 20mm 35mm width 175mm
+.ar box on
+:SWISS12.:FED.
+.us
+Bilag 1 til "Aftale om &MBWV."
+.sp 3mm
+:SWISS10.:FED.
+&MBWV.
+- priser, åbningstider, tidsfrister mm.
+:SWISS8.
+.*sp 3mm
+.*bx tynd left right
+.bx left right
+.sp 225mm
+.bx off
+.ar off
+.*******
+.da VEND 7mm 275mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV
+.br
+.tp 25mm
+^&DATO
+.ar off
+.*******
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.da SIDENR 155mm 33.5mm width 60mm
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*******
+.if &E'&B37BOHA5 = 0
+.th .go EJKOP
+.da KUNDKOPI 184.1mm 31.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+...EJKOP
+.*******
+.rh off
+.rh execute
+.************************
+.cd 2 0mm 87.5mm
+.cl 86mm
+.in 2mm
+.******* SIDEHOVED SLUT ****
+.se b = 3mm
+.se a = 2mm
+.se c = 1mm
+.se d = 0
+.***** OVERSKRIFTSMACRO **
+.dm OV on
+.sp 5mm
+:SWISS10.:FED.
+&*
+:SKRSLUT.:SWISS8.
+.sp &a
+.dm off
+.***** OVERSKRIFTSMACRO UDEN SP FØR **
+.dm OVUSPF on
+:SWISS10.:FED.
+&*
+:SKRSLUT.:SWISS8.
+.sp &a
+.dm off
+.**** OVERSK2 (fed)***
+.dm OV2 on
+:FED.
+&*
+:SKRSLUT.
+.sp &c
+.dm off
+.**** OVERSKK (Kursiv)***
+.dm OVK on
+:KURSIV.
+.us
+&*
+:SKRSLUT.
+.sp &c
+.dm off
+.**** FED ***
+.dm FED on
+:FED.
+&*
+:SKRSLUT.
+.dm off
+.**** OVERSK (TOP)***
+.*Sp 5mm
+.dm TOP on
+.*ll 175mm
+.*cd 1
+.*cl
+.*SWISS14.:FED.
+.*us
+.*Bilag 1 til "Aftale om &MBWV."
+.*sp 5mm
+.*SWISS12.:FED.
+.*&MBWV.
+.*- priser, åbningstider, tidsfrister mm.
+.*SWISS8.
+.*sp 3mm
+.*in 2mm
+.*bx tynd 0mm 175mm
+.***** TEKST i KOLONNER ***
+.*cd 2 0mm 91mm
+.*cd 2 0mm 87.5mm
+.*cl 86mm
+.dm off
+.**** OVERSK (BUND)***
+.dm BUND on
+.*cd 1
+.*cl 175mm
+.*in
+.*bx off
+.dm off
+.**** AFSLUT (BSLUT)***
+.dm BSLUT on
+.cd
+.cl
+.in
+.rh cancel
+.se B37BOHA5 = 1
+.dm off
+.**********
+.ti ^ 05
+...T0
+.se a = 0.6mm
+.TOP
+...ASLUT
+.* Bilag 1 - "Aftale om Midtbank WEBbank (værdipapirhandel) (1.del)
+.if &boavar. = N
+.th .go ASLUT
+.OVUSPF Brug af &MBWV.
+.sp &a
+I &WEBSYSNAVN. kan der maksimalt overføres beløb svarende til kr.
+250.000 pr. døgn.
+Denne grænse påvirker ikke kundens adgang til at foretage
+værdipapirhandler via &WEBSYSNAVN..
+ 
+Oprettelse i &WEBSYSNAVN., overførsler mellem egne konti, logon samt
+kontoudskrifter udskrevet via &WEBSYSNAVN. er gratis.
+ 
+Overførsler til andre konti  i &BANKNAVN. eller andre
+pengeinstitutter, samt betaling af indbetalingskort, koster kr. 1,00
+pr. stk. Fremsendelse af særskilt kvittering koster kr. 5,00 pr. stk.
+ 
+Omkostningerne beregnes kvartalsvis, og der beregnes en minimumsafgift
+pr. kvartal på kr. 10,00, uanset om der er foretaget
+omkostningsbelagte transaktioner.
+.tp 85mm right
+.OV Åbningstider
+ 
+.FED &WEBSYSNAVN. generelt
+.sp &a
+Forespørgsler på depoter, konti og oversigter
+.ct ^alle dage 6.30-2.00^
+ 
+.*** UDEN VÆRDIPAPIRHANDEL ***
+.if &E'&WEBHBORS = 0
+.th .go SLUBO
+.if &L'&WEBHBORS. = 0
+.th .go SLUBO
+.FED &WEBSYSNAVN. værdipapirhandel
+.sp &b
+Registrering af
+.FED gennemsnitskursordrer
+.ct ^alle dage 6.30-2.00^
+.sp &d
+(bemærk tidsfrister for afregning)
+.sp &b
+Registrering af
+.FED markedskursordrer
+^alle dage 6.30-2.00^
+.sp &d
+(bemærk tidsfrister for afregning)
+.sp &b
+Registrering af
+.FED limiterede ordrer
+^alle dage 6.30-2.00^
+;T.sp &d
+(bemærk tidsfrister for afregning)
+.sp &b
+Indgåelse af
+.FED strakshandler
+^man.-tors. 9.30-22.00^
+.sp &d
+^fre. 9.30-17.00^
+.sp &b
+Registrering af
+.FED Børsordrer
+^alle dage 6.30-2.00^
+.sp &b
+Gyldige børsordrer videreformidles til handel på Københavns
+Fondsbørs i Børsens åbningstid på børsdage  ^9.00-17.00^
+.OV Tidsfrister for ordreregistrering/-afregning
+.sp &a
+.FED Gennemsnitskursordrer
+.sp &d
+til afregning samme børsdag ^inden kl. 10.30^
+.sp &d
+(Ordrer indlagt efter kl. 10.30 afregnes tidligst næste børsdag)
+ 
+Såfremt det ikke har været muligt at afregne en gennemsnitskurs-
+ordre inden for 8 kalenderdage, slettes ordren automatisk
+ 
+.FED Markedskursordrer
+.sp &d
+til afregning samme børsdag ^inden kl. 16.00^
+.sp &d
+(Ordrer indlagt efter kl. 16.00 afregnes tidligst næste børsdag)
+ 
+Såfremt det ikke har været muligt at afregne en
+markedskursordre inden for 8 kalenderdage, slettes ordren automatisk.
+ 
+.FED Limiterede ordrer
+.sp &d
+til evt. afregning samme børsdag ^inden kl. 16.00
+.sp &d
+(Ordrer indlagt efter kl. 16.00 afregnes tidligst næste børsdag)
+ 
+Såfremt en limiteret ordre indlægges med en limiteringskurs,
+der afviger mere end 10% fra aktuel markedskurs, er &BANKNAVN.
+berettiget til at afvise ordren.
+ 
+En limiteret ordre skal indlægges med en fremtidig
+gyldighedsperiode på op til 14 kalenderdage,
+inkl. afgivelsesdagen. Efter udløb af gyldighedsperioden slettes
+ordren automatisk, såfremt den ikke er afregnet.
+
+.FED Børsordrer
+.sp &d
+videreformidles til handel på Københavns
+Fondsbørs i Børsens åbningstid på børsdage   ^9.00-17.00^
+ 
+Børsordrer skal indlægges med en fremtidig gyldighedsperiode
+på op til 8 kalenderdage, inkl. afgivelsesdagen.
+ 
+Såfremt en børsordre indlægges med en limiteringskurs,
+der afviger mere end 10% fra aktuel markedskurs, er &BANKNAVN.
+berettiget til at afvise ordren.
+.OV Hvilke værdipapirer kan handles i &WEBSYSNAVN.?
+.sp &a
+I &WEBSYSNAVN. kan følgende værdipapirer som udgangspunkt handles:
+ 
+Aktier, der er noteret på Københavns Fondsbørs
+.sp &a
+Obligationer, der er noteret på Københavns Fondsbørs
+.sp &a
+Investeringsforeningsbeviser, der er noteret på Københavns Fondsbørs
+.sp &a
+Unoterede investeringsforeningsbeviser
+ 
+For visse handelstyper er der ikke adgang til at indlægge ordrer om
+køb, såfremt papiret ikke har været handlet inden for de seneste 3
+børsdage.
+ 
+Børsordrer kan kun registreres på aktier og
+investeringsforeningsbeviser noteret på Københavns Fondsbørs.
+ 
+Efter omstændighederne kan andre værdipapirer være tilgængelige for
+handel i &WEBSYSNAVN..
+ 
+&BANKNAVN. kan til enhver tid begrænse udbudet af værdipapirer, der
+kan handles via &WEBSYSNAVN..
+ 
+Såfremt et værdipapir ikke kan handles via &WEBSYSNAVN., kan handel
+ske ved henvendelse til en af &BANKNAVN.s filialer.
+.OV Handelsomkostninger ved værdipapirhandel via &WEBSYSNAVN.
+ 
+.FED Kurtage
+.sp &d
+Her er gengivet bankens gældende og mest almindelige kurtagesatser i
+&WEBSYSNAVN..
+ 
+For alle handelstyper gælder følgende kurtagesatser for værdipapirer,
+der er noteret på København Fondsbørs:
+ 
+Danske aktier
+.sp &d
+og investeringsforeningsbeviser ^0,50 % af kursværdi,^
+.sp &d
+^min. kr. 75,-^
+ 
+Danske obligationer ^0,10 % af kursværdi,
+.sp &d
+^min. kr. 75,-^
+ 
+Aktier - ej VP-papirer ^som danske aktier^
+.sp &d
+^+ kr. 375,- pr. eksp.^
+...SLUBO
+.BUND
+...ASLUT
+.* Bilag 1a- "Aftale om Midtbank WEBbank (værdipapirhandel)
+.if &boavar. = N
+.th .go ASLUT
+.if &L'&WEBHBORS. = 0
+.th .go ASLUT
+.PA
+.TOP
+.FED Børshandel
+.sp &d
+Delafregning af børsordrer vil kunne medføre, at der betales
+minimumskurtage for hver børsdag ordren delhandles/handles
+- der vil dog maksimalt beregnes 1 kurtagebeløb pr. dag der handles.
+ 
+.FED Limiteret handel
+.sp &d
+Indlæggelse af limiteret ordre udløser et gebyr på kr. 75,-. Gebyret
+hæves på kundens konto,
+når ordren indlægges, og skal betales, uanset om ordren fører til
+endelig handel. I forbindelse
+med afregning vil der blive beregnet sædvanlig kurtage. Delafregning
+af limiterede ordrer vil
+kunne medføre, at der betales minimumskurtage for hver børsdag ordren
+delhandles/handles. Der
+vil dog maksimalt blive beregnet 1 kurtagebeløb pr. dag der
+handles.
+ 
+.FED Tillæg/fradrag
+.sp &d
+På markedskurshandler i obligationer vil der blive beregnet et
+tillæg/fradrag til kursen inden
+afregning.
+ 
+På gennemsnitskurshandler i alle værdipapirer vil der blive beregnet
+et tillæg/fradrag til
+kursen
+inden afregning.
+ 
+Alle andre handler afregnes uden kursskæring.
+.OV Beløbsgrænser
+.sp &b
+.FED Gennemsnitskurshandel (maksimum)
+.sp &d
+Aktier
+og investeringsforeningsbeviser (kursværdi)^kr. 30.000^
+Obligationer (nominelt) ^kr. 100.000^
+ 
+.FED Markedskurshandel (maksimum)
+.sp &d
+Aktier
+og investeringsforeningsbeviser (kursværdi)^kr. 1.000.000^
+;TObligationer (nominelt)^kr. 2.500.000^
+ 
+.FED Limiteret handel
+.sp &d
+Aktier
+og investeringsforeningsbeviser (kursværdi)^kr. 1.000.000^
+Obligationer (nominelt) ^kr. 2.500.000^
+ 
+.FED Strakskurshandel (maksimum)
+.sp &d
+Aktier og investeringsforeningsbeviser (kursværdi)^kr. 150.000^
+Obligationer (nominelt) ^kr. 250.000^
+ 
+.FED Børshandel
+.sp &d
+Aktier og noterede investeringsforeningsbeviser
+.br
+(maks. kursværdi) ^kr. 1.000.000^
+ 
+Kursværdien af aktive børsordrer (både køb og salg) må ikke overstige
+kr. 1.000.000
+.OV Kursinformation
+.sp &a
+Via Midtbank WEBbank er der gratis adgang til kursinformation fra
+Københavns
+Fondsbørs, der er 15
+minutter forsinket.
+ 
+Kunden kan desuden abonnere på realtidsinformation fra Københavns
+Fondsbørs. Adgang til
+realtidskurser kræver, at kunden underskriver Aftale vedr. benyttelse
+af kursinformation, og
+koster kr. 150,- pr. kvartal.
+.BUND
+.BSLUT
+...ASLUT
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.*da KUNDKOPI 20mm 71.4mm
+.da KUNDKOPI 184.1mm 31.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.if X&B37EJKOP = X1
+.th .go EJKOP
+.KUNKOP
+...EJKOP
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.**********************************************************
+.da SIDENR 155mm 33.5mm width 60mm
+.**********************************************************
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*************** ROTERET BREVNAVN *********
+.if .&B37EJTID = .1 ;.th .go EJTID
+.da MBVEND 7mm 250mm width 180mm rotate -90
+.ar MBVEND on
+:COUR6.
+.*B37
+.sp
+&DATO
+.ar off
+...EJTID
+.**********************************************************
+.* Parametre - tests
+.if &E'&bovejl = 0
+.th .se B37EJKOP = 0
+.th .go VBOK
+.el .se B37EJKOP = 1
+.el .se B37BOHA3 = 1
+.if X&bovejl = XN
+.th .qu
+...VBOK
+.se B37AFSIDE = 3
+.se B37BREV = '&BREVNAVN.-3'
+.**********************************************************
+.PN 1
+.** SIDESKIFT
+.pa

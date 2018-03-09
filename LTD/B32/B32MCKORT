@@ -1,0 +1,252 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+.tp 165mm right
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL      25mm 60mm width 170mm
+.da KTOHAVER  25mm 30mm width 155mm
+.da OVSKRIFT  25mm 65mm width 170mm
+.**************************************************************************
+.if &REGTYPE = 5908
+.or &REGTYPE = 5909
+.or &REGTYPE = 5910
+.or &REGTYPE = 7500
+.or &REGTYPE = 7505
+.or &REGTYPE = 7506
+.or &REGTYPE = 7510
+.or &REGTYPE = 7511
+.th .go DOKTXT
+...FEJL1
+.ar FEJL on
+.sp 3mm
+Der er fundet nedenstående fejl i formatteringen af standardbrev
+&BREVNAVN.
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et kontonr. med ugyldig
+reg.type, &REGTYPE./&REGTYPELNG.
+.sp 3mm
+.hr left right
+.qu
+.ar off
+...DOKTXT
+.if &REGTYPE. = 5908
+.or &REGTYPE. = 7500
+.th .se korttype = BLUE
+.if &REGTYPE. = 5909
+.or &REGTYPE. = 7505
+.or &REGTYPE. = 7506
+.th .se korttype = GOLD
+.if &REGTYPE. = 5910
+.or &REGTYPE. = 7510
+.or &REGTYPE. = 7511
+.th .se korttype = PLAT
+.**************************************************************************
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.ar OVSKRIFT on
+:FED.&SDIT. &REGTYPELNG. er på vej.:SKRSLUT.¤&DATO.
+.ar off
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************************
+.sp 39mm
+:VERDA09.
+.kp on
+Tak for &DIN. bestilling af &REGTYPELNG..
+.sp
+Vi har bestilt &DIT. &REGTYPELNG. og oprettet den tilhørende konto med
+kredit på &MAXIMUM. kr. til kortet. &SDU. kan allerede nu se &REGTYPELNG.
+kontoen i internetbanken. Der går op til 10 arbejdsdage, før &DU. modtager
+&DIT. kort og op til yderligere 5 dage, før &DU. modtager den tilhørende
+pinkode. Har &DU. valgt samme pinkode som et af &DINE. eksisterende kort,
+kan kortet tages ibrug umiddelbart efter aktivering.
+.sp
+Korten kan bruges i hele verden. Betal med kortet ved indkøb,
+restaurantbesøg, køb af benzin, hæv kontanter i pengeautomater og banker og
+foretag betalinger via internettet m.m.
+.sp
+.if &korttype. = BLUE
+.th
+.el .go T1CONT1
+:FED.
+Købsforsikringspakken
+:SKRSLUT.
+.br
+Forsikringerne, der er tilknyttet &DIT. MasterCard Blue Shopping, træder i
+kraft, når &DU. har aktiveret &DIT. kort. For at købsforsikringerne skal
+dække, skal &DU. endvidere købe varen med kortet. &SDU. skal huske at gemme
+den originale købskvittering fra forretningen, samt kontoudskriften, hvoraf
+købet fremgår. Dette er &DIN. dokumentation, hvis uheldet skulle være ude,
+og &DU. får brug for en af forsikringerne.
+.sp
+.go T1CONT2
+...T1CONT1
+:FED.
+Forsikringspakken
+:SKRSLUT.
+.br
+Forsikringerne, der er tilknyttet &DIT. &REGTYPELNG., træder i kraft
+pr. dags dato. Bemærk, at afbestillingsforsikringen kun omfatter rejser
+købt efter denne dato.
+.sp
+For at købsforsikringerne skal dække, skal &DU. købe varen
+med kortet. &SDU. skal huske at gemme den originale købskvittering
+fra forretningen, sammen med kontoudskriftet, hvoraf købet fremgår. Dette
+er &DIN. dokumentation, hvis &DU. får brug for en af forsikringerne.
+.sp
+...T1CONT2
+&SDU. kan læse mere om de konkrete betingelser på forsikringerne under
+Brugerregler for &REGTYPELNG. på &B32WWWNYK./betalingskort.
+.sp
+.kp off
+.kp on
+.if &korttype = PLAT
+.th
+.el .go T1CONT3
+:FED.
+Priority Pass
+:SKRSLUT.
+.br
+Priority Pass kortet, som giver &DIG. adgang til lounges i hele verden,
+fremsendes særskilt. &SDU. vil normalt modtage kortet samme dag, som &DU.
+modtager MasterCard Platinum kortet.
+.sp
+...T1CONT3
+:FED.
+Følg med i &DIT. forbrug i internetbanken
+:SKRSLUT.
+.br
+Forbruget på &DIT. &REGTYPELNG. fremgår af &DIN. &REGTYPELNG. konto. &SDU.
+kan se kontoen i internetbanken, og &DU. kan derfor nemt følge det løbende
+forbrug.
+.sp
+:FED.
+Få dine kontoudskrifter i e-Boks
+:SKRSLUT.
+.br
+Med e-Boks samles alle &DINE. bankudskrifter i en elektronisk postkasse,
+der kan sorteres efter &DINE. behov. Det giver et godt overblik
+og er billigere end papirudskrifter.
+ 
+Har &DU. ikke allerede tilmeldt &DINE. bankudskrifter til e-Boks, kan &DU.
+nemt oprette en e-Boks under menupunktet 'e-Boks' i internetbanken. Det
+tager ganske kort tid, og &DU. kan tage den i brug med det samme.
+.sp 10mm
+Med venlig hilsen
+.br
+&B32NYK
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off

@@ -1,0 +1,253 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.if &U'&GENVALGB = P
+.or &U'&GENVALGB = E
+.th .go TYPEOK
+.el .mg/T/Valg af type skriv P eller E/
+...TYPEOK
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Kontoåbningsblanket ny konto
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE       20mm  40mm width  175mm
+.da KNAVN      20mm 229mm width 87,5mm
+.da BNAVN   107.5mm 229mm width 87,5mm
+.************ PARTER ******************************************************
+.ar SIDE on
+:SWISS10.:FED.
+Parter
+:SKRSLUT.
+.bx left 87.5mm right
+:SWISS8.
+.tp 1mm 88.5mm
+¤Kontohaver¤Pengeinstituttet
+.sp 20mm
+.if &L'&PEN. <> 0
+.th ¤CPR-nr.:
+.el ¤CPR-nr./CVR-nr.:
+.bx off
+.****************KONTO**************************
+:SWISS10.:FED.
+Konto
+.br
+:SKRSLUT.
+.bx left right
+.in 1mm
+.ir 5mm
+:SWISS8.
+Indgåelse af aftale om åbning af indlånskonto:
+.in
+.ir
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 6
+.se ktonr2 = substr &IREGKTO 11 1
+.su on
+.sp 2mm
+¤Reg. nr.:
+.br
+¤Konto nr.:
+.sp
+.bx off
+.bx can
+.bx can
+.************ INDHOLD KASSEN***********************************************
+:SWISS10.:FED.
+Vilkår
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 85mm
+.bx off
+.*********************LEGITIMATION*********************
+:SWISS10.:FED.
+.tp _/140mm
+Legitimation
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.in 1mm
+.sp 2mm
+.if &U'&GENVALGB = P
+.th Kontohaver her indleveret billede-legimitation i form af: ¤
+.th (f.eks. pas/kørekort)
+.el Kontoen oprettes i henhold til gældende tegningsudskrift på selskabet.
+.tp 6mm
+.in
+.sp 3mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+.tp 1mm 56mm 88.5mm 144,5mm
+¤Kundens underskrift ¤Dato: ¤Pengeinstituttets underskrift ¤Dato:
+.sp 25mm
+.bx off
+.ar off
+.*********************************************
+.ar KNAVN on
+.ce on
+&KTONAVN.
+.ce off
+.ar off
+.*********************************************
+.ar BNAVN on
+.ce on
+&BANKNAVN.
+.ce off
+.ar off
+.*********************************************
+.******************************************************************
+.da KUNDEOPL       25mm  50mm width  80mm
+.da VARTXT      112,5mm  50mm width  80mm
+.da CVRNR          45mm  68mm width  60mm
+.da REGNR          34mm  83mm width  60mm
+.da KNR            34mm  86mm width  60mm
+.**********************KUNDEOPLSNINGER**********************************
+.*************BANKOPLYSNINGR********************************************
+.ar VARTXT on
+&BANKNAVN
+.br
+&BANKGADE
+.br
+&BANKBY
+.br
+.ar off
+.**************KUNDENS CVR/CPR***************************************
+.ar CVRNR on
+&KTOKNDNR1.
+.ar off
+.***********REG NUMMER**********************************************
+.ar REGNR on
+&regnr.
+.ar off
+.************KONTO-NUMMER*******************************************
+.ar KNR on
+&ktonr.-&ktonr2.
+.ar off
+.*******************************************************************
+.******************************************************************
+.da INDHOLD        21mm   99mm width 170mm
+.da TXT            32mm  195mm width 170mm
+.******************************************************************
+.ar INDHOLD on
+:SWISS8.
+Mellem ovenstående kontohaver og &BANKNAVN. er der d.d. indgået aftale
+om åbning af en indlånskonto på de nedenfor anførte vilkår:
+.sp 3mm
+.tp 5mm
+.of 5mm
+:FED.
+A.¤
+:SKRSLUT.
+Indlånskonto på anfordringsvilkår.
+.sp 3mm
+.of
+.of 5mm
+¤På kontoens oprettelsesdag forrentes indestående på kontoen med
+p.t.
+:SKRSLUT.
+:SWISS8.
+&TOTKRE1 % p.a.
+.sp 3mm
+.of
+.of 5mm
+.if &KREGRNDKD1 = C3
+.th ¤Renten fastsættes som CIBOR 3 måneder med et
+.el ¤Renten fastsættes som Nationalbankens udlånsrente og rente på
+.el indskudsbeviser med et
+.if &TOTKRE1 > &GNDRTEKD1
+.th tillæg på p.t.
+.el fradrag på p.t
+:SKRSLUT.
+&RESULTA.
+:SWISS8.
+% p.a.
+.sp 3mm
+.of
+.of 5mm
+:SWISS8.
+:FED
+B.
+:SKRSLUT.
+.sp 3mm
+¤1. Kontoen
+.in 8mm nobreak
+føres med kontoudskrifter. Mindst én gang årligt, i.f.m.
+årsskiftet, udskrives der et kontoudskrift, ligesom der udskrives
+kontoudskrift ved hver 200 postering.
+Ønskes der andre intervaller på udskrivningen af kontoudtog aftales
+dette individuelt.
+.in 0mm
+.sp 3mm
+¤2. Posteringer
+.in 8mm nobreak
+på kontoen, debet eller kredit, vil blive valideret i
+henhold til de til enhver tid gældende valideringsregler i &BANKNAVN..
+.in 0mm
+.sp 3mm
+¤3. &BANKNAVN.' "almindelige
+.in 8mm nobreak
+forretningsbetingelser for
+.if &U'&GENVALGB = P
+.th privatkunder"
+.el erhvervskunder"
+er til enhver tid gældende, og kontohaver kvitterer ved sin underskrift
+for at have modtaget et eksemplar af disse.
+.in 0mm
+;T

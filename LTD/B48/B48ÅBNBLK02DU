@@ -1,0 +1,279 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.* Parameterlisten
+.su off
+.se a = substr &KTOKNDNR1 1 6
+.se b = substr &KTOKNDNR1 7 4
+.*****************************
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 11
+.su on
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+30.07.2004
+.ar off
+.***********************************************************************
+.***********************************************************
+.da tekst1           20mm     38mm  width   175mm
+.***********************************************************
+:SWISS10.
+.ar tekst1 on
+:FED.Åbning af konto for:SKRSLUT.
+.bx left right
+.*******************
+.in 1mm
+.sp
+.if &L'&KTOSTILL gt 0
+.th &KTOSTILL
+.th .br
+&NAVNK
+.br
+.if &L'&KTOCO gt 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.sp
+CPR-nr.: &a.-&b
+.bx off
+.*****************************
+:FED.Erklæring fra forældremyndighedsindehaver/værge:SKRSLUT.
+.br
+.bx left right
+.tp 5mm
+Jeg bekræfter ved min underskrift følgende:
+.sp
+- ¤at
+.in 5mm nobreak
+jeg har forældremyndigheden/er værge for ovennævnte,
+.in 1mm
+.sp
+- ¤at
+.in 5mm nobreak
+denne frit må råde over ethvert indestående på Money Bunny konto:
+.sp
+.ce on
+Reg.nr.: :FED.&reg:SKRSLUT. Kontonr.: :FED.&kto:SKRSLUT.
+.ce off
+.sp
+¤i
+&BANKNAVN., idet beløbet alene udgør lommepenge, gaver samt andre midler,
+som barnet har fri rådighed over,
+.in 1mm
+.sp
+- ¤at
+.in 5mm nobreak
+jeg er indforstået med, at &BANKNAVN ikke på nogen måde kan drages
+til ansvar for barnets råden over kontoen,
+.in 1mm
+.sp
+- ¤at
+.in 5mm nobreak
+jeg er underrettet om, at kontoen automatisk afløses af &BANKNAVN.'s
+Scorekassekonto, når barnet fylder 13 år, medmindre &BANKNAVN forinden
+skriftligt har fået anden instruks fra mig,
+.sp
+.in 1mm
+-¤at
+.in 5mm nobreak
+jeg har modtaget kopi af nærværende samt &BANKNAVN.'s Almindelige
+forretningsbetingelser.
+.in 1mm
+.sp
+.sp
+&B48AFDSTED., den &DATO
+.sp
+.sp
+.sp
+.sp
+.hr 1mm 90mm
+&B48ANDENN
+.br
+(Underskrift af forældremyndighedsindehaver/værge)
+.sp
+.bx off
+.*************************************************
+:FED.Samtykke til markedsføring:SKRSLUT.
+.br
+.bx left right
+Som forældremyndighedsindehaver/værge for &NAVNK., cpr.nr. &a.-&b., giver
+jeg hermed tilladelse til, at &BANKNAVN pr. brev må kontakte ovennævnte
+barn med henblik på fremsendelse af informationer og tilbud om relevante
+produkter og serviceydelser for børn i aldersgruppen, eksempelvis:
+.sp
+- ¤Money
+.in 5mm nobreak
+Bunny Bladet,
+.in 1mm
+.sp
+- ¤oplysning
+.in 5mm nobreak
+om arrangementer i &BANKNAVN (f.eks. filmklub , konkurrencer og
+skattejagt),
+.in 1mm
+.sp
+- ¤fødselsdagskort,
+.in 5mm nobreak
+julekalendere og lignende.
+.in 1mm
+.sp
+.sp
+Jeg er orienteret om, at jeg til enhver tid kan tilbagekalde mit
+samtykke.
+.sp
+.sp
+&B48AFDSTED., den &DATO
+.sp
+.sp
+.sp
+.sp
+.hr 1mm 90mm
+&B48ANDENN
+.br
+(Underskrift af forældremyndighedsindehaver/værge)
+.sp
+.bx off
+.ar off
+.***********************************************************
+.***********************************************************
+.da oversk      20mm   32mm width   175mm
+.da side1       20mm   35mm width   175mm
+.***********************************************************
+.ar oversk on
+:SWISS12.
+:FED.
+.us Kontoblad for Money Bunny konto &ÅCONT
+:SWISS10.
+:FED.
+.us (Børn fra 0-12 år)
+:SKRSLUT.
+.ar off
+.***********************************************************
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+:SKRSLUT.
+.***** her laves kasse til tekst ***************************
+.*.bx left right
+.*.sp 200mm
+.*.bx off
+.ar off
+.***********************************************************
+.** SIDESKIFT
+.pa

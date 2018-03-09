@@ -1,0 +1,279 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre og test på regtype ********************************************
+.if &REGTYPE = 1200
+.or &REGTYPE = 1021
+.or &REGTYPE = 1321
+.th
+.el .mg/T/Der skal vælges en konto med regttype 1021, 1321 eller 1200/
+.**************************************************************************
+.if &GENVALG = 0
+.or &GENVALG > 4
+.th .mg/T/Vælg 1=check, 2=hævet jf. fuldmagt, 3=ing. indbet., 4=indsat/
+.*************************************
+.*SUBSTRINGS ***************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.***************************************
+.**** Generel opsætning *** findes normalt i O-afsnittet **********
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da IDOPL 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.ar IDOPL on
+:COUR8.
+Reg.nr. &regnr
+.br
+Kontonummer &ktonr
+.br
+:FED.&REGTYPELNG.:SKRSLUT.
+.br
+CPR-nr./CVR-nr. &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us Kontoaftale
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 111mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.* LINIELÆNGDEN *******
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.th .us Netbank
+.th .sp
+.th Til Basiskonto tilknyttes &E53NETBANK., der bl.a. giver
+.th mulighed for at følge bevægelserne på konti, se saldi, overføre
+.th penge til andre bankkonti, betale indbetalingskort, tilmelde
+.th Betalingsservice-aftaler og tilmelde NemKonto.
+.th .sp
+.th Ønskes overførsel af eksisterende Betalingsservice-aftaler, skal
+.th e-mail med oplysning om Betalingsservice-aftalenumre sendes til
+.th banksup@brf.dk.
+.th .sp
+.th &BANKNAVN kan vælge at meddele nye kontovilkår via &E53NETBANK..
+.th .sp
+.th .kp on
+.th .us Første gang der logges ind på &E53NETBANK..
+.th .sp
+.th Der logges på &E53NETBANK. med NemID. Når der logges på første gang,
+.th kan det ske via vores hjemmeside www.brf.dk.
+.th .kp off
+.th .sp
+.***************Netbank Basiskonto slut*************************
+.kp on
+Hvis
+.****
+.if &MEDKNDNR1 = 0000000000
+.th du
+.el I
+.*****
+har spørgsmål, er
+.****
+.if &MEDKNDNR1 = 0000000000
+.th du velkommen
+.el I velkomne
+.*****
+til at kontakte vores kundecenter
+på telefon 70 10 21 00. Kundecentret har åbent alle ugens dage
+kl. 9.00-21.00.
+.kp off
+.th .of 8mm
+.******************
+*¤Indbetaling kan ske løbende ved elektronisk overførsel.
+.of
+.sp
+.of 8mm
+*¤Indestående forrentes p.t. med &TOTKRE1.% p.a.
+.of
+.sp
+.of 8mm
+.*************** Overtræksrente *****************************
+.if &REGTYPE = 1200
+.th *¤Overtræk forrentes med den til enhver tid gældende overtræksrente
+.th jf. bankens prisliste.
+.th .of
+.th .sp
+.th .of 8mm
+.****************************************************************
+*¤Rentesatserne er variable og kan til enhver tid ændres af &BANKNAVN..
+Renten tilskrives kontoen hvert år ultimo december.
+.of
+.sp
+.of 8mm
+*¤Der udsendes månedlig kontoudskrift, når der
+har været en postering på kontoen, og når kontoen opgøres.
+Ønskes udskrifter på andre tidspunkter, kan dette aftales mod
+gebyr. Gebyrets størrelse fremgår af bankens til enhver tid gældende
+satser i henhold til prislisten.
+.of
+.sp
+.of 8mm
+*¤For kontoen gælder &BANKNAVN.s almindelige forretningsbetingelser for
+privatkunder med tillæg, som
+.*****
+.if &MEDKNDNR1 = 0000000000
+.th du
+.el I
+.*****
+kan se på
+.us &E53BRFWWW..
+.of
+.sp
+.of 8mm
+*¤Kontoen må ikke bruges til erhvervsmæssige formål. Hvis &BANKNAVN. bliver
+bekendt med, at kontoen bruges på denne måde, opsiger og opgør vi straks
+kontoen.
+.of
+.sp
+.********************Netbank til Basiskonto************************
+.if &REGTYPE = 1200
+.tp 8mm
+.**************************************************************************
+På
+.*****
+.if &MEDKNDNR1 = 0000000000
+.th din
+.el jeres
+.*****
+anmodning har &BANKNAVN. oprettet en
+.*****
+.if &REGTYPE = 1200
+.th Basiskonto
+.if &REGTYPE = 1021
+.th Højrentekonto
+.if &REGTYPE = 1321
+.th Højrentekonto
+.*****
+på følgende vilkår:
+.if &GENVALG = 3
+.th .go KONTOTYP
+.*****
+.sp
+.of 8mm
+*¤På kontoen er indbetalt &SALDO. kr. Beløbet er
+.if &GENVALG = 1
+.th modtaget på check.
+.if &GENVALG = 2
+.th hævet fra konto ifølge fuldmagt.
+.if &GENVALG = 4
+.th overført af kontohaver(e).
+.of
+...KONTOTYP
+.sp
+.of 8mm
+.******************
+.if &REGTYPE = 1200
+.th *¤Kontoen er en løn- og budgetkonto til privatkunder.
+.th .of
+.th .sp
+.th .of 8mm
+.******************
+.if &REGTYPE = 1021
+.or &REGTYPE = 1321
+.th *¤Kontoen er en transaktionskonto til privatkunder.
+.th .of
+.th .sp
+.th .of 8mm
+.th *¤Indestående på kontoen er ikke bundet og kan frit hæves.
+.th .of
+.th .sp
+.kp on
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.kp off

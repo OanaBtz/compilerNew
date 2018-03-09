@@ -1,0 +1,2651 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*oc **Depotoprettelse/-ændring
+.*MB-RET
+.* Ledetekster og rækkefølger er ændret
+.* B374C1 er tilføjet sammen med afsnittet B37DEP01T0 (testafsnit)
+.* og GENOBLKTO sat = værdien af DEPAFKGEB
+.* DEPOTTYPE        Spærringskode..:
+.* B374C1           Vælg reg.type..:
+.* GENSTREG1          F1=oversigt-->
+.* GENVPKTO       VP-nr. j/n.......:
+.* GENVALG        Opr.(1) Ændr.(2) :
+.* DEPAFKGEB      Depotafkast/-gebyr
+.* GENOBLKTO      Kto. for afkast..:
+.* GENUOBLKTO     Kto. udtruk. obl.:
+.* GENAKTKTO      Kto. for aktieudb:
+.* GENDEPGKTO     Kto. for depotgeb:
+.* GENPANKTO      Kto. pant.br.afk.:
+.* GENSIKDEP      Sikkerhedsdep. for
+.se GENOBLKTO = '&DEPAFKGEB.'
+.* GL med PL er tilføjet for at undgå en fejlmarkering
+:GL.
+.PL 285mm
+:EGL.
+.* TEST AF OM INDTASTNING PÅ GENVPKTO = J/N (afsnit tilføjet af MB)
+.if .&U'&GENVPKTO = .J .or .&U'&GENVPKTO = .N
+.th .go VPKTOOK
+.MG /t/  Forkert indtastning (&GENVPKTO.) i "VP-nr.(j eller n)"
+...VPKTOOK
+.* SAMMENHÆNG MELLEM REGTYPE OG SPÆRRINGSKODE (afsnit tilføjet af MB)
+.* DEPOTTYPE ER TILSYNELADENDE RETTET FRA 1 TIL 2 CIFRE D. 17/4-00 (ES 18/4
+.* OPDATERET med 0019 = Depottype 01 09/12-2003
+.if .&DEPOTTYPE = .09 .go SOK
+.if .&B374C1 = .0004 .an .&DEPOTTYPE = .00 .go SOK
+.if .&B374C1 = .0005 .an .&DEPOTTYPE = .00 .go SOK
+.if .&B374C1 = .0051 .an .&DEPOTTYPE = .00 .go SOK
+.if .&B374C1 = .0009 .an .&DEPOTTYPE = .02 .go SOK
+.if .&B374C1. ne .0010
+.th .go N0
+.if .&DEPOTTYPE = .02 .or .&DEPOTTYPE = .01 .or .&DEPOTTYPE = .06
+.th .go SOK
+...N0
+.if .&B374C1 ne .0011
+.th .go N
+.if .&DEPOTTYPE = .02 .or .&DEPOTTYPE = .01 .or .&DEPOTTYPE = .06
+.th .go SOK
+...N
+.if .&B374C1 = .0019 .an .&DEPOTTYPE = .01 .go SOK
+.if .&B374C1 = .0020 .or .&B374C1 = .0021
+.th .if .&DEPOTTYPE = .03 .or .&DEPOTTYPE = .06 ;.th .go SOK
+.if .&B374C1 = .0025 .or .&B374C1 = .0026
+.th .if .&DEPOTTYPE = .04 .or .&DEPOTTYPE = .08 ;.th .go SOK
+.if .&B374C1 = .0036 .or .&B374C1 = .0037
+.or .&B374C1 = .0038 .or .&B374C1 = .0039
+.or .&B374C1 = .0040 .or .&B374C1 = .0041
+.or .&B374C1 = .0042 .or .&B374C1 = .0044
+.or .&B374C1 = .0045 .or .&B374C1 = .0046
+.or .&B374C1 = .0047 .or .&B374C1 = .0048
+.th .if .&DEPOTTYPE = .07 ;.th .go SOK
+.* 0047 OPRETTET d.10/9-04
+.* 0049 OPRETTET d. 3/9-97
+.if .&B374C1 = .0049 .an .&DEPOTTYPE = .02 .go SOK
+.MG /i/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
+.mg /i/  REG.TYPE.................................: &B374C1.
+.mg /i/  passer ikke sammen med spærringskode.....: &DEPOTTYPE
+.mg /i/  Se evt. fremvisning på skærm  - Funktion 3 og
+.MG /t/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
+...SOK
+.if .&B374C1 = .0004
+.th .se dty 'Depot med porteføljeaftale'         ;.th .go B
+.if .&B374C1 = .0005
+.th .se dty 'Opbevaringsdepot'                   ;.th .go B
+.if .&B374C1 = .0009
+.th .se dty 'Spærret depot, Medarbejderaktier'   ;.th .go B
+.if .&B374C1 = .0010
+.th .se dty 'Depot m/dispositionsbegrænsning'    ;.th .go B
+.if .&B374C1 = .0011
+.th .se dty 'Spærret depot'                      ;.th .go B
+.if .&B374C1 = .0019
+.th .se dty 'Børneopsparings depot'              ;.th .go B
+.if .&B374C1 = .0020
+.th .se dty 'Sikkerhedsdepot (oms.)'             ;.th .go B
+.if .&B374C1 = .0021
+.th .se dty 'Sikkerhedsdepot (lånesag)'          ;.th .go B
+.if .&B374C1 = .0025
+.th .se dty 'Sikkerhedsdepot (3. mand, oms.)'    ;.th .go B
+.if .&B374C1 = .0026
+.th .se dty 'Sikkerhedsdepot (3. mand, lånesag)' ;.th .go B
+.if .&B374C1 = .0036
+.th .se dty 'Ratepens.arbejdsg.ord.unot.aktier'  ;.th .go B
+.if .&B374C1 = .0037
+.th .se dty 'Ratepens.privat ord.unot.aktier'    ;.th .go B
+.if .&B374C1 = .0038
+.th .se dty 'Kapitalpens.arbejdsg.ord.unot.akt.' ;.th .go B
+.if .&B374C1 = .0039
+.th .se dty 'Kapitalpens.privat ord.unot.aktier' ;.th .go B
+.if .&B374C1 = .0040
+.th .se dty 'Kapitalpensionsdepot arbejdsg.ord.' ;.th .go B
+.if .&B374C1 = .0041
+.th .se dty 'Kapitalpensionsdepot privatordning' ;.th .go B
+.if .&B374C1 = .0042
+.th .se dty 'Ratepensionsdepot §15B privatord.'  ;.th .go B
+.if .&B374C1 = .0044
+.th .se dty 'Ratepensionsdepot §15B arbejdsg.'   ;.th .go B
+.if .&B374C1 = .0045
+.th .se dty 'Ratepensionsdepot arbejdsgiverord.' ;.th .go B
+.if .&B374C1 = .0046
+.th .se dty 'Ratepensionsdepot privatordning'    ;.th .go B
+.if .&B374C1 = .0047
+.th .se dty 'Ratepensionsdepot §15A privatord.'  ;.th .go B
+.if .&B374C1 = .0048
+.th .se dty 'Selvpensioneringsdepot'             ;.th .go B
+.if .&B374C1 = .0049
+.th .se dty 'Etableringskontodepot'              ;.th .go B
+.if .&B374C1 = .0051
+.th .se dty 'Opbevaringsdepot bank'              ;.th .go B
+...A
+.MG /i/
+.MG /i/  Spærringskode...........................: '&DEPOTTYPE.'
+.MG /i/
+.MG /i/  Forkert REG.TYPE - Du har indtastet.....: '&B374C1.'
+.MG /i/  Se evt. fremvisning på skærm  - Funktion 3 og
+.MG /t/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
+...B
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+.*MB-RET (flere valg tilladt)
+.ti ^ 05
+.*MB-RET (COUR14 tilføjet for at skifte skriftype)
+:COUR14.
+:COUR10.
+.da DEPINDEH 21mm 49.2mm width 89mm
+.da DEPCPR   45mm 75.8mm width 89mm
+.da DEPNR   108.5mm 47.2mm width 85mm
+.da VPNR    108.5mm 56.7mm width 85mm
+.da OPRETÆND 110.2mm 63.2mm width 85mm
+.da DEPTYPE 108.5mm 75.5mm width 89mm
+.da OBLRENTE 21mm 84.7mm width 55mm
+.da UDTOBL   78.8mm 84.7mm width 60mm
+.da AKTIUDB 139.8mm 84.7mm width 50mm
+.da DEPGEB   21mm 93.5mm width 55mm
+.da PTBAFK   78.8mm 93.5mm width 60mm
+.da SIKDEP  139.8mm 93.5mm width 50mm
+.da DISPFULD 21mm 109.1mm width 80mm
+.da DISPCPR  45mm 124.1mm width 80mm
+.da FULDM    21mm 133.6mm width 80mm
+.da FULDMCPR 45mm 148.6mm width 80mm
+.da RETTADR  21mm 163.1mm width 88mm
+.da RETTCPR  45mm 182.7mm width 80mm
+.da RETTEKST 108.5mm 163.1mm width 88mm
+.da AKTIEADR  21mm 196.6mm width 88mm
+.da AKTIECPR  45mm 211.2mm width 80mm
+.da PIDATO    21mm 225.5mm width 180mm
+.da PIUND     21mm 250mm width 90mm
+.da REF       36mm 254.2mm width 90mm
+.da INDEHUND 108.5mm 253.5mm width 90mm
+.*************************************************
+.ar DEPINDEH on
+.*MB-RET (COUR10)
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************
+.ar DEPCPR on
+&DEPKUNDENR
+.ar off
+.*************************************************
+.ar DEPNR on
+.if &U'&GENVPKTO = N
+.th &DEPREGNR &DEPDEPNR
+.ar off
+.*************************************************
+.ar VPNR on
+.if &U'&GENVPKTO = J
+.th 0&DEPREGNR.&DEPDEPNR
+.ar off
+.*************************************************
+.ar OPRETÆND on
+.tp 40mm
+.if &U'&GENVALG eq 1
+.th X
+.el ^X
+.ar off
+.****************(MB-RET bruger T0 afsnit og &dty ***
+.ar DEPTYPE on
+.go MBDEP
+.if x&DEPOTTYPE = x0
+.th Opbevaringsdepot
+.if x&DEPOTTYPE = x1
+.th Dispositionsbegrænsning
+.if x&DEPOTTYPE = x2
+.th Depotet spærret
+.if x&DEPOTTYPE = x3
+.th Sikkerhedsdepot, debitor
+.if x&DEPOTTYPE = x4
+.th Sikkerhedsdepot, 3. mand
+.if x&DEPOTTYPE = x5
+.th Anvendes ikke pt.
+.if x&DEPOTTYPE = x6
+.th Særskilt sikkerhedsdepot, debitor
+.if x&DEPOTTYPE = x7
+.th Pensionsdepot
+.if x&DEPOTTYPE = x8
+.th Særskilt sikkerhedsdepot, 3. mand
+.if x&DEPOTTYPE = x9
+.th Se specielt kartotek
+.el
+...MBDEP
+&dty.
+.* MB-RET SLUT
+.ar off
+.*************************************************
+.ar OBLRENTE on
+.***** her deles kontonummer for obligationsrenter ****
+.se oblregnr = substr &GENOBLKTO 1 4
+.se oblktonr = substr &GENOBLKTO 5 7
+&oblregnr &oblktonr
+.ar off
+.*************************************************
+.ar UDTOBL on
+.***** her deles kontonummer for udtrukne obligationer ****
+.se uoblregnr = substr &GENUOBLKTO 1 4
+.se uoblktonr = substr &GENUOBLKTO 5 7
+&uoblregnr &uoblktonr
+.ar off
+.*************************************************
+.ar AKTIUDB on
+.***** her deles kontonummer for aktieudbytte ****
+.se aktregnr = substr &GENAKTKTO 1 4
+.se aktktonr = substr &GENAKTKTO 5 7
+&aktregnr &aktktonr
+.ar off
+.*************************************************
+.ar DEPGEB on
+.***** her deles kontonummer for depotgebyr  ****
+.se depgregnr = substr &GENDEPGKTO 1 4
+.se depgktonr = substr &GENDEPGKTO 5 7
+&depgregnr &depgktonr
+.ar off
+.*************************************************
+.ar PTBAFK on
+.***** her deles kontonummer for pantebrevsafkast *******
+.se panregnr = substr &GENPANKTO 1 4
+.se panktonr = substr &GENPANKTO 5 7
+&panregnr &panktonr
+.ar off
+.*************************************************
+.ar SIKDEP on
+.***** her deles kontonummer for sikkerhedsdepot *******
+.se sikregnr = substr &GENSIKDEP 1 4
+.se sikktonr = substr &GENSIKDEP 5 7
+&sikregnr &sikktonr
+.ar off
+.*************************************************
+.ar DISPFULD on
+&GENSTILL
+.br
+&GENNAVN
+.br
+&GENGADE
+.br
+&GENBY
+.ar off
+.*************************************************
+.ar DISPCPR on
+&GENCPR
+.ar off
+.*************************************************
+.ar FULDM on
+&GENSTILL1
+.br
+&GENNAVN1
+.br
+&GENGADE1
+.br
+&GENBY1
+.ar off
+.*************************************************
+.ar FULDMCPR on
+&GENCPR1
+.ar off
+.*************************************************
+.ar RETTADR on
+&GENSTILL2
+.br
+&GENNAVN2
+.br
+&GENGADE2
+.br
+&GENBY2
+.ar off
+.*************************************************
+.ar RETTCPR on
+&GENCPR2
+.ar off
+.*************************************************
+.ar RETTEKST on
+&GENRET1
+.br
+&GENRET2
+.br
+&GENRET3
+.br
+&GENRET4
+.ar off
+.*************************************************
+.ar AKTIEADR on
+&GENSTILL3
+.br
+&GENNAVN3
+.br
+&GENGADE3
+.br
+&GENBY3
+.ar off
+.*************************************************
+.ar AKTIECPR on
+&GENCPR3
+.ar off
+.*************************************************
+.ar PIDATO on
+&DATO
+.ar off
+.*************************************************
+.ar PIUND on
+&BANKNAVN
+.ar off
+.*************************************************
+.ar REF on
+&GENEKSP
+.ar off
+.*************************************************
+.ar INDEHUND on
+&NAVN
+.ar off
+.*MB-RET (flere valg tilladt)
+.da oversk 20mm 32mm width 80mm
+.da side1  20mm 34mm width 175mm
+.da pbox1 109.2mm 62mm width 10mm
+.da pbox2 149mm 62mm width 10mm
+.da pbox3 50mm 187.3mm width 100mm
+.ar oversk on
+:SWISS12.
+:FED.
+.*MB-RET START
+.if &U'&GENVALG eq 1
+.us on
+.th Depotoprettelse
+.el Depotændring
+.*us Depotoprettelse/-ændring
+.us off
+.*MB-RET SLUT
+:SKRSLUT.
+.ar off
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+Faste oplysninger
+:SKRSLUT.
+:SWISS10.
+.bx new left 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.bx new left 58mm 119mm right
+.sp 7.5mm
+.hr left right
+.sp 7.5mm
+.bx off
+.bx can
+:FED.
+Fuldmagt
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 24mm
+.hr left right
+.sp 23mm
+.bx off
+:FED.
+Rettighedshaver
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 27mm
+.bx off
+:FED.
+.*MB-RET
+.*Aktiebogsnavn
+VP-ændringsmeddelelser
+:SKRSLUT.
+.*MB-RET (lodret midterstreg fjernet)
+.*bx new left 87.5mm right
+.bx new left right
+.sp 22mm
+.bx off
+:FED.
+Underskrift
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 8mm
+.hr left right
+.sp 27mm
+.bx new left right
+.sp 10mm
+.bx off
+.bx can
+.bx can
+.ar off
+.ar pbox1 on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar pbox2 on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar pbox3 on
+:SWISS8.
+:FED.
+.*MB-RET
+.*(hvis forskelligt fra depotindehaver)
+:SKRSLUT.
+.ar off
+.*MB-RET
+:SKRSLUT.
+:COUR10.
+.*MB-RET (flere valg tilladt)
+.*MB-RET SE rettet til CVR den 14/8-2001
+:SWISS8.
+.da DEPINDEH    21mm  42.2mm width 89mm
+.da DEPCPR      21mm  76.2mm width 89mm
+.da DEPNR    108.5mm  42.2mm width 85mm
+.da VPNR     108.5mm  51.7mm width 85mm
+.da OPRETÆND 115.5mm  63.2mm width 85mm
+.da DEPTYPE  108.5mm  70.5mm width 89mm
+.da OBLRENTE    21mm  80.2mm width 55mm
+.da UDTOBL    78.8mm  80.2mm width 60mm
+.*MB-RET
+.da AKTIUDB  139.8mm  80.2mm width 50mm
+.da DEPGEB      21mm    89mm width 55mm
+.da PTBAFK    78.8mm    89mm width 60mm
+.da SIKDEP   139.8mm    89mm width 50mm
+.da DISPFULD    21mm 103.1mm width 80mm
+.da DISPCPR     21mm 124.6mm width 80mm
+.da DISPUND  108.5mm 103.1mm width 80mm
+.da FULDM       21mm 128.6mm width 80mm
+.da FULDMCPR    21mm 149.1mm width 80mm
+.da FULDMUND 108.5mm 128.6mm width 80mm
+.da RETTADR     21mm 158.1mm width 50mm
+.da RETTCPR     21mm 183.1mm width 80mm
+.da RETTEKST 108.5mm 158.1mm width 50mm
+.*MB-RET
+.*da AKTIEADR    21mm 191.6mm width 50mm
+.da AKTIEADR    21mm 191.6mm width 170mm
+.da AKTIECPR    21mm 211.6mm width 80mm
+.da AKTIEUND 108.5mm 191.6mm width 50mm
+.da PIDATO      21mm 220.5mm width 180mm
+.da INDEHDATO 108.5mm 220.5mm width 90mm
+.da PIUND       21mm   230mm width 90mm
+.da REF         21mm 254.6mm width 90mm
+.da INDEHUND 108.5mm   230mm width 90mm
+.da UNDTEKST    21mm 258.9mm width 175mm
+.********************************************************
+.ar DEPINDEH on
+Depotindehaver
+.ar off
+.********************************************************
+.ar DEPCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar DEPNR on
+Depotnummer
+.ar off
+.********************************************************
+.ar VPNR on
+VP-kontonummer
+.ar off
+.********************************************************
+.ar OPRETÆND on
+.tp 39mm
+Oprettelse^Ændring
+.ar off
+.********************************************************
+.ar DEPTYPE on
+Depottype
+.ar off
+.********************************************************
+.ar OBLRENTE on
+.*MB-RET
+.*Konto for obligationsrenter
+Konto for afkast
+.ar off
+.********************************************************
+.ar UDTOBL on
+Konto for udtrukne obligationer
+.ar off
+.********************************************************
+.ar AKTIUDB on
+Konto for aktieudbytte
+.ar off
+.********************************************************
+.ar DEPGEB on
+Konto for depotgebyr
+.ar off
+.********************************************************
+.ar PTBAFK on
+Konto for pantebrevsafkast
+.ar off
+.********************************************************
+.ar SIKDEP on
+Sikkerhedsdepot for
+.ar off
+.********************************************************
+.ar DISPFULD on
+Dispositionsfuldmagt til
+.ar off
+.********************************************************
+.ar DISPCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar DISPUND on
+Som underskriver
+.ar off
+.********************************************************
+.ar FULDM on
+Fuldmagt til betalingsmodtagelse
+.ar off
+.********************************************************
+.ar FULDMCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar FULDMUND on
+Som underskriver
+.ar off
+.********************************************************
+.ar RETTADR on
+Navn og adresse
+.ar off
+.********************************************************
+.ar RETTCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar RETTEKST on
+Rettighedstekst
+.ar off
+.********************************************************
+.ar AKTIEADR on
+.*MB-RET (feltindhold ændret)
+.*Navn og adresse
+Ønsker depotindehaver VP-ændringsmeddelelser tilsendt (sæt x)
+.sp
+Ja  ___ (medfører øgede VP-gebyrer)
+.sp 2
+Nej ___ (meddelelse modtages kun fra banken)
+.ar off
+.********************************************************
+.ar AKTIECPR on
+.*MB-RET (feltindhold ændret)
+.*CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar AKTIEUND on
+.*MB-RET (feltindhold ændret)
+.*Som underskriver
+.ar off
+.********************************************************
+.ar PIDATO on
+Dato
+.ar off
+.********************************************************
+.ar INDEHDATO on
+Dato
+.ar off
+.********************************************************
+.ar PIUND on
+Pengeinstituttets underskrift
+.ar off
+.********************************************************
+.ar REF on
+Reference
+.ar off
+.********************************************************
+.ar INDEHUND on
+Depotindehavers underskrift
+.ar off
+.********************************************************
+.ar UNDTEKST on
+Med ovennævnte underskrift samtykker jeg i , at opbevaring af både mine
+danske og udenlandske værdipapirer kan ske i
+samledepot, og at
+.br
+jeg er bekendt med retsvirkningerne heraf, der er
+beskrevet i "Regler for opbevaring af værdipapirer i depot" som jeg har
+modtaget.
+.br
+Depotet vil tillige blive oprettet i Værdipapircentralen, såfremt der
+indlægges børsnoterede danske obligationer, aktier m.v. i depotet.
+.ar off
+.*MB-RET (cour10)
+:COUR10.
+.*MB-RET START
+.if x&GENVALG = x1
+.or x&GENVALG = x2
+.el .go SLUT
+.if &ÅPN le 5
+.an x&GENVALG = x1
+.th .pa
+.if &ÅPN le 2
+.an x&GENVALG = x2
+.th .pa
+.*th .pa
+...SLUT
+.*MB-RET SLUT
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+.*MB-RET (flere valg tilladt)
+.ti ^ 05
+.*MB-RET (COUR14 tilføjet for at skifte skriftype)
+:COUR14.
+:COUR10.
+.da DEPINDEH 21mm 49.2mm width 89mm
+.da DEPCPR   45mm 75.8mm width 89mm
+.da DEPNR   108.5mm 47.2mm width 85mm
+.da VPNR    108.5mm 56.7mm width 85mm
+.da OPRETÆND 110.2mm 63.2mm width 85mm
+.da DEPTYPE 108.5mm 75.5mm width 89mm
+.da OBLRENTE 21mm 84.7mm width 55mm
+.da UDTOBL   78.8mm 84.7mm width 60mm
+.da AKTIUDB 139.8mm 84.7mm width 50mm
+.da DEPGEB   21mm 93.5mm width 55mm
+.da PTBAFK   78.8mm 93.5mm width 60mm
+.da SIKDEP  139.8mm 93.5mm width 50mm
+.da DISPFULD 21mm 109.1mm width 80mm
+.da DISPCPR  45mm 124.1mm width 80mm
+.da FULDM    21mm 133.6mm width 80mm
+.da FULDMCPR 45mm 148.6mm width 80mm
+.da RETTADR  21mm 163.1mm width 88mm
+.da RETTCPR  45mm 182.7mm width 80mm
+.da RETTEKST 108.5mm 163.1mm width 88mm
+.da AKTIEADR  21mm 196.6mm width 88mm
+.da AKTIECPR  45mm 211.2mm width 80mm
+.da PIDATO    21mm 225.5mm width 180mm
+.da PIUND     21mm 250mm width 90mm
+.da REF       36mm 254.2mm width 90mm
+.da INDEHUND 108.5mm 253.5mm width 90mm
+.*************************************************
+.ar DEPINDEH on
+.*MB-RET (COUR10)
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************
+.ar DEPCPR on
+&DEPKUNDENR
+.ar off
+.*************************************************
+.ar DEPNR on
+.if &U'&GENVPKTO = N
+.th &DEPREGNR &DEPDEPNR
+.ar off
+.*************************************************
+.ar VPNR on
+.if &U'&GENVPKTO = J
+.th 0&DEPREGNR.&DEPDEPNR
+.ar off
+.*************************************************
+.ar OPRETÆND on
+.tp 40mm
+.if &U'&GENVALG eq 1
+.th X
+.el ^X
+.ar off
+.****************(MB-RET bruger T0 afsnit og &dty ***
+.ar DEPTYPE on
+.go MBDEP
+.if x&DEPOTTYPE = x0
+.th Opbevaringsdepot
+.if x&DEPOTTYPE = x1
+.th Dispositionsbegrænsning
+.if x&DEPOTTYPE = x2
+.th Depotet spærret
+.if x&DEPOTTYPE = x3
+.th Sikkerhedsdepot, debitor
+.if x&DEPOTTYPE = x4
+.th Sikkerhedsdepot, 3. mand
+.if x&DEPOTTYPE = x5
+.th Anvendes ikke pt.
+.if x&DEPOTTYPE = x6
+.th Særskilt sikkerhedsdepot, debitor
+.if x&DEPOTTYPE = x7
+.th Pensionsdepot
+.if x&DEPOTTYPE = x8
+.th Særskilt sikkerhedsdepot, 3. mand
+.if x&DEPOTTYPE = x9
+.th Se specielt kartotek
+.el
+...MBDEP
+&dty.
+.* MB-RET SLUT
+.ar off
+.*************************************************
+.ar OBLRENTE on
+.***** her deles kontonummer for obligationsrenter ****
+.se oblregnr = substr &GENOBLKTO 1 4
+.se oblktonr = substr &GENOBLKTO 5 7
+&oblregnr &oblktonr
+.ar off
+.*************************************************
+.ar UDTOBL on
+.***** her deles kontonummer for udtrukne obligationer ****
+.se uoblregnr = substr &GENUOBLKTO 1 4
+.se uoblktonr = substr &GENUOBLKTO 5 7
+&uoblregnr &uoblktonr
+.ar off
+.*************************************************
+.ar AKTIUDB on
+.***** her deles kontonummer for aktieudbytte ****
+.se aktregnr = substr &GENAKTKTO 1 4
+.se aktktonr = substr &GENAKTKTO 5 7
+&aktregnr &aktktonr
+.ar off
+.*************************************************
+.ar DEPGEB on
+.***** her deles kontonummer for depotgebyr  ****
+.se depgregnr = substr &GENDEPGKTO 1 4
+.se depgktonr = substr &GENDEPGKTO 5 7
+&depgregnr &depgktonr
+.ar off
+.*************************************************
+.ar PTBAFK on
+.***** her deles kontonummer for pantebrevsafkast *******
+.se panregnr = substr &GENPANKTO 1 4
+.se panktonr = substr &GENPANKTO 5 7
+&panregnr &panktonr
+.ar off
+.*************************************************
+.ar SIKDEP on
+.***** her deles kontonummer for sikkerhedsdepot *******
+.se sikregnr = substr &GENSIKDEP 1 4
+.se sikktonr = substr &GENSIKDEP 5 7
+&sikregnr &sikktonr
+.ar off
+.*************************************************
+.ar DISPFULD on
+&GENSTILL
+.br
+&GENNAVN
+.br
+&GENGADE
+.br
+&GENBY
+.ar off
+.*************************************************
+.ar DISPCPR on
+&GENCPR
+.ar off
+.*************************************************
+.ar FULDM on
+&GENSTILL1
+.br
+&GENNAVN1
+.br
+&GENGADE1
+.br
+&GENBY1
+.ar off
+.*************************************************
+.ar FULDMCPR on
+&GENCPR1
+.ar off
+.*************************************************
+.ar RETTADR on
+&GENSTILL2
+.br
+&GENNAVN2
+.br
+&GENGADE2
+.br
+&GENBY2
+.ar off
+.*************************************************
+.ar RETTCPR on
+&GENCPR2
+.ar off
+.*************************************************
+.ar RETTEKST on
+&GENRET1
+.br
+&GENRET2
+.br
+&GENRET3
+.br
+&GENRET4
+.ar off
+.*************************************************
+.ar AKTIEADR on
+&GENSTILL3
+.br
+&GENNAVN3
+.br
+&GENGADE3
+.br
+&GENBY3
+.ar off
+.*************************************************
+.ar AKTIECPR on
+&GENCPR3
+.ar off
+.*************************************************
+.ar PIDATO on
+&DATO
+.ar off
+.*************************************************
+.ar PIUND on
+&BANKNAVN
+.ar off
+.*************************************************
+.ar REF on
+&GENEKSP
+.ar off
+.*************************************************
+.ar INDEHUND on
+&NAVN
+.ar off
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+.*MB-RET (flere valg tilladt)
+.da oversk 20mm 32mm width 80mm
+.da side1  20mm 34mm width 175mm
+.da pbox1 109.2mm 62mm width 10mm
+.da pbox2 149mm 62mm width 10mm
+.da pbox3 50mm 187.3mm width 100mm
+.ar oversk on
+:SWISS12.
+:FED.
+.*MB-RET START
+.if &U'&GENVALG eq 1
+.us on
+.th Depotoprettelse
+.el Depotændring
+.*us Depotoprettelse/-ændring
+.us off
+.*MB-RET SLUT
+:SKRSLUT.
+.ar off
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+Faste oplysninger
+:SKRSLUT.
+:SWISS10.
+.bx new left 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.bx new left 58mm 119mm right
+.sp 7.5mm
+.hr left right
+.sp 7.5mm
+.bx off
+.bx can
+:FED.
+Fuldmagt
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 24mm
+.hr left right
+.sp 23mm
+.bx off
+:FED.
+Rettighedshaver
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 27mm
+.bx off
+:FED.
+.*MB-RET
+.*Aktiebogsnavn
+VP-ændringsmeddelelser
+:SKRSLUT.
+.*MB-RET (lodret midterstreg fjernet)
+.*bx new left 87.5mm right
+.bx new left right
+.sp 22mm
+.bx off
+:FED.
+Underskrift
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 8mm
+.hr left right
+.sp 27mm
+.bx new left right
+.sp 10mm
+.bx off
+.bx can
+.bx can
+.ar off
+.ar pbox1 on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar pbox2 on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar pbox3 on
+:SWISS8.
+:FED.
+.*MB-RET
+.*(hvis forskelligt fra depotindehaver)
+:SKRSLUT.
+.ar off
+.*MB-RET
+:SKRSLUT.
+:COUR10.
+.*MB-RET (flere valg tilladt)
+.*MB-RET SE rettet til CVR den 14/8-2001
+:SWISS8.
+.da DEPINDEH    21mm  42.2mm width 89mm
+.da DEPCPR      21mm  76.2mm width 89mm
+.da DEPNR    108.5mm  42.2mm width 85mm
+.da VPNR     108.5mm  51.7mm width 85mm
+.da OPRETÆND 115.5mm  63.2mm width 85mm
+.da DEPTYPE  108.5mm  70.5mm width 89mm
+.da OBLRENTE    21mm  80.2mm width 55mm
+.da UDTOBL    78.8mm  80.2mm width 60mm
+.*MB-RET
+.da AKTIUDB  139.8mm  80.2mm width 50mm
+.da DEPGEB      21mm    89mm width 55mm
+.da PTBAFK    78.8mm    89mm width 60mm
+.da SIKDEP   139.8mm    89mm width 50mm
+.da DISPFULD    21mm 103.1mm width 80mm
+.da DISPCPR     21mm 124.6mm width 80mm
+.da DISPUND  108.5mm 103.1mm width 80mm
+.da FULDM       21mm 128.6mm width 80mm
+.da FULDMCPR    21mm 149.1mm width 80mm
+.da FULDMUND 108.5mm 128.6mm width 80mm
+.da RETTADR     21mm 158.1mm width 50mm
+.da RETTCPR     21mm 183.1mm width 80mm
+.da RETTEKST 108.5mm 158.1mm width 50mm
+.*MB-RET
+.*da AKTIEADR    21mm 191.6mm width 50mm
+.da AKTIEADR    21mm 191.6mm width 170mm
+.da AKTIECPR    21mm 211.6mm width 80mm
+.da AKTIEUND 108.5mm 191.6mm width 50mm
+.da PIDATO      21mm 220.5mm width 180mm
+.da INDEHDATO 108.5mm 220.5mm width 90mm
+.da PIUND       21mm   230mm width 90mm
+.da REF         21mm 254.6mm width 90mm
+.da INDEHUND 108.5mm   230mm width 90mm
+.da UNDTEKST    21mm 258.9mm width 175mm
+.********************************************************
+.ar DEPINDEH on
+Depotindehaver
+.ar off
+.********************************************************
+.ar DEPCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar DEPNR on
+Depotnummer
+.ar off
+.********************************************************
+.ar VPNR on
+VP-kontonummer
+.ar off
+.********************************************************
+.ar OPRETÆND on
+.tp 39mm
+Oprettelse^Ændring
+.ar off
+.********************************************************
+.ar DEPTYPE on
+Depottype
+.ar off
+.********************************************************
+.ar OBLRENTE on
+.*MB-RET
+.*Konto for obligationsrenter
+Konto for afkast
+.ar off
+.********************************************************
+.ar UDTOBL on
+Konto for udtrukne obligationer
+.ar off
+.********************************************************
+.ar AKTIUDB on
+Konto for aktieudbytte
+.ar off
+.********************************************************
+.ar DEPGEB on
+Konto for depotgebyr
+.ar off
+.********************************************************
+.ar PTBAFK on
+Konto for pantebrevsafkast
+.ar off
+.********************************************************
+.ar SIKDEP on
+Sikkerhedsdepot for
+.ar off
+.********************************************************
+.ar DISPFULD on
+Dispositionsfuldmagt til
+.ar off
+.********************************************************
+.ar DISPCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar DISPUND on
+Som underskriver
+.ar off
+.********************************************************
+.ar FULDM on
+Fuldmagt til betalingsmodtagelse
+.ar off
+.********************************************************
+.ar FULDMCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar FULDMUND on
+Som underskriver
+.ar off
+.********************************************************
+.ar RETTADR on
+Navn og adresse
+.ar off
+.********************************************************
+.ar RETTCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar RETTEKST on
+Rettighedstekst
+.ar off
+.********************************************************
+.ar AKTIEADR on
+.*MB-RET (feltindhold ændret)
+.*Navn og adresse
+Ønsker depotindehaver VP-ændringsmeddelelser tilsendt (sæt x)
+.sp
+Ja  ___ (medfører øgede VP-gebyrer)
+.sp 2
+Nej ___ (meddelelse modtages kun fra banken)
+.ar off
+.********************************************************
+.ar AKTIECPR on
+.*MB-RET (feltindhold ændret)
+.*CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar AKTIEUND on
+.*MB-RET (feltindhold ændret)
+.*Som underskriver
+.ar off
+.********************************************************
+.ar PIDATO on
+Dato
+.ar off
+.********************************************************
+.ar INDEHDATO on
+Dato
+.ar off
+.********************************************************
+.ar PIUND on
+Pengeinstituttets underskrift
+.ar off
+.********************************************************
+.ar REF on
+Reference
+.ar off
+.********************************************************
+.ar INDEHUND on
+Depotindehavers underskrift
+.ar off
+.********************************************************
+.ar UNDTEKST on
+Med ovennævnte underskrift samtykker jeg i , at opbevaring af både mine
+danske og udenlandske værdipapirer kan ske i
+samledepot, og at
+.br
+jeg er bekendt med retsvirkningerne heraf, der er
+beskrevet i "Regler for opbevaring af værdipapirer i depot" som jeg har
+modtaget.
+.br
+Depotet vil tillige blive oprettet i Værdipapircentralen, såfremt der
+indlægges børsnoterede danske obligationer, aktier m.v. i depotet.
+.ar off
+.*MB-RET (cour10)
+:COUR10.
+.*MB-RET START
+.if x&GENVALG = x1
+.or x&GENVALG = x2
+.el .go SLUT
+.if &ÅPN le 5
+.an x&GENVALG = x1
+.th .pa
+.if &ÅPN le 2
+.an x&GENVALG = x2
+.th .pa
+.*th .pa
+...SLUT
+.*MB-RET SLUT
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+.*MB-RET START
+.if &E'&GENVALG = 0
+.th .se GENVALG = 1
+.if x&GENVALG ne x1
+.th .go SLUT
+.da SIDENR 170mm 30mm
+.ar SIDENR on
+:COUR14.
+:COUR8.
+SIDE 1 AF 3
+.ar off
+.*MB-RET SLUT
+.da side2 20mm 38mm width 175mm
+.da kol2v 21mm 43mm width 85mm
+.ar side2 on
+.in 1mm
+:SWISS10.
+:FED.
+.br
+.*MB-RET
+.*Depotbestemmelser
+Regler for opbevaring af værdipapirer i depot
+:SKRSLUT.
+.in 0mm
+.bx left right
+.sp 228mm
+.bx off
+.bx can
+.ar off
+.ar kol2v on
+.*MB-RET
+.*SWISS10.
+.*Regler for opbevaring af værdipapirer i depot
+:SWISS8.
+.*sp
+Reglerne gælder for pengeinstituttet og dets 100%-ejede
+datterselskab
+A/S, og hvor ikke andet er fastsat omfatter betegnelsen "pengeinstituttet"
+og "vi" også datterselskabet A/S.
+.sp
+Pengeinstituttets almindelige forretningsbetingelser, som udleveres ved
+etablering af ethvert kundeforhold, kommer til anvendelse på ethvert
+mellemværende mellem os og vores kunder, medmindre andet
+udtrykkeligt er aftalt mellem parterne eller fastsat af pengeinstituttet.
+.sp
+:SWISS10.
+Oprettelse af depot
+:SWISS8.
+.br
+Ved oprettelse af et depot skal vi have oplysning om
+Deres (deponentens) navn, adresse samt CPR-nr. eller SE-nr. (skal
+dokumenteres). Vi skal endvidere have underskriftsprøve fra
+Dem samt fra evt. dispositions- eller tegningsberettigede. Navne-
+og adresseændringer samt ændring af
+eventuelle
+dispositions- eller
+tegningsberettigede skal straks meddeles os. Der skal tillige
+føres en konto i pengeinstituttet, hvorpå afkast fra depotet kan indsættes,
+og hvorfra depotgebyrer m.v. kan hæves, samt hvor nettobeløb ved køb/salg
+af værdipapirer m.v. kan hæves/indsættes.
+.sp
+:SWISS10.
+Datterselskaber
+:SWISS8.
+.br
+Vi kan lade alle Deres ønskede dispositioner over de værdipapirer, der er
+opbevaret i depot i pengeinstituttet, foretage gennem datterselskabet A/S.
+De dokumentationer og oplysninger m.v., som vi kan kræve af Dem, kan
+datterselskabet også kræve som betingelse for at registrere eller udføre
+den ønskede disposition. For at sikre en hurtig og korrekt kunderådgivning
+og omsætning af værdipapirer kan datterselskabet indhente nødvendige
+oplysninger i pengeinstituttet om Deres depoter og konti, i det omfang det
+er tilladt i henhold til lov om private registre m.v.
+.sp
+:SWISS10.
+Opbevaring og ansvar
+:SWISS8.
+.br
+Vi hæfter for skade på deponerede værdipapirer, såfremt vi
+har forsømt at opbevare papirerne forsvarligt. Værdipapirer opbevares ikke
+i den af pengeinstituttets filialer, som de er indleveret til. Hvis
+papirerne f.eks. ønskes udleveret, må der derfor regnes med nogle dages
+ekspeditionstid. Ved indlevering til opbevaring påser vi ikke
+adkomstmangler ved og ægtheden af værdipapirerne.
+.sp
+:SWISS10.
+Samledepot
+:SWISS8.
+.br
+Vi kan vælge at opbevare Deres værdipapirer i samledepot.
+.br
+Opbevaringen i samledepot vil sige at Deres og andre kunders værdipapirer
+opbevares i samme depot, og vi fører et register over de enkeltes
+ejerforhold til de registrerede værdipapirer. Pengeinstituttets egne
+værdipapirer opbevares dog i særskilt depot.
+.sp
+:SWISS10.
+Forbehold ved indbetalinger
+:SWISS8.
+.br
+Afkast af værdipapirer indsættes med forbehold af, at vi
+modtager beløbet. Ved manglende betaling til pengeinstituttet, er
+vi berettiget til at tilbageføre de indsatte beløb på
+Deres konto.
+.sp
+:SWISS10.
+Depotudskrifter
+:SWISS8.
+.br
+Hvert år i januar måned udsendes en udskrift, der viser, hvad der er
+registreret i depotet pr. 31. december det foregående år, herunder hvad der
+er registreret i Værdipapircentralen, samt hvad der er indberettet til
+skattemyndighederne. Efter behov kan der mod gebyr rekvireres udskrifter,
+der udviser den aktuelle beholdning.
+.sp
+:SWISS10.
+Depotgebyr
+:SWISS8.
+.br
+Vores gebyrer for opbevaring af værdipapirer i depot og for de
+hermed forbundne arbejdsydelser beregnes til de til enhver tid gældende
+priser, som oplyses på forlangende.
+.sp
+:SWISS10.
+Regler for andre depottyper m.v.
+:SWISS8.
+.br
+For sikkerhedsdepoter, forvaltningsdepoter, herunder forvaltning af
+båndlagte midler og midler tilhørende umyndige, pensionsdepoter
+og andre depoter, gælder yderligere regler, som oplyses ved henvendelse
+til pengeinstituttet.
+.ar off
+.*MB-RET
+...SLUT
+.*MB-RET START
+.if x&GENVALG ne x1
+.th .go SLUT
+.*MB-RET SLUT
+.da kol2h 109mm 43mm width 85mm
+.ar kol2h on
+:SWISS10.
+Regler for aktier/konvertible obligationer
+.sp
+Nytegning
+:SWISS8.
+.br
+Hvis der i Statstidende indbydes til nytegning af aktier og/eller
+obligationer, herunder konvertible obligationer med fortegningsret for de
+hidtidige aktionærer og/eller obligationsejere, underretter vi Dem
+herom ved almindeligt brev, såfremt tegningsfristen gør underretning mulig.
+.sp
+De anmodes om inden for en af pengeinstituttet angivet frist at meddele,
+hvorvidt:
+.sp
+- Nytegning ønskes foretaget.
+.br
+- Tegningsretten skal søges solgt.
+.br
+- Supplerende/overskydende tegningsretter skal søges købt/solgt.
+.sp
+Såfremt vi ikke inden for den givne frist har modtaget
+Deres instruktion, og/eller De ikke stiller midler til
+rådighed for tegning, er vi berettiget til at sælge
+tegningsretterne bedst muligt for Deres regning. Vi
+påtager os dog intet ansvar for, at et evt. salg kan gennemføres.
+.sp
+Hvis værdien af tegningsretterne er mindre end omkostningerne ved evt.
+salg, kan pengeinstituttet undlade at sælge retterne.
+.sp
+Ikke benyttede tegningsretter, der er registreret i
+Værdipapircentralen,
+vil efter tegningsperioden blive slettet af
+Værdipapircentralen,
+uden forudgående meddelelse til deponenten.
+.sp
+:SWISS10.
+Fondsaktier
+:SWISS8.
+.br
+Hvis det i Statstidende offentliggøres, at der udstedes fondsaktier,
+underretter vi Dem herom ved almindeligt brev. De anmodes om
+inden for en af os angivet frist at meddele, hvorvidt:
+.sp
+- Fondsaktierne ønskes hjemtaget.
+.br
+- Aktieretterne skal søges solgt.
+.br
+- Supplerende/overskydende aktieretter skal søges indkøbt/solgt.
+.sp
+Såfremt vi ikke inden for den givne frist har modtaget
+Deres instruktion, og/eller De ikke stiller midler til
+rådighed for indkøb af aktieretter, hjemtager vi størst
+muligt antal fondsaktier og er berettiget til at sælge evt. overskydende
+aktieretter bedst muligt for Deres regning. Vi påtager
+os dog intet ansvar for, at et eventuelt salg kan gennemføres.
+.sp
+Hvis værdien af aktieretterne er mindre end omkostningerne ved evt. salg,
+kan vi undlade at sælge dem.
+.sp
+Ikke benyttede aktieretter, der er registreret i Værdipapircentralen, vil
+.*MB-RET AFSNIT RETTET
+.go MBRETS
+efter tegningsperioden blive slettet af Værdipapircentralen uden meddelelse
+til Dem.
+...MBRETS
+minimum være registreret 5 år efter tegningsperiodens udløb.
+.*MB-RET-SLUT
+.sp
+:SWISS10.
+Konvertible obligationer
+:SWISS8.
+.br
+På tidspunktet for konvertering af konvertible obligationer, som
+offentliggøres i Statstidende, underretter vi Dem ved almindeligt
+brev, såfremt konverteringsfristen gør underretning mulig.
+.sp
+De anmodes om inden for en af os angivet frist at
+meddele, hvorvidt:
+.sp
+ - De konvertible obligationer ønskes konverteret til aktier.
+.br
+ - De konvertible obligationer skal inkasseres ved forfald.
+.sp
+Såfremt vi ikke inden for den givne frist har modtaget
+Deres instruktion, er vi berettiget til for Deres
+regning og risiko at vælge den af ovennævnte muligheder, der efter
+vores skøn er mest fordelagtig for Dem.
+.sp
+:SWISS10.
+Købstilbud
+.br
+:SWISS8.
+Vi informerer Dem skriftligt om fremsatte købstilbud,
+hvis tidsfrister m.v. gør det muligt. Vi er ikke ansvarlig
+over for Dem, såfremt det fastsatte tilbud ikke benyttes inden for
+den fastsatte frist.
+.ar off
+.pa
+.*MB-RET
+...SLUT
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+.*MB-RET START
+.if x&GENVALG ne x1
+.th .go SLUT
+.ar SIDENR on
+:COUR14.
+:COUR8.
+SIDE 2 AF 3
+.ar off
+.*MB-RET SLUT
+.da side3 20mm 38mm width 175mm
+.da kol3v 21mm 43mm width 85mm
+.ar side3 on
+.in 1mm
+:SWISS10.
+:FED.
+.br
+Regler for opbevaring af værdipapirer i depot - fortsat
+:SKRSLUT.
+.in 0mm
+.bx left right
+.sp 228mm
+.bx off
+.bx can
+.ar off
+.ar kol3v on
+:SWISS10.
+Særlige regler for værdipapirer registreret i Værdipapircentralen
+.sp
+:SWISS8.
+For obligationer, aktier og andre fondsaktiver, der er registreret i
+Værdipapircentralen, gælder følgende betingelser:
+.sp
+:SWISS10.
+Registrering i Værdipapircentralen
+.br
+:SWISS8.
+I Værdipapircentralen registreres udstedelse og omsætning af danske
+obligationer, danske aktier og andre fondsaktiver, der er godkendt til
+registrering af Finanstilsynet, samt rettigheder over disse.
+Registreringen
+sker på en konto/depot i Værdipapircentralen (en VP-konto), som kan være et
+samledepot.
+.sp
+:SWISS10.
+Retsvirkning af samledepot
+.br
+:SWISS8.
+Retsvirkningerne af at opbevare Deres værdipapirer i samledepot er, at de
+udvidede erstatningsbestemmelser i lov om værdipapirhandel (§ 80 og § 81)
+gælder for samledepotet som helhed. Bestemmelserne vedrører erstatning for
+tab som følge af fejl i forbindelse med registrering, ændring eller
+udslettelse af rettigheder på konti i Værdipapircentralen eller udbetaling
+herfra, selv om fejlen er hændelig. Den samlede erstatning for tab, der er
+en følge af samme fejl, kan ikke overstige 500 mio. kr. for samledepotet
+som helhed. De udvidede erstatningsbestemmelser gælder kun for konti i
+Værdipapircentralen.
+.sp
+:SWISS10.
+Ændringsmeddelelser
+.br
+:SWISS8.
+.*MB-RET START
+Værdipapircentralen udsender ikke ændringsmeddelelser i følgende
+situationer:
+.*MB-RET (sp til sp 1mm)
+.tp 3mm
+.sp 1mm
+- ^Når udtrukne obligationer forfalder.
+.br
+- ^Når deponenten køber/sælger værdipapirer til/fra depotet.
+.br
+- ^Når der sker et fondskodeskift.
+.*MB-RET (sp til sp 1mm)
+.sp 1mm
+Deponenten har mulighed for at modtage ændringsmeddelelser i ovennævnte
+situationer mod betaling af særskilt gebyr.
+.*MB-RET SLUT
+.sp
+:SWISS10.
+Renter
+.br
+:SWISS8.
+På forfaldsdagen vil renter af obligationer blive indsat på kontoen
+tilknyttet depotet.
+.sp
+:SWISS10.
+Udtrækning
+.br
+:SWISS8.
+Efter udtrækning af obligationer vil meddelelse om evt. udtrukne beløb
+blive sendt til Dem og eventuelle andre berettigede. På
+forfaldsdagen indsættes udtrækningsbeløbet på kontoen tilknyttet
+depotet.
+.sp
+:SWISS10.
+Udbytte
+.br
+:SWISS8.
+På fjerde børsdag efter generalforsamlingen vil udbytte af aktier og
+investeringsforeningsandele med fradrag af udbytteskat blive indsat på
+kontoen tilknyttet depotet.
+.sp
+:SWISS10.
+Udenlandske værdipapirer registreret i Værdipapircentralen
+.br
+:SWISS8.
+Afkast fra udenlandske værdipapirer registreret i
+Værdipapircentralen
+anvises fra Værdipapircentralen i danske kroner til pengeinstituttets
+konti. Vi indsætter afkastet på Deres konto.
+.sp
+Udenlandske obligationer registreret i Værdipapircentralen kan ikke
+navnenoteres, uanset at obligationen i dens oprindelige form kan
+navnenoteres i hjemlandet.
+.sp
+:SWISS10.
+Anmeldelser og dispositioner over værdipapirer
+.br
+:SWISS8.
+Køb og salg, anmeldelse af rettigheder og andre dispositioner over
+obligationer, aktier m.v. sker på Deres anmodning gennem
+os og kan ske gennem samtlige vores afdelinger.
+Vi sørger for, at ændringen bliver registreret på VP-kontoen.
+Ved Deres køb tages forbehold for rettidig betaling.
+.sp
+:SWISS10.
+Dokumentation for anmeldelse
+.br
+:SWISS8.
+Ved enhver anmodning om, at vi skal foretage en registrering
+på VP-kontoen, kan vi kræve dokumentation for:
+.*MB-RET (sp til sp 1mm)
+.sp 1mm
+.tp 3mm
+- ^At anmeldelsen kommer fra rette vedkommende.
+.br
+- ^At dispositionen kan registreres.
+.sp
+.ar off
+.*MB-RET
+...SLUT
+.*MB-RET START
+.if x&GENVALG ne x1
+.th .go SLUT
+.*MB-RET SLUT
+.ti ^ 05
+.da kol3h 109mm 43mm width 85mm
+.ar kol3h on
+:SWISS8.
+Forinden indrapportering til Værdipapircentralen foretager vi
+en prøvelse af de anmeldte rettigheder og kan kræve, at andre nødvendige
+oplysninger foreligger, for at registrering kan ske, ellers afvises
+anmeldelsen. Hvis det sker, får anmelderen begrundelsen for afvisning, samt
+oplysninger om adgang til klagenævnet for værdipapircentraler.
+.sp
+På begæring udleveres en skriftlig bekræftelse til anmelder med angivelse
+af det tidspunkt, hvorpå anmeldelsen er modtaget.
+.sp
+:SWISS10.
+Tidspunktet for anmeldelsens virkning
+.br
+:SWISS8.
+Ved anmeldelse om registrering på VP-kontoen får registreringen
+retsvirkning fra tidspunktet for anmeldelsens endelige prøvelse i
+Værdipapircentralen (prøvelsen er en kontrol af anmeldelsens formelle
+gyldighed).
+.sp
+Vi skal have modtaget anmeldelsen inden for den sædvanlige åbningstid i
+afdelingen, hvor VP-kontoen skal føres.
+.sp
+Indgivelse af anmeldelse kan ske på følgende måder:
+.tp 3mm
+.sp
+- ^Ved anmelders personlige henvendelse i pengeinstituttet.
+.br
+- ^Pr. brevpost.
+.br
+.*MB-RET (tlf.,) tilføjet
+- ^Pr. tlf., telegram, telex, telefax, datakommunikation eller
+.in 3mm nobreak
+anden teknisk meddelelsesform.
+.in 0mm
+.sp
+Anmeldelse indgivet pr. telegram, telex, telefax,
+datakommunikation eller anden teknisk meddelelsesform skal bekræftes pr.
+brevpost fremsendt samme dag. Ordlyden i den første anmeldelse er gældende.
+.sp
+:SWISS10.
+Notering på navn
+.br
+:SWISS8.
+Begæring om notering af navn på aktier m.v. indgives til os, og vi anmelder
+begæringen over for Værdipapircentralen. På Deres begæring bekræfter vi
+skriftligt, at anmodning om navnenotering er registreret på kontoen samt
+datoen herfor.
+.*MB-RET AFSNIT FLYTTET HERFRA
+.sp
+:SWISS10.
+Deponering af navneaktier
+.br
+:SWISS8.
+Ved deponering af navneaktier m.v. vil anmodning om navnenotering blive
+registreret, medmindre De begærer andet.
+.*MB-RET AFSNIT FLYTTET HERTIL
+.sp
+Når et selskabs aktier skifter status til/fra at være navneaktier, kan vi
+foretage den fornødne registrering, såfremt intet andet er aftalt.
+.sp
+Ved salg af navneaktier m.v. er vi bemyndiget til at foranledige aktierne
+afnoteret.
+.sp
+:SWISS10.
+Deponering af ihændehaveraktier
+.br
+:SWISS8.
+Ved deponering af ihændehaveraktier m.v. vil anmodning om navnenotering kun
+blive registreret, hvis De begærer det.
+.sp
+Ved salg af ihændehaveraktier m.v. noteret på navn
+er vi bemyndiget til at
+foranledige aktierne afnoteret.
+.sp
+:SWISS10.
+Registreringsophør i Værdipapircentralen
+.br
+:SWISS8.
+Når et fondsaktiv ikke længere registreres i Værdipapircentralen, vil
+meddelelse herom blive sendt til kontohaver og evt.
+rettighedshavere.
+Meddelelsen indeholder så vidt muligt oplysninger om baggrunden for ophøret
+samt om en eventuel udbetaling af beløb i form af dividende eller
+tilbagebetaling af indbetalte beløb og lignende, eller helt eller delvist
+vederlag i fondsaktiver udstedt af den fortsættende udsteder eller
+tilsvarende. Meddelelsen gives af Værdipapircentralen eller os efter aftale
+med Værdipapircentralen.
+.sp
+:SWISS10.
+Klage
+.br
+:SWISS8.
+Klage over en afgørelse om registrering, ændring eller udslettelse af
+rettigheder over obligationer, aktier m.v. eller vores
+afvisning af en anmeldelse skal indgives skriftligt til:
+.sp
+:SWISS8.
+.in 13mm
+Klagenævnet for værdipapircentraler
+.br
+Helgeshøj Allé 61
+.br
+2630 Tåstrup
+.in 0mm
+.sp
+.ar off
+.pa
+.*MB-RET
+...SLUT
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+.*MB-RET START
+.if x&GENVALG ne x1
+.th .go SLUT
+.*MB-RET SLUT
+.ar SIDENR on
+:COUR14.
+:COUR8.
+SIDE 3 AF 3
+.ar off
+:SWISS8.
+.*MB-RET SLUT
+.ti ^ 05
+.da side4 20mm 38mm width 175mm
+.da kol4v 21mm 43mm width 85mm
+.ar side4 on
+.in 1mm
+:SWISS10.
+:FED.
+.br
+Regler for opbevaring af værdipapirer i depot - fortsat
+:SKRSLUT.
+.in 0mm
+.bx left right
+.sp 228mm
+.bx off
+.bx can
+.ar off
+.ar kol4v on
+:SWISS8.
+.in 0mm
+inden 6 uger efter, at registreringen i Værdipapircentralen er sket,
+henholdsvis senest 6 uger efter vores afvisning af anmeldelsen.
+Klageafdelingen kan i særlige tilfælde behandle klager, der indgives efter
+udløbet af ovennævnte klagefrist. Samtidig med indsendelsen af klagen skal
+der betales en klageafgift.
+.sp
+Denne fremgangsmåde gælder ikke erstatningskrav. De nærmere regler om klage
+fremgår af Finanstilsynets bekendtgørelse herom.
+.sp
+:SWISS10.
+Lovgivning
+.br
+.*MB-RET ("Love er rettet")
+:SWISS8.
+De nærmere regler om obligationer, aktier m.v. registreret i
+Værdipapircentralen, herunder om betingelserne for og retsvirkningerne af
+registrering, fremgår af "Lov om Værdipapirhandel m.v.",
+"Lov om Værdipapircentralen", samt de tilhørende
+bekendtgørelser.
+.sp
+:SWISS10.
+Regler for værdipapirer, der ikke registreres i Værdipapircentralen
+.sp
+Obligationer, herunder præmieobligationer
+.br
+:SWISS8.
+Vi efterser obligationer for udtrækning eller opsigelse, hvis
+bekendtgørelsen herom finder sted i Statstidende eller de
+officielle
+trækningslister. Pengeinstituttet efterser præmieobligationer for
+gevinster.
+Udtrukne obligationer, gevinster og rentekuponer inkasseres ved forfald.
+.sp
+:SWISS10.
+Aktier
+.br
+:SWISS8.
+Pengeinstituttet inkasserer udbyttekuponer fra deponerede aktier, såfremt
+tid og sted for indløsning af udbyttekuponerne offentliggøres i
+Statstidende. Med hensyn til nytegning, fondsaktier samt konvertible
+obligationer henvises til foranstående bestemmelser. Efter særlig aftale
+påtager vi os at få værdipapirer, der ikke er registreret i
+Værdipapircentralen, noteret på navn eller ihændehaver.
+.sp
+:SWISS10.
+Registering i Værdipapircentralen
+.br
+:SWISS8.
+Når en udsteder af fondsaktiver, der ikke noteres på Københavns Fondsbørs,
+eller en udsteder af udenlandske fondsaktiver får tilladelse til
+registrering af disse i Værdipapircentralen, sørger vi for
+registrering af de deponerede fondsaktiver uden forhåndsmeddelelse til
+Dem, medmindre andet er udtrykkeligt aftalt.
+.sp
+:SWISS10.
+Interimsbeviser m.v.
+.br
+:SWISS8.
+Vi ombytter interimsbeviser m.v. med aktier eller
+obligationer og taloner med nye kuponark.
+.sp
+:SWISS10.
+Pantebreve m.v.
+.br
+:SWISS8.
+Vi modtager pantebreve m.v. til opbevaring i depot, såfremt
+De oplyser debitors navn, adresse, CPR-nr. eller SE-nr. samt
+pantebrevets aktuelle restgæld.
+.sp
+For pantebreve, gældsbreve og lignende påtager vi os,
+medmindre andet er aftalt:
+.sp
+.tp 3mm
+- ^At underrette debitor om deponeringen, såfremt debitor har en
+^adresse her i landet.
+.sp
+- ^At modtage fastsatte ydelser fra debitor til indsættelse på
+.in 3mm nobreak
+Deres konto. Vi er på Deres vegne tilmeldt
+"Pengeinstitutternes BetalingsSystemer", som kreditor, hvorfor betalinger
+af pantebrevsydelser m.v. som betales gennem dette automatiske
+betalingssystem, er undergivet de for systemet til enhver tid gældende
+regler, som udleveres til Dem på forlangende.
+.in 0mm
+.sp
+- ^At underrette Dem, når ydelser er betalt.
+.sp
+- ^At modtage eventuelle ejerskifteafdrag og lignende og underrette
+^Dem (deponenten) herom.
+.sp
+- ^At afsende påkravsmeddelelse iht. tinglysningslovens § 42a til
+.in 3mm nobreak
+debitor, såfremt denne har adresse her i landet.
+.in 0mm
+.sp
+Samtlige beløb modtages med forbehold af Deres godkendelse og uden
+ansvar for os.
+.sp
+.ar off
+.*MB-RET
+...SLUT
+.*MB-RET START
+.if x&GENVALG ne x1
+.th .go SLUT
+.*MB-RET SLUT
+.da kol4h 109mm 43mm width 85mm
+.ar kol4h on
+Kun efter særlig aftale kan der træffes foranstaltninger, som er
+nødvendige for at holde forsikringsgaranti eller anden
+pantebrevskaution
+i kraft samt foretage rettidig anmeldelse om misligholdelelse af
+garanterede pantebreve over for garantistiller.
+.sp
+Vi forbeholder os et antal dage efter terminens udløb, før
+det med sikkerhed kan konstateres, om en terminsydelse er indbetalt.
+.sp
+:SWISS10.
+Regler for udenlandske værdipapirer
+.sp
+Opbevaring af udenlandske værdipapirer
+.br
+:SWISS8.
+Udenlandske værdipapirer - herunder danske papirer noteret på udenlandske
+børser eller registreret via udenlandske depotcentraler - opbevares hos en
+af vores forretningsforbindelser,
+hvis intet andet er aftalt. Deres værdipapirer kan
+opbevares i et samledepot. Værdipapirerne vil som udgangspunkt altid være
+opbevaret i et andet depot end pengeinstituttets egne værdipapirer. I
+tilfælde hvor Finanstilsynet har givet tilladelse hertil, kan Deres
+værdipapirer dog være opbevaret i samme depot som pengeinstituttets egne
+værdipapirer.
+.sp
+Vi er ansvarlige for den udenlandske forretningsforbindelses soliditet og
+mulige fejl i relation til deponerede værdipapirer. De er i samme
+omfang som os selv underkastet de retsregler og sædvaner, som
+gælder for den udenlandske forretningsforbindelse, såvel som dennes
+forretningsbetingelser.
+Vi er berettiget til at afgive oplysninger om Deres
+identitet og beholdning af værdipapirer, såfremt det
+pågældende
+lands lovgivning kræver dette.
+.sp
+De vil ikke modtage meddelelse om generalforsamlinger og kan kun
+efter særlig aftale forvente at få tildelt stemmeret. Andre meddelelser fra
+selskaberne vil kun blive givet til Dem, såfremt det drejer sig om
+afkast eller emissionsaktiviteter.
+.sp
+:SWISS10.
+Renter og udbytte af udenlandske værdipapirer opbevaret
+hos vor udenlandske forretningsforbindelse
+.br
+:SWISS8.
+For depoter bestående af udenlandske værdipapirer, som opbevares hos en af
+os valgt forretningsforbindelse, kan De normalt
+forvente, at rente af obligationer og aktieudbytte
+indsættes på Deres konto på
+forfaldsdagen, såfremt beløbet er stillet til vores
+disposition.
+.*MB-RET (afsnit fjernet)
+.go MBRET1
+.sp
+Vi er uden ansvar for tilbagesøgning af udenlandske renter, medmindre andet
+er aftalt.
+...MBRET1
+.sp
+:SWISS10.
+Rente og udbytte af udenlandske værdipapirer, der fysisk er opbevaret i
+pengeinstituttet
+.br
+:SWISS8.
+Rente og udbyttekuponer af udenlandske værdipapirer, som efter aftale er
+deponeret hos os, fremsendes til inkasso i udlandet og
+indsættes på Deres konto, så snart vi har modtaget
+ydelserne fra udlandet.
+.sp
+:SWISS10.
+Rente og udbytte af navnenoterede udenlandske værdipapirer, der er fysisk
+opbevaret i pengeinstituttet
+.br
+:SWISS8.
+For udenlandske værdipapirer, der i udlandet er noteret på Deres
+navn og deponeret hos os, påtager vi os intet
+ansvar i.f.m. emissionaktiviteter og betalinger m.v.
+.sp
+:SWISS10.
+Nytegning, fondsaktier m.v. vedr. udenlandske værdipapirer
+.br
+:SWISS8.
+I tilfælde af nytegning af aktier og/eller tegning af obligationer,
+herunder konvertible obligationer og warrants samt ved udstedelse af
+fondsaktier, underretter vi Dem herom ved almindeligt
+brev, såfremt tegningsfristen gør underretning mulig.
+.sp
+Afslutning af en emission - herunder bogføring af provenu m.v. -
+foretages
+først, når afregningsgrundlaget er stillet til vores
+disposition fra den udenlandske forretningsforbindelse.
+.ar off
+.*MB-RET
+...SLUT
+.* Parametre
+.se KUNDENR = &DEPKUNDENR.
+.**** HVIS DER IKKE SVARES J BLIVER RESTEN AF DOKUMENTET IKKE UDSKREVET **
+.if X&U'&MIBJN2 ne XJ
+.th .qu
+.** SIDESKIFT
+.pa
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 84mm
+.da PIOPL      25mm 71.6mm width 84mm
+.da KUNDENR    113mm 48mm width 84mm
+.da BRUGER     113mm 61mm width 76mm
+.da FORHOLD    25mm 117.5mm width 165mm
+.da UNDERSKRKU 20mm 267.5mm width 87mm
+.da UNDERSKRPI 107mm 267.5mm width 87mm
+.*******************************************************
+:COUR6.
+.ar KUNDEOPL on
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+.if x&E'&LAND = x1
+.th &BY  &LAND
+.el &BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+:COUR10.
+&BANKNAVN
+.br
+.if x&E'&AFDNAVN = x1
+.th &AFDNAVN
+.th .br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:COUR10.
+&KUNDENR
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*&GENBRUGNR
+.*ar off
+.*******************************************************
+.*.ar FORHOLD on
+.*&GENTEKST1
+.*.br
+.*&GENTEKST2
+.*.br
+.*&GENTEKST3
+.*.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+:COUR10.
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:COUR10.
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+.da OVERSK 20mm 32mm width 180mm
+.da SIDE1 20mm 39.0mm width 175mm
+.*********************
+.da VEND 7mm 275mm width 180mm rotate -90
+.*********************
+.*ar VEND on
+.*COUR6.
+.*if &E'&B37BREV = 1
+.*th &B37BREV
+.*el &BREVNAVN
+.*br
+.*tp 25mm
+.*^&DATO
+.*ar off
+.*********************
+.ar OVERSK on
+:SWISS14.:FED.
+.us
+Aftale om værdipapirhandlers udførelse
+.ar off
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kunde og cpr-nr ********
+.bx new left 87.5mm right
+.sp 11mm
+.***** her laves kassen til kontonr *****
+.*hr 87.5mm right
+.sp 11mm
+.***** her laves kassen til Pengeinstituttet *********
+.bx new left right
+.sp 22mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Formål
+:SKRSLUT.
+.***** her laves kassen til Formål ********************
+.bx new left right
+.sp 26mm
+.bx off
+.*****her laves kassen til Afregning af værdipaprihandler **
+:SWISS10.
+:FED.
+Afregning af værdipapirhandler
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx off
+.***** her laves kassen til Dokumenter  ***************
+:SWISS10.
+:FED.
+Dokumenter
+:SKRSLUT.
+.bx left right
+.sp 61mm
+.bx off
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi. underskrift ******
+.bx left right
+.sp 5.5mm
+.bx new left 87.5mm right
+.sp 30.5mm
+.bx off
+.bx can
+.bx can
+.ar off
+.tm 30mm
+.******************************************************
+.ti ^ 05
+.da KUNDE      21mm       44mm width 150mm
+.da PI         21mm     67.5mm width 85mm
+.da KUNDENR    108.5mm  44mm width 85mm
+.da BRUGER     108.5mm  57.5mm width 85mm
+.da FORM1     22mm     96.5mm width 80mm
+.da FORM2    108.5mm     96.5mm width 80mm
+.da AFREGN1    22mm    129.5mm width  80mm
+.da AFREGN2    108.5mm 129.5mm width  80mm
+.da KOLONNE1   22mm      166mm width 80mm
+.da KOLONNE2  108.5mm    166mm width 80mm
+.da HENV       22mm      234.5mm width 175mm
+.da UNDERSKRKU 21mm      240mm width 85mm
+.da UNDERSKRPI 108.5mm   240mm width 85mm
+.*******************************************************
+.ar KUNDE on
+:SWISS8.
+Kunde
+.ar off
+.*******************************************************
+.ar PI on
+:SWISS8.
+Pengeinstitut
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:SWISS8.
+CPR./SE-nummer:
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*SWISS8.
+.*Brugernummer:
+.*ar off
+.*******************************************************
+.ar FORM1 on
+:SWISS8.
+Mellem KUNDEN og &BANKNAVN. (i det følgende benævnt BANKEN)
+indgås nærværende aftale (i det følgende benævnt AFTALEN).
+ 
+AFTALEN finder anvendelse på enhver handel i værdipapirer
+optaget til notering på Københavns Fondsbørs A/S, som KUNDEN
+måtte indgå med BANKEN. Alle sådanne handler er i det følgende
+benævnt værdipapirhandler.
+.ar off
+.ar FORM2 on
+:SWISS8.
+AFTALEN regulerer afregningsformen for værdipapirhandler indgået
+mellem KUNDEN og BANKEN i overensstemmelse med Københavns
+Fondsbørs' børsetiske regler (i det følgende benævnt børsetiske
+regler).
+.ar off
+.*******************************************************
+.ar AFREGN1 on
+:SWISS8.
+Det aftales, at BANKEN til enhver tid er berettiget til at
+afregne værdipapirhandler indgået mellem KUNDEN og BANKEN til
+markedskurs. Vilkårene for markedskursafregning er fastlagt i
+"Vilkår for handel med værdipapirer i &BANKNAVN.", som er
+vedlagt AFTALEN.
+ 
+BANKEN er således i overensstemmelse med børsetiske regler § 6
+stk. 1, 2. pkt., berettiget til at fravige børsetiske regler § 6
+stk. 2 om strakshandel og gennemsnitshandel.
+.ar off
+.*******************************************************
+.ar AFREGN2 on
+:SWISS8.
+Der henvises generelt til "Vilkår for handel med værdipapirer i
+&BANKNAVN." samt børsetiske regler.
+ 
+Denne aftale vedrører alene afregningsformen for
+værdipapirhandler og berører på ingen måde andre aftaler, der
+måtte være indgået mellem KUNDEN og BANKEN.
+.ar off
+.*******************************************************
+.ar KOLONNE1 on
+:SWISS8.
+KUNDEN erklærer ved sin underskrift på AFTALEN at have modtaget
+et eksemplar af følgende dokumenter:
+ 
+  * Kopi af AFTALEN
+ 
+  * "Vilkår for handel med værdipapirer i &BANKNAVN."
+.ar off
+.*******************************************************
+.ar HENV on
+:SWISS8.
+Alle henvendelser vedrørende AFTALEN skal ske til: Midtbank i
+den filial, hvor KUNDEN er kontoførende.
+.ar off
+.*******************************************************
+.go KOL2SL
+.ar KOLONNE2 on
+:SWISS8.
+&BANKNAVN er ikke forpligtet til at gennemføre ordrer, såfremt jeg
+anmelder betalingsstandsning,
+kommer under konkursbehandling, afgår ved døden, indleder
+gældssanering eller forhandler om tvangsakkord.
+.sp 3mm
+Aftalen omfatter samtlige mine nuværende og fremtidige depoter i
+&BANKNAVN.. Der kan dog kun handles til/fra depoter, som det i øvrigt er
+muligt at disponere over.
+.sp 3mm
+Handel til/fra særlige depoter, herunder depoter med
+dispositionsbegrænsning, kan ikke finde sted uden særskilt aftale.
+.sp 3mm
+Jeg erklærer ved min underskrift på denne aftale at have modtaget eller
+være bekendt med: Vilkår
+for systemet, vilkår for handel med værdipapirer via "&PRODNAVN.",
+&BANKNAVN.s almindelige
+.hw for-ret-nings-be-tin-gel-ser,
+forretningsbetingelser for depot og forretningsbetingelser
+vedr. handel med værdipapirer. Forretningsbetingelser vedr. handel med
+værdipapirer finder anvendelse for enhver handel med
+værdipapirer mellem mig og banken uanset om jeg har afgivet ordre om køb
+eller salg af værdipapirer via &PRODNAVN eller på anden måde.
+.sp 3mm
+Såfremt jeg ønsker at kunne registrere ordrer, som skal afregnes til
+"Markedskurs" skal der indgås særskilt aftale herom.
+.ar off
+...KOL2SL
+.*******************************************************
+.ar UNDERSKRKU on
+:SWISS8.
+.tp 57mm
+Kundens underskrift ^Dato:
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:SWISS8.
+.tp 56.5mm
+Pengeinstituttets underskrift ^Dato:
+.ar off
+.*******************************************************
+.*pa
+.tm 30mm
+.** SIDESKIFT
+.pa
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 84mm
+.da PIOPL      25mm 71.6mm width 84mm
+.da KUNDENR    113mm 48mm width 84mm
+.da BRUGER     113mm 61mm width 76mm
+.da FORHOLD    25mm 117.5mm width 165mm
+.da UNDERSKRKU 20mm 267.5mm width 87mm
+.da UNDERSKRPI 107mm 267.5mm width 87mm
+.*******************************************************
+:COUR6.
+.ar KUNDEOPL on
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+.if x&E'&LAND = x1
+.th &BY  &LAND
+.el &BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+:COUR10.
+&BANKNAVN
+.br
+.if x&E'&AFDNAVN = x1
+.th &AFDNAVN
+.th .br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:COUR10.
+&KUNDENR
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*&GENBRUGNR
+.*ar off
+.*******************************************************
+.*.ar FORHOLD on
+.*&GENTEKST1
+.*.br
+.*&GENTEKST2
+.*.br
+.*&GENTEKST3
+.*.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+:COUR10.
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:COUR10.
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+.da OVERSK 20mm 32mm width 180mm
+.da SIDE1 20mm 39.0mm width 175mm
+.*********************
+.da VEND 7mm 275mm width 180mm rotate -90
+.*********************
+.*ar VEND on
+.*COUR6.
+.*if &E'&B37BREV = 1
+.*th &B37BREV
+.*el &BREVNAVN
+.*br
+.*tp 25mm
+.*^&DATO
+.*ar off
+.*********************
+.ar OVERSK on
+:SWISS14.:FED.
+.us
+Aftale om værdipapirhandlers udførelse
+.ar off
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kunde og cpr-nr ********
+.bx new left 87.5mm right
+.sp 11mm
+.***** her laves kassen til kontonr *****
+.*hr 87.5mm right
+.sp 11mm
+.***** her laves kassen til Pengeinstituttet *********
+.bx new left right
+.sp 22mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Formål
+:SKRSLUT.
+.***** her laves kassen til Formål ********************
+.bx new left right
+.sp 26mm
+.bx off
+.*****her laves kassen til Afregning af værdipaprihandler **
+:SWISS10.
+:FED.
+Afregning af værdipapirhandler
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx off
+.***** her laves kassen til Dokumenter  ***************
+:SWISS10.
+:FED.
+Dokumenter
+:SKRSLUT.
+.bx left right
+.sp 61mm
+.bx off
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi. underskrift ******
+.bx left right
+.sp 5.5mm
+.bx new left 87.5mm right
+.sp 30.5mm
+.bx off
+.bx can
+.bx can
+.ar off
+.tm 30mm
+.******************************************************
+.ti ^ 05
+.da KUNDE      21mm       44mm width 150mm
+.da PI         21mm     67.5mm width 85mm
+.da KUNDENR    108.5mm  44mm width 85mm
+.da BRUGER     108.5mm  57.5mm width 85mm
+.da FORM1     22mm     96.5mm width 80mm
+.da FORM2    108.5mm     96.5mm width 80mm
+.da AFREGN1    22mm    129.5mm width  80mm
+.da AFREGN2    108.5mm 129.5mm width  80mm
+.da KOLONNE1   22mm      166mm width 80mm
+.da KOLONNE2  108.5mm    166mm width 80mm
+.da HENV       22mm      234.5mm width 175mm
+.da UNDERSKRKU 21mm      240mm width 85mm
+.da UNDERSKRPI 108.5mm   240mm width 85mm
+.*******************************************************
+.ar KUNDE on
+:SWISS8.
+Kunde
+.ar off
+.*******************************************************
+.ar PI on
+:SWISS8.
+Pengeinstitut
+.ar off
+.*******************************************************
+.ar KUNDENR on
+:SWISS8.
+CPR./SE-nummer:
+.ar off
+.*******************************************************
+.*ar BRUGER on
+.*SWISS8.
+.*Brugernummer:
+.*ar off
+.*******************************************************
+.ar FORM1 on
+:SWISS8.
+Mellem KUNDEN og &BANKNAVN. (i det følgende benævnt BANKEN)
+indgås nærværende aftale (i det følgende benævnt AFTALEN).
+ 
+AFTALEN finder anvendelse på enhver handel i værdipapirer
+optaget til notering på Københavns Fondsbørs A/S, som KUNDEN
+måtte indgå med BANKEN. Alle sådanne handler er i det følgende
+benævnt værdipapirhandler.
+.ar off
+.ar FORM2 on
+:SWISS8.
+AFTALEN regulerer afregningsformen for værdipapirhandler indgået
+mellem KUNDEN og BANKEN i overensstemmelse med Københavns
+Fondsbørs' børsetiske regler (i det følgende benævnt børsetiske
+regler).
+.ar off
+.*******************************************************
+.ar AFREGN1 on
+:SWISS8.
+Det aftales, at BANKEN til enhver tid er berettiget til at
+afregne værdipapirhandler indgået mellem KUNDEN og BANKEN til
+markedskurs. Vilkårene for markedskursafregning er fastlagt i
+"Vilkår for handel med værdipapirer i &BANKNAVN.", som er
+vedlagt AFTALEN.
+ 
+BANKEN er således i overensstemmelse med børsetiske regler § 6
+stk. 1, 2. pkt., berettiget til at fravige børsetiske regler § 6
+stk. 2 om strakshandel og gennemsnitshandel.
+.ar off
+.*******************************************************
+.ar AFREGN2 on
+:SWISS8.
+Der henvises generelt til "Vilkår for handel med værdipapirer i
+&BANKNAVN." samt børsetiske regler.
+ 
+Denne aftale vedrører alene afregningsformen for
+værdipapirhandler og berører på ingen måde andre aftaler, der
+måtte være indgået mellem KUNDEN og BANKEN.
+.ar off
+.*******************************************************
+.ar KOLONNE1 on
+:SWISS8.
+KUNDEN erklærer ved sin underskrift på AFTALEN at have modtaget
+et eksemplar af følgende dokumenter:
+ 
+  * Kopi af AFTALEN
+ 
+  * "Vilkår for handel med værdipapirer i &BANKNAVN."
+.ar off
+.*******************************************************
+.ar HENV on
+:SWISS8.
+Alle henvendelser vedrørende AFTALEN skal ske til: Midtbank i
+den filial, hvor KUNDEN er kontoførende.
+.ar off
+.*******************************************************
+.go KOL2SL
+.ar KOLONNE2 on
+:SWISS8.
+&BANKNAVN er ikke forpligtet til at gennemføre ordrer, såfremt jeg
+anmelder betalingsstandsning,
+kommer under konkursbehandling, afgår ved døden, indleder
+gældssanering eller forhandler om tvangsakkord.
+.sp 3mm
+Aftalen omfatter samtlige mine nuværende og fremtidige depoter i
+&BANKNAVN.. Der kan dog kun handles til/fra depoter, som det i øvrigt er
+muligt at disponere over.
+.sp 3mm
+Handel til/fra særlige depoter, herunder depoter med
+dispositionsbegrænsning, kan ikke finde sted uden særskilt aftale.
+.sp 3mm
+Jeg erklærer ved min underskrift på denne aftale at have modtaget eller
+være bekendt med: Vilkår
+for systemet, vilkår for handel med værdipapirer via "&PRODNAVN.",
+&BANKNAVN.s almindelige
+.hw for-ret-nings-be-tin-gel-ser,
+forretningsbetingelser for depot og forretningsbetingelser
+vedr. handel med værdipapirer. Forretningsbetingelser vedr. handel med
+værdipapirer finder anvendelse for enhver handel med
+værdipapirer mellem mig og banken uanset om jeg har afgivet ordre om køb
+eller salg af værdipapirer via &PRODNAVN eller på anden måde.
+.sp 3mm
+Såfremt jeg ønsker at kunne registrere ordrer, som skal afregnes til
+"Markedskurs" skal der indgås særskilt aftale herom.
+.ar off
+...KOL2SL
+.*******************************************************
+.ar UNDERSKRKU on
+:SWISS8.
+.tp 57mm
+Kundens underskrift ^Dato:
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:SWISS8.
+.tp 56.5mm
+Pengeinstituttets underskrift ^Dato:
+.ar off
+.*******************************************************
+.*pa
+.tm 30mm

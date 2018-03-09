@@ -1,0 +1,285 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.* Fejlmeddelelse
+.da FEJL 25mm 60mm width 170mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+Aftale om etablering af
+.br
+sikkerhedsstillelse og fuldmagt
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 115mm 40mm width 50mm
+.da KTOHAVOV 25mm 68mm width 155mm
+.da KTOHAVER 25mm 72mm width 155mm
+.da MKTOHAVR 115mm 72mm width 85mm
+.da KUNDENR 25mm 96mm width 155mm
+.da DATO 160mm 110mm width 40mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+.if &L'&MEDNAVN gt 0
+.th Kontohavere
+.el Kontohaver
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.tp 90mm
+:FED.
+Kundenr.
+:SKRSLUT.
+.br
+.if &L'&MEDNAVN gt 0
+.th &cpr1.-&cpr2 ¤&MEDKUNDENR
+.el &cpr1.-&cpr2
+.ar off
+.**************************************************************************
+.ar DATO on
+&DATO
+.ar off
+.da SIDE1 25mm 117mm width 135mm
+.**************************************************************************
+.ar SIDE1 on
+:VERDA09.
+I forbindelse med, at
+.if &L'&MEDNAVN = 0
+.th .go KTO
+.el .go MEDKTO
+...MEDKTO
+&KTONAVN og &MEDNAVN (herefter kunden) har sat deres
+.go VIDERE
+...KTO
+&KTONAVN (herefter kunden) har sat sin
+.go VIDERE
+...VIDERE
+ejendom beliggende &B32EJEN., matr.nr. &B32MATR (herefter ejendommen)
+til salg, og &BANKNAVN i den forbindelse yder en Sælgerkonto
+:VS. &B32BELOB
+kr., som skal indfries ved salget af ejendommen, dog senest &GENDATO.,
+er der d.d. indgået følgende aftale:
+.sp 5mm
+:FED.
+Vilkår
+:SKRSLUT.
+.br
+.hy off
+:VERDA08.
+.hy on
+:SKRSLUT.
+.ar off
+.da KOLON1 25mm 145mm width 85mm
+.da KOLON2 115mm 145mm width 85mm
+.tp 5mm
+.**************************************************************************
+.ar KOLON1 on
+:VERDA07.
+.of 5mm
+1.¤Kunden oplyser, at ejendommen er sat til salg hos &B32MAEGLER til en
+udbudspris på
+:VS. &B32BELOB1
+kr. Kunden accepterer, at banken, når købsaftale foreligger, skal have
+sikkerhed i provenuet fra handelen, herunder bl.a. transport i en
+evt. deponeret købesum og transport i retten til at kræve
+sælgerpantebrevet udstedt, hvor sælgerpantebrevet indgår i en financieret
+handel.
+.sp 3mm
+.of
+.of 5mm
+2.¤Kunden skal straks orientere banken om ændringer i den indgåede
+aftale med mægleren, herunder om ændringer i udbudsprisen, og kunden
+skal straks orientere banken om enhver aftale om salg af ejendommen.
+.sp 3mm
+.of
+.of 5mm
+3.¤Kunden er forpligtet til straks efter indgåelse af aftale om salg
+af ejendommen at aflevere kopi af handelsdokumenterne til banken,
+således de relevante sikkerhedsdokumenter kan udfærdiges. Kunden er
+forpligtet til at underskrive disse dokumenter straks efter, at de er
+udarbejdet.
+.of
+.ar off
+.**************************************************************************
+.ar KOLON2 on
+:VERDA07.
+.of 5mm
+4.¤Kunden må ikke uden bankens samtykke optage lån med pant i
+ejendommen eller udleje ejendommen.
+.sp 3mm
+.of
+.of 5mm
+5.¤Kunden forpligter sig til at lade Nykredit forestå omprioteringen
+af ejendommen, når denne er solgt. Den kontante del af købesummen
+- fratrukket eventuel mæglerdeponering - skal deponeres i &BANKNAVN..
+.of
+.sp 3mm
+.of 5mm
+6.¤Kunden meddeler hermed banken uigenkaldelig fuldmagt til at indgå
+enhver aftale vedr. ejendommen, herunder acceptere købstilbud, indgå
+købsaftale, underskrive endeligt skøde og fremsende dette til tinglysning
+og til at underskrive sikkerhedsdokumenter i henhold til pkt. 3, såfremt
+det ovenstående beløb ikke er indfriet senest &GENDATO..
+.of
+.sp 3mm
+.of 5mm
+7.¤Nærværende aftale kan tinglyses på den gamle ejendom som byrde
+med &BANKNAVN som påtaleberettiget. Kunden betaler omkostningerne
+herved.
+.of
+.ar off
+.da UNDER 25mm 210mm width 170mm
+.**************************************************************************
+.ar UNDER on
+:VERDA09.
+:FED.
+Underskrift
+:SKRSLUT.
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.if &L'&MEDNAVN gt 0
+.th ¤¤¤¤¤
+.el ¤¤¤
+.tp 2mm 34mm 105mm
+.if &L'&MEDNAVN gt 0
+.th ¤Dato¤&KTONAVN.¤&MEDNAVN
+.el ¤Dato¤&KTONAVN
+.ar off
+.if &U'&B32UDSKRIV ne J
+.th .go NEJBUND
+.************** Areal definitioner ****************************************
+.da BUNDV 25mm 271mm width 50mm
+.da BUNDH 160mm 267mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.**************************************************************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN. A/S
+.****.br
+.****Betjening: &B32NYKDIR
+.br
+&B32ADR
+.br
+&B32POST
+.br
+Tlf. ¤&B32TLFDIR
+.br
+Fax. ¤&B32FAXDIR
+.br
+&B32WWWNYK
+.ar off
+...NEJBUND

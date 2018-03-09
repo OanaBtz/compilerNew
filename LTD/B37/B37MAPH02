@@ -1,0 +1,432 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&KTOSTILL
+.BR
+&KTONAVN
+.BR
+&KTOCO
+.BR
+&KTOGADE
+.BR
+&KTOBY  &KTOLAND
+.SK
+:EGL.
+.* Param afsn.
+.** ALM BEST TEST **
+.** ALM BEST ERH/PRIV **
+.if x&U'&MIBJN9 = xP
+.th .se almap = J
+.th .se almae = N
+.el .se almap = N
+.el .se almae = J
+.** SKAL ALMINDELIGE BESTEMMELSER UDSKRIVES **
+.if x&U'&MIBJN10 = xJ
+.th .se alm = J
+.el .se alm = N
+.** ALM BEST SLUT **
+.if &L'&B37REGKTO1 = 0
+.th .go KTO3
+.if &L'&B37EM161 < 4
+.an X&L'&B37EM201. = X0
+.el .go KTO3
+.TH .se fejl = 1
+.mg /E/ Regtype(el.navn) for konto 2 skal udfyldes når kontonr er udfyldt//
+...KTO3
+.if &L'&B37REGKTO2 = 0
+.th .go KTOF
+.if &L'&B37EM162 < 4
+.an X&L'&B37EM202. = X0
+.el .go KTOF
+.TH .se fejl = 1
+.mg /E/ Regtype(el.navn) for konto 3 skal udfyldes når kontonr er udfyldt//
+...KTOF
+.if &E'&fejl = 0
+.TH .go KTOX
+.mg /T/ Ret fejl og udskriv brevet igen //
+...KTOX
+.* 63xx INDLÅN MED SÆRLIGE BETINGENLSER
+.if x&REGTYPE  = x6311
+.th .se reg6311 = 1
+.if x&REGTYPE  = x6312
+.th .se reg6312 = 1
+.if x&REGTYPE  = x6313
+.th .se reg6313 = 1
+.if x&REGTYPE  = x6316
+.th .se reg6316 = 1
+.***
+.if x&B37EM161 = x6311
+.*or x&REGTYPE  = x6311
+.th .se B37EM201 'MerRentekonto 4,75% 2009'
+.th .se reg6311 = 1
+.if x&B37EM162 = x6311
+.th .se B37EM202 'MerRentekonto 4,75% 2009'
+.th .se reg6311 = 1
+.* 6312 MerRentekonto 5% 2010
+.if x&B37EM161 = x6312
+.th .se B37EM201 'MerRentekonto 5% 2010'
+.th .se reg6312 = 1
+.if x&B37EM162 = x6312
+.th .se B37EM202 'MerRentekonto 5% 2010'
+.th .se reg6312 = 1
+.* 6313 RentePlus (Privat)
+.if x&B37EM161 = x6313
+.th .se B37EM201 'RentePlus'
+.th .se reg6313 = 1
+.if x&B37EM162 = x6313
+.th .se B37EM202 'RentePlus'
+.th .se reg6313 = 1
+.* 6316 Fremtidskonto (Erhverv)
+.if x&B37EM161 = x6316
+.th .se B37EM201 'RentePlus'
+.th .se reg6316 = 1
+.if x&B37EM162 = x6316
+.th .se B37EM202 'RentePlus'
+.th .se reg6316 = 1
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.da SIDE1 20mm 40mm width 175mm
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+.***** her laves kassen til kunde  *****
+.bx new left 87.5mm right
+.sp 13mm
+.sp 20mm
+.***** her laves kassen til konti ****
+.bx new left right
+.sp 2.5mm
+.sp 14.5mm
+.*SWISS10.
+.*FED.
+.*SKRSLUT.
+.***** her laves kassen til betingelser ****************
+.bx left right
+.sp 164.9mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.ar off
+.se mig 'mig/os'
+.se Jeg 'Jeg/vi'
+.se jeg 'jeg/vi'
+.*******************************************************
+.da KUNDEOPL   25mm  48mm width 84mm
+.da KUNDENR    35mm  70.5mm width 84mm
+.da MEDCPR     143mm 70.5mm width 84mm
+.da MEDOPL     113mm 48mm width 84mm
+.da KTONR       35mm 78mm
+.*******************************************************
+.ar KUNDEOPL on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.*******************************************************
+.ar MEDOPL on
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.*******************************************************
+.ar MEDCPR on
+.if x&MEDKNDNR1 ne x0000000000
+.th &MEDKNDNR1.
+.ar off
+.*******************************************************
+.ar KUNDENR on
+&KTOKNDNR1
+.ar off
+.*******************************************************
+.*******************************************************
+.ar KTONR on
+&IREGKTO. ^&REGTYPELNG.
+.*if x&L'&MEDKUNDENR ne x0
+.*th ^Rentesats &MIBEM121.%
+.sp 2mm
+&B37REGKTO1. ^&B37EM201
+.sp 2mm
+&B37REGKTO2. ^&B37EM202
+.ar off
+.*******************************************************
+.* Tekst vedr. 5 år fjernet d. 1/7 2003 ES jvf. Lenette
+.* Tekst vedr. dekord indsatd.17/4 2008 ES jvf. Lenette
+.********
+.da VEND 7mm 277mm width 180mm rotate -90
+.DA OVERS 20mm  34mm WIDTH 172mm
+.DA KUNDE 21mm  42mm WIDTH 172mm
+.DA BEST1 22mm  95mm WIDTH 172mm
+.********
+.ar VEND on
+.*&BREVNAVN
+:SWISS6.
+.sp
+26092008
+.ar off
+.********
+.ar OVERS on
+:SWISS14.:FED.
+.*if x&E'&NAVN = x1
+.*th Samtykke til personlige henvendelser
+.*el Kontooprettelse og samtykke til personlige henvendelser
+Kontooprettelse - Indlån med særlige bestemmelser
+.ar off
+.********
+.ar KUNDE on
+.tp 87.5mm
+:SWISS8.
+Kundens navn:
+.if x&E'&NAVN. = x1
+.el .ct ^Medkontohavers navn:
+.sp 26mm
+Cpr.nr.:
+.if x&E'&NAVN. = x1
+.el .ct ^Medkontohavers Cpr.nr.:
+.sp 2mm
+.* TEST indlagt d. 12.6.2003 ES
+.if x&E'&NAVN. = x1
+.el Nye konti
+.ar off
+.********
+.ar BEST1 on
+:SWISS8.
+.sp
+.if x&reg6311 ne x1
+.th .go REG6312
+MerRentekonto 4,75% 2009
+er bundet frem til den 31. maj 2009. Hvis du hæver på kontoen frem
+til 31. maj 2009, udgør rentedekorten
+.br
+1,5 % af det hævede beløb (dog min.
+250 kr.).
+.br
+Der bliver tilskrevet rente på kontoen en gang om året pr. den
+31. maj, første gang 2009.
+.sp
+...REG6312
+.if x&reg6312 ne x1
+.th .go REG6312S
+MerRentekonto 5% 2010
+er bundet frem til den 31. maj 2010. Hvis du hæver på kontoen frem til
+31. maj 2009,
+udgør rentedekorten
+.br
+1,5 % af det hævede beløb (dog min. 250 kr.). Fra
+den 1. juni 2009 til den 31. maj 2010 udgør rentedekorten 0,5 % af det
+hævede beløb (dog min. 250 kr.).
+.br
+Der bliver tilskrevet rente på kontoen en gang om året pr. den
+31. maj, første gang 2009.
+.sp
+...REG6312S
+.if x&reg6313 eq x1
+.th .go FREMTID
+.if x&reg6316 eq x1
+.th .go FREMTID
+.go REG6316S
+...FREMTID
+RentePlus har fast rente på 5,25% p.a. og
+er bundet frem til ultimo april 2009. Hvis du hæver på kontoen frem
+til ultimo april 2009, udgør rentedekorten
+.br
+1,5 % af det hævede beløb (dog min.
+250 kr.).
+.br
+Der bliver tilskrevet rente på kontoen en gang om året ultimo april,
+første gang 2009.
+.sp
+...REG6316S
+:SWISS8.
+.*if x&BREVNAVN ne xB37MAPH02
+.*th .go PERS
+.if x&U'&MIBJN6 ne xJ
+.th .go EJSIK
+Sikringskontoen er spærret, så længe kontoens indestående ligger til
+sikkerhed for engagement beskrevet i særskilt sikkerhedsdokument.
+.sp
+...EJSIK
+.if x&U'&MIBJN7 ne xJ
+.th .go EJDAG
+Rentesatsen på en pengemarkedskonto er fastsat
+til bankens pengemarkedssats (dag
+til dag rentesats) fratrukket en
+.if x&L'&MIBEM123 ne x0
+.th marginal på &MIBEM123.%.
+.el marginal.
+.if x&L'&MIBEMNE5 ne x0
+.th .ct
+.th &MIBEMNE5..
+.th .sp
+...EJDAG
+.if x&U'&MIBJN8 ne xJ
+.th .go EJVAL
+Rentesatsen på en valutakonto er fastsat til bankens pengemarkedssats (dag
+til dag rentesats) fratrukket en
+.if x&L'&MIBEM124 ne x0
+.th marginal på &MIBEM124.%.
+.el marginal.
+.th .ct
+.if x&L'&MIBOBJK1 ne x0
+.th &MIBOBJK1..
+.th .sp
+&Jeg er orienteret om, at oprettelse af
+en valutakonto kan være forbundet med
+kursudsving for den valgte valuta i en for &mig negativ retning, og &jeg
+er medvidende om, at banken ikke påtager sig noget ansvar for denne risiko.
+.sp
+...EJVAL
+.if x&alm = xN
+.th .se almfn 'tidligere'
+.el .se almfn 'samtidig'
+Undertegnede har fået oprettet ovennævnte
+konto/konti og har &almfn
+modtaget Handelsbankens Almindelige forretningsbestemmelser for
+.if x&U'&MIBJN9 = xP
+.th privatkunder (forbrugere).
+.el erhverv.
+.br
+...PERS
+.sp 20mm
+.tp 2mm 27mm
+.hr tynd left 20mm   25mm 125mm
+ ^Dato ^Underskrift
+.sp 10mm
+.** Stopper et areal
+.ar off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.* Parametre
+.*S=&ÅPN tm=&ÅTM
+.*if x&U'&MIBJN9 = xN
+.if x&alm = xN
+.th .go ASLUT
+.*se B37AFSIDE = 3
+.* den 1.11.2009 rettet til 6 sider
+.se B37AFSIDE = 6
+.PN 1
+.el .se B37EJSIDE = 0
+.el .se B37EJDATO = 0
+.se BREVNAVN = 'B37ALMAX01TIL'
+.if x&almae = xJ
+.th .se BREVNAVN = 'B37ALMAE01TIL'
+.if x&almap = xJ
+.th .se BREVNAVN = 'B37ALMAP01TIL'
+.se B37BREV = '&BREVNAVN.'
+.*S=&ÅPN tm=&ÅTM
+.tm 48mm
+...ASLUT

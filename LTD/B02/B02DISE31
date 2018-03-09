@@ -1,0 +1,202 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.da AREAL01 20mm 45mm width 170mm
+.ar AREAL01 on
+:SWISS10.
+.ti ¤ 05
+.tp 5mm  60mm
+Følgende
+.sp 2
+.if &L'&B02TEXT1 gt 0
+.th 1) &B02TEXT1
+.th .ct ¤¤som tegner  ______________________________________
+.th .br
+.th ¤&B02TOM3
+.th .sp 2
+.if &L'&B02TEXT2 gt 0
+.th 2) &B02TEXT2
+.th .ct ¤¤som tegner  ______________________________________
+.th .br
+.th ¤&B02TOM4
+.th .sp 2
+.if &L'&B02TEXT3 gt 0
+.th 3) &B02TEXT3
+.th .ct ¤¤som tegner  ______________________________________
+.th .br
+.th ¤&B02TOM5
+.th .sp 2
+.if &L'&B02TEXT4 gt 0
+.th 4) &B02TEXT4
+.th .ct ¤¤som tegner  ______________________________________
+.th .br
+.th ¤&B02TOM6
+.th .sp 2
+.if &L'&B02TEXT5 gt 0
+.th 5) &B02TEXT5
+.th .ct ¤¤som tegner  ______________________________________
+.th .br
+.th ¤&B02TOM7
+.sp
+befuldmægtiges til
+.if &B02VALG12 eq 1
+.th i forening,
+.*.if &L'&B02TEXT3 gt 0
+.*.th se nedenfor
+.if &B02VALG12 eq 2
+.th hver for sig
+.if &B02VALG12 eq 3
+.th .sp
+.th ___ i forening
+.th .sp
+.th ___ hver for sig
+.th .sp
+at disponere på
+depot nr. &DEPOTNR.,
+tilhørende &NAVN..
+.sp
+Fuldmagten
+er gældende, indtil banken har modtaget skriftlig tilbagekaldelse.
+.sp 2
+.if &L'&B02TEXT6 gt 0
+.or &B02VALG12 eq 3
+.th :FED.
+.th .br
+.th Vilkår for tegningsforholdet:
+.th :SKRSLUT.
+.th .br
+.th &B02TEXT6
+.th &B02TEXT7
+.th &B02TEXT8
+.th .sp 2
+.if &B02VALG12 eq 3
+.th .sp 6
+Undertegnede fuldmagtsgiver bekræfter herved rigtigheden af ovenstående.
+.sp
+.tp 50mm
+.sp 4
+Dato:¤_________________________________________________
+:SWISS9.
+.br
+¤Underskrift(er)
+:SWISS10.
+.sp 3
+.ti ¤ 05
+.tp 17
+Øvrige oplysninger vedrørende depot nr. &DEPOTNR.:
+:SWISS10.
+.sp
+.if &L'&B02TEXT9 gt 0
+.th Indb.pligtig: ¤&B02TEXT9
+.th .br
+.if &L'&B02TEXT10 gt 0
+.th Kundenr.:¤&B02TEXT10
+.th .sp
+.if &L'&B02TEXT11 gt 0
+.th Formand:¤&B02TEXT11
+.th .br
+.if &L'&B02TEXT12 gt 0
+.th Kundenr.:¤&B02TEXT12
+.th .sp
+.if &L'&B02TEXT13 gt 0
+.th Kasserer:¤&B02TEXT13
+.th .br
+.if &L'&B02TEXT14 gt 0
+.th Kundenr.:¤&B02TEXT14
+:SWISS10.
+.sp 2
+&B02TEXT15
+&B02TEXT16
+&B02TEXT17
+&B02TEXT18
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 60mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Fuldmagt -
+.if &B02VALG2 eq 1
+.th .ct  forening
+.if &B02VALG2 eq 2
+.th .ct  aktieselskab
+.if &B02VALG2 eq 3
+.th .ct  anpartsselskab
+.if &B02VALG2 eq 4
+.th .ct  kommanditselskab
+.if &B02VALG2 eq 5
+.th .ct  interessentskab
+:SKRSLUT.
+:SWISS10.
+.sp 3mm
+Underskriftskort
+.sp
+Depotkundenr.:  &DEPKUNDENR
+.ar off
+.ri off
+.ar off
+.**************************************************************************

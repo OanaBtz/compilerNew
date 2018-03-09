@@ -1,0 +1,237 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da MNAVN 110mm 41.5mm width 70mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.da CPR 25mm 82mm width 95mm
+.da MEDCPR 110mm 82mm width 70mm
+.*************NAVN OG ADRESSE****************
+.fo left
+:SWISS11.
+.ar NAVN on
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+.sp 3
+.ar off
+.ar CPR on
+Cpr.nr.: &KTOKUNDENR.
+.ar off
+.ar MNAVN on
+.if &U'&B02VÆLG eq J
+.th &MEDSTILL
+.br
+&MEDNAVN.
+.br
+&MEDCO.
+.br
+&MEDGADE.
+.br
+&MEDBY.
+.br
+&MEDLAND.
+.sp 3
+.ar off
+.ar MEDCPR on
+.if X&MEDKUNDENR eq X000000-0000
+.th .go slut
+Cpr.nr.: &MEDKUNDENR.
+...slut
+.ar off
+.**************** SLUT **********************
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Aftale om Højrentekonto
+.br
+med fast rente til 16. juli 2014
+.ri off
+.ar off
+.**************************************************************************
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.da TEXT 25mm 50mm width 160mm
+.ar TEXT on
+.sp 10
+opretter hermed en Højrentekonto konto nr. &IREGKTO. med fast rente til og
+med
+.br
+15. juli 2014. Se forrentning i nedenstående skema.
+.*.su off
+.*.se kontonr1 = substr &IREGKTO 1 4
+.*.se kontonr2 = substr &IREGKTO 5 11
+.*.su on
+.br
+.sp 2mm
+:SWISS11.
+:FED.
+Kontobetingelser
+:SKRSLUT
+.sp 2mm
+:SWISS11.:FED.
+Indskud
+.br
+:SKRSLUT
+Kontoen er åben for indskud til og med 15. juli 2011. Sker der
+ændringer i markedsforholdene, kan BankNordik uden varsel lukke for
+indskud på kontoen inden 15. juli 2011.
+.sp 2mm
+:FED.
+Indestående
+:SKRSLUT
+.br
+Kontoens indestående skal pr. 15. juli 2011 udgøre mindst
+kr. 50.000 og maksimalt kr. 2 mio.
+.sp 2mm
+:FED.
+Binding
+:SKRSLUT.
+.br
+Kontoens indestående er bundet til og med 15. juli 2014.
+.sp 2mm
+Udbetaling af beløb fra kontoen i bindingsperioden kan alene ske i
+bankens filialer og mod dekort. På højrentekontoen kan renten dog hæves
+dekortfrit i 30 dage efter tilskrivning. Dekort beregnes med 0,75% for
+udbetalinger i kontoens løbetid. Der kan ikke hæves på kontoen de første
+6 måneder (til og med 15. februar 2012).
+.sp 2mm
+:FED.
+Forrentning
+:SKRSLUT
+.br
+.sp 2mm
+.tp 5mm 80mm
+.bx 0mm 160mm
+.vr 75mm
+.sp 2mm
+:FED.
+¤ Periode ¤ Forrentning af saldo
+:SKRSLUT.
+.br
+.hr 0mm 160mm
+.sp 2mm
+¤ 1. juli 2011 - 15. juli 2012 ¤ 1,30% p.a.
+.sp 2mm
+.*************'
+.hr 0mm 160mm
+.sp 2mm
+¤ 16. juli 2012 - 15. juli 2013 ¤ 3,00% p.a.
+.sp 2mm
+.hr 0mm 160mm
+.sp 2mm
+¤ 16. juli 2013 - 16. juli 2014 ¤ 4,25% p.a.
+.sp 2mm
+.bx off
+.vr off
+.sp 2mm
+:FED.
+Udløb
+:SKRSLUT
+.br
+Kontoen ændres automatisk til en PrivatOpsparingskonto pr. 16. juli
+2014. Det vedlagte produktblad beskriver de gældende regler for
+PrivatOpsparingskontoen.
+.sp 2mm
+:FED.
+Rentetilskrivning
+:SKRSLUT.
+.br
+Rentetilskrivning sker årligt den 15. juli - første gang 15. juli 2012.
+.da UND 25mm 247mm width 95mm
+.ar UND on
+Den &DATO
+.sp 4
+.tp 55mm
+.hr 0mm 95mm
+.br
+:SWISS8
+&KTONAVN ¤¤&MEDNAVN
+.da AMAG 115mm 247mm width 75mm
+.ar AMAG on
+:SWISS11.
+.*.in 15mm
+.ce Den &DATO
+.sp 2
+.ce &BANKNAVN
+:SWISS9.
+.sp
+.ce &B02AFD
+.pa

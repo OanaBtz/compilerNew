@@ -1,0 +1,802 @@
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
+.*** Areal til brevnavn i nederste venstre hjørne **********
+.da VEND 6,5mm 275mm width 180mm rotate -90
+.*****
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
+:SKRSLUT
+.ar off
+.***********************************************************
+.ar EJENDOM on
+:VERDA09.
+.tp 10mm 25mm 35mm
+¤¤¤&B55FRI40A
+.br
+¤¤¤&B55FRI11
+.sp 4,5mm
+¤¤&B55BELØB5A
+:SKRSLUT
+.ar off
+.***********************************************************
+.ar NYTLÅN on
+:VERDA09.
+.tp 100mm char , 110mm 143mm
+&B55FRI35A. ¤&B55BELØB6A. ¤&B55FRI61. ¤&B55NR91
+.br
+&B55FRI2.
+.sp
+&B55FRI35B. ¤&B55BELØB0. ¤&B55FRI62. ¤&B55NR92
+.br
+&B55FRI3.
+:SKRSLUT
+.ar off
+.***********************************************************
+.*************************************
+.da KTOHAVER    22mm    49mm width  84mm
+.da CPR         22mm  68,5mm
+.da CPRMED   109,5mm  68,5mm
+.da MEDKUN   109,5mm    49mm width  84mm
+.da EJENDOM     22mm    91mm width 160mm
+.da NYTLÅN      22mm   148mm width 165mm
+.da KASSER      22mm 180,5mm width  10mm
+.***********************************************************
+.ar KTOHAVER on
+:VERDA09.
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+:SKRSLUT
+.ar off
+.********************************************************************
+.ar CPR on
+.tp 20mm
+:VERDA09.
+¤&KTOKUNDENR.
+:SKRSLUT
+.ar off
+.***********************************************************
+.ar MEDKUN on
+:VERDA09.
+&MEDSTILL.
+.br
+&MEDNAVN.
+.br
+&MEDCO.
+.br
+&MEDGADE.
+.br
+&MEDBY.
+.ar off
+.*********************************************************************
+.ar CPRMED on
+.tp 20mm
+:VERDA09.
+.if &L'&MEDNAVN eq 0
+.th .go NÆST
+.el ¤&MEDKUNDENR.
+...NÆST
+Politik for ordreudførelse
+.br
+Politik for håndtering af interessekonflikter
+.br
+Betingelser for opbevaring af værdipapirer i depot
+.sp
+som kan læses på vores hjemmeside www.moensbank.dk eller er udleveret
+efter ønske.
+.ar off
+.***********************************************
+.ar PÅFØRTTK on
+.tp 20mm 105mm
+¤&KTONAVN ¤&MEDNAVN
+.sp 24,8mm
+.tp 77mm
+¤&BANKNAVN.
+.ar off
+.pa
+:FED.
+Information om investorbeskyttelse ved værdipapirhandel i tilknytning
+til og som forudsætning for udførelse af kunders realkreditforretninger.
+.sp 8mm
+Kundekategorisering
+:SKRSLUT
+.br
+I overensstemmelse med reglerne om investorbeskyttelse ved
+værdipapirhandel har Møns Bank inddelt sine kunder i kategorier. I
+henhold til denne aftale om udførelse af realkreditforretninger,
+har Møns Bank kategoriseret &DIG. som detailkunde(r).
+.sp
+:FED.
+Ordreudførelsespolitik
+:SKRSLUT.
+.br
+&SJEG. er bekendt med Møns Bank's ordreudførelsespolitik og samtykker
+i, at Møns Bank ved ekspedition af &MIN.
+ordre(r) kan udføre &MIN.
+handelsordre uden for et reguleret marked som f.eks. Nasdaq OMX
+Copenhagen A/S.
+.sp
+:FED.
+Oplysninger på Møns Bank's hjemmeside
+:SKRSLUT.
+.br
+Hvis det er hensigtsmæssigt på den baggrund, hvorpå forretningerne mellem
+Møns Bank og &DIG. udføres, kan Møns Bank opdatere generelle aftalevilkår
+som værdipapirhandel, ved at henvise til Møns Bank's hjemmeside.
+.sp
+:FED.
+Opbevaring i samledepot
+:SKRSLUT.
+.br
+&SJEG. samtykker samtidig med &MIN. underskrift
+i, at opbevaring af både &MINE.
+danske og udenlandske værdipapirer kan ske i samledepot, og at &JEG.
+er bekendt med retsvirkningerne heraf, der er beskrevet i "Betingelser
+for opbevaring af værdipapirer i depot".
+.sp
+:FED.
+Vilkår for handel med realkreditobligationer
+:SKRSLUT.
+.br
+I forbindelse med denne handel med realkreditobligationer gælder
+følgende af Møns Bank's standard vilkår:
+.sp
+Forretningsbetingelser og priser for handel med finansielle
+instrumenter
+.br
+:VERDA09.
+.da UNDERSKRK  20mm   42mm width 170mm
+.da UNDERSKRT  22mm   35mm width 165mm
+.da PÅFØRTTK   20mm  235mm width 160mm
+.da INVESTOR   22mm   80mm width 165mm
+.**********************************************
+.ar UNDERSKRK on
+:VERDA07.
+.bx left right
+.tp 60mm 88,5mm 145mm
+.sp 32mm
+.bx off
+.bx new left right
+.sp 131mm
+.bx off
+.bx left 87,5mm right
+.in 1mm
+Kontohavers underskrift ¤den ¤Evt. medkontohavers underskrift ¤den
+.in 0mm
+.sp 22mm
+.bx off
+.bx new left right
+.in 1mm
+Bankens underskrift ¤¤¤den
+.in 0mm
+.sp 22mm
+.bx off
+.ar off
+.**********************************************
+.ar UNDERSKRT on
+:VERDA12.
+:FED.
+Prioriteringsaftale - Køb af ejendom
+:SKRSLUT.
+:SKRSLUT.
+.sp 6mm
+Beløbene er anslået ud fra de kendte omkostninger.
+.sp
+Når prioriteringssagen afsluttes afregnes overskud/underskud
+over konto nr.:
+.us
+&B55KTONR1..
+.us off
+.sp
+Terminerne tilmeldes via BetalingsService på konto &B55KONTO1.
+.sp
+I øvrigt gælder &BANKNAVN.s almindelige forretningsbestemmelser.
+.ar off
+.**************************************************************************
+.ar INVESTOR on
+:VERDA09.
+.da OMKOSTK   20mm    47mm width  170mm
+.da OMKOSTT   22mm    35mm width  165mm
+.**********************************************
+.**********************************************
+.ar OMKOSTK on
+.bx left right
+.sp 220mm
+.bx off
+.ar off
+.**********************************************
+.ar OMKOSTT on
+.tp 100mm 110mm 140mm right
+:VERDA12
+:FED.
+Prioriteringsaftale - Køb af ejendom
+:SKRSLUT.
+:SKRSLUT.
+.br
+:FED.
+Omkostninger i forbindelse med omprioriteringen
+:SKRSLUT.
+.sp 8mm
+:FED.
+Til &BANKNAVN.:
+:SKRSLUT
+.sp 8mm
+&B55FRI17. ¤¤kr. ¤&B55BEL1A.
+.if &B55BEL1B = 0,00
+.th
+.el .br
+.el Garantigebyr ¤¤kr. ¤&B55BEL1B.
+.if &B55BEL1E = 0,00
+.th
+.el .br
+.el Gebyr for kurskontrakt / fastkurs aftale ¤¤kr. ¤&B55BEL1E.
+.if &B55BEL1F = 0,00
+.th
+.el .br
+.el Indfrielse/aflysning ¤¤kr. ¤&B55BEL1F.
+.if &B55BEL1G = 0,00
+.th
+.el .br
+.el Påtegning på (ejer)pantebrev  ¤¤kr. ¤&B55BEL1G.
+.if &B55BEL1H = 0,00
+.th
+.el .br
+.el Tinglysning og tingbogsattest ¤¤kr. ¤&B55BEL1H.
+.if &B55BEL1I = 0,00
+.th
+.el .br
+.el Opsigelse af lån ¤¤kr. ¤&B55BEL1I.
+.if &B55BEL1J = 0,00
+.th
+.el .br
+.el &B55FRI1 ¤¤kr. ¤&B55BEL1J.
+.if &B55BEL1K = 0,00
+.th
+.el .br
+.el &B55FRI4 ¤¤kr. ¤- &B55BEL1K.
+.br
+¤¤¤----------
+.br
+:FED.
+Ialt omkostninger &B55FRI17. ¤¤kr.¤&RESULTA.
+:SKRSLUT
+.br
+¤¤¤----------
+.sp 10mm
+.if &B55BEL1L = 0,00
+.th
+.el .br
+.el Anslået garantiprovision  ¤¤kr. ¤&B55BEL1L.
+.if &B55BEL1C = 0,00
+.th
+.el .br
+.el Anslået garantiprovision / sagsgaranti /
+.el konverteringsgaranti ¤¤kr. ¤&B55BEL1C.
+.if &B55BEL1D = 0,00
+.th
+.el .br
+.el Anslået garantiprovision forhåndslån ¤¤kr. ¤&B55BEL1D.
+.br
+¤¤¤----------
+.br
+:FED.
+Ialt omkostninger provision ¤¤kr.¤&RESULTE.
+:SKRSLUT
+.br
+¤¤¤----------
+.sp 10mm
+:FED.
+Til kreditforeningen:
+:SKRSLUT
+.sp
+Lånesags gebyr / stiftelsesprovision ¤¤kr. ¤&B55BELØB9K.
+.if &B55BELØB9L = 0,00
+.th
+.el .br
+.el Kurtage ved salg af
+.el obligationer 0,15 % af kursværdi ¤¤kr. ¤&B55BELØB9L.
+.br
+¤¤¤----------
+.br
+:FED.
+I alt omkostninger til Kreditforeningen ¤¤kr. ¤&RESULTB.
+.br
+¤¤¤----------
+.sp 10mm
+Til det offentlige:
+:SKRSLUT
+.sp
+Fast tinglysningsafgift - nyt lån ¤¤kr. ¤&B55BELØB9N.
+.if &B55BELØB9O = 0,00
+.th
+.el .br
+.el Variabel tinglysningsafgift - nyt lån ¤¤kr. ¤&B55BELØB9O.
+.if &B55BELØB9H = 0,00
+.th
+.el .br
+.el Fast tinglysningsafgift - ejerpantebrev ¤¤kr. ¤&B55BELØB9H.
+.if &B55BELØB9I = 0,00
+.th
+.el .br
+.el Variabel tinglysningsafgift - ejerpantebrev ¤¤kr. ¤&B55BELØB9I.
+.if &B55BELØB9P = 0,00
+.th
+.el .br
+.el Fast tinglysningsafgift - rykningspåtegning(er) ¤¤kr. ¤&B55BELØB9P.
+.br
+¤¤¤----------
+.br
+:FED.
+I alt omkostninger til det offentlige ¤¤kr.¤&RESULTC.
+.br
+¤¤¤----------
+.br
+I alt påløbne omkostninger ¤¤kr. ¤&RESULTD.
+.br
+:FED.
+¤¤¤_________
+:SKRSLUT
+.sp 10mm
+Hvis sælgers pengeinstitut opkræver gebyr for underskrift i forbindelse
+med overtagelse af ejerpantebrev, så betales gebyr særskilt.
+.ar off
+.pa
+selvangivelse. Garantiprovisionen
+er ikke indberettet, hvorfor &DU. selv skal påføre &DIN.
+selvangivelse oplysningen.
+.in 0mm
+.sp
+.if &U'&B55SPØRG4 = N
+.th
+.el 4 ¤&SJEG. har modtaget rådgivning af &BANKNAVN.
+.el .in 8mm nobreak
+.el i forbindelse med indgåelse af en boligkreditaftale. Rådgivningen
+.el er ikke uafhængig. Det betyder, at rådgivningen kun omfatter
+.el produkter, som &BANKNAVN. udbyder.
+.in 0mm
+.pa
+.sp
+:FED.
+Transport i hjemtaget lån og pantsætning af indestående på konti
+:SKRSLUT.
+.sp 2mm
+Til sikkerhed for ethvert krav, &BANKNAVN. får mod &MIG. ved
+prioriteringen, giver &JEG.
+&BANKNAVN. transport i provenu af lån, der skal hjemtages, uanset om lånet
+udbetales kontant eller ved obligationer.
+.sp
+Beløbet på kontoen og eventuel depot er pantsat til &BANKNAVN. til
+sikkerhed for ethvert krav, &BANKNAVN får mod &MIG. ved prioriteringen,
+herunder krav som følger af bankens garantistillelse overfor
+realkreditinstitutter.
+.sp
+&BANKNAVN. har indtrædelsesret i realkreditinstituttets pant.
+.sp
+:FED
+Rådgivning.
+:SKRSLUT
+.sp 2mm
+&SJEG. bekræfter, at &JEG. har fået rådgivning fra
+&BANKNAVN om nedennævnte punkter:
+.sp
+1 ¤Det er
+.in 8mm nobreak
+normalt muligt at kurssikre udbetalingen af realkreditlån, så renten på
+et kontantlån og provenuet af et obligationslån er sikret. Det er også
+normalt muligt at kurssikre indfrielsen af
+realkreditlån, så
+indfrielsesbeløbet er sikret.
+.sp 2mm
+Hvis &JEG. ikke opretter aftale om kurssikring, er der risiko for, at
+kursudviklingen gør nye lån eller indfrielsen af eksisterende lån
+dyrere end på nuværende tidspunkt.
+.in 0mm
+.sp
+2 ¤Optages der
+.in 8mm nobreak
+kontantlån, er kursgevinster ved indfrielser skattepligtige. Det gælder
+dog ikke
+.br
+indfrielser ved de fleste overdragelser af fast ejendom.
+.in 0mm
+.sp
+3 ¤Har &DU. betalt
+.in 8mm nobreak
+garantiprovision, bør &DU. tage
+kontakt til &DIN. lokale skatteforvaltning for en afklaring af,
+hvorvidt &DU. kan fratrække garantiprovisionen på &DIN.
+:VERDA09.
+.da BETINGK 20mm 42mm width 170mm
+.da BETINGT 22mm 35mm width 165mm
+.************************************************
+.ar BETINGK on
+.bx left right
+.sp 245mm
+.bx off
+.ar off
+.************************************************
+.ar BETINGT on
+:VERDA12.
+:FED.
+Prioriteringsaftale - Køb af ejendom
+:SKRSLUT.
+:SKRSLUT.
+.sp 8mm
+:FED
+Betingelser for kontoen
+:SKRSLUT
+.sp 2mm
+Kontoen er oprettet til brug for prioritering af ejedommen. Kontoen må
+kun bruges til ind- og
+.br
+udbetalinger ved prioriteringen. Der kan ikke
+hæves på kontoen uden bankens tilladelse.
+.sp
+Der er ikke tilknyttet kreditfaciliteter til kontoen medmindre det er
+aftalt i særskilt kreditaftale.
+.sp
+Kontoen forrentes med bankens til enhver tid gældende rentesats for
+sikringskonti med mindre andet er aftalt. Satserne oplyses efter
+anmodning. Rentesatsen ved en eventuel kreditfacilitet står i
+kreditaftalen.
+.sp
+:FED.
+Fuldmagt
+:SKRSLUT.
+.tp 8mm
+.sp 2mm
+&SJEG. giver &BANKNAVN. uigenkaldelig fuldmagt til at gennemføre
+ejendommens prioritering i enhver henseende, herunder:
+.sp
+- ¤hjemtage lån
+.br
+- ¤tinglyse pantebreve i ejendommen
+.br
+- ¤betale nødvendige gebyrer
+.br
+- ¤deponere jvf. vilkår i købsaftalen.
+:VERDA09
+.da ANMOD    22mm    79mm width 160mm
+.da NYTTT    22mm   130mm width 160mm
+.da HJEMT    22mm   173mm width 160mm
+.da KURSS    22mm   198mm width 160mm
+.da MODGA    22mm   213mm width 160mm
+.**********************************************
+.ar ANMOD on
+.tp 65mm
+:VERDA09
+anmoder herved &BANKNAVN. om at åbne en sikringskonto i &MIT. navn
+og for &MIN. regning i forbindelse med købet af ejendommen:
+.in 10mm nobreak
+.sp
+:FED.
+Matr.nr.
+.br
+Adresse
+:SKRSLUT
+.sp
+:FED.
+Til kr.:
+:SKRSLUT
+.sp
+I forbindelse med købet skal der senest den &B55DATO1. deponeres
+restkøbesum
+.br
+kr. &B55BELØB5. i &B55FRI35.. Dette beløb fremskaffes
+via provenu fra lån i &B55FRI35A. jf. nedenstående
+samt evt. boliglån i &BANKNAVN..
+.in 0mm
+:SKRSLUT
+.ar off
+.**********************************************************************
+.ar NYTTT on
+:VERDA12.
+:FED.
+Nyt lån:
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+.tp 89mm 110mm 143mm
+:VERDA09
+:FED.
+Kreditor ¤Hovedstol ¤Rente, % ¤Løbetid
+.br
+Lånetype
+:SKRSLUT.
+.ar off
+.**********************************************************************
+.ar HJEMT on
+:VERDA09
+:FED.
+Lånet hjemtages
+:SKRSLUT.
+.sp
+.if &U'&B55SPØRG2. = A
+.th Hurtigst muligt - inden der foreligger tinglyst anmærkningsfrit
+.th pantebrev. &BANKNAVN.
+.th stiller garanti overfor realkreditinstituttet og &JEG. indestår
+.th for ethvert beløb, som banken skal betale som
+.th følge af garantistillelsen, og &JEG. er forpligtet til
+.th at betale garantiprovision og gebyr efter
+.th .br
+.th gældende takster.
+.th .sp
+.if &U'&B55SPØRG2. = B
+.th Hurtigst muligt - efter tinglyst anmærkningsfrit pantebrev, samt
+.th opfyldelse af eventuelle forbehold i lånetilbuddet fra
+.th realkreditinstituttet.
+.th .sp
+.if &U'&B55SPØRG2. = C
+.th Når &JEG. giver besked.
+.th .sp
+.if &U'&B55SPØRG2. = D
+.th Som forhåndslån inden byggeriet er færdigmeldt. &BANKNAVN. stiller
+.th garanti overfor
+.th .br
+.th realkreditinstituttet for opfyldelse af forbehold i lånetilbuddet
+.th og &JEG. indestår for ethvert beløb, som banken skal betale som følge
+.th af garantistillelsen, og &JEG. er forpligtet til at betale
+.th garantiprovision
+.th og gebyr efter gældende takster.
+.th .sp
+.if &U'&B55SPØRG2. = E
+.th Hjemtages pr. &B55DATO2.
+.***************************************************************
+.ar KURSS on
+:VERDA09.
+:FED.
+Kurssikring
+:SKRSLUT.
+.sp 2mm
+.if &U'&B55SPØRG3. = J
+.th Ja - vilkår fremgår af særskilt dokument.
+.if &U'&B55SPØRG3. = N
+.th Nej - og &JEG. bekræfter samtidig at være bekendt
+.th med konsekvensen heraf.
+.***************************************************************
+.ar MODGA on
+:VERDA09.
+.if &U'&B55SPØRG1 = N
+.th .go VIDERE
+.el :FED.
+.el Modgaranti kreditforeningslån
+.el :SKRSLUT
+.el .sp 2mm
+.el Ovennævnte anmoder
+.el herved banken om for &MIN regning, at
+.el udfærdige følgende garanti/garantier
+.el af vedlagte ordlyd og &JEG dækker på anfordring banken for
+.el ethvert
+.el tab, som den måtte komme til at udrede som følge af denne garanti. Så
+.el længe garantien er i kraft, debiterer banken &MIG provision bagud
+.el for hver påbegyndt måned efter bankens til
+.el enhver tid gældende sats. Beløb udbetalt under garantien forrentes
+.el i henhold til gældende sats.
+.el .sp
+.tp 6mm 68mm 95mm char , 115mm
+.if &L'&GENBELØB2 gt 0
+.th Sagsgaranti: ¤¤kr. ¤&GENBELØB2. ¤provision &B55BELØB5B. %.
+.th .br
+.if &L'&GENBELØB3 gt 0
+.th Konverteringsgaranti: ¤¤kr. ¤&GENBELØB3.  ¤provision &B55BELØB5C. %.
+.th .br
+.if &L'&GENBELØB4 gt 0
+.th Forhåndslångaranti: ¤¤kr. ¤&GENBELØB4.  ¤provision &B55BELØB5D. %.
+...VIDERE
+.pa
+:omtale &OMTALEF
+:tiltale &TILTALE
+.VERDA09.
+.ti ¤ 05
+.da overskv  151mm 20mm width 50mm
+.da oversk    20mm 35mm width 100mm
+.da side1     20mm 42mm width 170mm
+.**********************************
+.ar overskv on
+:VERDA09.
+.tp 15mm
+:FED.
+Sikringskonto
+:SKRSLUT.
+:VERDA08.
+.br
+Dato ¤: &DATO.
+.br
+Kontonr. ¤: &IREGKTO.
+.ar off
+.**********************************
+.ar oversk on
+:VERDA12.
+:FED.
+Prioriteringsaftale - Køb af ejendom
+:SKRSLUT.
+:SKRSLUT
+.ar off
+.**********************************
+.ar side1 on
+.**** Her laves kassen til kontohaver og PI ********
+.bx left 87,5mm right
+:VERDA07.
+.tp 1mm 88,5mm
+¤Kontohaver ¤Evt. Medkontohaver
+.sp 22mm
+¤CPR-/CVR nr.: ¤CPR-/CVR nr.:
+.bx off
+.bx new left right
+.sp 195mm
+.bx off

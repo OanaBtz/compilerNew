@@ -1,0 +1,246 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.*************NAVN OG ADRESSE****************
+.*TILTALE &TILTALEF
+.fo left
+:SWISS11.
+.*****************SLUT***********************
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.*************NAVN OG ADRESSE****************
+.fo left
+:SWISS11.
+.ar NAVN on
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL
+.br
+&KTONAVN.
+.br
+.if &U'&B02VÆLG eq J
+.th &MEDSTILL
+.th .br
+.if &L'MEDNAVN gt 0
+.th &MEDNAVN.
+.th .br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+.ar off
+.*.******************DATO**********************
+.*.ar DATO on
+.*&DATO.
+.*.ar off
+.*****************SLUT***********************
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.***************************** indsat areal til ordet låntager *******
+.*.da LÅNTAGER 25mm 35mm width 70mm
+.*.ar LÅNTAGER on
+.*:SWISS11. :FED.
+.*.if X&L'&MEDNAVN gt X0
+.*.th Låntagere
+.*.el Låntager
+.*.ar off
+.************************
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Særlige betingelser til
+.br
+Aftale om GRØNT LÅN
+.br
+.if X&B02VALG3 eq X1
+.th uden sikkerhed
+.if X&B02VALG3 eq X2
+.th med sikkerhed
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.da AREAL01 25mm 41mm width 170mm
+.ar AREAL01 on
+:SWISS11.:FED.
+.tp 25mm 92mm 130mm
+¤¤Kontonr.: :SKRSLUT.:SWISS11.
+.sp
+¤¤&REGNR &KTONR
+.sp 6
+:FED.
+Sikkerhed:
+.br
+:SKRSLUT.
+.if &B02VALG3 eq 1
+.th Ingen sikkerhed
+.th .go videre
+.***********sikkerhed
+.if &B02VALG3 eq 2
+.an &L'&B02BELØB44 eq 0
+.th .mg /T/Ved sikkerhed, indtast beløb og matr.nr.beskrivelse/
+.if &B02VALG3 eq 2
+.an &L'&B02BELØB44 gt 0
+.an &L'&B02TEXT200 gt 0
+.*.an &B02BELØB44 gt 0
+.th Ejerpantebrev, opr. stort kr. &B02BELØB44 med pant i
+.th &B02TEXT200. &B02TEXT201
+.th beliggende &B02TEXT203
+.th .go videre
+.el .mg /T/Ved sikkerhed, indtast beløb og matr.nr.beskrivelse/
+...videre
+.sp 2
+:FED.
+Betingelser
+:SKRSLUT.
+.br
+Aftalen er etableret i forbindelse med
+.if &L'&MEDNAVN eq 0
+.th låntagers
+.el låntagernes
+energiforbedring af den
+ejendom, hvor
+.if &L'&MEDNAVN eq 0
+.th låntager
+.el låntagerne
+har fast bopæl. Ejendommen er en fritliggende villa,
+et dobbelthus eller et række-kædehus.
+.sp
+Låneprovenuet kan alene frigives til betaling af original faktura
+inkl. moms, baseret på et tidligere - af banken og
+.if &L'&MEDNAVN eq 0
+.th låntager
+.el låntagerne
+- accepteret fast
+tilbud på energiforbedrende ydelser udført af momsregistrerede håndværkere.
+&BANKNAVN står for den fysiske håndtering af fakturaen efter at
+ejendommen er besigtiget og arbejdet kan færdigmeldes, enten af
+&BANKNAVN eller parter der af &BANKNAVN bemyndiges hertil.
+.sp
+Er der i forbindelse med det udførte arbejde søgt om, og opnået tilskud
+fra Staten og/eller andre instanser, skal tilskudsbeløbet som udgangspunkt
+anvendes til delvis betaling af fakturaen og det ansøgte lån reduceres
+tilsvarende.
+.sp
+Aftalen ophører uden yderligere varsel og lånet forfalder til fuld
+indfrielse ved salg af den ejendom der har fået foretaget
+energiforbedringer finansieret med nærværende lån.
+.sp
+.if &L'&MEDNAVN eq 0
+.th Låntager
+.el Låntagerne
+forpligter sig i den forbindelse til, at give &BANKNAVN besked
+straks der indgås aftale om salg af ejendommen.
+.sp
+Som en forudsætning for nærværende aftale bekræfter
+.if &L'&MEDNAVN eq 0
+.th låntager,
+.el låntagerne,
+at den
+.if X&B02VALG3 eq X1
+.th pågældende
+.if X&B02VALG3 eq X2
+.th til banken pantsatte
+ejendom er behørigt brandforsikret og ikke anvendes til
+erhverv, har erhvervsstatus eller anvendes som udlejningsejendom.
+.sp 3
+.tp 90mm
+:swiss11.
+.br
+.if &L'&MEDNAVN eq 0
+.th Jeg
+.el Vi
+accepterer ovenstående bestemmelser og erklærer herved at have gennemlæst
+og fået orientering om ovennævnte forhold i forbindelse med indgåelse af
+denne aftale om GRØNT LÅN.
+.sp 3
+______________________ , den _________________
+.sp 2
+.if &L'&MEDNAVN eq 0
+.th Som låntager:
+.el Som låntagere:
+.sp 15mm
+__________________________________________________________________________
+.br
+:SWISS8.
+&KTONAVN ¤&MEDNAVN
+.ar off

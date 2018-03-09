@@ -1,0 +1,1089 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* Parameterafsnit
+.* Param. BANKNAVN er tilføjet og B37BREV er slettet d. 23/1-01 es
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 1 .an &E'&BREVNAVN = 0
+.th .se BREVNAVN = '&B37BREV.'
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.if &B37TKTST = LI
+.th .li on
+.* ********************************************************************
+.* GEBYR TABEL (afsnit: B37GEBYR) - rettet ved gebyrændring
+.* --------------------------------------------------------------------
+.se MIBGEBYR = 1       ;.* MIBGEBYR (GEBYR TABEL)
+.se FFINDFP = 1.000,00 ;.* FFINDFP- Gebyr for førtidsindfrielse Fastrt priv
+.se FFREFFP = 0,40     ;.* FFREFFP- Fradrag i Ref.rt før indfr. Fastrt priv
+.se FINDF = 1.500,00   ;.* FINDF - Gebyr for førtidsindfrielse FAFO erhv
+.se FINDFP = 750,00    ;.* FINDFP - Gebyr for førtidsindfrielse FAFO priv
+.se TINDF = 750,00   ;.* TINDF - Gebyr tilbud-førtidsindfrielse FAFO erhv
+.se TINDFP = 500,00    ;.* TINDFP - Gebyr tilb-førtidsindfrielse FAFO priv
+.se CHRETUR = 400,00   ;.* CHRETUR - Gebyr for returchecks
+.*se EUROKORT = 75,00   ;.* EUROKORT -
+.se BRRYK1 = 200,00    ;.* BRRYK1 - Rykkerbrev1 (erhverv)
+.se BRRYK2 = 300,00    ;.* BRRYK2 - Rykkerbrev2 (erhverv)
+.se BRRYK3 = 300,00    ;.* BRRYK3 - Rykkerbrev3 (erhverv)
+.se BRRYKP2 = 100,00    ;.* BRRYK2 - Rykkerbrev2 (privat
+.se 3MDRYK = 100,00    ;.* 3MDRYK - 3 md rykker jvf. kreditaftalelov
+.se TSOPR  = Gratis    ;.* TSOPR - TLF service oprettelse
+.se TSFSP  = Gratis    ;.* TSFSP - TLF service
+.se TSOEK  = Gratis    ;.* TSOEK - TLF overførsler mellem egne konti
+.se TSOIP  = 1,00      ;.* TSOIP - TLF overførsler til andet indenland.PI
+.se TSBGI  = 1,00      ;.* TSBGI - TLF betaling af giro og indbetalingskort
+.se TSFSK  = 10,00     ;.* TSFSK - TLF fremsendelse af særskildt kvittering
+.se KTFS   = Gratis    ;.* KTFS  - Kontoudtog ved fuld side
+.se KTAUT  = Gratis    ;.* KTAUT - Kontoudtog udsk. i PA og Ktoaut
+.se KTTS   = 20,00     ;.* KTTS  - Kontoudtog bestilt i TLFS
+.se KTFAF  = 20,00     ;.* KTFAF - kontoudtog ved fast aftalt frekvens
+.se KTMAN  = 20,00     ;.* KTMAN - kontoudtog - manuel udskrift
+.se HBOPR  = Gratis    ;.* HBOPR - Homebanking oprettelse
+.se HBOEK  = Gratis    ;.* HBOEK - Homebanking overførsler egne konti
+.se HBOIP  = 0,66      ;.* HBOIP - Homebanking overførsler til andet PI
+.se HBBGI  = 0,66      ;.* HBBGI - Homebanking betaling af giro-/indb.kort
+.se HBFSK  = 5,00      ;.* HBFSK - Homebanking frems. særskilt kvitt.
+.se HBMA   = 0,18      ;.* HBMA  - Homebanking minutafgift
+.se HBFS   = Gratis    ;.* HBFS  - Homebanking kontoudskr. fuld side
+.se HBAUT  = Gratis    ;.* HBAUT - Homebanking kontoudskr. automater
+.se HBHB   = 20,00     ;.* HBHB  - Homebanking kontoudskr.
+.se HBFAF  = 20,00     ;.* HBFAF - Homebanking kontoudskr. fast aft. frek.
+.*se PCOPR  = Gratis    ;.* PCOPR - PC-Service oprettelse
+.*se PCOEK  = Gratis    ;.* PCOEK - PC-Service overførsler egne konti
+.*se PCOIP  = 1,00      ;.* PCOIP - PC-Service overførsler til andet PI
+.*se PCBGI  = 1,00      ;.* PCBGI - PC-Service betaling af giro-/indb.kort
+.*se PCFSK  = 10,00     ;.* PCFSK - PC-Service frems. særskilt kvitt.
+.*se PCMA   = Gratis    ;.* PCMA  - PC-Service minutafgift
+.*se PCFS   = Gratis    ;.* PCFS  - PC-Service kontoudskr. fuld side
+.*se PCAUT  = Gratis    ;.* PCAUT - PC-Service kontoudskr. automater
+.*se PCHB   = 20,00     ;.* PCHB  - PC-Service kontoudskr.
+.*se PCFAF  = 20,00     ;.* PCFAF - PC-Service kontoudskr. fast aft. frek.
+.se MEPR   = 2.000,00  ;.* MEPR  - MB Erhvssys. program, installation m.m.
+.se MELI   = 100,00    ;.* MELI  - MB Erhvssys. likviditetsmodul
+.se METRKOVA =200,00   ;.* METRKOVA - MB Erhvssys. transakt./konti/valuta
+.se MEVAL  = 100,00    ;.* MEVAL - MB Erhvssys. valutamodul
+.se MEINV  = Gratis    ;.* MEINV - MB Erhvssys. investeringsmodul
+.se MELØN  = 50,00     ;.* MELØN - MB Erhvssys. BEC lønservicemodul
+.se MELØN1 = 60,00     ;.* MELØN1 -MB Erhvssys. BEC lønservicemodul
+.se MEKON  = 15,00     ;.* MEKON - MB Erhvssys. adgang til koncernkonti
+.*se MEMIN  = 0,50      ;.* MEMIN - MB Erhvssys. minutafgift
+.se MEEFMIN = Gratis    ;.* MEEFMIN - MB Erhvssys. efterfølg. minutter
+.se MEFLB   = 0,00      ;.* MEFLB   - MB Erhvssys. flere brugere
+.se MEOVFEG = 0,00      ;.* MEOVFEG - MB Erhvssys. overførsler egne konti
+.se MEOVFFR = 0,50      ;.* MEOVFFR - MB Erhvssys. ovf. Bank/Giro/PBS m.m.
+.se MEOVFFE = 0,25      ;.* MEOVFFE - MB Erhvssys. ovf. Bank/Giro/PBS m.m.
+.se MEOVFBR = 6,25      ;.* MEOVFBR - MB Erhvssys. ovf. med brev
+.se MEADVPBS = 6,00      ;.* MEADVPBS - MB Erhvssys. advisering i PBS
+.se MEÆKONT  = 125,00    ;.* MEÆKONT  - MB Erhvssys. ændring af kontrakt
+.se MEEDBSER = 600,00    ;.* MEEDBSER - MB Erhvssys. EDB-service
+.se MEKVIT   = 5,00      ;.* MEKVIT   - MB Erhvssys. Kvittering til Dem
+.se MEBØRS   = 14,00     ;.* MEBØRS   - MB Erhvssys. Børsinfo pr. dag
+.se OEKOVF    = 30,00     ;.* OEKOVF    - MB Erhvssys. Økonomi overførsel
+.se NOROVF    = 75,00     ;.* NOROVF    - MB Erhvssys. Normal overførsel
+.se WBOPR  = Gratis    ;.* WBOPR - MB-WEBbank oprettelse
+.se WBOEK  = Gratis    ;.* WBOEK - MB-WEBbank overførsler egne konti
+.se WBOIP  = 1,00      ;.* WBOIP - MB-WEBbank overførsler til andet PI
+.se WBFSK  = 5,00      ;.* WBFSK - MB-WEBbank frems. særskilt kvitt.
+.se WBLON  = Gratis    ;.* WBMA  - MB-WEBbank minutafgift
+.se WBFS   = Gratis    ;.* WBFS  - MB-WEBbank kontoudskr. fuld side
+.se WBAUT  = Gratis    ;.* WBAUT - MB-WEBbank kontoudskr. automater
+.se WBFAF  = 20,00     ;.* WBFAF - MB-WEBbank kontoudskr. fast aft. frek.
+.se LØNKR  = 200,00    ;.* LØNKR - startomkostninger Løn og Kredit
+.se EJDDEP = 450,00    ;.* EJDDEP- min.gebyr (time) deponering ejend.handel
+.se SKUD3  = 12,50     ;.* SKUD3 - SERVICEKONTO udb.-ud over 2 stk.md.
+.* --------------------------------------------------------------------
+.li off
+.OC  Låneaftale-fast rente privat
+.*se ts = 8
+.se ts = 10
+.se kopi = 0
+.if &U'&MIBJN1 = G
+.th .go FAFOA1
+.* ************ springer over header og fooder se S afsnit ******
+.go FAFOA1
+...FAFOA1
+.ti ^ 05
+.dm FAFOA1 on
+.cl 0
+.ll 171mm
+.cd 1 0 71
+.in 2mm
+.tp 62 RIGHT
+.fo left
+.sp 40mm
+.if .&MEDKUNDENR. = .000000-0000 .sp 5
+ 
+:FED.
+.ce LÅNEAFTALE - FASTRENTELÅN FORBRUG
+:SKRSLUT.
+.ce (Gældsbrev)
+ 
+Kontonr. : &REGNR.-&KTONR1.      Reg.type: &REGTYPE
+.sp 2
+.if .&MEDKUNDENR. = .000000-0000
+.th .se deb 'låntager'
+.el .se deb 'låntagere'
+Undertegnede (&deb.):
+ 
+                         &KTOKUNDENR.
+                         &KTOSTILL
+                         &KTONAVN
+.if .&L'&KTOCO = .0 .go GADE
+                         &KTOCO
+...GADE
+                         &KTOGADE
+                         &KTOBY
+.if .&MEDKUNDENR. = .000000-0000 .go SKYLD
+ 
+og
+                         &MEDKUNDENR.
+                         &MEDSTILL
+                         &MEDNAVN
+.if .&L'&MEDCO = .0 .go MEDGADE
+                         &MEDCO
+...MEDGADE
+                         &MEDGADE
+&MEDBY...SKYLD.sperkender herve
+d at sky
+lde
+        A/S Midtbank (kre
+d
+itor/panthaver) nedenstående lån som for
+r
+entes og afdrages på følgende vilkår:        Beløb............
+.
+.................. kr. ^&RESULTA.^.if .&RESULTB = .0,00 .go
+ RENTE       Kvartårlig ydelse 
+ved annuitetslån.. kr. ^&RESULTB.^...RENTE       Rente p.a.
+ i %....
+..................     ^&MIBB5.^ *).if .&RESULTB ne .0,00 .g
+o TERM       Forfaldsdato ved s
+tående lån........     ^&MIBPRDAT.^...TERM       Første term
+in den.
+..................     ^&MIBPRDAT1.^.if x&RESULTC. = x0,00.th
+ .se RESULTC ' '.th .g
+o TERMDAT       Ter
+minsprovision..
+.................. kr. ^&RESULTC.^...TERMDAT        Termins
+datoer....
+.
+...... 31/3, 30/6, 30/9 og 31/12 .**** TEST PÅ OM PRIVAT 
+/
+ ERHVERV (RESULTD kun ved privat) ***.if &E'&RESULTD = 0.th *)
+ Renten er foreløbi
+g ansat og fastsættes på udbetalingsdagen..th .go SLUT .of 3*) Hvil
+ket svarer t
+i
+l, at
+ den effektive årlige rente udgør &RESULTD.%og betales kvartalsvis ba
+gud..of .* Indføjes altid.if 
+.&L
+'
+&MIBPRDAT = .0 .g
+o ANKTORentesatsen er fast og gæ
+ldende til den &MIBPRDAT.. ...ANKTO.ucBETALING..brB
+a
+nken bed
+es 
+ved forfa
+ld 
+hæve ydelser påkonto &MIBEM181...sk 2BEM
+ÆRK, DER ER TALE 
+OM ET
+ FASTRENTELÅN MED SÆRLIGE INDFRIELSESVILKÅR.br- SE SIDE 3 OG 4.
+
+
+.br
+...SLUT
+.*pa
+.dm off
+.* Valgfri tekst begynder i LINIE 4. Linie 1-3 MÅ IKKE ÆNDRES
+.dm FAFOA2A on ;.fo off ;.*. TEKSTEN BLIVER IKKE TRUKKET SAMMEN
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7--<<
+.*Her anføres evt. individuelle SÆRLIGE BETINGELSER:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.* ----(Denne linie må højest have nr. 020)-----Tekst slut--------------
+.* Ekstra/sletning af linier (I,II,D i 006) se MINIBRUGER 20.10.00
+.dm off;.* DENNE LINIE MÅ IKKE SLETTES
+.dm FAFOA1A on
+.in
+.da SIK 20mm 47mm WIDTH 175mm
+.ar SIK on
+:SWISS10.:FED.
+Sikkerheder: :SKRSLUT.
+.ar off
+.sp 30mm
+.fo off
+.in +7
+.sp 7mm
+.dm off
+.* Valgfri tekst begynder i LINIE 4. Linie 1-3 MÅ IKKE ÆNDRES
+.dm FAFOA2 on ;.fo off ;.*. TEKSTEN BLIVER IKKE TRUKKET SAMMEN
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7--<<
+.*Her anføres sikkerheder:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.* ----(Denne linie må højest have nr. 065)-----Tekst slut--------------
+.* Ekstra/sletning af linier (I,II,D i 006) se MINIBRUGER 20.10.00
+.dm off;.* DENNE LINIE MÅ IKKE SLETTES
+.dm FAFOA3 on
+.*in -7
+.in
+.if .&ns = .1
+.th .se ts = &ts
+.el .se ts = &ts + 1
+.rf execute
+.fo left
+.* Inaktiverer resten af afsnittet *************************
+.GO TEKST3SL
+.sk
+og i øvrigt samtlige nuværende og fremtidige sikkerheder stillet direkte
+.if .&L'&MIBEM181. = .0
+.th overfor A/S Midtbank.
+.th .go ALMB
+overfor A/S Midtbank, herunder det til enhver tid indestående på
+kto.nr. &MIBEM181.. Indeståendet på kontoen kan til enhver tid hæves af
+panthaver uden samtykke fra pantsætter.
+...ALMB
+.sk
+.US
+I øvrigt
+gælder Midtbanks almindelige betingelser for fastrentelån, som det
+fremgår af omstående regler, men især skal fremhæves, at der,
+.US
+da der er tale om lån med fast rente gælder særlige indfrielsesvilkår.
+.br
+I øvrigt
+gælder bankens almindelige forretningsbetingelser.
+ 
+Jeg/vi accepterer samtlige bestemmelser, herunder de på de følgende sider
+angivne betingelser for lånet. Jeg/vi har derudover modtaget og gjort
+mig/os bekendt med en genpart af dette dokument, samt et eksemplar af
+bankens almindelige forretningsbetingelser, som også gælder for lånet.
+.sp
+...TEKST3SL
+.dm off
+.dm FAFOA4 on
+.in
+.da OVSK2 20mm 47mm WIDTH 175mm
+.ar OVSK2 on
+:SWISS10.:FED.
+Særlige bestemmelser :SKRSLUT.
+.ar off
+.sp 30mm
+.in 2mm
+.sp
+.* De almindelige bestemmelser gælder kun i det omfang, andet ikke
+.* er særligt
+.* aftalt for lånet.
+.sp 1
+.*bc off
+.* slå kolonner fra
+.cc 3
+.cd 2 0 8,9cm
+.cl 33
+.in 2mm
+:SWISS10.
+.sk
+.*us on
+Indfrielse før tiden i
+.hw fast-ren-te-pe-ri-o-den;.sk
+.US OFF
+:SWISS8.
+Der gælder særlige vilkår ved indfrielse før aftalt tid i
+.hw fast-ren-te-pe-ri-o-den.
+.ct
+.*is 1
+Det indebærer, at debitor ved indfrielse før tiden
+kan komme til at betale mere eller mindre end restgælden på
+.hw ind-fri-el-ses-tids-punk-tet.
+ 
+Er renteniveauet (markedsrenten) faldet efter aftalens indgåelse,
+kommer debitor til at betale mere end restgælden på
+.hw ind-fri-el-ses-tids-punk-tet.
+ 
+Er renteniveauet (markedsrenten) steget mere end 0,25% efter
+aftalens indgåelse, kan debitor indfri lånet med et mindre beløb
+end restgælden på
+.hw ind-fri-el-ses-tids-punk-tet.
+ 
+Kursen på indfrielsesbeløbet beregnes ud fra en baggrundsrente
+(se side 4).
+ 
+Eksempler på indfrielseskurser ved
+.hw for-skel-li-ge
+udviklinger i
+renteniveauet kan ses på side 5.
+ 
+Reglen gælder uanset, om det er debitor, der frivilligt betaler
+før tiden, eller om indfrielse skyldes, at det er pengeinstituttet, der
+kræver lånet indfriet p.g.a.
+.hw op-si-gel-se
+eller misligholdelse. Se
+almindelige bestemmelser.
+ 
+Reglen gælder både ved
+.hw fuld-stæn-dig
+.ct
+indfrielse, ved betaling af
+.hw ek-stra-or-di-nært
+afdrag og ved forhøjelse af de aftalte ydelser.
+ 
+.cb
+:SWISS10.
+Baggrundsrente
+:SWISS8.
+.sk
+Baggrundsrenten ved aftalens indgåelse er den gennemsnitlige
+effektive obligationsrentesats før skat for Statsobligationer
+m.v.
+ 
+Den fremgår p.t. af Københavns Fondsbørs kursliste under "Stat,
+Fiskeri og Færøerne" for "Gruppe i alt".
+ 
+Der benyttes det
+.hw rest-lø-be-tids-in-ter-val,
+der svarer til fastrenteaftalens
+løbetid.
+ 
+Baggrundsrenten er ved aftalens indgåelse
+.us &MIBB4.%.
+ 
+Baggrundsrenten ved førtidig indfrielse er den tilsvarende
+obligationsrentesats som ved
+.hw ind-gå-el-sen
+på tidspunktet for den
+førtidige indfrielse.
+ 
+Der benyttes dog satsen for dagen før udregningen af
+.hw ind-fri-el-ses-be-lø-bet.
+.is 1
+.ct Der benyttes det
+.hw lø-be-tids-in-ter-val,
+der svarer til
+.hw rest-lø-be-ti-den
+af fastrenteperioden.
+H
+vis obligationsrentegennemsnittet fjernes fra Københavns Fondsbørsk
+ursliste, er pengeinstituttet berettiget til at vælge en andenb
+aggrundsrente, der er.
+hw re-præ-sen-ta-tivf
+or markedsrenten. Det samme gælder,h
+vis pengeinstituttet skønner, at obligationsrentegennemsnittet ikkel
+ængere er repræsentativt for udviklingen i markedsrenten. 
+P
+engeinstituttet meddeler debitor, hvis baggrundsrenten ændres..
+br.
+dm off
+.dm FAFOA5 on
+.* LINIEAFSTAND I FORMLER
+.se b = 0.5mm
+.in
+.ar OVSK2 on
+.dr tynd WEIGHT 0.1mm
+.sp 7mm
+.in 2mm
+:SWISS10.:FED.
+.us
+Beregning af indfrielseskurs :SKRSLUT.
+.sp 5mm
+Lånets resterende aftalte ydelser i fastrenteperioden tilbagediskonteres
+med følgende rentesats:
+.in 30mm
+:SWISS8.
+ 
+.tp 33mm
+   ^Baggrundsrenten dagen før indfrielsesdatoen minus 0,25 procent point
+.sp &b
+- ^Baggrundsrenten ved aftalens indgåelse
+.sp &b
++ ^Den effektive årlige rente
+.hr tynd 30mm 121mm
+.sp &b
+= ^Rentesats ved tilbagediskontering
+.in 2mm
+:SWISS10.
+.br
+ 
+Indfrielseskursen beregnes herefter:
+.sp
+.in 33mm
+:SWISS8.
+^(Den tilbagediskonterede værdi
+.sp &b
+^-  beregnet, men endnu ikke tilskrevet rente) x 100
+.hr tynd 33mm 96mm
+.sp &b
+^Den nominelle restgæld
+:SWISS10.
+.in 2mm
+ 
+.*hr tynd left 175mm
+ 
+:SWISS10.:FED.
+.us
+Beregning af indfrielsesbeløb
+ 
+:SWISS10.
+Indfrielsesbeløb beregnes således:
+.sp
+.in 30mm
+:SWISS8.
+  ^Restgæld på indfrielsestidspunktet x indfrielseskurs
+.sp &b
++ ^Beregnet, men endnu ikke tilskrevet rente
+.hr tynd 30mm 97mm
+.sp &b
+= ^Indfrielsesbeløb
+.in 2mm
+ 
+.*hr tynd left 175mm
+ 
+:SWISS10.:FED.
+.us
+Gebyr ved indfrielser før tiden :SKRSLUT.
+:SWISS10.
+.sk
+Ved udarbejdelse af tilbud på førtidsindfrielse betales et gebyr, som
+fastsættes af pengeinstituttet. Gebyret oplyses efter anmodning.
+ 
+Gebyret er p.t. kr. &TINDFP..
+ 
+Hertil kommer evt. gebyr for selve indfrielsen, se nedenfor.
+.sk
+Ved enhver indfrielse før tiden, herunder ekstraordinært afdrag
+betales et gebyr, som fastsættes af pengeinstituttet. Gebyret oplyses efter
+anmodning.
+ 
+Gebyret er p.t. kr. &FINDFP..
+ 
+.*hr tynd left 175mm
+ 
+:SWISS10.:FED.
+.us
+Ekstraordinære afdrag og forhøjelse af aftalte ydelser :SKRSLUT.
+ 
+:SWISS10.
+Ved ekstraordinære afdrag udregnes der en indfrielseskurs som
+anført ovenfor.
+ 
+I lånets restgæld fratrækkes kursværdien af afdraget/den forhøjede
+ydelse efter følgende formel:
+.in 30mm
+.sp
+:SWISS8.
+^Det betalte beløb x 100
+.hr tynd 33mm 63mm
+.sp &b
+^Indfrielseskursen
+:SWISS10.
+.in 2mm
+ 
+ 
+Efter betaling af ekstraordinært afdrag nedsættes ydelserne, så
+den oprindeligt aftalte løbetid bevares.
+ 
+Ønskes den aftalte ydelse forhøjet, vil forhøjelsen skulle
+behandles som andre ekstraordinære afdrag ved enhver af de
+fremtidige ydelser.
+.br
+.ar off
+.dm off
+.dm FAFOA6 on
+.in
+.sp 37mm
+.ll 175mm
+.cd 1
+.cl 0
+.se a = 1.0mm
+.in 2mm
+:SWISS10.
+Eksempler på indfrielseskurser på fastforrentet lån i Midtbank
+.in 10
+.sp 3
+.tp 90mm right 105mm right 120mm right
+.sk
+.bx new tynd 25mm 121mm
+:SWISS12.
+ 8 årigt stående lån
+:SWISS10.
+.bx new tynd 25mm 76mm 121mm
+.sp &a
+ Ændring i renteniveau      ^^Restløbetid^
+.hr tynd 76mm 121mm
+ for statslån ved
+.sp &a
+ førtidig indfrielse               ^2 år^      4 år^      6 år^
+.*bx new tynd 25mm 76mm 91mm 106mm 121mm
+.bx new tynd 25mm 76mm  121mm
+.sp &a
+ stigning på 4%-point                ^94^        89^        86^
+.sp &a
+ stigning på 3%-point                ^96^        92^        89^
+.sp &a
+ stigning på 2%-point                ^97^        95^        93^
+.sp &a
+ stigning på 1%-point                ^99^        98^        97^
+.hr tynd 25mm 121mm
+.sp &a
+ fald på 1%-point                   ^102^       104^       106^
+.sp &a
+ fald på 2%-point                   ^104^       108^       111^
+.sp &a
+ fald på 3%-point                   ^106^       111^       116^
+.sp &a
+ fald på 4%-point                   ^108^       115^       122^
+.br
+.bx cancel
+.bx off
+.bx cancel
+.sk 5
+.bx new tynd 25mm 121mm
+:SWISS12.
+ 8 årigt annuitetslån
+:SWISS10.
+.bx new tynd 25mm 76mm 121mm
+.sp &a
+ Ændring i renteniveau       ^^Restløbetid^
+.hr tynd 76mm 121mm
+ for statslån ved
+.sp &a
+ førtidig indfrielse               ^2 år^     4 år^     6 år^
+.bx new tynd 25mm 76mm  121mm
+.sp &a
+ stigning på 4%-point                ^96^       94^       91^
+.sp &a
+ stigning på 3%-point                ^97^       95^       93^
+.sp &a
+ stigning på 2%-point                ^98^       97^       96^
+.sp &a
+ stigning på 1%-point                ^99^       99^       98^
+.hr tynd 25mm 121mm
+.sp &a
+ fald på 1%-point                   ^101^      102^      103^
+.sp &a
+ fald på 2%-point                   ^102^      104^      106^
+.sp &a
+ fald på 3%-point                   ^103^      106^      109^
+.sp &a
+ fald på 4%-point                   ^104^      108^      112^
+.bx cancel
+.bx off
+.bx cancel
+.br
+:COUR10.
+.br
+.dm off
+.dm FAFO1K on
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 37mm width 175mm
+.************ AFTALE ******************************************************
+.ti ¤ 05
+.ar SIDE on
+:SWISS8.
+.in
+.tp 14mm 21mm 55mm 84mm 97mm
+Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+.bx left 13mm 20mm 54mm 83mm 97mm 124mm
+.sp 4mm
+.bx off
+:SWISS10.
+Undertegnede debitor(er)
+.bx left right
+:SWISS8.
+.sp 19mm
+.in 1mm
+erkender herved at skylde pengeinstituttet (kreditor/panthaver)
+.in 0mm
+.bx off
+:SWISS10.
+Lånebeløb/afvikling
+.bx left 126mm right
+.tp 2mm 128mm
+.sp 0,5mm
+:SWISS8.
+¤kr.¤Hvilket beløb med tillæg af renter
+.br
+¤¤afvikles ved betaling af
+.bx new left 97mm 126mm right
+.tp 2mm 54mm 99mm 128mm
+:SWISS6.
+.*¤Termin¤¤Hver ¤Første gang den
+¤¤¤Hver ¤Første gang den
+.sp 2mm
+¤¤kr.
+.bx new left 53mm 97mm 126mm 156mm right
+.tp 2mm 55mm 99mm 128mm 158mm
+¤Dato for aftale/indfrielse ¤Ekstraordinært afdrag ¤Hver &ÅCONT
+¤Første gang den ¤Antal gange
+.sp 1.5mm
+¤¤kr.
+.sp 1mm
+.bx new left 32mm 62mm 97mm 126mm right
+.tp 2mm 34mm 64mm 99mm 128mm
+¤Rente- og provisions- ¤Rente ¤Provision &ÅCONT
+¤Terminsprovision ¤
+.sp 1.5mm
+¤satser p.a. ¤¤¤kr.
+.sp 1mm
+.bx new left right
+:SWISS8.
+.in 2mm
+.if &E'&RESULTD = 0
+.th .go ERHVRT
+Rente- og provisionssatser er faste. Gebyrer
+og andre kreditomkostninger er
+variable og kan ændres af pengeinstituttet uden varsel (se nærmere under
+punkt 2 og 8). Lånet kan i særlige tilfælde forfalde uden varsel (se
+nærmere under punkt 12).
+.go SLUTRT
+...ERHVRT
+Rente- og provisionssatser er faste. Gebyrer
+og andre kreditomkostninger er
+variable og kan ændres af pengeinstituttet uden varsel. Lånet
+kan i særlige tilfælde forfalde uden varsel.
+...SLUTRT
+.in 0mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+:SWISS10.
+Særlige rente betingelser
+.bx left right
+.sp 15mm
+.bx off
+:SWISS10.
+Betaling
+.bx left 110mm 151mm  right
+:SWISS8.
+.in 2mm
+Pengeinstituttet bedes ved forfald hæve ydelser/ekstraordinært afdrag på
+konto:
+.br
+Pengeinstituttet fremsender ikke separat meddelelse om, at beløbet er
+hævet på
+.br
+kontoen, og debitor skal sørge for, at der er dækning.
+.in 0mm
+.bx off
+:SWISS10.
+Særlige betingelser
+.bx left right
+.*sp 85mm
+.sp 108mm
+.bx off
+.*tp 111mm
+.*SWISS10.
+.*¤Beregnet stempel af:
+.*.bx 111mm right
+.*SWISS8.
+.*.sp 1mm
+.*.tp 113mm 148mm
+.*¤Dette dokument: ¤kr.
+.*.sp 2mm
+.*¤Tidligere dokument: ¤kr.
+.*.sp 2mm
+.*¤I alt: ¤kr.
+.*.hr 111mm right
+.*.sp 2mm
+.*¤Ikke stemplede beløb: ¤kr.
+.*.bx off
+.ar off
+.dm off
+.dm FAFO1T on
+.in
+.**************************************************************************
+.da REGNR 22mm 42mm width 125mm
+.da UNDERT1 25mm 53mm width 85mm
+.da UNDERT2 110mm 53mm width 80mm
+.da KREDITB 30mm 82mm width 126mm
+.da AFDRAG 24mm 90,5mm width 170mm
+.da DATOINDF 24mm 98,5mm width 170mm
+.da RTSATS 54mm 106mm width 145mm
+.da SRBET 24mm 124mm width 170mm
+.da DEBKTO 133mm 148mm width 40mm
+.da SBET 24mm 163mm width 170mm
+.**************************************************************************
+:COUR10.
+.ar REGNR on
+.se AFDNR ''
+.tp 11mm 20mm 53mm 82mm 97mm
+&REGNR ¤&AFDNR ¤&REGNR.-&KTONR1 ¤&KTOKUNDENR ¤&REGTYPE ¤&MEDKUNDENR.
+.ar off
+.**************************************************************************
+.ar UNDERT1 on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.**************************************************************************
+.ar UNDERT2 on
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.ar off
+.**************************************************************************
+.ar KREDITB on
+&RESULTA
+.ar off
+.**************************************************************************
+.ar AFDRAG on
+.if .&U'&MIBJN2 = .J
+.th .se AFDTEKST 'Ydelse (annuitetslån)'
+.el .se AFDTEKST 'Afdrag (serielån)'
+.*** STÅENDE LÅN *********
+.if .&RESULTB = .0,00
+.th .se AFDTEKST 'Rente (stående lån)'
+.th .se AFDR1 = ''
+.el .se AFDR1 = &RESULTB
+.se TERMIN1 'Kvartal'
+.tp 93mm right 95mm 124mm
+&AFDTEKST ¤&AFDR1 ¤&TERMIN1 ¤&MIBPRDAT1
+.ar off
+.**************************************************************************
+.ar DATOINDF on
+.se AFDR2 ''
+.se TERMIN2 ''
+.se DATO11 ''
+.se ANTGANGE ''
+.tp 53mm 95mm 124mm 154mm
+&MIBPRDAT ¤&AFDR2 ¤&TERMIN2 ¤&DATO11 ¤&ANTGANGE
+.ar off
+.**************************************************************************
+.ar RTSATS on
+.se NOMRENTE '*) &MIBB5.'
+.se PROV ''
+.if x&RESULTC. = x0,000
+.th .se TERMPROV ''
+.el .se TERMPROV '&RESULTC.'
+.se BVOVTRPROV ''
+.tp 26mm RIGHT 92mm RIGHT
+¤&NOMRENTE %¤&TERMPROV ¤
+.*tp 25mm 30mm 58mm 65mm 88mm 94mm 130mm
+.*&NOMRENTE ¤% ¤&PROV ¤% ¤&OVTRPROV ¤% ¤&BVOVTRPROV ¤%
+.ar off
+.**************************************************************************
+.ar SRBET on
+.if &E'&RESULTD = 0
+.th .go ERHVR
+.tp 5mm
+.of 5mm
+*) ¤Hvilket svarer til en årlig nominel rente på &RESULTD.%. Renten
+betales kvartalsvis bagud.
+.of
+ 
+.if .&L'&MIBPRDAT = .0
+.el Rentesatsen er fast og gældende til den &MIBPRDAT..
+.go SLUTR
+...ERHVR
+*) Renten er foreløbig ansat og fastsættes på udbetalingsdagen.
+.sp 1mm
+Rente og terminsprovision betales kvartalsvis bagud.
+.sp 1mm
+.* Indføjes ved rentetilpasningslån:
+.if .&L'&MIBPRDAT = .0 .go SLUTR
+Lånet er et rentetilpasninglån. Renten reguleres pr. &MIBPRDAT.. Ved
+denne termin kan lånet indfries ved
+betaling af restgælden.
+... SLUTR
+.ar off
+.**************************************************************************
+.ar DEBKTO on
+&MIBEM181
+.ar off
+.**************************************************************************
+.ar SBET on
+Terminsdatoer : 31/3, 30/6, 30/9 og 31/12
+.********** Hvis RESULTD = Privat **********
+.if &E'&RESULTD = 0
+.th .GO EJPRIV
+.sp
+BEMÆRK, DER ER TALE OM ET FASTRENTELÅN MED SÆRLIGE INDFRIELSESVILKÅR
+.BR
+- SE SIDE 3, 4 OG 5.
+.sp
+Kreditoplysninger er udleveret på særskilt blanket
+udskrevet samme dato som denne låneaftale.
+.sp
+.GO SLUTSB
+...EJPRIV
+.sp
+Det er en forudsætning for lånet, at betaling af dette sker ved
+forfald fra en anden konto i Midtbank.
+.br
+.FAFOA3A
+...SLUTSB
+.*** INDIVIDUELLE SÆRLIGE BETINGELSER
+.FAFOA2A
+.ar off
+.dm off
+.dm KTO on
+.*************** definer siden som et areal *******************************
+.da KTORAM 20mm 37mm width 175mm
+.************ Konto overskrift ramme **************************************
+.in
+.ti ¤ 05
+.ar KTORAM on
+:SWISS8.
+.tp 14mm 21mm 55mm 84mm 97mm
+Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+.bx left 13mm 20mm 54mm 83mm 97mm 124mm
+.sp 4mm
+.bx off
+.ar off
+.dm off
+.KTO
+.dm KTOOP on
+.**************************************************************************
+.da OREGNR 22mm 42mm width 125mm
+.**************************************************************************
+.ar OREGNR on
+.se AFDNR ''
+.tp 11mm 20mm 53mm 82mm 97mm
+:COUR10.&REGNR ¤&AFDNR ¤&REGNR.-&KTONR1 ¤&KTOKUNDENR ¤&REGTYPE ¤&MEDKUNDENR
+.ar off
+.**************************************************************************
+.dm off
+.KTOOP
+.* VEND rettet fra 270mm til 277mm d. 23.1.2001 es
+.*************** GENEREL OPSÆTNING ***************************************
+.*ti ¤ 05
+.*COUR10.
+.*fo left
+.*************** ROTERET BREVNAVN ****************************************
+.dm STAMP on
+.*ti ¤ 05
+.*tp 20mm
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV
+.br
+Kl. &KLOKKESLET  &DATO
+.ar off
+.dm off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.dm OVSK on
+.ti ¤ 05
+.*ll 175mm
+:COUR10.
+.fo left
+.da OVERSKR 20mm 31mm width 150mm
+.ar OVERSKR on
+.in
+:SWISS12.:FED.
+.us
+&MIBOBJK1
+:SKRSLUT.
+.ar off
+.dm off
+.*************************************************************************
+.dm RAMME on
+.***************************************
+.da OV1 22mm 45mm width 175mm
+.da ALM1 22mm 51mm width 80mm
+.***************************************
+.da RAMME 20mm 50mm width 175mm
+.ar RAMME on
+.bx left right
+.sp 217mm
+.bx off
+.ar off
+.dm off
+.***************************************
+.dm RAMME1 on
+.da RAMME1 20mm 40mm width 175mm
+.ar RAMME1 on
+.bx left right
+.sp 227mm
+.bx off
+.ar off
+.***************************************
+.dm off
+.OVSK
+.STAMP
+.RAMME
+.if .&MEDKUNDENR. = .000000-0000
+.th .se deb 'låntager'
+.el .se deb 'låntagere'
+.**** GL TESTSIDE hvis stilling starter med TEST *****************
+.se tst = SUBSTR '&U'&KTOSTILL.' 1 4
+.if x&U'&tst ne xTEST
+.th .go NORMAL
+.KTO
+.KTOOP
+.OVSK
+.STAMP
+.RAMME
+.FAFOA1
+.pa
+...NORMAL
+.******************** Forside *********************
+.KTO
+.KTOOP
+.OVSK
+.STAMP
+.RAMME
+.sp 40mm
+.if .&RESULTD ne .0,000 .go EFFOK
+.mg /i/   Effektiv rente må ikke være 0,000
+.mg /i/   -
+.mg /i/   Udskrevet af:  &BRUGERNR &BRUGERNAVN
+.mg /i/   -
+.mg /i/   Husk KREDITOPLYSNINGER til LÅNEAFTALE - FASTRENTELÅN FORBRUG
+.mg /i/   -
+.mg /i/   Vedr. konto &REGNR. &KTONR1.
+.mg /i/   -
+.mg /i/   > '&KTOSTILL.'
+.mg /i/   > '&KTONAVN.'
+.mg /t/  Udskriften er stoppet - Effektiv rente = 0,000
+...EFFOK
+          Udskrevet af:  &BRUGERNR &BRUGERNAVN
+.sp
+          Husk KREDITOPLYSNINGER til LÅNEAFTALE - FASTRENTELÅN FORBRUG
+          -
+          Vedr. konto &REGNR.-&KTONR1.
+          -
+          > '&KTOSTILL.'
+          > '&KTONAVN.'
+          > '&KTOCO.'
+          > '&KTOGADE.'
+          > '&KTOBY.
+.******************** Forside slut ** SIDENUMMERERING PÅ **************
+.PN 1
+.pa
+.PN ON
+.se ns = 1
+.******************** Header og Fooder ***********
+.rh on
+.ll 175mm
+.ri :COUR10.SIDE & AF &ts.:SKRSLUT.
+.*sp 40mm
+.rh off
+.rh execute
+.rf on
+.sp 3
+.br
+.br
+.rf off
+.rf execute
+.* tidligere afsnit er defineret som Makroer FAFOA1-6, her udføres de.
+.*sp
+.if &U'&MIBJN1 = G .go FAFOGAR
+.***** DOKUMENTSTART ****************************
+.OVSK
+.STAMP
+.*RAMME
+.FAFO1K
+.FAFO1T
+.pa
+.KTO
+.KTOOP
+.OVSK
+.STAMP
+.RAMME
+.FAFOA1A
+.FAFOA2
+.FAFOA3
+.pa
+.KTO
+.KTOOP
+.OVSK
+.STAMP
+.RAMME
+.FAFOA4
+.pa
+.*KTO
+.*KTOOP
+.OVSK
+.STAMP
+.RAMME
+.FAFOA5
+.pa
+.*KTO
+.OVSK
+.*KTOOP
+.STAMP
+.RAMME
+.FAFOA6
+.rh sup
+.*rf sup
+.rh on
+.ll 175mm
+.ri :COUR10.SIDE & AF &ts.:SKRSLUT.
+.rh off
+.rh execute
+.in 0
+.ir 0
+.** SIDESKIFT
+.pa

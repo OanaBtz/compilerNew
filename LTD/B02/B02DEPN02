@@ -1,0 +1,393 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.br
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+.if &B02BKST eq 520760
+.th &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. 62 66 54 16
+.el &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Deponeringskvittering
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.da KØBE 25mm 40mm width 150mm
+.ar KØBE on
+:swiss11.
+Køber
+.sp 2
+&B02TEXT1.
+.br
+&B02TEXT2.
+.br
+&B02TEXT30.
+.br
+&B02TEXT31.
+.ar off
+.da AREAL01 25mm 75mm width 170mm
+.ar AREAL01 on
+Dags dato har vi fra ovennævnte køber modtaget
+.sp
+kr. &B02BELØB.
+.sp
+skriver &B02BELØBT1.&B02BELØBT2.
+.sp
+i favør af (sælger): &NAVN.
+.if &COADR gt 0
+.th &COADR.,
+&GADE., &BY..
+.sp
+Beløbet deponeres i henhold til &B02TEXT20.
+og er indsat på konto nr. &B02REGKTO..
+.if &L'&B02TEXT40 eq 0
+.th .go dep
+.el .go udb
+...udb
+.sp
+:swiss11.
+:fed.
+Betingelser for udbetaling
+.sp 2mm
+:skrslut.
+:SWISS11.
+&B02TEXT40
+&B02TEXT41
+&B02TEXT42
+&B02TEXT43
+&B02TEXT44
+&B02TEXT45
+...dep
+.sp
+Deponeringen forrentes med p.t. &B02SATS.%
+, som betales til sælger, såfremt intet andet er aftalt.
+.sp
+Deponeringsgebyr, kr. &B02BELØB3.
+, fradrages ved udbetaling.
+.sp
+Hvis handlen annulleres, vil deponeringen blive frigivet, når der
+foreligger en erklæring om annullation, underskrevet af køber og sælger,
+eller endelig dom eller retsforlig. Udbetalingens form og eventuel
+fordeling skal fremgå heraf.
+.sp
+Nærværende kvittering er udstedt i 3 eksemplarer, kun enkelt gældende
+(køber, sælger, bank). Kvittering er kun gyldig med 2 underskrifter.
+.************** underskrift ********
+.da AREAL03 25mm 235mm width 175mm
+.ar AREAL03 on
+:SWISS11.
+.tp 2mm 40mm
+&B02TOM1., den &B02TOM2
+:SKRSLUT.
+.sp 2
+.ce on
+:swiss12.
+&BANKNAVN
+.sp
+:SWISS10.
+&B02AFD
+:SKRSLUT.
+.ce off
+.ar off
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+.if &B02BKST eq 520760
+.th &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. 62 66 54 16
+.el &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Deponeringskvittering
+:SKRSLUT.
+.sp 2mm
+Købers kopi
+.ri off
+.ar off
+.**************************************************************************
+.da KØBE 25mm 40mm width 150mm
+.ar KØBE on
+:swiss11.
+Køber
+.sp 2
+&B02TEXT1.
+.br
+&B02TEXT2.
+.br
+&B02TEXT30.
+.br
+&B02TEXT31.
+.ar off
+.da AREAL01 25mm 75mm width 170mm
+.ar AREAL01 on
+Dags dato har vi fra ovennævnte køber modtaget
+.sp
+kr. &B02BELØB.
+.sp
+skriver &B02BELØBT1.&B02BELØBT2.
+.sp
+i favør af (sælger): &NAVN.
+.if &COADR gt 0
+.th &COADR.,
+&GADE., &BY..
+.sp
+Beløbet deponeres i henhold til &B02TEXT20.
+og er indsat på konto nr. &B02REGKTO..
+.if &L'&B02TEXT40 eq 0
+.th .go dep
+.el .go udb
+...udb
+.sp
+:swiss11.
+:fed.
+Betingelser for udbetaling
+.sp 2mm
+:skrslut.
+:SWISS11.
+&B02TEXT40
+&B02TEXT41
+&B02TEXT42
+&B02TEXT43
+&B02TEXT44
+&B02TEXT45
+...dep
+.sp
+Deponeringen forrentes med p.t. &B02SATS.%
+, som betales til sælger, såfremt intet andet er aftalt.
+.sp
+Deponeringsgebyr, kr. &B02BELØB3.
+, fradrages ved udbetaling.
+.sp
+Hvis handlen annulleres, vil deponeringen blive frigivet, når der
+foreligger en erklæring om annullation, underskrevet af køber og sælger,
+eller endelig dom eller retsforlig. Udbetalingens form og eventuel
+fordeling skal fremgå heraf.
+.sp
+Nærværende kvittering er udstedt i 3 eksemplarer, kun enkelt gældende
+(køber, sælger, bank). Kvittering er kun gyldig med 2 underskrifter.
+.************** underskrift ********
+.da AREAL03 25mm 235mm width 175mm
+.ar AREAL03 on
+:SWISS11.
+.tp 2mm 40mm
+&B02TOM1., den &B02TOM2
+:SKRSLUT.
+.sp 2
+.ce on
+:swiss12.
+&BANKNAVN
+.sp
+:SWISS10.
+&B02AFD
+:SKRSLUT.
+.ce off
+.ar off
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+.if &B02BKST eq 520760
+.th &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. 62 66 54 16
+.el &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Deponeringskvittering
+:SKRSLUT.
+.sp 2mm
+Sælgers kopi
+.ri off
+.ar off
+.**************************************************************************
+.da KØBE 25mm 40mm width 150mm
+.ar KØBE on
+:swiss11.
+Køber
+.sp 2
+&B02TEXT1.
+.br
+&B02TEXT2.
+.br
+&B02TEXT30.
+.br
+&B02TEXT31.
+.ar off
+.da AREAL01 25mm 75mm width 170mm
+.ar AREAL01 on
+Dags dato har vi fra ovennævnte køber modtaget
+.sp
+kr. &B02BELØB.
+.sp
+skriver &B02BELØBT1.&B02BELØBT2.
+.sp
+i favør af (sælger): &NAVN.
+.if &COADR gt 0
+.th &COADR.,
+&GADE., &BY..
+.sp
+Beløbet deponeres i henhold til &B02TEXT20.
+og er indsat på konto nr. &B02REGKTO..
+.if &L'&B02TEXT40 eq 0
+.th .go dep
+.el .go udb
+...udb
+.sp
+:swiss11.
+:fed.
+Betingelser for udbetaling
+.sp 2mm
+:skrslut.
+:SWISS11.
+&B02TEXT40
+&B02TEXT41
+&B02TEXT42
+&B02TEXT43
+&B02TEXT44
+&B02TEXT45
+...dep
+.sp
+Deponeringen forrentes med p.t. &B02SATS.%
+, som betales til sælger, såfremt intet andet er aftalt.
+.sp
+Deponeringsgebyr, kr. &B02BELØB3.
+, fradrages ved udbetaling.
+.sp
+Hvis handlen annulleres, vil deponeringen blive frigivet, når der
+foreligger en erklæring om annullation, underskrevet af køber og sælger,
+eller endelig dom eller retsforlig. Udbetalingens form og eventuel
+fordeling skal fremgå heraf.
+.sp
+Nærværende kvittering er udstedt i 3 eksemplarer, kun enkelt gældende
+(køber, sælger, bank). Kvittering er kun gyldig med 2 underskrifter.
+.************** underskrift ********
+.da AREAL03 25mm 235mm width 175mm
+.ar AREAL03 on
+:SWISS11.
+.tp 2mm 40mm
+&B02TOM1., den &B02TOM2
+:SKRSLUT.
+.sp 2
+.ce on
+:swiss12.
+&BANKNAVN
+.sp
+:SWISS10.
+&B02AFD
+:SKRSLUT.
+.ce off
+.ar off
+.pa

@@ -1,0 +1,154 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.*.NV PAGE ID-OPL_01 '% '
+.*.BR
+.*.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.*.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*********************GENEREL OPSÆTNING************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.*:tiltale &TILTALE
+.*:omtale &OMTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm width 135mm
+.* Dato
+.da DATOA 20mm 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Afdelingsadresse nederst til højre
+.da AFDADR 162mm 200mm width 50mm
+.* Kundeadresse
+.da KUNDEOPL 20mm 40mm width 100mm
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************Kundeadresse*****************************************
+.ar KUNDEOPL on
+.if &L'&GENVALGA > 0
+.th :FED.
+.th Anbefalet
+.th :SKRSLUT.
+.th .br
+&E69MODADR1.
+.br
+&E69MODADR2.
+.br
+&E69MODADR3.
+.br
+&E69MODADR4.
+.br
+&E69MODADR5.
+.ar off
+.*********************Dato************************************************
+.ar DATOA on
+&DATO.
+.ar off
+.*********************Afdelingsadresse************************************
+.ar AFDADR on
+:VERDA07.
+&BANKNAVN.
+.sp 2mm
+&AFDNAVN.
+.sp 1mm
+&AFDGADE.
+.sp 1mm
+&AFDBY.
+.sp 2mm
+Telefon &AFDTLF.
+.if &L'&AFDFAX > 0
+.th .sp 1mm
+.th Telefax &AFDFAX.
+.sp 2mm
+www.sparnord.dk
+.sp
+sparnord@sparnord.dk
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+Overførsel af
+.if &U'&GENVALGB = L
+.th Løn
+.if &U'&GENVALGB = P
+.th Pension
+.if &U'&GENVALGB = A
+.th &GENANDET.
+:SKRSLUT.
+.sp
+.**************************************************************************
+.*************************************************************************
+Vi beder jer venligst foretage fremtidige overførsler af
+.if &U'&GENVALGB = L
+.th løn
+.if &U'&GENVALGB = P
+.th pension
+.if &U'&GENVALGB = A
+.th &GENANDET.
+til
+&BANKNAVN vedrørende:
+.sp
+.tp 0mm 25mm
+¤Kontonr:¤&LANGKTONR.
+¤CPR/SE-nr.: ¤&KTOKNDNR1.
+¤Navn: ¤&KTONAVN.
+¤ ¤&KTOGADE.
+¤ ¤&KTOBY.
+¤ ¤&KTOLAND.
+.sp
+Venlig hilsen
+.br
+&AFDNAVN.
+.sp
+&GENEKSP.
+.br
+&GENTITEL.
+.sp
+:KURSIV.
+Direkte telefon: &GENTLFNR.
+.br
+&GENEMAIL.
+:SKRSLUT
+.sp 7
+Ovennævnte tiltrædes
+.sp 4
+____________________________
+.br
+&KTONAVN.

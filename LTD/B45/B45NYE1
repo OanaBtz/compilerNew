@@ -1,0 +1,1067 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.im (b45syvar)
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.*.if &U'&UDSKRSTED eq C
+&RESULTZ
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+6060
+...USOR
+.ar off
+:verda11.
+.*.ar med on
+.*.if &U'&UDSKRSTED eq C
+.*.th :BRED.:FED.
+.*.th MEDDELELSE
+.*.ar off
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &BANKREGNR eq 0000
+.th PBS KundeService
+.th .br
+.th Lautrupbjerg 10
+.th .br
+.th 2750  Ballerup
+.el &BKNAVN
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.*.if &U'&UDSKRSTED eq D
+.*.th &EKSPBY., den &RESULTZ
+.*.th .sp 3
+.*.el .sp 4
+.*
+.if &L'&GENKTO1 lt 2 .an &L'&B45VPNR1 lt 2
+.th .mg /T/  Mangler enten konto- eller depotnummer i fremmed pengeinstitut
+:FED.
+Anmodning om overførsel
+:SKRSLUT.
+ 
+.ti > 05
+.tp 20 47
+På foranledning af:>&STILL >&MEDSTILL
+.br
+>&NAVN >&MEDNAVN
+.br
+.if &L'&COADR gt 1
+.th >&COADR >&MEDCO
+.th .br
+>&GADE >&MEDGADE
+.br
+>&BY >&MEDBY
+.br
+.if &MEDKUNDENR eq 000000-0000
+.th >kundenr. &KTOKUNDENR
+.el >kundenr. &KTOKUNDENR >kundenr. &MEDKUNDENR
+ 
+anmoder vi venligst om følgende overførsel til DiBa Bank
+(reg.nr./CD 06060):
+ 
+.if &L'&GENKTO1 gt 1
+.el .go DEPOT
+:FED.Kontonummer >Kontotype >Nyt kontonummer :SKRSLUT.
+.br
+&GENKTO1 >&GENMÆRKE1 >&KTONR1
+.br
+.if &L'&GENKTO2 gt 1
+.th &GENKTO2 >&GENMÆRKE2 >&GENNYKTO2
+.th .br
+.if &L'&GENKTO3 gt 1
+.th &GENKTO3 >&GENMÆRKE3 >&GENNYKTO3
+.th .br
+.if &L'&GENKTO4 gt 1
+.th &GENKTO4 >&GENMÆRKE4 >&GENNYKTO4
+.th .br
+.if &L'&GENKTO5 gt 1
+.th &GENKTO5 >&GENMÆRKE5 >&GENNYKTO5
+.th .br
+.if &L'&GENKTO6 gt 1
+.th &GENKTO6 >&GENMÆRKE6 >&GENNYKTO6
+.th .br
+.if &L'&GENKTO7 gt 1
+.th &GENKTO7 >&GENMÆRKE7 >&GENNYKTO7
+
+...DEPOT
+.if &L'&B45VPNR1 eq 0
+.th .go VIDERE
+.el :FED.Depotnummer >Depottype >Nyt depotnummer :SKRSLUT.
+.el .br
+.el &B45DEPOT1 >&B45DEPTY1 >06060&B45VPNR1
+.el .br
+.if &L'&B45VPNR2 gt 1
+.th &B45DEPOT2 >&B45DEPTY2 >06060&B45VPNR2
+.th .br
+.if &L'&B45VPNR3 gt 1
+.th &B45DEPOT3 >&B45DEPTY3 >06060&B45VPNR3
+.th .br
+.if &L'&B45VPNR4 gt 1
+.th &B45DEPOT4 >&B45DEPTY4 >06060&B45VPNR4
+ 
+...VIDERE
+.if &L'&GENKTO1 gt 1
+.el .go AFSL
+Vi
+.if &L'&GENKORT eq 0 .an &L'&GENCHECK eq 0 .an &L'&GENVEDL eq 0
+.el vedlægger i annulleret stand
+.if &L'&GENKORT gt 0
+.th &GENKORT stk. kort og
+.if &L'&GENCHECK gt 0
+.th &GENCHECK stk. checkblanketter og
+.if &L'&GENVEDL gt 0
+.th &GENVEDL stk. bankbog/bøger, der ønskes retur, og
+.if &U'&B45TELF eq N
+.th imødeser venligst ovennævnte overførsel. Relevante dokumenter bedes
+.el beder Dem venligst undlade at slette
+.el BS-aftaler - er disse tilknyttet konstrueret kundenummer, bedes
+.el dette oplyst. Eventuelle deponerede sikkerheder bedes
+.if &U'&B45TELG eq N
+.th medsendt. Vi
+.el medsendt. Er
+.el engagementet betinget af særlige indfrielsesvilkår eller
+.el omfattet af forsikringer, bedes dette meddelt os
+.el inden overførsel/sletning. Vi
+forbeholder os ret til at tilbageføre konti,
+.if &L'&GENKTO1 ne 8
+.th som ikke er nævnt herover eller
+hvis samtlige sikkerheder ikke medsendes til os. Vi indestår for, at
+alle kort til kontiene er makuleret og derfor blot skal spærres.
+...AFSL
+.if &U'&B45JANEJ2 eq N
+.th .go AFSL2
+ 
+Hvis der er pensionsmidler, overføres de direkte til DiBa,
+Pensionsservice,
+Axeltorv 4, 4700 Næstved - separat
+anmodning følger. Særlige
+indlån overføres i h.t. Pensionsbeskatningslovens §41.
+...AFSL2
+.if &ÅLC lt 22
+.th .go AFSL3
+.if &U'&B45JANEJ3 ne J
+.th .go AFSL3
+ 
+Er kunden FI-kreditor, bedes De undlade sletning, indtil kunden er
+oprettet hos os.
+.if &U'&B45JANEJ ne J
+.th .go AFSL3
+ 
+:kursiv.Ved længere ekspeditionstid end 2 uger beder vi Dem venligst
+returnere vedlagte svarbrev med besked om den forventede ekspeditionstid.
+:skrslut.
+...AFSL3
+.da a 5 59 width 79
+.ar a on
+___________________________________________________________________________
+ 
+.tp 40
+.in+3
+.if &U'&B45TELA eq N
+.th .go UKON
+Ovennævnte tiltrædes, idet jeg/vi ikke
+.br
+ønsker kontakt med tidl. pengeinstitut
+.br
+- og samtidig tilbagekalder jeg/vi evt.>_________________________________
+.br
+aftaler, jfr. Markedsføringslovens §6a.>Underskrift(er)
+.br
+.go END
+...UKON
+Ovennævnte anmodning tiltrædes herved
+.br
+i sin fulde ordlyd med min/vore under-
+.br
+skrift(er).                            >_________________________________
+.br
+                                       >Underskrift(er)
+...END
+.*.sp 2mm
+.*:COUR8.NB: Konti underlagt særlige indlån overføres på samme vilkår i
+.*henhold til §41 i pensionsbeskatningloven.
+.*.br
+.*    Hvis engagementet er betinget af særlige indfrielsesvilkår, bedes
+.*dette meddelt os inden overførslen. :COUR12.
+.in-3
+.ar off
+.if &L'&B45FRIL1A lt 1
+.th .go NOSUP
+.if &ÅLC lt 18
+.th .sp
+.th .ri Fortsættes
+.th .pa
+.th .sp18
+.th .ri Fortsat
+.th .sp
+.el .sp
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+...NOSUP
+...NOBREV3
+.if &BREVNAVN eq B45KOR12
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KORT17
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA8
+.th .go ALIGEVEL
+.if &E'&B45NR eq 1 .an &B45NR ne 7
+.th .go NOBREV3
+...ALIGEVEL
+.sp
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+ 
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp
+.el .sp2
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+.pa
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+DiBa Bank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.*.if &U'&UDSKRSTED eq C
+&RESULTZ
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+6060
+...USOR
+.ar off
+.*.ar med on
+.*.if &U'&UDSKRSTED eq C
+.*.th :BRED.:FED.
+.*.th MEDDELELSE
+.*.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &BANKREGNR eq 0000
+.th PBS KundeService
+.th .br
+.th Lautrupbjerg 10
+.th .br
+.th 2750  Ballerup
+.el &BKNAVN
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.*.if &U'&UDSKRSTED eq D
+.*.th &EKSPBY., den &RESULTZ
+.*.th .sp 3
+.*.el .sp 4
+:FED.
+Anmodning om overførsel
+:SKRSLUT.
+ 
+.ti > 05
+.tp 20 47
+På foranledning af:>&STILL >&MEDSTILL
+.br
+>&NAVN >&MEDNAVN
+.br
+.if &L'&COADR gt 1
+.th >&COADR >&MEDCO
+.th .br
+>&GADE >&MEDGADE
+.br
+>&BY >&MEDBY
+.br
+.if &MEDKUNDENR eq 000000-0000
+.th >kundenr. &KTOKUNDENR
+.el >kundenr. &KTOKUNDENR >kundenr. &MEDKUNDENR
+ 
+anmoder vi venligst om følgende overførsel til DiBa Bank
+(reg.nr./CD 06060):
+ 
+.if &L'&GENKTO1 gt 1
+.el .go DEPOT
+:FED.Kontonummer >Kontotype >Nyt kontonummer :SKRSLUT.
+.br
+&GENKTO1 >&GENMÆRKE1 >&KTONR1
+.br
+.if &L'&GENKTO2 gt 1
+.th &GENKTO2 >&GENMÆRKE2 >&GENNYKTO2
+.th .br
+.if &L'&GENKTO3 gt 1
+.th &GENKTO3 >&GENMÆRKE3 >&GENNYKTO3
+.th .br
+.if &L'&GENKTO4 gt 1
+.th &GENKTO4 >&GENMÆRKE4 >&GENNYKTO4
+.th .br
+.if &L'&GENKTO5 gt 1
+.th &GENKTO5 >&GENMÆRKE5 >&GENNYKTO5
+.th .br
+.if &L'&GENKTO6 gt 1
+.th &GENKTO6 >&GENMÆRKE6 >&GENNYKTO6
+.th .br
+.if &L'&GENKTO7 gt 1
+.th &GENKTO7 >&GENMÆRKE7 >&GENNYKTO7
+ 
+...DEPOT
+.if &L'&B45VPNR1 eq 0
+.th .go VIDERE
+.el :FED.Depotnummer >Depottype >Nyt depotnummer :SKRSLUT.
+.el .br
+.el &B45DEPOT1 >&B45DEPTY1 >06060&B45VPNR1
+.el .br
+.if &L'&B45VPNR2 gt 1
+.th &B45DEPOT2 >&B45DEPTY2 >06060&B45VPNR2
+.th .br
+.if &L'&B45VPNR3 gt 1
+.th &B45DEPOT3 >&B45DEPTY3 >06060&B45VPNR3
+.th .br
+.if &L'&B45VPNR4 gt 1
+.th &B45DEPOT4 >&B45DEPTY4 >06060&B45VPNR4
+ 
+...VIDERE
+.if &L'&GENKTO1 gt 1
+.el .go AFSL
+Vi
+.if &L'&GENKORT eq 0 .an &L'&GENCHECK eq 0 .an &L'&GENVEDL eq 0
+.el vedlægger i annulleret stand
+.if &L'&GENKORT gt 0
+.th &GENKORT stk. kort og
+.if &L'&GENCHECK gt 0
+.th &GENCHECK stk. checkblanketter og
+.if &L'&GENVEDL gt 0
+.th &GENVEDL stk. bankbog/bøger, der ønskes retur, og
+.if &U'&B45TELF eq N
+.th imødeser venligst ovennævnte overførsel. Relevante dokumenter bedes
+.el beder Dem venligst undlade at slette
+.el BS-aftaler - er disse tilknyttet konstrueret kundenummer, bedes
+.el dette oplyst. Eventuelle deponerede sikkerheder bedes
+.if &U'&B45TELG eq N
+.th medsendt. Vi
+.el medsendt. Er
+.el engagementet betinget af særlige indfrielsesvilkår eller
+.el omfattet af forsikringer, bedes dette meddelt os
+.el inden overførsel/sletning. Vi
+forbeholder os ret til at tilbageføre konti,
+.if &L'&GENKTO1 ne 8
+.th som ikke er nævnt herover eller
+hvis samtlige sikkerheder ikke medsendes til os. Vi indestår for, at
+alle kort til kontiene er makuleret og derfor blot skal spærres.
+...AFSL
+.if &U'&B45JANEJ2 eq N
+.th .go AFSL2
+ 
+Pensionsmidler overføres direkte til DiBa, Support,
+Axeltorv 4, Næstved - separat
+.br
+anmodning følger. Særlige
+indlån overføres i h.t. Pensionsbeskatningslovens §41.
+...AFSL2
+.if &ÅLC lt 22
+.th .go AFSL3
+.if &U'&B45JANEJ3 ne J
+.th .go AFSL3
+ 
+Er kunden FI-kreditor, bedes De undlade sletning, indtil kunden er
+oprettet hos os.
+.if &U'&B45JANEJ ne J
+.th .go AFSL3
+ 
+:kursiv.Ved længere ekspeditionstid end 2 uger beder vi Dem venligst
+returnere vedlagte svarbrev med besked om den forventede ekspeditionstid.
+:skrslut.
+...AFSL3
+.da a 5 59 width 79
+.ar a on
+___________________________________________________________________________
+ 
+.tp 40
+.in+3
+.if &U'&B45TELA eq N
+.th .go UKON
+Ovennævnte tiltrædes, idet jeg/vi ikke
+.br
+ønsker kontakt med tidl. pengeinstitut
+.br
+- og samtidig tilbagekalder jeg/vi evt.>_________________________________
+.br
+aftaler, jfr. Markedsføringslovens §6a.>Underskrift(er)
+.br
+.go END
+...UKON
+Ovennævnte anmodning tiltrædes herved
+.br
+i sin fulde ordlyd med min/vore under-
+.br
+skrift(er).                            >_________________________________
+.br
+                                       >Underskrift(er)
+...END
+.*.sp 2mm
+.*:COUR8.NB: Konti underlagt særlige indlån overføres på samme vilkår i
+.*henhold til §41 i pensionsbeskatningloven.
+.*.br
+.*    Hvis engagementet er betinget af særlige indfrielsesvilkår, bedes
+.*dette meddelt os inden overførslen. :COUR12.
+.in-3
+.ar off
+.if &L'&B45FRIL1A lt 1
+.th .go NOSUP
+.if &ÅLC lt 18
+.th .sp
+.th .ri Fortsættes
+.th .pa
+.th .sp18
+.th .ri Fortsat
+.th .sp
+.el .sp
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+...NOSUP
+.if &BREVNAVN eq B45KOR12
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KORT17
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA8
+.th .go ALIGEVEL
+.if &E'&B45NR eq 1 .an &B45NR ne 7
+.th .go NOBREV3
+...ALIGEVEL
+.sp
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+ 
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp
+.el .sp2
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.pa
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+DiBa Bank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.*.if &U'&UDSKRSTED eq C
+&RESULTZ
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+6060
+...USOR
+.ar off
+.*.ar med on
+.*.if &U'&UDSKRSTED eq C
+.*.th :BRED.:FED.
+.*.th MEDDELELSE
+.*.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &BANKREGNR eq 0000
+.th PBS KundeService
+.th .br
+.th Lautrupbjerg 10
+.th .br
+.th 2750  Ballerup
+.el &BKNAVN
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.*.if &U'&UDSKRSTED eq D
+.*.th &EKSPBY., den &RESULTZ
+.*.th .sp 3
+.*.el .sp 4
+:FED.
+Anmodning om overførsel
+:SKRSLUT.
+ 
+.ti > 05
+.tp 20 47
+På foranledning af:>&STILL >&MEDSTILL
+.br
+>&NAVN >&MEDNAVN
+.br
+.if &L'&COADR gt 1
+.th >&COADR >&MEDCO
+.th .br
+>&GADE >&MEDGADE
+.br
+>&BY >&MEDBY
+.br
+.if &MEDKUNDENR eq 000000-0000
+.th >kundenr. &KTOKUNDENR
+.el >kundenr. &KTOKUNDENR >kundenr. &MEDKUNDENR
+ 
+anmoder vi venligst om følgende overførsel til DiBa Bank
+(reg.nr./CD 06060):
+ 
+.if &L'&GENKTO1 gt 1
+.el .go DEPOT
+:FED.Kontonummer >Kontotype >Nyt kontonummer :SKRSLUT.
+.br
+&GENKTO1 >&GENMÆRKE1 >&KTONR1
+.br
+.if &L'&GENKTO2 gt 1
+.th &GENKTO2 >&GENMÆRKE2 >&GENNYKTO2
+.th .br
+.if &L'&GENKTO3 gt 1
+.th &GENKTO3 >&GENMÆRKE3 >&GENNYKTO3
+.th .br
+.if &L'&GENKTO4 gt 1
+.th &GENKTO4 >&GENMÆRKE4 >&GENNYKTO4
+.th .br
+.if &L'&GENKTO5 gt 1
+.th &GENKTO5 >&GENMÆRKE5 >&GENNYKTO5
+.th .br
+.if &L'&GENKTO6 gt 1
+.th &GENKTO6 >&GENMÆRKE6 >&GENNYKTO6
+.th .br
+.if &L'&GENKTO7 gt 1
+.th &GENKTO7 >&GENMÆRKE7 >&GENNYKTO7
+ 
+...DEPOT
+.if &L'&B45VPNR1 eq 0
+.th .go VIDERE
+.el :FED.Depotnummer >Depottype >Nyt depotnummer :SKRSLUT.
+.el .br
+.el &B45DEPOT1 >&B45DEPTY1 >06060&B45VPNR1
+.el .br
+.if &L'&B45VPNR2 gt 1
+.th &B45DEPOT2 >&B45DEPTY2 >06060&B45VPNR2
+.th .br
+.if &L'&B45VPNR3 gt 1
+.th &B45DEPOT3 >&B45DEPTY3 >06060&B45VPNR3
+.th .br
+.if &L'&B45VPNR4 gt 1
+.th &B45DEPOT4 >&B45DEPTY4 >06060&B45VPNR4
+ 
+...VIDERE
+.if &L'&GENKTO1 gt 1
+.el .go AFSL
+Vi
+.if &L'&GENKORT eq 0 .an &L'&GENCHECK eq 0 .an &L'&GENVEDL eq 0
+.el vedlægger i annulleret stand
+.if &L'&GENKORT gt 0
+.th &GENKORT stk. kort og
+.if &L'&GENCHECK gt 0
+.th &GENCHECK stk. checkblanketter og
+.if &L'&GENVEDL gt 0
+.th &GENVEDL stk. bankbog/bøger, der ønskes retur, og
+.if &U'&B45TELF eq N
+.th imødeser venligst ovennævnte overførsel. Relevante dokumenter bedes
+.el beder Dem venligst undlade at slette
+.el BS-aftaler - er disse tilknyttet konstrueret kundenummer, bedes
+.el dette oplyst. Eventuelle deponerede sikkerheder bedes
+.if &U'&B45TELG eq N
+.th medsendt. Vi
+.el medsendt. Er
+.el engagementet betinget af særlige indfrielsesvilkår eller
+.el omfattet af forsikringer, bedes dette meddelt os
+.el inden overførsel/sletning. Vi
+forbeholder os ret til at tilbageføre konti,
+.if &L'&GENKTO1 ne 8
+.th som ikke er nævnt herover eller
+hvis samtlige sikkerheder ikke medsendes til os. Vi indestår for, at
+alle kort til kontiene er makuleret og derfor blot skal spærres.
+...AFSL
+.if &U'&B45JANEJ2 eq N
+.th .go AFSL2
+ 
+Pensionsmidler overføres direkte til DiBa, Support,
+Axeltorv 4, Næstved - separat
+.br
+anmodning følger. Særlige
+indlån overføres i h.t. Pensionsbeskatningslovens §41.
+...AFSL2
+.if &ÅLC lt 22
+.th .go AFSL3
+.if &U'&B45JANEJ3 ne J
+.th .go AFSL3
+ 
+Er kunden FI-kreditor, bedes De undlade sletning, indtil kunden er
+oprettet hos os.
+.if &U'&B45JANEJ ne J
+.th .go AFSL3
+ 
+:kursiv.Ved længere ekspeditionstid end 2 uger beder vi Dem venligst
+returnere vedlagte svarbrev med besked om den forventede ekspeditionstid.
+:skrslut.
+...AFSL3
+.da a 5 59 width 79
+.ar a on
+___________________________________________________________________________
+ 
+.tp 40
+.in+3
+.if &U'&B45TELA eq N
+.th .go UKON
+Ovennævnte tiltrædes, idet jeg/vi ikke
+.br
+ønsker kontakt med tidl. pengeinstitut
+.br
+- og samtidig tilbagekalder jeg/vi evt.>_________________________________
+.br
+aftaler, jfr. Markedsføringslovens §6a.>Underskrift(er)
+.br
+.go END
+...UKON
+Ovennævnte anmodning tiltrædes herved
+.br
+i sin fulde ordlyd med min/vore under-
+.br
+skrift(er).                            >_________________________________
+.br
+                                       >Underskrift(er)
+...END
+.*.sp 2mm
+.*:COUR8.NB: Konti underlagt særlige indlån overføres på samme vilkår i
+.*henhold til §41 i pensionsbeskatningloven.
+.*.br
+.*    Hvis engagementet er betinget af særlige indfrielsesvilkår, bedes
+.*dette meddelt os inden overførslen. :COUR12.
+.in-3
+.ar off
+.if &L'&B45FRIL1A lt 1
+.th .go NOSUP
+.if &ÅLC lt 18
+.th .sp
+.th .ri Fortsættes
+.th .pa
+.th .sp18
+.th .ri Fortsat
+.th .sp
+.el .sp
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+...NOSUP
+.if &BREVNAVN eq B45KOR12
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KORT17
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA8
+.th .go ALIGEVEL
+.if &E'&B45NR eq 1 .an &B45NR ne 7
+.th .go NOBREV3
+...ALIGEVEL
+.sp
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+ 
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp
+.el .sp2
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &U'&B45JANEJ ne J
+.th .go END
+.pa
+.da afs 128mm 38mm width 68mm
+.ar afs on
+:verda08.
+&BKNAVN
+.sp 1mm
+&BKADR
+.sp 1mm
+&BKBY
+.ar off
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+DiBa Bank
+.br
+Att. &GENEKSP
+.br
+&AFDGADE
+.br
+&AFDBY
+ 
+&AFDFAX
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.sp
+...DATERING
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.su off
+.se e = substr &BKBY 7 20
+.su on
+.if &U'&UDSKRSTED eq D
+.th &e., den
+.th .sp 2
+.el .sp 3
+:FED.
+Forventet ekspeditionstid på overførsel
+:SKRSLUT.
+ 
+.ti > 05
+.tp 20 47
+Som svar på DiBa Banks brev af &RESULTZ kan vi oplyse, at
+engagementet i
+.br
+&BKNAVN med:
+
+>&STILL >&MEDSTILL
+.br
+>&NAVN >&MEDNAVN
+.br
+.if &L'&COADR gt 1
+.th >&COADR >&MEDCO
+.th .br
+>&GADE >&MEDGADE
+.br
+>&BY >&MEDBY
+.br
+.if &MEDKUNDENR eq 000000-0000
+.th >kundenr. &KTOKUNDENR
+.el >kundenr. &KTOKUNDENR >kundenr. &MEDKUNDENR
+ 
+forventes at blive overført således:
+ 
+.if &L'&GENKTO1 gt 1
+.el .go DEPOT
+:FED.Kontonummer >Nyt kontonummer >Omtrentlig dato :SKRSLUT.
+.br
+&GENKTO1 >&KTONR1
+.br
+.if &L'&GENKTO2 gt 1
+.th &GENKTO2 >&GENNYKTO2
+.th .br
+.if &L'&GENKTO3 gt 1
+.th &GENKTO3 >&GENNYKTO3
+.th .br
+.if &L'&GENKTO4 gt 1
+.th &GENKTO4 >&GENNYKTO4
+.th .br
+.if &L'&GENKTO5 gt 1
+.th &GENKTO5 >&GENNYKTO5
+.th .br
+.if &L'&GENKTO6 gt 1
+.th &GENKTO6 >&GENNYKTO6
+.th .br
+.if &L'&GENKTO7 gt 1
+.th &GENKTO7 >&GENNYKTO7
+ 
+...DEPOT
+.if &L'&B45VPNR1 eq 0
+.th .go VIDERE
+.el :FED.Depotnummer >Nyt depotnummer >Omtrentlig dato :SKRSLUT.
+.el .br
+.el &B45DEPOT1 >06060&B45VPNR1
+.el .br
+.if &L'&B45VPNR2 gt 1
+.th &B45DEPOT2 >06060&B45VPNR2
+.th .br
+.if &L'&B45VPNR3 gt 1
+.th &B45DEPOT3 >06060&B45VPNR3
+.th .br
+.if &L'&B45VPNR4 gt 1
+.th &B45DEPOT4 >06060&B45VPNR4
+ 
+...VIDERE
+ 
+Med venlig hilsen
+ 
+&BKNAVN
+ 
+ 
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.el &B45REF
+.sp
+>:verda14.:fed.OBS: :skrslut.Returneres til DiBa ved
+.br
+         >ekspeditionstid over 2 uger :skrslut.
+...END

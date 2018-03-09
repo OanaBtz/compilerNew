@@ -1,0 +1,154 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***********************************************************************
+.fo left
+.ti ¤ 05
+.tp 130mm 162mm char ,
+.**** Definition af areal til overskrift *******************************
+...START
+.da UDKAST 20mm 90mm width 170mm
+.da OVERSKR 20mm 110mm width 170mm
+.* Brevnavn roteret i nederste, venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.***********************************************************************
+.*UDKAST
+.if &L'&J55CHKBX1. = 0
+.th .go OVERS
+.ar UDKAST on
+:COUR20. :FED.
+.ce on
+UDKAST
+.ce off
+:SKRSLUT. :SKRSLUT.
+.ar off
+.*************************************************************************
+...OVERS
+.* Overskrift
+:COUR10.
+.ar OVERSKR on
+.us
+&REGTYPELNG. nr. &ktonr.
+.us off
+.sp
+.***********************************************************************
+Hovedstol¤&BECTEKST14.¤&BECBELOB1.
+.*
+.*****Evt. ekstra beløbslinier
+.if &L'&BECTEKST2. > 0
+.th .br
+.th &BECTEKST2.¤&BECTEKST14.¤&BECBELOB2.
+.*
+.if &L'&BECTEKST3. > 0
+.th .br
+.th &BECTEKST3.¤&BECTEKST14.¤&BECBELOB3.
+.*
+.if &L'&BECTEKST4. > 0
+.th .br
+.th &BECTEKST4.¤&BECTEKST14.¤&BECBELOB4.
+.**** Slut på ekstra beløbslinier
+.hr 130mm 168mm
+Provenu¤&BECTEKST14.¤&BECBELOB5.
+.hr 130mm 168mm
+.sp
+.if &L'&BECTEKST5. = 0
+.th .go EKSTRA
+.** Tekst vedr. overførsel af provenu - hvis 'provenu dato' er udfyldt
+Provenuet bliver den &BECTEKST5. overført til:
+.br
+&BECTEKST6.,
+.* Afdeling ?
+.if &L'&BECTEKST7. > 0
+.th &BECTEKST7.
+.br
+Reg.nr. &BECTEKST8., kontonr. &BECTEKST9..
+.* Valuta og provenu
+¤&BECTEKST14.¤&BECBELOB5.
+.hr 130mm 168mm
+.*
+...EKSTRA
+.if &L'&BECTEKST10. > 0
+.th .sp
+.th &BECTEKST10.
+.*
+.if &L'&BECTEKST11. > 0
+.th .br
+.th &BECTEKST11.
+.*
+.if &L'&BECTEKST12. > 0
+.th .br
+.th &BECTEKST12.
+.*
+.if &L'&BECTEKST13. > 0
+.th .br
+.th &BECTEKST13.
+.sp
+.** UDBETALINGSBILAG OG/ELLER BETALINGSFORLØB VEDLÆGGES
+.*
+.**Hverken udbetalingsbilag eller betalingsforløb
+.if &L'&J15CHKBX2. = 0
+.an &L'&J15CHKBX3. = 0
+.th .go HILSEN
+.*
+.* Udbetalingsbilag vedlægges
+.if &L'&J15CHKBX2. > 0
+.th Udbetalingsbilag
+.*
+.* og/eller betalingsforløb vedlægges
+.if &L'&J15CHKBX2. > 0
+.an &L'&J15CHKBX3. > 0
+.th  og betalingsforløb
+.* Kun betalingsforløb
+.if &L'&J15CHKBX3. > 0
+.an &L'&J15CHKBX2. = 0
+.th Betalingsforløb
+.*
+vedlægges.
+.**
+...HILSEN
+.sp 3
+Med venlig hilsen
+.sp 3
+&BANKNAVN.

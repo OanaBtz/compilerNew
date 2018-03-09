@@ -1,0 +1,236 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.da OVERSKR  20mm   32mm width 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND      7mm  270mm width 180mm rotate -90
+.da FORTSÆT 148mm  269mm width  45mm
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+:SWISS10.
+:FED.
+Underskrifter
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.ar FORTSÆT on
+:SWISS9.
+.ri on
+.if &L'&FORTSÆTTES > 0
+.th &FORTSÆTTES
+.ri off
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da BOX 20mm 40mm width 175mm
+.******************* Kasse til ID *****************************************
+.ar BOX on
+.tp 1mm 140mm
+.bx left right
+¤Kundenr. ¤Udskrevet
+.sp 2mm
+¤&KUNDENR ¤&DATO
+.sp 0.5mm
+.bx off
+.***
+.sp 4mm
+.******************* Kasse til underskrifter ******************************
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.dr tynd weight 0.1mm
+.tp 1mm 14mm 91mm 104mm
+.**************************************************************************
+.da TXT1  21mm 60mm width  75mm
+.da TXT2 111mm 60mm width  75mm
+.da DEB    21mm 90mm width 175mm
+.**************************************************************************
+.******************* TEKSTDEL VENSTRE *************************************
+.ar TXT1 on
+.if &U'&PANTTYPE = E
+.th Hvis denne aftale kun underskrives af én debitor, erklærer denne
+.th samtidig at være ugift/ikke leve i registreret partnerskab, eller at
+.th ejendommen/e ikke omfattes af lov om ægteskabets retsvirkninger § 18.
+.el Hvis ejerpantebrevet kun underskrives af en debitor, erklærer denne
+.el samtidig at være ugift/ikke leve i registreret partnerskab eller at den
+.el pantsatte andel er omfattet af debitors særeje.
+.ar off
+.******************* TEKSTDEL HØJRE ***************************************
+.* Tekst vedr. ægtefælle kommer kun på første side ************************
+.**************************************************************************
+.ar TXT2 on
+.***
+.if &L'&DEB01NAVN = 0
+.th .go TXT2SL
+.***
+.if &U'&PANTTYPE = E
+.th Hvis debitor er gift/lever i registreret partnerskab og den/de
+.th pantsatte ejendom/me er omfattet af lov om ægteskabets
+.th retsvirkninger § 18, giver medunderskrevne ægtefælle/partner samtykke
+.th til pantsætningen. Er ægtefællen/partneren medejer, underskrives
+.th som debitor og pantsætter.
+.el Hvis debitor er gift/lever i registreret partnerskab og den pantsatte
+.el andel ikke er omfattet af debitors særeje, giver medunderskrivende
+.el ægtefælle/partner samtykke til pantsætningen. Er ægtefællen/partneren
+.el medejer, underskrives som debitor og pantsætter.
+.***
+...TXT2SL
+.ar off
+.******************* DEBITOR1/ÆGTEFÆLLE ***********************************
+.* Debitor 1, ægtefælle og meddebitor udskrives kun på side 1 *************
+.* Side 2 starter med KUN01NAVN (øvrige debitorer) ************************
+.**************************************************************************
+.ar DEB on
+.***
+.if &L'&DEB01NAVN = 0
+.th .go SIDE2
+.***
+.if &L'&ÆGTF01NVN > 0
+.th .hr tynd 1mm 75mm 91mm 166mm
+.th .br
+.th ¤Dato ¤&DEB01NAVN ¤Dato ¤&ÆGTF01NVN
+.el .hr tynd 1mm 75mm
+.el .br
+.el ¤Dato ¤&DEB01NAVN
+.****************** MEDDEBITOR ********************************************
+.if &L'&DEB02NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&DEB02NAVN
+.****************** ØVRIGE DEBITORER **************************************
+...SIDE2
+.***
+.if &L'&KUN01NAVN > 0
+.an &L'&DEB01NAVN > 0
+.th .sp 8mm
+.if &L'&KUN01NAVN > 0
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN01NAVN
+.*KUN02*****************
+.if &L'&KUN02NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN02NAVN
+.*KUN03*****************
+.if &L'&KUN03NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN03NAVN
+.*KUN04******************
+.if &L'&KUN04NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN04NAVN
+.*KUN05******************
+.if &L'&KUN05NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN05NAVN
+.*KUN06******************
+.if &L'&KUN06NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN06NAVN
+.*KUN07******************
+.if &L'&KUN07NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN07NAVN
+.*KUN08******************
+.if &L'&KUN08NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN08NAVN
+.*KUN09******************
+.if &L'&KUN09NAVN > 0
+.th .sp 8mm
+.th .hr tynd 1mm 75mm
+.th .br
+.th ¤Dato ¤&KUN09NAVN
+.******************* VITTERLIGHEDSVIDNER **********************************
+.*Parameter BREVSL tester på hvornår der ikke er flere debitorer,
+.*og dermed hvornår udskrivningen af vitterlighedsvidner skal placeres
+.*(efter sidste debitor).
+.**************************************************************************
+.if &U'&BREVSL = J
+.an &U'&GENVITT = J
+.th .go VITT
+.el .go VITTEND
+.***
+...VITT
+.in 1mm
+.sp 5mm
+:SWISS10.
+:FED.
+Vitterlighedspåtegning
+:SKRSLUT.
+.sp 3mm
+:SWISS9.
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed.
+.sp 5mm
+.***
+.tp _/84mm 89mm _/172mm
+Navn ¤ ¤Navn ¤
+.sp 4mm
+Stilling ¤ ¤Stilling ¤
+.sp 4mm
+Adresse ¤ ¤Adresse ¤
+.sp 4mm
+Postnr./by ¤ ¤Postnr./by ¤
+.sp 4mm
+Underskrift ¤ ¤Underskrift ¤
+.***
+...VITTEND

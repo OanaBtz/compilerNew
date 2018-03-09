@@ -1,0 +1,823 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+Panthaverdeklaration /
+.br
+Finansieringsdeklaration - F
+:SKRSLUT.
+.br
+:VERDA09.
+:FED.(Motorkøretøjsforsikring):SKRSLUT.
+:SKRSLUT.
+.ar off
+.*TEST PÅ KORREKT FORSIKRINGSTYPE ***************************************
+.ar FEJL on
+:VERDA10.
+.if X&GENTYP = X0
+.or X&GENTYP > X3
+.th .go FEJL1
+.el .go OK1
+...FEJL1
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan kun vælge dækningstype 1 - 3.
+.sp 3mm
+.hr left right
+.qu
+...OK1
+.**TEST PÅ KORREKT PANTTYPE ***********************************************
+.if X&GENPANTTYP = X0
+.or X&GENPANTTYP > X4
+.th .go FEJL2
+.el .go OK2
+.th .mg/T/Vælg Panttype 1-4/
+.*****************************
+...FEJL2
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan kun vælge Panttype 1-4/
+.sp 3mm
+.hr left right
+.qu
+.**************************************************************************
+...OK2
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th .go OK3
+.el .go FEJL3
+...FEJL3
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har foretaget et forkert valg, kun
+K, M eller B kan vælges.
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK3
+.if &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th .go TESTMED
+.el .go OK4
+...TESTMED
+.if &MEDKUNDENR = 000000-0000
+.th .go FEJL4
+.el .go OK4
+...FEJL4
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke vælge B(egge) eller M(edktoh)
+da der ingen medkontohaver findes til denne konto,
+vælg evt. kontohaver i stedet for
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK4
+.ar off
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 115mm 40mm width 50mm
+.da KTOHAVOV 25mm 68mm width 155mm
+.da KTOHAVER 25mm 72mm width 155mm
+.da MKTOHAVR 115mm 72mm width 85mm
+.da KUNDEOV 25mm 96mm width 155mm
+.da KUNDENR 25mm 100mm width 155mm
+.da MEDKNDCPR 115mm 100mm width 155mm
+.da DATO 160mm 110mm width 40mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤&regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤&ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤&REGTYPE
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+.if &U'X&GENVALG1 = XB
+.th Debitorer/pantsættere
+.el Debitor/pantsætter
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KUNDEOV on
+.tp 90mm
+:FED.
+Kundenr.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XM
+.th .go TXTMKTOH
+.*** BÅDE FOR KONTOHAVER OG BEGGE SKRIVES KTOHAVER ************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+&cpr1.-&cpr2
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XK
+.th .go DATOTXT
+.*** HVIS BEGGE UDSKRIVES *************************************************
+.ar MKTOHAVR on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar MEDKNDCPR on
+&MEDKUNDENR
+.ar off
+.go DATOTXT
+.**************************************************************************
+...TXTMKTOH
+.**************************************************************************
+.ar KTOHAVER on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+&MEDKUNDENR
+.ar off
+.**************************************************************************
+...DATOTXT
+.ar DATO on
+&DATO
+.ar off
+.**************************************************************************
+.da SIDE1 25mm 117mm width 135mm
+.**INDHOLD ****************************************************************
+.ar SIDE1
+:FED.
+Indhold
+:SKRSLUT.
+.br
+Når &BANKNAVN har pant i et motorkøretøj eller transport i motorkøretøjets
+forsikringssum har &BANKNAVN automatisk visse rettigheder i forhold til
+den forsikring, der er tegnet for motorkøretøjet i forhold til gældens
+størrelse i &BANKNAVN.. Samtidig har &BANKNAVN mulighed for at tegne en
+tillægsforsikring til den til enhver tid værende kaskoforsikring,
+hvor &BANKNAVN i visse situationer bliver stillet bedre
+end forsikringstageren. Prisen for tillægsforsikringen fastsættes efter
+de til enhver tid gældende satser hos Forsikring og Pension. Der
+henvises til vedhæftede vilkår. Denne
+tillægsforsikring tegnes ved, at &BANKNAVN beder om at få en såkaldt
+panthaverdeklaration/finansieringsdeklaration noteret i
+forsikringsselskabet.
+.sp 5mm
+.**FORSIKRINGSFORHOLD *****************************************************
+:FED.
+Forsikringsforhold
+:SKRSLUT.
+.sp 3mm
+Forsikringsselskab:
+.sp 3mm
+&B11FORSNV
+.br
+&B11FORSAD1
+.br
+&B11FORSAD2
+.br
+&B11FORSAD3
+.br
+&B11FORSAD4
+.sp 3mm
+Police nr.:
+.sp 3mm
+&GENPOLNR1
+.sp 3mm
+Policen omfatter:
+.sp 3mm
+.if X&GENTYP = X1
+.th Fuld kasko
+.if X&GENTYP = X2
+.th Kasko uden brand
+.if X&GENTYP = X3
+.th Brand
+.sp 5mm
+.**PANT *******************************************************************
+:FED.
+Pant
+:SKRSLUT.
+.br
+.if X&GENPANTTYP = X1
+.th Salg med ejendomsforbehold
+.if X&GENPANTTYP = X2
+.th Pantsætning
+.if X&GENPANTTYP = X3
+.th Transport i forsikringssummen
+.if X&GENPANTTYP = X4
+.th Leasing
+.sp 3mm
+Kontraktsdato/stiftelsesdato:
+.sp 3mm
+&DATO
+.ar off
+.**************************************************************************
+.if &U'&B32UDSKRIV ne J
+.th .go NEJBUND
+.************** Areal definitioner ****************************************
+.da BUNDV 25mm 271mm width 50mm
+.da BUNDH 160mm 267mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.**************************************************************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN. A/S
+.****.br
+.****Betjening: &B32NYKDIR
+.br
+&B32ADR
+.br
+&B32POST
+.br
+Tlf. ¤&B32TLFDIR
+.br
+Fax. ¤&B32FAXDIR
+.br
+&B32WWWNYK
+.ar off
+...NEJBUND
+.** SIDESKIFT
+.pa
+.da SIDE2 25mm 40mm width 170mm
+.**MOTORKØRETØJSBESKRIVELSE ***********************************************
+.ar SIDE2 on
+.ir 35mm
+:FED.
+Motorkøretøjsbeskrivelse
+:SKRSLUT.
+.sp 3mm
+Køretøjets fabrikat og model:
+.sp 3mm
+&GENFABRIK &GENMODEL
+.sp 3mm
+Registreringsnr.:
+.sp 3mm
+&GENREGNR3
+.sp 3mm
+Første registreringsdato/år:
+.sp 3mm
+&GENIDTO
+.sp 3mm
+Stel nr.:
+.sp 3mm
+&GENSTEL
+.sp 5mm
+.*ERKLÆRING ***************************************************************
+:FED.
+Erklæring
+:SKRSLUT.
+.br
+Når der kræves forsikring af pantsatte effekter og anmeldelse af
+panthaverdeklaration til forsikringsselskabet, tiltræder jeg ved min
+underskrift, at vedlagte pantehaverdeklaration noteres hos
+forsikringsselskabet, og at der mellem &BANKNAVN., det til enhver tid
+værende forsikringsselskab og Forsikring og Pension udveksles enhver
+oplysning om forsikringstager og forsikringsforholdet, der er
+nødvendigt for notering af og håndtering af panthaverdeklarationen,
+herunder men ikke begrænset til mit cpr.nr./cvr.nr., oplysninger om
+forsikringsforholdet og om præmierestancer.
+.sp 3mm
+Oplysningerne registreres og formidles elektronisk via et system, der
+administreres af Forsikring og Pension.
+.ir 0mm
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.if &U'&GENVALG1 = B
+.th .go BEGGEUND
+.el .go EENUND
+...BEGGEUND
+¤¤¤¤¤
+.tp 2mm 34mm 105mm
+¤Dato¤&KTONAVN.¤&MEDNAVN
+.go UNDSLUT
+...EENUND
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+¤¤¤
+.tp 2mm 34mm 105mm
+.if &U'&GENVALG1 = K
+.th ¤Dato ¤&KTONAVN
+.if &U'&GENVALG1 = M
+.th ¤Dato ¤&MEDNAVN
+...UNDSLUT
+.ar off
+.tp 5mm
+.**************************************************************************
+.da KOLON1O 25mm 183mm width 175mm
+.da KOLON1 25mm 197mm width 85mm
+.**************************************************************************
+.ar KOLON1O on
+:VERDA09.
+:FED.
+Vilkår for Panthaverdeklaration / Finansieringsdeklaration - F
+:SKRSLUT.
+.sp 3mm
+:VERDA08.
+:FED.
+DEKLARATIONSVILKÅR FOR FINANSIERING
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KOLON1 on
+:VERDA08.
+1.¤Hvad sikres
+:SKRSLUT.
+.br
+:VERDA07.
+Deklarationen sikrer kreditor ved:
+.br
+.of 5mm
+a)¤Skadetilfælde, som er dækningsberettiget under den tegnede
+forsikring, når erstatningsbeløbet ikke anvendes til køretøjets
+reparation.
+.of
+.of 5mm
+b)¤Skadetilfælde, hvor debitors ret til erstatning er helt eller
+delvis bortfaldet.
+.of
+.of 5mm
+c)¤Kreditors overtagelse af køretøjet med skader opstået forinden,
+og som ikke er anmeldt til forsikringsselskabet af debitor.
+.of
+.of 5mm
+d)¤Skadetilfælde, som er dækningsberettiget under den tegnede
+forsikring i 3 uger efter ejerskifte i forbindelse med kreditors
+overtagelse af køretøjet, såfremt disse 3 uger ligger inden for de
+i pkt. 5, b) nævnte 26 uger.
+.of
+.of 5mm
+e)¤Beslaglæggelse af køretøjet i over 6 måneder som følge af
+strafbar handling, eller hvor køretøjet er konfiskeret og ikke
+meldt frigivet inden 4 uger efter meddelelse herom er afgivet til
+selskab, og forudsat kaskoforsikring er tegnet. Værdien opgøres
+efter udløb af frist og erstatning udbetales.
+.of
+.ar off
+.**************************************************************************
+.tp 5mm
+.**************************************************************************
+.da KOLON2 115mm 197mm width 85mm
+.**************************************************************************
+.ar KOLON2 on
+:VERDA07.
+.of 5mm
+f)¤Bortkomst, når kreditor sandsynliggør, at køretøjet ikke
+befinder sig i det land, hvor det er indregistreret eller
+ikke befinder sig på en af kreditor i udlandet kendt
+adresse, uden at der er tale om tilfælde omfattet af pkt. a). Det
+er en forudsætning for dækning, at kaskoforsikring er tegnet, og
+køretøjet ikke er meldt fundet igen inden 4 uger efter meddelelsen
+til selskabet.
+.of
+.of 5mm
+g)¤Køretøjet anses endvidere som bortkommet, når køretøjet af dets ejer
+eller kreditor er meldt stjålet til politiet og ikke genfundet 6 måneder
+efter politianmeldelsen. Det er en forudsætning for dækning, at
+Kaskoforsikring er tegnet.
+.sp 3mm
+.of
+:VERDA08.
+:FED.
+.of 5mm
+2.¤Det er yderligere en betingelse for selskabets hæftelse, at:
+:SKRSLUT.
+.of
+.of 5mm
+:VERDA07.
+a)¤Kreditor, i de under pkt. 1, b)- c) og e)- g) nævnte tilfælde
+- hvor det er juridisk muligt og såfremt selskabet anmoder herom -
+først søger sit tilgodehavende inddrevet hos debitor.
+.of
+.of 5mm
+b)¤Kreditor ikke er i ond tro for så vidt angår det reelle ejer/
+bruger forhold, jf. 'Registreringsbekendtgørelsens § 7, stk. 3'.
+Såfremt kreditor er i ond tro, ydes der alene dækning efter FAL's
+regler om urigtige oplysninger.
+.sp 2mm
+.of
+.ar off
+.**************************************************************************
+.da SIDENR 185mm 272mm width 15mm
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar SIDENR on
+.sp 10mm
+:VERDA07.
+.if &ÅPN = 2
+.th Side 2/3
+.if &ÅPN = 3
+.th Side 3/3
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.tp 5mm
+.**************************************************************************
+.da KOL1 25mm 40mm width 85mm
+.**************************************************************************
+.ar KOL1 on
+:VERDA08.
+.of 5mm
+:VERDA08.
+:FED.3.¤Selskabets hæftelse:SKRSLUT.
+.br
+:VERDA07.
+Selskabets hæftelse opgøres således:
+.br
+.of 5mm
+a)¤Selskabet fastsætter erstatningen på grundlag af betingelserne
+for den tegnede forsikring. Såfremt afregning af
+erstatningsbeløbet/hæftelsen sker senere end forfaldstidspunktet,
+tillægges det opgjorte beløb renter efter FAL's bestemmelser.
+.of
+.of 5mm
+b)¤Kreditor opgør sit tilgodehavende på grundlag af den med
+debitor indgåede kontrakt/aftale, med tillæg af renter og alle
+tillæg som fastsat i den pågældende kontrakt/aftale for perioden
+indtil selskabets afregning.
+.of
+.of 5mm
+c)¤Hæftelsen fastsættes herefter til det mindste af de under pkt.
+a)- b) opgjorte beløb.
+.of
+.of 5mm
+d)¤Ud over den under pkt. c) nævnte hæftelse, hæfter selskabet for
+alle omkostninger ved inddrivelse af kreditors tilgodehavende, jf.
+pkt. 2, a), når disse er afholdt efter aftale med selskabet.
+.of
+.of 5mm
+e)¤For de under pkt. 1, a)- d) nævnte tilfælde, kan eventuel
+selvrisiko i henhold til tegnet forsikring, ikke gøres gældende
+over for kreditor.
+.of
+.of 5mm
+f)¤For de under pkt. 1, e)- g) nævnte tilfælde, gælder en
+selvrisiko pr. skadebegivenhed på 20% af erstatningsbeløbet, dog
+mindst 20.000 kr.
+.sp 3mm
+.of
+:VERDA08.
+:FED.4.¤Deklarationens ikrafttræden:SKRSLUT.
+.br
+:VERDA07.
+.of 5mm
+a)¤Deklarationen træder i kraft, når den er elektronisk ekspederet
+fra kreditor.
+.of
+.of 5mm
+b)¤Pkt. 1g) og selvrisikobeløbene i pkt. 3f) gælder for deklarationer,
+som er elektronisk ekspederet fra kreditor efter den 1. april 2006
+kl. 00.00.01.
+.sp 5mm
+.of
+:VERDA08.
+:FED.5.¤Deklarationens ophør:SKRSLUT.
+.br
+:VERDA07.
+Deklarationen ophører:
+.br
+.of 5mm
+a)¤Når selskabet, ved restgældens indfrielse, modtager kreditors
+meddelelse herom.
+.of
+.of 5mm
+b)¤26 uger efter kreditor har modtaget selskabets meddelelse om
+den i henhold til forsikringsaftalen tegnede forsikrings ophør.
+Dog aldrig før forsikringens ophør.
+.of
+.of 5mm
+c)¤6 dage efter kreditor har modtaget selskabets meddelelse om, at
+det ikke ønsker at overtage kaskoforsikringen. En sådan meddelelse
+skal fremsendes senest 4 uger efter, selskabets hovedkontor har
+modtaget deklarationen.
+.of
+.of 5mm
+d)¤Deklarationen ophører automatisk efter 10 år. Herefter vil den
+dog kunne gentegnes mod nyt gebyr.
+.of
+.of 5mm
+e)¤Hvis sletning af deklarationen er sket ved fejl, vil denne
+kunne gentegnes uden nyt gebyr i tilfælde, hvor kreditor kan
+godtgøre fejlen. Gentegning uden gebyr skal ske senest 60 dage efter
+at deklarationen er slettet ved en fejl.
+.of
+.sp 5mm
+.*DEKLARATIONSVILKÅR FOR LEASING ******************************************
+:VERDA08.
+:FED.
+DEKLARATIONSVILKÅR FOR LEASING
+.sp 2mm
+1.¤Hvad sikres
+:SKRSLUT.
+.br
+:VERDA07.
+Deklarationen sikrer leasinggiver ved:
+.br
+.of 5mm
+a)¤Skadetilfælde, som er dækningsberettiget under den tegnede
+forsikring, når erstatningsbeløbet ikke anvendes til køretøjets
+reparation.
+.of
+.of 5mm
+b)¤Skadetilfælde, hvor leasingtagers ret til erstatning er helt
+eller delvis bortfaldet.
+.of
+.of 5mm
+c)¤Leasinggivers overtagelse af køretøjet med skader opstået
+forinden, og som ikke er anmeldt til forsikringsselskabet af
+leasingtager.
+.of
+.of 5mm
+d)¤Skadetilfælde, som er dækningsberettiget under den tegnede
+forsikring i 3 uger efter leasinggivers hjemtagelse af køretøjet,
+såfremt disse 3 uger ligger inden for de i pkt. 5, b) nævnte 26
+uger.
+.of
+.of 5mm
+e)¤Beslaglæggelse af køretøjet i over 6 måneder som følge af
+strafbar handling, eller hvor køretøjet er konfiskeret og ikke
+meldt frigivet inden 4 uger efter meddelelse herom er afgivet til
+selskab, og forudsat kaskoforsikring er tegnet. Værdien opgøres
+efter udløb af frist og erstatning udbetales.
+.of
+.of 5mm
+f)¤Bortkomst, når leasinggiver sandsynliggør, at køretøjet ikke
+befinder sig i det land, hvor det er indregistreret eller ikke
+befinder sig på en af leasinggiver i udlandet
+kendt adresse, uden at der er tale om tilfælde omfattet af pkt.
+a)¤Det er en forudsætning for dækning, at kaskoforsikring er
+tegnet, og køretøjet ikke er meldt fundet igen inden 4 uger efter
+meddelelsen til selskabet.
+.of
+.of 5mm
+g)¤Køretøjet anses endvidere som bortkommet, når køretøjet af dets
+bruger eller leasinggiver er meldt stjålet til politiet og ikke
+genfundet 6 måneder efter politianmeldelsen. Det er en forudsætning
+for dækning, at Kaskoforsikring er tegnet.
+.sp 2mm
+.of
+.ar off
+.hy on
+.tp 5mm
+.da KOL2 115mm 40mm width 85mm
+.**************************************************************************
+.ar KOL2 on
+:VERDA08.
+:FED.
+.of 5mm
+2.¤Det er yderligere en betingelse for selskabets hæftelse, at:
+:SKRSLUT.
+.of
+.of 5mm
+:VERDA07.
+a)¤Leasinggiver, i de under pkt. 1, b)- c) og e)- g) nævnte
+tilfælde - hvor det er juridisk muligt og såfremt selskabet
+anmoder herom - først søger sit tilgodehavende inddrevet hos
+leasingtager.
+.of
+.of 5mm
+b)¤Leasinggiver ikke er i ond tro for så vidt angår det reelle
+ejer/ bruger forhold, jf. 'Registreringsbekendtgørelsens § 7, stk.
+3'. Såfremt Leasinggiver er i ond tro, ydes der alene dækning
+efter FAL's regler om urigtige oplysninger.
+.sp 3mm
+.of
+.of 5mm
+:VERDA08.
+:FED.3.¤Selskabets hæftelse:SKRSLUT.
+.br
+:VERDA07.
+Selskabets hæftelse opgøres således:
+.br
+.of 5mm
+a)¤Selskabet fastsætter erstatningen, på grundlag af de
+almindelige betingelser for den tegnede forsikring. Såfremt
+afregning af erstatningsbeløbet/hæftelsen sker senere end
+forfaldstidspunktet, tillægges det opgjorte beløb renter efter
+FAL's bestemmelser.
+.of
+.of 5mm
+b)¤Leasinggiver opgør sit tilgodehavende på grundlag af den med
+leasingtager indgåede kontrakt/aftale med tillæg af renter og alle
+tillæg som fastsat i den pågældende kontrakt/aftale for perioden
+indtil selskabets afregning.
+.of
+.of 5mm
+c)¤Hæftelsen fastsættes herefter til det mindste af de under pkt.
+.of
+.of 5mm
+¤a) -b) opgjorte beløb.
+.of
+.of 5mm
+d)¤Ud over den under pkt. c) nævnte hæftelse, hæfter selskabet for
+alle omkostninger ved inddrivelse af leasinggivers tilgodehavende,
+jf. pkt. 2, a), når disse er afholdt efter aftale med selskabet.
+.of
+.of 5mm
+e)¤For de under pkt. 1, a)- d) nævnte tilfælde, kan en eventuel
+selvrisiko i henhold til tegnet forsikring, ikke gøres gældende
+overfor leasinggiver.
+.of
+.of 5mm
+f)¤For de under pkt. 1, e)- g) nævnte tilfælde, gælder en
+selvrisiko pr. skadebegivenhed på 20% af erstatningsbeløbet, dog mindst
+20.000 kr.
+.sp 3mm
+.of
+:VERDA08.
+:FED.4.¤Deklarationens ikrafttræden:SKRSLUT.
+.br
+:VERDA07.
+.of 5mm
+a)¤Deklarationen træder i kraft, når den er elektronisk ekspederet
+fra leasinggiver, eller når den påklæbet gebyrmærker fremkommer
+til selskabets hovedkontor.
+.of
+.of 5mm
+b)¤Pkt. 1g) og selvrisikobeløbene i pkt. 3f) gælder for deklarationer,
+som er elektronisk ekspederet fra kreditor efter den 1. april 2006
+kl. 00.00.01.
+.of
+.sp 2mm
+:VERDA08.
+:FED.5.¤Deklarationens ophør:SKRSLUT.
+.br
+:VERDA07.
+Deklarationen ophører:
+.br
+.of 5mm
+a)¤Når selskabet, ved leasingforholdets ophør modtager
+leasinggivers meddelelse herom.
+.of
+.of 5mm
+b)¤26 uger efter, leasinggiver har modtaget selskabets meddelelse
+om den i henhold til forsikringsaftalen tegnede forsikrings ophør.
+Dog aldrig før forsikringens ophør.
+.of
+.of 5mm
+c)¤6 dage efter, leasinggiver har modtaget selskabets meddelelse
+om, at det ikke ønsker at overtage kaskoforsikringen. En sådan
+meddelelse skal fremsendes senest 4 uger efter selskabets
+hovedkontor har modtaget deklarationen.
+.of
+.of 5mm
+d)¤Deklarationen ophører automatisk efter 10 år. Herefter vil den
+dog kunne gentegnes mod nyt gebyr.
+.of
+.of 5mm
+e)¤Hvis sletning af deklaration er sket ved fejl, vil denne kunne
+gentegnes uden nyt gebyr i tilfælde, hvor leasinggiver kan
+godtgøre fejlen. Gentegning uden gebyr skal ske senest 60 dage efter, at
+deklarationen er slettet ved en fejl.
+.of
+.ar off
+.da SIDENR 185mm 272mm width 15mm
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar SIDENR on
+.sp 10mm
+:VERDA07.
+.if &ÅPN = 2
+.th Side 2/3
+.if &ÅPN = 3
+.th Side 3/3
+.ar off
+.**************************************************************************

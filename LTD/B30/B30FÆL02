@@ -1,0 +1,236 @@
+.rh cancel
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.********************************************************************
+.if &U'&B30BREV eq J
+.th I forlængelse af &DIT brev
+.if &U'&B30BREV eq J
+.an &U'&B30VALG eq J
+.th med det fremsendte materiale
+.if &U'&B30TELEFON eq J
+.th Som aftalt telefonisk
+.if &U'&B30TELEFON eq J
+.an &U'&B30VALG eq J
+.th og ifølge det fremsendte materiale
+.if &U'&B30MAIL eq J
+.th I forlængelse af &DIN mail
+.if &U'&B30MAIL eq J
+.an &U'&B30VALG eq J
+.th og det fremsendte materiale
+er det ansøgte lån blevet bevilget.
+.sp
+Vi har bevilget &DIG et nyt lån på
+:VS.&GENBELOEB
+kr.
+.sp
+Lånet etableres med variabel rente på pt. 7,90 pct. p.a. Den
+månedlige ydelse udgør
+:VS.&GENBELOEB2
+kr. med en afviklingsperiode på &B30ÅR år.
+.sp
+.** Sikkerhed ***************
+.if &U'&B30SIKGRUP eq J
+.th Som sikkerhed etableres og pantsættes gruppelivsforsikring.
+.if &U'&B30BB eq J
+.th Som sikkerhed pantsættes eksisterende gruppelivsforsikring.
+.sp
+Vi tager ikke gebyr eller stiftelsesprovision af lånet.
+.sp
+Tilbuddet er gældende i en måned fra i dag.
+.sp
+.kp on
+Vi ser frem til at høre fra &DIG..
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.*************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.*************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ar OVERSKR on
+:FED.
+GRUPPELIVSLÅN NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.ll 130mm
+.in 2mm
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.****TEST PÅ BRUG AF ANDRE BOGSTAVER END J/N I AFTALER********
+.if &U'&B30BREV eq J
+.or &U'&B30BREV eq N
+.th .go BREVOK
+.el .go BREVFEJL
+...BREVFEJL
+.mg /T/ Der kan kun tastes J eller N til Brev,Tlf,Mail/
+...BREVOK
+.if &U'&B30TELEFON eq J
+.or &U'&B30TELEFON eq N
+.th .go BREVOK2
+.el .go BREVFEJ2
+...BREVFEJ2
+.mg /T/ Der kan kun tastes J eller N til Brev,Tlf,Mail/
+...BREVOK2
+.if &U'&B30MAIL eq J
+.or &U'&B30MAIL eq N
+.th .go BREVOK3
+.el .go BREVFEJ3
+...BREVFEJ3
+.mg /T/ Der kan kun tastes J eller N til Brev,Tlf,Mail/
+...BREVOK3
+.****TEST PÅ UDFYLDELSE AF BREV/TLF/MAIL******************
+.se taeller = 0
+.if &U'&B30BREV = J
+.th .se taeller1 = &taeller + 1
+.el .se taeller1 = &taeller
+.if &U'&B30TELEFON = J
+.th .se taeller2 = &taeller1 + 1
+.el .se taeller2 = &taeller1
+.if &U'&B30MAIL = J
+.th .se taeller3 = &taeller2 + 1
+.el .se taeller3 = &taeller2
+.if x&taeller3 eq x0
+.or x&taeller3 gt x1
+.th .mg /T/Vælg mellem Brev,Tlf,Mail/
+.****TEST PÅ BRUG AF ANDRE BOGSTAVER END J/N I SIKKERHED*********
+.if &U'&B30SIKGRUP eq J
+.or &U'&B30SIKGRUP eq N
+.th .go SIKOK
+.el .go SIKFEJL
+...SIKFEJL
+.mg /T/ Der kan kun tastes J eller N til Gruppeliv/
+...SIKOK
+.if &U'&B30BB eq J
+.or &U'&B30BB eq N
+.th .go SIKOK2
+.el .go SIKFEJL2
+...SIKFEJL2
+.mg /T/ Der kan kun tastes J eller N til Gruppeliv/
+...SIKOK2
+.*TEST PÅ KUN ET VALG AF SIKKERHED********************
+.if &U'&B30SIKGRUP eq J
+.an &U'&B30BB eq J
+.th .mg/T/Ved sikkerhed vælg ny eller eksisterende Gruppeliv/
+.if &U'&B30SIKGRUP eq N
+.an &U'&B30BB eq N
+.th .mg/T/Ved sikkerhed vælg ny eller eksisterende Gruppeliv/
+.******************
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DU
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DE
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert da der ingen medktohaver er/
+.*******************************
+.if &U'&GENMEDKTOH = N
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert, da der ingen medktohaver er/
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

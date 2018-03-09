@@ -1,0 +1,229 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN - 15.11.2001
+.ar off
+.***********************************************************************
+.******** BREVHOVED - afsenderadresse *****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da AFSEND 126mm  34mm width  75mm
+.ar AFSEND on
+:SWISS10.
+.tp 14mm
+&AFDBNKNAVN
+.br
+.if &L'&AFDNAVN gt 0
+.th &AFDNAVN
+.th.br
+.el.br
+&AFDGADE
+.br
+&AFDBY
+.br
+Telefon: ¤ &AFDTLF
+.br
+Telefax: ¤ &AFDFAX
+.br
+&GENEMAIL
+.sp
+www.lokalbanken.dk
+.br
+Swift: LOHIDK22
+.sp
+Reference: &B85NAVN
+.br
+&DATO
+.br
+.ar off
+.********* B85hovedafs er slut
+.**
+.if &U'&B85HBCVR ne J
+.th .go NEJBUND
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.da HBCVR 25mm 275mm width 110mm
+.********************* TEKST STARTER **************************
+.ar HBCVR on
+:SWISS8.
+Handelsbanken CVR-nr. 24246361 Filial af Svenska Handelsbanken AB (publ),
+Sverige
+.ar off
+...NEJBUND
+.* Parameterafsnit
+.oc **
+:NY. :tiltale &TILTALEF :ENY.
+:GL. &&??# :EGL.
+.**************Brevhoved via kontonr. til kautionist*******
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 20mm 36mm width 170mm
+.ar ADRESSE on
+:SWISS10.
+:FED.
+RECOMMANDERET
+.th.sp
+&KAUSTILL
+.br
+&KAUNAVN
+.br
+&KAUCOADR
+.br
+&KAUGADE
+.br
+&KAUBY
+.br
+&KAULAND
+.br
+....VIDERE
+.ar off
+.*************************************************************************
+.*       Sætter B85KTONAVN = lån / kassekredit / konto                   *
+.*************************************************************************
+.if &B85KTOFORM = 1
+.th.se B85KTONAVN = lån
+.th.se B85KTONAV1 = Lånet
+.th.se B85KTONAV2 = lånet
+.th.se B85ENET = en
+.th.se B85RESOVT1 = restance
+.th.se B85RESOVT2 = restancen
+.if &B85KTOFORM = 2
+.th.se B85KTONAVN = kassekredit
+.th.se B85KTONAV1 = Kassekreditten
+.th.se B85KTONAV2 = kassekreditten
+.th.se B85ENET = et
+.th.se B85RESOVT1 = overtræk
+.th.se B85RESOVT2 = overtrækket
+.if &B85KTOFORM = 3
+.th.se B85KTONAVN = konto
+.th.se B85KTONAV1 = Kontoen
+.th.se B85KTONAV2 = kontoen
+.th.se B85ENET = et
+.th.se B85RESOVT1 = overtræk
+.th.se B85RESOVT2 = overtrækket
+.*************************************************************************
+.*         Beregning af saldo i vor favør                                *
+.*************************************************************************
+.ll 170mm
+.ti ¤ 05
+.tp 129mm 164mm CHAR ,
+.da TEKST 20mm 110mm width 170mm
+.ar TEKST on
+.fo on
+:SWISS12.
+:FED.
+Vedrørende &B85KTONAVN nr. &REGNR.-&KTONR
+:SKRSLUT.
+.*************************************************************************
+.*                   Tester om der er overtræk                           *
+.*************************************************************************
+.if &OVERTRÆK le 0,00
+.ce on
+.th
+:SWISS12.
+.th.sk 4
+.thB R E V   S K A L   I K K E   U D S E N D E S ,
+.th.sk 2
+.thD A   K O N T O E N
+.th.sk 2
+.thI K K E
+.th.br
+.th.sk2
+.thE R   I   O V E R T R Æ K
+.th.sk 4
+.th.ce off
+.th :SKRSLUT.
+.th.go END
+.*************************************************************************
+.if &MAXOVTRÆK gt 0,00
+.th.sk 2
+.fo on
+:SWISS12.
+I &DIN egenskab af selvskyldnerkautionist gør vi &DIG herved opmærksom
+på, at ovennævnte &B85KTONAVN er i &B85RESOVT1..
+.sk
+&B85KTONAV1 udviser en saldo i vor favør ¤kr. ¤&RESULTA
+.br
+.if &MAXOVTRÆK <> 0,00
+.thDa aftalte maksimum dags dato er      ¤kr. ¤&MAXOVTRÆK
+.th.br
+.th.hr 51 67
+.th.br
+.thfremkommer &B85RESOVT1                ¤kr. ¤&OVERTRÆK
+.th.br
+med tillæg af rykkergebyr                ¤kr. ¤&B85RYKGEB3
+.br
+.hr 51 67
+.br
+ialt                                     ¤kr. ¤&RESULTB
+.br
+.hr 51 67
+.sk
+Da vi på trods af gentagne henvendelser til debitor, endnu ikke har
+modtaget ovennævnte &B85RESOVT1., beder vi &DIG drage omsorg for, at
+&B85RESOVT2 bliver indbetalt inden 10 dage fra dags dato, da vi i modsat
+fald må se os nødsaget til at opsige &B85KTONAV2 til fuld indfrielse.
+.sk
+Nærværende brev er fremsendt både som anbefalet og almindelig post.
+.sk
+...END
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 4
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.el &GENEKSP      &GENMEKSP
+.ar off

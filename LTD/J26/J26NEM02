@@ -1,0 +1,280 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+:SWISS8.
+.**************************************************
+.if &U'X&GENVALG1 = XB
+.th .bx new left 87.5mm right
+.th ¤Kunde ¤¤Medkontohaver
+.th .sp 20mm
+.th ¤CPR-nr./CVR-nr. ¤¤CPR-nr./CVR-nr.
+.**************************************************
+.if &U'X&GENVALG1 = XK
+.th .bx new left right
+.th ¤Kunde
+.th .sp 20mm
+.th ¤CPR-nr./CVR-nr.
+.**************************************************
+.if &U'X&GENVALG1 = XM
+.th .bx new left right
+.th ¤Medkontohaver
+.th .sp 20mm
+.th ¤CPR-nr./CVR-nr.
+.**************************************************
+.bx new left right
+¤NemKontonr.
+.sp 5mm
+.**************************************************************************
+.bx new left right
+.sp 180mm
+.bx off
+.bx can
+.bx can
+.bx can
+.ar off
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Aftale om NemKonto
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if &cprcvr > 31
+.th .mg/T/Der kan ikke oprettes NemKonto til konstruerede kundenumre/
+.**************************************************************************
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.**************************************************************************
+.if &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.an x&MEDKNDNR1 = x0000000000
+.th .mg/T/Ingen medkontohaver - tast K for kontohaver/
+.**************************************************************************
+.*TEST PÅ OM BÅDE P-NUMMER OG KONTONUMMER ER UDFYLDT**********************
+.*GÆLER KUN FOR VIRKSOMHEDER***********************************************
+.if &cprcvr = 00
+.th .go TESTP
+.el .go TESTEND
+...TESTP
+.********* Særløsning - J26 - starter her *******************
+.*Alt vedr. P-numre er slettet
+.**************************************************************************
+...TESTEND
+.th &KTOKNDNR1
+.el &MEDKNDNR1
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XB
+.th .ar MKTOCPR on
+.th &MEDKNDNR1
+.th .ar off
+.**************************************************************************
+.ar KTONR on
+&regnr.-&ktonr
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da KUNDEOPL        25mm 46mm width 80mm
+.da KNDCPR          45mm 64mm width 80mm
+.da KTONR           25mm 74mm width 80mm
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.**************************************************************************
+.if &U'X&GENVALG1 = XB
+.th .da MKTOOPL      112.5mm 46mm width 80mm
+.th .da MKTOCPR      132.5mm 64mm width 80mm
+.**************************************************************************
+.ar KUNDEOPL on
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XB
+.th &KTONAVN
+.th .br
+.th &KTOCO
+.th .br
+.th &KTOGADE
+.th .br
+.th &KTOBY
+.th .br
+.th &KTOLAND
+.el &MEDNAVN
+.el .br
+.el &MEDCO
+.el .br
+.el &MEDGADE
+.el .br
+.el &MEDBY
+.el .br
+.el &MEDLAND
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XB
+.th .ar MKTOOPL on
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.th .br
+.th &MEDLAND
+.th .ar off
+.**************************************************************************
+.ar KNDCPR on
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XB
+:SWISS8.
+.**************************************************************************
+.da PNUM            25mm 80mm width 165mm
+.**************************************************************************
+.ar PNUM on
+.if &cprcvr = 00
+.an X&total > X0
+.th .go PNUM1
+.el .go UDENOM
+...PNUM1
+.********* Særløsning - J26 - starter her *******************
+.* Hele afsnittet med P-numre er slettet
+.********* Særløsning - J26 - slutter her *******************
+...UDENOM
+.*****************************
+:FED.
+Indhold
+:SKRSLUT.
+.sp
+.********* Særløsning - J26 - starter her *******************
+.*Økonomistyrelsen har fastsat, at alle borgere og virksomheder skal anvise
+Økonomistyrelsen har fastsat, at alle borgere skal anvise
+.********* Særløsning - J26 - slutter her *******************
+en NemKonto. Herefter vil alle udbetalinger fra det offentlige blive
+indsat på den valgte konto (NemKonto).
+.*.if X&total > X0
+.*.th .sp
+.*.th Virksomheder, der har flere p-numre, kan indberette en Nemkonto for
+.*.th hvert enkelt P-nummer.
+.********* Særløsning - J26 - slutter her *******************
+.sp 5mm
+.*******************************
+:FED.
+NemKontoen føres i
+:SKRSLUT.
+.sp
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp 5mm
+.*****************************
+:FED.
+Underskrift
+:SKRSLUT.
+.sp
+.********* Særløsning - J26 - starter her *******************
+.*.if &cprcvr = 00
+.*.th .go VIRK1
+.*.if &cprcvr < 32
+.*.th .go BORGER1
+.*.*VIRKSOMHEDER******************************************
+.*...VIRK1
+.*Undertegnede virksomhed
+.*ønsker at anvende ovenstående konto som NemKonto.
+.*.sp 12mm
+.*.tp 72.5mm center
+.*.hr left 25mm 30mm 115mm
+.*.br
+.*Dato ¤Tegningsberettigedes underskrift
+.*.go UNDSL1
+.********* Særløsning - J26 - slutter her *******************
+.*BORGERE**************************************************************
+...BORGER1
+.if &U'X&GENVALG1 = XB
+.th Vi
+.el Jeg
+ønsker alle fremtidige udbetalinger fra det offentlige indsat på
+ovenstående konto (Nemkonto).
+.sp 12mm
+.**********************************************************************
+.if &U'X&GENVALG1 = XB
+.th .hr left 25mm 30mm 98mm 102mm 165mm
+.el .tp 72.5mm center
+.el .hr left 25mm 30mm 115mm
+.br
+.**********************************************************************
+.if &cprcvr < 32
+.an &U'X&GENVALG1 = XB
+.th .tp 65mm center 135mm center
+.th Dato ¤&KTONAVN ¤&MEDNAVN
+.th .go UNDSL1
+.*****************************
+.if &U'X&GENVALG1 = XK
+.th .tp 72.5mm center
+.th Dato ¤&KTONAVN
+.th .go UNDSL1
+.*****************************
+.if &U'X&GENVALG1 = XM
+.th .tp 72.5mm center
+.th Dato ¤&MEDNAVN
+...UNDSL1
+.ar off
+.**************************************************************************

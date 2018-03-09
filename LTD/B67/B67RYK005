@@ -1,0 +1,122 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.******************* ATT FELT I ADR. **************************************
+.if &U'X&UDSKRSTED = XD
+.th .da ATT 24mm 68.5mm width 80mm
+.el .da ATT 20mm 68.5mm width 80mm
+.ar ATT on
+:COUR10.
+.if &L'&GENATT gt 0
+.th Att.: &GENATT
+.ar off
+.* Parameterlisten
+.su off
+.se REG = substr &IREGKTO 1 4
+.se KTO = substr &IREGKTO 5 11
+.***************************************
+.se a = substr &RYKGEBYR 1 4
+.se test = '0,00'
+.su on
+.*
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+16.06.2006
+.ar off
+.***********************************************************************
+.*.*************************************************
+.da TEKST    25mm 110mm width 170mm
+.*************************************************
+:tiltale &TILTALEF
+.ar TEKST on
+:FED.
+Vedrørende &DIN konto &REG &KTO..
+:SKRSLUT.
+.sp
+.sp
+Trods gentagne henvendelser har &DU ikke indbetalt skyldigt tilgodehavende
+på ovenstående konto
+.sp
+.sp
+.ce on
+:FED.
+kr. &OVERTRÆK..
+:SKRSLUT.
+.ce off
+.sp
+.sp
+Sagen vil derfor samtidig hermed blive overgivet til retslig inkasso.
+.*****************************
+.if &a <> &test
+.th .sp
+.th Administrationsgebyr herfor andrager kr. &RYKGEBYR., som vi har
+.th hævet på ovennævnte konto. Hertil kommer almindelige
+.th inkassoomkostninger.
+.*********
+.if &L'&RYKTXTL1A gt 0 .or &L'&RYKTXTL1B gt 0
+.th .sp
+.th &RYKTXTL1A.&RYKTXTL1B
+.*********
+.if &L'&RYKTXTL2A gt 0 .or &L'&RYKTXTL2B gt 0
+.th .br
+.th &RYKTXTL2A.&RYKTXTL2B
+.*************************************************
+.* .af off
+
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

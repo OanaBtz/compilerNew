@@ -1,0 +1,92 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:verda10.
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:verda10.
+.*
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.us Fremsendelse af check
+.sp
+.**************************************************************************
+Vi fremsender her to checks på henholdsvis
+:vs. &G08INIBEL1
+kr. og
+:vs. &G08INIBEL2
+kr., ialt kr. &RESULTA. - skriver kr. &RESULTAT1.&RESULTAT2..
+.sp
+.if &L'&RESULTA < 6
+.th For et samlet checkbeløb under 600,00 kr. tager &BANKNAVN et gebyr
+.th på 25,00 kr.
+.if &L'&RESULTA = 6
+.an x&RESULTA < x600,00
+.th For et samlet checkbeløb under 600,00 kr. tager &BANKNAVN et gebyr
+.th på 25,00 kr.
+.if &L'&RESULTB < 6
+.th .sp
+.th For checks under 100,00 kr. tillægges et gebyr.
+.***********HUSK AT STARTE AFSNIT TIL MVH I MODUL PLACERET LIGE FØR********
+.sp 2
+Med venlig hilsen
+.sp
+:FED.&BANKNAVN :SKRSLUT.
+.sp 3
+.if &L'&G08EKSP > 0
+.th .br
+.th &G08EKSP.
+.el &GENEKSP.
+.if &L'&GENTITEL > 0
+.th .br
+.th &GENTITEL.
+.sp
+:verda08.
+.if &L'&GENTLFNR > 0
+.th Direkte &GENTLFNR.
+.th .br
+.if &L'&GENEMAIL > 0
+.th e-mail &GENEMAIL.
+.ar off

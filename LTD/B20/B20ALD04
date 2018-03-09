@@ -1,0 +1,881 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*c **
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+.****** Her testes på hvor mange krydser der er sat ******
+.se taeller = 0
+.if &L'&B20TEST01 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST08 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST03 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST06 gt 0
+.th .se taeller = &taeller + 1
+.if &L'&B20TEST11 gt 0
+.th .se taeller = &taeller + 1
+.*********************************
+.if x&taeller gt x1
+.th .mg/T/Der kan kun vælges et brev af gangen
+.********************************
+:VERDA09.
+.if &L'&B20TEST01 > 0
+.th .go videre1
+.el .go slut1
+...videre1
+:FED.Udbetaling:SKRSLUT.
+.br
+.if &L'&B20TEST04 > 0
+.th Kontoen gøres helt op.
+.th .br
+.if &L'&B20BELOB1 > 0
+.th Deludbetaling kr. &B20BELOB1., herudover vil der blive
+.th betalt pensionsafkastskat på kontoen.
+.th .br
+.sp
+Beløbet udbetales til konto nr. &B20POLICE..
+.sp
+:FED.Tilknyttet:SKRSLUT.
+.br
+.if &L'&B20TEST05 > 0
+.th - Puljeordning opsiges hermed.
+.th .sp
+.if &L'&B20KONTO1 > 0
+.th - Tilknyttet millionærkonto nr. &B20KONTO1 opgøres samtidig (ved
+.th helopgørelse).
+.th .br
+.th .in 3mm
+.th Hvis manglende dækning v/deludbetaling hæves det manglende beløb
+.th på den tilknyttede millionærkonto.
+.th .in 0mm
+.th .sp
+.if &L'&B20DEPOT01 > 0
+.th - Værdipapirer beholdes og banken overfører til depot nr. &B20DEPOT01..
+.th .br
+.th .in 3mm
+.th Bemærk: Gebyr pålægges ved overførsel til opbevaringsdepot.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST07 > 0
+.th - Jeg sælger selv mine værdipapirer.
+.th .sp
+.if &L'&B20TEST12 > 0
+.th - Jeg ønsker at banken sælger mine værdipapirer v/udbetaling.
+.th .sp
+.if &L'&B20TEST13 > 0
+.th - Fuldmagtsaftale opsiges hermed.
+.th .sp
+.if &L'&B20TEST14 > 0
+.th - Jeg ønsker at den/de tilknyttede forsikringer bliver opsagt (sker
+.th på særskilt erklæring).
+.th .sp
+.if &L'&B20TEST15 > 0
+.th - Jeg ønsker betalingen af den/de tilknyttede forsikringer flyttet
+.th til anden konto (sker på særskilt erklæring).
+.th .sp
+.if &L'&B20TEKST61 > 0
+.th &B20TEKST61 &B20TEKST62 &B20TEKST63 &B20TEKST64
+.th .sp
+:FED.Erklæring om udbetaling:SKRSLUT.
+.br
+Jeg ønsker min aldersopsparing udbetalt på grund af alder 60 år eller
+mere.
+.sp
+.if &L'&B20BELOB1 > 0
+.th Ved deludbetaling er denne erklæring tillæg til den indgåede
+.th pensionsaftale.
+.th .sp
+Jeg har læst vejledning om udbetaling af afgiftsberegning af
+aldersopsparing.
+.sp
+:FED.Bemærk! :SKRSLUT.Der betales gebyr i henhold til bankens priskatalog.
+.if &GENDUJANEJ = J
+.th .sp 4
+.th Erklæringen er digitalt underskrevet
+.if &GENDUJANEJ = N
+.th .sp
+.th Dato:
+.th .sp 4
+.th .hr 0mm 90mm
+.th &NAVN
+...slut1
+.th &B20TEKST61 &B20TEKST62 &B20TEKST63 &B20TEKST64
+.th .sp
+:FED.Erklæring om udbetaling:SKRSLUT.
+.br
+Jeg ønsker min aldersopsparing udbetalt,
+da min arbejdsevne er varigt nedsat, og jeg
+er blevet berettiget til førtidspension efter oprettelse af
+pensionsordningen.
+.sp
+Sidste indbetaling er foretaget og jeg har indleveret en kopi af min
+tilkendelse af førstidspension til banken.
+.sp
+Jeg har læst vejledning om udbetaling af afgiftsberegning af
+aldersopsparing.
+.sp
+:FED.Bemærk! :SKRSLUT.Der betales gebyr i henhold til bankens priskatalog.
+.sp
+Jeg er opmærksom på, at evt. andre aldersopsparinger først udbetales
+når jeg når pensionsudbetalingsalderen.
+.if &GENDUJANEJ = J
+.th .sp 4
+.th Erklæringen er digitalt underskrevet
+.if &GENDUJANEJ = N
+.th .sp
+.th Dato:
+.th .sp 4
+.th .hr 0mm 90mm
+.th &NAVN
+...slut2
+:VERDA09.
+.if &L'&B20TEST08 > 0
+.th .go videre2
+.el .go slut2
+...videre2
+:FED.Udbetaling:SKRSLUT.
+.br
+.if &L'&B20TEST04 > 0
+.th Kontoen gøres helt op.
+.th .br
+.if &L'&B20BELOB1 > 0
+.th Deludbetaling (før afgift) kr. &B20BELOB1., herudover vil der blive
+.th betalt pensionsafkastskat på kontoen.
+.th .br
+.sp
+Beløbet udbetales til konto nr. &B20POLICE..
+.sp
+:FED.Tilknyttet:SKRSLUT.
+.br
+.if &L'&B20TEST05 > 0
+.th - Puljeordning opsiges hermed.
+.th .sp
+.if &L'&B20KONTO1 > 0
+.th - Tilknyttet millionærkonto nr. &B20KONTO1 opgøres samtidig
+.th .sp
+.if &L'&B20DEPOT01 > 0
+.th - Værdipapirer beholdes og banken overfører til depot nr. &B20DEPOT01..
+.th .br
+.th .in 3mm
+.th Bemærk: Gebyr pålægges ved overførsel til opbevaringsdepot.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST07 > 0
+.th - Jeg sælger selv mine værdipapirer.
+.th .sp
+.if &L'&B20TEST12 > 0
+.th - Jeg ønsker at banken sælger mine værdipapirer v/udbetaling.
+.th .sp
+.if &L'&B20TEST13 > 0
+.th - Fuldmagtsaftale opsiges hermed.
+.th .sp
+.if &L'&B20TEST14 > 0
+.th - Jeg ønsker at den/de tilknyttede forsikringer bliver opsagt (sker
+.th på særskilt erklæring).
+.th .sp
+.if &L'&B20TEST15 > 0
+.th - Jeg ønsker betalingen af den/de tilknyttede forsikringer flyttet
+.th til anden konto (sker på særskilt erklæring).
+.th .sp
+.if &L'&B20TEKST61 > 0
+.th .sp
+.if &L'&B20TEST15 > 0
+.th - Jeg ønsker betalingen af den/de tilknyttede forsikringer flyttet
+.th til anden konto (sker på særskilt erklæring).
+.th .sp
+.if &L'&B20TEKST61 > 0
+.th &B20TEKST61 &B20TEKST62 &B20TEKST63 &B20TEKST64
+.th .sp
+:FED.Erklæring om udbetaling:SKRSLUT.
+.br
+Jeg ønsker min aldersopsparing udbetalt
+da jeg har fået en livstruende sygdom efter
+oprettelse af aldersopsparingen.
+.sp
+Jeg har indleveret aldersopsparingsattest underskrevet af læge.
+.sp
+Sidste indbetaling er foretaget.
+.sp
+Jeg har læst vejledning om udbetaling af afgiftsberegning af
+aldersopsparing.
+.sp
+:FED.Bemærk! :SKRSLUT.Der betales gebyr i henhold til bankens priskatalog.
+.sp
+Jeg er opmærksom på, at evt. andre aldersopsparinger først udbetals
+når jeg når pensionsudbetalingsalderen.
+.if &GENDUJANEJ = J
+.th .sp 4
+.th Erklæringen er digitalt underskrevet
+.if &GENDUJANEJ = N
+.th .sp
+.th Dato:
+.th .sp 4
+.th .hr 0mm 90mm
+.th &NAVN
+...slut3
+:VERDA09.
+.if &L'&B20TEST03 > 0
+.th .go videre3
+.el .go slut3
+...videre3
+:FED.Udbetaling:SKRSLUT.
+.br
+.if &L'&B20TEST04 > 0
+.th Kontoen gøres helt op.
+.th .br
+.if &L'&B20BELOB1 > 0
+.th Deludbetaling (før afgift) kr. &B20BELOB1., herudover vil der blive
+.th betalt pensionsafkastskat på kontoen.
+.th .br
+.sp
+Beløbet udbetales til konto nr. &B20POLICE..
+.sp
+:FED.Tilknyttet:SKRSLUT.
+.br
+.if &L'&B20TEST05 > 0
+.th - Puljeordning opsiges hermed.
+.th .sp
+.if &L'&B20KONTO1 > 0
+.th - Tilknyttet millionærkonto nr. &B20KONTO1 opgøres samtidig (ved
+.th helopgørelse).
+.th .br
+.th .in 3mm
+.th Hvis manglende dækning v/deludbetaling hæves det manglende beløb
+.th på den tilknyttede millionærkonto.
+.th .in 0mm
+.th .sp
+.if &L'&B20DEPOT01 > 0
+.th - Værdipapirer beholdes og banken overfører til depot nr. &B20DEPOT01..
+.th .br
+.th .in 3mm
+.th Bemærk: Gebyr pålægges ved overførsel til opbevaringsdepot.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST07 > 0
+.th - Jeg sælger selv mine værdipapirer.
+.th .sp
+.if &L'&B20TEST12 > 0
+.th - Jeg ønsker at banken sælger mine værdipapirer v/udbetaling.
+.th .sp
+.if &L'&B20TEST13 > 0
+.th - Fuldmagtsaftale opsiges hermed.
+.th .sp
+.if &L'&B20TEST14 > 0
+.th - Jeg ønsker at den/de tilknyttede forsikringer bliver opsagt (sker
+.th på særskilt erklæring).
+.th .sp
+.if &L'&B20TEST14 > 0
+.th - Jeg ønsker at den/de tilknyttede forsikringer bliver opsagt (sker
+.th på særskilt erklæring).
+.th .sp
+.if &L'&B20TEST15 > 0
+.th - Jeg ønsker betalingen af den/de tilknyttede forsikringer flyttet
+.th til anden konto (sker på særskilt erklæring).
+.th .sp
+.if &L'&B20TEKST61 > 0
+.th &B20TEKST61 &B20TEKST62 &B20TEKST63 &B20TEKST64
+.th .sp
+:FED.Erklæring om udbetaling:SKRSLUT.
+.br
+Jeg ønsker min aldersopsparing udbetalt i utide. Udbetalingen sker med
+fradrag af 20 % afgift til staten.
+.sp
+Jeg er blevet orienteret om, at opgørelse er mod bankens rådgivning.
+.sp
+.if &L'&B20BELOB1 > 0
+.th Ved deludbetaling er denne erklæring tillæg til den indgåede
+.th pensionsaftale.
+.th .sp
+Jeg har læst vejledning om udbetaling af afgiftsberegning af
+aldersopsparing.
+.sp
+:FED.Bemærk! :SKRSLUT.Der betales gebyr i henhold til bankens priskatalog.
+.if &GENDUJANEJ = J
+.th .sp 4
+.th Erklæringen er digitalt underskrevet
+.if &GENDUJANEJ = N
+.th .sp
+.th Dato:
+.th .sp 4
+.th .hr 0mm 90mm
+.th &NAVN
+.if &L'&B20TEST17 > 0
+.th .sp
+.th .sp
+.th Denne udbetaling kræver arbejdsgivers underskrift
+.th .sp
+.th Dato:
+.th .sp 4
+.th .hr 0mm 90mm
+...slut4
+:VERDA09.
+.if &L'&B20TEST06 > 0
+.th .go videre4
+.el .go slut4
+...videre4
+:FED.Udbetaling:SKRSLUT.
+.br
+.if &L'&B20TEST04 > 0
+.th Kontoen gøres helt op.
+.th .br
+.if &L'&B20BELOB1 > 0
+.th Deludbetaling (før afgift) kr. &B20BELOB1., herudover vil der blive
+.th betalt pensionsafkastskat på kontoen.
+.th .br
+.sp
+Beløbet udbetales til konto nr. &B20POLICE..
+.sp
+.if &L'&B20TEST16 > 0
+.th Jeg er fratrådt og der fremgår af pensionsaftalen, at den kan
+.th videreføres som privat.
+.th .sp
+:FED.Tilknyttet:SKRSLUT.
+.br
+.if &L'&B20TEST05 > 0
+.th - Puljeordning opsiges hermed.
+.th .sp
+.if &L'&B20KONTO1 > 0
+.th - Tilknyttet millionærkonto nr. &B20KONTO1 opgøres samtidig (ved
+.th helopgørelse).
+.th .br
+.th .in 3mm
+.th Hvis manglende dækning v/deludbetaling hæves det manglende beløb
+.th på den tilknyttede millionærkonto.
+.th .in 0mm
+.th .sp
+.if &L'&B20DEPOT01 > 0
+.th - Værdipapirer beholdes og banken overfører til depot nr. &B20DEPOT01..
+.th .br
+.th .in 3mm
+.th Bemærk: Gebyr pålægges ved overførsel til opbevaringsdepot.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST07 > 0
+.th - Jeg sælger selv mine værdipapirer.
+.th .sp
+.if &L'&B20TEST12 > 0
+.th - Jeg ønsker at banken sælger mine værdipapirer v/udbetaling.
+.th .sp
+.if &L'&B20TEST13 > 0
+.th - Fuldmagtsaftale opsiges hermed.
+.**************************************************************
+:VERDA09.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 100mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.ar OVERSK on
+.tp 75mm 128mm
+:VERDA10.:FED.
+Erklæring: Udbetaling af Aldersopsparing -
+.if &L'&B20TEST01 > 0
+.th Opnået alder 60 år eller mere
+.if &L'&B20TEST08 > 0
+.th Førtidspension
+.if &L'&B20TEST03 > 0
+.th Livstruende sygdom
+.if &L'&B20TEST06 > 0
+.th I utide
+.if &L'&B20TEST11 > 0
+.th Godkendt tidligere pensionsalder
+:SKRSLUT
+:SKRSLUT
+.sp
+Kontohaver: &NAVN
+.br;Cpr. nr.: &KTOKNDNR1
+.if &L'&B20KTONR01 > 0
+.th .br
+.th Depot nr.: &B20KTONR01
+.br;Konto nr.: &IREGKTO
+.sp
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN.
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+T: &AFDTLF
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+Til:
+.br
+Arbejdernes Landsbank
+.br
+Pension og Forsikring
+.br
+Vesterbrogade 5
+.br
+1502 København V
+.*************************************************************
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:VERDA09.
+.if &L'&B20TEST11 > 0
+.th .go videre5
+.el .go slut5
+...videre5
+:FED.Udbetaling:SKRSLUT.
+.br
+.if &L'&B20TEST04 > 0
+.th Kontoen gøres helt op.
+.th .br
+.if &L'&B20BELOB1 > 0
+.th Deludbetaling (før afgift) kr. &B20BELOB1., herudover vil der blive
+.th betalt pensionsafkastskat på kontoen.
+.th .br
+.sp
+Beløbet udbetales til konto nr. &B20POLICE..
+.sp
+:FED.Tilknyttet:SKRSLUT.
+.br
+.if &L'&B20TEST05 > 0
+.th - Puljeordning opsiges hermed.
+.th .sp
+.if &L'&B20KONTO1 > 0
+.th - Tilknyttet millionærkonto nr. &B20KONTO1 opgøres samtidig (ved
+.th helopgørelse).
+.th .br
+.th .in 3mm
+.th Hvis manglende dækning v/deludbetaling hæves det manglende beløb
+.th på den tilknyttede millionærkonto.
+.th .in 0mm
+.th .sp
+.if &L'&B20DEPOT01 > 0
+.th - Værdipapirer beholdes og banken overfører til depot nr. &B20DEPOT01..
+.th .br
+.th .in 3mm
+.th Bemærk: Gebyr pålægges ved overførsel til opbevaringsdepot.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST07 > 0
+.th - Jeg sælger selv mine værdipapirer.
+.th .sp
+.if &L'&B20TEST12 > 0
+.th - Jeg ønsker at banken sælger mine værdipapirer v/udbetaling.
+.th .sp
+.if &L'&B20TEST13 > 0
+.th - Fuldmagtsaftale opsiges hermed.
+.th .sp
+.if &L'&B20TEST14 > 0
+.th - Jeg ønsker at den/de tilknyttede forsikringer bliver opsagt (sker
+.th på særskilt erklæring).
+.th .sp
+.if &L'&B20TEST15 > 0
+.th - Jeg ønsker betalingen af den/de tilknyttede forsikringer flyttet
+.th til anden konto (sker på særskilt erklæring).
+.th .sp
+.if &L'&B20TEKST61 > 0
+.th &B20TEKST61 &B20TEKST62 &B20TEKST63 &B20TEKST64
+.th .sp
+:FED.Erklæring om udbetaling:SKRSLUT.
+.br
+Jeg ønsker min aldersopsparing udbetalt,
+da jeg har nået den alder som ligningsrådet har
+godkendt som tidligere pensionsalder.
+.sp
+Jeg har læst vejledning om udbetaling af afgiftsberegning af
+aldersopsparing.
+.sp
+:FED.Bemærk! :SKRSLUT.Der betales gebyr i henhold til bankens priskatalog.
+.sp
+Jeg er opmærksom på, at evt. andre aldersopsparinger først udbetales
+når jeg når pensionsudbetalingsalderen.
+.if &GENDUJANEJ = J
+.th .sp 4
+.th Erklæringen er digitalt underskrevet
+.if &GENDUJANEJ = N
+.th .sp
+.th Dato:
+.th .sp 4
+.th .hr 0mm 90mm
+.th &NAVN
+...slut5
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.kp on
+:SWISS10.
+:FED.
+7. Specielt om aldersopsparinger, som er udloddet i forbindelse med
+skilsmisse
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Er det i forbindelse med skilsmisseskifte bestemt, at en
+aldersopsparing skal udloddes efter reglerne i
+Pensionsbeskatningslovens § 30, kan det ske efter tre forskellige
+metoder. Valget af metode er blandt andet afgørende for
+udbetalingen af den udloddede aldersopsparing og for mulighederne
+for at indbetale på aldersopsparingen efter udlodningen.
+.sp 3mm
+.kp off
+.kp on
+Er aldersopsparingen delt efter metode 1 (PBL § 30, stk. 2 og stk.
+3, nr. 1) bliver modtagerægtefællen
+ikke selvstændig ejer af ordningen. Udbetaling
+uden afgift skal ske i overensstemmelse med vilkårene
+for den oprindelige ordning, som aldersopsparingen er udloddet
+fra. Modtagerægtefællen kan ikke selv foretage indbetalinger på en
+aldersopsparing udloddet efter metode 1. Modtagerægtefællens øvrige
+aldersopsparinger, som vedkommende selv har oprettet, berøres ikke
+af den udloddede ordning.
+.sp 3mm
+.kp off
+.kp on
+Er aldersopsparing delt efter metode 2 (PBL § 30, stk. 2 og stk.
+3, nr. 2) bliver modtagerægtefællen
+ikke selvstændig ejer af ordningen. Udbetaling uden
+afgift skal ske i overensstemmelse med vilkårene
+for den oprindelige ordning, som aldersopsparingen er udloddet fra. Men i
+modsætning til, hvad der gælder for metode 1, kan
+modtagerægtefællen indbetale på en aldersopsparing udloddet efter
+metode 2.
+.sp 3mm
+.kp off
+.kp on
+Er aldersopsparingen delt efter metode 3 (PBL § 30, stk. 2 og stk.
+3, nr. 3) bliver modtagerægtefællen
+selvstændig ejer af ordningen. Udbetaling mod betaling
+uden afgift kan ske, når modtagerægtefællen selv opfylder
+betingelserne for udbetaling af aldersopsparingen. Modtagerægtefællen
+kan generelt indbetale på en aldersopsparing udloddet efter metode 3.
+.sp 3mm
+.kp off
+.kp on
+Er aldersopsparingen udloddet efter metode 3 skal
+udbetalingserklæringen udfyldes på helt sædvanlig vis. Kunden skal
+derfor anføre udbetalingsårsagen, f.eks. at
+man har nået pensionsudbetalingsalderen for ordningen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.8. Udbetaling af aldersopsparing i utide:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Alle øvrige udbetalinger, som ikke er omfattet af
+reglerne ovenfor, og som ikke opfylder betingelserne i
+pensionsbeskatningsloven, betragtes som udbetalinger i
+utide. I sådanne tilfælde er pengeinstituttet forpligtet
+til at beregne og tilbageholde 20 % i afgift til
+staten.
+.sp 3mm
+.kp off
+.kp on
+Udbetaling i utide af en arbejdsgiveradministreret
+aldersopsparing kræver samtykke fra arbejdsgiveren.
+.kp off
+.kp on
+:SWISS8.
+En aldersopsparing kan udbetales uden afgift, når man har nået
+udbetalingsalderen for ordningen eller en godkendt
+lavere udbetalingsalder, eller
+hvis man får en varig nedsættelse af erhvervsevnen eller en
+livstruende sygedom. Ved andre udbetalinger skal der betales en afgift på
+20 % til staten.
+.sp 5mm
+:SWISS10.
+:FED.1. Udbetaling efter man har nået udbetalingssalderen for ordningen
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Aldersopsparing kan udbetales helt eller delvist, når man har nået
+pensionsudbetalingsalderen og i op til 15 år
+herefter. Udbetalingen er afgiftsfri.
+.sp 3mm
+.kp off
+.kp on
+Pensionsudbetalingsalderen er 5 år før folkepensionsalderen. For personer,
+der er født i perioden 1. januar 1954 til 30. juni 1960 er
+pensionsudbetalingsalderen dog, som det fremgår af nedenstående tabel:
+.sp 3mm
+.kp off
+.kp on
+.***********TABEL START****************************************************
+.tp 1mm 46mm
+.bx left 45mm 90mm
+¤Fødselsdato ¤Pensionsudbetalingsalder
+.hr left 90mm
+¤31.12.1958 eller før ¤60 år
+.hr left 90mm
+¤01.01.1959 - 30.06.1959 ¤60½ år
+.hr left 90mm
+¤01.07.1959 - 31.12.1959 ¤61 år
+.hr left 90mm
+¤01.01.1960 - 30.06.1960 ¤61½ år
+.hr left 90mm
+¤01.07.1960 - 31.12.1962 ¤62 år
+.hr left 90mm
+¤01.01.1963 - 31.12.1966 ¤63
+.hr left 90mm
+¤01.01.1967 eller senere ¤63 år + evt. regulering
+.bx off
+.*********TABEL SLUT*******************************************************
+.sp
+Hvis pensionsordningen er etableret før den 1. maj 2007, kan udbetalingen
+dog begynde når man fylder 60 år. Den tidligere mulighed for udbetaling
+omfatter kun ordninger, der er oprettet før den nævnte dato. Den samme
+kunde kan derfor have flere pensionsordninger, der har forskellig
+udbetalingsalder.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.2. Udbetaling på grund af godkendt tidligere pensionsalder:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Udbetaling kan ske ved en godkendt tidligere pensionsalder. Det er kun
+aldersopsparinger, der er oprettet som led i et ansættelsesforhold
+med den arbejdsgiver, hvor man har den godkendte
+tidligere pensionsalder, der kan udbetales.
+.sp 3mm
+.kp off
+.kp on
+Udbetaling af en aldersopsparing på grund af godkendt
+tidligere pensionsalder kan ske helt eller delvist. Hvis
+muligheden for en
+deludbetaling benyttes, kan den resterende del af aldersopsparingen/erne
+først udbetales uden afgift, når man har nået pensionsudbetalingsalderen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.3. Udbetaling på grund af varigt nedsat arbejdsevne:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Udbetaling af en aldersopsparing kan ske ved dokumentation
+fra de sociale myndigheder om, at man er berettiget
+til at modtage førtidspension. Det er en forudsætning, at
+aldersopsparingen er oprettet før man har fået ret til at
+modtage førtidspension. Dokumentationen vil som
+udgangspunkt være en afgørelse om tilkendelse af førtidspension.
+.sp 3mm
+.kp off
+.kp on
+Udbetaling af alderspension på grund af varigt nedsat
+arbejdsevne kan ske helt eller delvist. Hvis
+muligheden for en deludbetaling benyttes, kan den
+resterende del af aldersopsparingen/erne først
+udbetales uden afgift, når man har nået
+pensionsudbetalingsalderen for ordningen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.4. Udbetaling for modtagere af invaliditetsydelse på
+grund af varigt nedsat arbejdsevne:SKRSLUT.
+.sp 3mm
+Hvis man f.eks. først rammes af en livstruende sygdom og derefter
+bliver tilkendt førtidspension på grund af samme sygdom, giver det
+kun adgang til at der kan udbetales én gang uden
+afgift.
+Man skal derfor én gang for alle beslutte sig for, hvor mange
+aldersopsparingsmidler, der er behov for i forbindelse med den konkrete
+begivenhed.
+.sp 3mm
+.kp off
+.kp on
+Hvis man efterfølgende rammes af en anden livstruende
+sygdom, får en forværring af den varige nedsættelse af
+arbejdsevnen eller varig nedsættelse af arbejdsevnen af
+en anden årsag, kan der udbetales på ny.
+.sp 5mm
+.kp off
+:SWISS8.
+Udbetaling af en aldersopsparing kan ske ved dokumentation
+fra de sociale myndigheder om modtagelse af
+invaliditetsydelse, hvis aldersopsparingen er oprettet
+efter man begyndte at modtage invaliditetsydelse.
+.sp 3mm
+.kp off
+.kp on
+Udbetaling af aldersopsparing på grund af varigt nedsat
+arbejdsevne kan ske helt eller delvist. Hvis
+muligheden for en deludbetaling benyttes
+kan den resterende del af aldersopsparingen/erne først
+udbetales uden afgift når man har nået
+pensionsudbetalinsalderen for ordningen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.5. Udbetaling på grund af livstruende sygdom:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Udbetaling af aldersopsparing kan ske ved dokumentation
+for, at kunden er ramt af en livstruende sygdom, der
+opfylder betingelserne i BEK. nr. 1293 af 13. december 2012 om
+udbetaling af visse pensionordninger ved livstruende sygdom.
+Dokumentationen vil som hovedregel være en særlig
+attest udfyldt og underskrevet af en læge
+eller en særlig tilladelse fra Told- og Skatteforvaltningen.
+.sp 3mm
+.kp off
+.kp on
+Udbetaling af aldersopsparing på grund af livstruende
+sygdom kan ske helt eller delvist. Hvis
+muligheden for en deludbetaling benyttes kan
+den resterende del af aldersopsparingen/erne først udbetales
+uden afgift
+når man har nået pensionsudbetalingsalderen for ordningen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.6. Specielt om (del)udbetaling ved varigt nedsat
+arbejdsevne og livstruende sygdom:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Der kan ikke udbetales flere gange fra den samme
+aldersopsparing på grund af den samme sygdom.
+.sp 3mm
+.kp off
+.kp on
+.ti ¤ 05
+:SWISS10.
+.fo left
+.*******************************************
+.*O-AFSNIT MED RH
+.*******************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da TEKST 20mm 32mm width 170mm
+.*******************************************
+:SWISS8.
+.rh on
+.*******************************************
+.ar VEND on
+:COUR6.
+BECALD06
+.ar off
+.*******************************************
+.ar TEKST on
+:SWISS12.:FED.
+.us Vejledning om udbetaling af aldersopsparing
+:SKRSLUT.
+.ar off
+.*******************************************
+.sp 28mm
+.rh off
+.rh execute

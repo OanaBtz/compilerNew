@@ -1,0 +1,613 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.su off
+.se num01 = substr &KUN01KNDNR 1 2
+.se num02 = substr &KUN02KNDNR 1 2
+.se num03 = substr &KUN03KNDNR 1 2
+.se num04 = substr &KUN04KNDNR 1 2
+.se num05 = substr &KUN05KNDNR 1 2
+.se num06 = substr &KUN06KNDNR 1 2
+.se num07 = substr &KUN07KNDNR 1 2
+.se num08 = substr &KUN08KNDNR 1 2
+.se num09 = substr &KUN09KNDNR 1 2
+.se num10 = substr &KUN10KNDNR 1 2
+.se num11 = substr &KUN11KNDNR 1 2
+.se num12 = substr &KUN12KNDNR 1 2
+.se num13 = substr &KUN13KNDNR 1 2
+.se num14 = substr &KUN14KNDNR 1 2
+.se num15 = substr &KUN15KNDNR 1 2
+.se num16 = substr &KUN16KNDNR 1 2
+.se num17 = substr &KUN17KNDNR 1 2
+.se num18 = substr &KUN18KNDNR 1 2
+.se num19 = substr &KUN19KNDNR 1 2
+.se num20 = substr &KUN20KNDNR 1 2
+.se num21 = substr &KUN21KNDNR 1 2
+.se num22 = substr &KUN22KNDNR 1 2
+.se num23 = substr &KUN23KNDNR 1 2
+.se num24 = substr &KUN24KNDNR 1 2
+.se num25 = substr &KUN25KNDNR 1 2
+.se num26 = substr &KUN26KNDNR 1 2
+.se num27 = substr &KUN27KNDNR 1 2
+.se num28 = substr &KUN28KNDNR 1 2
+.se num29 = substr &KUN29KNDNR 1 2
+.se num30 = substr &KUN30KNDNR 1 2
+.se num31 = substr &KUN31KNDNR 1 2
+.se num32 = substr &KUN32KNDNR 1 2
+.se num33 = substr &KUN33KNDNR 1 2
+.se num34 = substr &KUN34KNDNR 1 2
+.se reg = substr &DEPOTNR 1 4
+.se dep = substr &DEPOTNR 5 7
+.su on
+.***
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.****************GENEREL OPSÆTNING*****************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.****************AREAL-DEFINITIONER****************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da FORTSÆT 148mm  269mm width  45mm
+.****************OVERSKRIFT************************************************
+.ar OVERSKR on
+:SWISS10.
+:FED.
+Flere underpantsættere
+:SKRSLUT.
+.ar off
+.****************ROTERET BREVNAVN******************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.br
+Kl. &TID
+.ar off
+.****************FORSÆTTES*************************************************
+.ar FORTSÆT on
+:SWISS9.
+.ri on
+.if &L'&FORTSÆTTES > 0
+.th &FORTSÆTTES
+.ri off
+.ar off
+.**************************************************************************
+.*************** definer siden som et areal *******************************
+.da BOX 20mm 40mm width 175mm
+.************* Kasse til ID ***********************************************
+.ar BOX on
+.tp 1mm 140mm
+.bx left right
+¤Depotnr. ¤Udskrevet
+.sp 2mm
+¤&reg &dep ¤&DATO
+.sp 0.5mm
+.bx off
+.***
+.sp 4mm
+.************* Kasse til indhold *****************************************
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.**************************************************************************
+.da UNDERP1 25mm 60mm width 85mm
+.**************************************************************************
+.tp 14mm
+.ar UNDERP1 on
+.if &L'&KUN01KNDNR = 0
+.th .go UDOM01
+&KUN01NAVN
+.br
+.if &num01 = 00
+.th CVR-nr. ¤&KUN01KNDNR
+.th .sp 5mm
+.th .go UDOM01
+.if &num01 > 31
+.th Kundenr. ¤&KUN01KNDNR.
+.el CPR-nr. ¤&KUN01KNDNR.
+.sp 5mm
+...UDOM01
+.********
+.if &L'&KUN02KNDNR = 0
+.th .go UDOM02
+&KUN02NAVN
+.br
+.if &num02 = 00
+.th CVR-nr. ¤&KUN02KNDNR
+.th .sp 5mm
+.th .go UDOM02
+.if &num02 > 31
+.th Kundenr. ¤&KUN02KNDNR.
+.el CPR-nr. ¤&KUN02KNDNR.
+.sp 5mm
+...UDOM02
+.********
+.if &L'&KUN03KNDNR = 0
+.th .go UDOM03
+&KUN03NAVN
+.br
+.if &num03 = 00
+.th CVR-nr. ¤&KUN03KNDNR
+.th .sp 5mm
+.th .go UDOM03
+.if &num03 > 31
+.th Kundenr. ¤&KUN03KNDNR.
+.el CPR-nr. ¤&KUN03KNDNR.
+.sp 5mm
+...UDOM03
+.********
+.if &L'&KUN04KNDNR = 0
+.th .go UDOM04
+&KUN04NAVN
+.br
+.if &num04 = 00
+.th CVR-nr. ¤&KUN04KNDNR
+.th .sp 5mm
+.th .go UDOM04
+.if &num04 > 31
+.th Kundenr. ¤&KUN04KNDNR.
+.el CPR-nr. ¤&KUN04KNDNR.
+.sp 5mm
+...UDOM04
+.********
+.if &L'&KUN05KNDNR = 0
+.th .go UDOM05
+&KUN05NAVN
+.br
+.if &num05 = 00
+.th CVR-nr. ¤&KUN05KNDNR
+.th .sp 5mm
+.th .go UDOM05
+.if &num05 > 31
+.th Kundenr. ¤&KUN05KNDNR.
+.el CPR-nr. ¤&KUN05KNDNR.
+.sp 5mm
+...UDOM05
+.********
+.if &L'&KUN06KNDNR = 0
+.th .go UDOM06
+&KUN06NAVN
+.br
+.if &num06 = 00
+.th CVR-nr. ¤&KUN06KNDNR
+.th .sp 5mm
+.th .go UDOM06
+.if &num06 > 31
+.th Kundenr. ¤&KUN06KNDNR.
+.el CPR-nr. ¤&KUN06KNDNR.
+.sp 5mm
+...UDOM06
+.********
+.if &L'&KUN07KNDNR = 0
+.th .go UDOM07
+&KUN07NAVN
+.br
+.if &num07 = 00
+.th CVR-nr. ¤&KUN07KNDNR
+.th .sp 5mm
+.th .go UDOM07
+.if &num07 > 31
+.th Kundenr. ¤&KUN07KNDNR.
+.el CPR-nr. ¤&KUN07KNDNR.
+.sp 5mm
+...UDOM07
+.********
+.if &L'&KUN08KNDNR = 0
+.th .go UDOM08
+&KUN08NAVN
+.br
+.if &num08 = 00
+.th CVR-nr. ¤&KUN08KNDNR
+.th .sp 5mm
+.th .go UDOM08
+.if &num08 > 31
+.th Kundenr. ¤&KUN08KNDNR.
+.el CPR-nr. ¤&KUN08KNDNR.
+.sp 5mm
+...UDOM08
+.**********
+.if &L'&KUN09KNDNR = 0
+.th .go UDOM09
+&KUN09NAVN
+.br
+.if &num09 = 00
+.th CVR-nr. ¤&KUN09KNDNR
+.th .sp 5mm
+.th .go UDOM09
+.if &num09 > 31
+.th Kundenr. ¤&KUN09KNDNR.
+.el CPR-nr. ¤&KUN09KNDNR.
+.sp 5mm
+...UDOM09
+.******
+.if &L'&KUN10KNDNR = 0
+.th .go UDOM10
+&KUN10NAVN
+.br
+.if &num10 = 00
+.th CVR-nr. ¤&KUN10KNDNR
+.th .sp 5mm
+.th .go UDOM10
+.if &num10 > 31
+.th Kundenr. ¤&KUN10KNDNR.
+.el CPR-nr. ¤&KUN10KNDNR.
+.sp 5mm
+...UDOM10
+.********
+.if &L'&KUN11KNDNR = 0
+.th .go UDOM11
+&KUN11NAVN
+.br
+.if &num11 = 00
+.th CVR-nr. ¤&KUN11KNDNR
+.th .sp 5mm
+.th .go UDOM11
+.if &num11 > 31
+.th Kundenr. ¤&KUN11KNDNR.
+.el CPR-nr. ¤&KUN11KNDNR.
+.sp 5mm
+...UDOM11
+.********
+.if &L'&KUN12KNDNR = 0
+.th .go UDOM12
+&KUN12NAVN
+.br
+.if &num12 = 00
+.th CVR-nr. ¤&KUN12KNDNR
+.th .sp 5mm
+.th .go UDOM12
+.if &num12 > 31
+.th Kundenr. ¤&KUN12KNDNR.
+.el CPR-nr. ¤&KUN12KNDNR.
+.sp 5mm
+...UDOM12
+.********
+.if &L'&KUN13KNDNR = 0
+.th .go UDOM13
+&KUN13NAVN
+.br
+.if &num13 = 00
+.th CVR-nr. ¤&KUN13KNDNR
+.th .sp 5mm
+.th .go UDOM13
+.if &num13 > 31
+.th Kundenr. ¤&KUN13KNDNR.
+.el CPR-nr. ¤&KUN13KNDNR.
+.sp 5mm
+...UDOM13
+.********
+.if &L'&KUN14KNDNR = 0
+.th .go UDOM14
+&KUN14NAVN
+.br
+.if &num14 = 00
+.th CVR-nr. ¤&KUN14KNDNR
+.th .sp 5mm
+.th .go UDOM14
+.if &num14 > 31
+.th Kundenr. ¤&KUN14KNDNR.
+.el CPR-nr. ¤&KUN14KNDNR.
+.sp 5mm
+...UDOM14
+.********
+.if &L'&KUN15KNDNR = 0
+.th .go UDOM15
+&KUN15NAVN
+.br
+.if &num15 = 00
+.th CVR-nr. ¤&KUN15KNDNR
+.th .sp 5mm
+.th .go UDOM15
+.if &num15 > 31
+.th Kundenr. ¤&KUN15KNDNR.
+.el CPR-nr. ¤&KUN15KNDNR.
+.sp 5mm
+...UDOM15
+.********
+.if &L'&KUN16KNDNR = 0
+.th .go UDOM16
+&KUN16NAVN
+.br
+.if &num16 = 00
+.th CVR-nr. ¤&KUN16KNDNR
+.th .sp 5mm
+.th .go UDOM16
+.if &num16 > 31
+.th Kundenr. ¤&KUN16KNDNR.
+.el CPR-nr. ¤&KUN16KNDNR.
+.sp 5mm
+...UDOM16
+.********
+.if &L'&KUN17KNDNR = 0
+.th .go UDOM17
+&KUN17NAVN
+.br
+.if &num17 = 00
+.th CVR-nr. ¤&KUN17KNDNR
+.th .sp 5mm
+.th .go UDOM17
+.if &num17 > 31
+.th Kundenr. ¤&KUN17KNDNR.
+.el CPR-nr. ¤&KUN17KNDNR.
+.sp 5mm
+...UDOM17
+.ar off
+.********
+.**************************************************************************
+.da UNDERP2 112.5mm 60mm width 85mm
+.**************************************************************************
+.tp 14mm
+.ar UNDERP2 on
+.if &L'&KUN18KNDNR = 0
+.th .go UDOM18
+&KUN18NAVN
+.br
+.if &num18 = 00
+.th CVR-nr. ¤&KUN18KNDNR
+.th .sp 5mm
+.th .go UDOM18
+.if &num18 > 31
+.th Kundenr. ¤&KUN18KNDNR.
+.el CPR-nr. ¤&KUN18KNDNR.
+.sp 5mm
+...UDOM18
+.********
+.if &L'&KUN19KNDNR = 0
+.th .go UDOM19
+&KUN19NAVN
+.br
+.if &num19 = 00
+.th CVR-nr. ¤&KUN19KNDNR
+.th .sp 5mm
+.th .go UDOM19
+.if &num19 > 31
+.th Kundenr. ¤&KUN19KNDNR.
+.el CPR-nr. ¤&KUN19KNDNR.
+.sp 5mm
+...UDOM19
+.********
+.if &L'&KUN20KNDNR = 0
+.th .go UDOM20
+&KUN20NAVN
+.br
+.if &num20 = 00
+.th CVR-nr. ¤&KUN20KNDNR
+.th .sp 5mm
+.th .go UDOM20
+.if &num20 > 31
+.th Kundenr. ¤&KUN20KNDNR.
+.el CPR-nr. ¤&KUN20KNDNR.
+.sp 5mm
+...UDOM20
+.********
+.if &L'&KUN21KNDNR = 0
+.th .go UDOM21
+&KUN21NAVN
+.br
+.if &num21 = 00
+.th CVR-nr. ¤&KUN21KNDNR
+.th .sp 5mm
+.th .go UDOM21
+.if &num21 > 31
+.th Kundenr. ¤&KUN21KNDNR.
+.el CPR-nr. ¤&KUN21KNDNR.
+.sp 5mm
+...UDOM21
+.********
+.if &L'&KUN22KNDNR = 0
+.th .go UDOM22
+&KUN22NAVN
+.br
+.if &num22 = 00
+.th CVR-nr. ¤&KUN22KNDNR
+.th .sp 5mm
+.th .go UDOM22
+.if &num22 > 31
+.th Kundenr. ¤&KUN22KNDNR.
+.el CPR-nr. ¤&KUN22KNDNR.
+.sp 5mm
+...UDOM22
+.********
+.if &L'&KUN23KNDNR = 0
+.th .go UDOM23
+&KUN23NAVN
+.br
+.if &num23 = 00
+.th CVR-nr. ¤&KUN23KNDNR
+.th .sp 5mm
+.th .go UDOM23
+.if &num23 > 31
+.th Kundenr. ¤&KUN23KNDNR.
+.el CPR-nr. ¤&KUN23KNDNR.
+.sp 5mm
+...UDOM23
+.********
+.if &L'&KUN24KNDNR = 0
+.th .go UDOM24
+&KUN24NAVN
+.br
+.if &num24 = 00
+.th CVR-nr. ¤&KUN24KNDNR
+.th .sp 5mm
+.th .go UDOM24
+.if &num24 > 31
+.th Kundenr. ¤&KUN24KNDNR.
+.el CPR-nr. ¤&KUN24KNDNR.
+.sp 5mm
+...UDOM24
+.********
+.if &L'&KUN25KNDNR = 0
+.th .go UDOM25
+&KUN25NAVN
+.br
+.if &num25 = 00
+.th CVR-nr. ¤&KUN25KNDNR
+.th .sp 5mm
+.th .go UDOM25
+.if &num25 > 31
+.th Kundenr. ¤&KUN25KNDNR.
+.el CPR-nr. ¤&KUN25KNDNR.
+.sp 5mm
+...UDOM25
+.**********
+.if &L'&KUN26KNDNR = 0
+.th .go UDOM26
+&KUN26NAVN
+.br
+.if &num26 = 00
+.th CVR-nr. ¤&KUN26KNDNR
+.th .sp 5mm
+.th .go UDOM26
+.if &num26 > 31
+.th Kundenr. ¤&KUN26KNDNR.
+.el CPR-nr. ¤&KUN26KNDNR.
+.sp 5mm
+...UDOM26
+.*******
+.if &L'&KUN27KNDNR = 0
+.th .go UDOM27
+&KUN27NAVN
+.br
+.if &num27 = 00
+.th CVR-nr. ¤&KUN27KNDNR
+.th .sp 5mm
+.th .go UDOM27
+.if &num27 > 31
+.th Kundenr. ¤&KUN27KNDNR.
+.el CPR-nr. ¤&KUN27KNDNR.
+.sp 5mm
+...UDOM27
+.********
+.if &L'&KUN28KNDNR = 0
+.th .go UDOM28
+&KUN28NAVN
+.br
+.if &num28 = 00
+.th CVR-nr. ¤&KUN28KNDNR
+.th .sp 5mm
+.th .go UDOM28
+.if &num28 > 31
+.th Kundenr. ¤&KUN28KNDNR.
+.el CPR-nr. ¤&KUN28KNDNR.
+.sp 5mm
+...UDOM28
+.********
+.if &L'&KUN29KNDNR = 0
+.th .go UDOM29
+&KUN29NAVN
+.br
+.if &num29 = 00
+.th CVR-nr. ¤&KUN29KNDNR
+.th .sp 5mm
+.th .go UDOM29
+.if &num29 > 31
+.th Kundenr. ¤&KUN29KNDNR.
+.el CPR-nr. ¤&KUN29KNDNR.
+.sp 5mm
+...UDOM29
+.********
+.if &L'&KUN30KNDNR = 0
+.th .go UDOM30
+&KUN30NAVN
+.br
+.if &num30 = 00
+.th CVR-nr. ¤&KUN30KNDNR
+.th .sp 5mm
+.th .go UDOM30
+.if &num30 > 31
+.th Kundenr. ¤&KUN30KNDNR.
+.el CPR-nr. ¤&KUN30KNDNR.
+.sp 5mm
+...UDOM30
+.********
+.if &L'&KUN31KNDNR = 0
+.th .go UDOM31
+&KUN31NAVN
+.br
+.if &num31 = 00
+.th CVR-nr. ¤&KUN31KNDNR
+.th .sp 5mm
+.th .go UDOM31
+.if &num31 > 31
+.th Kundenr. ¤&KUN31KNDNR.
+.el CPR-nr. ¤&KUN31KNDNR.
+.sp 5mm
+...UDOM31
+.********
+.if &L'&KUN32KNDNR = 0
+.th .go UDOM32
+&KUN32NAVN
+.br
+.if &num32 = 00
+.th CVR-nr. ¤&KUN32KNDNR
+.th .sp 5mm
+.th .go UDOM32
+.if &num32 > 31
+.th Kundenr. ¤&KUN32KNDNR.
+.el CPR-nr. ¤&KUN32KNDNR.
+.sp 5mm
+...UDOM32
+.********
+.if &L'&KUN33KNDNR = 0
+.th .go UDOM33
+&KUN33NAVN
+.br
+.if &num33 = 00
+.th CVR-nr. ¤&KUN33KNDNR
+.th .sp 5mm
+.th .go UDOM33
+.if &num33 > 31
+.th Kundenr. ¤&KUN33KNDNR.
+.el CPR-nr. ¤&KUN33KNDNR.
+.sp 5mm
+...UDOM33
+.********
+.if &L'&KUN34KNDNR = 0
+.th .go UDOM34
+&KUN34NAVN
+.br
+.if &num34 = 00
+.th CVR-nr. ¤&KUN34KNDNR
+.th .sp 5mm
+.th .go UDOM34
+.if &num34 > 31
+.th Kundenr. ¤&KUN34KNDNR.
+.el CPR-nr. ¤&KUN34KNDNR.
+.sp 5mm
+...UDOM34
+.ar off
+.**************************************************************************

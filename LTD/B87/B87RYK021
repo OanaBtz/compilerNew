@@ -1,0 +1,147 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+:COUR10
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 20mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+B87ryk021
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+                                                       &DATO
+.sp
+.us Vedr. kredit nr. &IREGKTO
+.sp
+.**************************************************************************
+Vi gør opmærksom på, at ovennævnte kredit er overtrukket med
+.sp
+.us
+.tp 60mm
+¤ Kr. &OVERTRÆK
+.sp
+idet saldoen dags dato er
+.sp
+.us
+.tp 60mm
+¤ Kr. &SALDO
+.sp
+mod et aftalt maksimum på
+.sp
+.us
+.tp 60mm
+¤ Kr. &MAXOVTRÆK
+.sp
+Beløbet bedes venligst indbetalt inden 10 dage.
+.sp
+Rykkergebyr kr. &RYKGEBYR er hævet på kontoen.
+&RYKTXTL1A
+&RYKTXTL1B
+&RYKTXTL2A
+&RYKTXTL2B
+.ce on
+.sp
+Venlig hilsen
+.sp
+&BANKNAVN
+.sp
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.sp 4
+:KURSIV.
+ 
+.ce off
+.ar off

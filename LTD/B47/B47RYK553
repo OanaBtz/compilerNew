@@ -1,0 +1,191 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.*
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.DA dato 20mm 85mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.AR hoved on
+.* Check om der skal udskrives begge
+.if &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.AR off
+.*
+.AR dato on
+.RI ON
+&DATO.
+.RI OFF
+.AR off
+.DA TEKST 20mm 100mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.* ------------------------------------------------------------
+.AR TEKST ON
+.*
+.dr tynd weight .3mm
+.tp 63mm char ,
+.if &MEDKUNDENR eq 000000-0000
+.th .GO KTOH
+.* --------- Skriver til både KONTO og MEDKONTOHAVER ------------
+:FED.
+.br
+Restance på jeres lån nr. 6610 &KTONR1. ! :SKRSLUT.
+.sp
+I har ikke reageret på vores tidligere opfordringer til at
+indbetale jeres restance.
+.sp
+I dag udgør restancen: >&RESULTB. kr.
+.br
++ vores rykkergebyr >&RYKGEBYR. kr.
+.hr tynd 45mm to 75mm
+.sp 1mm
+Ialt at indbetale :FED. >&OVERTRÆK. kr. :SKRSLUT.
+.hr tynd 45mm to 75mm
+.sp 7mm
+Rykkergebyret på &RYKGEBYR kr. er til dækning af vore
+omkostninger for denne påmindelse.
+.sp
+Restancen skal indbetales omgående.
+.sp
+Har I ikke indbetalt restancen senest den &RESULTC., vil dette
+brev være at betragte som en opsigelse af låneaftalen til fuld
+indfrielse på grund af misligholdelse, jævnfør aftalens
+bestemmelser og &BANKNAVN.s generelle forretningsbetingelser.
+.sp
+Det betyder, at vi uden yderligere varsel enten sender et betalingspåkrav
+til fogedretten eller beder vores
+advokat om at inddrive det skyldige beløb gennem retslig inkasso, hvilket
+vil medføre, at det skyldige beløb pålægges yderligere
+inddrivelsesomkostninger i henhold til "Bekendtgørelse om udenretlige
+inddrivelsesomkostninger i anledning af forsinket
+betaling" (Bekendtgørelse nr. 601 af 12. juni 2002 § 4.). Eventuelle
+sikkerheder for kreditten bliver solgt bedst muligt.
+.if &KAUKUNDENR ne 000000-0000
+.th .sp
+.th Kopi af nærværende brev er tilsendt kautionisterne.
+.GO SLUT
+.* --------- Skriver til KONTOHAVER ------------
+...KTOH
+:FED.
+.br
+Restance på dit lån nr. 6610 &KTONR1. ! :SKRSLUT.
+.sp
+Du har ikke reageret på vores tidligere opfordringer til at
+indbetale din restance.
+.sp
+I dag udgør restancen: >&RESULTB. kr.
+.br
++ vores rykkergebyr >&RYKGEBYR. kr.
+.hr tynd 45mm to 75mm
+.sp 1mm
+Ialt at indbetale :FED. >&OVERTRÆK. kr. :SKRSLUT.
+.hr tynd 45mm to 75mm
+.sp 7mm
+Rykkergebyret på &RYKGEBYR kr. er til dækning af vore
+omkostninger for denne påmindelse.
+.sp
+Restancen skal indbetales omgående.
+.sp
+Er din restance ikke inddækket senest den &RESULTC., vil dette
+brev være at betragte som en opsigelse af låneaftalen til fuld
+indfrielse på grund af misligholdelse, jævnfør aftalens
+bestemmelser og &BANKNAVN.s generelle forretningsbetingelser.
+.sp
+Det betyder, at vi uden yderligere varsel enten sender et betalingspåkrav
+til fogedretten eller beder vores
+advokat om at inddrive det skyldige beløb gennem retslig inkasso, hvilket
+vil medføre, at det skyldige beløb pålægges yderligere
+inddrivelsesomkostninger i henhold til "Bekendtgørelse om udenretlige
+inddrivelsesomkostninger i anledning af forsinket
+betaling" (Bekendtgørelse nr. 601 af 12. juni 2002 § 4.). Eventuelle
+sikkerheder for kreditten bliver solgt bedst muligt.
+.if &KAUKUNDENR ne 000000-0000
+.th .sp
+.th Kopi af nærværende brev er tilsendt kautionisterne.
+...SLUT
+.sp
+.tp 80mm
+.sp 1
+Med venlig hilsen
+.br
+:FED.&BANKNAVN.:SKRSLUT.
+.br
+.sp 2
+&B47NAVN.
+.sp 1mm
+:SWISS8.
+Telefon: &B47LOKALNR.
+.br
+E-mail:  &GENEMAIL.
+.br
+.AR off

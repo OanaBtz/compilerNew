@@ -1,0 +1,199 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.********
+.******** BREVHOVED - afsenderadresse *****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da AFSEND 126mm  34mm width  75mm
+.ar AFSEND on
+:SWISS10.
+.tp 14mm
+&AFDBNKNAVN
+.br
+.if &L'&AFDNAVN gt 0
+.th &AFDNAVN
+.th.br
+.el.br
+&AFDGADE
+.br
+&AFDBY
+.br
+Telefon: ¤ &AFDTLF
+.br
+Telefax: ¤ &AFDFAX
+.br
+&GENEMAIL
+.sp
+www.lokalbanken.dk
+.br
+Swift: LOHIDK22
+.sp
+Reference: &B85NAVN
+.br
+&DATO
+.br
+.ar off
+.********* B85hovedafs er slut
+.**
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN - 7.3.2008
+.ar off
+.***********************************************************************
+.******** BREVHOVED via kontonr. evt. incl. medktohaver*****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 25mm  46mm width 170mm
+.ar ADRESSE on
+:SWISS12.
+.if &U'&MEDKUNDENR = 000000-0000
+.th .go TEST1
+.el .go TEST2
+.**************KONTOHAVER OG MEDKONTOHAVER
+...TEST2
+&KTONAVN og
+.br
+&MEDNAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+.go VIDERE
+.***********KONTOHAVER
+...TEST1
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+...VIDERE
+.ar off
+.********* B85hovedkto er slut**********************
+.da TEKST 25mm 110mm width 160mm
+.ar TEKST on
+:SWISS12.
+:FED.
+&SDIN aftalekonto er oprettet
+:SKRSLUT.
+.sp
+.if &B85OVFKTO1 = 0000 0000000
+.th Som aftalt har vi i dag modtaget
+.el
+.if &B85OVFKTO <> 0000 0000000
+.th Som aftalt har vi i dag overført fra konto nr. &B85OVFKTO
+.sp
+.us
+.ce &SALDO. kr.
+.sp
+(beløb i tal: --&SALDOT1.&SALDOT2.--)
+til indsættelse på ovennævnte
+aftalekonto.
+.sk
+Beløbet forrentes for tiden med &KRESATS % per år.
+.********************** aftalekontoen er bundet til dato********
+.if &B85KTORENT <> 0000-000000-0
+.an &B85KTOOVF = &B85KTORENT
+.thAftalekontoen er bundet til den &B85FRIDATO., hvor beløbet incl.
+.threnter overføres til konto nr. &B85KTORENT..
+.th.sk
+.if &B85KTORENT <> 0000-000000-0
+.an &B85KTOOVF <> 0000-000000-0
+.an &B85KTOOVF <> &B85KTORENT
+.thAftalekontoen er bundet til den &B85FRIDATO., hvor beløbet overføres
+.thtil konto nr. &B85KTOOVF og renterne overføres til konto
+.thnr. &B85KTORENT..
+.th.sk
+.if &B85KTORENT = 0000-000000-0
+.an &B85KTOOVF <> 0000-000000-0
+.thAftalekontoen er bundet til den &B85FRIDATO., hvor beløbet overføres
+.thtil konto nr. &B85KTOOVF..
+.th.sk
+.if &B85KTORENT = 0000-000000-0
+.an &B85KTOOVF = 0000-000000-0
+.thAftalekontoen er bundet til den &B85FRIDATO..
+.th.sk
+.if &B85KTORENT <> 0000-000000-0
+.an &B85KTOOVF = 0000-000000-0
+.thAftalekontoen er bundet til den &B85FRIDATO., hvor renterne overføres
+.thtil konto nr. &B85KTORENT..
+.th.sk
+Med mindre vi hører andet fra &DIG vil aftalekontoen ved udløb blive
+opgjort og beløbet indsat på &DIN løbende konto.
+.br
+ 
+.if &L'&B85FRITXT1 > 0
+.th &B85FRITXT1
+.th.br
+.el
+.if &L'&B85FRITXT2 > 0
+.th &B85FRITXT2
+.el .sk
+.br
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 4
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.el &GENEKSP      &GENMEKSP
+.ar off

@@ -1,0 +1,210 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.ti ¤ 05
+.fo on
+:VERDA09.
+:tiltale &TILTALE
+:omtale &OMTALEF
+.*******************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*******************************************
+.ar VEND on
+:COUR6.
+B20ANDEL06
+.br
+Kl. &KLOKKESLET
+.ar off
+.*******************************************
+.***** Dette modul bruges til at sætte kundens fødselsdato
+.***** venstre hjørne. Det er sat på for at Prod.centrene
+.***** kan finde sagen frem, når den kommer retur.
+.*******************************************
+.da DATO 7mm 245mm width 30mm rotate -90
+.*******************************************
+.ar DATO on
+:COUR6.
+.sp
+&B20REF.
+.ar off
+.*******************************************
+.sp 10
+:VERDA14.
+.ce Transport
+:SKRSLUT.
+.sp 10
+Til sikkerhed for opfyldelsen af enhver skyld som &NAVN.
+.if &L'&B20NAVN. > 0
+.th & &B20NAVN.
+nu eller senere måtte få overfor &BANKNAVN., herunder
+enhver af bankens filialer, giver &JEG herved banken transport i
+et hvilket som helst provenu, som måtte fremkomme ved overdragelse
+af den &MIG tilhørende andel i Andelsboligforeningen &B20TEKST05.,
+med brugsretten til andelsbolig
+.if &L'&B20TEKST04 > 0
+.th nr. &B20TEKST04.
+beliggende &B20TEKST03..
+.sp
+I medfør af Andelsboligforeningen &B20TEKST05.'s vedtægter skal
+overdragelsessummen indbetales til foreningen. Nærværende
+transport skal være at forstå således, at Andelsboligforeningen
+&B20TEKST05. herved gives uigenkaldelig fuldmagt til med fuld
+bindende virkning for &MIG. at udbetale nettoprovenuet af
+overdragelsessummen til &BANKNAVN..
+.sp
+&SJEG., &NAVN
+.if &L'&B20NAVN. > 0
+.th & &B20NAVN.
+forpligter &MIG herved til øjeblikkeligt
+at oplyse &BANKNAVN. om en evt. overdragelse af andelen og navnet på
+erhververen, overfor hvem transporten kan anmeldes, ligesom
+transporten kan anmeldes overfor Andelsboligforeningen &B20TEKST05..
+.sp
+.sp 3
+.tp 85mm
+_________________________ &ÅCONT
+.if &L'&B20NAVN. > 0
+.th ¤_________________________
+.br
+&NAVN. &ÅCONT
+.if &L'&B20NAVN. > 0
+.th ¤&B20NAVN.
+.sp 2

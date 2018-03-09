@@ -1,0 +1,663 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*Parametre
+.if &L'&PRIERH = 0
+.th .mg/T/Skriv P for privat eller E for erhverv/
+.*OMTALEPARAMETRE *********************************************************
+.*ERHVERV *****************************************************************
+.if &U'&PRIERH = E
+.th .se debsomt = 'Vi'
+.th .se deblomt = 'vi'
+.th .se migos = 'os'
+.th .se min = 'vores'
+.th .go OMTALEND
+.*PRIVAT *************
+.if &DEBANTAL = 1
+.th .se debsomt = 'Jeg'
+.th .se deblomt = 'jeg'
+.th .se migos = 'mig'
+.th .se min = 'min'
+.el .se debsomt = 'Vi'
+.el .se deblomt = 'vi'
+.el .se migos = 'os'
+.el .se min = 'vores'
+...OMTALEND
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND     7mm  270mm width 180mm rotate -90
+.da OVERSKR 20mm   36mm width 175mm
+.da BOX     20mm   47mm width 175mm
+.da ID      20mm   54mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.br
+Juli 2015
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.
+:FED.
+Fuldmagt til at tinglyse ejerpantebrev og underpant - Fast ejendom
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar BOX on
+:VERDA08.
+.tp 1mm 100mm 140mm
+.bx left right
+¤Kundenr. ¤Afgift ¤Udskrevet
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 211mm
+.bx off
+.ar off
+.***********************************************************************
+.ar ID on
+:VERDA09.
+.tp 1mm 90mm 140mm
+¤&KUNDENR. ¤&B55BELØB1. kr. ¤&DATO.
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 55mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 55mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.**************************************************************************
+.da OVERSKR 20mm 36mm width 175mm
+.da BOX 20mm 47mm width 175mm
+.da ID 20mm 54mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+:VERDA08.
+.tp 1mm 100mm 140mm
+.bx left right
+¤Kundenr. ¤Afgift ¤Udskrevet
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 211.5mm
+.bx off
+.ar off
+.***********************************************************************
+.ar ID on
+:VERDA09.
+.tp 1mm 90mm 140mm
+¤&KTOKNDNR1. ¤&B55BELØB1. kr. ¤&DATO.
+.ar off
+.**************************************************************************
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:VERDA12.
+:FED.
+.if &U'&B55SPØRG1 EQ A
+.th Fuldmagt til forhøjelse af ejerpantebrev og underpant i forhøjelsen
+.if &U'&B55SPØRG1 EQ B
+.th Fuldmagt til transport af ejerpantebrev og underpant
+.if &U'&B55SPØRG1 EQ C
+.th Fuldmagt til transport og forhøjelse af ejerpantebrev og
+.th .br
+.th underpant i det oprindelige og forhøjede ejerpantebrev
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.sp
+.************************
+.kp on
+:FED.
+Underpant:
+:SKRSLUT.
+.sp 3mm
+.tp 25mm char
+¤&B55BEL8
+.kp off
+.sp
+.************************
+.kp on
+:FED.
+Rentevilkår
+:SKRSLUT.
+.br
+.tp 25mm char
+Renten udgør 12,000 pct. over Nationalbankens officielle
+indskudsbevisrente på tvangsauktionstidspunktet.
+.***********  ved fast rente skal der stå ****************
+.** Renten udgør 12,000 pct. på tvangsauktionstidspunktet
+.********* Alternativt kan teksten være som anført - men så skal **********
+.********* "Øvrige rentevilkår" også ændres.
+.** Renten udgør referencerente plus tillæg.
+.**
+.** .br
+.** Øvrige Rentevilkår:
+.** .br
+.** I tilfælde af tvangsauktion over den/de pantsatte ejendom(me)
+.** forrentes ejerpantebrevet fra tidspunktet for tvangsauktion til
+.** betaling finder sted med den i ejerpantebrevet angivne rente.
+.br
+Øvrige Rentevilkår:
+.br
+I tilfælde af tvangsauktion over den/de pantsatte genstande
+forrentes ejerpantebrevet fra tidspunktet for tvangsauktion til
+betaling finder sted.
+.kp off
+.sp
+.************************
+:FED.
+.th .kp off
+.th .sp
+.*******************
+.kp on
+:FED.
+Pantsætter:
+:SKRSLUT.
+.br
+&STILL.
+.br
+&NAVN. ¤¤¤¤&GENNAVN.
+.br
+&GADE.
+.br
+&BY
+.sp 2mm
+Cpr.nr &KUNDENR. ¤¤¤¤Cpr.nr. &GENKUNDENR.
+.kp off
+.sp
+.*******************
+.kp on
+:FED.
+Underpanthaver:
+:SKRSLUT.
+.br
+&BANKNAVN.
+.br
+Storegade 29
+.br
+4780  Stege
+.sp
+CVR NR.:  65746018
+.kp off
+.sp
+.*******************
+.sp
+.kp on
+:FED.
+Pantsætter(ne) giver hermed underpant for ejerpantebrevets
+angivne hovedstol.
+.sp
+Hovedstol:
+:SKRSLUT.
+.sp 3mm
+.tp 25mm char
+¤&B55BEL8.
+.sp
+&B55BEL8T1.&B55BEL8T2.
+.kp off
+.in 2mm
+.ll 178mm
+.tp 11mm 22mm 35mm 90mm
+.*************
+.kp on
+:FED.
+Anmelder:
+:SKRSLUT.
+.br
+&BANKNAVN.
+.br
+Storegade 29
+.br
+4780  Stege
+.sp
+CVR NR.:  65746018
+.sp
+Anmeldelses dato: &B55DATO3.
+.kp off
+.sp
+.*******************
+.kp on
+:FED.
+Ejendom:
+:SKRSLUT
+.br
+.tp 40mm
+Adresse: ¤&B55FRI48A.
+.br
+Landsejerlav: ¤&B55FRI48B.
+.br
+Matr.nr.: ¤&B55FRI48C.
+:FED.
+.kp off
+.sp
+.*******************
+.kp on
+:FED
+Debitor og kreditor:
+:SKRSLUT
+.br
+&STILL.
+.br
+&NAVN. ¤¤¤¤&GENNAVN.
+.br
+&GADE.
+.br
+&BY
+.sp 2mm
+Cpr.nr &KUNDENR. ¤¤¤¤Cpr.nr. &GENKUNDENR.
+.** SIDESKIFT
+.pa
+&BANKNAVN. kan udnytte alle pantsætters rettigheder over det
+pantsatte, herunder modtage og kvittere for ethvert beløb ifølge det
+pantsatte, opsige og inddrive, kvittere samt transportere pantsatte
+fordringer og pantebreve til sig selv eller andre samt hæve beløb på
+pantsatte indlånskonti.
+.sp
+Ved pantsætning af aktier, anparter og lignende kan &BANKNAVN. udøve
+alle de rettigheder, som aktionærer og anpartshavere har efter gældende
+selskabslove, selskabets vedtægter, eventuelle ejeraftaler og lignende.
+Stemmeretten tilkommer dog pantsætter, indtil &BANKNAVN. udtrykkeligt
+meddeler at ville udnytte denne. Pantsætter skal på anmodning fra
+&BANKNAVN. fremsende meddelelse fra selskabet, herunder bl.a.
+indkaldelse til generalforsamlinger og referater herfra.
+.sp
+Hvis pantet omfatter forsikringspolicer, er pantsætter pligtig til på
+anfordring at forevise &BANKNAVN. behørig kvittering for præmiens
+rettidige betaling.
+.sp
+Såfremt &BANKNAVN. vælger at søge sig fyldestgjort i policens
+tilbagekøbsværdi, skal &BANKNAVN. være berettiget hertil uden at
+afvente det i forsikringsaftaleloven fastsatte varsel.
+.sp
+&BANKNAVN. har ingen pligt til forlods at søge dækning i det stillede
+pant, ligesom &BANKNAVN. har valgfrihed med hensyn til anvendelsen i
+forhold til det samlede engagement.
+.kp off
+.sp
+.***********************
+.kp on
+.us 5. Udgifter angående pantet
+.br
+&BANKNAVN. kan forlange betaling af omkostninger for pantsatte
+effekter.
+.sp
+&BANKNAVN. kan også forlange betaling af &BANKNAVN.s udgifter
+til at varetage sine interesser som panthaver, herunder eventuelle udgifter
+til betaling af forsikringspræmie, besigtigelse af det pantsatte, udgifter
+til juridisk bistand m.v.
+.th .kp off
+.th .sp
+.***********************
+.kp on
+.us 6. Afkast af pantet
+.br
+Under pantsætningen er indbefattet renter og udbytte af enhver art af det
+pantsatte, derunder bonus på livsforsikringspolicer, ved aktier eventuelle
+fondsaktier og tegningsrettigheder, provenu af udtrukne obligationer,
+lejeindtægter og lignende.
+.sp
+&BANKNAVN. er berettiget, men ikke forpligtet (heller ikke i forhold
+.kp on
+:FED.
+Særligt om pant
+:SKRSLUT.
+.sp
+.us1. Sikkerhedsstillelsens omfang
+.br
+Pant tjener til sikkerhed for betaling af kapital, renter, provision,
+sagsomkostninger og andre udgifter, som er afholdt i forbindelse med
+inddrivelse af skylden.
+.sp
+Pant stillet af debitor tjener til sikkerhed for enhver forpligtelse, som
+debitor har eller måtte få over for &BANKNAVN..
+.sp
+&BANKNAVN. kan frit vælge hvilken del af det samlede tilgodehavende,
+eller hvilket tilgodehavende ud af flere, der skal nedbringes med provenuet
+af pantet.
+.kp off
+.sp
+.***********************
+.kp on
+.us2. Forsikring af pantsatte effekter
+.br
+Har &BANKNAVN. pant i bil, båd, andet løsøre eller i fast ejendom,
+har pantsætter pligt til at kasko- og/eller brandforsikre det pantsatte.
+.sp
+Er pantet stillet af tredjemand, har debitor pligt til at betale
+forsikringspræmien, hvis den ikke betales af tredjemand.
+.kp off
+.sp
+.***********************
+.kp on
+.us3. Forringelse af pant
+.br
+Hvis pantets værdi forringes væsentligt, kan &BANKNAVN. stille krav
+om, at debitor enten ekstraordinært nedbringer gælden/maksimum på kreditten
+eller, at der stilles yderligere sikkerhed, der modsvarer den skete
+forringelse. I modsat fald kan &BANKNAVN. betragte lånet/kreditten
+som misligholdt.
+.sp
+Hvis &BANKNAVN. har pant i en ejendom, der tjener som helårsbeboelse
+for debitor, vil &BANKNAVN. dog ikke ved forringelse af
+ejendomsværdien stille krav om ekstraordinær nedbringelse eller yderligere
+sikkerhed, medmindre forringelsen skyldes vanrøgt.
+.kp off
+.sp
+.***********************
+.kp on
+.us4. &BANKNAVN.s rettigheder over det pantsatte
+.br
+.***********************
+.kp on
+.us 12. Tvangsfuldbyrdelse
+.br
+Eventuel realisation af panterettigheder sker efter forudgående varsel til
+pantsætter ved tvangsauktion eller på anden måde, som &BANKNAVN.
+skønner hensigtsmæssig, herunder realisation ved &BANKNAVN.s egen
+foranstaltning.
+.sp
+Inden &BANKNAVN. sælger effekterne, sendes et anbefalet brev, hvor
+pantsætter med en uges varsel opfordres til at opfylde &BANKNAVN.
+krav.
+.sp
+Det gælder dog ikke, hvis omgående salg er nødvendigt for at undgå eller
+begrænse et tab.
+.sp
+Tredjemandspant i erhvervsforhold bortfalder ikke efter 5 henholdsvis
+10 år som anført under afsnittet særligt om pant, pkt. 9.
+.kp off
+til kautionister), til at modtage renter og udbytte til betaling af afdrag,
+renter og omkostninger.
+.kp off
+.sp
+.***********************
+.kp on
+.us 7. Meddelelser
+.br
+Alle meddelelser, som pantsætter modtager vedrørende de pantsatte effekter,
+har denne pligt til omgående at videresende til &BANKNAVN..
+.kp off
+.sp
+.***********************
+.kp on
+.us 8. Udtrækning af obligationer
+.br
+Hvis pantsatte obligationer udtrækkes, og der købes andre i stedet for de
+udtrukne, er &BANKNAVN. bemyndiget til over for VP Securities A/S at
+registrere panteret over disse.
+.kp off
+.sp
+.***********************
+.kp on
+.us 9. Ophør
+.br
+Pant stillet af tredjemand ophører efter 10 år, dog efter 5 år ved pant
+stillet af tredjemand for kredit med variabelt lånebeløb og uden fast
+forfaldstidspunkt. &BANKNAVN.s krav mod tredjemandspantsætter
+bortfalder ikke, hvis kravet forinden er gjort gældende af
+&BANKNAVN..
+.kp off
+.sp
+.***********************
+.kp on
+.us 10. Omstødelse
+.br
+Hvis den/det pantsikrede lån/kredit indfries helt eller delvist og
+betalingerne senere omstødes, er pantsætter forpligtet til at genetablere
+&BANKNAVN.s pant, uanset om &BANKNAVN. har frigivet pantet.
+.kp off
+.sp
+.***********************
+.kp on
+.us 11. Henstand
+.br
+&BANKNAVN. kan uden samtykke fra pantsætter give debitor henstand
+med betaling af afdrag, renter, og øvrige omkostninger, dog med respekt af
+lov om finansiel virksomhed § 48 for så vidt angår tredjemandspantsætning.
+.kp off
+.sp
+.kp on
+:FED.
+Oprykningsret:
+:SKRSLUT.
+.br
+Dette dokument er med oprykningsret.
+.kp off
+.sp
+.************************
+.kp on
+:FED.
+Følgende hæftelser respekteres:
+:SKRSLUT.
+.br
+.if &L'&B55FRI40A gt 0
+.th .tp 60mm 90mm char ,
+.th &B55FRI40A. ¤kr. ¤&B55BELØB8A.
+.th .br
+.el .go ...NÆST
+.if &L'&B55FRI40B gt 0
+.th &B55FRI40B. ¤kr. ¤&B55BELØB8B.
+.th .br
+.el .go ...NÆST
+.if &L'&B55FRI40C gt 0
+.th &B55FRI40C. ¤kr. ¤&B55BELØB8C.
+.th .br
+.el .go ...NÆST
+.if &L'&B55FRI40D gt 0
+.th &B55FRI40D. ¤kr. ¤&B55BELØB8D.
+.th .br
+.el .go ...NÆST
+.if &L'&B55FRI40E gt 0
+.th &B55FRI40E. ¤kr. ¤&B55BELØB8E.
+...NÆST
+.if &L'&B55FRI40A eq 0
+.an &L'&B55FRI40B eq 0
+.an &L'&B55FRI40C eq 0
+.an &L'&B55FRI40D eq 0
+.an &L'&B55FRI40E eq 0
+.th Ingen
+.kp off
+.sp
+.************************
+.kp on
+:FED.
+Følgende servitutter respekteres:
+:SKRSLUT.
+.br
+Ejerpantebrevet respekterer de servitutter og andre byrder, der
+er tinglyst på anmeldelsestidspunktet.
+.kp off
+.sp
+.************************
+.kp on
+:FED.
+Særlige bestemmelser:
+:SKRSLUT.
+.br
+Pantebrevet forbliver ikke indestående i ejendommen i tilfælde
+af tvangsauktion.
+.kp off
+.sp
+.************************
+.kp on
+:FED.
+Pantebrevsformular:
+:SKRSLUT.
+.br
+I øvrigt gælder Justitsministeriets pantebrevsformular AA.
+.kp off
+.sp
+.***********************
+.kp on
+:FED.
+Bemyndigelse til digital tinglysning:
+:SKRSLUT.
+.br
+&BANKNAVN. bemyndiges til på mine/vores vegne at udstede, digitalt
+signere og anmelde til tinglysning et digitalt ejerpantebrev
+i overensstemmelse hermed, samt digitalt signere og anmelde til
+tinglysning underpant i ejerpantebrevet. &BANKNAVN. kan overlade
+udstedelsen, signering og/eller anmeldelse til tinglysning af
+ejerpantebrevet til en samarbejdspartner.
+.sp
+&BANKNAVN har ret til at afgive de i forbindelsen med denne disposition
+nødvendige erklæringer.
+.kp off
+.sp
+.**********************
+.kp on
+:FED.
+Underpant er til sikkerhed for:
+:SKRSLUT.
+.br
+Ethvert mellemværende eksisterende som fremtidigt.
+.kp off
+.sp
+.************************
+.kp on
+:FED.
+Oplysninger:
+:SKRSLUT.
+.br
+Pantsætter har modtaget følgende bilag med oplysninger om debitor(erne)s
+økonomiske forhold:
+.br
+__ Debitor(erne)s seneste årsopgørelse(r)
+.br
+__ Debitor(erne)s seneste 3 lønsedler
+.br
+__ Debitor(erne)s seneste regnskab(er)
+.br
+__ Andre bilag (kun hvis ovenstående bilag ikke kan vedlægges)
+.sp
+Pantsætter har desuden modtaget følgende bilag:
+.br
+__ Finansrådets og Forbrugerrådets pjece "Information om kaution og
+tredjemandspant"
+.br
+__ &B55FRI1.
+.kp off
+.sp
+.***************
+.kp on
+:FED.
+Videregivelse af fortrolige oplysninger
+:SKRSLUT.
+.br
+&BANKNAVN. skal ifølge loven om finansiel virksomhed udlevere konkrete
+oplysninger om debitor(erne)s økonomi til pantsætter.
+.sp
+Debitor(er) accepterer, at &BANKNAVN. i forbindelse med ovenstående
+tredjemandspant kan udlevere de anførte bilag med oplysninger om
+mine private, økonomiske forhold til pantsætter.
+.kp off
+.sp
+.******************
+.kp on
+.if &U'&PRIVERHV = E
+.th &BANKNAVN. Almindelige forrretningsbetingelser (Erhvervskunder)
+.el &BANKNAVN. Almindelige forrretningsbetingelser (Privatkunder)
+gælder for underpantsætningen. De gældende Almindelige
+forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
+hjemmeside.
+.kp off
+.** SIDESKIFT
+.pa
+.kp on
+:FED.
+Underskrifter
+:SKRSLUT.
+.br
+.tp 40mm 85mm
+Hvis pantebrevet kun underskrives af en debitor, ¤¤Hvis debitor er
+gift/lever i registreret partnerskab
+.br
+erklærer denne samtdig at være ugift/ikke leve i ¤¤og den/de pantsatte
+ejendomme er omfattet af lov
+.br
+registreret partnerskab eller at ejendommen/e ¤¤om ægteskabets
+retsvirkninger § 18, giver medun-
+.br
+ikke omfattes af lov om ægteskabets retsvirk- ¤¤derskrevne
+ægtefælle/partner samtykke til pantsæt-
+.br
+ninger § 18 ¤¤ningen. Er ægtefællen/partneren medejer, under-
+.br
+¤¤skrives som debitor og pantsætter
+.sp 6mm
+Som dibitor ¤¤Som debitor eller ægtefælle/partner
+.sp 12mm
+_______________ Den ¤¤_______________ Den
+.sp 12mm
+___________________________________  ¤¤___________________________________
+.br
+&NAVN. ¤¤&GENNAVN.
+.sp 10mm
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed.
+.sp 3mm
+Navn: ¤¤Navn:
+.sp 2mm
+Stilling: ¤¤Stilling:
+.sp 2mm
+Gade: ¤¤Gade:
+.sp 2mm
+Postnr/By: ¤¤Postnr/By:
+.sp 10mm
+_________________________________  ¤¤_________________________________
+.br
+:VERDA08.
+Underskrift ¤¤Underskrift
+:SKRSLUT.
+.kp off

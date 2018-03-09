@@ -1,0 +1,201 @@
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.AR OFF
+.ar off
+.sp 2
+Med venlig hilsen
+.sp 2
+&BANKNAVN
+:TILTALE &TILTALEF
+.sp 10mm
+:FED.Indbetalinger på &DIN udgåede konto &B65RG1
+:SKRSLUT.
+.sp 3mm
+Vi tillader os at rette henvendelse, fordi der stadig foretages
+indbetalinger til &DIN konto med brug af et udgået kontonummer. Normalt
+vil sådanne indbetalinger blive afvist, men vi har dog med en manuel
+efterhåndtering sikret, at disse overførsler er blevet gennemført med
+brug af de nye og korrekte kontooplysninger. Vi er kun i stand til at
+gøre dette i en kortere overgangsperiode.
+.sp
+:FED.
+Det betyder, at fra den 18.11.2013 vil indbetalinger til
+den udgåede konto blive afvist og returneret til den/dem, som har foretaget
+indbetalingen.
+:SKRSLUT.
+.sp
+Af hensyn til fremtidige indbetalinger anbefaler vi, at &DU hurtigst
+muligt orienterer den/dem, som foretager indbetalinger på det udgåede
+kontonummer. Overførsler skal fremover indsættes på &IREGKTO..
+.sp
+Vi har i dag modtaget en indbetaling på kr. &B65BELOBPR til den udgåede
+konto fra:
+.sp
+.ce on
+&B65TEKST01
+.br
+&B65TEKST02
+.br
+.if &L'&B65TEKST03 > 0
+.th &B65TEKST03
+.th .br
+.if &L'&B65TEKST04 > 0
+.th &B65TEKST04
+.th .br
+.if &L'&B65TEKST05 > 0
+.th &B65TEKST05
+.ce off
+.sp
+:FED.Yderligere information :SKRSLUT.
+.br
+For eventuelle spørgsmål, kontakt venligst Banksupport på telefon
+46 34 84 12 Dorte Mathiasen eller på 46 34 85 24 Jesper Petersen.
+.sp
+.*
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+:SWISS9.
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp
+CVR &BANKSENR
+.TP 20MM
+.br
+.*.if &B65P2U EQ 2
+.*.TH Reference:¤&GENEKSP
+.*.TH .br
+Telefon &GENTLFNR
+.br
+E-mail &GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference: &B65DREF
+.*.TH .br
+.*.th  &B65DREF
+.TH .SP6mm
+.EL .SP10mm
+:SWISS11.
+&DATO
+.ar off
+.ar tekst on
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

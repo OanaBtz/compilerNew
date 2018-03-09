@@ -1,0 +1,167 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.*************NAVN OG ADRESSE****************
+:TILTALE &TILTALEF
+.fo left
+:SWISS11.
+.ar NAVN on
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL
+.br
+&KTONAVN.
+.br
+.if &U'&B02VÆLG eq J
+.th &MEDkstill
+.th .br
+.if &L'MEDNAVN gt 0
+.th &MEDNAVN.
+.th .br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+.ar off
+.******************DATO**********************
+.*****************SLUT***********************
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN                                                  København
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+.if &B02BKST eq 520760
+.th &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. 62 66 54 16
+.el &BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Tillæg til aftale om
+.br
+selvpension
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.da TEXT 25mm 30mm width 170mm
+.ar TEXT on
+.sp 15
+der er registreret som
+kontohaver
+på selvpensioneringskonto
+nr. :FED.&REGNR &KTONR :SKRSLUT.
+ønsker at tilknytte :FED.depot nr. &B02DEPNR.:SKRSLUT. til
+selvpensioneringskontoen.
+.sp
+Forkontoens indestående kan indkøbes værdipapirer efter ordre fra
+kontohaver. Anbringelse
+skal ske i overensstemmelse med de af
+Skatteministeriet fastsatte bestemmelser. De indkøbte værdipapirer
+henlægges i spærret depot lydende på kontohavers navn.
+.sp
+Afkast af enhver
+art af de i depotet beroende værdipapirer samt kapitalbeløb, der fremkommer
+ved
+.sp
+.in 3 mm after 1
+- udtrækning,
+.br
+- afdrag,
+.br
+- tilbagebetaling,
+.br
+- salg af tegningsret og lignende,
+.sp
+skal krediteres kontoen.
+.sp
+Køb, herunder også erstatningskøb m.v.,
+debiteres kontoen, idet kapital og afkast mv. er undergivet samme
+bestemmelser som for kontoens indestående.
+.sp
+Gebyr for forvaltning af de i
+depotet værende værdipapirer debiteres kontoen.
+.sp
+For aftalen gælder endvidere bankens "Almindelige forretningsbetingelser"
+og "Forretningsbetingelser for opbevaring af værdipapirer",
+som kontohaver har modtaget et
+eksemplar af.
+.sp 5
+.tp 85mm
+Dato: ¤Dato:
+.sp 6
+.hr 0mm 75mm 85mm 160mm
+.br
+:SWISS9.
+Kontohavers underskrift ¤Bankens underskrift
+.ar off

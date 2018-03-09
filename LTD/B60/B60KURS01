@@ -1,0 +1,258 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.if X&INDHJEM = X0
+.or X&INDHJEM gt X2
+.th .mg/T/vælg 1 for indfrielse eller 2 for optagelse/
+.if X&STRKURS =X0
+.or X&STRKURS gt X2
+.th .mg/T/vælg 1 for strakhandel og 2 for kurskontrakt/
+.if X&INDHJEM = X1
+.th .go VALG2
+.el .go VALG2SL
+...VALG2
+.if &L'&B60CD gt 0
+.an &L'&B60VPKTO gt 0
+.th .go INDOK
+.el .mg/T/du mangler at udfylde felter ved valg af indfrielse/
+...INDOK
+...VALG2SL
+.*********************GENEREL OPSÆTNING************************************
+:VERDA14.
+:FED.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart - overskrift
+.da START 20mm 20mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.ce on
+Kursaftale
+.ce off
+.sp
+.**************************************************************************
+:VERDA12.
+.*************************************************************************
+.********Test på Indfrielse eller hjemtagelse*****************************
+.*************************************************************************
+:FED.
+.if X&INDHJEM eq X1
+.th Indfrielse
+.if X&INDHJEM eq X2
+.th Hjemtagelse
+:SKRSLUT
+.sp5mm
+.*************************************************************************
+.********TEST PÅ STRAKSHANDEL ELLER KURSKONTRAKT**************************
+.*************************************************************************
+:VERDA10.
+:FED.
+.if X&STRKURS eq X1
+.th .us Strakshandel:
+.if X&STRKURS eq X2
+.th .us Kurskontrakt:
+:SKRSLUT
+.br
+.tp ./30mm
+Handelsdato ¤: &B60DATO1
+.br
+Valørdato: ¤: &B60DATO5
+.br
+.*************************************************************************
+.********OPLYSNINGER OM KUNDERÅDGIVER OG EKSPEDERENDE MEDARBEJDER*********
+.*************************************************************************
+.sp 2mm
+.tp ./30mm
+Rådgiver  ¤: &EKSPNAVN.
+.br
+Kundemedarb. ¤: &GENEEKSP.
+.sp 3mm
+.us Mellem undertegnede:
+.*************************************************************************
+.*******************AREAL DEFINITION *************************************
+.*************************************************************************
+.ar off
+.da KUNDE 20mm 75mm width 80mm
+.da MEDKTO 115mm 75mm width 80mm
+.da PAPIR 20mm 105mm
+:VERDA10
+.*************************************************************************
+.ar KUNDE on
+.****dette afsnit er en prøve
+.*if &L'&GENCVRCPR > 0
+.*th .go TSTCPR
+.*el .go TSTCPRSL
+.*..TSTCPR
+.*if &GENCVRCPR ne &KTOKNDNR1
+.*th / &GENCVRCPR
+.*..TSTCPRSL
+.****dette afsnit er en prøve
+&KTOKNDNR1
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.sp 2mm
+Kontonr: &IREGKTO
+.br
+.ar off
+.*************************************************************************
+.ar MEDKTO on
+.su off
+.se medcpr1 = substr &MEDKUNDENR 1 6
+.se medcpr2 = substr &MEDKUNDENR 8 4
+.su on
+.*************************************************************************
+.if &L'&MEDNAVN > 0
+.th &medcpr1.&medcpr2
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+.ar off
+.************************************************************************
+.tp ./30mm
+.ar PAPIR on
+er der den &DATO indgået aftale om, at &BANKNAVN.
+.if X&INDHJEM eq X1
+.th sælger følgende til kunden:
+.if X&INDHJEM eq X2
+.th køber følgende af kunden:
+.sp 3mm
+Papirnavn ¤: &B60PAPNAVN
+.br
+Fondskode ¤: &B60FONDSKD
+.br
+Handelsbeløb ¤: :VS. &B60PAPBEL
+.br
+Afregningskurs ¤: :VS. &B60AFRK
+.br
+Pantnr/Løbenr ¤: &B60PANTNR1
+.sp 2mm
+.*************************************************************************
+.********TEST AF DER VED INDFRIELSE OPLYSES VPKONTO OG CD-IDENT***
+.*************************************************************************
+.if X&INDHJEM eq X1
+.th Kreditforeningens
+.br
+.if X&INDHJEM eq X1
+.th CD-ident ¤: &B60CD
+.br
+.if X&INDHJEM eq X1
+.th VP depot ¤: &B60VPKTO
+.br
+.sp2mm
+:VERDA10.
+Nævnte lån
+.if X&INDHJEM eq X1
+.th indfries
+.if X&INDHJEM eq X2
+.th optages
+i ejendommen &B60MATRNR., beliggende &B60BELIGZ..
+:VERDA08.
+.sp2mm
+Formålet med nærværende kontrakt er at sikre, at obligationerne kan handles
+til kursen, som er angivet i denne kontrakt. Kurskontrakten indebærer, at
+kunden er forpligtet til på afviklingsdagen at handle det aftalte
+obligationsbeløb med banken. Kontrakten indebærer endvidere, at banken er
+forpligtet tilpå afviklingsdagen at handle obligationsbeløbet med
+kunden til den aftalte kurs. Bank har som følge heraf disponeret over
+obligationsbeløbet til en kurs udregnet på grundlag af denne kontrakt.
+.sp
+:FED.:VERDA10
+Ophævelse og misligholdelse
+.br
+:SKRSLUT
+:VERDA08.
+Hvis kurskontrakten ikke gennemføres pr. den aftalte afviklingsdato eller
+ophæves på grund af forhold, som banken ikke er ansvarlig for, er kunden
+forpligtet til at erstatte banken det kurstab samt andre omkostninger, som
+måtte følge heraf. Hvis kurskontrakten ophæves, og kursudviklingen har
+medført kursgevinst, tilfalder den fuldt ud til banken.
+.sp
+Et konstateret tab skal indbetales til banken senest 14 dage efter
+modtagelsen af bankens opgørelse over tabet. Såfremt beløbet ikke
+indbetales inden udløbet af fristen, påløber der gebyr fra den aftalte
+afregningsdag med det gebyr svarende til gebyret, der er gældende til
+enhver tid for ikke rettidig indbetaling af låneydelser.
+.sp
+:FED.:VERDA10
+Øvrige vilkår
+.br
+:SKRSLUT
+:VERDA08.
+Såfremt afviklingsdagen på kurskontrakten overskrides, vil der ske et
+fradrag i den aftalte kurs.
+.sp
+Nærværende kurskontrakt er personlig og kan ikke overdrages til
+tredjemand.
+:VERDA10.
+.sp2
+&EKSPBY., den &DATO
+.sp3
+.hr 0mm 80mm 85mm for 80mm
+.br
+.tp 40mm center 125mm center
+¤&KTONAVN ¤&BANKNAVN.
+.sp2
+.if &L'&MEDNAVN > 0
+.th .hr 0mm 80mm
+.br
+¤&MEDNAVN
+.ar off

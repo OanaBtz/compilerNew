@@ -1,0 +1,100 @@
+.*************** Brevet skal ikke dannes for Nykredit ********************
+.go BT1SLUT
+...BT1SLUT
+.* Parametre og substrings ************************************************
+.*Initier switch til kontakt-tlfnr i B32DEP02ABUND
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.***** her deles kontonummer for obligationsrenter ************************
+.se oblregnr = substr &GENOBLKTO 1 4
+.se oblktonr = substr &GENOBLKTO 5 10
+.***** her deles kontonummer for udtrukne obligationer ********************
+.se uoblregnr = substr &GENUOBLKTO 1 4
+.se uoblktonr = substr &GENUOBLKTO 5 10
+.***** her deles kontonummer for aktieudbytte *****************************
+.se aktregnr = substr &GENAKTKTO 1 4
+.se aktktonr = substr &GENAKTKTO 5 10
+.***** her deles kontonummer for depotgebyr  ******************************
+.se depgregnr = substr &GENDEPGKTO 1 4
+.se depgktonr = substr &GENDEPGKTO 5 10
+.**** AFGØR KUNDETYPE
+.se dcprcvr = substr &DEPKUNDENR 1 2
+.se mcprcvr = substr &DEP01CPR 1 2
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&dcprcvr > x31
+.th .se dkunnr = 'Kundenr.:'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.:'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&dcprcvr = x00
+.th .se dkunnr = 'CVR-nr.:'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&dcprcvr > x00
+.an x&dcprcvr < x32
+.th .se dkunnr = 'CPR-nr.:'
+.th .se dcpr1 = substr &DEPKUNDENR 1 6
+.th .se dcpr2 = substr &DEPKUNDENR 7 4
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.:'
+.th .se mcpr1 = substr &DEP01CPR 1 6
+.th .se mcpr2 = substr &DEP01CPR 7 4
+.** AFGØR UNDERSKRIVER ****************************************************
+.if &L'&UNDSNAVN. <> 0
+.th .se underskr = &UNDSNAVN.
+.el .se underskr = &NAVN.
+.** AFGØR jeg/vi i omtale m.m.*********************************************
+.if X&DEP01ROLT. = X02
+.an &L'&DEP01CPR gt 0
+.th .se OMTALEF = 'vi'
+.th .se dep1 = Depothavere
+.th .se dep2 = depothavere
+.el .se OMTALEF = 'jeg'
+.el .se dep1 = Depothaver
+.el .se dep2 = depothaver
+.su on
+.**************************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

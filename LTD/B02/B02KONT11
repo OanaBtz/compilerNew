@@ -1,0 +1,249 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 41.5mm width 95mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.*************NAVN OG ADRESSE****************
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Boligkøb
+:SKRSLUT.
+.sp
+Udlægskonto nr. &IREGKTO
+.ri off
+.ar off
+.**************************************************************************
+.da TEXT1 100mm 41,5mm width 80mm
+.da AREAL 20mm 41,5mm width 90mm
+.da AREAL1 20mm 75mm width 170mm
+.ar AREAL on
+Debitor
+.sp
+&KTOSTILL
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY
+.ar off
+.ar TEXT1 on
+.if &L'&MEDNAVN gt 0
+.th ¤ Meddebitor
+.th .sp
+.th ¤ &MEDSTILL
+.th .br
+.th ¤ &MEDNAVN
+.ar off
+.ar AREAL1 on
+&BANKNAVN giver tilsagn om finansiering af kontant køb
+af ejendommen
+.sp
+matr. nr.:        &B02MATR.,
+.br
+beliggende:   &B02TEXT..
+:FED.
+.sp
+Tilsagnet omfatter:
+:SKRSLUT.
+.sp
+.in 1 after 1
+- Garanti over for sælger. Når garantibeløbet deponeres i sælgers bank,
+debiteres beløbet på ovenstående udlægskonto.
+.in 0
+.sp
+- Hjemtagelse af realkreditlån i &B02TEXT10., opr. stort
+kr. &B02BELØB44..
+.if &L'&B02TEXT11 gt 0
+.th .sp
+.th - Hjemtagelse af realkreditlån i &B02TEXT11., opr. stort kr.
+.th .ct &B02BELØB50..
+.el .go bolig
+...bolig
+.if &L'&B02BELØB45 gt 0
+.th .sp
+.th - Boliglån stort kr. &B02BELØB45., med rente &B02RENTE1 %,
+.th løbetid &B02ÅR5 år.
+.el .go uigen1
+... uigen1
+.if &L'&B02BELØB46 gt 0
+.th .sp
+.th - Sælgerpantebrev stort kr. &B02BELØB46 med rente
+.th &B02RENTE2 %, løbetid &B02ÅR6 år.
+.el .go uigen
+...uigen
+:FED.
+.sp
+Garanti overfor sælger
+:SKRSLUT.
+.br
+Garantiprovisionen er fradragsberettiget på selvangivelsen, men der sker
+ingen indberetning fra bankens side. Debitor skal derfor selv sørge for
+at anføre beløbet på selvangivelsen.
+.sp
+Gebyr for denne garanti andrager kr. &B02BELØB47..
+:FED.
+.sp
+Realkreditlån
+:SKRSLUT.
+.br
+Debitor bekræfter hermed at have fået rådgivning om muligheden for
+kurssikring.
+.if x&U'&B02VALG20 eq xJ
+.th .sp
+.th Kurssikring er foretaget og realkreditlån vil blive hjemtaget den
+.th &B02DATO1..
+.th .sp
+.th Betingelser og gebyr for kurssikring fremgår af aftalegrundlaget for
+.th kurssikringen.
+.if x&U'&B02VALG20 eq xN
+.th .sp
+.th Kurssikring ønskes ikke. Realkreditlån vil blive hjemtaget,
+.if &B02VALG2 eq 1
+.th når ordre gives af køber.
+.if &B02VALG2 eq 2
+.th &B02TEXT30
+.go garanti
+...garanti
+:FED.
+.sp
+Garanti ved ej tinglyst pantebrev
+:SKRSLUT.
+.br
+Der vil særskilt kunne træffes aftale med banken om hjemtagelse af
+realkreditlånet uden tinglyst pantebrev mod bankens garanti overfor
+långiver. I så fald indestår debitor banken for refundering af
+garantibeløbet og omkostninger af enhver art, såfremt sagen ikke
+gennemføres og långiver forlanger garantien indfriet.
+.sp
+Gebyr for denne garanti andrager kr. &B02BELØB48..
+.sp
+:FED.
+Rente og stiftelsesprovision - udlægskonto
+:SKRSLUT.
+.br
+Debetrenten på udlægskontoen er fastsat til p.t. &DEBSATS % p.a. Kredit
+.ct renten er fastsat til p.t. &KRESATS % p.a. Renten beregnes bagud
+og tilskrives i forbindelse med opgørelse af kontoen.
+.sp
+For sagens gennemførelse beregner banken sig en
+stiftelsesprovision på kr. &B02BELØB49.,
+der debiteres efter hjemtagelse af realkreditlånet. For evt. ekstra
+.ct ordinært arbejde i sagen beregnes bankens almindelige
+timelønssats.
+.pa
+:SWISS12. :FED.
+.sp 3
+Uigenkaldelig fuldmagt, transport og håndpantsætningserklæring
+:SWISS11.
+.sp 2
+Debitor giver herved &BANKNAVN transport i og uigenkaldelig fuldmagt
+til at hjemtage omstående realkreditlån.
+.sp
+Endvidere gives der &BANKNAVN transport i debitors tilbagebetalingskrav
+på de til sælger deponerede midler.
+.sp
+Endelig giver debitor &BANKNAVN pant i provenuet af det i forbindelse
+med købet etablerede pantebrev samt boliglån.
+.sp
+Debitor forpligter sig til at underskrive ethvert dokument, som
+&BANKNAVN finder nødvendigt for at berigtige købet af omstående
+ejendom.
+.tp 0mm 80mm
+.sp 5
+Den _______________________
+.sp 5
+.hr 0mm 70mm 80mm 150mm
+:SWISS8.
+.br
+¤&KTONAVN ¤&MEDNAVN
+:SWISS11.
+.sp 5
+Til vitterlighed om underskriftens ægthed, dateringens rigtighed og
+underskriverens myndighed:
+.sp 3
+.hr 0mm 70mm 80mm 150mm
+.sp 3
+.hr 0mm 70mm 80mm 150mm
+.sp 3
+.hr 0mm 70mm 80mm 150mm
+.sp 3
+.hr 0mm 70mm 80mm 150mm
+.br
+:SWISS8.
+¤Underskrift ¤Underskrift

@@ -1,0 +1,169 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc  **Bortkomst af bankbog
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+:GL.
+.* Definition af brevhoved
+.da MODTAGER 8 11 width 37
+.da AFSENDER 45 7 width 37
+.*************************************
+.ar MODTAGER on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************************
+.ar AFSENDER on
+.tp 14
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.if &L'&AFDTLF gt 0
+.th .br
+.th Telefonnr. &AFDTLF
+.sp
+&DATO
+.sp
+.if &L'&GENEKSP gt 0
+.th Reference &GENEKSP
+.ar off
+:EGL.
+.*************************************************************
+.fo left
+.ti ¤ 05
+:NY.
+:COUR10.
+:ENY.
+:GL.
+&&??#
+:EGL.
+.***********************************************************************
+:GL.
+.* Uddata-overskrift
+.da OVERSKR 8 25
+:EGL.
+.***********************************************************************
+:NY.
+.* Uddata-overskrift
+.da OVERSKR 20mm 110mm width 170mm
+.* Brevnavn roteret i nederste, venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+:ENY.
+.***********************************************************************
+:NY.
+.ar VEND on
+:COUR6.
+BECIND01
+.ar off
+:ENY.
+.***********************************************************************
+.ar OVERSKR on
+.if &GENVALG eq 1
+.th .us Bortkomst af bankbog
+.el .us Mortifikation af bankbog
+.sp
+.***********************************************************************
+.br
+&NAVN
+.ce off
+.ar off
+.*******************************************
+.*************************************************************************
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.**************************************************************************
+.if &GENKONT eq 1
+.th .se udbetal = 'udbetalt kontant'
+.if &GENKONT eq 2
+.th .se udbetal = 'tilsendt i check'
+.if &GENKONT eq 3
+.th .su off
+.th .se reg = substr &GENKTNR1 1 4
+.th .se kto = substr &GENKTNR1 5 11
+.th .su on
+.th .se udbetal = 'indsat på kontonr. &reg &kto'
+.**************************************************************************
+.if &GENVALG eq 1
+.th Jeg erklærer herved, at bankbogen til kontonr. &regnr &ktonr er
+.th bortkommet.
+.el Jeg erklærer herved, at bankbogen til kontonr. &regnr &ktonr er
+.el bortkommet og ønskes mortificeret for egen regning.
+.sp
+Kontoens indestående, &SALDO kr., bedes &udbetal efter regulering af
+rente og omkostninger for ekspedition/opgørelse.
+.sp
+.if &GENVALG eq 2
+.th .go FRITEXT
+Jeg erklærer desuden, at ville holde &BANKNAVN skadesløs for ethvert tab,
+der måtte opstå som følge af, at bankbogen senere fremkommer.
+.sp
+Hvis bankbogen skulle komme mig i hænde, forpligter jeg mig til straks at
+indlevere denne til banken.
+.sp
+...FRITEXT
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+.br
+.sp 4
+.se streg = '_____________________________'
+.ce on
+&streg , den &streg
+.sp 4
+&streg

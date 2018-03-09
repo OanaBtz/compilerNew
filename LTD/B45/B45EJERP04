@@ -1,0 +1,429 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.da AFGIFT   124mm 27.5mm width 60mm
+.da SENR     115mm 33.5mm width 60mm
+.da ANMELDER 115mm 44mm width 88mm
+.**************************************
+.da KOMMUNKD 51mm 90mm width 157mm
+.da GADE 51mm 97mm width 157mm
+.da POSTNR 51mm 103mm width 157mm
+.da OEVRIGOPL 51mm 109mm width 145mm
+.**************************************
+.da KOMMUNKD2 51mm 120mm width 157mm
+.da GADE2 51mm 126mm width 157mm
+.da POSTNR2 51mm 132mm width 157mm
+.da OEVRIGOPL2 51mm 138mm width 145mm
+.***************************************
+.da DEBITOR 29mm 155.5mm width 80mm
+.da MEDDEB 114mm 155.5mm width 80mm
+.da GLD 29mm 193mm width 55mm
+.da GLDSKR 42mm 197.5mm width 155mm
+.da RENTE 44mm 211mm width 15mm
+.da PANTSAT1 29mm 224.5mm width 170mm depth 50mm
+.*************************************************************************
+.*TEST VEDR. BECANDEL01 (ERKLÆRING OM ADKOMST) SIDE 4 *********************
+.*TEST PÅ AT DER KUN ER UDFYLDT EN TYPE OM TINGLYSNINGSDOKUMENTET *********
+.se tal = 0
+.if &L'&GENKRYDS1 > 0
+.th .se tal1 = &tal + 1
+.el .se tal1 = &tal
+.if &L'&GENKRYDS2 > 0
+.th .se tal2 = &tal1 + 1
+.el .se tal2 = &tal1
+.if &L'&GENKRYDS3 > 0
+.th .se tal3 = &tal2 + 1
+.el .se tal3 = &tal2
+.if &tal4 = 0
+.th .mg/T/Tinglysningsdokument, der skal vælges type/
+.if &tal4 > 1
+.th .mg/T/Tinglysningsdokument, der skal kun vælges én type/
+.***********************************************************************
+.ar AFGIFT on
+:VS. &GENTINGAFG
+.ar off
+.************************************************************************
+.ar SENR on
+.su off
+.se cvr12 = substr &BANKSENR 1 2
+.se cvr34 = substr &BANKSENR 3 2
+.se cvr56 = substr &BANKSENR 5 2
+.se cvr78 = substr &BANKSENR 7 2
+.su on
+.if &U'&GENJANEJ = J
+.th CVR: &cvr12 &cvr34 &cvr56 &cvr78
+.ar off
+.************************************************************************
+.ar ANMELDER on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf. 5575 4000
+.ar off
+.**************************************************************************
+.ar KOMMUNKD on
+.tp 27mm 67mm 93mm 117mm
+&GENKOMMUNE ¤&GENVEJKODE ¤&GENHUS ¤&GENETAGE ¤&GENSIDE
+.ar off
+.**************************************************************************
+.ar GADE on
+&GENGADE
+.ar off
+.**************************************************************************
+.ar POSTNR on
+&POSTNRBY
+.ar off
+.**************************************************************************
+.ar OEVRIGOPL on
+&GENTEKST1
+&GENTEKST2.
+.ar off
+.*HER SKRIVES OPLYSNINGER PÅ ANDELSBOLIG 2 ********************************
+.if &U'&GENTOANDEL eq N
+.th .go 2ANDSLUT
+.ar KOMMUNKD2 on
+.tp 27mm 67mm 93mm 117mm
+&GENKOMMUN2 ¤&GENVEJKOD2 ¤&GENHUS2 ¤&GENETAGE2 ¤&GENSIDE5
+.ar off
+.**************************************************************************
+.ar GADE2 on
+&GENGADE7
+.ar off
+.**************************************************************************
+.ar POSTNR2 on
+&POSTNR2 &POSTNRBY2
+.ar off
+.**************************************************************************
+.ar OEVRIGOPL2 on
+&GENTEKST19
+&GENTEKST22.
+.ar off
+...2ANDSLUT
+.************************************************************************
+.ar DEBITOR on
+&KTOKNDNR1
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.************************************************************************
+.ar MEDDEB on
+.su off
+.se medcpr1 = substr &MEDKUNDENR 1 6
+.se medcpr2 = substr &MEDKUNDENR 8 4
+.su on
+.if &L'&MEDNAVN > 0
+.th &medcpr1.&medcpr2
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.ar off
+.************************************************************************
+.ar GLD on
+&U'&GENMØNTKD &ÅCONT
+:VS.&GENGAELD
+.ar off
+.**************************************************************************
+.ar GLDSKR on
+&U'&GENMØNTKD &GENGAELDT1.&GENGAELDT2
+.ar off
+.**************************************************************************
+.ar RENTE on
+&GENPCTPA
+.ar off
+.**************************************************************************
+.ar PANTSAT1 on
+.tp 44mm right 61mm right 71mm right 78mm
+.***********************************************************************
+.*TEST BELØB 1*************************************************************
+.se bel1 = 0
+.if &L'&GENMØNTKD1 > 0
+.th .se bel1a = &bel1 + 1
+.el .se bel1a = &bel1
+.if &L'&GENBELØB11 > 0
+.th .se bel1b = &bel1a + 1
+.el .se bel1b = &bel1a
+.if &L'&GENPCTPA1 > 0
+.th .se bel1c = &bel1b + 1
+.el .se bel1c = &bel1b
+.if &L'&GENTP1 > 0
+.th .se bel1d = &bel1c + 1
+.el .se bel1d = &bel1c
+.if &L'&GENTEXT1 > 0
+.th .se bel1e = &bel1d + 1
+.el .se bel1e = &bel1d
+.if x&bel1e = x0
+.or x&bel1e = x5
+.th .go OPRYK2
+.el .mg/T/Der mangler oplysninger vedr. 1. opr. panteret/
+.**************************************************************************
+.*TEST BELØB 2**************************************************
+...OPRYK2
+.se bel2 = 0
+.if &L'&GENMØNTKD2 > 0
+.th .se bel2a = &bel2 + 1
+.el .se bel2a = &bel2
+.if &L'&GENBELØB12 > 0
+.th .se bel2b = &bel2a + 1
+.el .se bel2b = &bel2a
+.if &L'&GENPCTPA2 > 0
+.th .se bel2c = &bel2b + 1
+.el .se bel2c = &bel2b
+.if &L'&GENTP2 > 0
+.th .se bel2d = &bel2c + 1
+.el .se bel2d = &bel2c
+.if &L'&GENTEXT2 > 0
+.th .se bel2e = &bel2d + 1
+.el .se bel2e = &bel2d
+.if x&bel2e = x0
+.or x&bel2e = x5
+.th .go OPRYK3
+.el .mg/T/Der mangler oplysninger vedr. 2. opr. panteret/
+.*********************************************************************
+.*TEST BELØB 3***********
+...OPRYK3
+.se bel3 = 0
+.if &L'&GENMØNTKD3 > 0
+.th .se bel3a = &bel3 + 1
+.el .se bel3a = &bel3
+.if &L'&GENBELØB13 > 0
+.th .se bel3b = &bel3a + 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.** SIDESKIFT
+.pa
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.************************************************************************
+.da MEDDKRE 29mm 48mm width 170mm
+.da KREDOPL 110.5mm 83mm width 90mm
+.da SAERLIG 29mm 97mm width 169mm
+.da UNDERS1 30mm 155mm width 75mm
+.da UNDERS2 117mm 155mm width 75mm
+.************************************************************************
+.ar MEDDKRE on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf. 5575 4000
+.br
+CVR: &cvr12 &cvr34 &cvr56 &cvr78
+.ar off
+.************************************************************************
+.ar KREDOPL on
+.tp 35mm
+.if &U'&GENJANEJ1 = J
+.th X
+.el ¤X
+.ar off
+.************************************************************************
+.ar SAERLIG on
+&GENSAER1A.
+&GENSAER2A.
+&GENSAER3A.
+&GENSAER4A.
+&GENSAER5A.
+.ar off
+.************************************************************************
+.ar UNDERS1 on
+&KTONAVN
+.ar off
+.************************************************************************
+.ar UNDERS2 on
+&MEDNAVN
+.ar off
+.** SIDESKIFT
+.pa
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.** SIDESKIFT
+.pa
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.da KRYDS1 21mm 118.5mm
+.da KRYDS2 41mm 118.5mm
+.da KRYDS3 61mm 118.5mm
+.da KRYDS4 86mm 118.5mm
+.da BELOB 50mm 128.5mm width 67mm
+.da PI 42mm 139mm
+.**************************************************************************
+.*TEST PÅ AT DER KUN ER UDFYLDT EN TYPE OM TINGLYSNINGSDOKUMENTET *********
+.se tal = 0
+.if &L'&GENKRYDS1 > 0
+.th .se tal1 = &tal + 1
+.el .se tal1 = &tal
+.if &L'&GENKRYDS2 > 0
+.th .se tal2 = &tal1 + 1
+.el .se tal2 = &tal1
+.if &L'&GENKRYDS3 > 0
+.th .se tal3 = &tal2 + 1
+.el .se tal3 = &tal2
+.if &L'&GENANDET > 0
+.th .se tal4 = &tal3 + 1
+.el .se tal4 = &tal3
+.if &tal4 = 0
+.th .mg/T/Tinglysningsdokument, der skal vælges type/
+.if &tal4 > 1
+.th .mg/T/Tinglysningsdokument, der skal kun vælges én type/
+.**************************************************************************
+.ar KRYDS1 on
+.if &L'&GENKRYDS1 > 0
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS2 on
+.if &L'&GENKRYDS2 > 0
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS3 on
+.if &L'&GENKRYDS3 > 0
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS4 on
+.if &L'&GENANDET > 0
+.th X
+.ar off
+.**************************************************************************
+.ar BELOB on
+.fo right
+&GENGAELD
+.ar off
+.**************************************************************************
+.ar PI on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf. 5575 4000
+.ar off

@@ -1,0 +1,202 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***********************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Pantsætningsaftale - sikringskonto
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.***** her laves kassen til Frigivelse ***********************************
+.sp
+:FED.Frigivelse :SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+.***** her laves kassen til underskrift ***********************************
+.tp 1mm  100mm
+.sp
+:FED.Underskrift :SKRSLUT.
+.bx new left right
+:SWISS8.
+Som pantsætter ¤¤Dato:
+.sp 20mm
+.bx off
+.***** her laves kassen til pengeinstuttets notering **********************
+.sp
+:SWISS10.
+:FED.Pengeinstuttets notering :SKRSLUT.
+.bx new left right
+:SWISS8.
+&BANKNAVN. ¤¤Dato:
+.sp 10mm
+.bx off
+.*****************
+.ar off
+.tp 1mm 88.5mm
+.da side1 20mm 41mm width 175mm
+.**************************************************************************
+.ar side1 on
+:SWISS10.
+.in 1mm
+:FED.
+Pantsætter
+:SKRSLUT.
+.***** her laves kassen til pantsætter ************************************
+.bx left right
+.sp 21mm
+.bx off
+.***** her laves kassen til Panthaver *************************************
+.sp
+:FED.Panthaver:SKRSLUT.
+.bx left right
+.sp 10mm
+.bx off
+.***** her laves kassen til kontoførende pengeinstitut ********************
+.sp
+:FED.
+Kontoførende pengeinstitut
+.bx left right
+.sp 15mm
+.bx off
+.***** her laves kassen til Pant ******************************************
+.sp
+:FED.Pant:SKRSLUT.
+.bx left right
+.sp 10mm
+.bx off
+.***** her laves kassen til Rente *****************************************
+.sp
+:FED.Rente :SKRSLUT.
+.bx left right
+.sp 10mm
+.bx off
+.***** her laves kassen til Engagement ************************************
+.sp
+:FED.Engagement :SKRSLUT.
+.bx left right
+.sp 20mm
+.bx off
+.***** her laves kassen til Betingelser ***********************************
+.sp
+:FED.Betingelser :SKRSLUT.
+.bx left right
+.sp 10mm
+.bx off
+.da PANTSÆTTER    25mm  48mm   width  160mm
+.da CVRNR         25mm  62mm   width  160mm
+.da PANTHAVER     25mm  80mm   width  160mm
+.da KONTOFØRENDE  25mm 100mm   width  160mm
+.da PANT          25mm 124mm   width  160mm
+.da RENTE         25mm 145mm   width  160mm
+.da ENGAGEMENT    25mm 165mm   width  160mm
+.da BETINGELSER   25mm 196mm   width  160mm
+.da FRIGIVELSE    25mm 216mm   width  160mm
+.da UNDERSKRIFT   25mm 262mm   width  160mm
+.**.da NOTERING      25mm 248mm   width  84mm
+.*PANTSÆTTER*******************************************************
+.ar PANTSÆTTER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.ar CVRNR on
+.if &U'&KTOPRIERH = E
+.th CVR-nr. &KTOKNDNR1
+.el CVR-nr. &KTOKNDNR1
+.ar off
+.ar PANTHAVER on
+&BANKNAVN., CVR-nr. &BANKSENR.
+.ar off
+.ar KONTOFØRENDE on
+&BANKNAVN.
+.br
+&BANKGADE.
+.br
+&BANKBY.
+.ar off
+.ar PANT on
+Det til enhver tid indestående på Sikringskonto i &BANKNAVN.
+kontonr.
+&regnr &ktonr
+.ar off
+.ar RENTE on
+Rentetilskrivninger på sikringskontoen omfattes af pantsætningen.
+.ar off
+.ar ENGAGEMENT on
+Indestående på ovennævnte Sikringskonto håndpantsættes til sikkerhed for
+betaling af hvad jeg/vi måtte være eller blive &BANKNAVN. skyldig,
+dvs. det til enhvert tid værende engagement i &BANKNAVN..
+.if &L'&J55TEKST1 gt 0
+.th .sp 3mm
+.th Engagementet består p.t. af &J55TEKST1.
+.ar off
+.ar BETINGELSER on
+&BANKNAVN.' almindelige betingelser for udlån, &J55ALMBET..
+.ar off
+.ar FRIGIVELSE on
+Indestående på kontoen kan udbetales til &BANKNAVN. uden samtykke fra
+pantsætter.
+.sp 3mm
+Frigivelse i øvrigt kan kun ske med &BANKNAVN.' skriftlige samtykke, indtil
+&BANKNAVN. giver anden meddelelse
+.ar off
+.ar UNDERSKRIFT on
+&KTONAVN
+.ar off
+.**.ar NOTERING on
+.**Notering
+.**.ar off

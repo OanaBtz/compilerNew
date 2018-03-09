@@ -1,0 +1,424 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+:ENY.
+.su off
+.se num1 = substr &DEB1KNDNR 1 2
+.se num2 = substr &DEB2KNDNR 1 2
+.se num3 = substr &PANTSÆT6 1 2
+.se num4 = substr &MEDPANT6 1 2
+.if x&num1 > x00
+.an x&num1 < x32
+.th .se kndnr1 = substr &DEB1KNDNR 1 6
+.th .se kndnr2 = substr &DEB1KNDNR 7 4
+.if x&num2 > x00
+.an x&num2 < x32
+.th .se kndnr3 = substr &DEB2KNDNR 1 6
+.th .se kndnr4 = substr &DEB2KNDNR 7 4
+.if x&num3 > x00
+.an x&num3 < x32
+.th .se kndnr5 = substr &PANTSÆT6 1 6
+.th .se kndnr6 = substr &PANTSÆT6 7 4
+.if x&num4 > x00
+.an x&num4 < x32
+.th .se kndnr7 = substr &MEDPANT6 1 6
+.th .se kndnr8 = substr &MEDPANT6 7 4
+.************** OPDELING AF DEPOTNUMMER ***********************************
+.se reg = substr &DEPOTNR 1 4
+.se dep = substr &DEPOTNR 5 7
+.su on
+.************** TJEK OM MERE END 2 UNDERPANTSÆTTERE ER UDFYLDT ************
+.if &U'&GENJANEJ = J
+.or &U'&GENJANEJ = N
+.th
+.el .mg/T/Der må kun tastes J eller N til mere end 2 underpantsættere./
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.da OVERSKR  20mm   32mm width 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND      7mm  270mm width 180mm rotate -90
+.da BOX      20mm   40mm width 175mm
+.da FORTSÆT 148mm  269mm width  45mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+.*-------B32-version start-------
+:VERDA12.
+.*-------B32-version slut--------
+:FED.
+Aftale om underpantsætning
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+.*-------B32-version start-------
+:VERDA05.
+&BREVNAVN. &BRUGERNR. Kl. &TID
+.*-------B32-version slut--------
+.ar off
+.********************KASSE TIL ID*****************************************
+.ar BOX on
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.tp 1mm 140mm
+.bx left right
+¤Depotnr. ¤Udskrevet
+.sp 2mm
+¤&reg &dep ¤&DATO
+.sp 0.5mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.*********************FORSÆTTES********************************************
+.ar FORTSÆT on
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.ri on
+.if &L'&FORTSÆTTES > 0
+.th &FORTSÆTTES
+.ri off
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 47mm
+.rh off
+.rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.**************************************************************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm  270mm width 180mm rotate -90
+.da OVERSKR 20mm   32mm width 175mm
+.da BOX     20mm   40mm width 175mm
+.da ID      20mm   47mm width 175mm
+.da FORTSÆT 148mm  269mm width  45mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+.*-------B32-version start-------
+:VERDA10.
+.*-------B32-version slut--------
+:FED.
+Aftale om underpantsætning
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+.*-------B32-version start-------
+:VERDA05.
+&BREVNAVN. &BRUGERNR. Kl. &TID
+.*-------B32-version slut--------
+.ar off
+.********************KASSE TIL ID OG AFGIFT********************************
+.ar BOX on
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.tp 1mm 100mm 140mm
+.bx left right
+¤Depotnr. ¤Udskrevet
+.sp 2mm
+¤&reg &dep ¤&DATO
+.sp 0.5mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.*********************FORSÆTTES********************************************
+.ar FORTSÆT on
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.ri on
+.if &L'&FORTSÆTTES > 0
+.th &FORTSÆTTES
+.ri off
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 47mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+Til sikkerhed for
+enhver forpligtelse, som
+.sp 3mm
+.tp 92.5mm 140mm 148mm
+:FED.
+.if &DEBANTAL = 1
+.th Låntager
+.th .sp 3mm
+.th .go DEB1
+.if &DEBANTAL = 2
+.th Låntager ¤Låntager
+.th .sp 3mm
+.th .go DEB2
+.if &DEBANTAL > 2
+.th Låntager ¤Låntager ¤m.fl.
+.th .sp 3mm
+.th .go DEB2
+...DEB2
+.cd 2 0mm 87.5mm
+.cl 80mm
+...DEB1
+.**INGEN KOLONNEDEFINITION - HVIS DER KUN ER 1 DEBITOR ********************
+:SKRSLUT.
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.**************************************************************************
+.if &DEBANTAL > 1
+.th .go MED1
+.el .go MED1SL
+...MED1
+.cb
+&DEB2ADR1
+.br
+&DEB2ADR2
+.br
+&DEB2ADR3
+.br
+&DEB2ADR4
+.br
+&DEB2ADR5
+...MED1SL
+.sc
+.sp 3mm
+.**************************************************************************
+.if &num1 = 00
+.th CVR-nr. &DEB1KNDNR.
+.th .go UDOM1
+.if &num1 > 31
+.th Kundenr. &DEB1KNDNR.
+.*------- B32-version start -------
+.el CPR-nr. &kndnr1.-&kndnr2.
+.*------- B32-version slut --------
+...UDOM1
+.******FLERE DEBITORER*******************************
+.if &DEBANTAL > 1
+.an &num2 = 00
+.th .ct ¤CVR-nr. &DEB2KNDNR
+.th .go UDOM2
+.if &DEBANTAL > 1
+.an &num2 > 31
+.th .ct ¤Kundenr. &DEB2KNDNR
+.th .go UDOM2
+.if &DEBANTAL > 1
+.*------- B32-version start -------
+.th .ct ¤CPR-nr. &kndnr3.-&kndnr4.
+.*------- B32-version slut --------
+...UDOM2
+.sp 3mm
+nu
+har eller senere måtte få overfor
+.sp 3mm
+.*PENGEINSTITUTTET*********************************************************
+.*------- B32-version start -------
+CVR: &BANKSENR.
+.br
+.*------- B32-version slut --------
+&BANKNAVN
+.br
+&BANKGADE
+.br
+&BANKBY
+.sp 5mm
+.*I HENHOLD TIL************************************************************
+:FED.
+.*------- B32-version start -------
+i henhold til
+.*------- B32-version slut --------
+:SKRSLUT.
+.br
+&HÅPANT1A.&HÅPANT1B
+.br
+&HÅPANT2A.&HÅPANT2B
+.br
+&HÅPANT3A.&HÅPANT3B
+.if &HÅPNTANTAL > 6
+.th .ri on
+.th .br
+.th ¤¤¤Fortsættes
+.th .ri off
+.sp 5mm
+.*STILLES HERVED AF UNDERTEGNEDE HÅNDPANTSÆTTER(E) ************************
+:FED.
+.if &U'&GENJANEJ = J
+.th underpantsætter ¤underpantsætter ¤m.fl.
+.th .go UDENOM
+.if &L'&MEDPANT6 > 0
+.th underpantsætter ¤underpantsætter
+.el underpantsætter
+...UDENOM
+:SKRSLUT.
+.br
+&PANTSÆT1 ¤&MEDPANT1
+.br
+&PANTSÆT2
+.br
+&PANTSÆT3
+.br
+&PANTSÆT4
+.br
+&PANTSÆT5
+.br
+.if &num3 = 00
+.th CVR-nr. &PANTSÆT6
+.th .go UDOM3
+.if &num3 > 31
+.th Kundenr. &PANTSÆT6
+.*------- B32-version start -------
+.el CPR-nr. &kndnr5.-&kndnr6.
+.*------- B32-version slut --------
+...UDOM3
+.if &L'&MEDPANT6 > 0
+.th .go MEDP
+.el .go UMPANT
+...MEDP
+.if &num4 = 00
+.th .ct ¤CVR-nr. &MEDPANT6
+.th .go UMPANT
+.if &num4 > 31
+.th .ct ¤Kundenr. &MEDPANT6
+.*------- B32-version start -------
+.el .ct ¤CPR-nr. &kndnr7.-&kndnr8.
+.*------- B32-version slut --------
+...UMPANT
+.sp 5mm
+.*FØLGENDE EFFEKTER I HÅNDPANT *******************************************
+:FED.
+herved følgende effekter
+:SKRSLUT.
+:SKRSLUT.
+.br
+:COUR10.
+&PANTSAT01A.&PANTSAT01B
+.br
+&PANTSAT02A.&PANTSAT02B
+.br
+&PANTSAT03A.&PANTSAT03B
+.br
+&PANTSAT04A.&PANTSAT04B
+.br
+&PANTSAT05A.&PANTSAT05B
+.br
+&PANTSAT06A.&PANTSAT06B
+.br
+&PANTSAT07A.&PANTSAT07B
+.br
+&PANTSAT08A.&PANTSAT08B
+.br
+&PANTSAT09A.&PANTSAT09B
+.br
+&PANTSAT10A.&PANTSAT10B
+.br
+&PANTSAT11A.&PANTSAT11B
+.br
+&PANTSAT12A.&PANTSAT12B
+.br
+&PANTSAT13A.&PANTSAT13B
+.br
+&PANTSAT14A.&PANTSAT14B
+.br
+&PANTSAT15A.&PANTSAT15B
+.br
+&PANTSAT16A.&PANTSAT16B
+.br
+&PANTSAT17A.&PANTSAT17B
+.br
+&PANTSAT18A.&PANTSAT18B
+.br
+&PANTSAT19A.&PANTSAT19B
+.br
+&PANTSAT20A.&PANTSAT20B
+.br
+&PANTSAT21A.&PANTSAT21B
+.br
+&PANTSAT22A.&PANTSAT22B
+.br
+&PANTSAT23A.&PANTSAT23B
+.br
+&PANTSAT24A.&PANTSAT24B
+.**************************************************************************

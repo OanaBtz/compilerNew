@@ -1,0 +1,248 @@
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.*************************
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETT02
+.***********************
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKT02
+.el .go EJBETT02
+.**************
+...OKT02
+.************ Underskrift **************************
+.sp3
+.tp _/130mm
+¤
+.br
+.tp 20mm 80mm
+Dato    ¤&KTONAVN
+.if &U'X&GENMEDKTOH eq XJ .an &L'&MEDNAVN gt 0
+.th .ct ¤&MEDNAVN
+...EJBETT02
+.********* SLUT   ******************************************
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETT01
+.****************
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKT01
+.el .go EJBETT01
+.**************
+...OKT01
+.tp 24mm 87mm
+.if x&cprcvr = x00
+.th Navn: ¤&KTONAVN  ¤CVR-nr.: &KTOKNDNR1
+.th .go VIDERE
+.******
+.if x&cprcvr > x31
+.th Navn: ¤&KTONAVN  ¤KND-nr.: &KTOKNDNR1
+.el Navn: ¤&KTONAVN  ¤CPR-nr.: &KTOKNDNR1
+...VIDERE
+.******
+.if &L'&MEDNAVN gt 0
+.an &U'&GENMEDKTOH eq J
+.th .go MEDKTO01
+.el .go KTOCO01
+...MEDKTO01
+.br
+.if x&mcprcvr = x00
+.th Medkto.haver: ¤&MEDNAVN ¤CVR-nr.: &mktoh1.&mktoh2
+.th .go KTOCO01
+.if x&mcprcvr > x31
+.th Medkto.haver: ¤&MEDNAVN ¤KND-nr.: &mktoh1.&mktoh2
+.el Medkto.haver: ¤&MEDNAVN ¤CPR-nr.: &mktoh1.&mktoh2
+.***********
+...KTOCO01
+.if &L'&KTOCO gt 0
+.th .br
+.th Coadr: ¤&KTOCO
+.*****
+.br
+Adresse: ¤&KTOGADE
+.br
+Postnr.: ¤&KTOBY
+.br
+.******
+.if &L'&KTOLAND gt 0
+.th Land: ¤&KTOLAND
+.sp2
+.****************************
+Undertegnede bemyndiger herved &BANKNAVN til at overføre
+:VS.&B30YDL
+kr.
+.if &B30FREK1 eq 1
+.th hver måned
+.if &B30FREK1 eq 2
+.th hvert kvartal
+.if &B30FREK1 eq 3
+.th hvert halvår
+.if &B30FREK1 eq 4
+.th hvert år
+.if &B30FREK1 eq 5
+.th én gang
+.sp
+.tp _/60mm _/128mm
+fra &MIN konto reg.nr. ¤ konto nr. ¤
+.br
+.sp
+.tp _/130mm
+i ¤
+.br
+.sp
+Beløbet skal indsættes på lån nr. &IREGKTO
+i &BANKNAVN..
+.sp
+Overførslen foretages første gang den &RESULTA..
+...EJBETT01
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETO2
+.****************''
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKO2
+.el .go EJBETO2
+.**************
+...OKO2
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.***************
+.ar VEND on
+:CALIB8.
+B30PRAK11
+.ar off
+.***************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...EJBETO2
+.*********TEST PÅ UDSKRIVNING FOR TYPE L, D, K OG B ********************
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETO1
+.**************
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKO1
+.el .go EJBETO1
+.**************
+...OKO1
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 160mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.****************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30PRAK11
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+BETALINGSANMODNING
+.br
+Svarkupon
+.br
+:SKRSLUT.
+Sendes til banken
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 56,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+:omtale &OMTALEF
+...EJBETO1
+.************************
+.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.**********************
+.if &B30FREK1 < 1
+.or &B30FREK1 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
+.*****************************
+.if &L'&MEDNAVN = 0
+.an &U'&GENMEDKTOH = J
+.th .mg/T/Der findes ingen medktohaver/
+.******************************
+.if &U'&GENMEDKTOH = J
+.an &U'&OMTALEF = JEG
+.th .mg/T/Omtale forkert, da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&OMTALEF = VI
+.th .mg/T/Omtale forkert, da der ingen medktohaver er/
+.*********************
+.if &U'&GENMEDKTOH = N
+.AN &U'&OMTALEF = VI
+.th .mg/T/Omtale forkert, da der ingen medktohaver er/
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

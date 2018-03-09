@@ -1,0 +1,554 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*** her laves en midlertidig parameter af de 2 første cifre fra kunde
+.su off
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.********
+.if &ktocif2 = 70
+.or &ktocif2 = 75
+.or &ktocif2 = 76
+.or &ktocif2 = 80
+.th .go KTOOK
+.el .mg/T/kun konti der begynder med 70, 75, 76 eller 80 er OK/
+.********
+...KTOOK
+.if &U'&B30BREV = N
+.an &U'&B30TELEFON = N
+.an &U'&B30MAIL = N
+.an &U'&B30MØDE = N
+.th .mg/T/Henvendelse mangler, indtast J i brev, telefon eller mail/
+.**********
+.if &U'&B30BREV = J
+.an &U'&B30TELEFON = N
+.an &U'&B30MAIL = N
+.an &U'&B30MØDE = N
+.th .go HENVOK
+.**********
+.if &U'&B30BREV = N
+.an &U'&B30TELEFON = J
+.an &U'&B30MAIL = N
+.an &U'&B30MØDE = N
+.th .go HENVOK
+.**********
+.if &U'&B30BREV = N
+.an &U'&B30TELEFON = N
+.an &U'&B30MAIL = J
+.an &U'&B30MØDE = N
+.th .go HENVOK
+.**********
+.if &U'&B30BREV = N
+.an &U'&B30TELEFON = N
+.an &U'&B30MAIL = N
+.an &U'&B30MØDE = J
+.th .go HENVOK
+.el .mg/T/Kun en henvendelse/
+...HENVOK
+.**********
+.*** pulje test ********
+.if &U'&B301 = J
+.an &U'&B30UDPULJE = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Tilknyttet pulje og udtræde af pulje kan ikke begge være Ja/
+.****
+.if &U'&B301 = J
+.an &U'&B305 = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Tilknyttet pulje og kontant plac. kan ikke begge være Ja/
+.****
+.if &U'&B301 = J
+.an &U'&PPVALGT = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i pulje og porteføljepleje/
+.****
+.if &U'&B301 = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i pulje og porteføljepleje/
+.****
+.if &U'&B305 = J
+.an &U'&PPVALGT = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være kontant og i porteføljepleje/
+.****
+.if &U'&B305 = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være kontant og i porteføljepleje/
+.****
+.if &U'&B301 = J
+.an &L'&DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og tilknyttet pulje/
+.****
+.if &U'&PPVALGT = J
+.an &L'&DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og Porteføljepleje/
+.****
+.if &U'&PPKOMMER = J
+.an &L'&DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og Porteføljepleje/
+.****
+.if &U'&B301 = J
+.an &U'&PPVALGT = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Man kan ikke både være i pulje og tilknyttet porteføljepleje/
+.****
+.if &U'&B301 = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Man kan ikke både være i pulje og tilknyttet porteføljepleje/
+.****
+.if &U'&PPVALGT = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Vælg J til enten Porteføljepleje er valgt eller eftersendes/
+.****
+.if &U'&PPVALGT = J
+.an &U'&B305 = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Porteføljepleje og kontant plac. kan ikke begge være Ja/
+.****
+.if &U'&PPKOMMER = J
+.an &U'&B305 = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Porteføljepleje og kontant plac. kan ikke begge være Ja/
+.****
+.if &U'&SAMPLAC = N
+.an &U'&PPINFO = J
+.th .mg/T/Info om Porteføljepleje kan kun vælges ved uændret placering/
+.****
+.if &U'&B301 = N
+.an &U'&B30UDPULJE = N
+.an &U'&PPVALGT = N
+.an &U'&PPKOMMER = N
+.an &U'&B305 = N
+.an &L'&DEPNR = 0
+.an &U'&SAMPLAC = N
+.th .mg/T/På kontantkonto skal kontant plac. med vejl. om PP være = Ja/
+.****
+.if &U'&B305 = J
+.an &L'&DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Ved depot skal kontant plac. være = Nej/
+.****
+.if &U'&B301 = J
+.an x&GENIDTOVIR = x01.01.1800
+.an &U'&SAMPLAC = N
+.th .mg/T/Ved pulje = J, skal 'med virkning fra' udfyldes/
+.***********
+.if &U'&B30UDPULJE = J
+.an x&GENIDTOVIR = x01.01.1800
+.an &U'&SAMPLAC = N
+.th .mg/T/Ved udtræde af pulje = J, skal 'med virkning fra' indtastes/
+.***********
+.if &U'&B305 = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, skal der vælges N til kontant/
+.***********
+.if &U'&B301 = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, skal der vælges N til pulje/
+.***********
+.if &U'&B30UDPULJE = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, kan man ikke udtræde af pulje/
+.***********
+.if &L'&DEPNR > 0
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, skal der ikke angives depot/
+.***********
+.if &U'&PPVALGT = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, vælg N til Porteføljepleje/
+.***********
+.if &U'&PPKOMMER = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, vælg N til Porteføljepleje/
+.***********
+.if &U'&B30MEDSKUN = J
+.an &cprcvr > 31
+.an &L'&B30INDCPR = 0
+.th .mg/T/Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.*********************
+.if &U'&B30MEDSKUN = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved ny kunde kan ikke vælges samme placering som tidligere/
+.*********************
+.if &L'&B30BETMED gt 0
+.an &U'X&B30BETMED ne XJ
+.an &U'X&B30BETMED ne XN
+.th .mg/T/ Skriv J eller N i betalingsanmodning lån/
+.******************************
+.if &U'X&B30BETMED = XN
+.th .go TSTSL
+.if &L'&B30YDL > 0
+.an x&GENIDTO001 ne x01.01.1800
+.an &L'&B30FREK1 > 0
+.th .go OKBETANM
+.el .mg/T/Alle parametre til betalingsanmodning skal indtastes/
+.**********
+...OKBETANM
+.if &L'&B30FREK1 = 0
+.th .mg/T/Frekvens på pensionkonto skal vælges/
+.if &B30FREK1 < 1
+.or &B30FREK1 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
+.****************************
+...TSTSL
+.****************************
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if &ktocif2 = 70
+.th KAPITALPENSION NR. &IREGKTO
+.if &ktocif2 = 75
+.or &ktocif2 = 76
+.th RATEPENSION NR. &IREGKTO
+.if &ktocif2 = 80
+.th SELVPENSIONERING NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.***********
+.if &U'&B30BREV eq J
+.th I henhold til &DIT brev
+.***
+.if &U'&B30TELEFON eq J
+.th Som aftalt telefonisk
+.***
+.if &U'&B30MAIL eq J
+.th I forlængelse af &DIN mail
+.***
+.if &U'&B30MØDE eq J
+.th Som aftalt på mødet
+.**************
+fremsendes
+.**************
+.if &U'&B30MEDSKUN = J
+.th kundeoprettelse og
+.********
+to eksemplarer af pensionsaftalen til underskrift.
+.*****
+.if &U'&B30MEDSKUN = J
+.th Kundeoprettelsen og den ene pensionsaftale
+.el Den ene pensionsaftale
+.********
+beder vi &DIG returnere i vedlagte svarkuvert. Kopien kan du beholde.
+.sp
+.****************
+.if &U'&SAMPLAC eq J
+.th Placeringen af &DIN pension er uændret.
+.th .sp
+.if &U'&PPINFO eq J
+:CALIB10.
+:FED.
+.th Overvej Porteføljepleje
+:SKRSLUT.
+.th .br
+.th Det kræver både tid og indsigt i værdipapirmarkederne at pleje
+.th sine investeringer. Mangler du tiden og/eller lysten, kan vi
+.th tilbyde en aftale om Porteføljepleje.
+.th .sp
+.th Med en aftale om Porteføljepleje får &DU plejet &DINE investeringer
+.th af vores investeringseksperter, uden at &DU selv skal gøre
+.th noget. Banken overvåger &DINE investeringer, og sørger for, at de
+.th har den optimale sammensætning af aktier og obligationer ud fra
+.th bankens forventninger til de finansielle markeder og under
+.th hensyntagen til &DIN investeringsprofil.
+.th .sp
+.th Hvis &DU er interesseret i at vide mere om Porteføljepleje, kan
+.th &DU læse den vedlagte pjece, finde uddybende information på
+.th bankens hjemmeside eller kontakte os telefonisk.
+.th .sp
+.******* PULJE *********************
+.if &U'&B301 eq J
+.an &U'&SAMPLAC eq N
+.th .go PULJA
+.el .go PULNEJ
+.********
+...PULJA
+:CALIB10.
+:FED.
+Pulje
+:SKRSLUT.
+.br
+.*******************
+I henhold til vedlagte kopi af &DIN anmodning har vi registreret
+tilmeldingen til bankens puljeordning
+.***********
+.if x&GENIDTOVIR ne x01.01.1800
+.th med virkning fra den &RESULTB..
+.th .sp
+.th Retningslinjer for pensionspuljerne og afkastoversigt er vedlagt.
+.el .ct .
+.sp
+.go GEBYR
+.**************************************************************
+...PULNEJ
+.if &L'&DEPNR = 0
+.an &U'&SAMPLAC eq N
+.an &U'&PPVALGT eq N
+.an &U'&PPKOMMER eq N
+.th .go KONTANT
+.***** UD AF PULJE ****************
+.if x&GENIDTOVIR = x01.01.1800
+.th .go KONTANT
+.**********
+:CALIB10.
+:FED.
+Pulje
+:SKRSLUT.
+.br
+Efter &DIT ønske bliver kontoen udmeldt af bankens puljeordning
+med virkning fra den &RESULTB..
+.sp
+.go GEBYR
+.***********
+...KONTANT
+.if &U'&PPVALGT eq J
+:CALIB10.
+:FED.
+.th Porteføljepleje
+:SKRSLUT.
+.th .br
+.th Som aftalt har vi udarbejdet en aftale om Porteføljepleje, med
+.th den ønskede investeringsstategi. &SDU bedes venligst
+.th underskrive den originale aftale og returnere den sammen med
+.th pensionsaftalen.
+.th .sp
+.***********
+.if &U'&PPKOMMER eq J
+:CALIB10.
+:FED.
+.th Porteføljepleje
+:SKRSLUT.
+.th .br
+.th Som aftalt tilknyttes pensionsaftalen en aftale om Porteføljepleje.
+.th .sp
+.th Når &DU har fastlagt din investeringsprofil og valgt
+.th investeringsstategi, vil vi sende &DIG en aftale om
+.th Porteføljepleje, som &DU skal underskrive og returnere til os.
+.th .sp
+.***********
+.if &U'&B305 eq J
+:CALIB10.
+:FED.
+.th Forrentning af pensionsordningen
+:SKRSLUT.
+.br
+.th &SDIN konto er oprettet som en kontantkonto. Investeringsrisikoen ved
+.th kontantplacering er minimal, men det må forventes, at afkastet
+.th over en vis periode vil være mindre, end hvis opsparingen var
+.th placeret i værdipapirer.
+.th .sp
+:CALIB10.
+:FED.
+.th Porteføljepleje
+:SKRSLUT.
+.br
+.th Det kræver tid og indsigt i værdipapirmarkederne at pleje
+.th sine investeringer. Mangler &DU tiden og/eller lysten, kan vi
+.th tilbyde en aftale om Porteføljepleje.
+.th .sp
+.th Med Porteføljepleje får &DU plejet dine investeringer af
+.th vores investeringseksperter, uden at &DU selv skal gøre
+.th noget. Banken overvåger &DINE investeringer og sørger for, at
+.th de har den optimale sammensætning af aktier og obligationer ud
+.th fra bankens forventninger til de finansielle markeder og under
+.th hensynstagen til din investeringsprofil.
+.th .sp
+.th Hvis &DU er interesseret i at vide mere om Porteføljepleje, kan
+.th &DU læse den vedlagte pjece, finde uddybende information på
+.th bankens hjemmeside eller kontakte os telefonisk.
+.th .sp
+.********************
+...GEBYR
+.**** PULJEGEBYR ********************
+.if &U'&B30PULGEB eq N
+.th .go BETAN
+Gebyr for puljeændring
+:VS. &GENPULGEB
+kr. er hævet på din pensionskonto.
+.sp
+.***** BETALINGSANMODNING ************************
+...BETAN
+.kp on
+.if &U'&B30BETMED eq J
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodning
+.th :SKRSLUT.
+.th .br
+.th Betalingsanmodning til brug for eventuel
+.th oprettelse af en fast overførsel via BetalingsService vedlægges.
+.th .sp
+.kp off
+.******************* udbetalingen ***************
+.kp on
+.if &U'&B30BØ eq J
+.th :CALIB10.
+.th :FED.
+.th Udskydelse af udbetaling
+.th :SKRSLUT.
+.th .br
+.th Starttidspunktet for udbetaling af &DIN ratepension er udskudt så længe
+.th som muligt. Datoen kan ændres, indtil dagen før det aftalte tidspunkt.
+.th &SDU kan altså blot kontakte banken, når &DU ønsker at starte
+.th udbetalingen af &DIN ratepension op.
+.th .sp
+.kp off
+.******** depot ********************
+.kp on
+.if &L'&DEPNR = 0
+.th .go MERTXT
+:CALIB10.
+:FED.
+Depot
+:SKRSLUT.
+.br
+Vi har oprettet depotnr. &DEPNR.. &SDU vil kunne handle værdipapirer
+via Webbank. &SDU kan også bede bankens medarbejdere om at foretage
+handler, men dette indebærer et tillæg til kurtagen på
+:VS. &B30KURTAGE
+kr.
+.sp
+.kp off
+.********
+...MERTXT
+.kp on
+.if &L'&GENTEKST1 gt 0
+.th &GENTEKST1. &GENTEKST2. &GENTEKST3. &GENTEKST4. &GENTEKST5.
+.th .sp
+.kp off
+.********
+.kp on
+.if &U'&B30MEDSKUN = J
+.th Bankens almindelige forretningsbetingelser vedlægges.
+.th .sp
+.********
+Har &DU yderligere spørgsmål, er &DU velkommen til at kontakte os.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

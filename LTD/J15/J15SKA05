@@ -1,0 +1,206 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***** HER UNDERSØGES OM SIDSTE BOGST. I KONTOHAVERS NAVN ER 'S'
+.se tal = &L'&KTONAVN.
+.su off
+.se sidste = substr &KTONAVN &tal 1
+.su on
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us Påkravsskrivelse - kautionist
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 96mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*********************************************************
+De har kautioneret som
+.if &J15VALG1. = 1
+.th selvskyldnerkautionist
+.if &J15VALG1. = 2
+.th simpel kautionist
+.if &J15VALG1. = 3
+.th tabskautionist
+for &J15TEKST1 som &KTONAVN.
+har med &BANKNAVN., begrænset til kr. &SALDO..
+.sp
+.if &U'&sidste = S
+.th &KTONAVN.'
+.el &KTONAVN.s
+&J15TEKST1 er
+.if &J15VALG2. = 1
+.th misligholdt
+.el opsagt
+pr. &DATO. på grund
+af manglende terminsbetaling.
+.sp
+I Deres egenskab af kautionist, skal vi herved opfordre Dem til snarest
+muligt og senest 10 dage fra dato, at indbetale det skyldige beløb til
+&BANKNAVN. reg.nr. &regnr konto nr. &ktonr..
+.sp
+Det skyldige beløb kan i dag opgøres til kr.
+:VS.&J15BELØB1..
+.sp
+Morarente 18% p.a. forbeholdes.
+.sp
+Er det skyldige beløb ikke indbetalt inden ovennævnte frist og hører vi
+ikke fra Dem, vil der bliev iværksat foranstaltninger, der vil påføre Dem
+yderligere omkostninger.
+.sp
+Der vedlægges kopi af
+.if &J15VALG2. = 2
+.th påkravsskrivelse og rykker sendt til &KTONAVN..
+.el påkravsskrivelse.
+.sp 3mm
+.if &L'&J15CHKBX1 = 0
+.an &L'&J15CHKBX2 = 0
+.an &L'&J15CHKBX3 = 0
+.an &L'&J15CHKBX4 = 0
+.th .go HILSEN
+.sp
+:FED.
+Legimitationsoplysninger
+:SKRSLUT.
+.sp
+I henhold til det eksisterende lovgrundlag kræver reglerne i Hvidvaskloven,
+at vi sikrer os identiteten på vores kunder og kautionister, at vi
+indhenter dokumentation herfor. Vi beder derfor om, at følgende oplyses og
+indsendes.
+.if &L'&J15CHKBX1 = 0
+.th .go IKKEKON
+.sp
+-
+.in 4mm nobreak
+Navn, adresse og cpr.nr. på den eller de
+.us on
+personer
+.us off
+, som direkte eller
+indirekte ejer en kvalicificeret andel på 25% eller mere af &NAVN.,
+eller personer, der på anden vis har en kontrollerende indflydelse
+på selskabets ledelse.
+.in 0mm
+...IKKEKON
+.if &L'&J15CHKBX2 = 0
+.th .go PASKOREK
+.sp
+-
+.in 4mm nobreak
+Hvis der ikke findes
+.us on
+personer
+.us off
+, som besidder sådanne kvalificerede
+ejerandele på 25% eller derover bedes dette også oplyst.
+.in 0mm
+...PASKOREK
+.if &L'&J15CHKBX3 = 0
+.an &L'&J15CHKBX4 = 0
+.th .go MODT
+.sp
+-
+.in 4mm nobreak
+Kopi af
+.if &L'&J15CHKBX4 <> 0
+.th Deres
+pas eller kørekort
+.us on
+og
+.us off
+.if &L'&J15CHKBX3 <> 0
+.th sygesikringsbevis for den/de reelle ejere.
+.el sygesikringsbevis.
+.in 0mm
+...MODT
+.kp on
+.sp
+Vi imødeser modtagelsen af ovenstående snarest muligt og senest 10 dage
+fra dags dato. Hvis De har spørgsmål i anledning af dette brev, er De
+velkommen til at kontakte os.
+.sp
+...HILSEN
+.sp 10mm
+Med venlig hilsen
+.br
+&BANKNAVN.
+.sp 10mm
+&GENEKSP.
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

@@ -1,0 +1,273 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+.*-----------------------------------------------------------------------
+.* Tilføjet (BØR IKKE FRAVÆLGES) ved "Tegningsindbydelse" og
+.* "Konverteringsindbydelse i forbindelse med konvertible obligationer"
+.* pfa Ronni Vilhelmsen, Back Office Markets
+.* 13.10.2015 / Helle Kruse
+.*-----------------------------------------------------------------------
+.* Godkendt 11.02.2010, SI-gruppen, Lone Kruse
+.* 9910/hk
+.*-----------------------------------------------------------------------
+.da SIDE1 20mm 36mm width 175mm
+.da SIDE1A 20mm 28mm width 30mm
+.da side1x  20mm 48mm width 175mm
+.**********************************
+.ar SIDE1 on
+:VERDA10.
+.tp 40mm
+:FED.
+Depotindehaver: ¤&NAVN
+.br
+VP-kontonummer: ¤&DEPOTNR
+:SKRSLUT.
+.ar side1x on
+.bx left right
+.in 1mm
+:SWISS8.
+:FED.
+Fravalg af ændringsmeddelelser
+:SKRSLUT.
+.br
+I forbindelse med den enkelte værdipapirhandel udstedes en
+handelsnota, hvoraf en række oplysninger om den gennemførte handel
+fremgår. Via min konto og årsoversigten modtager jeg ligeledes
+forskellige oplysninger relateret til mit depot, såsom
+beholdningsoversigt, rentetilskrivning, udbyttebetaling mv. På den
+baggrund har jeg foretaget følgende fravalg af ændringsmeddeleleser
+vedrørende mit depot i Værdipapircentralen, som jeg hermed er gjort
+bekendt med:
+.br
+.tp 170mm right
+¤Ved fravalg sæt "X"
+.sp 1mm
+.bx new 5mm 155mm 170mm
+.in +5mm
+Udtrækningsmeddelelse vedrørende obligationer
+.hr 5mm 170mm
+Meddelelse vedrørende faste lån (dvs. obligationer, der forfalder
+i sin helhed pr. sidste termin)
+.hr 5mm 170mm
+(Senere) ændringsmeddelelse ved udløb eller udtrukne obligationer
+(FRAVALG ANBEFALES)
+.hr 5mm 170mm
+Alle daglige ændringsmeddelelser:
+.hr 5mm 170mm
+.in +5mm
+a) oplysninger om kontostamdata
+.hr 5mm 170mm
+b) beholdningsændringer vedrørende handler (FRAVALG ANBEFALES)
+.hr 5mm 170mm
+c) beholdningsændringer vedrørende overførsler
+.hr 5mm 170mm
+d) oplysninger om rettighedshaver
+.hr 5mm 170mm
+.in -5mm
+Renteadvis (meddelelse om rentetilskrivning)
+.hr 5mm 170mm
+Udbyttemeddelelse
+.hr 5mm 170mm
+Tegningsindbydelse (BØR IKKE FRAVÆLGES)
+.hr 5mm 170mm
+Meddelelse om tildelte retter (vedrørende tildeling af aktie- eller
+tegningsretter) (FRAVALG ANBEFALES)
+.hr 5mm 170mm
+Meddelelse om skift af ISIN (fondskodeskift) (FRAVALG ANBEFALES)
+.hr 5mm 170mm
+Ændringsmeddelelse - Geninvestering af udbytte
+.hr 5mm 170mm
+Konverteringsindbydelse i forbindelse med konvertible
+obligationer (BØR IKKE FRAVÆLGES)
+.bx off
+.sp
+.bx off
+.sp
+.in -5mm
+:SWISS10.
+:FED.
+.sp
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.tp 50mm 88.5mm 138.5mm
+.bx new left 87.5mm right
+Pengeinstituttets underskrift: ¤Dato: ¤Depotindehavers
+underskrift: ¤Dato:
+.sp 25mm
+Reference:
+.bx new left right
+.bx can
+.ar off
+:COUR10.
+.da DATO        80mm 153mm width 25mm
+.da PIUND       21mm 176mm width 90mm
+.da REF         37mm 181mm width 90mm
+.da INDEHUND 108.5mm 181mm width 90mm
+.*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*************************************************
+.ar PIUND on
+&BANKNAVN
+.ar off
+.*************************************************
+.ar REF on
+&GENEKSP
+.ar off
+.*************************************************
+.ar INDEHUND on
+&NAVN
+.ar off
+.pa

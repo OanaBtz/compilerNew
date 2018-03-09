@@ -1,0 +1,154 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.*******************
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 162mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+KUNDEOPRETTELSE
+:SKRSLUT.
+.ar off
+.***************************************
+.* SIDEHOVED SIDE 1 (MED Y = 56,5 +13MM (TOPMARGIN) = 69.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 56,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.****************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.****************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*********************************
+.tp 24mm 87mm
+Navn: ¤&KTONAVN  ¤CPR-nr.: &KTOKNDNR1
+.if &L'&KTOCO > 0
+.th .br
+.th Coadr: ¤&KTOCO
+.*****
+.br
+Adresse: ¤&KTOGADE
+.br
+Postnr.: ¤&KTOBY
+.if &L'&KTOLAND > 0
+.th .br
+.th Land: ¤&KTOLAND
+.***********KONTONUMMER*********************
+.sp
+Konto-nr: ¤&IREGKTO
+.****************
+.sp
+For kundeforholdet gælder bankens almindelige forretningsbetingelser.
+Jeg erklærer at have modtaget et eksemplar af disse.
+.sp
+Sammen med kundeoprettelsen sender
+jeg kopi af
+:FED
+sygesikringsbevis
+:SKRSLUT.
+samt af
+:FED
+navne/dåbsattest
+:SKRSLUT.
+eller
+:FED
+pas
+:SKRSLUT.
+som legitimation.
+.sp
+.*************UNDERSKRIFT******************************
+.******** HVIS KONTOHAVER ER UNDER 18 SKRIV VÆRGES NAVN **************
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato ¤&GENNAVN
+.***********
+.if &U'&GENMRK = J
+.th .sp
+.th .tp _/40mm
+.th ¤
+.th .br
+.th evt. mærke
+.**************************************************************************
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

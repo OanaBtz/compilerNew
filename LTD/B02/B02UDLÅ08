@@ -1,0 +1,910 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 60mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Valutalån
+:SKRSLUT.
+.br
+Gældsbrev
+.ri off
+.ar off
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* **** Her har jeg rettet 100mm til 40mm
+.da OVERSKR 20mm 40mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.*.ar VEND on
+.*:COUR6.
+.*B02dise14
+.*.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.* Brevstart
+.*.us Skabelon til langt brev med RUNNING HEADING
+.ar off
+.********* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM (30)**
+.********** SIDEHOVEDDEFINITION STARTER *********************************
+.rh on
+.*******.sp 109mm ændret til 20mm
+.sp 20mm
+.rh off
+.************ SIDEHOVEDDEFINITION SLUTTER *********************************
+.rh execute
+.***********LINIELÆNGDEN  165 -********************************
+.ll 165mm
+.*.pm 20mm
+.*.tm 13mm
+.*.bm 50mm
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER (ændret til 40 )****************************
+.rh on
+.sp 40mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.************************Her starter definationen af de nye arealer********
+.da AREAL01 20mm 35mm width 173mm depth 245mm
+.da AREAL02 175mm 16mm width 170mm depth 245mm
+.da AREAL03 153mm 158mm width 170mm
+.da AREAL04 20mm 163mm width 128mm
+.da AREAL05 20mm 165mm width 170mm depth 15mm
+.*.da SIDENR 175mm 10mm width 60mm
+.da SIDENR 180mm 285mm width 20mm
+.************************Her slutter definationen af de nye arealer********
+.ar SIDENR on
+.*:SWISS9.
+.*if X&ÅPN = X1
+.*h 1 af 4
+.*.if X&ÅPN = X2
+.*.th 2 af 4
+.*.if X&ÅPN = X3
+.*.th 3 af 4
+.*.if X&ÅPN = X4
+.*.th 4 af 4
+.ar off
+.*.ar AREAL01 on
+:SWISS10.
+.tp 120mm
+Undertegnede, i det følgende kaldet låntager(e)
+.sp 2
+.if &U'&B02VÆLG eq J
+.th &STILL
+.br
+&NAVN.¤ Cpr.nr./Cvr.nr.: &KUNDENR
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.sp 2
+erkender at være skyldig til &BANKNAVN
+&VALUTA &B02TEXT1 eller mod
+.ct værdien heraf i anden disponibel valuta.
+.sp
+:fed.
+Afvikling
+:SKRSLUT.
+.br
+&B02TEXT2.&B02TEXT3.&B02TEXT4.
+.sp
+:fed.
+Renter
+.br
+:SKRSLUT.
+Fastsættelsen af renten sker 2 bankdage før lånets udbetaling og før en
+ny renteperiode.
+.sp 3mm
+Renten fastsættes for &B02TEXT5
+ad gangen - eller efter aftale - til den
+rente, hvortil &BANKNAVN kan låne et tilsvarende beløb
+med tillæg af en margin p.t. &B02SATS1.%. Ændringer
+i den anførte margin kan
+foretages af banken uden varsel. Låntager får oplysning om ændring af
+margin ved brev, eller ved annoncering i dagspressen.
+.sp 3mm
+Renten betales bagud for hver renteperiode. Hvis den aftalte renteperiode
+er længere end 3 måneder, kan banken dog kræve, at der sker kvartalsvis
+indbetaling til sikringskonto. Renteberegning finder sted efter
+international kutyme, nemlig for det aktuelle dagetal og på basis af 360
+dage pr. år (for £ dog 365 dage pr. år).
+.sp
+:fed.
+Omkostninger
+:SKRSLUT.
+.br
+Stiftelsesprovision er kr. &B02BELØB1.,
+som fratrækkes ved lånets udbetaling.
+.sp 3mm
+Ved betaling af renter og/eller afdrag beregnes overførselsgebyr på
+p.t. 0,1%, min. kr. 100,-.
+.sp 3mm
+Såfremt renten ønskes fastsat for renteperioder kortere end 1 måned
+beregnes et gebyr på kr. 500,00 pr. gang.
+.sp
+:FED.
+Debitering
+:SKRSLUT.
+.br
+Tilbagebetaling af lånet og løbende betaling af renter m.v. sker efter
+bankens salgskurs for den pågældende valuta to bankdage før forfald.
+.sp 3mm
+De aftalte afdrag/renter m.v. hæves på kontonr. &B02REGKTO..
+.sp
+:FED.
+Ændring af valuta
+.br
+:SKRSLUT.
+Hvis indskud i den for lånet gældende valuta eller en anden valuta, som
+låntager har anmodet om, ikke kan skaffes på valutamarkedet for den
+følgende renteperiode, er Amagerbanken berettiget til at
+stille en anden valuta til låntagers disposition.
+.sp 5mm
+:FED.
+Terminsforretning
+:SKRSLUT.
+.br
+Såfremt låntager indgår terminsforretninger med banken til
+afdækning/omlægning af dette lån, pantsætter låntager hermed en eventuel
+gevinst af terminsforretningen til banken til sikkerhed for valutalånet.
+.sp 3mm
+De til sikkerhed for valutalånet deponerede effekter, herunder effekter
+deponeret af trediemand, tjener tillige til sikkerhed for eventuelt tab
+på terminsforretninger, der måtte blive indgået til afdækning/omlægning
+af valutalånet.
+.kp on
+.************* Hvis det er en privatkunde kommer dette afsnit med ********
+.if &PRIVERHV = P
+.th .sp 5mm
+.th :FED.
+.th Fortrydelsesret
+.th :SKRSLUT.
+.th .br
+.th Du har ret til at fortryde kreditaftalen for 14 dage fra
+.th lånet/kreditten stilles til din disposition. Det gælder dog kun,
+.th hvis du har modtaget de oplysninger, der kræves efter
+.th kreditaftaleloven. Ellers regnes fristen fra den dag, hvor du
+.th modtager oplysningerne. Hvis fortrydelsesfristens sidste dag falder
+.th på en lørdag, søndag, helligdag, grundlovsdag, fredag efter Kristi
+.th Himmelfartsdag, juleaftensdag eller nytårsaftensdag, udløber fristen
+.th den følgende hverdag.
+.th .sp 3mm
+.th Ønsker du at benytte din ret til at fortryde skal du ringe eller
+.th skrive til din afdeling inden fristen udløber. Desuden skal du
+.th tilbagebetale det modtagne beløb/trækket på kreditten og eventuelle
+.th omkostninger, som &BANKNAVN måtte have betalt til offentlige
+.th myndigheder og som ikke kan refunderes.
+.th .sp 3mm
+.th Derudover skal du betale de renter, der er påløbet fra den dag
+.th lånet/kreditten blev stillet til din disposition indtil beløbet
+.th tilbagebetales. Rentebeløbet, der påløber pr. dag,
+.th udgør &VALUTA &FTRRTEDAG.. Rentebeløbet er beregnet på
+.th baggrund af renteforholdene
+.th på aftaletidspunktet, ligesom der ikke er taget højde for renters
+.th rente. Det rentebeløb, der skal betales ved udnyttelse af
+.th fortrydelsesretten, er de påløbne renter beregnet på grundlag af den
+.th aftalte debitorrente.
+.th .sp 3mm
+.th Det samlede beløb skal tilbagebetales uden unødig forsinkelse og
+.th senest 30 dage efter du har givet besked om udøvelsen.
+.kp off
+.kp on
+.sp 5mm
+:FED.
+Tvangsfuldbyrdelse
+:SKRSLUT.
+.br
+Dette gældsbrev kan tjene som grundlag for tvangsfuldbyrdelse,
+jfr. retsplejelovens §478, stk. 1, nr. 5.
+.sp
+.ce - - - -
+.kp off
+.*.ar off
+.*.pa
+.rh cancel
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 60mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Valutalån
+:SKRSLUT.
+.br
+Gældsbrev
+.ri off
+.ar off
+.**************************************************************************
+.pa
+.**************************Her starter definationen af arealerne***********
+.da AREAL02 175mm 16mm width 170mm
+.da AREAL04 20mm 35mm width 170mm
+.da AREAL03 23mm 45mm width 165mm
+.*.da SIDENR 175mm 10mm width 60mm
+.da SIDENR 180mm 285mm width 60mm
+.***************************Her slutter definationen af arealerne**********
+.ar SIDENR on
+:SWISS9.
+.*.if X&ÅPN = X1
+.*.th 1 af 4
+.*.if X&ÅPN = X2
+.*.th 2 af 4
+.*.if X&ÅPN = X3
+.*.th 3 af 4
+.*.if X&ÅPN = X4
+.*.th 4 af 4
+.ar off
+.ar AREAL04 on
+:SWISS10. :FED.
+.br
+Sikkerhed
+:SKRSLUT.
+.br
+.bx 0mm 175mm
+.sp 235mm
+.bx off
+:SWISS10.
+For lånet gælder i øvrigt omstående betingelser.
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.ar AREAL03 on
+:SWISS9.
+&B02TEXT6.
+&B02TEXT7.
+&B02TEXT8.
+&B02TEXT9.
+&B02TEXT10.
+&B02TEXT11.
+&B02TEXT12.
+&B02TEXT13.
+&B02TEXT14.
+&B02TEXT15.
+&B02TEXT16.
+&B02TEXT17.
+&B02TEXT18.
+&B02TEXT19.
+&B02TEXT20.
+&B02TEXT21.
+&B02TEXT22.
+&B02TEXT23.
+&B02TEXT24.
+&B02TEXT25.
+.ar off
+.pa
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+.ri on
+ 
+:SKRSLUT.
+.br
+.*Gældsbrev
+.ri off
+.ar off
+.**************************************************************************
+.da SIDENR 180mm 285mm width 20mm
+.**********************************
+.ar SIDENR on
+:SWISS10.
+.if X&ÅPN = X1
+.th 1 af 4
+.if X&ÅPN = X2
+.th 2 af 4
+.if X&ÅPN = X3
+.th 3 af 4
+.if X&ÅPN = X4
+.th 4 af 4
+.ar off
+.in 0
+.cl 85mm
+.cd 2 0mm 90mm
+.sp 18mm
+:swiss10.
+:fed.
+A Almindelige betingelser
+.sp 2mm
+.in 3mm after 1
+:skrslut.
+:swiss8.
+.tp 3mm
+.in 3mm after 1
+1. Låntager og &BANKNAVN (i det følgende kaldet banken) kan
+når som helst:kursiv. opsige:skrslut.:swiss8. låneaftalen
+:kursiv. med :skrslut.:swiss8. 3 dages varsel.
+Dette gælder, uanset
+hvad der i øvrigt er aftalt med hensyn til lånets afvikling. Hvis opsigelse
+ikke er sammenfaldende med en rentetermin, vil der blive opkrævet
+særlige indfrielses omkostninger.
+I forbrugerforhold gælder dog fra bankens side et opsigelsesvarsel på
+3 måneder.
+.in 0
+.in 3mm afer 1
+.sp 2mm
+2. Banken kan uden varsel forlange gælden indfriet, hvis
+.sp 2mm
+.in 0
+.in 3mm
+.in 6mm after 1
+a. ydelser ikke betales til tiden, og låntager ikke har betalt 8 dage
+efter, at banken har fremsendt rykkerbrev til låntager på den af banken
+senest kendte adresse,
+.in 0
+.in 3mm
+.br
+.in 6mm after 1
+b. låntager udsættes for individuel retsforfølgning i form af udlæg
+eller arrest,
+.in 0
+.in 3mm
+.br
+.in 6mm after 1
+c. låntager standser betalingerne, kommer under konkurs eller indleder
+forhandling om gældssanering eller akkord
+.in 0
+.in 3mm
+.br
+d. låntager afgår ved døden,
+.br
+.in 0
+.in 3mm
+.in 6mm after 1
+e. låntager tager fast ophold uden for landets grænser, og der ikke
+forinden er truffet aftale om lånets (fortsatte) afvikling,
+.br
+.in 0
+.in 3mm
+.in 6mm after 1
+f. låntager har givet urigtige oplysninger af betydning for lånets
+oprettelse.
+.in 0
+.sp 2mm
+Hvis lånet er sikret ved kaution, og kautionister(erne) kommer ud for én
+eller flere af de begivenheder, som er omtalt under pkt. b - e, eller
+kautionister(erne) har givet urigtige oplysninger af betydning for
+lånets opretholdelse, kan banken opsige lånet uden varsel. I
+forbrugerforhold gælder dog fra bankens side et opsigelsesvarsel på 3
+måneder, såfremt der ikke inden én måned stilles anden sikkerhed, som
+banken kan godkende.
+.sp 2mm
+Hvis lånet er sikret ved pant , og pantes værdi forringes væsentligt, kan
+banken stille krav om, at låntager enten ekstraordinært nedbringer gælden,
+eller at låntager stiller yderligere sikkerhed, der modsvarer den skete
+forringelse. Hvis banken har pant i låntagers ejerbolig, vil banken dog
+ikke ved forringelse af ejendomsværdien stille krav om ekstraordinær
+nedbringelse eller yderligere sikkerhed, medmindre forringelsen skyldes
+vanrøgt.
+.sp 2mm
+Såfremt der i lånets løbetid sker en stigning i valutakursen på den
+lånte valuta i forhold til DKK, kan banken stille krav om, at låntager
+stiller yderligere sikkerhed. Hvis et  sådant krav ikke opfyldes inden
+for en frist af 8 dage, er banken berettiget til for låntagers regning at
+kurssikre valutalånet.
+.sp 3mm
+.in 0
+.in 3mm after 1
+3. Banken kan til enhver tid uden varsel ændre gebyrer.
+.sp 2mm
+De af banken fastsatte gebyrer, som låntager løbende betaler i medfør af
+denne aftale, kan banken dog kun ændre med én måneds varsel ved brev eller
+annoncering i dagspressen.
+.sp 2mm
+.in 0
+.in 3mm after 1
+4. Såfremt lånet kommer i restance, betales en morarente fastsat af banken.
+Banken kan endvidere kræve et af banken fastsat gebyr for udsendelse af
+rykkerbrev og dækning af udgifter ved juridisk bistand m.v.
+.in 0
+.sp 2mm
+.in 3mm after 1
+5. Banken kan uden forudgående meddelelse til låntager modregne ethvert
+forfaldent tilgodehavende hos kunden i ethvert tilgodehavende, som låntager
+har eller får hos banken. Banken modregner dog ikke i den del af låntagers
+løn eller offentlige ydelser m.v., som må anses for nødvendig til at dække
+låntagers almindelige leveomkostninger. Banken modregner heller ikke
+indestående på konti, der efter lovgivning og/eller aftalevilkår er sikret
+mod kreditorforfølgning.
+.br
+.in 0
+.sp 2mm
+.in 3mm after 1
+6.:kursiv. Enhver indbetaling:skrslut.:swiss8.
+på dette lån - herunder beløb,
+som hidrører fra sikkerhed stillet af låntager eller andre, og beløb, som
+indbetales af kautionister - anvendes :kursiv. først til dækning af renter
+og provision.
+:skrslut.:swiss8. Hvad låntager ellers indbetaler, anvendes:kursiv. dernæst
+til dækning af :skrslut.:swiss8. forfaldne afdrag.
+.sp 2mm
+.in 0
+:swiss10.
+:fed.
+B Betingelser vedrørende pant stillet af låntager
+.sp 2mm
+:swiss8.
+.in 3mm after 1
+1. Pant stillet af låntager tjener :kursiv.tillige:skrslut.:swiss8. til
+sikkerhed for :kursiv.enhver anden forpligtelse:skrslut.:swiss8., som
+låntager ved egen medvirken har eller måtte få overfor banken og dens
+filialer.
+.in 0
+.******* kolonne 2 ********
+.sp 24mm
+.in 3mm after 1
+2. Pantesikkerhed omfatter til enhver tid det, der træder i stedet for det
+pantsatte, herunder forsikring- og erstatningssummer samt
+ekstraordinære
+afdrag og lignende. Det samme gælder det
+.*.cb
+.*.sp 13mm
+pantsattes afkast, herunder
+renter, udbytte, tegningsrettigheder,
+fondsaktier og lignende,
+lejeindtægter, bonus af livsforsikringspolicer samt ordinære afdrag.
+.sp 2mm
+Ved pantsætning af ejerpantebreve omfatter pantsætningen foruden
+ejerpantebrevets pålydende tillige renter af enhver art,
+der måtte vedhænge
+ejerpantebrevet for tiden efter ejerpantebrevets overdragelse til banken.
+.in 0
+.sp 2mm
+.in 3mm after 1
+3. Ved pantsætning af :kursiv.aktier, anparter og lignende:skrslut.:swiss8.
+kan banken alene på grundlag af dette dokument udøve:kursiv. alle de
+rettigheder,:skrslut.:swiss8. som aktionærer og anpartshavere har efter
+gældende selskabslov, selskabets vedtægter, eventuelle
+aktionæroverenskomster og lignende. Stemmeretten tilkommer dog pantsætter,
+indtil banken udtrykkeligt meddeler at ville udøve denne.
+.sp 2mm
+.in 0
+.in 3mm after 1
+4. Ved pantsætningen af panterettigheder i fast ejendom og løsøre:kursiv.
+kan:skrslut.:swiss8. banken for låntagers regning deltage i møder angående
+udlæg og auktion. Banken er på sådanne møder berettiget til:kursiv. alene
+:skrslut.:swiss8. at træffe bindende beslutninger på låntagers vegne.
+.sp 2mm
+Pantsætter giver samtidig banken generel tilladelse til at indhente
+oplysninger om ejendommen, herunder om øvrige hæftelser, disses restgæld
+og eventuelle restance.
+.sp 2mm
+:swiss10.
+:FED.
+.in 0
+.in 6mm after 1
+C Betingelser, som særligt vedrører kautionister og trediemænd, der har
+stillet pant
+.in 0
+.sp 2mm
+:swiss8.
+1. Kaution og trediemandspant tjener til sikkerhed for
+.sp 2mm
+.in 3mm
+.tp 6mm
+.in 6mm after 1
+a.:kursiv.¤lånet med tillæg af renter, provision og lignende:skrslut.
+:swiss8. i overensstemmelse med indholdet i denne låneaftale.
+.in 0
+.sp 2mm
+.in 3mm
+.in 6mm after 1
+b.:kursiv.¤tilskrevne renter og provisionsbeløb:skrslut. - beregnet af
+beløbet i
+pkt. a i indtil 6 måneder efter første tilskrivning udover den aftalte
+restgæld samt afdrag, der forfalder i denne periode.
+.sp 2mm
+Såfremt kautionister og/eller trediemandspantsættere inden for disse 6
+måneder får meddelelse om restancen, omfatter hæftelsen de her nævnte
+poster i yderligere 6 måneder fra meddelelsens modtagelse og så fremdeles
+for hver gang, banken giver sådan meddelelse.
+.sp 2mm
+.in 0
+.in 3mm
+.in 6mm after 1
+c.:kursiv.¤sagsomkostninger og andre positive udgifter,:skrslut.:swiss8.
+som er afholdt i forbindelse med inddrivelse over for låntager af kravet
+som anført i punkt a og b.
+.sp 2mm
+.in 0
+.in 3mm
+.in 6mm after 1
+d.¤løbende rente fra det tidspunkt, kravet- opgjort som i pkt. a, b og
+c - rettes mod den pågældende kautionist og trediemandspantsætter.
+.in 0
+.tp 3mm
+.sp 2mm
+.in 3mm after 1
+2.¤Kautionisternes:kursiv. arvinger, :skrslut.:swiss8.
+som skifter privat, eller som vedgår
+gælden, hæfter solidarisk for kautionsforpligtelsen.
+.in 0
+.sp 2mm
+.in 3mm after 1
+3.¤Banken er berettiget til uden samtykke fra kautionister og
+trediemandspantsættere at give henstand med betaling. Kautionister og
+trediemandspantsættere frigøres dog i det omfang, de dokumenterer, at
+henstanden har medført væsentlige tab for dem.
+.sp 2mm
+.in 0
+.in 3mm after 1
+4.¤Banken bevarer også sit krav mod kautionister eller
+trediemands-
+.br
+.in 0
+.in 3mm
+pantsættere, selv om banken ikke foretager anmeldelsen i (med-)
+kautionists bo af enhver art.
+.sp 2mm
+.in 0
+.in 3mm after 1
+5.¤Når låntageren har stillet pant specielt for et bestemt låneforhold,
+indtræder kationister og trediemandspantsættere for det pågældende
+låneforhold i panteretten til sikkerhed for deres eventuelle regreskrav
+imod lånetageren.
+.sp 2mm
+Dette gælder dog:kursiv. ikke, såfremt :skrslut.:swiss8. andet er aftalt i
+det enkelte tilfælde, eller:kursiv. såfremt:skrslut.:swiss8. kautionister
+og
+trediemandspantsættere ved påtagelsen af deres forpligteler var ubekendt
+med, at låntager havde stillet det pågældende pant. Banken har endvidere
+fortrinsret til pantet i det omfang, det er nødvendigt, for at den kan opnå
+fuld dækning for sit tilgodehavende ifølge det pågældende låneforhold.
+.in 0
+.sp 2mm
+.tp 3mm
+.in 3mm after 1
+6.¤Når den gæld, der er kautioneret for (selvskyldnerkaution) eller stillet
+sikkerhed for låntager eller af trediemand, er forfalden til betaling, kan
+banken:kursiv. straks:skrslut.:swiss8. søge sig fyldestgjort for:kursiv.
+hele:skrslut.:swiss8. fordringen hos enhver kautionist eller enhver
+pantsætter.
+.in 0
+.cl 85mm
+.cd 2 0mm 90mm
+.*.sp 15mm
+.sp 25mm
+:swiss8.
+.in 0
+.in 3mm after 1
+7. Skulle låntager, nogen kautionist eller nogen trediemandspantsætter
+komme under bobehandling af nogen art, tvungen eller frivillig, er banken,
+:kursiv.indtil den er fuldt dækket:skrslut.:swiss8. for dette lån,
+berettiget til at:kursiv. oppebære dividende af sit fulde krav - også af
+det regreskrav,:skrslut.:swiss8.
+som måtte tilkomme en kautionist eller trediemandspantsætter, hvad
+enten  regreskravet er blevet aktuelt før eller efter bobehandlingens
+begyndelse.
+.sp 2mm
+Såfremt indbetalinger fra låntagers side omstødes, opretholdes
+kautionisters og trediemandspantsætters hæftelse, uanset om de måtte have
+modtaget meddelelse om betaling fra låntager.
+.sp 2mm
+.in 0
+.in 3mm after 1
+8. :kursiv. For trediemandspantsætning  gælder de samme regler, som
+ifølge afsnit B, pkt. 2-4 og afsnit D, pkt. 1 gælder for pant stillet af
+låntager.
+.sp 2mm
+.in 0
+.in 3mm
+:skrslut.:swiss8.Ved pantsætningen i forbrugerforhold påbegyndes
+forrentning af ejerpantebrevet - jfr. afsnit B pkt. 2 - dog først fra
+tidspunktet for bankens afgivelse af påkrav over for pantsætter.
+.sp 2mm
+.in 0
+.in 3mm after 1
+9. Banken er berettiget til at stille det afkast m.v., der er nævnt foran
+i afsnit B, pkt. 2, 2. punktum, til rådighed for pantsætteren uden samtykke
+fra kautionister og trediemandspantsættere. Dette gælder også afkast m.v.
+af trediemandspant i forhold til kautionister og andre
+trediemandspantsættere.
+.sp 2mm
+.in 0
+.in 3mm after 1
+10.Foruden de særlige bestemmelser foran i pkt. 1-9 gælder de almindelige
+bestemmelser i afsnittene A, B og D også for kautionister og
+trediemandspantsættere.
+.in 0
+.sp 2mm
+:skrslut.
+:swiss10.
+:fed.
+D Fyldestgørelse m. v.
+:skrslut.
+:swiss8.
+.sp 2mm
+.in 3mm after 1
+1. Håndpantsatte effekter, og hvad der måtte træde i stedet derfor, kan
+realiseres på den måde, som banken måtte finde tjenlig, her-
+under ved
+underhåndssalg. Der skal så vidt muligt gives pantsætteren lejlighed til
+at tage stilling til realisationsmåden, der sker under hensyntagen også
+til pantsætterens interesser.
+.sp 2mm
+Fordringer og værdipapirer, som lyder på navn, herunder gældsbreve med
+eller uden panteret, kan banken på pantsætterens vegne - og uden hensyn
+til, om pantsætteren er gået konkurs, trådt
+.*.cb
+:SWISS8.
+.***********rettet 20 til 15
+.*.sp 15mm
+.in 3mm
+i likvidation eller lignende -
+borttransportere eller kvittere helt eller delvis. Pantsætteren er
+indforstået med, at denne fuldmagt er:kursiv. tilstrækkelig legitimation
+:skrslut.:swiss8. i forhold:kursiv til tinglysningsmyndighederne.:skrslut.
+:swiss8.
+.cb
+.sp 23mm
+.sp 2mm
+Når et ejerpantebrev er håndpantsat, er banken tillige berettiget til at
+give ejerpantebrevet påtegning om, at det rykker tilbage i prioritetsorden
+(rykningspåtegning), eller at dele af pantet må udgå
+(relaksationspåtegning).
+.sp 2mm
+.*******
+.in 0
+.in 3mm after 1
+2.¤Søgsmål, der vedrører garantien/lånet, kan - såfremt banken ønsker
+det - anlægges ved retten i den retskreds, hvor banken eller den
+kontoførende bankfilial er beliggende, efter kald og varsel som til inden
+for retskredsen boende, ligesom banken kan lade sådanne sager behandle og
+pådømme ved byretten uden hensyn til sagsgenstandens størrelse.
+.in 0
+.sp 2mm
+:swiss10.
+:fed.
+E Force majeure
+:skrslut.
+:swiss8.
+.sp 2mm
+Banken er erstatningsansvarlig, hvis den på grund af fejl eller
+forsømmelser opfylder aftalte forpligtelser for sent eller mangelfuldt.
+.sp 2mm
+Selv på de områder, hvor der gælder et strengere ansvar, er banken
+ikke ansvarlig for tab, som skyldes:
+.sp 2mm
+.tp 4mm
+.of 4mm
+*¤nedbrud i/manglende adgang til it-systemer eller beskadigelse af data i
+disse systemer, der kan henføres til nedennævnte begivenheder, uanset om
+det er banken selv eller en ekstern leverandør, der står for driften af
+systemerne
+.of
+.sp 2mm
+.tp 4mm
+.of 4mm
+*¤svigt i bankens strømforsyning eller telekommunikation, lovindgreb
+eller forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige
+uroligheder, sabotage, terror eller hærværk (herunder computervirus og
+hacking)
+.of
+.sp 2mm
+.of 4mm
+*¤strejke, lockout, boykot eller blokade, uanset om konflikten er rettet
+mod eller iværksat af banken selv eller dens organisation, og uanset
+konfliktens årsag. Det gælder også, når konflikten kun rammer en del af
+banken
+.of
+.sp 2mm
+.tp 4mm
+:SWISS8.
+.of 4mm
+*¤andre omstændigheder, som er uden for bankens kontrol.
+.of
+.sp 2mm
+Bankens ansvarsfrihed gælder ikke hvis:
+.sp 2mm
+.of 4mm
+*¤banken burde have forudset det forhold, som er årsag til tabet, da
+aftalen blev indgået eller burde have undgået eller overvundet årsagen
+til tabet
+.of
+.sp 2mm
+.of 4mm
+*¤lovgivningen under alle omstændigheder gør banken ansvarlig for det
+forhold, som er årsag til tabet.
+.of
+.in 0mm
+.sc
+.*.da AREAL05 20mm 165mm width 170mm depth 15mm
+.*.da AREAL05 20mm 170mm width 170mm depth 8mm
+.*.ar AREAL05 on
+.*.sp 2
+:SWISS10.
+.sp
+Jeg/vi er indforstået med, at bankens almindelige forretningsbetingelser
+samt foranstående bestemmelser skal være gældende for denne rekvisition/
+anmodning, som består af
+.if X&BREVNAVN eq XB02UDLÅ08
+.an &PRIVERHV eq E
+.th 4 sider.
+.if X&BREVNAVN eq XB02UDLÅ08
+.an &PRIVERHV eq P
+.th 5 sider.
+.if X&BREVNAVN eq XB02UDLÅ09
+.th 3 sider.
+.*.ar off
+:SWISS8.
+.sp 10mm
+.tp 92mm
+.mc
+________________________  , den  _______________________
+.sp 5mm
+Som låntager:
+.sp 10mm
+____________________________________________________
+.br
+&NAVN
+.sp 5mm
+Som selvskyldnerkautionist(er):
+.sp 10mm
+____________________________________________________
+.cb
+.sp 5mm
+Som pantsætter:
+.sp 8mm
+____________________________________________________
+.sp 20mm
+____________________________________________________
+.sc
+.sp 5mm
+Til vitterlighed for underskriftens(ernes) ægthed, dateringens rigtighed og
+de forpligtedes myndighed:
+.mc
+.sp
+Navn:
+.sp 3mm
+Bopæl:
+.sp 10mm
+___________________________________________________
+.br
+Underskrift
+.cb
+.sp
+Navn:
+.sp 3mm
+Bopæl:
+.sp 10mm
+___________________________________________________
+.br
+Underskrift
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+.ri on
+ 
+:SKRSLUT.
+.br
+.*Gældsbrev
+.ri off
+.ar off
+.**************************************************************************
+.da SIDENR 180mm 285mm width 20mm
+.************************************
+.ar SIDENR on
+:SWISS10.
+.if X&ÅPN = X1
+.th 1 af 4
+.if X&ÅPN = X2
+.th 2 af 4
+.if X&ÅPN = X3
+.th 3 af 4
+.if X&ÅPN = X4
+.th 4 af 4
+.ar off

@@ -1,0 +1,130 @@
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Vedrørerende ejendommen beliggende &E53OMPRI1.
+.sp
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da IDOPL 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar IDOPL on
+:COUR8.
+Reg.nr. &regnr
+.br
+Kontonummer &ktonr
+.br
+:FED.&REGTYPELNG.:SKRSLUT.
+.br
+CPR-nr./CVR-nr. &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.*Parametre og test på regtype ********************************************
+.if &REGTYPE ne 2061
+.th .mg/T/Der skal vælges en konto med regtype 2061/
+.**************************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.tp 8mm
+.**************************************************************************
+Kontoen, som er oprettet for at afvikle omprioriteringen af ovennævnte
+ejendom, er opgjort
+.sp
+Sagen er dermed afsluttet fra vores side, og overskuddet på &E53OMPRI2.
+kr.er overført til kontoen du/I har angivet i TinglysningsServiceaftalen.
+.sp
+Vi vedlægger kontoudskrift, hvoraf alle posteringer fremgår.
+.sp
+Hvis dette brev giver anledning til spørgsmål, er du/I velkommen til at
+kontakte vores kundecenter på tlf. 70 10 21 00. Vi sidder klar alle ugens
+dage fra 9-21.
+.sp
+På brf.dk kan du/I søge svar på boligfinansielle spørgsmål døgnet rundt.
+Der kan du/I også tilmelde dig/jer vores elektroniske nyhedsbrev, Ajour.
+.of
+.sp
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

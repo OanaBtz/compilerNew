@@ -1,0 +1,504 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+.*
+.*TEST PÅ UDBETALINGSÅRSAG
+.if &GENVALG = 1
+.or &GENVALG = 2
+.th .go VALGOK
+.el .mg/T/Valg af udbetalingsårsag skal være enten 1 eller 2./
+...VALGOK
+.sp 3mm
+Der er fundet nedenstående fejl i formatteringen af standardbrev
+&BREVNAVN.
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et kontonr. med ugyldig
+reg.type, &REGTYPE./&REGTYPELNG.
+.sp 3mm
+.hr left right
+.qu
+...DOKTXT
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.ce Udbetaling af &pentp.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da FEJL      25mm 120mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** REGLER VEDR BREVNAVN *************************************
+.if &BREVNAVN = B37KAP09
+.or &BREVNAVN = B37KAP09-DU
+.******* KAPITALPENSION ********************
+.th .se pentp = 'kapitalpension'
+.th .se regl = KAP
+.th .se afgift = 'til gældende statsafgift'
+.th .se udbt = 'til normal statsafgift'
+.th .go REGKAP
+.if &BREVNAVN = B37ALD09
+.or &BREVNAVN = B37ALD09-DU
+.******* ALDERSOPSPARING *******************
+.th .se pentp = 'aldersopsparing'
+.th .se regl = ALD
+.th .se afgift = 'uden afgift til staten'
+.th .se udbt = 'uden afgift til staten'
+.th .go REGALD
+...REGKAP
+.*TJEK REGTYPE KAPITALPENSION *********************************************
+.if &REGTYPE = 8111
+.or &REGTYPE = 8122
+.or &REGTYPE = 8123
+.or &REGTYPE = 8127
+.or &REGTYPE = 8129
+.or &REGTYPE = 8412
+.or &REGTYPE = 8414
+.th .go DOKTXT
+.el .go FEJL1
+...REGALD
+.*TJEK REGTYPE ALDERSOPSPARING*********************************************
+.if &REGTYPE = 8251
+.or &REGTYPE = 8253
+.or &REGTYPE = 8255
+.or &REGTYPE = 8257
+.th .go DOKTXT
+.el .go FEJL1
+...FEJL1
+.*************** FEJLHÅNDTERING REGTYPE ***********************************
+.ar FEJL on
+.sp 3mm
+Der er fundet nedenstående fejl i formatteringen af standardbrev
+&BREVNAVN.
+.**AREALER*****************************************************************
+.da SIDE    20mm  40mm width 175mm
+.*KUNDE/KONTO OPLYSNINGER ************************************************
+.ar SIDE on
+.bx left 87.5mm right
+:SWISS9.
+.tp 1mm 88.5mm
+¤Kontohavers navn ¤Kontohavers cpr.nr.
+.sp 3mm
+¤&KTONAVN ¤&KTOKNDNR1
+.sp 3mm
+.bx left 87.5mm right
+¤Kontonr. på &pentp. ¤Udbetalingen skal indsættes på kontonr.
+.sp 3mm
+¤&LANGKTONR ¤&APFKTONR
+.sp 3mm
+.tp
+.bx off
+.sp 3mm
+.************ ERKLÆRING****************************************************
+.bx left right
+:SWISS9.
+:FED.
+.sp 3mm
+.tp 2mm
+¤Jeg ønsker hele værdien af ovennævnte &pentp. udbetalt
+.tp
+:SKRSLUT.
+.sp 3mm
+.bx off
+.sp 3mm
+.ar off
+.**************************************************************************
+.if X&GENVALG = X2
+.th X
+.ar off
+.** HER LAVES DE SMÅ AFKRYDSNINGSKASSER **********************************
+.ar BOX2STK
+:SWISS10.
+.*1 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.*2 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 15mm
+.ar off
+.**************************************************************************
+.**AREALER*****************************************************************
+.da UDBT     20mm 88mm width 175mm
+.da AFKRYDS 25mm 101.5mm width 168mm
+.da BOX2STK  20mm 101mm width  10mm
+.da BOX2STKX 25.5mm 101.2mm width 169mm
+.dr thin weight 0.2mm
+.**************************************************************************
+.ar UDBT
+:SWISS9.
+.bx left right
+.sp 3mm
+.tp 1mm
+¤Udbetalingen skal ske, fordi jeg:
+.sp 30mm
+.bx off
+.ar off
+.*********************************************************************
+.ar AFKRYDS on
+:SWISS9.
+.tp 5mm
+.if &regl = ALD
+.th .go ALDERS
+.el
+¤har opnået min pensionsudbetalingsalder (udbetalingen fratrækkes
+.in 5mm nobreak
+:FED.gældende afgift til staten:SKRSLUT.)
+.sp 3mm
+¤ønsker min &pentp. udbetalt :FED.før:SKRSLUT. jeg har opnået min
+.in 5mm nobreak
+pensionsudbetalingsalder/i utide (udbetalingen fratrækkes
+:FED.52 % i afgift til staten:SKRSLUT.)
+.sp 3mm
+.go VIDERE
+...ALDERS
+¤har opnået min pensionsudbetalingsalder (udbetalingen sker
+.in 5mm nobreak
+:FED.uden afgift til staten:SKRSLUT.)
+.sp 3mm
+¤ønsker min &pentp. udbetalt :FED.før:SKRSLUT. jeg har opnået min
+.in 5mm nobreak
+pensionsudbetalingsalder/i utide (udbetalingen fratrækkes
+:FED.20 % i afgift til staten:SKRSLUT.)
+.sp 3mm
+...VIDERE
+.ar off
+.*********************************************************************
+.ar BOX2STKX on
+.if X&GENVALG = X1
+.th X
+.el .sp 6.2mm
+.**AREALER*****************************************************************
+.da UNDER   20mm 133mm width 175mm
+.*UNDERSKRIFT ************************************************************
+.ar UNDER on
+.tp 1mm
+:SWISS9.
+:FED.
+Er pensionskontoen investeret i en eller flere af &BANKNAVN.s Puljer, kan
+udbetalingen først ske efter puljeudtræden.
+:SKRSLUT.
+.sp 3mm
+:SWISS12.
+:FED.
+Underskrift
+:SKRSLUT.
+.br
+:SWISS9.
+:FED.
+.bx left right
+.sp 3mm
+¤Jeg har i forbindelse med denne udbetaling læst vedlagte "Vejledning ved
+udbetaling af &pentp.", som
+.br
+¤fremgår af side 2.
+:SKRSLUT.
+:SWISS9.
+.sp 3mm
+.bx left 87.5mm right
+.tp 1mm 88.5mm
+¤Dato: ¤Kontohavers underskrift
+.sp 11mm
+.tp 87.5mm
+.ce ¤&KTONAVN
+.bx off
+.ar off
+.da DOKKT 20mm 277mm width 175mm
+.**************************************************************************
+.*go SLUT
+.ar DOKKT on
+.dr tynd WEIGHT 0.1mm
+.ti ¤ 05
+.tp 2mm 91mm
+:SWISS6.
+¤Til &BANKNAVN.s noteringer (dato og initialer)
+.br
+.bx new tynd 55mm 79mm
+.sp 2mm
+.tp 2mm 60mm 120mm
+¤Underskrift i forhold til instruktion er tjekket
+.*br
+.*sp 1mm
+.bx off
+.*bx off
+.ar off
+...SLUT
+.ti ¤ 05
+:SWISS10.
+.fo left
+.*******************************************
+.*O-AFSNIT MED RH
+.*******************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da TEKST 20mm 32mm width 170mm
+.*******************************************
+:SWISS8.
+.rh on
+.*******************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*******************************************
+.ar TEKST on
+:SWISS12.:FED.
+.us Vejledning ved udbetaling af &pentp
+:SKRSLUT.
+.ar off
+.*******************************************
+.sp 28mm
+.rh off
+.rh execute
+.*************** REGLER VEDR BREVNAVN ************************************
+.if &BREVNAVN = B37KAP09
+.******* KAPITALPENSION ********************
+.th .se pentp = 'kapitalpension'
+.th .se regl = KAP
+.th .se udbt = 'til normal statsafgift'
+.if &BREVNAVN = B37ALD09
+.******* ALDERSOPSPARING *******************
+.th .se pentp = 'aldersopsparing'
+.th .se regl = ALD
+.th .se udbt = 'uden statsafgift'
+:SWISS9.
+Nedenfor kan du læse mere om de regler, der gælder i forbindelse med din
+valgte udbetalingssituation.
+.*******************************************************
+.if &GENVALG = 1
+.th .go OPNÅET
+.el .go FØR
+.************* OPNÅET VALG 1 *********************************
+...OPNÅET
+.sp 5mm
+:SWISS10.
+:FED.
+Udbetaling på grund af opnået pensionsudbetalingsalder
+:SKRSLUT.
+.sp 3mm
+:SWISS9.
+.if &regl = KAP
+.th Udbetalingen fratrækkes den gældende afgift til staten på 40 %.
+.th .sp 3mm
+Udbetalingen skal senest ske 15 år efter du har opnået din
+pensionsudbetalingsalder.
+.sp 3mm
+Som udgangspunkt er din pensionsudbetalingsalder fem år, før du er
+berettiget til folkepension. Dog er din pensionsudbetalingsalder som
+udgangspunkt 60 år, hvis din &pentp. er oprettet før 1/5 2007.
+.sp 5mm
+:SWISS10.
+:FED.
+Særligt for dig, som har en &pentp., der er udloddet i forbindelse
+med skilsmisse
+:SKRSLUT.
+:SWISS9.
+.sp 3mm
+Hvis du har en &pentp., hvor det i forbindelse med din skilsmisse
+blev bestemt, at den skulle udloddes efter reglerne i
+Pensionsbeskatningslovens (PBL) § 30, vil den være udloddet efter én af
+tre mulige modeller. Den valgte model er afgørende for, hvornår du kan få
+&pentp.en udbetalt.
+.sp 3mm
+Hvis &pentp.en er delt efter model 1 (PBL § 30, stk. 2 og
+stk.3, nr. 1), er du ikke selvstændig ejer af kontoen. Det vil
+derfor være den oprindelige kontos bestemmelser, der afgør, hvornår du
+kan få udbetalt &pentp.en &udbt.. Du har ikke ret til at indbetale på
+&pentp.er, der er delt efter denne model.
+.br
+Det samme gælder, hvis &pentp.en er delt efter model 2 (PBL §
+30, stk. 2 og stk. 3, nr. 2), dog har du
+.if &regl = KAP
+.th haft ret til at indbetale på &pentp.en efter delingen, da det var
+.th var muligt i &BANKNAVN..
+.el ret til at indbetale på &pentp.en efter delingen.
+.sp 3mm
+Hvis &pentp.en er delt efter model 3 (PBL § 30, stk. 2 og
+stk. 3, nr. 3), kan du få &pentp.en udbetalt &udbt., når du selv opfylder
+betingelserne for udbetaling af
+.if &regl = KAP
+.th &pentp.en. Er &pentp.en delt efter denne model, kunne du indbetale på
+.th den efter delingen, da det var muligt i &BANKNAVN..
+.el &pentp.en, og du kan indbetale på den efter delingen.
+.sp 3mm
+Hvis du er i tvivl om, hvilken model din &pentp. er udloddet efter, kan
+du altid kontakte din rådgiver for yderligere uddybning.
+.go FORTS
+.************* FØR VALG 2 *********************************
+...FØR
+.sp 5mm
+:SWISS10.
+:FED.
+Udbetaling af en &pentp. før opnået pensionsudbetalingsalder (i utide)
+:SKRSLUT.
+.sp 3mm
+:SWISS9.
+Når du vælger, at få en &pentp. udbetalt før du har opnået din
+pensionsudbetalingsalder (i utide), skal du betale en forhøjet afgift på
+.if &regl. = KAP
+.th .go KAPPEN
+.el .go ALDOPS
+...KAPPEN
+:FED.52 %:SKRSLUT. til staten af
+pensionens samlede værdi.
+.sp 3mm
+Vælger du at vente med udbetalingen af din &pentp. til du har opnået
+din pensionsudbetalingsalder, er statsafgiften 40 %.
+.go FØRFORS
+...ALDOPS
+:FED. 20 % :SKRSLUT.til staten af pensionens samlede værdi.
+.sp 3mm
+Vælger du at vente med udbetalingen af din &pentp. til du har opnået din
+pensionsudbetalingsalder, er statsafgiften 0 %.
+...FØRFORS
+.sp 3mm
+Ved udbetaling før opnået pensionsudbetalingsalder, beregner &BANKNAVN. et
+gebyr på
+:FED.
+kr. 850.
+:SKRSLUT.
+.sp 3mm
+Hvis pensionen har tilknyttet værdipapirer og/eller
+puljeinvestering, beregner &BANKNAVN. den sædvanlige kurtage for salg af
+værdipapirer og/eller gebyr for udtræden af pulje på
+:FED.
+kr. 500.
+:SKRSLUT.
+.br
+Udtræden af &BANKNAVN.s Puljer er dog gebyrfri, hvis udmeldingen sker
+pr. 1/1, 1/2, 1/3 eller 1/4.
+.sp 3mm
+Udgør gebyrerne mere end saldoen på ophævelsestidspunktet, bliver der
+maksimalt trukket saldoen, og kontoen vil dermed udgå uden værdi.
+.******* FORTSÆTTES SKAL ALTID MED ****************
+...FORTS
+.sp 5mm
+:SWISS10.
+:FED.
+Andre udbetalingsmuligheder
+:SKRSLUT.
+.sp 3mm
+:SWISS9.
+En &pentp. kan udbetales &udbt., hvis du får en livstruende
+sygdom, får en varig nedsættelse af din erhvervsevne, eller opnår din
+godkendte lavere pensionsalder.
+.sp 3mm
+Ønsker du din &pentp. udbetalt på grund af en af ovenstående
+situationer, skal du underskrive en anden blanket, som du kan få udleveret
+af din rådgiver.
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

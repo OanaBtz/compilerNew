@@ -1,0 +1,259 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B34KAP03
+.br
+&DATO
+.ar off
+.***********************************************************************
+:COUR10.
+.******************************************************************
+.*dette afsnittet bruges også i BECKAP03.
+.******************************************************************
+.da KUNDEOPL        25mm  48mm width 84mm
+.da ARBGOPL         113mm 48mm width 84mm
+.da CPRNR           33mm 66mm width 76mm
+.da SENR            120mm 66mm width 76mm
+.da PIOPL           25mm  75mm width 84mm
+.da KTOOPL          113mm 78mm width 80mm
+.da GLARBG          25mm  112mm width 84mm
+.da NYARBG          113mm 112mm width 84mm
+.da ORDNING         25mm  138mm width 170mm
+.da NYPI            25mm  165mm width 178mm
+.da NYKTOOPL        113mm 174mm width 80mm
+.da ANDET           25mm  192.7mm width 170mm
+.da AFSARB          25mm  239mm width 178mm
+.da AFSPI           25mm  252.5mm width 178mm
+.da AFSL            20mm  266mm width 175mm
+.******************************************************************
+.ti ^ 05
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************
+.ar ARBGOPL on
+&GENNAVN1
+.br
+&GENGADE1
+.br
+&GENBY1
+.ar off
+.*************************************
+.ar CPRNR ON
+&KUNDENR
+.ar off
+.*************************************
+.ar SENR on
+&GENSENR
+.ar off
+.****  Her skrives eget PI, medmindre der er skift af PI for *********
+.****  så udskrives det udtrædende forsikringsselskab eller PI *******
+.ar PIOPL on
+.if &L'&B11POLICE gt 0
+.th .go POLI
+.if &L'&BANKREGNR gt 0
+.th &BKNAVN
+.th .br
+.th &BKAFD
+.th .br
+.th &BKADR
+.th .br
+.th &BKBY
+.el &B34MORBANK
+.el .br
+.el &AFDNAVN
+.el .br
+.el &AFDGADE
+.el .br
+.el &AFDBY
+.go UPOLI
+...POLI
+&B11FORSNV
+.br
+&B11FORSAD1
+.br
+&B11FORSAD2
+.br
+&B11FORSAD3
+.br
+&B11FORSAD4
+...UPOLI
+.ar off
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE *******
+.se regnr = substr &GENREGKTO 1 4
+.se ktonr = substr &GENREGKTO 5 7
+.*************************************
+.***** her deles reg og kontonummer ******
+.se glregnr = substr &GENGLKTONR 1 4
+.se glktonr = substr &GENGLKTONR 5 15
+.***** her deles depotnummer fra andet pengeinstitut   ***********
+.se gldregnr = substr &GENGLDEPNR 1 4
+.se gldepktonr = substr &GENGLDEPNR 5 12
+.***** her deles depotnummer   ***********
+.se dregnr = substr &GENDEPNR 1 4
+.se depktonr = substr &GENDEPNR 5 12
+.*************************************
+.ar KTOOPL on
+.tp 43mm
+.if &L'&B11POLICE gt 0
+.th &B11POLICE
+.th .go EFKTO
+.if &L'&BANKREGNR gt 0
+.th &BANKREGNR
+.th .go GLKTO
+&regnr
+.sp 7mm
+&ktonr ^&dregnr &depktonr
+.go EFKTO
+...GLKTO
+.sp 7mm
+&glregnr &glktonr ^&gldregnr &gldepktonr
+... EFKTO
+.ar off
+.*************************************
+.ar GLARBG on
+.if &U'&GENJANEJ eq J
+.th .go SKRIV
+.if &L'&GENNYFIRNA gt 0
+.th .go SKRIV
+.el .go HOPSL
+...SKRIV
+&GENNAVN1
+.br
+&GENGADE1
+.br
+&GENBY1
+.sp 8.8mm
+.tp 8mm
+^&GENSENR
+...HOPSL
+.ar off
+.*************************************
+.ar NYARBG on
+&GENNYFIRNA
+.br
+&GENNYFIRGA
+.br
+&GENNYFIRBY
+.sp 8.8mm
+.tp 8mm
+^&GENNYSENR
+.ar off
+.*************************************
+.ar ORDNING on
+.sp
+.if &L'&GENNYFIRNA gt 0
+.th Led i pensionsordning, hvorfor indbetalinger kun kan foretages af
+.th arbejdsgiver, og kontohaver kan derfor ikke fratrække indbetalingerne
+.th på selvangivelsen.
+.th .go VIDERE
+.if &L'&GENNYFIRNA lt 1
+.an &U'&GENJANEJ eq N
+.th
+.el Uden for ansættelsesforhold, hvorfor indbetaling kun kan foretages
+.el af kontohaver.
+...VIDERE
+.ar off
+.*************************************
+.********** Ved skift af PI udskrives eget, ellers intet
+.****nu kan der også udskrives et forsikringsselskab ********
+.ar NYPI on
+.if &L'&B11POLICE gt 0
+.th .go NYPIOK
+.if &L'&BANKREGNR gt 0
+.th .go NYPIOK
+.el .go NYPISL
+...NYPIOK
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+...NYPISL
+.ar off
+.*************************************
+.*** Her skrives eget PI's ktonr, men kun hvis der er skift af PI
+.ar NYKTOOPL on
+.if &L'&B11POLICE gt 0
+.th .go NYKTOOK
+.if &L'&BANKREGNR gt 0
+.th .go NYKTOOK
+.el .go NYKTOSL
+...NYKTOOK
+.tp 43mm
+&regnr
+.sp 7mm
+&ktonr ^&dregnr &depktonr
+...NYKTOSL
+.ar off
+.*************************************
+.ar ANDET on
+&GENANDET &GENANDET1 &GENANDET2 &GENANDET3.
+&GENANDET4 &GENANDET5 &GENANDET6.
+.ar off
+.*************************************
+.ar AFSARB on
+.tp 88mm
+&GENNAVN1 ^&GENNYFIRNA
+.ar off
+.*************************************
+.ar AFSPI on
+.tp 88mm
+.if &L'&B11POLICE gt 0
+.th &B11FORSNV ^&B34MORBANK
+.th .go AFSPI-SL
+.if &L'&BANKREGNR gt 0
+.th &BKNAVN ^&B34MORBANK
+.el &B34MORBANK
+...AFSPI-SL
+.ar off
+.*************************************
+.ar AFSL on
+.ce &NAVN
+.ar off
+.*************************************

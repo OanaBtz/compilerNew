@@ -1,0 +1,398 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+.* Kan nu sendes til Underskriftsrum, pfa. Carsten Lauridsen
+.* 12.01.2017 / hk
+.*-------------------------------------------------------------
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:COUR10.
+.* Dette afsnit opretter alle boxe til kurskontrakt
+.da BOXE 20mm 40mm width 176mm
+.tp 2mm 89mm 175mm right
+.fo left
+.dr tynd weight .2mm
+.ar BOXE on
+:SWISS14.
+:FED.
+¤Kurskontrakt
+:SKRSLUT.
+:SWISS10.
+¤¤(faxes til 9663 2039)
+.bx tynd 1mm 176mm
+:SWISS10.
+¤Terminsrekvirent(er)
+.sp 27mm
+.bx off
+.sp 5mm
+.bx tynd 1mm 88mm 176mm
+¤Bank ¤Afviklingskonto
+.sp 12mm
+.bx off
+.sp 5mm
+.bx tynd 1mm 176mm
+¤Kursaftale til effektuering via
+.sp 22mm
+¤Journalnr.
+.bx off
+.sp 5mm
+.bx tynd 1mm 176mm
+¤Følgende obligationer
+.sp 12mm
+.bx off
+.sp 5mm
+.bx tynd 1mm 176mm
+¤Terminsdato
+.sp 12mm
+.bx off
+.sp 5mm
+.bx tynd 1mm 176mm
+¤Med pant i matr.nr.
+.sp 12mm
+.bx off
+.sp 5mm
+.in 5mm
+Hvis terminshandlen ikke gennemføres pr. den aftalte terminsdato på
+grund af forhold, som vestjyskBANK ikke er herre over, er
+terminsrekvirenten/-erne forpligtet til at erstatte vestjyskBANK alle tab,
+som måtte følge heraf.
+.if &L'&B19DATO gt 0
+.th .sp 3mm
+.th Undertegnede bekræfter, at ovennævnte kurssikring ønskes foretaget
+.th i henhold til købsaftale af &B19DATO..
+.el .sp 4mm
+.in 0mm
+.sp 5mm
+.bx tynd 1mm 88mm 176mm
+¤Dato ¤Dato
+.sp 12mm
+.hr tynd 1mm 176mm
+¤Bankens underskrift ¤Kundens underskrift
+.sp 17mm
+.bx off
+.ar off
+.* Kurskontrakt - udfyldelse af formularen
+.* Alle arealer defineres
+.da KS 55mm 40mm
+.da REK1 60mm 51mm width 60mm
+.da REK2 130mm 51mm width 60mm
+.da BANK 22mm 91mm width 85mm
+.da AFVKTO 110mm 91mm
+.da VIA 35mm 116mm width 150mm
+.da JOUR 40mm 134mm
+.da OBL 60mm 147mm width 130mm
+.da TERM 25mm 176mm
+.da PANT 25mm 201mm width 150mm
+.*******************
+.ar KS on
+:SWISS14.
+:FED.
+.if &U'&B19TEST1B = K
+.th - Bankens køb
+.if &U'&B19TEST1B = S
+.th - Bankens salg
+.if &U'&B19TEST1B ne K .an &U'&B19TEST1B ne S
+.th .mg /I/Du har ikke indtastet "k" eller "s"
+.th .mg /I/i feltet "Banken køb/salg".
+.th .mg /T/Vend tilbage til brevet og indtast "k" eller "s".
+.ar off
+.******************
+.ar REK1 on
+&KUNDENR
+.br
+&STILL
+.br
+&NAVN
+.br
+&GADE
+.br
+&BY
+.ar off
+.******************
+.ar REK2 on
+.if &L'&B19MEDCPR gt 0
+.th &B19MEDCPR
+.th .br
+.th &B19MEDNAVN
+.th .br
+.th &GADE
+.th .br
+.th &BY
+.ar off
+.******************
+.ar BANK on
+vestjyskBANK, &AFDNAVN
+.br
+&AFDGADE., &AFDBY
+.br
+.ar off
+.******************
+.ar AFVKTO on
+&IREGKTO
+.ar off
+.******************
+.ar VIA on
+&B19NAVN.,
+.br
+&B19GADE., &B19BY
+.ar off
+.******************
+.ar JOUR on
+&B19JOURNR
+.ar off
+.******************
+.** Her vælges enter serie-/annuitets- eller kontantlån.
+.** Lånebeløb m.v. sammenstilles med :VS. og &ÅCONT
+.ar OBL on
+.if &L'&B19TEST1A gt 0 .if &U'&B19TEST1A = S
+.th .se type = 'Serielån'
+.if &L'&B19TEST1A gt 0 .if &U'&B19TEST1A = A
+.th .se type = 'Annuitetslån'
+.if &L'&B19TEST1A gt 0 .if &U'&B19TEST1A = K
+.th .se type = 'Kontantlån'
+.***********************************************************
+.if &L'&B19BELØB1 = 0
+.th .tp 60mm
+.th &type kr. ¤kurs
+.th .go VID
+.el .go OPL
+...OPL
+&type kr. &ÅCONT
+:VS. &B19BELØB1.,
+kurs
+:VS. &B19KURS
+.go VID
+...VID
+.br
+i Krf's &B19SERIE serie,
+:VS. &B19RENTE.%,
+&B19AARGANG..
+.br
+Fondskode: &B19FONDSK
+.go SLUT
+...SLUT
+.ar off
+.****************
+.ar TERM on
+&B19TERMIN
+.ar off
+.****************
+.ar PANT on
+&B19MATRNR
+.ar off

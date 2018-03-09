@@ -1,0 +1,616 @@
+.*********************GENEREL OPSÆTNING************************************
+:SWISS8.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift
+.da OVER 20mm 32mm width 150mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVER on
+:SWISS12.
+:FED.
+.us Aftale om ratepension - Privat
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO. Kl. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.br
+Udbetalingen sker i rater over &PENANTUDÅR. år, således at sidste rate
+udbetales i kalenderåret &PENSLANTÅR. år efter, at &ktohav
+når pensionsudbetalingsalderen, jf. generelle vilkår pkt. 3.
+.go RATUDBET
+.**GAMMEL ORDNING - PENSION VED 60 ÅR *************************************
+...GAMMEL
+Rateudbetalingen til &ktohav
+.if &L'&PENMETODE > 0
+.th
+.el .go UDBTXT7
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .ct  kan derfor
+...UDBTXT7
+begyndes den &PENUDBDATO., og i kalenderåret &udaar. fylder &ktohav
+&PENSTALDER. år.
+Udbetalingen sker i rater over &PENANTUDÅR. år, således
+at sidste rate udbetales i det kalenderår, hvor &ktohav fylder
+&PENSLALDER. år.
+.*******************************
+...RATUDBET
+.if &L'&PENMETODE > 0
+.th
+.el .go UDBEND
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th
+.if X&PENMETODE = X3
+.th .go UDBEND
+.*************************************************************************
+.**test på, om Særlige vilkår kommer på side 2 eller 3 afhængigt af  ******
+.**om der udskrives side med begunstigede *dvs. kun for PENBEGUN = A ******
+.if &U'&PENBEGUN = A
+.th .sp
+.th Se desuden Udbetaling i Særlige vilkår på side 3.
+.th .go UDBEND1
+.el .sp
+.el Se desuden Udbetaling i Særlige vilkår på side 2.
+.el .go UDBEND1
+...UDBEND
+.br
+Rateudbetaling kan desuden påbegyndes ved kontohavers varigt nedsatte
+arbejdsevne, som efter reglerne i lov om social pension berettiger
+kontohaver til førtidspension.
+...UDBEND1
+.ar off
+.**************************************************************************
+.ar BEGUNSTIG on
+.if &U'&PENBEGUN = A
+.th
+.el .se ktohav = 'kontohaver'
+.el .go UDBSTA
+.if X&PENMETODE = X3
+.th .se ktohav = 'kontohaver'
+.th .go UDBSTA
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .se ktoh1 = 'kontohaveren på den konto, hvorfra denne pensionsordning'
+.th .se ktoh2 = 'er udloddet,'
+.th .se ktohav = '&ktoh1 &ktoh2.'
+...UDBSTA
+.************************************************************************
+.if &L'&PENMETODE > 0
+.th
+.el .go UDBTXT
+.if X&PENMETODE = X3
+.th .go UDBTXT
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th Det er alder, varigt nedsatte arbejdsevne eller
+.th død for kontohaveren, på den konto hvorfra denne pensionsordning er
+.th udloddet, der er bestemmende for, hvornår udbetaling kan finde sted.
+.th .br
+.**************************************************************************
+...UDBTXT
+.if &U'&PEN1MAJ07 = J
+.th .go GAMMEL
+.el .go NY
+.**NY ORDNING - EFTER EFTERLØNSALDEREN
+************************************
+...NY
+Rateudbetalingen til &ktohav
+.if &L'&PENMETODE > 0
+.th
+.el .go UDBTXT1
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .ct  kan derfor begyndes
+.th .go UDBTXT2
+...UDBTXT1
+begyndes
+...UDBTXT2
+den &uddag..&udmd. i
+.if X&PENSTANTÅR = X0
+.th kalenderåret, hvor
+.el kalenderåret
+.el &PENSTANTÅR.
+.el år efter, at
+&ktohav når pensionsudbetalingsalderen, jf. generelle vilkår pkt. 3.
+.**************************************************************************
+.if &L'&PENMETODE > 0
+.th
+.el .da PLACERING  21mm  147mm    width 170mm
+.el .da UDBETAL    21mm  162mm    width 170mm
+.el .go T4VID1
+.if X&PENMETODE = X3
+.th .da PLACERING  21mm  147mm    width 170mm
+.th .da UDBETAL    21mm  162mm    width 170mm
+.th .go T4VID1
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .da PLACERING  21mm  138mm    width 170mm
+.th .da UDBETAL    21mm  153mm    width 170mm
+...T4VID1
+.da BEGUNSTIG  21mm  187mm    width 170mm
+.da VAESENT    21mm  204.5mm  width 170mm
+.da BEGUNSTIG1 21mm  180mm    width 170mm
+.da BEGUNSAML  21mm  214mm    width 170mm
+.da UNDTEKST1  21mm  214.5mm  width 170mm
+.da UNDTEKST2  21mm  248.2mm  width 170mm
+.da NAVN       25mm  239.5mm  width 170mm
+.da AFSL1      25mm  229mm    width 170mm
+.da AFSL2      25mm  263mm    width 170mm
+.**************************************************************************
+.ar PLACERING on
+Opsparingen kan efter kontohavers valg placeres efter de i lovgivningen
+og &BANKNAVN.s til enhver tid gældende regler
+.********Bodelingskontrakt*************************************************
+.if &L'&PENMETODE > 0
+.th
+.el .ct .
+.el .go OPSEND
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .ct , uafhængigt af den fraskilte ægtefælles bestemmelser.
+.if X&PENMETODE = X3
+.th .ct .
+...OPSEND
+.ar off
+.**************************************************************************
+.***SUBSTRING PÅ UDBETALINGS DATOEN****************************************
+.se uddag = substr &PENUDBDATO 1 2
+.se udmd = substr &PENUDBDATO 4 2
+.se udaar = substr &PENUDBDATO 7 4
+.*UDBETALINGSKASSEN********************************************************
+.ar UDBETAL on
+.********Bodelingskontrakt - Udbetalingskassen*****************************
+.****Definering af kontohaver    *****************************************
+.if &L'&PENMETODE > 0
+reguleres.
+.ar off
+.**********************
+...NEJSAM
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .ar UNDTEKST1 on
+.el .ar UNDTEKST2 on
+Vedlagte "Generelle vilkår for ratepension", dateret &PENVERRATE. er
+gældende for denne aftale. Jeg erklærer hermed at have modtaget
+vilkårene, og at &BANKNAVN har gennemgået vilkårene med mig.
+.ar off
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .go AFSL
+.ar NAVN on
+.ce &PENKNAVN.
+.ar off
+...AFSL
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .ar AFSL1 on
+.el .ar AFSL2 on
+.tp 39mm center
+¤&PENKNAVN.
+.sp 7.7mm
+.ce &BANKNAVN
+.ar off
+.**************************************************************************
+.th Se kontraktens side 2.
+.th .br
+.if &U'&PENBEGUN = I
+.th Ingen begunstigelse - opsparingen vil blive udbetalt til kontohavers
+.th dødsbo og vil dermed ikke være kreditorbeskyttet.
+.th .br
+.if &U'&PENBEGUN = N
+.th Ved kontohavers død udbetales indestående til kontohavers "nærmeste
+.th pårørende" jf. generelle vilkår pkt. 5.
+.th .br
+.if &U'&PENBEGUN = H
+.th Henvisning til særskilt begunstigelseserklæring af
+.th &PENHENDATO..
+.th .br
+.if &U'&PENBEGUN = V
+.th Se nærmere under væsentlige aftaler, side 2.
+.th .br
+.if &U'&PENNYBEGUN = N
+.th .sp
+.th Der er ikke aftalt ændringer til begunstigelsesbestemmelsen, der derfor
+.th fortsat er omfattet af reglerne fra før den 1. januar 2008.
+.ar off
+.*************************************************************************
+.ar VAESENT on
+.if &U'&PENVÆSAFT = N
+.th Ingen
+.th .go VAESSL
+.el .go VAESJA
+...VAESJA
+.**Ja til væsentlige aftaler**********************************************
+.**test på, om væsentlige aftaler kommer på side 2 eller 3 afhængigtaf ***
+.**om der udskrives side med begunstigede *dvs. kun for PENBEGUN = A ******
+.if &U'&PENBEGUN = A
+.th Se kontraktens side 3.
+.el Se kontraktens side 2.
+...VAESSL
+.ar off
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .go NEJSAM
+.*********************
+.ar BEGUNSAML on
+Ved begunstigelse af "samlever" og/eller "samlevers livsarvinger":
+.sp 2mm
+Jeg erklærer hermed, at min samlever, som jeg har begunstiget, har fælles
+folkeregisteradresse med mig. Jeg har fået oplyst, at manglende fælles
+folkeregisteradresse på begunstigelsestidspunktet medfører, at
+pensionsordningen skal ophæves med 60 pct.'s afgift til staten, samt at
+jeg ikke har fradragsret for indbetalinger efter
+begunstigelsestidspunktet, ligesom eventuel pensionsafkastskat mv. skal
+.*********************GENEREL OPSÆTNING************************************
+:SWISS8.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift
+.da OVER 20mm 32mm width 150mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVER on
+:SWISS12.
+:FED.
+.us Aftale om ratepension - Privat
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO. Kl. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 3mm
+Vore beregninger er baseret dels på Forbrugerombudsmandens retningslinier
+med hensyn til rente, inflation mv., dels på de oplysninger, De har afgivet
+om indbetalinger, indbetalingsperiode mv.
+.br
+Hvis de faktiske forhold afviger fra disse forudsætninger, vil det medføre,
+at opsparingsresultatet ændres.
+.sp 3mm
+.if &ÅLC lt 10
+.th .ri fortsættes
+.th .pa
+.sp 3mm
+En nærmere specifikation af Deres indbetalinger, udbetalingsforløbet
+af en eventuel ratepension, ordningens beregninger og samfundsmæssige
+forudsætninger fremgår af vedlagte bilag.
+.sp 8mm
+Med venlig hilsen
+.sp3
+&BANKNAVN
+.pa
+.fo left
+.tm 40mm
+:CALIB12.
+.ti ¤ 05
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.***************************************************************
+.ar VEND on
+.tp 20mm
+:COUR6.
+B30PEN01
+.br
+Kl. &KLOKKESLET.¤&DATO
+.ar off
+.us DET KOSTER PENSIONSORDNINGEN
+.br
+.tp 28 48 right 66 right
+.sp 3mm
+.if &L'&PEN10006 eq 0 .go LAB2
+Vi har registreret at De årligt ønsker at indbetale kr. &PEN10006.
+.sp 3mm
+...LAB2
+.se AA = &PEN10027
+.if X&AA eq X0 .go LAP
+Marginalskattesats kapitalpension: &PEN10027. %.
+.br
+Marginalskattesats ratepension: &PEN10046. %.
+.sp 3mm
+...LAP
+.if &ÅLC lt 3
+.th .ri fortsættes
+.th .pa
+Første indbetaling falder den &PEN30001 og derefter &PEN30002 indtil sidste
+indbetaling &PEN30003..
+.sp 3mm
+.se B = indeksreguleret.
+.se C = &PEN10007
+.su off
+.if X&B eq X&C
+.th .su on
+.th Indbetalinger på ordningen bliver ifølge aftale &PEN10007.
+.el .su on
+.sp 3mm
+.if &ÅLC lt 10
+.th .ri fortsættes
+.th .pa
+Første kalenderårs indbetaling anvendes på følgende måde:
+.sp 3mm
+.tp 100mm right 143mm right
+¤Før skat/afgift¤Efter skat/afgift
+.tp 68mm 100mm right 142mm right
+.sp 3mm
+.if &L'&PEN20001 eq 0 .go RATE
+  Indbetaling ialt¤:¤&PEN20001.¤&PEN20002
+.br
+...RATE
+.if &L'&PEN40004 eq 0 .go OMK
+  Indbetaling ialt¤:¤&PEN40004.
+.br
+...OMK
+  Omkostninger (depot/pulje)¤:¤&PEN20007.
+.br
+.*.if &ÅLC lt 12
+.*.th .ri fortsættes
+.*.th .pa
+.*.sp 3mm
+.*.se F = &PEN20009
+.*.se G = &PEN20011
+.*.se H = &PEN20013
+.*.se I = &PEN20015
+.*.se J = &PEN20017
+.*.se K = &PEN20019
+.*.if &L'&F eq 0 .an &L'&G eq 0 .an &L'&H eq 0 .an &L'&I eq 0 .go LAP8
+.*.tp 68mm 100mm right
+.*Indbetaling på forsikringer:
+.*.br
+.*.if &L'&F eq 0 .go LAP5
+.*  Livsforsikring¤:¤&PEN20009
+.*...LAP5
+.*.br
+.*.if &L'&G eq 0 .go LAP6
+.*  Gruppelivsforsikring¤:¤&PEN20011
+.*...LAP6
+.*.br
+.*.if &&'&H eq 0 .go LAP7
+.*  Invaliderente¤:¤&PEN20013
+.*...LAP7
+.*.br
+.*.if &L'&I eq 0 .go LAP8
+.*  Invalidesum¤:¤&PEN20015
+.*...LAP8
+.*.if &L'&J eq 0 .an &L'&K eq 0 .go LAP10
+.*.if &L'&F eq 0 .an &L'&G eq 0 .an &L'&H eq 0 .an &L'&I eq 0
+.*.th .tp 28 48 right 66 right
+.*.th Indbetaling på forsikringer:
+.*.br
+.*.if &L'&J eq 0 .go LAP9
+.*  Gruppeinvaliderente¤:¤&PEN20017.
+.*...LAP9
+.*.br
+.*.if &L'&K eq 0 .go LAP10
+.*  Gruppeinvalidesum¤:¤&PEN20019.
+.*...LAP10
+.*.se N = &PEN10008
+.*.if &L'&N eq 0 .go LAP11
+.*.if &ÅLC lt 6
+.*.th .ri fortsættes
+.*.th .pa
+.sp 5mm
+Ekstraordinære indskud
+.br
+  Periodens samlede ekstraordinære indskud udgør kr. &PEN10008.
+.br
+...LAP11
+.if &ÅLC lt 6
+.th .ri fortsættes
+.th .pa
+.sp 3mm
+.if &L'&PEN30005 eq 0 .go LAP12
+.tp 32 48 right
+Fra eksisterende pensionsordning overføres:
+.sp 3mm
+ &PEN30005.
+.sp 5mm
+...LAP12
+.if &ÅLC lt 6
+.th .tp 104mm
+.th ¤fortsættes
+.pa
+.us SÅ MEGET FÅR DE UDBETALT.
+.sp 3mm
+.if &L'&PEN30010 eq 0 .go LAP13
+Ved pensionering den &PEN30009. udbetales:
+.sp 3mm
+.tp 100mm right 143mm right
+¤Fremtidsværdi¤Nutidsværdi
+.sp 3mm
+.tp 72mm 100mm right 142mm right
+  Total opsparet kapitalpension¤:¤&PEN30010.¤&PEN30011.
+  - 40% afgift¤:¤&PEN30012.¤&PEN30013.
+¤¤_____________¤_____________
+.sp 3mm
+  Til udbetaling¤:¤&PEN30014.¤&PEN30015.
+.sp 5mm
+...LAP13
+.if &L'&PEN10013 eq 0 .go LAP14
+Ved pensionering den &PEN30009. udbetales Deres ratepension som følger:
+.sp 3mm
+.tp 100mm right 143mm right
+¤Før skat¤Efter skat
+.sp 3mm
+.tp 74mm 100mm right 142mm right
+  1. års udbetaling i nutidsværdi¤:¤&PEN10013.¤&PEN10014.
+.br
+  Pensionen udbetales over &PEN10012 år.
+.sp 3mm
+...LAP14
+.sp 3mm
+.if &ÅLC lt 10
+.th .ri fortsættes
+.th .pa
+:CALIB12.
+.fo left
+.us SÅDAN DÆKKER PENSIONSORDNINGEN
+.if &L&'PEN10010 eq 0 .go LAP0
+.sp 3mm
+Ved pensionering den &PEN30009 udbetales
+.br
+.sp 3mm
+.tp 100mm right 143mm right
+¤Før skat/afgift¤Efter skat/afgift
+.br
+.tp 68mm 100mm right 142mm right
+.sp 3mm
+  På en gang (nutidsværdi)¤:¤&PEN10010.¤&PEN10011
+.br
+...LAP0
+.sp 5mm
+.se F = &PEN20009
+.se G = &PEN20011
+.if &L'&F eq 0 .an &L'&G eq 0 .go LAB
+.us DÆKNINGEN UDGØR
+.br
+...LAB
+.tp 68mm 100mm right 105mm 120mm right 123mm
+.sp 3mm
+Dækning ved dødsfald
+.br
+  Højeste totaldækning¤:¤&PEN10016.¤ved ¤&PEN10017 ¤år.
+.br
+  Laveste totaldækning¤:¤&PEN10018.¤ved ¤&PEN10019 ¤år.
+.sp 3mm
+.se Y = &PEN10036
+.*.if &L'&Y eq 0 .go LAB1
+.*Vi gør opmærksom på, at Deres gruppelivsforsikring er aftalt som en
+.*rateforsikring over 10 år med kr. &PEN10036., men med mulighed for, at
+.*efterladte kan konvertere forsikringen til en sumforsikring på
+.*kr. &PEN10035. (beløbene er før skat/afgift).
+.*...LAB1
+.*.se A = &PEN10020
+.*.se B = &PEN10024
+.*.se C = &PEN10032
+.*.se D = &PEN10031
+.*.se E = &PEN10045
+.*.if &L'&A eq 0 .an &L'&B eq 0 .an &L'&C eq 0 .an &L'&D eq 0 .go LAP
+.*.sp 3mm
+.*Dækning ved invaliditet:
+.*.br
+.*.tp 2mm 68mm 100mm right 105mm 139mm right 143mm
+.*.if &L'&A eq 0 .go LAP1
+.* ¤Udbetales som engangsbeløb¤:¤&PEN10020.¤ophører ved ¤&PEN10022..¤år.
+.*.br
+.*...LAP1
+.*.if &L'&B eq 0 .go LAP2
+.* ¤Udbetales som årlig sikring¤:¤&PEN10024.¤ophører ved ¤&PEN10026..¤år.
+.*.br
+.*...LAP2
+.*.if &L'&C eq 0 .go LAP3
+.*.if &L'&E eq 0
+.*.th ¤Gruppeforsikring engangsbeløb¤:¤&PEN10032.¤ophører ved¤&PEN10034..¤å
+.*.el ¤Gruppeforsikr. årlig sikring¤:¤&PEN10032.¤ophører ved ¤&PEN10034..¤å
+.*.br
+.*...LAP3
+.*.if &L'&D eq 0 .go LAP
+.* ¤Gruppeforskr. årlig sikring¤:¤&PEN10031.¤ophører ved ¤&PEN10033..¤år.
+.*.br
+.*...LAP
+.*.if &L'&PEN10028 eq 0 .go LAP4
+.*.sp 3mm
+.*.tp 2 32 48 right 50 63 67
+.*Afgiftsfrie forsikringer
+.*.br
+.*¤Supplerende dækning¤:¤&PEN10028
+.*.br
+.*.if &L'&PEN10029 gt 0
+.*.th ¤&PEN10029..
+.*.el
+.*.br
+.*...LAP4
+.*.if &L'&PEN10030 eq &0 .go LAP5
+.*.sp 3mm
+.*.tp 2 32 48 right 50 63 67
+.*Eksisterende/anden forsikring
+.*.br
+.*¤Supplerende dækning¤:¤&PEN10030
+.*.br
+.*...LAP5
+.*.sp 5mm
+.*
+.*
+.fo left
+.tm 40mm
+:CALIB12.
+.ti ¤ 05
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.***************************************************************
+.ar VEND on
+.tp 20mm
+:COUR6.
+B30PEN01
+.br
+Kl. &KLOKKESLET.¤&DATO
+.ar off
+.***********************************************************************
+.sp 22mm
+.ri &DATO1
+.br
+&PEN10001
+.br
+&PEN10002
+.br
+&PEN10003
+.br
+&PEN10004
+.br
+&PEN10005
+.sp 28mm
+:CALIB12.
+:FED.
+.us Beregningseksempel på pensionsordning:SKRSLUT.
+.sp 5mm
+.**********************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

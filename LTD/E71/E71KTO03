@@ -1,0 +1,265 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.if &U'&GENVALGB = P
+.or &U'&GENVALGB = E
+.th .go TYPEOK
+.el .mg/T/Valg af type skriv P eller E/
+...TYPEOK
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Kontoåbningsblanket ny konto - Turborente
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE       20mm  40mm width  175mm
+.da KNAVN      20mm 229mm width 87,5mm
+.da BNAVN   107.5mm 229mm width 87,5mm
+.************ PARTER ******************************************************
+.ar SIDE on
+:SWISS10.:FED.
+Parter
+:SKRSLUT.
+.bx left 87.5mm right
+:SWISS8.
+.tp 1mm 88.5mm
+¤Kontohaver¤Pengeinstituttet
+.sp 20mm
+.if &L'&PEN <> 0
+.th ¤CPR-nummer:
+.el ¤CPR-nr./CVR-nr.:
+.bx off
+.****************KONTO**************************
+:SWISS10.:FED.
+Konto
+.br
+:SKRSLUT.
+.bx left right
+.in 1mm
+.ir 5mm
+:SWISS8.
+Indgåelse af aftale om åbning af
+.if &L'&INDL. <> 0
+.th indlånskonto:
+.el pensionkonto:
+.in
+.ir
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 6
+.se ktonr2 = substr &IREGKTO 11 1
+.su on
+.sp 2mm
+¤Reg. nr.:
+.br
+¤Konto nr.:
+.sp
+.bx off
+.bx can
+.bx can
+.************ INDHOLD KASSEN***********************************************
+:SWISS10.:FED.
+Vilkår
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 85mm
+.bx off
+.*********************LEGITIMATION*********************
+:SWISS10.:FED.
+.tp _/140mm
+Legitimation
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.in 1mm
+.sp 2mm
+.if &U'&GENVALGB = P
+.th Kontohaver her indleveret billede-legimitation i form af: ¤
+.th (f.eks. pas/kørekort)
+.el Kontoen oprettes i henhold til gældende tegningsudskrift på selskabet.
+.tp 6mm
+.in
+.sp 3mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+.tp 1mm 56mm 88.5mm 144,5mm
+¤Kundens underskrift ¤Dato: ¤Pengeinstituttets underskrift ¤Dato:
+.sp 25mm
+.bx off
+.ar off
+.*********************************************
+.ar KNAVN on
+.ce on
+&KTONAVN.
+.ce off
+.ar off
+.*********************************************
+.ar BNAVN on
+.ce on
+&BANKNAVN.
+.ce off
+.ar off
+.*********************************************
+.******************************************************************
+.da KUNDEOPL       25mm  55mm width  80mm
+.da VARTXT      112,5mm  50mm width  80mm
+.da CVRNR          45mm  68mm width  60mm
+.da REGNR          34mm  83mm width  60mm
+.da KNR            34mm  86mm width  60mm
+.**********************KUNDEOPLSNINGER**********************************
+.*************BANKOPLYSNINGR********************************************
+.ar VARTXT on
+&BANKNAVN
+.br
+&BANKGADE
+.br
+&BANKBY
+.br
+.ar off
+.**************KUNDENS CVR/CPR***************************************
+.ar CVRNR on
+&KTOKNDNR1.
+.ar off
+.***********REG NUMMER**********************************************
+.ar REGNR on
+&regnr.
+.ar off
+.************KONTO-NUMMER*******************************************
+.ar KNR on
+&ktonr.-&ktonr2.
+.ar off
+.*******************************************************************
+.******************************************************************
+.da INDHOLD        21mm   99mm width 170mm
+.da TXT            32mm  195mm width 170mm
+.******************************************************************
+.ar INDHOLD on
+:SWISS8.
+Mellem ovenstående kontohaver og &BANKNAVN. er der d.d. indgået aftale
+om åbning af en
+.if &L'&INDL. <> 0
+.th indlånskonto på de nedenfor anførte vilkår:
+.el pensionskonto på de nedenfor og i pensionaftalen anførte vilkår:
+.sp 3mm
+.tp 5mm
+.of 5mm
+:FED.
+.if &L'&INDL. <> 0
+.th A.¤
+.th :SKRSLUT.
+.th Indlånskonto på anfordringsvilkår.
+.th .sp 3mm
+.th .of
+.th .of 5mm
+.th ¤Grundrenten er CIBOR 3 måneder pr. 9. juni og 9. december
+.th med et fradrag på ½ %-point.
+.th .sp
+.th I perioden fra kontoens oprettelse til den 8. juni 2009
+.th (bindingsperioden) er kontoen bundet, således at der ikke kan indsættes
+.th yderligere beløb på kontoen.
+.th .sp
+.th I bindingsperioden er renten fastsat til &AFTALT. % p.a.
+.th for indeståender op til kr. &AFTBLB.
+.th .sp
+.th Ved hævninger på kontoen i bindingsperioden beregnes en dekort på 1 %
+.th af det udbetalte beløb.
+.th .br
+.th Dekorten fratrækkes i forbindelse med udbetalingen.
+.el ¤Grundrenten er CIBOR 3 måneder pr. 9.juni og 9. december
+.el med et fradrag på ½ %-point.
+.el .sp
+.el I perioden fra kontoens oprettelse til den 8. juni 2009 er renten dog
+.el fastsat til &AFTALT. % p.a. for indeståender op til kr. &AFTBLB..
+.el .sp
+.el Hvis den pensionsordning, kontoen er knyttet til, skal opgøres i
+.el perioden med fast rente beregnes et opgørelsesgebyr på 1 % af
+.el pensionsordningens værdi, dog maksimalt 10.000 kr.
+:SKRSLUT
+.sp
+.if &L'&INDL. <> 0
+.th :SWISS8.
+.th :FED
+.th .in 0mm
+.th B.
+.th :SKRSLUT.
+.th .sp 3mm
+.th ¤1. Kontoen
+.th .in 8mm nobreak
+.th føres med kontoudskrifter. Mindst én gang årligt, i.f.m.
+.th årsskiftet, udskrives der et kontoudskrift, ligesom der udskrives
+.th kontoudskrift ved hver 200 postering.
+.th Ønskes der andre intervaller på udskrivningen af kontoudtog aftales
+.th dette individuelt.
+.th .in 0mm
+.th .sp 3mm
+.th ¤2. Posteringer
+.th .in 8mm nobreak
+.th på kontoen, debet eller kredit, vil blive valideret i
+.th henhold til de til enhver tid gældende valideringsregler i &BANKNAVN..
+.th .in 0mm
+.th .sp 3mm
+.th ¤3. &BANKNAVN.' "almindelige
+.th .in 8mm nobreak
+.th forretningsbetingelser for
+.th .if &U'&GENVALGB = P
+.th .th privatkunder"
+.th .el erhvervskunder"
+.th er til enhver tid gældende, og kontohaver kvitterer ved sin underskrift
+.th for at have modtaget et eksemplar af disse.
+.th .in 0mm
+;T

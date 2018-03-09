@@ -1,0 +1,211 @@
+.**************************************************************************
+.da KUNDEOPL       25mm  46mm width 80mm
+.da KNDCPR         25mm 73mm width 80mm
+.da KTONR          25mm 82.5mm width 80mm
+.da KTOPIOPL       25mm  100mm width 80mm
+.da UNDERSKR       50mm  184mm width 85mm
+.da OPR            30mm 129mm width 165mm
+.**************************************************************************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.**************************************************************************
+.ar KNDCPR on
+&KUNDENR
+.ar off
+.**************************************************************************
+.ar KTONR on
+&regnr.-&ktonr
+.ar off
+.**************************************************************************
+.ar UNDERSKR on
+.ce on
+.if &cprcvr = 00
+.th .go UNDERSL
+.if &cprcvr < 32
+.th &NAVN
+...UNDERSL
+.ce off
+.ar off
+.**************************************************************************
+.ar KTOPIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar OPR on
+Oprette konto nr. &B48TEKST1 som NemKonto.
+.sp 6mm
+Ændre eksisterende NemKontonr. &B48TEKST2 til kontonr. &B48TEKST3..
+.ar off
+.**************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+:SWISS10.:FED.
+¤Undertegnede kunde
+:SKRSLUT.:SKRSLUT.
+.br
+:SWISS8.
+.bx left right
+.sp 23mm
+¤CPR-nr./CVR-nr.
+.sp 6mm
+.bx new left right
+¤NemKontonr.
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.************ PENGEINSTITUTTET ********************************************
+:SWISS10.
+anmoder herved
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 23mm
+.bx off
+.*************************************************************************
+:SKRSLUT.
+:SWISS10.
+om at
+.bx left right
+.sp 5mm
+.bx new 3mm 7mm
+.sp 2mm
+.bx off
+.sp 5mm
+.bx new 3mm 7mm
+.sp 2mm
+.bx off
+.sp 5mm
+.bx off
+.************ BETINGELSER *************************************************
+:SWISS10.
+på følgende betingelser:
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 7mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 20mm
+.bx off
+.ar off
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+05.03.2007
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Oprettelse/ændring af NemKonto
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*SUBSTRINGS***************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cprcvr = substr &KUNDENR 1 2
+.su on
+.**************************************************************************
+.if &cprcvr > 31
+.th .mg/T/Der kan ikke oprettes NemKonto til konstruerede kundenumre/
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:SWISS8.
+.**************************************************************************
+.da INDHOLD        21mm 155mm width 165mm
+.da UNDER         21mm  168mm width 160mm
+.da FIRK           24mm 129mm width 10mm
+.**************************************************************************
+.ar FIRK on
+.if &L'&B48ORG1 gt 0
+.th X
+.el &ÅRB
+.***************************************************
+.sp 7mm
+.if &L'&B48ORG2 gt 0
+.th X
+.el &ÅRB
+.ar off
+.**************************************************************************
+.ar INDHOLD on
+Økonomistyrelsen har fastsat, at alle borgere og virksomheder skal anvise
+en NemKonto. Herefter vil alle udbetalinger fra det offentlige blive
+indsat på den valgte konto (NemKonto) på de vilkår, der gælder for kontoen.
+.ar off
+.**************************************************************************
+.ar UNDER on
+Undertegnede ønsker at anvende ovenstående konto som NemKonto.
+.sp 12mm
+.tp 72.5mm center
+.hr left 25mm 30mm 115mm
+.br
+Dato
+...UNDSL1
+.ar off
+.**************************************************************************

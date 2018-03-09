@@ -1,0 +1,373 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*** HENTER ADRESSER FRA POSTNR HVIS (GEN)NAVN ER BLANK *************
+.*** SÅ BLANKES NAVN/ADR-FELTER UNDTAGEN (GENCOADR) AFDELING ********
+.if &L'&GENNAVN = 0
+.th .se GENNAVN = ''
+.th .se GENGADE = ''
+.th .se GENBY   = ''
+.el .GO EJHENT
+.*** HENTER ADRESSER FRA POSTNR HVIS IM IKKE ER FORETAGET FØR *******
+.*** BECTLBP EKSISTERER, HVIS MAKROEN TLADR ER IMBEDDED *************
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, DETTE AFSN***
+.if &E'&BECTLBP = 1
+.th .GO EJIM
+.im (BECTING03TLH)
+...EJIM
+.if &E'&BECTLBP = 1 .an &E'&LNTLKODE = 1
+.th .TLADR &LNTLKODE.
+.*** INDSÆTTER ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  *******
+.if &L'&GENNAVN = 0
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+...EJHENT
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF IMBEDDEDE ADRESSER PÅ SKÆRM,**************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL ****
+:GL.
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF IMBEDDEDE ADRESSER PÅ SKÆRM,********
+.***********
+.* Tinglysning - Effekter - brevnavn mv.
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.ll 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+B85TING01 - 1.2.2008
+.ar off
+.************** formular til Følgdebrev til dommerkontoret ***********
+.ti ¤ 05
+.tp 86.5mm
+.da SIDE1 20mm 77mm width 175mm
+.da BOX1  20mm 68mm width 139mm
+.dr tynd weight 0,05mm
+.ar BOX1 on
+:SWISS10.
+.fo left
+:FED.
+Følgebrev til dommerkontoret
+:SKRSLUT.
+.ar off
+.ar SIDE1 on
+:SWISS10.
+.****** Vedr.***********************************************************
+.bx new tynd left right
+.sp 80mm
+.bx off
+.***** dokumenter fremsendes **************************
+:SWISS10.
+:FED.
+Ovennævnte dokumenter fremsendes til: ¤ Endvidere vedlægges::SKRSLUT.
+.bx new tynd left  87.5mm right
+.sp 3.3mm
+.bx new tynd 3.2mm 7.2mm / 90mm 94mm
+.sp 2mm
+.bx off
+.sp 1.8mm
+.bx new tynd 3.2mm 7.2mm / 90mm 94mm
+.sp 2mm
+.bx off
+.sp 1.8mm
+.bx new tynd 3.2mm 7.2mm
+.sp 2mm
+.bx off
+.sp 1.8mm
+.bx new tynd 3.2mm 7.2mm / 90mm 94mm
+.sp 2mm
+.bx off
+.sp 1.8mm
+.bx new tynd 3.2mm 7.2mm / 90mm 94mm
+.sp 2mm
+.bx off
+.sp 1.8mm
+.bx new tynd 3.2mm 7.2mm / 90mm 94mm
+.sp 2mm
+.bx off
+.sp 2mm
+.bx off
+.bx can
+.***** Vi beder Dem **************************
+:SWISS10.
+:FED.
+Vi beder Dem :SKRSLUT.
+.bx new tynd left right
+.sp 3mm
+.bx new tynd 3.2mm 7.2mm
+.sp 2mm
+.bx off
+.sp 3mm
+.bx new tynd 3.2mm 7.2mm
+.sp 2mm
+.bx off
+.sp 4mm
+.bx new tynd 3.2mm 7.2mm
+.sp 2mm
+.bx off
+.sp 4.5mm
+.bx new tynd 3.2mm 7.2mm
+.sp 2mm
+.bx off
+.sp 2mm
+.bx off
+.bx can
+.ar off
+.ti ¤ 05
+.tp 40mm 109mm
+:SWISS8.
+.**************** Effekter til tinglysning, fast tekst ************
+.da VEDR          21mm    78.0mm   width 175mm
+.da KOLONNE1      31mm   168.5mm   width 84mm
+.da KOLONNE2     119.5mm 168.5mm   width 84mm
+.da BEDER         31mm   215.0mm   width 175mm
+.*******************************************************
+.ar VEDR on
+Vedrørende
+.sp 69mm
+Med pant i
+.ar off
+.*******************************************************
+.ar KOLONNE1 on
+.tp 56mm
+tinglysning, f.s.v. angår ¤ nr.:
+.sp 3mm
+tinglysning af påtegning, f.s.v. angår ¤ nr.:
+.sp 3mm
+aflysning, f.s.v. angår ¤ nr.:
+.sp 3mm
+ophævelse af retsanmærkning, f.s.v. angår ¤ nr.:
+.sk
+.ar off
+.ar KOLONNE2 on
+skøde på ovennævnte ejendom/me
+.sp 3mm
+udskrift fra Erhvervs- og Selskabsstyrelsen for
+.sp 9mm
+check, stor kr. ¤ til dækning af stempel
+                ¤ og tinglysningsafgifter
+.ar off
+.ar BEDER on
+anerkende modtagelsen af ovennævnte dokumenter på medfølgende kopi af
+nærværende skrivelse.
+.sp 4mm
+returnere dokumenterne efter endt ekspedition.
+.ar off
+:SWISS10.
+.ll 175mm
+.ti ¤ 05
+.tp 7mm
+.da MVH      22mm 250mm width 175mm
+.da VEDR     22mm  84mm width 175mm
+.da PANT     37mm 150mm width 175mm
+.da DOK      24mm 168mm width 175mm
+.da BEDER    24mm 215mm width 175mm
+.ar VEDR on
+1.¤&B85TINGV01
+  ¤&B85TINGV02
+.sk
+.if &L'&B85TINGV03 > 0
+.th2.¤&B85TINGV03
+.th  ¤&B85TINGV04
+.sk
+.if &L'&B85TINGV05 > 0
+.th3.¤&B85TINGV05
+.th  ¤&B85TINGV06
+.sk
+.if &L'&B85TINGV07 > 0
+.th4.¤&B85TINGV07
+.th  ¤&B85TINGV08
+.sk
+.if &L'&B85TINGV09 > 0
+.th5.¤&B85TINGV09
+.th  ¤&B85TINGV10
+.tp8
+.br
+.ar off
+.ar PANT on
+&B85TINGP01
+.br
+&B85TINGP02
+.ar off
+.ar DOK on
+.tp 7mm 69mm 87mm 95.5mm 120mm
+.if &L'&B85TINGX01 > 0
+.an &U'&B85TINGX07 = J
+.thX ¤¤&B85TINGX01 ¤X
+.th.sp 2.5mm
+.if &L'&B85TINGX01 = 0
+.an &U'&B85TINGX07 = J
+.th              ¤¤¤X
+.th.sp 2.5mm
+.if &L'&B85TINGX01 > 0
+.an &U'&B85TINGX07 = N
+.thX ¤¤&B85TINGX01
+.th.sp 2.5mm
+.if &L'&B85TINGX01 = 0
+.an &U'&B85TINGX07 = N
+.th.sp 6.1mm
+.br
+.if &L'&B85TINGX02 > 0
+.an &L'&B85TINGX08 > 0
+.thX ¤¤&B85TINGX02 ¤X
+.th.sp 2.5mm
+.if &L'&B85TINGX02 > 0
+.an &L'&B85TINGX08 = 0
+.thX ¤¤&B85TINGX02
+.th.sp 2.5mm
+.if &L'&B85TINGX02 = 0
+.an &L'&B85TINGX08 > 0
+.th              ¤¤¤X
+.th.sp 2.5mm
+.if &L'&B85TINGX02 = 0
+.an &L'&B85TINGX08 = 0
+.th.sp 6.1mm
+.br
+.if &L'&B85TINGX03 > 0
+.an &L'&B85TINGX08 > 0
+.thX ¤¤&B85TINGX03 ¤¤&B85TINGX08
+.th.sp 2.5mm
+.if &L'&B85TINGX03 = 0
+.an &L'&B85TINGX08 > 0
+.th              ¤¤¤¤&B85TINGX08
+.th.sp 2.5mm
+.if &L'&B85TINGX03 > 0
+.an &L'&B85TINGX08 = 0
+.thX ¤¤&B85TINGX03
+.th.sp 2.5mm
+.if &L'&B85TINGX03 = 0
+.an &L'&B85TINGX08 = 0
+.th.sp 6.1mm
+.br
+.if &L'&B85TINGX04 > 0
+.an &L'&B85TINGX09 > 0
+.thX ¤¤&B85TINGX04 ¤X ¤¤&B85TINGX09.,-
+.th.sp 2.5mm
+.if &L'&B85TINGX04 > 0
+.an &L'&B85TINGX09 = 0
+.thX ¤¤&B85TINGX04
+.th.sp 2.5mm
+.if &L'&B85TINGX04 = 0
+.an &L'&B85TINGX09 > 0
+.th              ¤¤¤X ¤¤&B85TINGX09.,-
+.th.sp 2.5mm
+.if &L'&B85TINGX04 = 0
+.an &L'&B85TINGX09 = 0
+.th.sp 6.1mm
+.br
+.if &L'&B85TINGX05 > 0
+.an &L'&B85TINGX10 > 0
+.thX ¤&B85TINGX05 ¤¤X ¤&B85TINGX10
+.th.sp 2.5mm
+.if &L'&B85TINGX05 > 0
+.an &L'&B85TINGX10 = 0
+.thX ¤&B85TINGX05
+.th.sp 2.5mm
+.if &L'&B85TINGX05 = 0
+.an &L'&B85TINGX10 > 0
+.th              ¤¤¤X ¤&B85TINGX10
+.th.sp 2.5mm
+.if &L'&B85TINGX05 = 0
+.an &L'&B85TINGX10 = 0
+.th.sp 6.1mm
+.br
+.if &L'&B85TINGX06 > 0
+.an &L'&B85TINGX11 > 0
+.thX ¤&B85TINGX06 ¤¤X ¤&B85TINGX11
+.th.sp 2.5mm
+.if &L'&B85TINGX06 > 0
+.an &L'&B85TINGX11 = 0
+.thX ¤&B85TINGX06
+.th.sp 2.5mm
+.if &L'&B85TINGX06 = 0
+.an &L'&B85TINGX11 > 0
+.th              ¤¤¤X ¤&B85TINGX11
+.th.sp 2.5mm
+.if &L'&B85TINGX06 = 0
+.an &L'&B85TINGX11 = 0
+.th.sk
+.ar off
+.ar BEDER on
+.if &U'&B85TINGX12 = J
+.thX
+.th.sp 3.5mm
+.el.sp 7.2mm
+.if &U'&B85TINGX13 = J
+.thX
+.th.sp 4.7mm
+.el.sp 8.2mm
+.if &L'&B85TINGX14 > 0
+.thX ¤&B85TINGX14
+.th.sp 5.5mm
+.el.sp 8.8mm
+.if &L'&B85TINGX15 > 0
+.thX ¤&B85TINGX15
+.el.sk
+.ar off
+.ar MVH on
+:SWISS10.
+Venlig hilsen
+.sk
+:FED.
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 4
+.if &L'&GENMEKSP = O
+.th &GENEKSP
+.el &GENEKSP      &GENMEKSP
+.ar off

@@ -1,0 +1,752 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.******************Test af korrekt regtype****************************
+.if X&REGTYPE = X2020
+.or X&REGTYPE = X2021
+.th .go REGOK
+.el .mg/T/Der skal vælges en konto med regtype 2020 eller 2021/
+...REGOK
+.*******************Test af om samlet debetrente er over 9,999 %******
+.* Det kan dokumentet ikke håndtere, da der testes på en længde af &TOTDEB
+.* på præcis 5 karakterer ********************************************
+.if &L'&TOTDEB1 > 5
+.an X&TOTDEB1 > X0
+.th .mg/T/Dokument kan ikke håndtere samlet debetrente på over 9,999 %/
+.******************Test af gyldig debetgrundrente*********************
+.if X&DEBGRNDKD1 = XC1
+.or X&DEBGRNDKD1 = XC3
+.or X&DEBGRNDKD1 = XC6
+.or X&DEBGRNDKD1 = XC2
+.or X&DEBGRNDKD1 = XN1
+.or X&DEBGRNDKD1 = XD4
+.or X&DEBGRNDKD1 = XE0
+.th .go TESTOK50
+.el .mg/T/Debetgrundrente skal være C1, C3, C6, C2, N1, D4 eller E0/
+...TESTOK50
+.******************Test af om E53FASREN udfyldt korrekt***
+.if &U'&E53FASREN = N
+.or &U'&E53FASREN = J
+.th .go TESTOK40
+.el .mg/T/Ugyldig værdi for Rente fast til udløb. Tast j el. n/
+...TESTOK40
+.***Fejlmeddelelse hvis E53FASREN = J og E53RENAFT udfyldt i samme brev**
+.if &U'&E53FASREN = J
+.an &L'&E53RENAFT > 0
+.th .mg/T/Hvis rente fast til udløb skal genforhandlingsdato ej udfyldes/
+.******************Test af om dokumenter skal vedlægges eller ej******
+.if &U'&E53KØBSKØ = J
+.or &U'&E53KØBSKØ = N
+.th .go TESTOK1
+.el .mg/T/Skal købsaftale el. skøde vedlægges j el.n?/
+...TESTOK1
+.if &U'&E53FOREDC = J
+.or &U'&E53FOREDC = N
+.th .go TESTOK2
+.el .mg/T/Skal formidlingsaftale med EDC vedlægges j el. n?/
+...TESTOK2
+.if &U'&E53GARKØB = J
+.or &U'&E53GARKØB = N
+.th .go TESTOK3
+.el .mg/T/Skal garantier for købesum vedlægges j el n?/
+...TESTOK3
+.if &U'&E53LEJKON = J
+.or &U'&E53LEJKON = N
+.th .go TESTOK4
+.el .mg/T/Skal lejekontrakter vedlægges j el. n?/
+...TESTOK4
+.if &U'&E53TRASUM = J
+.or &U'&E53TRASUM = N
+.th .go TESTOK5
+.el .mg/T/Skal sikkerhedsstillelse: Transport i købesum, vedlægges j el n?/
+...TESTOK5
+.if &U'&E53BYGTIL = J
+.or &U'&E53BYGTIL = N
+.th .go TESTOK6
+.el .mg/T/Skal byggetilladelse vedlægges j el n?/
+...TESTOK6
+.if &U'&E53ENTKON = J
+.or &U'&E53ENTKON = N
+.th .go TESTOK7
+.el .mg/T/Skal entrepriselkontrakt vedlægges j el n?/
+...TESTOK7
+.if &U'&E53ALRISK = J
+.or &U'&E53ALRISK = N
+.th .go TESTOK8
+.el .mg/T/Skal All Risk + brandforsikring vedlægges j el n?/
+...TESTOK8
+.if &U'&E53RAPLAN = J
+.or &U'&E53RAPLAN = N
+.th .go TESTOK9
+.el .mg/T/Skal rateplan vedlægges j el n?/
+...TESTOK9
+.if &U'&E53ANLFIN = J
+.or &U'&E53ANLFIN = N
+.th .go TESTOK10
+.el .mg/T/Skal anlægs- og finansieringsbudget vedlægges j el n?/
+...TESTOK10
+.if &U'&E53UDPLAN = J
+.or &U'&E53UDPLAN = N
+.th .go TESTOK11
+.el .mg/T/Skal udstykningsplan vedlægges j el n?/
+...TESTOK11
+.if &U'&E53LANINS = J
+.or &U'&E53LANINS = N
+.th .go TESTOK12
+.el .mg/T/Skal landinspektørerklæring vedr. udstykning vedlægges j el n?/
+...TESTOK12
+.if &U'&E53AB9293 = J
+.or &U'&E53AB9293 = N
+.th .go TESTOK13
+.el .mg/T/Skal sikkerhedsstillelse: Transp. AB9293 gar. vedlægges j el n?/
+...TESTOK13
+.if &U'&E53PANBRF = J
+.or &U'&E53PANBRF = N
+.th .go TESTOK14
+.el .mg/T/Skal underskrevet pb fra BRFkredit vedlægges j el n?/
+...TESTOK14
+.if &U'&E53FMAGTU = J
+.or &U'&E53FMAGTU = N
+.th .go TESTOK15
+.el .mg/T/Skal fuldmagt og udb-blanket for BRFkreditlån vedlægges j el n?/
+...TESTOK15
+.if &U'&E53ORGSKØ = J
+.or &U'&E53ORGSKØ = N
+.th .go TESTOK16
+.el .mg/T/Skal originalt skøde vedlægges j el n?/
+...TESTOK16
+.if &U'&E53TEGDOK = J
+.or &U'&E53TEGDOK = N
+.th .go TESTOK17
+.el .mg/T/Skal tegningsdokumentation vedlægges j el n?/
+...TESTOK17
+.if &U'&E53HÅNPAN = J
+.or &U'&E53HÅNPAN = N
+.th .go TESTOK18
+.el .mg/T/Skal sikkerhedsstillelse: Håndpantsætningsaft. vedlægges j el n?/
+...TESTOK18
+.if &U'&E53EJEPTB = J
+.or &U'&E53EJEPTB = N
+.th .go TESTOK19
+.el .mg/T/Skal sikkerhedsstillelse:  Ejerpantebrev vedlægges j el n?/
+...TESTOK19
+.if &U'&E53FMAGTO = J
+.or &U'&E53FMAGTO = N
+.th .go TESTOK20
+.el .mg/T/Skal sikkerhedsstillelse: F-magt udv. opl. vedlægges j el n?/
+...TESTOK20
+.if &U'&E53SELKAU = J
+.or &U'&E53SELKAU = N
+.th .go TESTOK21
+.el .mg/T/Skal sikkerhedsstillelse: Transp. AB9293 gar. vedlægges j el n?/
+...TESTOK21
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.us Aftale om byggekredit &IREGKTO.
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 96mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.kp on
+Underskrevne debitor
+.br
+&KTONAVN.
+.BR
+&KTOCO.
+.BR
+&KTOGADE.
+.BR
+&KTOBY.
+.br
+CVR-nummer: &KTOKUNDENR.
+.br
+.sp 5mm
+har af &BANKNAVN. fået bevilget en byggekredit på
+.sp 5mm
+:vs. &MAXIMUM.
+kr.
+.sp 5mm
+i forbindelse med planlagt byggeprojekt på ejendommen:
+.sp 5mm
+Matrikel-nummer: &E53MATNR.
+.br
+Beliggende: &E53ADREJD
+.sp 5mm
+:FED.
+Forudsætninger for aftalen
+:SKRSLUT.
+.sp 5mm
+&BANKNAVN.s bevilling af byggekreditten forudsætter, at jeg optager
+endeligt realkreditlån til finansiering af byggeriet i BRFkredit.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Afvikling og varighed
+:SKRSLUT.
+.br
+.sp 5mm
+Byggeriet forventes afsluttet senest den &E53BYGSLT.. &BANKNAVN.
+forudsætter, at byggeriet fremmes mest muligt.
+.sp 5mm
+Byggekreditten er gældende til den &AFTDATO. hvor kreditten forfalder
+til fuld og endelig indfrielse.
+.sp 5mm
+Hvis byggeriet overskrider denne frist, kan &BANKNAVN. efter særskilt
+vurdering forlænge byggekreditten med op til 3 måneder ad gangen forudsat,
+at jeg har anmodet banken herom inden den nævnte dato.
+.sp 5mm
+.if &L'&E53TILDAT > 0
+.th I tilfælde af at byggeriet ikke er færdiggjort senest &E53BYGSLT., vil
+.th byggelånsrenten blive forhøjet jævnfør bankens tilbudsskrivelse af
+.th &E53TILDAT..
+.th .sp 5mm
+&BANKNAVN. kan forlange kreditten indfriet, hvis mit engagement med
+BRFkredit bortfalder eller bliver væsentligt nedbragt.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Renter og omkostninger
+:SKRSLUT.
+.sp 5mm
+.if &L'&TOTDEB1 = 6
+.an x&TOTDEB1 <= x0,000
+.an &DEBGRNDKD1 = C1
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. 0,00 % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 6
+.an x&TOTDEB1 <= x0,000
+.an &DEBGRNDKD1 = C3
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. 0,00 % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 6
+.an x&TOTDEB1 <= x0,000
+.an &DEBGRNDKD1 = C6
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. 0,00 % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 6
+.an x&TOTDEB1 <= x0,000
+.an &DEBGRNDKD1 = C2
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. 0,00 % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 6
+.an x&TOTDEB1 <= x0,000
+.an &DEBGRNDKD1 = N1
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. 0,00 % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 6
+.an x&TOTDEB1 <= x0,000
+.an &DEBGRNDKD1 = D4
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. 0,00 % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 5
+.an x&TOTDEB1 > x0,000
+.an &DEBGRNDKD1 = C1
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 5
+.an x&TOTDEB1 > x0,000
+.an &DEBGRNDKD1 = C3
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 5
+.an x&TOTDEB1 > x0,000
+.an &DEBGRNDKD1 = C6
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 5
+.an x&TOTDEB1 > x0,000
+.an &DEBGRNDKD1 = C2
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 5
+.an x&TOTDEB1 > x0,000
+.an &DEBGRNDKD1 = N1
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &L'&TOTDEB1 = 5
+.an x&TOTDEB1 > x0,000
+.an &DEBGRNDKD1 = D4
+.th Det beløb, der er trukket på byggekreditten, forrentes med en variabel
+.th rente på p.t. &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &DEBGRNDKD1 = C1
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 1 måned den sidste bankdag i hver måned med virkning for den
+.th efterfølgende måned. Hertil kommer et variabelt tillæg/fradrag på
+.th &DFDEBSA1. procentpoint. Første ændring vil ske i slutningen af den
+.th måned, hvor kreditten etableres.
+.th .br
+.th Hvis nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og %BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.th .br
+.th Renten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+.th kreditten ved tilskrivning.
+.if &DEBGRNDKD1 = C3
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 3 måneder den sidste bankdag i hvert kvartal med virkning for det
+.th efterfølgende kvartal. Hertil kommer et variabelt tillæg/fradrag på
+.th &DFDEBSA1. procentpoint. Første ændring vil ske i slutningen af det
+.th kvartal, hvor kreditten etableres.
+.th .br
+.th Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og &BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.th .br
+.th Renten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+.th kreditten ved tilskrivning.
+.if &DEBGRNDKD1 = C6
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 6 måneder den sidste bankdag i hvert halvår med virkning for det
+.th efterfølgende halvår. Hertil kommer et variabelt tillæg/fradrag på
+.th &DFDEBSA1. procentpoint. Første ændring vil ske i slutningen af det
+.th kalenderhalvår, hvor kreditten etableres.
+.th .br
+.th Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og &BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.th .br
+.th Renten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+.th kreditten ved tilskrivning.
+.if &DEBGRNDKD1 = C2
+.th Debetrenten fastsættes som den af Danmarks Nationalbank noterede CIBOR
+.th 12 måneder den sidste bankdag i året med virkning for det
+.th efterfølgende år. Hertil kommer et variabelt tillæg/fradrag på
+.th &DFDEBSA1. procentpoint. Første ændring vil ske i slutningen af det
+.th kalenderår, hvor kreditten etableres.
+.th .br
+.th Hvis Nationalbanken ophører med at notere den anførte
+.th CIBOR-sats og &BANKNAVN. vurderer, at den ikke længere afspejler det
+.th danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN. på
+.th grundlag af en sammenlignelig rentesats.
+.th .br
+.th Renten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+.th kreditten ved tilskrivning.
+.if &DEBGRNDKD1 = N1
+.th Debetrenten fastsættes som den af Danmarks Nationalbank fastsatte
+.th NIB-sats. Hertil kommer et variabelt tillæg/fradrag på &DFDEBSA1.
+.th procentpoint. Hvis Nationalbanken ophører med at notere den
+.th anførte NIB-sats og &BANKNAVN. vurderer, at den ikke længere afspejler
+.th det danske pengemarked, vil renten i stedet blive fastsat af &BANKNAVN.
+.th på grundlag af en sammenlignelig rentesats.
+.th .br
+.th Renten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+.th kreditten ved tilskrivning.
+.if &DEBGRNDKD1 = D4
+.th Renten fastsættes af &BANKNAVN. og kan til enhver tid ændres i henhold
+.th til &BANKNAVN.s almindelige forretningsbetingelser for erhvervskunder.
+.th .br
+.th Renten beregnes dagligt og tilskrives hvert kvartal. Renten trækkes på
+.th kreditten ved tilskrivning.
+.sp 5mm
+.if &DEBGRNDKD1 = E0
+.th Det beløb, der er trukket på byggekreditten, forrentes med en fast
+.th rente på &TOTDEB1. % p.a. (debetrente).
+.th .sp 5mm
+.if &DEBGRNDKD1 = E0
+.an &L'&E53RENAFT > 0
+.th Renten gælder frem til &E53RENAFT., hvor den skal genforhandles.
+.if &DEBGRNDKD1 = E0
+.an &U'&E53FASREN = J
+.th Renten kan ikke ændres og gælder således i hele kredittens løbetid.
+.sp 5mm
+.kp off
+.kp on
+Et eventuelt indestående på byggekreditkontoen forrentes med en variabel
+rente, der følger vilkårene for &BANKNAVN.s Højrentekonto Erhverv.
+.sp 5mm
+.kp off
+.kp on
+For kreditten betales en stiftelsesprovision på&E53STPROV. kr., der bliver
+trukket ved etablering.
+.if &L'&E53BOLSAL > 0
+.th .sp 5 mm
+.th Der gives rabat på&E53BOLSAL. kr. pr. bolig, som sælges med
+.th ejerskiftelån optaget i BRFkredit.
+.sp 5mm
+.kp off
+.kp on
+&BANKNAVN. opkræver et honorar på p.t.&E53BESHON. kr. pr. besigtigelse af
+byggeriet, der foretages på bankens foranledning.
+.sp 5mm
+.kp off
+.kp on
+Hvis &BANKNAVN. stiller garanti for et forhåndslån hos BRFkredit eller
+indlevering af anmærkningsfrit pantebrev, betales en garantiprovision på
+&E53PROPCT. % p.a. af garantibeløbet pr. påbegyndte 30 dage.
+Garantiprovisionen trækkes på byggekreditten.
+.sp 5mm
+.kp off
+.kp on
+Hvis &BANKNAVN. udbetaler et beløb på baggrund af en garanti stillet på
+mine vegne, forrentes dette med byggekredittens debetrente plus en eventuel
+overtræksrente, jf. punkt 3 i &BANKNAVN.s særlige vilkår for
+byggefinansiering.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Udbetaling
+:SKRSLUT.
+.sp 5mm
+Der kan tidligst ske udbetaling fra byggekreditten, når &BANKNAVN. har
+sikret, at pantebreve og de nødvendige dokumenter er endeligt tinglyste
+på den forventede prioritetsplads, sat at banken har modtaget alle
+relevante dokumenter vedrørende byggeriet jævnfør nedenfor.
+.sp 5mm
+.kp off
+.kp on
+Udbetalinger fra byggekreditten sker i rater, efterhånden som byggeriet
+skrider frem. Raterne må kun anvendes til at betale regninger vedrørende
+byggeriet samt de krav banken måtte få mod mig som følge af bankens
+garantistillelse på mine vegne. Jeg alene har ansvaret herfor. Banken er
+berettiget, men ikke forpligtet til at føre kontrol hermed.
+.sp 5mm
+.kp off
+.kp on
+&BANKNAVN. er berettiget til at tilbageholde eller nedsætte en eller flere
+rater, hvis banken skønner, at der ikke på ejendommen er præsteret arbejde
+der svarer til ratens beløb, eller at jeg ikke har overholdt mine
+forpligtelser over for &BANKNAVN.. &BANKNAVN. har ret til for min regning
+at lade byggeriet besigtige forud for den enkelte rateudbetaling.
+.sp 5mm
+.kp off
+.kp on
+Udbetaling fra kreditten sker ved, at jeg eller den, som jeg har givet
+fuldmagt hertil, skriftligt anmoder &BANKNAVN. herom med angivelse af
+beløbets størrelse og beløbsmodtager.
+.if &L'&E53PROSAL > =
+.th .sp 5mm
+.th :FED.
+.th Dispositioner over ejendommen
+.th :SKRSLUT.
+.th .sp 5mm
+.th Disposition over ejendommen kan kun ske i overensstemmelse med
+.th &BANKNAVN.s særlige vilkår for byggefinansiering punkt 5. Banken har
+.th på forhånd godkendt, at der løbende sker salg af ejerlejligheder.
+.kp off
+.kp on
+.sp 5mm
+:FED.
+Sikkerhedsstillelse
+:SKRSLUT.
+.sp 5mm
+Jeg giver &BANKNAVN. primær pant i de låneprovenuer, der fremkommer ved
+optagelsen af lån til finansiering af byggeriet. Ved låneprovenuer forstås
+både de obligationer med vedhængende renter og de kontantbeløb, der
+udbetales.
+.sp 5mm
+.if &L'&GENTEKST1 > 0
+.or &L'&GENTEKST2 > 0
+.or &L'&GENTEKST3 > 0
+.or &L'&GENTEKST4 > 0
+.or &L'&GENTEKST11 > 0
+.th Herudover giver jeg &BANKNAVN. pant i følgende aktiver:
+.th .sp 5mm
+.th &GENTEKST1.&GENTEKST2.&GENTEKST3.&GENTEKST4.&GENTEKST11.
+.th .sp 5mm
+.kp off
+.kp on
+Pantsætningerne sker til sikkerhed for opfyldelse af enhver forpligtelse,
+som jeg har eller får over for &BANKNAVN. i forbindelse med byggekreditten
+og bankens garantistillelse efter denne aftale.
+.br
+.sp 5mm
+.kp off
+.kp on
+:FED.
+TinglysningsService og garantianmodning
+:SKRSLUT.
+.sp 5mm
+Jeg anmoder &BANKNAVN. om at hjemtage og tinglyse lån og BRFkredit samt
+eventuelt ejerpantebrev. Jeg giver &BANKNAVN. uigenkaldelig fuldmagt til på
+mine vegne at underskrive alle dokumenter, der er nødvendige til
+gennemførelse af sagen, herunder transport på pantebreve, kvittering til
+aflysning, respektpåtegning, m.v.
+.sp 5mm
+Hvis der i forbindelse med tjemtagelsen af det nye lån skal stilles
+garanti for indlevering af anmærkningsfrit pantebrev eller for opsigelse
+af lån, anmoder jeg hermed &BANKNAVN. om at stille en sådan garanti på
+min regning.
+.sp 5mm
+Hvis det nye lån i BRFkredit skal udbetales, før byggeriet er endeligt
+færdigt, anmoder jeg &BANKNAVN. om på min regning at stille garanti for
+forhåndslån over for BRFkredit.
+.sp 5mm
+Jeg anerkender at hæfte over for banken for enhver følge af bankens
+garantistillelse på mine vegne og refunderer, på bankens skriftlige
+anmodning, ethvert beløb til banken, som den betaler som følge af en
+garanti stillet på mine vegne.
+.sp 5mm
+Jeg kan ikke over for bankens regreskrav fremsætte indsigelser eller
+modkrav af nogen art, som jeg måtte have over for BRFkredit
+.sp 5mm
+.kp off
+.if &U'&E53KØBSKØ = J
+.or &U'&E53FOREDC = J
+.or &U'&E53GARKØB = J
+.or &U'&E53LEJKON = J
+.or &U'&E53TRASUM = J
+.or &U'&E53BYGTIL = J
+.or &U'&E53ENTKON = J
+.or &U'&E53ALRISK = J
+.or &U'&E53RAPLAN = J
+.or &U'&E53ANLFIN = J
+.or &U'&E53UDPLAN = J
+.or &U'&E53LANINS = J
+.or &U'&E53AB9293 = J
+.or &U'&E53PANBRF = J
+.or &U'&E53FMAGTU = J
+.or &U'&E53ORGSKØ = J
+.or &U'&E53TEGDOK = J
+.or &U'&E53HÅNPAN = J
+.or &U'&E53EJEPTB = J
+.or &U'&E53MAGTO = J
+.or &U'&E53SELKAU = J
+.th .kp on
+.th :FED
+.th Udbetalingsbetingelser
+.th :SKRSLUT.
+.th .br
+.th .sp 5mm
+.th &BANKNAVN. skal have modtaget følgende materiale, inden der kan
+.th udbetales fra byggekontoen:
+.th .br
+.th .sp 5mm
+.th .kp off
+.kp on
+.if &U'&E53KØBSKØ = J
+.or &U'&E53FOREDC = J
+.or &U'&E53GARKØB = J
+.or &U'&E53LEJKON = J
+.or &U'&E53TRASUM = J
+.th :FED.
+.th Vedrørende salg/udlejning
+.th :SKRSLUT.
+.th .sp 5mm
+.if &U'&E53KØBSKØ = J
+.th Købsaftale/skøde
+.th .br
+.if &U'&E53FOREDC = J
+.th Formidlingsaftale med EDC
+.th .br
+.if &U'&E53GARKØB = J
+.th Garanti for købesum
+.th .br
+.if &U'&E53LEJKON = J
+.th Lejekontrakter
+.th .br
+.if &U'&E53TRASUM = J
+.th Sikkerhedsstillelse: Transport i salgssum
+.th .br
+.if &U'&E53KØBSKØ = J
+.or &U'&E53FOREDC = J
+.or &U'&E53GARKØB = J
+.or &U'&E53LEJKON = J
+.or &U'&E53TRASUM = J
+.th .sp 5mm
+.kp off
+.kp on
+.if &U'&E53BYGTIL = J
+.or &U'&E53ENTKON = J
+.or &U'&E53ALRISK = J
+.or &U'&E53RAPLAN = J
+.or &U'&E53ANLFIN = J
+.or &U'&E53UDPLAN = J
+.or &U'&E53LANINS = J
+.or &U'&E53AB9293 = J
+.th :FED.
+.th Vedrørende byggeri
+.th :SKRSLUT.
+.th .sp 5mm
+.if &U'&E53BYGTIL = J
+.th Byggetilladelse
+.th .br
+.if &U'&E53ENTKON = J
+.th Entreprisekontrakt
+.th .br
+.if &U'&E53ALRISK = J
+.th All Risk + brandforsikring
+.th .br
+.if &U'&E53RAPLAN = J
+.th Rateplan
+.th .br
+.if &U'&E53ANLFIN = J
+.th Anlægs- og finansieringsbudget
+.th .br
+.if &U'&E53UDPLAN = J
+.th Udstykningsplan
+.th .br
+.if &U'&E53LANINS = J
+.th Landinspektørerklæring vedrørende udstykningsplan
+.th .br
+.if &U'&E53AB9293 = J
+.th Sikkerhedsstillelse: Transport i AB92/ABT93 garantier/arbejdsgarantier
+.th .br
+.if &U'&E53BYGTIL = J
+.or &U'&E53ENTKON = J
+.or &U'&E53ALRISK = J
+.or &U'&E53RAPLAN = J
+.or &U'&E53ANLFIN = J
+.or &U'&E53UDPLAN = J
+.or &U'&E53LANINS = J
+.or &U'&E53AB9293 = J
+.th .sp 5mm
+.kp off
+.kp on
+.if &U'&E53PANBRF = J
+.or &U'&E53FMAGTU = J
+.or &U'&E53ORGSKØ = J
+.or &U'&E53TEGDOK = J
+.or &U'&E53HÅNPAN = J
+.or &U'&E53EJEPTB = J
+.or &U'&E53MAGTO = J
+.or &U'&E53SELKAU = J
+.th :FED.
+.th Generelt
+.th :SKRSLUT.
+.th .sp 5mm
+.if &U'&E53PANBRF = J
+.th Pantebrev fra BRFkredit i underskrevet stand
+.th .br
+.if &U'&E53FMAGTU = J
+.th Fuldmagt og udbetalingsblanket for BRFkreditlån
+.th .br
+.if &U'&E53ORGSKØ = J
+.th Originalt skøde
+.th .br
+.if &U'&E53TEGDOK = J
+.th Tegningsdokumentation
+.th .br
+.if &U'&E53HÅNPAN = J
+.th Sikkerhedsstillelse: Håndpantsætningsaftale
+.th .br
+.if &U'&E53EJEPTB = J
+.th Sikkerhedsstillelse: Ejerpantebrev
+.th .br
+.if &U'&E53FMAGTO = J
+.th Sikkerhedsstillelse: Fuldmagt vedrørende udveksling af oplysninger
+.th .br
+.if &U'&E53SELKAU = J
+.th Sikkerhedsstillelse: Selvskyldnerkautionserklæring
+.th .br
+.if &U'&E53PANBRF = J
+.or &U'&E53FMAGTU = J
+.or &U'&E53ORGSKØ = J
+.or &U'&E53TEGDOK = J
+.or &U'&E53HÅNPAN = J
+.or &U'&E53EJEPTB = J
+.or &U'&E53MAGTO = J
+.or &U'&E53SELKAU = J
+.th .sp 5mm
+.kp off
+.kp on
+:COUR10.
+:FED.
+Opsigelse
+:SKRSLUT.
+.sp 5mm
+Jeg kan uden varsel opsige denne aftale og indfri eventuel gæld til banken.
+.sp 5mm
+&BANKNAVN. kan opsige byggekreditten med 1 måneds varsel.
+.sp 5mm
+&BANKNAVN.s almindelige forretningsbetingelser for erhvervskunder samt
+&BANKNAVN.s særlige vilkår for byggefinansiering er en del af denne
+kontoaftale og kan ses på www.brf.dk under Erhverv.
+.sp 15mm
+¤,den   /
+.sp 15mm
+______________________________
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

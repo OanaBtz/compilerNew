@@ -1,0 +1,263 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*
+.su off
+.se year = substr &DATO 7 4
+.su on
+.**************************************************************************
+.* Test for Alskyld / Specifik udlån.
+.if x&E69VALG1 = x1
+.or x&E69VALG1 = x2
+.th
+.el .mg/T/Alskyld eller Specifik udlån. SKAL vælges (1/2)/
+.* TEST PÅ UNDERSKRIVERNE
+.if &L'&GENUNDSKR2 > 0
+.an &L'&GENUNDSKR1 = 0
+.th .mg/T/Underskriver 1 skal udfyldes før underskriver 2/
+.if &L'&GENUNDSKR3 > 0
+.an &L'&GENUNDSKR2 = 0
+.th .mg/T/Underskriver 2 skal udfyldes før underskriver 3/
+.if &L'&GENUNDSKR4 > 0
+.an &L'&GENUNDSKR3 = 0
+.th .mg/T/Underskriver 3 skal udfyldes før underskriver 4/
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+&E69KAUADR0.
+.br
+&E69KAUADR1.
+.br
+&E69KAUADR2.
+.br
+&E69KAUADR3.
+.br
+&E69CPR00.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+Tabskaution
+:SKRSLUT.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.br
+Dato: &DATO.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.if &L'&MEDNAVN > 0
+.th .sp 92mm
+.el .sp 76mm
+.*.sp 76mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.tp 7mm
+.kp on
+Ovennævnte indestår herved som(solidariske) tabskautionist(er) for
+skadesløs betaling af ethvert tab, som Spar Nord Bank A/S måtte komme til
+at lide vedr.
+.sp 2mm
+.if &L'&KTOSTILL > 0
+.th &KTOSTILL.
+.th .br
+.if &L'&KTONAVN > 0
+.th &KTONAVN.
+.th .br
+.if &L'&KTOCO > 0
+.th &KTOCO.
+.th .br
+.if &L'&KTOGADE > 0
+.th &KTOGADE.
+.th .br
+.if &L'&KTOBY > 0
+.th &KTOBY.
+.th .br
+.if &L'&KTOLAND > 0
+.th &KTOLAND.
+.th .br
+.if &L'&KTOKNDNR1 > 0
+.th CVR. nr. &KTOKNDNR1.
+.sp 2mm
+.if x&E69VALG1 = x1
+.th angående enhver forpligtigelse som debitor(erne) har eller måtte få
+.th over for Spar Nord Bank(alskyld).
+.if x&E69VALG1 = x2
+.th ved gældsbrev(kredit) nr. &E69FRITXT1. af &E69DATO1. lån(kredit) stor
+.th kr. &E69BELOBT1..
+.sp 2mm
+Kautionen omfatter tillige renter, provision og
+sags/inddrivelsesomkostninger.
+.sp 2mm
+Kautionen skal vedblive, så længe Spar Nord Bank A/S har noget beløb til
+gode.
+.sp 2mm
+Både den rente, som Spar Nord Bank A/S beregner sig over for låntager, og
+den, der kan gøres gældende over for kautionister, er variabel. Spar Nord
+Bank A/S forpligter sig ikke til, at give kautionisten meddelelse om
+renteændringer, men disse vil til enhver tid kunne fås oplyst ved
+henvendelse til Spar Nord Bank A/S.
+.sp 2mm
+Spar Nord Bank A/S er berettiget til uden kautionistens tilladelse at give
+debitor henstand. I øvrigt underkaster kautionisten sig de samme
+betingelser, som debitor er underkastet.
+.sp 2mm
+Såfremt nogen indbetaling fra debitors side omstødes, opretholdes
+kautionistens hæftelse uindskrænket, uanset om kautionisten måtte have
+modtaget meddelelse fra Spar Nord Bank A/S eller fra låntager om låntagers
+indbetaling.
+.sp 2mm
+Dersom debitors bo måtte komme under konkurs- likvididations- eller
+skiftebehandling, er Spar Nord Bank A/S berettiget til at gøre sit krav
+gældende i boet og derefter søge betaling hos mig for, hvad der måtte
+mangle i fuld dækning.
+.sp 2mm
+En udskrift fra Spar Nord Bank A/S's bøger er til enhver tid bevis for
+størrelsen af det underliggende gældsforhold.
+.sp 2mm
+I øvrigt gælder Spar Nord Bank A/S  Almindelige betingelser for lån og
+kreditter til erhvervskunder og Almindelige forretningsbetingelser for
+erhvervskunder.
+.kp off
+.* TABSKAUTIONIST *********************************************************
+.kp on
+.sp 6mm
+Som tabskautionist:
+.sp 4mm
+Dato
+.sp 6mm
+.br
+&E69KAUADR0.
+.* .sp 14mm
+.kp off
+.*UNDERSKRIFT *************************************************************
+.dr tynd weight 0.1mm
+.tp 35mm center 115mm center
+.kp on
+.br
+.* Dato:
+.sp 15mm
+.if &L'&GENUNDSKR2 > 0
+.th .go 2UNDSK
+.if &L'&GENUNDSKR1 > 0
+.th .go 1UNDSK
+.if &L'&GENUNDSKR1 = 0
+.an &L'&GENUNDSKR2 = 0
+.th .go UNSKRS
+...2UNDSK
+.hr tynd 0mm 75mm 80mm 155mm
+¤&GENUNDSKR1.¤&GENUNDSKR2.
+.sp 10mm
+.go UNSKRV
+...1UNDSK
+.hr tynd 0mm 75mm
+¤&GENUNDSKR1.
+.sp 10mm
+.go UNSKRV
+...UNSKRV
+.if &L'&GENUNDSKR4 > 0
+.th .go 4UNDSK
+.if &L'&GENUNDSKR3 > 0
+.th .go 3UNDSK
+.if &L'&GENUNDSKR3 = 0
+.an &L'&GENUNDSKR4 = 0
+.th .go UNSKRS
+...4UNDSK
+.hr tynd 0mm 75mm 80mm 155mm
+¤&GENUNDSKR3.¤&GENUNDSKR4.
+.sp 10mm
+.go UNSKRS
+...3UNDSK
+.hr tynd 0mm 75mm
+¤&GENUNDSKR3.
+.sp 10mm
+.go UNSKRS
+...UNSKRS
+.kp off
+.kp on
+.sp 14mm
+Kvittering for modtagelse af underskrift:
+.sp 8mm
+_________________________________
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

@@ -1,0 +1,286 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 119mm 14mm width 76mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+GrønlandsBANKENs Erhvervssystem
+Brugerkontrakt
+:SKRSLUT.
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+B04HOME22
+.ar off
+.***********************************************************************
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 110mm
+.da KUNDECPR   162mm 67.5mm   width 30mm
+.da PIOPL      25mm 76.6mm width 84mm
+.da BRUGERNR   42mm 106.5mm width 150mm
+.da FORESPG    25mm 117mm width 165mm
+.da BRUGERVALG 25mm 132mm width 165mm
+.da SPEC       25mm 147mm width 165mm
+.da TEKST      25mm 181mm width 165mm
+.da UNDERSKRKU 20mm 243.5mm   width 84mm
+.da UNDERSKRPI 107mm 243.5mm  width 84mm
+.da REF        184mm 243.5mm  width 10mm
+.*******************************************************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*******************************************************
+.ar KUNDECPR on
+&KUNDENR
+.ar off
+.*******************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.*******************************************************
+.ar BRUGERNR on
+.***** HER DELES KONTONUMMER  OP I TO PARAMETRE *******
+.se bregnr = substr &GENNR 1 4
+.se bktonr = substr &GENNR 5 7
+.tp 50mm
+&bregnr &bktonr.¤&GENNAVN
+.ar off
+.*******************************************************
+.ar FORESPG on
+.if &L'&B04LINE03 gt 0
+.th .go SPEC
+.el
+.if &L'&GENFOR1 gt 0
+.an &L'&GENFOR2 le 0
+.th Forespørge på nuværende og kommende konti.
+.th .br
+.el
+.if &L'&GENFOR2 gt 0
+.th Forespørge og bogføre på nuværende og kommende konti.
+.th .br
+.if &L'&GENFOR3 gt 0
+.th Forespørge på nuværende og kommende depoter.
+.go SPEC2
+...SPEC
+.if &L'&GENFOR1 gt 0
+.an &L'&GENFOR2 le 0
+.th Forespørge på nedenstående specifikke konti
+.th .br
+.el
+.if &L'&GENFOR2 gt 0
+.th Forespørge og bogføre på nedenstående specifikke konti
+.th .br
+.if &L'&GENFOR3 gt 0
+.th Forespørge på nedenstående specifikke depoter
+...SPEC2
+.ar off
+.*******************************************************
+.ar BRUGERVALG on
+.if &U'&B04LINE01 EQ A
+.th A) Brugeren kan behandle, klargøre og godkende betalinger, herunder
+.th også egne indlagte betalinger.
+.th .go BBB
+.if &U'&B04LINE01 EQ B
+.th B) Brugeren kan behandle, klargøre og godkende betalinger, dog ikke
+.th godkende egne indlagte betalinger.
+.th .go BBB
+.if &U'&B04LINE01 EQ C
+.th C) Brugeren kan behandle, klargøre og 1. godkende betalinger.
+.th .go BBB
+.if &U'&B04LINE01 EQ D
+.th D) Brugeren kan behandle betalinger lokalt.
+.th .go BBB
+...BBB
+.ar off
+.*******************************************************
+.ar SPEC on
+.if &L'&B04LINE03 gt 0
+.th Konti omfattet af autorisationen:
+.th .br
+.th &B04LINE03 &B04LINE04 &B04LINE05
+.el
+.ar off
+.*******************************************************
+.ar TEKST on
+&GENTEKST1 &GENTEKST2 &GENTEKST3 &GENTEKST4
+.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+.ce on
+.br
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+.ce on
+&GENNAVN3
+.ce off
+.ar off
+.*******************************************************
+.ar REF on
+/&GENKORTREF
+.ar off
+.da SIDE1 20mm 38mm width 175mm
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kunde  *****
+.bx new left right
+.sp 28mm
+.***** her laves kassen til pengeinstitut ****
+.bx new left right
+.sp 18mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.***** her laves kassen til brugernummer og navn *******
+.bx new left right
+.sp 12mm
+.***** her laves kassen til autorisationer  ************
+.bx new left right
+.sp 65mm
+.***** her laves kassen til fritekst   *****************
+.bx new left right
+.sp 20mm
+.***** her laves kassen til tekst    *******************
+.bx new left right
+.sp 12mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til brugeransvarligs underskrift ******
+.bx new left 87.5mm right
+.sp 30mm
+.bx off
+.bx can
+.ar off
+:SWISS8.
+.*******************************************************
+.da KUNDE      21mm     44mm width 150mm
+.da KUNDECPR   142mm    68mm width 30mm
+.da PI         21mm     73mm width 85mm
+.da KUNDENR    135mm    68mm width 85mm
+.da BRUGERNR   21mm     97.6mm width 150mm
+.da AUTORIS    21mm    111mm width 165mm
+.da GIRO       25mm    168mm width 165mm
+.da FRI        21mm    177.5mm width 150mm
+.da TEKST      21mm    199mm width 165mm
+.da UNDERSKRKU 21mm    218mm width 85mm
+.da UNDERSKRPI 108.5mm 218mm width 85mm
+.*******************************************************
+.ar KUNDE on
+Kunde
+.ar off
+.*******************************************************
+.ar KUNDECPR on
+CPR-nr./SE-nr.
+.ar off
+.*******************************************************
+.ar PI on
+Pengeinstitut
+.ar off
+.*******************************************************
+.ar BRUGERNR on
+Under henvisning til aftale mellem ovennævnte parter vedrørende Bankens
+Erhvervssystem anmoder undertegnede brugeransvarlige herved om
+oprettelse/ændring af brugeradgang for:
+.tp 60mm
+.sp
+Brugernummer: ¤Navn:
+.ar off
+.*******************************************************
+.ar AUTORIS on
+Ovennævnte bruger autoriseres til følgende funktioner hos kunden:
+.* (incl. eventuelt tilknyttede fuldmagter):
+.sp 14mm
+Overførsel til 3. mand:
+.ar off
+.*******************************************************
+.ar FRI on
+Eventuelle begrænsninger/tilføjelser til ovennævnte autorisation:
+.ar off
+.*******************************************************
+.ar TEKST on
+En oversigt over brugere og deres autorisationer udleveres på forlangende.
+.br
+Underskriverne kvitterer for modtagelsen af "Generelle betingelser for
+;Ttilslutning til GrønlandsBANKENs ErhvervsSystem", der vedtages som en del
+af denne kontrakt.
+Nærværende kontrakt er udfærdiget i 3 eksemplarer, som fordeles til
+brugeren, kunden samt banken.
+.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+:SWISS8.
+.tp 57mm
+.br
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+:SWISS8.
+.tp 56.5mm
+Brugeransvarligs underskrift ¤Dato:
+.ar off
+.*******************************************************
+;T

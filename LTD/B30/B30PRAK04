@@ -1,0 +1,355 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.**********************************************************
+.if &U'&B30NYGRUP ne J
+.an &U'&B30GLGRUP ne J
+.an &U'&B30ÆMODUL ne J
+.th .go GRUPSL01
+.**************************************************************************
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 160mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************DATO OG REFERENCE*************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30PRAK04
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+PANTSÆTNING AF GRUPPELIVSFORSIKRING
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 56,5 +13MM (TOPMARGIN) = 69.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 56,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+...GRUPSL01
+.***********************************************************************
+.if &U'&B30NYGRUP ne J
+.an &U'&B30GLGRUP ne J
+.an &U'&B30ÆMODUL ne J
+.th .go GRUPSL02
+.***********************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+B30PRAK04
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...GRUPSL02
+.**********
+.if &U'&B30NYGRUP ne J
+.th .go EJPANTT1
+.************
+.tp 24mm 87mm
+.************
+:CALIB10.
+:FED.
+Forsikrede
+:SKRSLUT.
+.sp
+.**********************
+.if &cprcvr = 43
+.th Navn: ¤&NAVN  ¤KND-nr.: &KUNDENR
+.el Navn: ¤&NAVN  ¤CPR-nr.: &KUNDENR
+.if &L'&COADR > 0
+.th .br
+.th Coadr: ¤&COADR
+.*****
+.br
+Adresse: ¤&GADE
+.br
+Postnr.: ¤&BY
+.if &L'&LAND > 0
+.th .br
+.th Land: ¤&LAND
+.**************************************************************************
+.sp
+:CALIB10.
+:FED.
+Gruppelivsforsikring
+:SKRSLUT.
+.br
+Gruppelivsforsikring tegnet i Forende Gruppeliv,
+der identificeres således:
+.sp
+Medlemsnr.:¤&B30MEDNR
+.sp
+Aftalenr.: ¤&B30STEMPEL
+.sp
+Modulnr.: ¤&B30MODUL
+.**********
+.sp
+:CALIB10.
+:FED.
+Pantsætning
+:SKRSLUT.
+.br
+En del af forsikringssummen - svarende til forsikredes til en hver tid
+værende gæld til &BANKNAVN (inklusive renter til
+opgørelsestidspunktet) - er pantsat til :FED.&BANKNAVN.:SKRSLUT.
+til sikkerhed for forsikredes låne- og kreditengagementer (herunder
+eventuelle kautionsforpligtelser) som forsikrede har overfor &BANKNAVN..
+.**************
+.sp
+:CALIB10.
+:FED.
+Udbetaling ved død
+:SKRSLUT.
+.br
+I tilfælde af forsikredes død før det 70. år udbetales den pantsatte
+del af forsikringssummen til &BANKNAVN.. Hvis den
+samlede forsikringssum er større end den pantsatte forsikringssum,
+udbetales den overskydende forsikringssum til forsikredes nærmeste
+pårørende/eventuelle særligt begunstigede.
+.******************
+.sp
+.kp on
+:CALIB10.
+:FED.
+Forsikredes underskrift
+:SKRSLUT.
+.br
+Undertegnede erklærer at være indforstået med, at forsikringen er
+pantsat til &BANKNAVN..
+...EJPANTT1
+.************ Underskrift **************************
+.sp3
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato    ¤&NAVN
+.kp off
+.********* SLUT   ******************************************
+...EJPANTT2
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.**********************************************************
+.if &U'&B30NYGRUP ne J
+.an &U'&B30GLGRUP ne J
+.an &U'&B30ÆMODUL ne J
+.th .go GRUPSL01
+.**************************************************************************
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 160mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************DATO OG REFERENCE*************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30PRAK04
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+PANTSÆTNING AF GRUPPELIVSFORSIKRING
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 56,5 +13MM (TOPMARGIN) = 69.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 56,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+...GRUPSL01
+.***********************************************************************
+.if &U'&B30NYGRUP ne J
+.an &U'&B30GLGRUP ne J
+.an &U'&B30ÆMODUL ne J
+.th .go GRUPSL02
+.***********************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+B30PRAK04
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...GRUPSL02
+.**********
+.if &U'&B30NYGRUP ne J
+.th .go EJPANTT1
+.************
+.tp 24mm 87mm
+.************
+:CALIB10.
+:FED.
+Forsikrede
+:SKRSLUT.
+.sp
+.**********************
+.if &cprcvr = 43
+.th Navn: ¤&NAVN  ¤KND-nr.: &KUNDENR
+.el Navn: ¤&NAVN  ¤CPR-nr.: &KUNDENR
+.if &L'&COADR > 0
+.th .br
+.th Coadr: ¤&COADR
+.*****
+.br
+Adresse: ¤&GADE
+.br
+Postnr.: ¤&BY
+.if &L'&LAND > 0
+.th .br
+.th Land: ¤&LAND
+.**************************************************************************
+.sp
+:CALIB10.
+:FED.
+Gruppelivsforsikring
+:SKRSLUT.
+.br
+Gruppelivsforsikring tegnet i Forende Gruppeliv,
+der identificeres således:
+.sp
+Medlemsnr.:¤&B30MEDNR
+.sp
+Aftalenr.: ¤&B30STEMPEL
+.sp
+Modulnr.: ¤&B30MODUL
+.**********
+.sp
+:CALIB10.
+:FED.
+Pantsætning
+:SKRSLUT.
+.br
+En del af forsikringssummen - svarende til forsikredes til en hver tid
+værende gæld til &BANKNAVN (inklusive renter til
+opgørelsestidspunktet) - er pantsat til :FED.&BANKNAVN.:SKRSLUT.
+til sikkerhed for forsikredes låne- og kreditengagementer (herunder
+eventuelle kautionsforpligtelser) som forsikrede har overfor &BANKNAVN..
+.**************
+.sp
+:CALIB10.
+:FED.
+Udbetaling ved død
+:SKRSLUT.
+.br
+I tilfælde af forsikredes død før det 70. år udbetales den pantsatte
+del af forsikringssummen til &BANKNAVN.. Hvis den
+samlede forsikringssum er større end den pantsatte forsikringssum,
+udbetales den overskydende forsikringssum til forsikredes nærmeste
+pårørende/eventuelle særligt begunstigede.
+.******************
+.sp
+.kp on
+:CALIB10.
+:FED.
+Forsikredes underskrift
+:SKRSLUT.
+.br
+Undertegnede erklærer at være indforstået med, at forsikringen er
+pantsat til &BANKNAVN..
+...EJPANTT1
+.************ Underskrift **************************
+.sp3
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato    ¤&NAVN
+.kp off
+.********* SLUT   ******************************************
+...EJPANTT2
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

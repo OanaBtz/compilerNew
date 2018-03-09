@@ -1,0 +1,305 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp 3
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.
+sp 1mm.
+*.if &U'&UDSKRSTED eq C.
+*.th &DATOD
+eres ref.: &B45REF2.
+sp 1mmV
+ores ref.: &GENKORTREF.
+up off.
+ar off.
+ar sor on.
+if &U'&UDSKRSTED ne C.
+th .go USOR6
+060.
+..USOR.
+ar off.
+ar med on.
+if &U'&UDSKRSTED eq C.
+th :BRED.:FED..
+*.th MEDDELELSE.
+ar off:
+verda11..
+in 3mm.
+ll 172mm.
+sp3.
+fo left.
+if &U'&B45ANBEFAL eq J.
+th FORTROLIGT.
+th .br.
+if &BANKREGNR eq 0000.
+th PBS International A/S.
+th .br.
+th Lautrupbjerg 10.
+th .br.
+th 2750  Ballerup.
+el &BKNAVN.
+el .br.
+el &BKADR.
+el .br.
+el &BKBY.
+if &L'&B45REF lt 2.
+th .sp2.
+th .go DATERING.
+su off.
+se a = substr &B45REF 1 3.
+su on.
+sp.
+if &U'&a eq ATT.
+th &B45REF.
+el Att.: &B45REF.
+..DATERING
+.im (b45syvar)
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.if &L'&RESULTZ lt 5
+.th .mg/T/Brevet kan ikke udskrives - reg.nr. på fremmed PI er forkert.
+.if &L'&RESULTZ lt 5
+.th .mg/T/Brevet kan ikke udskrives - reg.nr. på fremmed PI er forkert.
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+.if &U'&TILTALEF eq DE
+.th .go TILTALE
+.if &E'&MEDNAVN eq 0
+.th .go TILTALE
+.if &L'&MEDNAVN gt 1
+.th .se TILTALEF = I
+...TILTALE
+.if &L'&B45TILKTO lt 1 .an &L'&B45TELA lt 1
+.th .mg/T/Mangler udfyldelse af enten check, mellemregning eller kontonr.
+:TILTALE &TILTALEF
+:FED.
+.br
+Overførsel af engagement med &NAVN
+.br
+.if &L'&MEDNAVN gt 1
+.th (&KUNDENR.) og &MEDNAVN (&MEDKNDNR1.)
+.el (&KUNDENR.)
+:SKRSLUT.
+ 
+I henhold til overførselsanmodning sender vi hermed:
+ 
+.in+2
+.if &L'&B45TILKTO gt 1
+.th .go OVF
+.if &U'&B45TELA eq C
+.th * Check på
+.el * Mellemregningsbilag på
+:vs.&B45BELØB11
+kr.
+.br
+...OVF
+.if &B45ANTAL1 gt 0
+.th * &B45ANTAL1 stk. børneopsparingskontrakt(er)
+.th samt indskudsoplysninger.
+.br
+.if &B45ANTAL2 gt 0
+.th * &B45ANTAL2 stk. ejerpantebrev(e).
+.br
+.if &B45ANTAL3 gt 0
+.th * &B45ANTAL3 stk. løsøreejerpantebrev(e) - bil.
+.br
+.if &B45ANTAL4 gt 0
+.th * &B45ANTAL4 stk. posterings- og opgørelsesnota(er).
+.br
+.if &U'&B45TELF eq J
+.th * Panthaverdeklaration samt udskrift fra panthaversystemet
+.th .br
+.th .in+2
+.th (husk at ændre panthaver i panthaversystemet).
+.th .in-2
+.in-2
+ 
+.if &L'&B45TILKTO gt 1
+.el .go VID
+Samtidig har vi overført i alt
+:vs.&B45BELØB11
+kr. til konto nr. &B45TILKTO..
+ 
+...VID
+Evt. pensionsordninger overføres direkte fra vores Pensionsafdeling.
+ 
+.if &U'&B45TELG ne J
+.th .go VIDER
+Overførslen af engagementet betragter vi samtidig som en kvittering for
+modtagelsen af ovennævnte ejerpantebrev(e).
+ 
+...VIDER
+.if &U'&B45JANEJ eq N
+.th .go VIDER2
+Der er stadig tilknyttet BetalingsService-aftaler
+til engagementet i regnr. 6060
+under
+CPR-nr. &KTOKNDNR1.. Hvis
+aftalerne ikke er flyttet inden 5 dage, vil de blive slettet uden
+yderligere varsel.
+ 
+...VIDER2
+Vi tager forbehold for endnu ikke indløste checks, korttransaktioner samt
+PBS- ;.br
+overførsler o.lign.
+ 
+Fremtidige krediteringer videresendes ikke, men returneres til afsenders
+pengeinstitut.
+.*.if &L'&B45ANDET3 gt 1 .an &L'&B45ANDET4 gt 1
+.*.th .mg/T/Slet mindst én linie vedr. ejerpantebrev T+++
+ 
+&B45ANDET3 &B45ANDET4 &DEPDEPNR
+.if &L'&B45FRAKTO gt 1
+.th .sp
+.th Kontonr. &B45FRAKTO er afkastkonto for sikkerhedsdepot og kan derfor
+.th først opgøres, når ejerpantebrev er digitaliseret.
+.if &L'&B45FRIL1A lt 1
+.th .go NOSUP
+.if &ÅLC lt 18
+.th .sp
+.th .ri Fortsættes
+.th .pa
+.th .sp18
+.th .ri Fortsat
+.th .sp
+.el .sp
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A.&B45FRIL2B
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A.&B45FRIL2B
+...NOSUP
+.im (b45syvar)
+.if &L'&GENTLFNR lt 9
+.th .mg/T/Der mangler et blanktegn i GENTLFNR i Proj. 99, funktion 75003.
+.if &L'&GENTLFNR gt 9
+.th .mg/T/Der må kun være ét blanktegn i GENTLFNR i P99, funktion 75003.
+.if &BREVNAVN eq B45INV18
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45BOL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KØB5
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT7
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT8
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR12
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KORT17
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA8
+.th .go ALIGEVEL
+.if &E'&B45NR eq 1 .an &B45NR ne 7
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+.kp on
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+.kp off
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3

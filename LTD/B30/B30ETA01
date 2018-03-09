@@ -1,0 +1,349 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Etableringskonto
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.bx left right
+¤Kontohaver
+.sp 23mm
+¤&kunnr
+.bx new left right
+¤Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+:SWISS9.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 70.5mm width 80mm
+.da MCPR   121.5mm 70.5mm width 80mm
+.da PI        25mm 80mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.ar CPR on
+&KTOKNDNR1
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Etableringskonto
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.in 5mm
+.ir 1mm
+:SWISS9.
+.*************************************************************************
+.tp 55mm 80mm
+.kp on
+:FED.
+Konto
+:SKRSLUT.
+.br
+Kontonr. ¤Regtype/betegnelse
+.br
+&IREGKTO ¤&REGTYPELNG
+.sp 3mm
+.sp 5mm
+.kp off
+.*****
+.kp on
+:FED.
+Kontobetingelser for Etableringskonto.
+:SKRSLUT.
+.br
+Etableringskonto er underlagt en række regler og betingelser, som fremgår
+af etablerings- og iværksætterkontoloven.
+.sp
+Hovedreglerne er beskrevet efterfølgende. Vi anbefaler, at du drøfter
+skattespørgsmål med din revisor.
+.sp
+Indskudsåret går fra 16. maj til 15. maj året efter.
+.kp off
+.sp
+.**********
+.kp on
+:FED.
+Ind- og udbetaling.
+:SKRSLUT.
+.br
+Er du fuldt skattepligtig og under 67 år ved indkomstårets udløb, kan du
+oprette en Etableringskonto.
+.sp
+Der kan kun oprettes én konto for hvert indkomstår.
+.sp
+Indskud på en Etableringskonto skal foretages i
+tiden fra den 16. maj i indkomståret (fradragsåret) til den nærmest
+efterfølgende 15. maj (indskudsåret).
+.sp
+Du kan frit indbetale på kontoen. Dog skal indbetalinger overholde
+lovgivningens regler om at indskuddet for et indkomstår mindst skal udgøre
+5.000 kr. og kan højst udgøre 60 pct. af indskyderens nettolønindtægt, dog
+kan der altid indskydes 250.000 kr. af nettolønindtægten.
+.sp
+Nettolønindtægt bliver opgjort efter særlige regler.
+.sp
+Ved opgørelsen af om indskudsgrænsen er overholdt, lægges indskud på
+iværksætterkonto og etableringskonto sammen.
+.sp
+Du kan få frigivet indskuddet, når der foreligger en etablering af
+selsvstændig virksomhed i lovens forstand. Udbetaling kan ske, når banken
+fra kontohaver har modtaget udfyldt og underskrevet blanket 02.007, som
+findes på www.skat.dk.
+Etableringen skal senest være sket ved udgangen af det indkomstår, hvor du
+fylder 67 år.
+.kp off
+.sp
+.**********************
+.kp on
+:FED.
+Renter/afkast.
+:SKRSLUT.
+.br
+Konto forrentes med en variabel rentesats. Den aktuelle sats kan du finde
+på www.lpk.dk.
+.sp
+Renten tilskrives den 30. december.
+.sp
+Tilskrevne renter anvendes ikke som indskud, men overføres til din løbende
+konto i januar måned. Tilskrevne renter er skattepligtige og indgår i
+kapitalindkomsten.
+.sp
+.kp off
+.*********************
+.kp on
+:FED.
+Disposition over indestående på kontoen.
+:SKRSLUT.
+.br
+Kontohaveren kan ikke i bindingsperioden overdrage, pantsætte eller på
+anden måde råde over det på etaleringskontoen indestående beløb.
+Indskuddene kan ikke gøres til genstand for kreditorforfølgning bortset fra
+i tilfælde af konkurs.
+.sp
+Kontoens indestående tjener til sikkerhed for et eventuelt
+skatteefterbetalingskrav.
+.sp
+:FED.
+Opsparingens anbringelse af midler.
+:SKRSLUT.
+.br
+Indskuddet indsættes på en kontantforrentet konto.
+.sp
+:FED.
+Skat og indskud/efterbetaling.
+:SKRSLUT.
+.br
+Indskud på etableringskonto behandles skattemæssigt
+som et ligningsmæssigt fradrag.
+.sp
+.kp off
+.*****************************side 2************************************
+.kp on
+Der vil ske efterbeskatning af eventuelle indskud, der ikke anvendes i
+forbindelse med etablering af selvstændig erhvervsvirksomhed i henhold til
+loven.
+.sp
+:FED.
+Almindelige forretningsbetingelser.
+:SKRSLUT.
+.br
+Kontoen er omfattet af bankens almindelige forretningsbetingelser som
+ligger på vores hjemmeside www.lpk.dk.
+.sp
+:FED.
+Da denne ordning er kompleks, anbefaler banken, at du søger uvildig
+rådgivning hos din revisor i forbindelse med både etablering og udbetaling.
+:SKRSLUT.
+.sp 3mm
+.kp off
+.kp on
+Jeg/vi har modtaget og gjort mig/os bekendt med de anførte regler forud for
+underskrivelsen af denne aftale.
+.sp 5mm
+.kp off
+.tp _/50mm 55mm 72mm  _/170mm
+.kp on
+:FED.
+Underskrifter
+:SKRSLUT.
+.sp 3mm
+Som kontohaver:
+.sp 4mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&KTONAVN
+.sp 5mm
+.***************************
+.kp off
+.sp 5mm
+.kp off
+.**************************************************************************
+.kp off
+.**************************************************************************
+.in 5mm
+.ir 5mm
+.**********************

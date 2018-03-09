@@ -1,0 +1,457 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.th  &B65DREF
+.TH .SP6mm
+.EL .SP10mm
+&DATO
+.ar off
+.ar tekst on
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+.*.if &B65P2U EQ 2
+.*.TH Reference:¤&GENEKSP
+.*.TH .br
+Telefon ¤&GENTLFNR
+.BR
+Telefax ¤&AFDFAX
+.br
+E-mail ¤&GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference:
+.TH .br
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+.* datoregning
+.* 3. rykker opsige kontoen - indlån
+.ti ¤ 05
+.TP 72MM right 73mm
+:FED.&SDIN konto nummer 6160 &KTONR1.:SKRSLUT.
+.Sp 3MM
+&SDU har ikke reageret på vores breve om overtrækket på
+&DIN konto 6160 &KTONR1. Derfor må vi fortælle &DIG at vi bliver
+nødt til at lukke kontoen og overgive sagen til inkasso
+via bankens advokat hvis &DU ikke betaler
+:FED.senest &RESULTA.:SKRSLUT..
+.sp 3mm
+Dette medfører :FED.betydelige yderligere omkostninger:SKRSLUT. for &DIG
+til bankens inkassoforanstaltninger, til advokat og til de
+nødvendige retslige skridt.
+.sp 3mm
+Vi gør opmærksom på at vi under alle omstændigheder beregner
+rente af vores tilgodehavende.
+.sp 3mm
+:FED.Overtræk og rente:SKRSLUT.
+.br
+Overtrækket er på &SALDO. kr. inklusive rykkergebyr på 100 kr.
+.br
+Rente fra &B65P2. til &RESULTA. beløber sig til &B65P1. kr.
+.sp 3mm
+.if &U'&B65PJN1 EQ N
+.an &U'&B65PJN2 EQ N
+.th .go SLUT
+.if &U'&B65PJN1 EQ J
+.TH .GO DK
+.if &U'&B65PJN1 EQ N
+.an &U'&B65PJN2 EQ J
+.TH .GO CHM
+...DK
+:FED.&SDIT. Dankort er spærret:SKRSLUT.
+.br
+Vi har tidligere gjort opmærksom på at vi ville spærre
+&DIT Dankort og kræve det inddraget hvis &DU ikke indbetalte
+overtrækket, eller hvis &DU brugte kortet til at trække yderligere
+over, jf. "Regler for Dankort". Det er nu sket, og kortet er sat
+på spærreliste for Dankort og Visa/Dankort.
+.sp 3mm
+&SDU kan klage over afgørelsen ved at skrive til
+Datatilsynet,
+Borgergade 28,5.,
+1300 København K.
+.sp 3mm
+...CHM
+:FED.Check- og Kortmisbrugerregisteret:SKRSLUT.
+.br
+Vi sender også indberetning til Pengeinstitutternes
+Check- og Kortmisbrugerregister hvor &DU vil være registret i 2 år.
+I dette tidsrum kan &DU ikke oprette check- og dankortkonti i
+danske pengeinstitutter. Vi opgiver &DIT navn,
+adresse, stilling og CPR-nummer.
+.sp 3mm
+&SDU kan få bekræftet indholdet af registreringen ved at skrive til
+Finansrådet.,
+Amaliegade 7,
+1265 København K.
+.sp 3mm
+.IF &U'&B65PJN1 EQ J
+.TH .AR OFF
+.TH .PA
+.TH .DA TEKST2 33MM 36MM WIDTH 135MM
+.TH .AR TEKST2 ON
+Hvis &DU mener der er urigtige eller vildledende oplysninger i
+forbindelse med registeringen, kan &DU klage til Finansrådet.
+De vil behandle klagen og blandt andet hente
+oplysninger hos os om sagen.
+.sp 3mm
+Hvis Finansrådet ikke mener der er grundlag for at ændre
+eller slette det indberettede, kan du klage til
+Datatilsynet,
+Borgergade 28,5.,
+1300 København K.
+...SLUT
+.*p 2mm
+.*Har &DU spørgsmål, er &DU velkommen til at ringe til os på telefon
+.*&GENTLFNR..
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+B65rykik01 1204
+.AR OFF
+.***sideskift til fx erklæringer
+.pa
+.br
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+ANBEFALET
+.sp 3mm
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+ANBEFALET
+.sp 3mm
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+ANBEFALET
+.sp 3mm
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+:SWISS9.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+.*.if &B65P2U EQ 2
+.*.TH Reference:¤&GENEKSP
+.*.TH .br
+Telefon ¤&GENTLFNR
+.BR
+Telefax ¤&AFDFAX
+.br
+E-mail ¤&GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference:
+.TH .br
+.th  &B65DREF
+.TH .SP6mm
+.EL .SP10mm
+:SWISS11.
+&DATO
+.ar off
+.ar tekst on
+
+
+
+
+
+
+
+
+
+.* 3. rykker opsige kontoen - indlån
+.ti ¤ 05
+.TP 72MM right 73mm
+:FED.&SDIN konto nummer 6160 &KTONR1.:SKRSLUT.
+.Sp 3MM
+&SDU har ikke reageret på vores breve om overtrækket på
+&DIN konto 6160 &KTONR1. Derfor må vi fortælle &DIG at vi bliver
+nødt til at lukke kontoen og overgive sagen til inkasso
+via bankens advokat hvis &DU ikke betaler
+:FED.senest &RESULTA.:SKRSLUT..
+.sp 3mm
+Dette medfører :FED.betydelige yderligere omkostninger:SKRSLUT. for &DIG
+til bankens inkassoforanstaltninger, til advokat og til de
+nødvendige retslige skridt.
+.sp 3mm
+Vi gør opmærksom på at vi under alle omstændigheder beregner
+rente af vores tilgodehavende.
+.sp 3mm
+:FED.Overtræk og rente:SKRSLUT.
+.br
+Overtrækket er på &SALDO. kr. inklusive rykkergebyr på 100 kr.
+.br
+Rente fra &B65P2. til &RESULTA. beløber sig til &B65P1. kr.
+.sp 3mm
+.if &U'&B65PJN1 EQ N
+.an &U'&B65PJN2 EQ N
+.th .go SLUT
+.if &U'&B65PJN1 EQ J
+.TH .GO DK
+.if &U'&B65PJN1 EQ N
+.an &U'&B65PJN2 EQ J
+.TH .GO CHM
+...DK
+:FED.&SDIT. Dankort er spærret:SKRSLUT.
+.br
+Vi har tidligere gjort opmærksom på at vi ville spærre
+&DIT Dankort og kræve det inddraget hvis &DU ikke indbetalte
+overtrækket, eller hvis &DU brugte kortet til at trække yderligere
+over, jf. "Regler for Dankort". Det er nu sket, og kortet er sat
+på spærreliste for Dankort og Visa/Dankort.
+.sp 3mm
+&SDU kan klage over afgørelsen ved at skrive til
+Datatilsynet,
+Borgergade 28,5.,
+1300 København K.
+.sp 3mm
+...CHM
+:FED.Check- og Kortmisbrugerregisteret:SKRSLUT.
+.br
+Vi sender også indberetning til Pengeinstitutternes
+Check- og Kortmisbrugerregister hvor &DU vil være registret i 2 år.
+I dette tidsrum kan &DU ikke oprette check- og dankortkonti i
+danske pengeinstitutter. Vi opgiver &DIT navn,
+adresse, stilling og CPR-nummer.
+.sp 3mm
+&SDU kan få bekræftet indholdet af registreringen ved at skrive til
+Finansrådet.,
+Amaliegade 7,
+1265 København K.
+.sp 3mm
+.IF &U'&B65PJN1 EQ J
+.TH .AR OFF
+.TH .PA
+.TH .DA TEKST2 33MM 36MM WIDTH 135MM
+.TH .AR TEKST2 ON
+Hvis &DU mener der er urigtige eller vildledende oplysninger i
+forbindelse med registeringen, kan &DU klage til Finansrådet.
+De vil behandle klagen og blandt andet hente
+oplysninger hos os om sagen.
+.sp 3mm
+Hvis Finansrådet ikke mener der er grundlag for at ændre
+eller slette det indberettede, kan du klage til
+Datatilsynet,
+Borgergade 28,5.,
+1300 København K.
+...SLUT
+.*p 2mm
+.*Har &DU spørgsmål, er &DU velkommen til at ringe til os på telefon
+.*&GENTLFNR..
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤&GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤&GENMTITEL
+.ar off

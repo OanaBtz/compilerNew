@@ -1,0 +1,713 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* PARAMETERAFSNIT
+.* Teksten ligger i AFSNIT T
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.if .&post1. = .0001 .or .&post1. = .0002
+.th .se post='8000'
+.se TR = ' '
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.if &fundet = 0 .TLADR2 &post
+.if &fundet = 0 .TLADR3 &post
+.if &fundet = 0 .TLADR4 &post
+.if &fundet = 0 .TLADR5 &post
+.if &fundet = 0 .go EJFUND
+.if &fundet = 1
+.if .&post1 = .2200
+.or .&post1 = .5000
+.or .&post1 = .5100
+.or .&post1 = .8000
+.or .&post1 = .2605
+.or .&post1 = .2770
+.or .&post1 = .2830
+.or .&post1 = .2860
+.or .&post1 = .2900
+.th .go POST
+.el .go RET
+...POST
+.if .&post1 = .2200 .se gb1 = 'Ballerup'
+.th .go BY
+.if .&post1 = .5000 .se gb1 = 'Odense'
+.th .go BY
+.if .&post1 = .5100 .se gb1 = 'Odense'
+.th .go BY
+.if .&post1 = .8000 .se gb1 = 'Århus'
+.th .go BY
+.if .&post1 = .2605 .se gb1 = 'Brøndbyerne'
+.th .go BY
+.if .&post1 = .2770 .se gb1 = 'Tårnby'
+.th .go BY
+.if .&post1 = .2830 .se gb1 = 'Lyngby'
+.th .go BY
+.if .&post1 = .2860 .se gb1 = 'Gladsaxe'
+.th .go BY
+.if .&post1 = .2900 .se gb1 = 'Gentofte'
+.th .go BY
+...BY
+.se TR = '&GENRET. &gb1.'
+.se TN = 'Tinglysningskontoret'
+.go DM
+...RET
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.th .se gb = substr '&TB.' 7 28
+.th .se TR = '&GENRET. &gb.'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.th .se TR = ' '
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.th .se TR = ' '
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .2100 .se TN = 'Skibsregistret'
+.th .se TR = ' '
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+.th .se TR = ' '
+.if .&post1 = .2000 .se TR = 'Retten på Frederiksberg'
+.if .&post1 = .1464 .se TR = 'Byretten'
+...EJFUND
+...DM
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0100
+.th .se TG 'N. Pálsgøta 8'
+.th .se TB '100  Tórshavn'
+.th .go SLUT
+.if &ITLPN = 1464
+.th .se TG 'Hestemøllestræde 4'
+.th .se TB '1464  København K'
+.th .go SLUT
+.if &ITLPN = 2000
+.th .se TG 'Howitzvej 32'
+.th .se TB '2000  Frederiksberg'
+.th .go SLUT
+.if &ITLPN = 2100
+.th .se TG 'Vermundsgade 38 C'
+.th .se TB '2100  København Ø'
+.th .go SLUT
+.if &ITLPN = 2200
+.th .se TG 'Blegdamsvej 6'
+.th .se TB '2200  København N'
+.th .go SLUT
+.if &ITLPN = 2600
+.th .se TG 'Dommervangen 4'
+.th .se TB '2600  Glostrup'
+.th .go SLUT
+.if &ITLPN = 2605
+.th .se TG 'Park Alle 160'
+.th .se TB '2605  Brøndby'
+.th .go SLUT
+.if &ITLPN = 2610
+.th .se TG 'Egegårdsvej 77'
+.th .se TB '2610  Rødovre'
+.th .go SLUT
+.if &ITLPN = 2630
+.th .se TG 'Køgevej 88'
+.th .se TB '2630  Taastrup'
+.th .go SLUT
+.if &ITLPN = 2650
+.th .se TG 'Hvidovrevej 137'
+.th .se TB '2650  Hvidovre'
+.th .go SLUT
+.if &ITLPN = 2770
+.th .se TG 'Blåklokkevej 4'
+.th .se TB '2770  Kastrup'
+.th .go SLUT
+.if &ITLPN = 2830
+.th .se TG 'Hummeltoftevej 10'
+.th .se TB '2830  Virum'
+.th .go SLUT
+.if &ITLPN = 2860
+.th .se TG 'Fremtidsvej 1'
+.th .se TB '2860  Søborg'
+.th .go SLUT
+.if &ITLPN = 2900
+.th .se TG 'Rygårdsvænget 6'
+.th .se TB '2900  Hellerup'
+.th .go SLUT
+.if &ITLPN = 2970
+.th .se TG 'Hovedgaden 20'
+.th .se TB '2970  Hørsholm'
+.th .go SLUT
+.if &ITLPN = 3000
+.th .se TG 'Sct. Anna Gade 5A'
+.th .se TB '3000  Helsingør'
+.th .go SLUT
+.if &ITLPN = 3200
+.th .se TG 'Vestergade 2'
+.th .se TB '3200  Helsinge'
+.th .go SLUT
+.if &ITLPN = 3300
+.th .se TG 'Torvet 1'
+.th .se TB '3300  Frederiksværk'
+.th .go SLUT
+.if &ITLPN = 3400
+.th .se TG 'Kannikegade 1'
+.th .se TB '3400  Hillerød'
+.th .go SLUT
+.if &ITLPN = 3600
+.th .se TG 'Torvet 5'
+.th .se TB '3600  Frederikssund'
+.th .go SLUT
+.if &ITLPN = 3700
+.th .se TG 'Damgade 4 A, Postbox 19'
+.th .se TB '3700  Rønne'
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.se BECTL2 = 1
+.dm TLADR2 on
+.se ITLPN=&*1
+.if &ITLPN = 4000
+.th .se TG 'Helligkorsvej 3'
+.th .se TB '4000  Roskilde'
+.th .go SLUT
+.if &ITLPN = 4100
+.th .se TG 'Bøllingsvej 8'
+.th .se TB '4100  Ringsted'
+.th .go SLUT
+.if &ITLPN = 4180
+.th .se TG 'Hauchsvej 4'
+.th .se TB '4180  Sorø'
+.th .go SLUT
+.if &ITLPN = 4200
+.th .se TG 'Slotsgade 53'
+.th .se TB '4200  Slagelse'
+.th .go SLUT
+.if &ITLPN = 4220
+.th .se TG 'Kirkepladsen 14'
+.th .se TB '4220  Korsør'
+.th .go SLUT
+.if &ITLPN = 4300
+.th .se TG 'Sofievej 4, Postbox 169'
+.th .se TB '4300  Holbæk'
+.th .go SLUT
+.if &ITLPN = 4400
+.th .se TG 'Volden 18'
+.th .se TB '4400  Kalundborg'
+.th .go SLUT
+.if &ITLPN = 4500
+.th .se TG 'Jernbanevej 7'
+.th .se TB '4500  Nykøbing Sjælland'
+.th .go SLUT
+.if &ITLPN = 4600
+.th .se TG 'Jernbanegade 7'
+.th .se TB '4600  Køge'
+.th .go SLUT
+.if &ITLPN = 4660
+.th .se TG 'Østergade 3'
+.th .se TB '4660  Store Heddinge'
+.th .go SLUT
+.if &ITLPN = 4700
+.th .se TG 'Ramsherred 3'
+.th .se TB '4700  Næstved'
+.th .go SLUT
+.if &ITLPN = 4760
+.th .se TG 'Kirketorvet 16'
+.th .se TB '4760  Vordingborg'
+.th .go SLUT
+.if &ITLPN = 4800
+.th .se TG 'Skolegade 24'
+.th .se TB '4800  Nykøbing Falster'
+.th .go SLUT
+.if &ITLPN = 4900
+.th .se TG 'Vejlegade 35'
+.th .se TB '4900  Nakskov'
+.th .go SLUT
+.if &ITLPN = 4930
+.th .se TG 'Østergade 2'
+.th .se TB '4930  Maribo'
+.th .go SLUT
+.if &ITLPN = 5000
+.th .se TG 'Albanigade 30'
+.th .se TB '5000  Odense C'
+.th .go SLUT
+.if &ITLPN = 5100
+.th .se TG 'Postbox 9111
+.th .se TB '5100  Odense C'
+.th .go SLUT
+.if &ITLPN = 5300
+.th .se TG 'Langegade 11'
+.th .se TB '5300  Kerteminde'
+.th .go SLUT
+.if &ITLPN = 5500
+.th .se TG 'Algade 6'
+.th .se TB '5500  Middelfart'
+.th .go SLUT
+.if &ITLPN = 5600
+.th .se TG 'Østerbrogade 48'
+.th .se TB '5600  Fåborg'
+.th .go SLUT
+.if &ITLPN = 5610
+.th .se TG 'Toftevej 31'
+.th .se TB '5610  Assens'
+.th .go SLUT
+.if &ITLPN = 5700
+.th .se TG 'Tinghusgade 43'
+.th .se TB '5700  Svendborg'
+.th .go SLUT
+.if &ITLPN = 5800
+.th .se TG 'Nørregade 1'
+.th .se TB '5800  Nyborg'
+.th .go SLUT
+.if &ITLPN = 5900
+.th .se TG 'Brogade 3'
+.th .se TB '5900  Rudkøbing'
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.se BECTL3 = 1
+.dm TLADR3 on
+.se ITLPN=&*1
+.if &ITLPN = 6000
+.th .se TG 'Domhusgade 24'
+.th .se TB '6000  Kolding'
+.th .go SLUT
+.if &ITLPN = 6100
+.th .se TG 'Gammelting 2'
+.th .se TB '6100  Haderslev'
+.th .go SLUT
+.if &ITLPN = 6200
+.th .se TG 'Snareved 10'
+.th .se TB '6200  Aabenraa'
+.th .go SLUT
+.if &ITLPN = 6270
+.th .se TG 'Nørregade 31'
+.th .se TB '6270  Tønder'
+.th .go SLUT
+.if &ITLPN = 6300
+.th .se TG 'Kongevej 85'
+.th .se TB '6300  Gråsten'
+.th .go SLUT
+.if &ITLPN = 6400
+.th .se TG 'Domhuset, Kongevej 41'
+.th .se TB '6400  Sønderborg'
+.th .go SLUT
+.if &ITLPN = 6630
+.th .se TG 'Søndre Tingvej 4 A'
+.th .se TB '6630  Rødding'
+.th .go SLUT
+.if &ITLPN = 6670
+.th .se TG 'Vestergade 9'
+.th .se TB '6670  Holsted'
+.th .go SLUT
+.if &ITLPN = 6700 .or &ITLPN = 6701
+.th .se TG 'Rolfsgade 94-96, Postbox 60'
+.th .se TB '6701  Esbjerg'
+.th .go SLUT
+.if &ITLPN = 6760
+.th .se TG 'Sankt Nicolaj Gade 15'
+.th .se TB '6760  Ribe'
+.th .go SLUT
+.if &ITLPN = 6800
+.th .se TG 'Frisvadvej 3'
+.th .se TB '6800  Varde'
+.th .go SLUT
+.if &ITLPN = 6900
+.th .se TG 'Bredgade 34'
+.th .se TB '6900  Skjern'
+.th .go SLUT
+.if &ITLPN = 6950
+.th .se TG 'Kongevejen 10'
+.th .se TB '6950  Ringkøbing'
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.se BECTL4 = 1
+.dm TLADR4 on
+.se ITLPN=&*1
+.if &ITLPN = 7000
+.th .se TG 'Øster Voldgade 3'
+.th .se TB '7000  Fredericia'
+.th .go SLUT
+.if &ITLPN = 7100
+.th .se TG 'Vedelsgade 1'
+.th .se TB '7100  Vejle'
+.th .go SLUT
+.if &ITLPN = 7200
+.th .se TG 'Tinghusgade 2-4, Postbox 50'
+.th .se TB '7200  Grindsted'
+.th .go SLUT
+.if &ITLPN = 7400
+.th .se TG 'Nygade 1'
+.th .se TB '7400  Herning'
+.th .go SLUT
+.if &ITLPN = 7500
+.th .se TG 'Skivevej 2, Postbox 1189'
+.th .se TB '7500  Holstebro'
+.th .go SLUT
+.if &ITLPN = 7600
+.th .se TG 'Søndergade 4'
+.th .se TB '7600  Struer'
+.th .go SLUT
+.if &ITLPN = 7620
+.th .se TG 'Østerbrogade 35 B'
+.th .se TB '7620  Lemvig'
+.th .go SLUT
+.if &ITLPN = 7700
+.th .se TG 'Skovgade 30'
+.th .se TB '7700  Thisted'
+.th .go SLUT
+.if &ITLPN = 7800
+.th .se TG 'Nordbanevej 15'
+.th .se TB '7800  Skive'
+.th .go SLUT
+.if &ITLPN = 7900
+.th .se TG 'Nygade 6'
+.th .se TB '7900  Nykøbing Mors'
+.th .go SLUT
+.if &ITLPN = 8000
+.th .se TG 'Kannikegade 16'
+.th .se TB '8000  Århus C'
+.th .go SLUT
+.if &ITLPN = 8305
+.th .se TG 'Møllebakkevej 15'
+.th .se TB '8305  Samsø'
+.th .go SLUT
+.if &ITLPN = 8400
+.th .se TG 'Strandvejen 19'
+.th .se TB '8400  Ebeltoft'
+.th .go SLUT
+.if &ITLPN = 8500
+.th .se TG 'Domhuset, Nytorv 9'
+.th .se TB '8500  Grenå'
+.th .go SLUT
+.if &ITLPN = 8600
+.th .se TG 'Domhuset, Torvet'
+.th .se TB '8600  Silkeborg'
+.th .go SLUT
+.if &ITLPN = 8620
+.th .se TG 'Østergade 28'
+.th .se TB '8620  Kjellerup'
+.th .go SLUT
+.if &ITLPN = 8660
+.th .se TG 'Adelgade 15-19'
+.th .se TB '8660  Skanderborg'
+.th .go SLUT
+.if &ITLPN = 8700
+.th .se TG 'Rådhustorvet 1
+.th .se TB '8700  Horsens'
+.th .go SLUT
+.if &ITLPN = 8740
+.th .se TG 'Warthoesvej 2'
+.th .se TB '8740  Brædstrup'
+.th .go SLUT
+.if &ITLPN = 8800
+.th .se TG 'Sct. Mathias Gade 19'
+.th .se TB '8800  Viborg'
+.th .go SLUT
+.if &ITLPN = 8900
+.th .se TG 'Sandgade 12'
+.th .se TB '8900  Randers'
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.se BECTL5 = 1
+.dm TLADR5 on
+.se ITLPN=&*1
+.if &ITLPN = 9000
+.th .se TG 'Badehusvej 17'
+.th .se TB '9000  Ålborg'
+.th .go SLUT
+.if &ITLPN = 9240
+.th .se TG 'Grønnegade 29'
+.th .se TB '9240  Nibe'
+.th .go SLUT
+.if &ITLPN = 9300
+.th .se TG 'Barbras Alle 2 A'
+.th .se TB '9300  Sæby'
+.th .go SLUT
+.if &ITLPN = 9400
+.th .se TG 'Badehusvej 17'
+.th .se TB '9000  Ålborg'
+.th .go SLUT
+.if &ITLPN = 9501
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .go SLUT
+.if &ITLPN = 9502
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .go SLUT
+.if &ITLPN = 9503
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .go SLUT
+.if &ITLPN = 9550
+.th .se TG 'Klosterstien 12'
+.th .se TB '9550  Mariager'
+.th .go SLUT
+.if &ITLPN = 9575
+.th .se TG 'Hadsundvej 7'
+.th .se TB '9575  Terndrup'
+.th .go SLUT
+.if &ITLPN = 9690
+.th .se TG 'Sandagervej 49'
+.th .se TB '9690  Fjerritslev'
+.th .go SLUT
+.if &ITLPN = 9700
+.th .se TG 'Banegårdspladsen 4'
+.th .se TB '9700  Brønderslev'
+.th .go SLUT
+.if &ITLPN = 9800
+.th .se TG 'Amtmandstoften 1'
+.th .se TB '9800  Hjørring'
+.th .go SLUT
+.if &ITLPN = 9900
+.th .se TG 'Dommergården, Nytorv 19-25'
+.th .se TB '9900  Frederikshavn'
+.th .go SLUT
+.if &ITLPN = 9990
+.th .se TG 'Rolighedsvej 1'
+.th .se TB '9990  Skagen'
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ****
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENRET  = '&TR.'
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENRET.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**********************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL *********
+:GL.
+&GENRET.
+.br
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
+.* Parameterafsnit
+.da BREVHOVED 29mm 40mm width 80mm
+.ar BREVHOVED on
+:DUTCH12.
+.**  REKOMMANDERET - benyttes ikke iflg aftale med merete **
+.** br- benyttes ikke iflg aftale med merete **
+&GENNAVN
+.br
+.if &L'&GENRET > 0
+.th &GENRET
+.th .br
+.if &L'&GENCOADR > 0
+.th &GENCOADR
+.th .br
+&GENGADE
+.br
+&GENBY
+.ar off
+.* Tinglysning - Effekter - brevnavn mv.
+.*********************GENEREL OPSÆTNING************************************
+:DUTCH12.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 143mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 29mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:DUTCH6.
+B29TING                      CVR-nr. 13 88 46 76, hjemsted Farum, Danmark
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+.if X&BECPNJ1 eq X1
+.th Effekter til tinglysning
+.if X&BECPNJ1 eq X2
+.th Effekter til aflysning
+.if X&BECPNJ1 eq X3
+.th Lysning af påtegninger
+.if X&BECPNJ1 eq X4
+.th Annullering af retsanmærkninger
+.**************************************************************************
+.if &L'&B29MATR eq 0
+.an &L'&B29STEL eq 0
+.an &L'&BECTEKST06 eq 0
+.th
+.***********************
+.if &L'&B29MATR gt 0
+.an &L'&B29STEL eq 0
+.an &L'&BECTEKST06 gt 0
+.th vedr. matr. nr. &B29MATR.,
+.th .br
+.th beliggende &BECTEKST06
+.***********************
+.if &L'&B29MATR gt 0
+.an &L'&B29STEL eq 0
+.an &L'&BECTEKST06 eq 0
+.th vedr. matr. nr. &B29MATR
+.***********************
+.if &L'&B29MATR eq 0
+.an &L'&B29STEL gt 0
+.an &L'&BECTEKST06 eq 0
+.th vedrørende bilen, stel nr. &B29STEL
+.**************************************************************************
+:SKRSLUT
+.sp 2
+.* Tinglysning - Effekter vedr. (matr.nr., bilbog, løsøre)
+Vedlagt fremsendes:
+.sk
+.in 25mm
+.if &L'&BECTEKST10 = 0 .an &L'&BECTEKST32 > 0
+.th .sp
+.el .br
+.el &BECTEKST10.
+.br
+&BECTEKST32.
+.br
+.*****************************
+.in
+.sk
+.if .&L'&BECTEKST11 > .0
+.th Som legitimation medsendes &BECTEKST11..
+.th .sk
+.if &L'&B29CHECK gt 0
+.an &L'&B29STORKUN eq 0
+.th Check på
+.th :NY
+.th :vs.&B29CHECK
+.th :ENY
+.th kr. vedlægges til dækning af stempel og
+.th tinglysningsafgift.
+.th .sk
+.if &L'&B29CHECK eq 0
+.an &L'&B29STORKUN gt 0
+.th Til dækning af stempel og tinglysningsafgift
+.th bedes trukket
+.th :NY
+.th :vs.&B29STORKUN
+.th :ENY
+.th kr. via storkundeordningen.
+.th .sk
+Efter endt ekspedition beder vi Dem venligst returnere effekterne
+til anmelder.
+.sp
+.***********************************
+.if &L'&B29TXT11 > 1 .or &L'&B29TXT12 > 1 .or &L'&B29TXT13 > 1
+.or &L'&B29TXT14 > 1
+.th &B29TXT11
+.th &B29TXT12
+.th &B29TXT13
+.th &B29TXT14
+.th .sp
+.***********************************************************************
+.sp 4
+Med venlig hilsen
+.sp4
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤&GENEKSP
+.br
+.el &GENMTITEL ¤&GENTITEL
+.ar off
+.da BILAG 29mm 255mm width 100mm
+.ar BILAG on
+Bilag:
+.br
+.if &L'&B29TXT1 > 1 .or &L'&B29TXT2 > 1 .or &L'&B29TXT3 > 1
+.or &L'&B29TXT4 > 1
+.th &B29TXT1
+.th .br
+.th &B29TXT2
+.th .br
+.th &B29TXT3
+.th .br
+.th &B29TXT4
+.th .br
+.th &B29TXT5
+.sp4mm
+:DUTCH10.
+.se KUNR1 = substr &KUNDENR 1 6
+.se KUNR2 = substr &KUNDENR 7 4
+.su on
+&KUNR1.-&KUNR2 :SKRSLUT
+:DUTCH10.
+/ &B29LÅNENR
+.ar off

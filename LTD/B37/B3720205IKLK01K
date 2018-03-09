@@ -1,0 +1,743 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* parameterafsnit
+.* parameterafsnit
+.* TEST AF BESTILLING AF SIKKERHEDER
+.se siku = N
+.if &U'&MIBJN5 = J .se siku = J
+.if &U'&MIBJN7 = J .se siku = J
+.if &U'&MIBJN8 = J .se siku = J
+.if &U'&MIBJN9 = J .se siku = J
+.if &U'&MIBJN10 = J .se siku = J
+.if &U'&MIBJN11 = J .se siku = J
+.if &U'&MIBJN12 = J .se siku = J
+.if &U'&MIBJN13 = J .se siku = J
+.if &U'&MIBJN14 = J .se siku = J
+.if &U'&MIBJN15 = J .se siku = J
+.if &U'&MIBJN16 = J .se siku = J
+.if &U'&MIBJN17 = J .se siku = J
+.if &U'&MIBJN18 = J .se siku = J
+.if &U'&MIBJN19 = J .se siku = J
+.* TEST AF ULTIMO RENTETILSKRIVNING
+.se ultrt = N
+.se ultd = SUBSTR '&RNTTILDTOD.' 1 2
+.if .&ultd = .28 .or .&ultd = .29 .or .&ultd = .30
+.th .se ultrt = J
+.* TEST AF OM REGTYPEN ER ET UDLÅN (d.28.3.96 704 rettet til 899 ES)
+.se udlk = N
+.if &REGTYPE > 99 .an &REGTYPE < 899 .se udlk = J
+.if &REGTYPE = 2900 .se udlk = J
+.if &REGTYPE = 2901 .se udlk = J
+.* undtagelser i intervallet
+.if &REGTYPE = 109 .se udlk = N ;.*
+.if &REGTYPE = 129 .se udlk = N;.*
+.if &REGTYPE = 150 .se udlk = N;.*
+.if &REGTYPE = 600 .se udlk = N;.*
+.if &REGTYPE = 601 .se udlk = N;.*
+.* TEST AF OM REGTYPEN ER RYKKERBREVSTYPE (ikke garanti og udlån)
+.if &REGTYPE > 9250 .or &udlk = J .se rykk = N;.*
+.el .se rykk = J
+.* TEST AF OM REGTYPEN INDEHOLDER PROVISION
+.se regup = J ;.*Registrerings typer uden provision
+.if &REGTYPE > 999 .an &REGTYPE < 2623 .se regup = N
+.* undtagelser i intervallet
+.if &REGTYPE = 1200 .se regup = J
+.if &REGTYPE = 1201 .se regup = J
+.if &REGTYPE = 1490 .se regup = J
+.if &REGTYPE = 1940 .se regup = J
+.if &REGTYPE = 2012 .se regup = J
+.if &REGTYPE = 2200 .se regup = J
+.if &REGTYPE = 2201 .se regup = J
+.if &REGTYPE = 2450 .se regup = J
+.if &REGTYPE = 2451 .se regup = J
+.if &REGTYPE = 2452 .se regup = J
+.if &REGTYPE = 2511 .se regup = J
+.if &REGTYPE = 2520 .se regup = J
+.if &REGTYPE = 2521 .se regup = J
+.dr tynd WEIGHT 0.1mm
+.dr norm WEIGHT 0.2mm
+.da VEND 7mm 277mm width 180mm rotate -90
+:COUR10.
+.LL 185mm
+.se tap1 '106mm 135mm right 137mm 155mm 175mm'
+.se tap2 './108mm 135mm right 136mm 155mm 175mm'
+.se tap4 '108mm ./135mm right 136mm 155mm 175mm'
+.dm fed on
+.kp off
+.kp on
+...SPN
+:FED.&*1.:SKRSLUT.
+.dm off
+.FO OFF
+.ti ^ 05
+.IN 2mm
+.se ovsi ' (Sagsbehandler: dato _____ init ____ )^^^Sæt initialer'
+.se ovs0 ' (Kontrol......: dato _____ init ____ )'
+.se ovs1 '^^REGISTRERET^sags KON-  BEMÆRKNING'
+.se ovs2 '^^PÅ KONTOEN ^beh. TROL'
+.se s '_______________________'
+.se k '_____xxxx______________'
+.se del '     (Konto-kontrol)'
+.rh on
+.* Brevnavn, roteret i venstre hjørne
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+:COUR10.
+.TP 39mm 95mm 135mm
+.LL 185mm
+:FED.              Intern kontrol lån/kreditter &del
+.ri Side  &ÅPN
+.br
+.bx left right
+.IN 2mm
+Dato: &DATO  ^Regtype: &REGTYPE  &REGTYPEKRT.^^Kontonr.: &IREGKTO
+.br
+^^^Kundenr.: &KTOKUNDENR
+.br
+:SKRSLUT.
+.br
+.us
+KUNDENAVN^^Evt. MEDKONTOHAVER
+  &KTOSTILL ^^  &MEDSTILL
+  &KTONAVN  ^^  &MEDNAVN
+  &KTOCO    ^^  &MEDCO
+  &KTOGADE  ^^  &MEDGADE
+&KTOBY    ^^  &MEDBY.b
+x off.s
+p 1mm.*
+TP 39mm 95mm 78.b
+r.T
+P &tap1&o
+vsi.s
+p 2mm&o
+vs0.b
+r.i
+f .&siks = .SIKUD.t
+h .bx tynd 136mm 146.0mm 156mm right.e
+l .bx tynd 109mm 136mm 146.0mm 156mm right&o
+vs1.b
+r&o
+vs2.b
+r.b
+x off.T
+P &tap2.i
+f &ÅPN = 2 .sp 2.r
+h off.r
+h execute.b
+r
+.se fort '       Kontooplysninger fortsættes'
+.rf on
+:COUR10.
+.br
+.ri &fort.
+.br
+.rf off
+.rf execute
+.TP &tap2
+.sp 1mm
+.*if &U'&MIBJN1 = N .or &U'&MIBJN6 = J .go ALT1
+.*el .se alt2 = 1
+.*el .go PKT10
+...ALT1
+.****** INPUT SPACE ******
+.se mbin = 6mm
+.bx tynd 109mm 136mm 146.0mm 156mm right
+.fed 'GENERELT'
+.kp off
+.sp 1mm
+.if .&LAANESAG. = .J .se laanesag 'nej' ;.el .se laanesag 'ja'
+.th 1) LÅNESAG EFFEKTUERET ^^fejl^&s
+.sk
+2) ORIENTERINGSGRÆNSER/EFTERRETNINGSNIVEAU OK? ^^^&s
+.sk
+.fed 'KONTOOPLYSNINGER m.v.'
+.sp 1mm
+.if &udlk = N .go afydeju
+.if -&MAXIMUM = &SALDO
+.el .se maxskyld 'fejl'
+.el 1) MAX FORSKELLIG FRA SKYLD VED UDLÅN ^^fejl^&s
+.go afyd
+...afydeju
+.if x&AFDYDT. = x&Ydelseslån
+.th 2) AFDRAG - YDELSE ^^fejl^&s
+...afyd
+.*4) Afdrag/ydelse (type) ^^&AFYDK. &AFYDT.^&s
+.*4) Afdrag/ydelse (type) ^^&AFYDT.^&s
+.sk
+.go PKT10
+5) Afdrag/ydelse (kto,kr,næste,frekv,antal)
+.if &YDELSEKTO. = 0,00 .an &NSGANG. = 00.00.0000
+.th .br
+.th .is &mbin
+.th (billed 3223) ^^INGEN^&s
+.th .br
+.th .se nyd = 1
+.th .go YDBEM
+   debiteringskonto ^^ &YDDEBKTO.^&k
+.DM YDAF on
+.* UDSKRIFT AF AFDRAG/YDELSE med diverse parametre
+.if &YDAFDR&*1. = 0,00 .an &YDANTAL&*1. = 0
+.an &YDDATO&*1. = 00.00.0000 .an .&YDFRKV&*1. = .
+.th .go YDAFSL
+.if &YDAFDR&*1. = 0,00 .an &YDANTAL&*1. = 0
+.an &YDDATO&*1. = 00.00.0000 .an .&YDFRKV&*1. = .0
+.th .go YDAFSL
+   sæt nr. &*1. afdrag/ydelse ^^&YDAFDR&*1..^&s
+   -   -   &*1. næste gang ^^&YDDATO&*1..^&s
+.if .&L'&YDFRKVT&*1. = .0
+.th .br
+.th .is &mbin
+.th -   -   &*1. frekvens ^^&YDFRKV&*1 &YDFRKVT&*1..^&s
+.th .br
+.el .br
+.el .is &mbin
+.el -   -   &*1. frekvens ^^&YDFRKVT&*1..^&s
+.el .br
+.if .&YDANTAL&*1. = .0 .an &YDDATO&*1.. <> 00.00.0000
+.th .se ydantal1t 'FEJL !! '
+.th .se agt1 ' (billed 3223)' ;.el .se ydantal1t '' ;.el .se agt1 ''
+   -   -   &*1. antal gange &agt1. ^^&ydantal1t.&YDANTAL&*1..^&s
+.sk
+...YDAFSL
+.DM off
+.YDAF 1
+.YDAF 2
+.YDAF 3
+.YDAF 4
+.YDAF 5
+...YDBEM
+   KK m.m forfald v/næste genforhandling
+.sk
+   Budgetskema tilrettet ^^?^&k
+.sk
+6) Aftaledato/Huskedato
+.if &YDAFTD1. = 00.00.0000 .go 7a2
+   sæt nr. 1 Aftaledato fra konto ^^ &YDAFTD1.^&s ;.br ;.se yda = 1
+...7a2
+.if &YDAFTD2. = 00.00.0000 .go 7a3
+   sæt nr. 2 Aftaledato fra konto ^^ &YDAFTD2.^&s ;.br ;.se yda = 1
+...7a3
+.if &YDAFTD3. = 00.00.0000 .go 7a4
+   sæt nr. 3 Aftaledato fra konto ^^ &YDAFTD3.^&s ;.br ;.se yda = 1
+...7a4
+.if &YDAFTD4. = 00.00.0000 .go 7a5
+   sæt nr. 4 Aftaledato fra konto ^^ &YDAFTD4.^&s ;.br ;.se yda = 1
+...7a5
+.if &YDAFTD5. = 00.00.0000 .go 7as
+   sæt nr. 5 Aftaledato fra konto ^^ &YDAFTD5.^&s ;.br ;.se yda = 1
+...7as
+.if &E'&nyd = 1 .an &E'&yda = 0
+.th .br
+.th .is &mbin
+.th HVERKEN ydelse eller aftaledato ^^???? ^&s
+.th .br
+   Se registrering på billed 97721 ^^^&s
+   Se registrering på billed  3109 ^^^&s
+.sk
+.if .&BEVOVTR. = .0,00 .go PKT7a
+7) BOT = bevilling ^^ &BEVOVTR.^&s
+8) Udløbsdato = bevilling ^^ &BEVSLUT.^&s
+9) Kreditbrev vedr. BOT udfærdiget ^^^&s
+.sk
+.go PKT10
+...PKT7a
+7 8 9) Ingen BOT ^^ ej kontrol
+.sk
+...PKT10
+.*PKT10
+.*if &E'&alt2 = 1 .go ALT2
+.*.IN -1
+.if &udlk = N .go PKT10a
+.se rtfv '???'
+.if &RNTTILFRED = 01 .se rtfv 'Månedlig'
+.if &RNTTILFRED = 03 .se rtfv 'Kvartal'
+.if &RNTTILFRED = 06 .se rtfv 'Halvår'
+.if &RNTTILFRED = 09 .se rtfv 'Årlig'
+.se rk = 0
+.if .&RNTTILFRED. = .0&YDFRKV5. .an .&RNTTILDTOD. = .&YDDATO5.
+.an .&YDANTAL5. = .99 ;.th .se rk = 5
+.if .&RNTTILFRED. = .0&YDFRKV4. .an .&RNTTILDTOD. = .&YDDATO4.
+.an .&YDANTAL4. = .99 ;.th .se rk = 4
+.if .&RNTTILFRED. = .0&YDFRKV3. .an .&RNTTILDTOD. = .&YDDATO3.
+.an .&YDANTAL3. = .99 ;.th .se rk = 3
+.if .&RNTTILFRED. = .0&YDFRKV2. .an .&RNTTILDTOD. = .&YDDATO2.
+.an .&YDANTAL2. = .99 ;.th .se rk = 2
+.if .&RNTTILFRED. = .0&YDFRKV1. .an .&RNTTILDTOD. = .&YDDATO1.
+.an .&YDANTAL1. = .99 ;.th .se rk = 1
+.if &rk > 0 .an .&ultrt = .N
+.th .go RKOK
+3) Renteforfald = ydelsesforfald ^^nej^
+.* TEST rk = &rk   ultrt =  &ultrt
+.* TEST if .&RNTTILFRED. = .0&YDFRKV1.  an .&RNTTILDTOD. = .&YDDATO1.
+.* TEST an .&YDANTAL1. = .99 ;.th .se rk = 1
+ 
+   Næste renteforfald (Hvis ultimo - altid
+   MANUEL skærmkontrol (3240 = 31.xx.19xx) ^^&RNTTILDTOD.^&s
+   Dag i mdr. skal være ens ^^^&s
+ 
+   Rentefrekvens er ^^&rtfv.^
+   "Ant.gange(yd/afdr)" 99 i mindst 1 sæt^^^&s
+.go RTOPG
+...RKOK
+3) Renteforfald = ydelsesforfald ^^"sæt &rk." ok^
+...RTOPG
+.if .&RNTKODE = .0 .go deprt
+.if .&RNTKODE = .1 .se rntkode 'Nota udskrives, rente tilskrives'
+.if .&RNTKODE = .2 .se rntkode 'Nota udskrives, rente tilskrives ikke'
+.if .&RNTKODE = .3
+.th .se rntkode 'Rente tilskrives ikke, men 0-stilles (og ingen nota)'
+.if .&RNTKODE = .4 .se rntkode 'Ingen rentetilskrivning, Puljekonto'
+.sk
+    Renteopgørelses kode  ^^&RNTKODE.^&s
+    (= &rntkode.)
+.go deprt
+...PKT10a
+.*10) Ikke UDLÅN ^^ ej kontrol
+...deprt
+.*sk
+.*11) Debetrentesats = bev/P og B ^^ &DEBSATS.^&s
+.*12) Kreditrentesats = bev/P og B ^^ &KRESATS.^&s
+.sk
+.if &regup = J .go REGUP
+.se pta 'fejl'
+.if &PROVKA. = 0 .se pta 'Ingen/træk'
+.if &PROVKA. = 1 .se pta 'høj.kapita'
+.if &PROVKA. = 2 .se pta 'forho.valø'
+.if &PROVKA. = 3 .se pta 'gns.kapita'
+.se ptb 'fejl'
+.if &PROVKB. = 0 .se ptb 'Ingen/max.'
+.if &PROVKB. = 1 .se ptb 'højeste m.'
+.if &PROVKB. = 2 .se ptb 'forho.max.'
+.if &PROVKB. = 3 .se ptb 'forho.uudn'
+.if &PROVKB. = 4 .se ptb 'forud/prim'
+.se ptc 'fejl'
+.if &PROVKC. = 0 .se ptc 'Ingen/bot.'
+.if &PROVKC. = 1 .se ptc 'højest/bot'
+.if &PROVKC. = 2 .se ptc 'høj.truk.b'
+.if &PROVKC. = 3 .se ptc 'FY HA-fejl'
+.if &PROVKC. = 4 .se ptc 'forho.træk'
+.if &PROVKC. = 5 .se ptc 'forud/prim'
+.if &PROVKC. = 6 .se ptc 'forud udlø'
+.se ptd 'fejl'
+.if &PROVKD. = 0 .se ptd 'Ingen /ovt'
+.if &PROVKD. = 1 .se ptd 'højest ovt'
+.if &PROVKD. = 2 .se ptd 'forho.træk'
+4) Prov.sats = bev/P og B ^^ &PROVSATS.^&s
+   Provisionskode A (af Debetsaldo) ^^ &PROVKA. &pta.^&s
+   Provisionskode B (af Maksimum) ^^ &PROVKB. &ptb.^&s
+ 
+   Bev. overtræksprov = bev/P og B ^^ &BEVOVSAT.^&s
+   Provisionskode C (af Bev.OverTræk) ^^ &PROVKC. &ptc.^&s
+ 
+   Overtræksprov = bev/P og B ^^ &OVPRSATS.^&s
+   Provisionskode D (af Overtræk) ^^ &PROVKD. &ptd.^&s
+.sk
+.go lans
+...REGUP
+.*13) Ikke PROVISIONSREGTYPE ^^ ej kontrol
+...lans
+.*if .&LAANESAG. = .J .se laanesag 'nej' ;.el .se laanesag 'ja'
+.*14) Lånesag effektueret ^^&laanesag.^&s
+.*sk
+.*15) Hvis afvigende sats: KR 4-14 etableret? ^^^&s
+.*sk
+.*if &ÅLC < 4 .pa
+.*16) Koncernregistrering fra 93050 ^^&KONCERNNR.^&s
+.*    = (bil.3811) oprettet hovedkundenr. i
+.*    kunstr.kundenr. = koncern i ansøgning ^^^&s
+.*sk
+.go KAUT
+...ALT2
+.fed 'EDB-KONTROL'
+.*1. BOT = bevilling ^^&BEVOVTR. ^&s
+.*2. Udløbsdato = bevilling ^^&BEVSLUT. ^&s
+.*3. Kreditbrev udfærdiget ^^^&s
+.sk
+...KAUT
+.* (KAUT) KONTOKAUTIONER, DOKUMENTER, ENG.STYR og KREDITAFTALELOV
+.*if &U'&MIBJN3 <> J .an &U'&MIBJN6 <> J .go KONTRDOK
+.*fed 'KONTOKAUTIONER'
+.*1) Beløb - begrænsning - kautionsform ^^^&s
+.*2) Til sikkerhed for kontonr. ^^^&s
+.*3) Navn - CPR nr. kautionist ^^^&s
+.*sk
+.*4) Soliditetsoplysning/soliditetstekst
+.*   (kun kautionist udenfor koncern) ^^^&s
+.*5) Tiltrædelse fra kautionist ved ændring
+.*   i engagement/sikkerheder
+.*   samt ved genforhandling ^^^&s
+.sk
+...KONTRDOK
+.*if &U'&MIBJN1 <> N .an &U'&MIBJN6 <> J .go ENGSTY
+.fed 'KONTROL AF DOKUMENTER'
+.if &U'&MIBJN1 = J .go BOTBREV
+1) Låne og kreditdokument = bevilling ^^^&s
+2) Allonge ^^^&s
+3) Allonge ved ændring  ^^^&s
+.sk
+4) Underskrift(er)/firmanavn/
+   dato på alle dokumenter i sagen ^^^&s
+5) Tegningsudskrift ^^^&s
+6) Vitterlighedsvidne/dato ^^^&s
+...BOTBREV
+7) Kreditbrev vedr. BOT ^^^&s
+.sk
+...ENGSTY
+.*if &U'&MIBJN4 <> J .an &U'&MIBJN6 <> J .go KREDAFTL
+.*fed 'ENGAGEMENTSSTYRING'
+.*1) Tilmeldt "koncernselskab" ^^^&s
+.*2) Ajourføring af rammer
+.*   - herunder interne BOT. ^^^&s
+.*sk
+...KREDAFTL
+.if .&PRIVERHV. = .P
+.se rbk 'FEJL 8)el.10)'
+.* Test
+.if .&PRIVERHV. = .P .an .&RYKRENTE. = .1 ;.th .se rbk 'OK'
+.if .&PRIVERHV. = .E .an .&RYKRENTE. = .0 ;.th .se rbk 'OK'
+.if .&PRIVERHV. = .E .an .&RYKRENTE. = .2 ;.th .se rbk 'OK'
+.se rbkr = '&rbk.'
+.* Rykkeroplysning (J = rykkerbrev udskrives)
+.if .&RYKRENTE. = .0 .or .&RYKRENTE. = .2 ;.th .se rbo 'N' ;.el .se rbo 'J'
+.if .&RYKRENTE. = .3 .an .&PRIVERHV. = .P
+.th .se rbk 'OK hvis 10) er OK'
+.if .&rbo = .N .an .&PRIVERHV. = .P
+.th .se rbotxt '(Lovkrav om 3md-rykkerbrev til private)'
+.if .&rbo = .J .an .&PRIVERHV. = .E
+.th .se rbotxt '(Ej lovkrav om 3md-rykkerbrev til erhverv)'
+.* Renteoplysning (J = renteændringer dokumenteres)
+.if .&RYKRENTE. = .0 .or .&RYKRENTE. = .1 ;.th .se rto 'J' ;.el .se rto 'N'
+.if .&rto = .J
+.th .se rbkr 'OK'
+.if .&rto = .N .an .&PRIVERHV. = .P
+.th .se rbkr 'FEJL'
+.th .se rtotxt '(Lovkrav om renteændringsoplysning til private)'
+.if .&rto = .N .an .&PRIVERHV. = .E
+.th .se rbkr 'Evt.FEJL 9)el.10)'
+.th .se rtotxt '(Renteændringsoplysning er standard til erhverv)'
+...KRFT
+.***** HVIS BEGGE VÆRDIGER ER = OK ****** SKRIVES 8 og 9 IKKE UD *********
+.* TEST **** LINIER DER STARTER MED TEST FEJRNES I ENDELIG UDGAVE *******
+.* TEST rbk  = .'&rbk.' og rbkr = .'&rbkr.'
+.* TEST rbo  = .'&rbo.' og rto  = .'&rto.'
+.* TEST rykk = .'&rykk.' og RYKRENTE  = .'&RYKRENTE.'
+.* TEST Rykkeropl.(=&rbo.)/Renteændr.opl.(=&rto.) ^^(&RYKRENTE.) &rbk.^&s
+.* TEST **** SLUT *******************************************************
+ 
+.if .'OK' = .'&rbk.'
+.an .'OK' = .'&rbkr.'
+.th .go SIK04
+.***** HVIS EJ KREDAFT.LOV og EJ FULDST.KONTR. og EJ PRIVAT - HOP ****
+.if &U'&MIBJN2 <> J .an &U'&MIBJN6 <> J .an &PRIVERHV <> P .go SIK0
+.*fed 'KREDITAFTALELOVEN'
+.if &rykk = N
+.*th 3) Rykkeropl. /Renteændr.opl.
+.*th .br
+.*th -  = EJ RYKKER/RENTE-REGTYPE^^ej kontrol^
+.th .go KRFT4
+.*th 3) Rykkeropl.(=&rbo.)/Renteændr.opl.(=&rto.) ^^(&RYKRENTE.) &rbk.^&s
+.*3a) Rykkeroplysning (&RYKRENTE.) ^^&rbo./&rbk.^&s
+ 8) Rykkeroplysning (&RYKRENTE.) ^^&rbo./&rbk.^&s
+.if &E'&rbotxt = 1
+.th -
+.th .is 6
+.th &rbotxt
+.*3b) Renteoplysning  (&RYKRENTE.) ^^&rto./&rbkr.^&s
+ 9) Renteoplysning  (&RYKRENTE.) ^^&rto./&rbkr.^&s
+.if &E'&rtotxt = 1
+.th -
+.th .is 6
+.th &rtotxt
+.****************************************
+...KRFT4
+10) Kundetype (Privat/Erhverv) ^^&PRIVERHV.^&s
+.sk
+.go SIK1
+...SIK0
+.*fed 'KUNDETYPE/RYKKER-/RENTEOPLYSNINGER'
+.if &rykk = N
+.*th 3) Rykkeropl. /Renteændr.opl.
+.*th .br
+.*th -  = EJ RYKKER/RENTE-REGTYPE^^ej kontrol^
+.th .go SIK04
+.*if .&rbk = .OK .an .&rbkr = .OK
+.*th 3) Rykkeropl.(=&rbo.)/Renteændr.opl.(=&rto.) ^^(&RYKRENTE.) &rbk.^&s
+.*th .go SIK04
+.*3a) Rykkeroplysning (&RYKRENTE.) ^^&rbo./&rbk.^&s
+8)  Rykkeroplysning (&RYKRENTE.) ^^&rbo./&rbk.^&s
+.if &E'&rbotxt = 1
+.th -
+.th .is 6
+.th &rbotxt
+.*3b) Renteoplysning  (&RYKRENTE.) ^^&rto./&rbkr.^&s
+9)  Renteoplysning  (&RYKRENTE.) ^^&rto./&rbkr.^&s
+.if &E'&rtotxt = 1
+.th -
+.th .is 6
+.th &rtotxt
+...SIK04
+10) Kundetype (Privat/Erhverv) ^^&PRIVERHV.^&s
+.sk
+...SIK1
+.if .&U'&MIBJN3 = .J .or .&U'&MIBJN5 = .J
+.or .&U'&MIBJN6 = .J
+.th 11) Kontokaution ^^^&s
+.th .sk
+.if &U'&MIBJN1 = J .go BOTEJHSK
+.fed 'HUSKELISTE'
+1) Budgetskema tilrettet ^^?^&s
+2) Udskrevet låneansøgning
+         vedr. lån i Dublin til udland ^^?^&s
+3) Udskrevet låneansøgning
+         vedr. eng. med Midtfinans til MF ^^?^&s
+4) Oprydning sagsmapper ^^?^&s
+...BOTEJHSK
+.kp off
+.rf on
+:COUR10.
+.bx off
+.rf off
+.rf execute
+.br
+.* Afslutning af kontooplysninger - sb = styring af rammer
+.se siks = SIKUD
+.se fort '             Kontooplysninger SLUT'
+.*rf cancel
+.*rf on
+.bx off
+.br
+.ri &fort.
+.br
+.*rf off
+.*rf execute
+.if &U'&MIBJN5 = J .or &U'&MIBJN6 = J .se alsik = J
+.el .se alsik = N
+.se tap1 '137mm 148mm 159mm'
+.se tap2 './136mm 148mm 159mm'
+.*se ovs0 ' (Kontrol......: dato _____ init ____ )'
+.se ovs0 ' '
+.*se ovsi ' (Sagsbehandler: dato _____ init ____ )^Sæt initialer'
+.se ovsi ' ^Sæt initialer'
+.se ovs1 '^SAGS KON- BEMÆRKNING'
+.se ovs2 '^BEH. TROL'
+.se del '(Sikkerheds-kontrol)'
+.* SLUT HVIS INGEN SIKKERHEDER
+.if &siku = N .an &alsik = N .qu
+.pn 1
+.pa
+.sp
+.se fort 'Sikkerheder fortsættes'
+.rf on
+:COUR10.
+.br
+.ri &fort.
+.br
+.rf off
+.rf execute
+...SIK
+.bx tynd 136mm 146.0mm 156mm right
+.TP &tap2
+.fed 'SIKKERHEDER OG SIKKERHEDSREGISTRERING'
+.SK
+.fed 'GENERELT'
+1) Svarer endelige/reg. sikkerheder til dokumenter og bevilling ^&s
+2) Hver enkelt depot reg. til sikkerhed
+   for kontonr./kundenr.^&s
+.sk
+.if &U'&MIBJN7 ne J .or &alsik = J .go LSPB1
+.fed 'EJERPANTEBREVE'
+1) Hovedstol - belåningsværdi ^&s
+2) Matr.nr. + BBR nr.^&s
+3) Adresse ^&s
+4) Seneste ejd.værdi/grundværdi/handelsværdi/grundlag ^&s
+5) Foranstående hæftelser
+        - restgæld/kt. restgæld/fondskoder(billed 70340) ^&s
+6) Vurdering ^&s
+7) Sikringsakt: tinglysning ^&s
+8) Solvenskode: (billed 70313)
+         koder: 401/beboelsesejendomme 402/fritidshuse
+                403/ kontor- og forretningsejendomme ^&s
+.sk
+...LSPB1
+.if &U'&MIBJN8 ne J .or &alsik = J .go EPB2
+.fed 'LØSØREEJERPANTEBREVE'
+1) Hovedstol - belåningsværdi ^&s
+2) Beskrivelse af det pantsatte ^&s
+3) Sikringsakt: tinglysning bilbogen/personbogen ^&s
+                notering af panthaverdeklaration
+                          hos forsikringsselskab ^&s
+.sk
+...EPB2
+.if &U'&MIBJN9 ne J .an &alsik ne J .go LSPB2
+.if &U'&MIBJN6 = J .se epb2 ' / EJERPANTEBREVE' ;.el .se epb2 ''
+.fed 'SKADESLØSBREVE&epb2.'
+1) Hovedstol - belåningsværdi ^&s
+2) Matr.nr. + BBR nr. ^&s
+3) Adresse ^&s
+4) Seneste ejd.værdi/grundværdi/handelsværdi/grundlag ^&s
+5) Foranstående hæftelser
+   - restgæld/kt. restgæld/fondskoder(billed 70340) ^&s
+6) Sikringsakt: tinglysning ^&s
+7) Solvenskode: (billed 70313)
+         koder: 401/beboelsesejendomme 402/fritidshuse
+                403/ kontor- og forretningsejendomme ^&s
+.sk
+...LSPB2
+.if &U'&MIBJN10 ne J .an &alsik ne J .go ALSK
+.if &U'&MIBJN6 = J .se lspb2 ' / LØSØREEJERPANTEBREVE' ;.el .se lspb2 ''
+.fed 'LØSØRESKADESLØSBREVE&lspb2.'
+1) Hovedstol - belåningsværdi ^&s
+2) Beskrivelse af det pantsatte ^&s
+3) Sikringsakt: anmærkningsfri tinglysning bilbogen/personbogen ^&s
+                notering af panthaverdeklaration
+                      hos forsikringsselskab ^&s
+                      Forsikringsselskabets navn  registreret^&s
+.sk
+...ALSK
+.br
+.if &U'&MIBJN11 ne J .an &alsik ne J .go LIVS
+.fed 'ALSKYLDNERKAUTION'
+1) Beløb - begrænsning - kautionsform ^&s
+2) Til sikkerhed for kundenr.^&s
+3) Navn - cpr.nr.^&s
+4) Soliditetsoplysning/soliditetstekst
+   (kun kautionist udenfor koncern) ^&s
+.*5) Tiltrædelse fra Kautionist ved ændring i
+.*   engagement/sikkerheder samt ved genforhandling ^&s
+.sk
+...LIVS
+.if &U'&MIBJN12 ne J .an &alsik ne J .go VPNOT
+.fed 'LIVSFORSIKRING'
+1) Livspolice m/tilbagekøbsværdi
+            - ophørende livspolice ^&s
+2) Sum ^&s
+3) Tilbagekøbsværdi kr. ^&s
+4) Ophørsdato ^&s
+5) Policenr. samt selskab ^&s
+6) Forsikrede/begunstiget/forsikringstager ^&s
+7) Sikringsakt: rådighedsberøvelse + noteret
+                panthaverdeklaration hos fors.selskab
+                Hvis uigenkaldelig begunstiget indsat
+                skal indhentes samtykke fra denne ^&s
+.sk
+...VPNOT
+.if &U'&MIBJN13 ne J .an &alsik ne J .go EVPNOT
+.fed 'VÆRDIPAPIRER - VP-NOTERET'
+:FED.(AKTIER - OBLIGATIONER):SKRSLUT.
+1) Underskrevet håndpantsætningserklæring/tiltrædelse
+   på depot vurd. som indeholder alle pantsatte
+   VP-beholdninger ^&s
+2) Pantsat afkastkonto ^&s
+3) Sik-depot 3.mand VP / sik-depot VP ^&s
+4) Solvens....: VP-konti i andet kreditinstitut -
+                projekt 99 billed 70516 -
+                kode 900 statspapirer
+                kode 902 kreditforeninger ^&s
+.sk
+...EVPNOT
+.if &U'&MIBJN14 ne J .an &alsik ne J .go PBR
+.fed 'VÆRDIPAPIRER - IKKE NOTERET'
+:FED.(AKTIER - ANPARTER I APS - OBLIGATIONER):SKRSLUT.
+1) Underskrevet håndpantsætningserklæring/tiltrædelse
+   på depot vurd., som indeholder alle pantsatte
+   IKKE VP-beholdninger ^&s
+2) M/fondskode -VP depot (opbevares i CENDEP) ^&s
+3) U/fondskode -lånesagsdepot(opbevares i rød sagsmappe)^&s
+4) Sikringsakt: rådighedsberøvelse v/fysiske papirer
+anmeldt overfor selskabet                
+m/navnenotering ^&s.sk...PBR.if &U'
+&MI
+BJN15 
+ne J .an &alsik ne J .go TRANSP.fed 'PANTEBREVE
+ M.V.'1) Underskrevet 
+håndpantsætningserklæring/tiltrædelse   på depot vurd
+., som indeholder alle pantsatte   effekter vedr
+. pantebreve m.v. ^&s2) Risikoklasse/
+kurs ^&s3) Sik-depot 3.m
+and VP / sik-depot VP ^&s.sk...TRANSP.br
+
+
+
+.br
+.if &U'&MIBJN16 ne J .an &alsik ne J .go GAR
+.fed 'TRANSPORT'
+1) Noteret af ^&s
+2) Transport i ^&s
+3) Sikringsakt: notering/dokumenteret anmeldelse ^&s
+.sk
+...GAR
+.if &U'&MIBJN17 ne J .an &alsik ne J .go BANK
+.fed 'GARANTIER'
+1) Beløbsstørrelse ^&s
+2) Garantistiller ^&s
+.*3) Udløbsdato - huskedato registreret på billed 3108 ^&s
+3) Sikringsakt: notering/dokumenteret anmeldelse ^&s
+.sk
+...BANK
+.if &U'&MIBJN18 ne J .an &alsik ne J .go DIVS
+.fed 'BANKKONTI'
+1) Solvens: Indlån i andet PI
+            projekt 99 billed 70509 kode 305 ^&s
+2) Konto i andet PI - notering foretaget ^&s
+3) Sikringsakt: rådighedsberøvelse v/fysisk bankbog ^&s
+.sk
+...DIVS
+.if &U'&MIBJN19 ne J .an &alsik ne J .go BRSLUT
+.fed 'DIVERSE SIKKERHEDER'
+1) Sikringsakt: ^&s
+2)              ^&s
+3)              ^&s
+.sp
+...BRSLUT
+.kp off
+.bx off
+.rf sup
+.se fort '     SIKKERHEDER SLUT'
+.rf on
+.bx off
+.br
+:COUR10.
+.ri &fort.
+.sk
+.rf off
+.rf execute
+.br

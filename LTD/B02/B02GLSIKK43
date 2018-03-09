@@ -1,0 +1,254 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* PARAMETERAFSNIT
+.* Teksten ligger i AFSNIT T
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.se TR = ' '
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.*.if &fundet = 0 .TLADR2 &post
+.*.if &fundet = 0 .TLADR3 &post
+.*.if &fundet = 0 .TLADR4 &post
+.*.if &fundet = 0 .TLADR5 &post
+.*.if &fundet = 0 .go EJFUND
+.if &fundet = 1
+.th .go RET
+.el .go EJFUND
+.**************************************************************************
+...RET
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.th .se gb = substr '&TB.' 7 28
+.th .se TR = '&GENRET. &gb.'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0003 .se TN = 'Andelsboligbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .2100 .se TN = 'Skibsregistret'
+.th .se TR = ' '
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+.th .se TR = ' '
+.if .&post1 = .9500 .se TN = 'Tinglysningsretten'
+.th .se TR = ' '
+...EJFUND
+...DM
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0001
+.or &ITLPN = 0002
+.or &ITLPN = 0003
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .se ktonr = '0216 4069152155'
+.th .go SLUT
+.if &ITLPN = 0110
+.th .se TG 'C. Pløyensgøta 1'
+.th .se TB '110  Tórshavn'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 9500
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500 Hobro'
+.th .se ktonr = ''
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ********
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENRET  = '&TR.'
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENRET.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**********************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL *********
+.************ her har AB sat SWISS11 ind *****************
+:GL.
+:SWISS11.
+&GENRET.
+.br
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
+:SWISS11.
+.*
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 125mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.*.ri on
+Garanti
+:SKRSLUT.
+.br
+(Mortifikation af ejerpantebrev)
+.*.ri off
+.ar off
+.**************************************************************************
+.****************Areal definition**********************
+.da OVERSK 125mm 12mm width 60mm
+.*.da AREAL2 20mm 25mm width 160mm
+.da NR 160mm 26,5mm
+.da TEKST1 20mm 35mm width 175mm
+.da NAVN 20mm 80mm width 165mm
+.da BELOB 20mm 79mm width 175mm
+.da SIKK 20mm 99mm width 175mm
+.da GYLD 20mm 146,5mm width 175mm
+.da UDBET 20mm 170,5mm width 175mm
+.da DATO 20mm 283mm
+.******************HER STARTER TEKST*******************
+.ti ¤ 05
+.tp 100mm
+.fo
+.******************Overskrift************************
+.ar OVERSK on
+.*:SWISS12.
+.*:FED.
+.*Garanti
+.*:skrslut.
+.*:SWISS11.
+.*.sp 3mm
+.*(Mortifikation af ejerpantebrev)
+.*.br
+.****** NB! Pas på dette afsnit skal med på de øvrige sider ************
+.ar NAVN on
+:SWISS10.
+På foranledning af (garantirekvirenten)
+.sp
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY.
+.sp
+indestår underskrevne Amagerbanken med et beløb af indtil
+.sp
+.ce kr. &B02BELØB.,
+.sp
+skriver: &B02BELØBT1.&B02BELØBT2.,
+.sp
+(svarende til ejerpantebrevets hovedstol med tillæg af 5 års renter i
+henhold til ejerpantebrevets bestemmelser)
+.sp
+til fordel for (garantibegunstigede):
+.in 10mm
+.sp
+Den indehaver af ejerpantebrevet, stort kr. &B02BELØB10., med pant i
+&B02MATR., tinglyst som &B02NR12 prioritet, som
+måtte melde sig inden et år efter indkaldelse i Statstidende og godtgøre
+sin ret.
+.in 0
+.sp
+Garantien er gyldig 1 år + 6 måneder efter indkaldelse i Statstidende.
+.sp
+:SWISS10.
+:FED.
+.sp
+Almindelige betingelser
+:SKRSLUT.
+.br
+Garantien er gyldig i ovennævnte tidsrum, inden for hvilket et eventuelt
+krav i henhold til garantien må være fremsat skriftligt over for
+banken. I modsat fald er garantien bortfaldet.
+.sp
+Såfremt banken må indfri garantien, har banken ret til dividende af det
+betalte beløb i debitors (garantirekvirentens) bo, selvom debitors
+forpligtelser ikke er fuldt dækket, og selvom banken har betalt efter
+bobehandlingens begyndelse.
+.sp
+Efter garantiens ophør skal denne garantierklæring returneres til banken.
+.sp
+I øvrigt gælder bankens almindelige forretningsbetingelser.
+.sp 3
+&B02TOM2., den &B02TOM1
+:SWISS12.
+.sp 2
+.ce A  M A G E R B A N K E N
+:SKRSLUT.
+.SP 5
+.hr 50mm 125mm
+.ar off

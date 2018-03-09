@@ -1,0 +1,279 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*
+.su off
+.se year = substr &DATO 7 4
+.su on
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+.if &L'&E69VALG1 > 0
+.th Nykredit
+.th .br
+.th servicecenter@nykredit.dk
+.if &L'&E69VALG2 > 0
+.th Nordea Kredit
+.th .br
+.th nkindfrielse@nordea.com
+.if &L'&E69VALG3 > 0
+.th Realkredit Danmark
+.th .br
+.th rd.indfrielse@rd.dk
+.if &L'&E69VALG4 > 0
+.th BRF Kredit
+.th .br
+.th kundecenter@brf.fk
+.*************MEDKONTOHAVER - HVIS DER ER EN*********************
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+Opsigelse af realkreditlån
+:SKRSLUT.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.if &L'&MEDNAVN > 0
+.th .sp 92mm
+.el .sp 76mm
+.*.sp 76mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.tp 70mm
+.kp on
+Låntagere:
+.sp 2mm
+&KTONAVN.¤&MEDNAVN.
+.br
+&KTOCO.¤&MEDCO.
+.br
+&KTOGADE.¤&MEDGADE.
+.br
+&KTOBY.¤&MEDBY.
+.br
+&KTOLAND.¤&MEDLAND.
+.sp 2mm
+Ejendommens adresse: &E69FRITXT1.
+.br
+Ejendomsnr.: &E69FRITXT2.
+.br
+Kontrolkode: &E69FRITXT3.
+.sp 2mm
+Undertegnede opsiger følgende lån til fuld indfrielse:
+.sp 2mm
+Lånenr: &E69FRITXT4.
+.br
+Hovedstol: &E69FRITXT5.
+.br
+Opsiges pr.: &E69DATO1.
+.if &L'&E69FRITXT6. > 0
+.th .sp 2mm
+.th Lånenr: &E69FRITXT6.
+.th .br
+.th Hovedstol: &E69FRITXT7.
+.th .br
+.th Opsiges pr.: &E69DATO2.
+.if &L'&E69FRITXT8. > 0
+.th .sp 2mm
+.th Lånenr: &E69FRITXT8.
+.th .br
+.th Hovedstol: &E69FRITXT9.
+.th .br
+.th Opsiges pr.: &E69DATO3.
+.sp 2mm
+Bekræftelse på opsigelsen bedes fremsendt til:
+.sp 2mm
+Spar Nord Bank A/S
+.br
+Regnr.: &REGNR.
+.br
+Mail: &GENEMAIL.
+.sp 12mm
+Dato: &DATO.
+.sp 10mm
+________________________
+.br
+.if &L'&E69VALG. > 0
+.th Spar Nord Bank A/S
+.if &L'&E69VALGA. > 0
+.th Låntager(e)
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

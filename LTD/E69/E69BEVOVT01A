@@ -1,0 +1,281 @@
+.**************************************************************************
+.dr thin weight 0.2mm
+.dr boxthin weight 0.1mm
+.**************************************************************************
+.if &E69VKTOTP1 = 2
+.th .go UDENKRE
+:FED.
+Tillæg til kassekredit
+:SKRSLUT
+.sp
+Bestemmelserne i ovennævnte kredit ændres således:
+.sp
+Nærværende kassekredit med maksimum DKK &E69BELOBT2. bevilges et
+midlertidig
+overtræk på DKK
+...UDENKRE
+.if &E69VKTOTP1 = 1
+.th .go MEDKRE
+På ovennævnte konto er bevilget et midlertidigt overtræk på DKK
+...MEDKRE
+.if &E69VNEDB1 = 2
+.th &E69BELOBT1..
+.el &E69BELOBT1.
+.if &E69VKTOTP1 = 1
+.an &E69VNEDB1 = 1
+.th indtil den &neddato., således at det maksimale træk på kreditten
+.th indtil den dato højest kan udgøre &RESULTA..
+.if &E69VKTOTP1 = 2
+.an &E69VNEDB1 = 1
+.th indtil den &neddato..
+.if &E69VNEDB1 = 2
+.th .sp
+.th Overtrækket nedbringes med DKK &E69BELOB3. &nedfrek., første gang den
+.th &neddato..
+.sp
+.if &U'&E69JANEJ = J
+.th Rentesatsen for det bevilgede er aftalt til CIBOR3 med tillæg p.t.
+.th &E69RPCT01. pct points. Rentesatsen på kontoen ændres dagligt.
+.if &U'&E69JANEJ = N
+.th Rentesatsen for det bevilgede overtræk udgør p.t. &E69RPCT01. % p.a.
+.sp
+.if &U'&E69VALG1 = F
+.th Den årlige provision for det bevilgede overtræk er fast og
+.th udgør &E69RPCT02. %.
+.th .sp
+.if &U'&E69VALG1 = V
+.th Den årlige provision for det bevilgede overtræk er variabel og udgør
+.th p.t. &E69RPCT02. %.
+.th .sp
+.if &L'&E69FRITXT2 > 0
+.th &E69FRITXT2
+.th .sp
+.if &E69VKTOTP1 = 1
+.th I øvrigt er vilkårene for kassekreditten uændrede.
+.th .sp
+.if &L'&E69GEBYR01 = 0
+.th Der er ikke opkrævet gebyr for det bevilgede overtræk.
+.el Ekspeditionsgebyr, kr. &E69GEBYR01. er hævet på kontoen.
+.sp 6mm
+Venlig hilsen
+.br
+:FED.
+&AFDNAVN.
+:SKRSLUT.
+.br
+&AFDGADE.
+.if &L'&AFDNAVN > 0
+.or &L'&AFDGADE > 0
+.th .go BY
+.el .go EJBY
+...BY
+.if &L'&AFDBY > 0
+.th, &AFDBY
+...EJBY
+.sp 9mm
+&GENEKSP.
+.br
+&GENTITEL.
+.br
+:VERDA08.
+:KURSIV.
+&GENTLFNR.
+.br
+&GENEMAIL.
+:SKRSLUT.
+:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Højre:
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Venstre - kundeopl
+.da KUNDEOPL 20mm 40mm width 100mm
+.**************************************************************************
+.********************START-POSITION AF OVERSKRIFT**************************
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.*.ir 0mm
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.* Afstand fra kundeoplysninger til brødtekst *****************************
+.sp 56mm
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.*
+.su off
+.se year = substr &DATO 7 4
+.* FREKVENS dannes *******************************************************
+.if &E69VNEDB1 <> 2
+.th .go NOFREKV
+.if X&E69VFREKV1 = X1
+.th .se nedfrek = 'hver måned'
+.if X&E69VFREKV1 = X2
+.th .se nedfrek = 'hvert kvartal'
+.if X&E69VFREKV1 = X3
+.th .se nedfrek = 'hvert år'
+.if X&E69VFREKV1 = X4
+.th .se nedfrek = substr &E69FRITXT1. 1 60
+...NOFREKV
+.if&E69VNEDB1 = 1
+.th .se neddato = &BECDATO2.
+.if &E69VNEDB1 = 2
+.th .se neddato = &BECDATO3.
+.su on
+.* Kontotype (1/2) skal udfyldes ******************************************
+.if &E69VKTOTP1 = 1
+.or &E69VKTOTP1 = 2
+.th .go INDOK1
+.el .go INDKTOT
+...INDOK1
+.* Er kontotype 1 skal Maksimum udfyldes **********************************
+.if &E69VKTOTP1 = 1
+.an X&E69BELOBT2 le X0,00
+.th .go INDMAXB
+.* Nedbringes på én gang / Løbende nedbringelse skal udfyldes *************
+.if &E69VNEDB1 = 1
+.or &E69VNEDB1 = 2
+.th .go INDOK2
+.el .go INDKTON
+...INDOK2
+.* Overtræksbeløb skal udfyldes *******************************************
+.if X&E69BELOBT1 le X0,00
+.th .go INDOVTB
+.* Er der svaret J eller N til Debetrente følger Cibor 3 ******************
+.if &U'&E69JANEJ = J
+.or &U'&E69JANEJ = N
+.th .go INDOK4
+.el .go INDCIBJN
+...INDOK4
+.* Er rentesats udfyldt ***************************************************
+.if &L'&E69RPCT01 = 0
+.th .go INDPCT
+.* Er Nedbringes på én gang valgt skal Nedbringes den udfyldes ************
+.if &E69VNEDB1 = 1
+.mg/T/Dato Første gang skal vælges ved Løbende nedbringelse/
+...INDNEDB
+.mg/T/Beløb for løbende nedbringelse skal indtastes/
+...INDNEDF
+.mg/T/Frekvens for løbende nedbringelse skal vælges/
+...INDNED4
+.mg/T/Andet skal udfyldes når 4) Andet er valgt som frekvens/
+...INDPRO
+.mg/T/Rentesats skal markeres som (F)ast eller (V)ariabel/
+...INDOK
+.an &L'&BECDATO2 = 0
+.th .go INDDATOE
+.* Er Løbende nedbringelse valgt skal Første gang den udfyldes ************
+.if &E69VNEDB1 = 2
+.an &L'&BECDATO3 = 0
+.th .go INDDATOL
+.* Er Løbende nedbringelse valgt skal Nedbringes med udfyldes *************
+.if &E69VNEDB1 = 2
+.an &L'&E69BELOB3 = 0
+.th .go INDNEDB
+.* Er Løbende nedbringelse valgt skal Frekvens udfyldes *******************
+.if &E69VNEDB1 <> 2
+.th .go INDOK3
+.if X&E69VFREKV1 = X1
+.or X&E69VFREKV1 = X2
+.or X&E69VFREKV1 = X3
+.or X&E69VFREKV1 = X4
+.th .go INDOK3
+.el .go INDNEDF
+...INDOK3
+.* Er 4) Andet valgt skal Fri tekst udfyldes ******************************
+.if &E69VNEDB1 = 2
+.an X&E69VFREKV1 = X4
+.an &L'&E69FRITXT1 = 0
+.th .go INDNED4
+.* Er rentesats for provision udfyldt skal F eller V markeres ***********
+.if &L'&E69RPCT02 > 0
+.th .go CHKFV
+.el .go INDOK
+...CHKFV
+.if &U'&E69VALG1 = F
+.or &U'&E69VALG1 = V
+.th .go INDOK
+.el .go INDPRO
+.go INDOK
+...INDMAXB
+.mg/T/Maksimum skal være større end 0/
+...INDKTOT
+.mg/T/Konto MED eller UDEN kredit skal vælges/
+...INDOVTB
+.mg/T/Overtræksbeløb skal være større end 0/
+...INDCIBJN
+.mg/T/De skal vælges (J)a eller (N)ej til Debetrente følger Cibor 3/
+...INDPCT
+.mg/T/Rentesats skal udfyldes/
+...INDKTON
+.mg/T/Nedbringelse på én gang eller Løbende nedbringelse skal vælges/
+...INDDATOE
+.mg/T/Dato for Nedbringes skal vælges ved Nedbringelse på én gang/
+...INDDATOL
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

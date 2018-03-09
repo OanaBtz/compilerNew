@@ -1,0 +1,1047 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&STILL
+.BR
+&NAVN
+.BR
+&COADR
+.BR
+&GADE
+.BR
+&BY  &LAND
+.SK
+:EGL.
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*Parameterafsnit
+.***** TABEL MED ekspafd og eksptlf ****
+.se ekspafd ''
+.se eksptlf 'Tlf. +45 3341 8200'
+.se ekspgade 'Havneholmen 29'
+.se ekspby   '1561 København V'
+.*****
+.*if x&EKSPREGNR = x0889 ;.th .se ekspafd 'Personalebank - Øst'
+.if x&EKSPREGNR = x0889 ;.th .se ekspafd 'Personalebank'
+.th .se eksptlf 'Tlf. +45 44563416'
+.th .se ekspgade 'Amaliegade 3'
+.th .se ekspby   '1256  København K'
+.if x&EKSPREGNR = x0890 ;.th .se ekspafd 'København City afdeling'
+.th .se eksptlf 'Tlf. +45 44563400'
+.th .se ekspgade 'Amaliegade 3'
+.th .se ekspby   '1256  København K'
+.if x&EKSPREGNR = x0891 ;.th .se ekspafd 'Århus Syd afdeling'
+.th .se eksptlf 'Tlf. +45 44565250'
+.th .se ekspgade 'Finderupvej 5, st.'
+.th .se ekspby   '8000  Århus C'
+.if x&EKSPREGNR = x0892 ;.th .se ekspafd 'Park Alle afdeling'
+.th .se eksptlf 'Tlf. +45 44564500'
+.th .se ekspgade 'Park Allé 290'
+.th .se ekspby   '2605  Brøndby'
+.if x&EKSPREGNR = x0893 ;.th .se ekspafd 'Kolding afdeling'
+.th .se eksptlf 'Tlf. +45 44564650'
+.th .se ekspgade 'Adelgade 14'
+.th .se ekspby   '6000  Kolding'
+.if x&EKSPREGNR = x0894 ;.th .se ekspafd 'Odense afdeling'
+.th .se eksptlf 'Tlf. +45 44563737'
+.th .se ekspgade 'Filosofgangen 21'
+.th .se ekspby   '5000  Odense'
+.if x&EKSPREGNR = x0895 ;.th .se ekspafd 'Kgs. Lyngby afdeling'
+.th .se eksptlf 'Tlf. +45 45260480'
+.th .se ekspgade 'Klampenborgvej 221, 1.'
+.th .se ekspby   '2800  Kgs. Lyngby'
+.if x&EKSPREGNR = x0896 ;.th .se ekspafd 'Aalborg City afdeling'
+.th .se eksptlf 'Tlf. +45 44565600'
+.th .se ekspgade 'Jernbanegade 4'
+.th .se ekspby   '9000  Aalborg'
+.if x&EKSPREGNR = x0897 ;.th .se ekspafd 'Østerbro afdeling'
+.th .se eksptlf 'Tlf. +45 44563800'
+.th .se ekspgade 'Østerfælled Torv 40, 1 tv.'
+.th .se ekspby   '2100  København Ø'
+.if x&EKSPREGNR = x0898 ;.th .se ekspafd 'Ballerup afdeling'
+.th .se eksptlf 'Tlf. +45 44564000'
+.th .se ekspgade 'Centrumgaden 24,1 tv'
+.th .se ekspby   '2750  Ballerup'
+.if x&EKSPREGNR = x0899 ;.th .se ekspafd 'Aalborg Syd afdeling'
+.th .se eksptlf 'Tlf. +45 44565700'
+.th .se ekspgade 'Nibevej 6'
+.th .se ekspby   '9200  Aalborg SV'
+.if x&EKSPREGNR = x6500 ;.th .se ekspafd 'Slagelse afdeling'
+.th .se eksptlf 'Tlf. +45 44564600'
+.th .se ekspgade 'Rådhuspladsen 2'
+.th .se ekspby   '4200  Slagelse'
+.*****
+.if x&EKSPREGNR = x7610 ;.th .se ekspafd 'Staben'
+.th .se eksptlf 'Tlf. +45 33418200'
+.th .se ekspgade 'Østergade 2'
+.th .se ekspby   '7400  Herning'
+.if x&EKSPREGNR = x7611 ;.th .se ekspafd 'Vildbjerg afdeling'
+.th .se eksptlf 'Tlf. +45 44565758'
+.th .se ekspgade 'Bredgade 6-8'
+.th .se ekspby   '7480  Vildbjerg'
+.if x&EKSPREGNR = x7612 ;.th .se ekspafd 'Kibæk afdeling'
+.th .se eksptlf 'Tlf. +45 44565425
+.th .se ekspgade 'Jernbanegade 4'
+.th .se ekspby   '6933  Kibæk'
+.if x&EKSPREGNR = x7613 ;.th .se ekspafd 'Sunds afdeling'
+.th .se eksptlf 'Tlf. +45 44562550'
+.th .se ekspgade 'Sunds Hovedgade 59'
+.th .se ekspby   '7451  Sunds'
+.if x&EKSPREGNR = x7614 ;.th .se ekspafd 'Herning Fredhøj afdeling'
+.th .se eksptlf 'Tlf. +45 44563000'
+.th .se ekspgade 'Gl. Landevej 151'
+.th .se ekspby   '7400  Herning'
+.if x&EKSPREGNR = x7616 ;.th .se ekspafd 'Hammerum afdeling'
+.th .se eksptlf 'Tlf. +45 44565800'
+.th .se ekspgade 'Hammerum Hovedgade 57-59'
+.th .se ekspby   '7400  Herning'
+.if x&EKSPREGNR = x7617 ;.th .se ekspafd 'Aulum afdeling'
+.th .se eksptlf 'Tlf. +45 44562500'
+.th .se ekspgade 'Danmarksgade 28'
+.th .se ekspby   '7490  Aulum'
+.if x&EKSPREGNR = x7620 ;.th .se ekspafd 'Herning City Afdeling'
+.th .se eksptlf 'Tlf. +45 44562600
+.th .se ekspgade 'Østergade 2'
+.th .se ekspby   '7400  Herning'
+.if x&EKSPREGNR = x7621 ;.th .se ekspafd 'Brande afdeling'
+.th .se eksptlf 'Tlf. +45 44564800'
+.th .se ekspgade 'Storegade 36'
+.th .se ekspby   '7330  Brande'
+.if x&EKSPREGNR = x7622 ;.th .se ekspafd 'Give afdeling'
+.th .se eksptlf 'Tlf. +45 44564850'
+.th .se ekspgade 'Jernbanegade 16'
+.th .se ekspby   '7323  Give'
+.if x&EKSPREGNR = x7623 ;.th .se ekspafd 'Sdr. Omme afdeling'
+.th .se eksptlf 'Tlf. +45 44565500'
+.th .se ekspgade 'Hovedgaden 17'
+.th .se ekspby   '7260  Sdr. Omme'
+.if x&EKSPREGNR = x7624 ;.th .se ekspafd 'Fredericia afdeling'
+.th .se eksptlf 'Tlf. +45 44564950'
+.th .se ekspgade 'Prinsessegade 82'
+.th .se ekspby   '7000 Fredericia'
+.if x&EKSPREGNR = x7625 ;.th .se ekspafd 'Sdr. Felding afdeling'
+.th .se eksptlf 'Tlf. +45 44565450'
+.th .se ekspgade 'Bredgade 9'
+.th .se ekspby   '7280  Sdr. Felding'
+.if x&EKSPREGNR = x7627 ;.th .se ekspafd 'Personalebank - Vest'
+.th .se eksptlf 'Tlf. +45 44562667'
+.th .se ekspgade 'Personalebank - Vest, Østergade 2'
+.th .se ekspby   '7400  Herning'
+.if x&EKSPREGNR = x7630 ;.th .se ekspafd 'Frederiksberg afdeling'
+.th .se eksptlf 'Tlf. +45 44565656'
+.th .se ekspgade 'Solbjergvej 10'
+.th .se ekspby   '2000  Frederiksberg'
+.if x&EKSPREGNR = x7631 ;.th .se ekspafd 'Amager afdeling'
+.th .se eksptlf 'Tlf. +45 44564050'
+.th .se ekspgade 'Arne Jacobsens Allé 15'
+.th .se ekspby   '2300  København S'
+.if x&EKSPREGNR = x7632 ;.th .se ekspafd 'Roskilde afdeling'
+.th .se eksptlf 'Tlf. +45 44562050'
+.th .se ekspgade 'Industrivej 20, 1. th.'
+.th .se ekspby   '4000  Roskilde'
+.if x&EKSPREGNR = x7633 ;.th .se ekspafd 'Århus afdeling'
+.th .se eksptlf 'Tlf. +45 44565300'
+.th .se ekspgade 'Åboulevarden 11-13'
+.th .se ekspby   '8100  Århus C'
+.if x&EKSPREGNR = x7634 ;.th .se ekspafd 'Århus afdeling'
+.th .se eksptlf 'Tlf. +45 44565300'
+.th .se ekspgade 'Åboulevarden 11-13'
+.th .se ekspby   '8100  Århus C'
+.if x&EKSPREGNR = x7635 ;.th .se ekspafd 'Vejle afdeling'
+.th .se eksptlf 'Tlf. +45 44564100'
+.th .se ekspgade 'Flegborg 6'
+.th .se ekspby   '7100  Vejle'
+.if x&EKSPREGNR = x7636 ;.th .se ekspafd 'Horsens afdeling'
+.th .se eksptlf 'Tlf. +45 44565555'
+.th .se ekspgade 'Høegh Guldbergs Gade 3 A'
+.th .se ekspby   '8700  Horsens'
+.if x&EKSPREGNR = x7637 ;.th .se ekspafd 'Esbjerg afdeling'
+.th .se eksptlf 'Tlf. +45 44564900'
+.th .se ekspgade 'Stormgade 65'
+.th .se ekspby   '6700  Esbjerg'
+.if x&EKSPREGNR = x7638 ;.th .se ekspafd 'Hillerød afdeling'
+.th .se eksptlf 'Tlf. +45 44565920'
+.th .se ekspgade 'Frederiksværksgade 33'
+.th .se ekspby   '3400  Hillerød'
+.if x&EKSPREGNR = x7639 ;.th .se ekspafd 'Videbæk afdeling'
+.th .se eksptlf 'Tlf. +45 44565850'
+.th .se ekspgade 'Bredgade 10'
+.th .se ekspby   '6920  Videbæk'
+.if x&EKSPREGNR = x7640 ;.th .se ekspafd 'Herning City Afdeling'
+.th .se eksptlf 'Tlf. +45 44562600'
+.th .se ekspgade 'Østergade 2'
+.th .se ekspby   '7400  Herning'
+.if x&EKSPREGNR = x7641 ;.th .se ekspafd 'Ikast afdeling'
+.th .se eksptlf 'Tlf. +45 44565000'
+.th .se ekspgade 'Vestergade 2'
+.th .se ekspby   '7430  Ikast'
+.if x&EKSPREGNR = x7642 ;.th .se ekspafd 'Silkeborg afdeling'
+.th .se eksptlf 'Tlf. +45 44564750'
+.th .se ekspgade 'Søndergade 13'
+.th .se ekspby   '8600  Silkeborg'
+.if x&EKSPREGNR = x7643 ;.th .se ekspafd 'Viborg afdeling'
+.th .se eksptlf 'Tlf. +45 44564300'
+.th .se ekspgade 'Nytorv 2'
+.th .se ekspby   '8800  Viborg'
+.if x&EKSPREGNR = x7644 ;.th .se ekspafd 'Karup afdeling'
+.th .se eksptlf 'Tlf. +45 44565400'
+.th .se ekspgade 'Bredgade 20'
+.th .se ekspby   '7470  Karup'
+.if x&EKSPREGNR = x7646 ;.th .se ekspafd 'Køge afdeling'
+.th .se eksptlf 'Tlf. +45 44562400'
+.th .se ekspgade 'Carlsensvej 8'
+.th .se ekspby   '4600  Køge'
+.if x&EKSPREGNR = x7647 ;.th .se ekspafd 'Struer afdeling'
+.th .se eksptlf 'Tlf. +45 44565151'
+.th .se ekspgade 'Vestergade 8'
+.th .se ekspby   '7600  Struer'
+.if x&EKSPREGNR = x7648 ;.th .se ekspafd 'Holstebro afdeling'
+.th .se eksptlf 'Tlf. +45 44565200'
+.th .se ekspgade 'Vestergade 11'
+.th .se ekspby   '7500  Holstebro'
+.if x&EKSPREGNR = x7649 ;.th .se ekspafd 'Lemvig afdeling'
+.th .se eksptlf 'Tlf. +45 44562200'
+.th .se ekspgade 'Torvet 1'
+.th .se ekspby   '7620  Lemvig'
+.***** SPECIELT FOR  SOFIE **** UDVIKLINGSAFD***
+.if x&KUNDENR = x7614003094;.th .se ekspafd 'Udviklingsafdeling'
+.***** TABEL SLUT **********************
+.* Dato rettet til november 2008 d. 24.11.2008 js
+.*se WEBSYSNAVN 'Webbank Erhverv'
+.******
+.*tm 32mm
+.*bm 18mm
+.*ll 172mm
+.*ti ^ 05
+.*****
+.*da side 183mm 276mm
+.*ar side on
+.*DUTCH10.
+.*Fortsættes...
+.*br
+.*ar off
+.**
+.da AFD  150mm 40mm
+.ar AFD on
+:DUTCH10.
+&ekspafd.
+.sp 1mm
+&eksptlf.
+.ar off
+.**
+.da dato 150mm 57mm
+.*rh on
+.ar dato on
+:DUTCH10.
+November 2008
+.ar off
+.*rh off
+.*rh execute
+.*da dato 150mm 20mm
+.*sp 75mm
+.se livsf = SUBSTR &B37N30. 1 1
+.se inval = SUBSTR &B37N30. 2 1
+.se laane = SUBSTR &B37N30. 3 1
+.se sum = &inval + &livsf + &laane
+.se din 'din'
+.se grfors 'gruppeforsikring'
+.if &sum > 1
+.th .se din 'dine'
+.th .se grfors 'gruppeforsikringer'
+.th .se laang '(gælder kun for invalidesumforsikring)'
+.el .se laang ''
+.ir +5mm
+.sp 80mm
+.*&sum - &inval - &livsf - &laane - &B37N30
+:DUTCH10.
+Du modtager denne skrivelse, fordi vilkårene for &din
+&grfors i Handelsbanken Liv, der er etableret igennem
+Handelsbanken, ændres pr. 1. januar 2007.
+ 
+For dig gælder ændringerne følgende &grfors.
+ 
+.in +10mm
+.if x&livsf = x1
+.th - Livsforsikring
+.th .br
+.if x&inval = x1
+.th - Invalidesumforsikring
+.th .br
+.if x&laane = x1
+.th - Låneforsikring
+.th .br
+.in -10mm
+ 
+De væsentligste ændringer er
+ 
+.in +10mm
+- at forsikringsdækningen fremover pristalsreguleres
+.br
+- at præmien fremover betales helårsvis forud
+.if x&inval = x1
+.th .br
+.th - en mere klar definition af begrebet farligt erhverv &laang.
+.in -10mm
+ 
+Herudover er der en række mindre redaktionelle ændringer og tilpasninger af
+vilkårene.
+ 
+Ændringerne i vilkårene træder i kraft pr. 1. januar 2007. De nye
+vilkår, der er vedlagt dette brev, finder anvendelse på alle bestående
+og nye gruppeforsikringer.
+S
+amtidig med ændring af vilkårene ændres forsikringspræmien for 2007 fra0
+,20% til 0,23% af.
+if x&inval = x1.
+th forsikringssummen (invalidesumforsikring dog uforandret)..
+el forsikringssummen. 
+D
+u bedes opbevare de nye vilkår sammen med bekræftelsen på &din&
+grfors.. Har du spørgsmål i forbindelse med de nyeb
+etingelser, eller i forbindelse med &din &grfors i ala
+lmindelighed, er du meget velkommen til at kontakte mig. 
+ 
+ 
+M
+ed venlig hilsen.
+sp.
+sp.
+se steks   = substr &KUNDEANSV 1 2.
+if x&steks = x50.
+or x&steks = x88.
+th &ekspafd..
+el &EKSPNAVN 
+.
+* OPSÆTNING til forsikringsvilkår (1 til 3 sæt).
+TM 15mm 
+.
+ir -5mm
+.if x&livsf ne x1 .go SLUT
+.pa nostart
+.*ir +5mm
+.se a = 2.5mm
+.da HL 130mm 11mm
+.ar HL on
+:SWISS20:FED.
+Handelsbanken Liv
+:SKRSLUT.
+.ar off
+.DM ov on
+:DUTCH9.:FED.&*.:SKRSLUT.
+.br
+:DUTCH9.
+.DM off
+.tp 4mm
+.DM p1 on
+.fo left
+.of 4mm
+.DM off
+.DM p2 on
+.of
+.sp 1mm
+.of 4mm
+.DM off
+.DM p3 on
+.of
+.fo on
+.DM off
+.*****
+:SWISS14.:FED.
+Forsikringsvilkår pr. 1. januar 2007 - Livsforsikring
+:SKRSLUT.
+.hr left right
+:DUTCH9.
+.sp 2mm
+.FO on
+.cd 2 0mm 89.5mm
+.cl 85mm
+.ov 1. Livsforsikring via gruppeliv
+Hvor forhold ikke er nævnt eller ikke er fraveget Forsikringsaftaleloven,
+gælder Forsikringsaftaleloven. Forsikringsgiveren, dvs. det selskab, hvor
+forsikringen tegnes, er Handelsbanken Liv Försäkringsaktiebolag, Sverige
+(org.nr. 51 64 01 - 82 84), i det følgende kaldet Handelsbanken Liv.
+Formidleren er Handelsbanken Danmark, filial af Svenska Handelsbanken AB
+(publ), Sverige (org.nr. 50 20 07 - 78 62), i det følgende kaldet
+Handelsbanken.
+.sp &a
+.ov 2. Tegning, personkreds og betingelser m.v.
+Tegning af livsforsikring via gruppeliv kan ske ved at opfylde samtlige
+nedenstående betingelser:
+.sp &a
+.p1
+a)^Der skal foreligge et af Handelsbanken Danmark godkendt kundeforhold.
+.p2
+b)^Forsikrede er mellem 18 og 60 år samt fuldstændig rask og arbejdsdygtig.
+.p2
+c)^Forsikrede skal være bosat i Danmark, eller være dansk statsborger.
+.p2
+d)^Forsikringsdækningen begynder, når Handelsbanken Liv uden forbehold har
+antaget forsikringen.
+.p3
+.sp &a
+Ved forhøjelse af forsikringen gælder samme regler som ved oprettelse af
+forsikringen. Er der ved oprettelse eller senere af forsikrede afgivet
+urigtige eller ufuldstændige oplysninger, er retsvirkningerne som
+foreskrevet i Forsikringsaftalelovens §§ 4-10 inkl.
+.sp &a
+.ov 3. Dækning
+Forsikringen dækker dødsfald i forsikringstiden. Den valgte
+forsikringsdækning fremgår af ansøgningsblanketten som forsikrede har fået
+en kopi af og kan i tvivlstilfælde oplyses af Handelsbanken.
+Forsikringsdækningen reguleres hvert år efter det danske
+forbrugerprisindex, hvorefter forsikringsdækningen afrundes til hele
+tusinde kroner. Forsikringsdækningen aftrappes med 1/10 pr. år fra
+begyndelsen af det kalenderår, hvori forsikrede fylder 51. år.
+.sp &a
+.ov 4. Pantsætning
+Forsikringen kan ikke, helt eller delvist, overdrages til eje eller pant.
+.sp &a
+.ov 5. Udbetaling ved død
+Ved forsikredes død udbetales forsikringssummen til nærmeste pårørende,
+medmindre andet er skriftligt aftalt med Handelsbanken Liv. Nærmeste
+pårørende er den forsikredes ægtefælle, eller hvis ægtefælle ikke
+efterlades, forsikredes livsarvinger (børn, børnebørn og så videre).
+Efterlades hverken ægtefælle eller livsarvinger, sker udbetalingen til
+forsikredes arvinger i henhold til testamente eller lov i den nævnte
+rækkefølge.
+.sp &a
+.ov 6. Undtaget dækning
+Dødsfald som følge af selvmord dækkes ikke, medmindre forsikringen eller
+forhøjelsen af denne, har været i kraft i mindst 12 måneder.
+.sp &a
+Under krigstilstand eller anden fareforøgelse af tilsvarende art på dansk
+område bortfalder dækningen efter gruppeforsikringen. Myndighederne træffer
+efter indstilling fra Finanstilsynet bestemmelse om, hvorvidt den omtalte
+tilstand skal anses for indtrådt og i bekræftende fald om det tidspunkt,
+fra hvilket fareforøgelsens indtræden og ophør skal regnes.
+.sp &a
+Uden for dansk område dækker forsikringen ikke dødsfald, der er en følge af
+aktiv deltagelse i krig, oprør eller lignende operation, medmindre
+forsikrede eller forsikredes efterladte kan bevise, at skadetilfældet ikke
+er en følge heraf.
+.sp &a
+.ov 7. Præmiebetaling og formalia
+Præmien, der skal betales helårsvis forud, trækkes på den aftalte konto i
+starten af januar. Fra tegningstidspunktet og kalenderåret ud betales
+forholdsmæssigt. Hvis der ikke sker betaling af præmien, ophører dækningen.
+.sp &a
+Præmien beregnes for et kalenderår ad gangen på basis af de i gruppen
+forsikrede personer, herunder disses alder og køn.
+.sp &a
+Forsikringsvilkårene kan ændres med 1 måneds varsel til ikrafttræden næste
+kalenderår.
+.sp &a
+.ov 8. Præmiefri dækning/Fortsættelsesforsikring
+Forsikringen omfatter ikke ret til præmiefritagelse ved invaliditet og
+giver ikke ret til tegning af individuel forsikring
+(fortsættelsesforsikring).
+.sp &a
+.ov 9. Rådighedsforhold
+Hvis forsikrede udtræder af gruppeforsikringen, vil forsikringen ikke have
+opnået nogen værdi.
+.sp &a
+.ov 10. Ophør af dækning
+Forsikringsdækningen ophører, hvis forsikrede opsiger forsikringen, hvis
+kundeforholdet i Handelsbanken ophører, eller præmiebetalingen ophører, og
+i alle tilfælde den sidste dag i det kalenderår, hvori forsikrede fylder 60
+år.
+.br
+Forsikringen ophører fra den dato, hvortil der er betalt præmie.
+.sp &a
+Forsikringen ophører ligeledes, hvis gruppeaftalen om Livsforsikring via
+gruppelivsforsikring opsiges af Handelsbanken Liv. Opsigelse skal ske med 3
+måneders varsel med virkning fra næste kalenderår.
+.sp &a
+.ov 11. Opsigelse fra forsikredes side
+Forsikringen kan opsiges af den forsikrede med én måneds varsel til
+udgangen af et kalenderår.
+.sp &a
+.ov 12. Anmeldelse af dødsfald
+Dødsfald skal anmeldes til Handelsbanken Liv. Til brug for ekspedition af
+udbetalingen, skal de efterladte eller evt. boet indsende de til sagen
+nødvendige attester, erklæringer samt dokumentation for slægtsforhold.
+.sp &a
+.ov 13. Udbetaling
+Udbetaling skal ske til en konto i Handelsbanken og i øvrigt efter reglerne
+i Forsikringsaftaleloven.
+.sp &a
+.ov 14. Skatter og afgifter
+Præmien kan ikke fratrækkes i den skattepligtige indkomst, og udbetaling er
+skattefri (skattekode 5). Forsikringssum ved død er omfattet af de
+almindelige regler for betaling af boafgift. Eventuel boafgift indeholdes
+af Handelsbanken Liv før udbetaling.
+.sp &a
+.ov 15. Klagemuligheder
+Klager skal indbringes for Forsikringsnævnet hos Handelsbanken Liv,
+Stockholm.
+.sp &a
+Såfremt der ikke opnås en tilfredsstillende løsning på klagen, er
+Handelsbanken Liv endvidere tilsluttet "Ankenævnet for Forsikring", som
+behandler klager fra forbrugerne vedrørende forsikringsforhold. Klager til
+Ankenævnet skal indsendes på et særligt skema. Skemaet kan rekvireres hos
+Handelsbanken Liv, Ankenævnets sekretariat eller hos Forbrugerrådet. Når
+klagen indleveres, skal der betales et gebyr fastsat af Ankenævnet. Får
+klageren helt eller delvist medhold i klagen, tilbagebetaler Ankenævnet
+gebyret.
+.sp &a
+.ov 16. Fortrydelsesret
+I forbindelse med tegning af forsikringen har forsikrede ubetinget 14 dages
+fortrydelsesret fra antagelse af forsikringen. I øvrigt kan forsikrede
+altid senere opsige forsikringen efter reglen i punkt 11.
+.sp &a
+.ov 17. Lovgivning
+Forsikringsaftalen og disse forsikringsvilkår er omfattet af gældende dansk
+lovgivning.
+.cd 1
+.cl 175mm
+.* OPSÆTNING til forsikringsbetingelser (1 til 3 sæt)
+.TM 15mm
+.*ir -5mm
+...SLUT
+.if x&inval ne x1 .go SLUT
+.pa nostart
+.*ir +5mm
+.se a = 2.5mm
+.da HL 130mm 11mm
+.da FORTS 180mm 271mm
+.ar FORTS on
+fortsættes...
+.ar off
+.DM ov on
+:DUTCH9.:FED.&*.:SKRSLUT.
+.br
+:DUTCH9.
+.DM off
+.tp 4mm 6mm 9mm
+.DM p1 on
+.fo left
+.of 4mm
+.DM off
+.DM p2 on
+.of
+.sp 1mm
+.of 4mm
+.DM off
+.DM p3 on
+.of
+.fo on
+.DM off
+.*****
+.DM PSTART on
+.ar HL on
+:SWISS20:FED.
+Handelsbanken Liv
+:SKRSLUT.
+.ar off
+.*****
+:SWISS14.:FED.
+Forsikringsvilkår pr. 1. januar 2007 - Forsikringssum ved varig invaliditet
+:SKRSLUT.
+.hr left right
+:DUTCH9.
+.sp 2mm
+.FO on
+.cd 2 0mm 89.5mm
+.cl 85mm
+.DM off
+.*****
+.PSTART
+.ov 1. Forsikringssum ved varig invaliditet via gruppeforsikring
+Hvor forhold ikke er nævnt eller ikke er fraveget Forsikringsaftaleloven,
+gælder Forsikringsaftaleloven. Forsikringsgiveren, dvs. det selskab, hvor
+forsikringen tegnes, er Handelsbanken Liv Försäkringsaktiebolag, Sverige
+(org.nr. 51 64 01 - 82 84), i det følgende kaldet Handelsbanken Liv.
+Formidleren er Handelsbanken Danmark, filial af Svenska Handelsbanken AB
+(publ), Sverige (org.nr. 50 20 07 - 78 62), i det følgende kaldet
+Handelsbanken.
+.sp &a
+2. Tegning, personkreds og betingelser m.v.
+Tegning af forsikringssum ved varig invaliditet via gruppeliv kan ske ved
+at opfylde samtlige nedenstående betingelser:
+.sp &a
+.p1
+a)^Der skal foreligge et af Handelsbanken Danmark godkendt kundeforhold.
+.p2
+b)^Forsikrede er mellem 18 og 60 år samt fuldstændig rask og arbejdsdygtig.
+.p2
+c)^Forsikrede skal være bosat i Danmark, eller være dansk statsborger.
+.p2
+d)^Forsikrede må ikke være beskæftiget med et - efter Handelsbanken Livs
+skøn - farligt erhverv. Som farligt erhverv anses:
+.sp 1mm
+^^*^Ansatte på fabrik, der arbejder med farlige emner
+^^*^Ansatte i cirkus
+^^*^Balletdanser
+^^*^Bartender
+^^*^Billedhugger
+^^*^Boreplatformmedarbejdere
+^^*^Cirkusartist
+^^*^Halv- eller helprofessionelle sportsfolk
+^^*^Professionelle dykkere
+^^*^Fisker/fiskeskipper
+^^*^Førtidspensionist
+^^*^Jockey
+^^*^Jægersoldat
+^^*^Musiker
+^^*^Renovationsmedarbejder
+^^*^Slagteriarbejder
+^^*^Stenhugger
+^^*^Stilladsarbejder
+^^*^Sømand
+^^*^Tjener
+^^*^Ulandsfrivillig
+^^*^Værnepligtig
+.p2
+e)^Forsikringsdækningen begynder, når Handelsbanken Liv uden forbehold har
+antaget forsikringen.
+.p3
+.sp &a
+Ved forhøjelse af forsikringen gælder samme regler som ved tegning af
+forsikringen. Er der ved tegning eller senere af forsikrede afgivet
+urigtige eller ufuldstændige oplysninger, er retsvirkningerne som
+foreskrevet i Forsikringsaftalelovens §§ 4-10 inkl.
+.sp &a
+.ov 3. Dækning
+Forsikringen dækker varig invaliditet i forsikringstiden, dvs. hvis
+forsikredes arbejdsevne som følge af sygdom eller ulykkestilfælde varigt
+nedsættes til 1/3 eller mindre af den fulde arbejdsevne. Tab af arbejdsevne
+skal være medicinsk dokumenteret.
+.sp &a
+Med varigt menes, at arbejdsevnen, trods lægelig behandling, omskoling,
+optræning eller uddannelse, fortsat skal være nedsat til 1/3 eller mindre.
+.sp &a
+Udbetaling sker som et engangsbeløb.
+.sp &a
+Udbetaling kan tidligst ske 1 år efter, at tabet af arbejdsevnen er
+opstået.
+.sp &a
+Der vil kun ske udbetaling, hvis arbejdsevnen har været nedsat uafbrudt i
+et år til 1/3 eller mindre, og den forsikrede er i live.
+.sp &a
+Selskabet kan forlange dokumentation for, at arbejdsevnen er varigt nedsat
+til 1/3 eller mindre.
+.sp &a
+Endvidere kan selskabet gøre det til en betingelse for udbetalingen, at
+forsikrede tilkendes offentlig førtidspension (invalidepension), der svarer
+til en nedsættelse af arbejdsevnen til 1/3 eller mindre.
+.sp &a
+Den valgte forsikringsdækning fremgår af ansøgningsblanketten som
+forsikrede har fået en kopi af og kan i tvivlstilfælde oplyses af
+Handelsbanken. Forsikringsdækningen reguleres hvert år efter det danske
+forbrugerprisindex, hvorefter forsikringsdækningen afrundes til hele
+tusinde kroner. Forsikringsdækningen aftrappes med 1/10 pr. år fra
+begyndelsen af det kalenderår, hvori forsikrede fylder 55 år.
+.sp &a
+.ov 4. Pantsætning
+En del af forsikringssummen kan være pantsat til Handelsbanken, jvf.
+ansøgningsblanketten.
+.sp &a
+.ov 5. Udbetaling
+Ved forsikredes varige invaliditet udbetales den pantsatte forsikringssum
+til Handelsbanken. Har forsikrede kautionsforpligtelser, der betales til,
+eller som Handelsbanken forlanger indfriet i forbindelse med kautionistens
+(forsikredes) varige invaliditet, skal de betragtes som gældsforpligtelser
+på lige fod med anden gæld til Handelsbanken.
+.sp &a
+Den udbetalte forsikringssum anvendes af Handelsbanken til betaling af
+forsikredes gæld (inklusive renter til opgørelsesdagen) i Handelsbanken.
+.sp &a
+Hvis den samlede forsikringssum er større end den pantsatte forsikringssum
+eller hvis forsikringen ikke er pantsat, udbetales overskydende beløb til
+forsikrede.
+.sp &a
+.ov 6. Undtaget dækning
+Under krigstilstand eller anden fareforøgelse af tilsvarende art på dansk
+område bortfalder dækningen efter gruppeforsikringen. Myndighederne træffer
+efter indstilling fra Finanstilsynet bestemmelse om, hvorvidt den omtalte
+tilstand skal anses for indtrådt og i bekræftende fald om det tidspunkt,
+fra hvilket fareforøgelsens indtræden og ophør skal regnes.
+.sp &a
+Uden for dansk område dækker forsikringen ikke varig invaliditet, der er en
+følge af deltagelse i krig, oprør eller lignende operation, medmindre
+forsikrede kan bevise, at skadetilfældet ikke er en følge heraf.
+Forsikringen dækker ikke varig invaliditet som følge af:
+.p1
+-^deltagelse i motorvæddeløb, racerbådsløb, bjergbestigning, rappelling,
+drageflyvning, parasailing/gliding, kunstflyvning, ultralight flyvning,
+ballonflyvning, faldskærmsudspring, kendo, thaiboksning eller anden farlig
+sport
+.p2
+-^deltagelse i ekspeditioner i farlige områder
+.p2
+-^tilstand som forsikrede har fremkaldt med vilje, eller som er følge af
+forsøg på selvmord
+.p3
+.sp &a
+.ov 7. Præmiebetaling og formalia
+Præmien, der skal betales helårsvis forud, trækkes på den aftalte konto i
+starten af januar. Fra tegningstidspunktet og kalenderåret ud betales
+forholdsmæssigt. Hvis der ikke sker betaling af præmien, ophører dækningen.
+.sp &a
+Præmien beregnes for et kalenderår ad gangen på basis af de i gruppen
+forsikrede personer, herunder disses alder og køn.
+.sp &a
+Forsikringsvilkårene kan ændres med 1 måneds varsel til ikrafttræden næste
+kalenderår.
+.sp &a
+.ov 8. Præmiefri dækning/Fortsættelsesforsikring
+Forsikringen omfatter ikke ret til præmiefritagelse ved invaliditet og
+giver ikke ret til tegning af individuel forsikring
+(fortsættelsesforsikring).
+.*sp &a
+.cd 1
+.cl 175mm
+.pa
+.PSTART
+.ov 9. Rådighedsforhold
+Hvis forsikrede udtræder af gruppeforsikringen, vil forsikringen ikke have
+opnået nogen værdi. Hvis forsikringen er helt eller delvist pantsat til
+Handelsbanken, kan den ikke på anden måde afhændes, pantsættes eller gøres
+til genstand for omsætning.
+.sp &a
+.ov 10. Ophør af dækning
+Forsikringsdækningen ophører, hvis forsikrede opsiger forsikringen, hvis
+kundeforholdet i Handelsbanken ophører, eller præmiebetalingen ophører, og
+i alle tilfælde den sidste dag i det kalenderår, hvori forsikrede fylder 60
+år.
+.sp &a
+Forsikringen ophører fra den dato, hvortil der er betalt præmie.
+.sp &a
+Forsikringen ophører ligeledes, hvis gruppeaftalen om forsikringssum ved
+varig invaliditet via gruppeforsikring opsiges af Handelsbanken
+Liv. Opsigelse
+skal ske med 3 måneders varsel med virkning fra næste kalenderår.
+.sp &a
+.ov 11. Opsigelse fra forsikredes side
+Forsikringen kan opsiges af den forsikrede med én måneds varsel til
+udgangen af et kalenderår.
+.sp &a
+.ov 12. Anmeldelse af invaliditet
+Invaliditet skal anmeldes til Handelsbanken Liv. Til brug for ekspedition
+af udbetalingen, skal forsikrede indsende de til sagen nødvendige papirer
+som f.eks. lægeattest og afgørelse fra pensionsnævnet.
+.sp &a
+.ov 13. Udbetaling
+Udbetaling skal ske til en konto i Handelsbanken og i øvrigt efter reglerne
+i Forsikringsaftaleloven.
+.sp &a
+.ov 14. Skatter og afgifter
+Præmien kan ikke fratrækkes i den skattepligtige indkomst, og udbetaling er
+skattefri (skattekode 5).
+.sp &a
+.ov 15. Klagemuligheder
+Klager skal indbringes for Forsikringsnævnet hos Handelsbanken Liv,
+Stockholm.
+.sp &a
+Såfremt der ikke opnås en tilfredsstillende løsning på klagen, er
+Handelsbanken Liv endvidere tilsluttet "Ankenævnet for Forsikring", som
+behandler klager fra forbrugerne vedrørende forsikringsforhold. Klager til
+Ankenævnet skal indsendes på et særligt skema. Skemaet kan rekvireres hos
+Handelsbanken Liv, Ankenævnets sekretariat eller hos Forbrugerrådet. Når
+klagen indleveres, skal der betales et gebyr fastsat af Ankenævnet. Får
+klageren helt eller delvist medhold i klagen, tilbagebetaler Ankenævnet
+gebyret
+.sp &a
+.ov 16. Fortrydelsesret
+I forbindelse med tegning af forsikringen har forsikrede ubetinget 14 dages
+fortrydelsesret fra antagelse af forsikringen. I øvrigt kan forsikrede
+altid senere opsige forsikringen efter reglen i punkt 11.
+.sp &a
+.ov 17. Lovgivning
+Forsikringsaftalen og disse forsikringsvilkår er omfattet af gældende dansk
+lovgivning.
+.cd 1
+.cl 175mm
+.* OPSÆTNING til forsikringsbetingelser (1 til 3 sæt)
+.TM 15mm
+.*ir -5mm
+...SLUT
+.if x&laane ne x1 .go SLUT
+.BM 3mm
+.pa nostart
+.*ir +5mm
+.se a = 2.5mm
+.da HL 130mm 11mm
+.ar HL on
+:SWISS20:FED.
+Handelsbanken Liv
+:SKRSLUT.
+.ar off
+.DM ov on
+:DUTCH9.:FED.&*.:SKRSLUT.
+.br
+:DUTCH9.
+.DM off
+.tp 4mm
+.DM p1 on
+.fo left
+.of 4mm
+.DM off
+.DM p2 on
+.of
+.sp 1mm
+.of 4mm
+.DM off
+.DM p3 on
+.of
+.fo on
+.DM off
+.*****
+:SWISS14.:FED.
+Forsikringsvilkår pr. 1. januar 2007 - Låneforsikring
+:SKRSLUT.
+.hr left right
+:DUTCH9.
+.sp 2mm
+.FO on
+.cd 2 0mm 89.5mm
+.cl 85mm
+.ov 1. Livsforsikring via gruppeliv
+Hvor forhold ikke er nævnt eller ikke er fraveget Forsikringsaftaleloven,
+gælder Forsikringsaftaleloven. Forsikringsgiveren, dvs. det selskab, hvor
+forsikringen tegnes, er Handelsbanken Liv Försäkringsaktiebolag, Sverige
+(org.nr. 51 64 01 - 82 84), i det følgende kaldet Handelsbanken Liv.
+Formidleren er Handelsbanken Danmark, filial af Svenska Handelsbanken AB
+(publ), Sverige (org.nr. 50 20 07 - 78 62), i det følgende kaldet
+Handelsbanken.
+.sp &a
+.ov 2. Tegning, personkreds og betingelser m.v.
+Tegning af livsforsikring via gruppeliv kan ske ved at opfylde samtlige
+nedenstående betingelser:
+.sp &a
+.p1
+a)^Der skal foreligge et af Handelsbanken Danmark godkendt kundeforhold.
+.p2
+b)^Forsikrede er mellem 18 og 60 år samt fuldstændig rask og arbejdsdygtig.
+.p2
+c)^Forsikrede skal være bosat i Danmark, eller være dansk statsborger.
+.p2
+d)^Forsikringsdækningen begynder, når Handelsbanken Liv uden forbehold har
+antaget forsikringen.
+.p3
+.sp &a
+Ved forhøjelse af forsikringen gælder samme regler som ved oprettelse af
+forsikringen. Er der ved oprettelse eller senere af forsikrede afgivet
+urigtige eller ufuldstændige oplysninger, er retsvirkningerne som
+foreskrevet i Forsikringsaftalelovens §§ 4-10 inkl.
+.sp &a
+.ov 3. Dækning
+Forsikringen dækker dødsfald i forsikringstiden. Den valgte
+forsikringsdækning fremgår af ansøgningsblanketten som forsikrede har fået
+en kopi af og kan i tvivlstilfælde oplyses af Handelsbanken.
+Forsikringsdækningen reguleres hvert år efter det danske
+forbrugerprisindex, hvorefter forsikringsdækningen afrundes til hele
+tusinde kroner. Forsikringsdækningen aftrappes med 1/10 pr. år fra
+begyndelsen af det kalenderår, hvori forsikrede fylder 51. år.
+.sp &a
+.ov 4. Pantsætning
+En del eller hele forsikringssummen er pantsat til Handelsbanken,
+jvf. ansøgningsblanketten.
+.sp &a
+.ov 5. Udbetaling ved død
+Ved forsikredes død udbetales den pantsatte forsikringssum til
+Handelsbanken. Har forsikrede kautionsforpligtelser, der betales til, eller
+som Handelsbanken forlanger indfriet i forbindelse med kautionistens
+(forsikredes) død, skal de betragtes som gældsforpligtelser på lige fod med
+anden gæld til Handelsbanken.
+.sp &a
+Den udbetalte forsikringssum anvendes af Handelsbanken til betaling af
+forsikredes gæld (inklusive renter til opgørelsesdagen) i Handelsbanken.
+.sp &a
+Hvis den samlede forsikringssum er større end den pantsatte forsikringssum,
+udbetales overskydende beløb til nærmeste pårørende, medmindre andet er
+skriftligt aftalt med Handelsbanken Liv. Nærmeste pårørende er den
+forsikredes ægtefælle, eller hvis ægtefælle ikke efterlades, forsikredes
+livsarvinger (børn, børnebørn og så videre). Efterlades hverken ægtefælle
+eller livsarvinger, sker udbetalingen til forsikredes arvinger i henhold
+til testamente eller lov i den nævnte rækkefølge.
+.sp &a
+.ov 6. Undtaget dækning
+Dødsfald som følge af selvmord dækkes ikke, medmindre forsikringen eller
+forhøjelsen af denne, har været i kraft i mindst 12 måneder.
+.sp &a
+Under krigstilstand eller anden fareforøgelse af tilsvarende art på dansk
+område bortfalder dækningen efter gruppeforsikringen. Myndighederne træffer
+efter indstilling fra Finanstilsynet bestemmelse om, hvorvidt den omtalte
+tilstand skal anses for indtrådt og i bekræftende fald om det tidspunkt,
+fra hvilket fareforøgelsens indtræden og ophør skal regnes.
+.sp &a
+Uden for dansk område dækker forsikringen ikke dødsfald, der er en følge af
+aktiv deltagelse i krig, oprør eller lignende operation, medmindre
+forsikrede eller forsikredes efterladte kan bevise, at skadetilfældet ikke
+er en følge heraf.
+.sp &a
+.ov 7. Præmiebetaling og formalia
+Præmien, der skal betales helårsvis forud, trækkes på den aftalte konto i
+starten af januar. Fra tegningstidspunktet og kalenderåret ud betales
+forholdsmæssigt. Hvis der ikke sker betaling af præmien, ophører dækningen.
+.sp &a
+Præmien beregnes for et kalenderår ad gangen på basis af de i gruppen
+forsikrede personer, herunder disses alder og køn.
+.sp &a
+Forsikringsvilkårene kan ændres med 1 måneds varsel til ikrafttræden næste
+kalenderår.
+.sp &a
+.ov 8. Præmiefri dækning/Fortsættelsesforsikring
+Forsikringen omfatter ikke ret til præmiefritagelse ved invaliditet og
+giver ikke ret til tegning af individuel forsikring
+(fortsættelsesforsikring).
+.sp &a
+.ov 9. Rådighedsforhold
+Hvis forsikrede udtræder af gruppeforsikringen, vil forsikringen ikke have
+opnået nogen værdi.
+.sp &a
+.ov 10. Ophør af dækning
+Forsikringsdækningen ophører, hvis forsikrede opsiger forsikringen, hvis
+kundeforholdet i Handelsbanken ophører, eller præmiebetalingen ophører, og
+i alle tilfælde den sidste dag i det kalenderår, hvori forsikrede fylder 60
+år.
+.br
+Forsikringen ophører fra den dato, hvortil der er betalt præmie.
+.sp &a
+Forsikringen ophører ligeledes, hvis gruppeaftalen om Livsforsikring via
+gruppelivsforsikring opsiges af Handelsbanken Liv. Opsigelse skal ske med 3
+måneders varsel med virkning fra næste kalenderår.
+.sp &a
+.ov 11. Opsigelse fra forsikredes side
+Forsikringen kan opsiges af den forsikrede med én måneds varsel til
+udgangen af et kalenderår.
+.sp &a
+.ov 12. Anmeldelse af dødsfald
+Dødsfald skal anmeldes til Handelsbanken Liv. Til brug for ekspedition af
+udbetalingen, skal de efterladte eller evt. boet indsende de til sagen
+nødvendige attester, erklæringer samt dokumentation for slægtsforhold.
+.sp &a
+.ov 13. Udbetaling
+Udbetaling skal ske til en konto i Handelsbanken og i øvrigt efter reglerne
+i Forsikringsaftaleloven.
+.sp &a
+.ov 14. Skatter og afgifter
+Præmien kan ikke fratrækkes i den skattepligtige indkomst, og udbetaling er
+skattefri (skattekode 5). Forsikringssum ved død er omfattet af de
+almindelige regler for betaling af boafgift. Eventuel boafgift indeholdes
+af Handelsbanken Liv før udbetaling.
+.sp &a
+.ov 15. Klagemuligheder
+Klager skal indbringes for Forsikringsnævnet hos Handelsbanken Liv,
+Stockholm.
+.sp &a
+Såfremt der ikke opnås en tilfredsstillende løsning på klagen, er
+Handelsbanken Liv endvidere tilsluttet "Ankenævnet for Forsikring", som
+behandler klager fra forbrugerne vedrørende forsikringsforhold. Klager til
+Ankenævnet skal indsendes på et særligt skema. Skemaet kan rekvireres hos
+Handelsbanken Liv, Ankenævnets sekretariat eller hos Forbrugerrådet. Når
+klagen indleveres, skal der betales et gebyr fastsat af Ankenævnet. Får
+klageren helt eller delvist medhold i klagen, tilbagebetaler Ankenævnet
+gebyret.
+.sp &a
+.ov 16. Fortrydelsesret
+I forbindelse med tegning af forsikringen har forsikrede ubetinget 14 dages
+fortrydelsesret fra antagelse af forsikringen. I øvrigt kan forsikrede
+altid senere opsige forsikringen efter reglen i punkt 11.
+.sp &a
+.ov 17. Lovgivning
+Forsikringsaftalen og disse forsikringsvilkår er omfattet af gældende dansk
+lovgivning.
+.cd 1
+.cl 175mm
+.* OPSÆTNING til forsikringsbetingelser (1 til 3 sæt)
+.TM 15mm
+.*ir -5mm
+...SLUT

@@ -1,0 +1,440 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENSTILL.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+.if &E'&GENLAND = 0
+.th .se GENLAND ''
+.if &E'&GENSTILL = 0
+.th .se GENSTILL ''
+:GL.
+&GENSTILL
+.BR
+&GENNAVN
+.BR
+&GENCOADR
+.BR
+&GENGADE
+.BR
+&GENBY  &GENLAND
+.SK
+:EGL.
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* Parameterafsnit
+.* parameterafsn.
+.sp 60mm
+.fo off
+.br
+.us
+Engagementsoplysning på &STILL &NAVN.
+.sk
+I henhold til Deres engagementsforespørgsel på
+ 
+.IN +20
+&STILL
+&NAVN
+&COADR
+&GADE
+&BY
+&LAND
+.if &L'&MIBBEL1 = 0
+.th CVR-nr. &KUNDENR
+.el CVR-nr. &MIBBEL1
+.IN -20
+.sk
+kan vi meddele følgende oplysninger om engagementet pr. &MIBPRDAT.:
+.sk
+.* Revisoroplysninger KONTI og RAMME - PARAMETEROPL
+.* Revisoroplysninger KONTI
+.fo off
+.TP 77mm RIGHT 108mm RIGHT 140mm RIGHT 144mm
+.* KONTI (REGKTO MAX SALDO UDL.SALDO MØNTKODE)
+.se ab = 1
+.se al = 11
+.se bb = 13
+.se bl = 14
+.se cb = 28
+.se db = 43
+.se eb = 58
+.se el = 3
+.* Finde 6 første karaterer, som er blanke, hvis parametren er urørt
+.se kts = substr '&MIBB3.' 1 6
+.* Fjerner foranstående blanke
+.* PS  Hvis der kommer blanke ! og banke ! giver koden fejl
+.se kt1 = &kts.
+.* PROGRAMMØRTEST
+.*   kt1 = '&kt1.'    , x = x'&kt1.'
+.*   kts = '&kts.'
+.*** TEST KTOUDT STK ***
+.if x&MIBSTK1 = x0
+.el .go KONTI
+.*** TEST KTO SALDO M.V.***
+.if x&L'&MIBB3 = x0
+.or x'' = x'&kt1.'
+.el .go KONTI
+.*** TEST RAMME *******
+.if &L'&MIBB18 = 0
+.th .go KTUDT
+...KONTI
+.us
+KONTI
+.if x&L'&MIBB3 = x0
+.or x'' = x'&kt1.'
+.th .go RAMME
+.sk
+KONTONR.^MAX ^SALDO ^UDL.SALDO ^
+.sk
+.dm KONTO on
+.se &*1.a = substr '&&*1..' &ab &al
+.se &*1.b = substr '&&*1..' &bb &bl
+.se &*1.c = substr '&&*1..' &cb &bl
+.se &*1.d = substr '&&*1..' &db &bl
+.se &*1.e = substr '&&*1..' &eb &el
+.if &L'&&*1.a. = 0
+.th .go EJPR
+.se bt '           '
+.su off
+.if &&*1.a. = &bt
+.th .su on
+.th .go EJPR
+.el .su on
+&&*1.a.^&&*1.b.^&&*1.c.^&&*1.d.^&&*1.e.^
+...EJPR
+.dm off
+.KONTO MIBB3
+.KONTO MIBB4
+.KONTO MIBB5
+.KONTO MIBB6
+.KONTO MIBB7
+.KONTO MIBB8
+.KONTO MIBB9
+.KONTO MIBB10
+.KONTO MIBB11
+.KONTO MIBB12
+.KONTO MIBB13
+.KONTO MIBB14
+.KONTO MIBB15
+.KONTO MIBB16
+.KONTO MIBB17
+.* RAMME
+.*br
+...RAMME
+.if &L'&MIBB18 = 0
+.th .go A04
+.* Makro til ramme
+.dm RAMME on
+.se &*1.a = substr '&&*1..' &ab &al
+.se &*1.b = substr '&&*1..' &bb &bl
+.if &L'&&*1.a. = 0
+.th .go EJPR
+.se bt '           '
+.su off
+.if &&*1.a. = &bt
+.th .su on
+.th .go EJPRR
+.el .su on
+&&*1.a.^^&&*1.b.^
+...EJPRR
+.dm off
+.sk
+For kontiene:
+.sk
+.RAMME MIBB19
+.RAMME MIBB20
+.RAMME MIBB21
+.RAMME MIBB22
+.RAMME MIBB23
+.sk
+er der et fælles maksimum på kr. &MIBB18..
+.*sk
+...A04
+.**INDSAT d. 6.1.2005
+.*sk
+.if &MIBSTK1 = 0 .go KTUDT
+.*us
+.* EFFEKTER I OPBEVARINGSDEPOT
+.sk
+.if .&MIBSTK1 = .1
+.th Se vedlagte &MIBSTK1 side kontoudtog.
+.el Se vedlagte &MIBSTK1 sider kontoudtog.
+.br
+...KTUDT
+.sk
+.if &MIBB1 = 0 .go SIK
+.us
+EFFEKTER I OPBEVARINGSDEPOT
+.sk
+.if .&MIBB1 = .1
+.th Se vedlagte &MIBB1 side beholdningsoversigt.
+.el Se vedlagte &MIBB1 sider beholdningsoversigt.
+.br
+...SIK
+.if &MIBB2 = 0 .go KAU
+.sk
+.us
+EFFEKTER I SIKKERHEDSDEPOT
+.sk
+.if .&MIBB2 = .1
+.th Se vedlagte &MIBB2 side beholdningsoversigt.
+.el Se vedlagte &MIBB2 sider beholdningsoversigt.
+.sk
+.* Nedenstående linie er fjernet pr. 13.10.1999 - Egon
+.*Derudover kan det oplyses, at
+.*br
+...KAU
+.* DENNE LINIE MÅ IKKE SLETTES (sideskift kan indsættes med .pa)
+.* Her skal du fortsætte med Depot nr. xxx ligger til sikkerhed for osv.
+.* Du kan indsætte og slette linier med i eller d i linienumrene til venst.
+.br
+ 
+.us KAUTIONSFORPLIGTELSER
+ 
+ 
+ 
+.us MODTAGNE KAUTIONER
+ 
+ 
+ 
+.us IMPORTREMBURSFORPLIGTELSER
+ 
+ 
+ 
+.us GARANTIER
+ 
+ 
+ 
+.us FINANSIELLE INSTRUMENTER
+ 
+ 
+ 
+.us BEMÆRKNINGER
+.ti
+.fo left
+.sk
+Som pengeinstitutforbindelse skal vi herved inden for det givne
+fuldmagtsforhold bekræfte:
+.sk
+.IN 20mm
+.TP 25mm
+.of 5mm
+- ^at ovennævnte engagementsoplysninger er i overensstemmelse med vore
+registreringer, og udarbejdet i overensstemmelse med de mellem Finansrådet
+og Foreningen af Statsautoriserede Revisorer udarbejdede retningslinier
+af 15. februar 1996 for engagementsforespørgsler.
+.of
+.sk
+.TP 25mm
+.of 5mm
+- ^at engagementsoplysningerne omfatter vort engagement registreret
+under det pågældende SE-nr. eller CPR-nr. jf. ovennævnte retningslinier,
+bortset fra eventuelt engagement med vore datterselskaber eller
+udenlandske afdelinger.
+.of
+.sk
+.TP 25mm
+.of 5mm
+- ^at vi ikke er i besiddelse af yderligere oplysninger, som vi måtte
+have kendskab til og finde relevante i forbindelse med besvarelsen
+af forespørgslen, idet der tages forbehold for fejl og mangler.
+.br
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+^Med venlig hilsen
+.*sk
+.*^M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^&AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+^&GENEKSP
+.br
+^&GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+^&GENMEKSP ^&GENEKSP
+.br
+^&GENMTITEL ^&GENTITEL
+...EJ2
+.tp
+.br
+...EJ9

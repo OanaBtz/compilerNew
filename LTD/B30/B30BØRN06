@@ -1,0 +1,188 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*********************************
+.su off
+.se baar = substr &GENIDTOVIR 7 4
+.se bmdr = substr &GENIDTOVIR 4 2
+.se bdag = substr &GENIDTOVIR 1 2
+.se faar = substr &KTOKNDNR1 5 2
+.se fmdr = substr &KTOKNDNR1 3 2
+.se fdag = substr &KTOKNDNR1 1 2
+.su on
+.*********************************
+.if x&faar < x50
+.th .se faar1 = &faar + 2000
+.el .se faar1 = &faar + 1900
+.*******************************
+.se maxaar = &faar1 + 14
+.*******************************
+.if &fdag = &bdag
+.an &fmdr = &bmdr
+.an &maxaar = &baar
+.th .go DAGOK
+.el .mg/T/Dato for 14 år er forkert indtastet/
+...DAGOK
+.*
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.ar off
+.**DETTE TEKSTMODUL SKAL KOMME EFTER B30HOVRHINDSK, SOM ELLERS IKKE VIL
+.**KUNNE UDSKRIVE DATOEN I KORREKT FORMAT *********************************
+.**************************************************************************
+.**TEST PÅ OM BARNET ER FYLDT 14 ÅR ***************************************
+.su off
+.se daar = substr &DATO 5 4
+.se dmdr = substr &DATO 3 2
+.se ddag = substr &DATO 1 2
+.se faar = substr &KTOKNDNR1 5 2
+.se fmdr = substr &KTOKNDNR1 3 2
+.se fdag = substr &KTOKNDNR1 1 2
+.su on
+.if x&faar < x50
+.th .se faar1 = &faar + 2000
+.el .se faar1 = &faar + 1900
+.*******************************
+.se maxaar = &faar1 + 14
+.*******************************
+.if x&daar > x&maxaar
+.th .go FEJL1
+.if x&daar < x&maxaar
+.th .go OK1
+.if x&dmdr > x&fmdr
+.th .go FEJL1
+.if x&dmdr < x&fmdr
+.th .go OK1
+.if x&ddag < x&fdag
+.th .go OK1
+.el .go FEJL1
+...FEJL1
+.mg/T/Barnet er allerede fyldt 14 år, det er for sent at sende brevet ud/
+...OK1
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+BØRNEOPSPARING NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+Den &RESULTB. fylder &B30NAVN14 14 år. Inden den dato har &DU mulighed
+for at forlænge bindingsperioden på børneopsparingen til &B30NAVN14 bliver
+21 år.
+.sp
+Ønsker &DU at forlænge bindingsperioden, kan vedlagte blanket benyttes. Vi
+beder &DIG dog være opmærksom på, at blanketten skal være os i hænde inden
+&B30NAVN14 bliver 14 år.
+.sp
+Hører vi ikke fra &DIG., frigives børneopsparingen den &RESULTA..
+.sp
+Såfremt &DU ønsker yderligere oplysninger, er &DU velkommen til at kontakte
+os.
+.if &L'&GENTEKST1 gt 0
+.th .sp
+.th &GENTEKST1. &GENTEKST2. &GENTEKST3. &GENTEKST4. &GENTEKST5
+.th &GENTEKST6. &GENTEKST7. &GENTEKST8. &GENTEKST9. &GENTEKST10.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

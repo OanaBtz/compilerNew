@@ -1,0 +1,508 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Kautionserklæring (Privat)
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE1 20mm 37mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE1 on
+:SWISS10.
+.tp 1mm 88mm
+:FED.
+Parter
+:SKRSLUT.
+.bx left 87mm right
+:SWISS8.
+¤Kautionist ¤indestår herved (pengeinstitut)
+.sp 20mm
+.bx new left 87mm right
+¤Kundenummer ¤Tlf.nr.
+.sp 5mm
+.bx off
+.bx can
+som selvskyldnerkautionist for opfyldelse af forpligtelser af enhver
+art og for betaling vedrørende
+.sp 2mm
+:SWISS10.
+:FED.
+Gældsforhold
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+.sp 8mm
+.bx new left right
+.tp 1mm 88mm
+.if &L'&MEDNAVN = 0
+.th ¤Debitor
+.sp 20mm
+.if &L'&MEDNAVN = 0
+.th .bx new left right
+.th ¤Kundenummer
+.el .bx new left 87mm right
+.el ¤Kundenummer ¤Kundenummer
+.sp 5mm
+.bx new left right
+.sp 2mm
+:SWISS8.
+.*KASSE TIL MAKSIMUM ******************************************************
+.sp 5mm
+.bx can
+.bx can
+.bx can
+.bx off
+:SWISS10.
+:FED.
+Gyldighedsperiode
+:SKRSLUT.
+.bx left right
+.sp 11mm
+.bx off
+:SWISS10.
+:FED.
+Supplerende oplysninger
+:SKRSLUT.
+.bx left right
+.sp 25mm
+.bx off
+:FED.
+Betingelser
+:SKRSLUT.
+.bx left right
+.sp 86mm
+.bx off
+.ar off
+.********************************
+.da KAUNIST 25mm 46mm width 85mm
+.da BANK   112mm 46mm width 80mm
+.da KAUKNR 25mm 71mm width 80mm
+.da BANKTLF 112mm 71mm width 80mm
+.da GÆLD1   22mm 89mm width 170mm
+.da DEBITOR 25mm 101mm width 80mm
+.da MEDDEB 112mm 101mm width 80mm
+.da DEBKNR  25mm 124mm width 80mm
+.da MEDKNR  112mm 124mm width 80mm
+.da MAX 22mm 129.5mm width 160mm
+.da GYLD 22mm 144mm width 160mm
+.da SUPP 22mm 161.5mm width 175mm
+.da BET1 22mm 192.5mm width 80mm
+.da BET2 110mm 199.5mm width 80mm
+.********************************
+.*****************
+.ar KAUNIST on
+.ar off
+.*****************
+.ar BANK on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*****************
+.ar KAUKNR on
+.ar off
+.*****************
+.ar BANKTLF on
+&AFDTLF
+.ar off
+.*****************
+.ar GÆLD1 on
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.tp 50mm
+:SWISS8.
+lån/kredit nr. :SKRSLUT.
+:COUR10.
+&regnr.-&ktonr.
+.if &U'X&GENBOGST1A = XM
+.th med fastsat tilbagebetalingstidspunkt
+.el uden fastsat tilbagebetalingstidspunkt
+.ar off
+.*****************
+.ar DEBITOR on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.*****************
+.ar MEDDEB on
+.ar off
+.***********
+.ar DEBKNR on
+.ar off
+.***********
+.ar MEDKNR on
+.ar off
+.***********
+.ar MAX on
+:SWISS8.
+Lånet/kredittens maksimum kr. &ÅCONT
+:SKRSLUT.
+:SWISS8.
+.ct , hvor kautionsforpligtelsen højst andrager kr. &ÅCONT
+:SKRSLUT.
+.ar off
+.****************
+.ar GYLD on
+:SWISS8.
+.if &U'X&GENBOGST1A ne XM
+.th .go UDEN
+Nærværende kaution bortfalder
+:SKRSLUT.
+:SWISS8.
+måneder fra underskriftstidspunktet,
+medmindre &BANKNAVN forinden har gjort krav gældende over for
+kautionisten, eller kautionen er forlænget ved aftale mellem
+&BANKNAVN og kautionisten.
+.go NEDEN
+...UDEN
+Nærværende kaution bortfalder
+:SKRSLUT.
+:SWISS8.
+måneder fra underskriftstidspunktet,
+medmindre &BANKNAVN forinden har gjort krav gældende over for kautionisten,
+eller kautionen er forlænget ved aftale mellem &BANKNAVN og
+kautionisten.
+...NEDEN
+.ar off
+.*****************
+.ar SUPP on
+.ar off
+.*****************
+.ar BET1 on
+:SWISS8.
+:FED.
+For kaution gælder i øvrigt nedenstående vilkår:SKRSLUT.
+.sp 3mm
+:FED.
+1. Anvendelse af indbetalinger:SKRSLUT.
+.br
+Indbetaling fra debitor anvendes, hvis lånet/kreditten kun er
+delvis sikret
+ved kaution, først til nedbringelse af den usikrede del.
+.sp 3mm
+:FED.
+2. Henstand:SKRSLUT.
+.br
+&BANKNAVN kan uden tilladelse fra kautionisten give debitor henstand
+med betaling af afdrag, renter, provision og eventuelle omkostninger, dog
+med respekt af bank- og sparekasselovens § 41a.
+.sp 3mm
+:FED.
+3. Realisation og regres:SKRSLUT.
+.br
+&BANKNAVN forbeholder sig ret til at realisere de af debitor eller
+trediemand eventuelt stillede sikkerheder og afskrive provenuet efter
+&BANKNAVN.s frie valg. Kautionisten har således ingen regresret i
+sådanne sikkerheder.
+.sp 3mm
+Det indebærer:
+.sp 3mm
+.tp 3mm
+.of 3mm
+-¤at &BANKNAVN uden kautionistens tilladelse kan frigive andre
+sikkerheder for den kautionssikrede forpligtelse.
+.sp 3mm
+.of
+.of 3mm
+-¤at &BANKNAVN kan anvende pant, der tillige tjener til sikkerhed
+for andre fordringer end den kautionssikrede til forlods fyldestgørelse af
+sådanne fordringer.
+.of
+.ar off
+.**********************'
+.ar BET2 on
+:SWISS8.
+:FED.
+4. Omstødelse:SKRSLUT.
+.br
+Hvis der i forbindelse med debitors konkurs m.v., jævnfør konkurslovens
+kapitel 8, sker omstødelse af supplerende sikkerhedsstillelse, der er
+anvendt til hel eller delvis indfrielse af den kautionssikrede fordring,
+opretholdes kautionsforpligtelsen.
+.sp 3mm
+Det samme er gældende, hvis en betaling fra debitor omstødes.
+.sp 3mm
+:FED.
+5. Værneting:SKRSLUT.
+.br
+Retsager vedrørende denne kaution kan efter &BANKNAVN.s ønske
+anlægges ved byretten i den retskreds, hvor &BANKNAVN eller dennes
+kontoførende filial er beliggende (bestemmelsen gælder ikke i
+forbrugerforhold, jævnfør retsplejelovens § 245, stk. 2).
+.sp 3mm
+:FED.
+6. Tvangsfuldbyrdelse:SKRSLUT.
+.br
+Dette dokument kan sammen med gældsbrevet danne grundlag for umiddelbar
+tvangsfuldbyrdelse,
+jævnfør retsplejelovens § 478, stk. 1, nr. 5, jf. stk. 4.
+.ar off
+.** SIDESKIFT
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Kautionserklæring (Privat)
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE2 20mm 37mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE2 on
+:SWISS10.
+:FED.
+Selvskyldnerkautionists underskrift
+:SKRSLUT.
+.bx left right
+:SWISS8.
+.sp 75mm
+.bx off
+:SWISS10.
+:FED.
+Selvskyldnerkautionist
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+.sp 25mm
+.bx off
+:SWISS10.
+:FED.
+Udlevering af pjece
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx new left right
+.sp 45mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Debitors underskrift
+:SKRSLUT.
+.bx left right
+.sp 40mm
+.bx off
+.ar off
+.**************************************************************************
+.da SELVSK  22mm 42mm width 160mm
+.da SELVKAU 22mm 127mm width 170mm
+.da UDLEV    22mm 155mm width 160mm
+.da KAU     22mm 181mm width 90mm
+.da PI    110mm 181mm width 90mm
+.da VIT1     22mm 187mm width 173mm
+.da VIT2    111mm 187mm width 85mm
+.da DEBUND 22mm 238mm width 165mm
+.da DEBUND1 22mm 274mm width 175mm
+.**************************************************************************
+.ar SELVSK on
+:SWISS8.
+Jeg accepterer ovenstående bestemmelser. Jeg har modtaget og gjort
+mig bekendt med en genpart af dette dokument, kopi af
+låneaftale/kreditaftale med angivelse af aktuel gæld, kopi af
+kreditoplysninger, et eksemplar af &BANKNAVN.s almindelige
+forretningsbetingelser samt et eksemplar af &BANKNAVN.s almindelige
+bestemmelser for lån og kreditter, som også gælder for lånet/kreditten.
+.sp 5mm
+:SWISS8.
+Herudover bekræfter jeg, at &BANKNAVN har oplyst mig om debitors
+øvrige kreditaftaler med &BANKNAVN., herunder den aktuelle størrelse
+af debitors gæld for lån og kreditramme samt udnyttelse af kredit.
+.sp 3mm
+I den forbindelse bekræfter jeg, at jeg er opmærksom på, at
+&BANKNAVN ikke er ansvarlig for rigtigheden af de bilag, der er
+indhentet fra debitor, og at kautionsforpligtelsen ikke udelukker
+&BANKNAVN fra nu eller senere at yde debitor lån/kredit.
+.ar off
+.***********************************************************************
+.ar SELVKAU on
+:SWISS8.
+.tp 20mm _/84mm 92mm _/155mm
+¤¤ , den ¤¤
+.sp 12mm
+:SKRSLUT.
+.tp 42mm _/129.5mm
+¤¤
+.tp 86mm center
+¤Kautionistens navn
+.ar off
+.**************************************************************************
+.ar UDLEV on
+:SWISS8.
+Det bekræftes herved, at pjece om kaution er udleveret og gennemgået med
+kautionisten.
+.sp 4mm
+.tp 20mm _/84mm 92mm _/155mm
+¤¤ , den ¤¤
+.ar off
+.**************************************************************************
+.ar KAU on
+.tp 3mm _/80mm
+¤¤
+.br
+.tp 41.5mm center
+¤Kautionistens navn
+.ar off
+.**************************************************************************
+.ar PI on
+.tp _/80mm
+¤
+.br
+.tp 40mm center
+¤&BANKNAVN
+.ar off
+.******
+.ar VIT1 on
+:SWISS8.
+Til vitterlighed for kautionisten om ægte underskrift,
+dateringens rigtighed og udstederens/udstedernes myndighed.
+.sp 5mm
+.tp _/80mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+.**************************************************************************
+.ar VIT2 on
+:SWISS8.
+.sp 8mm
+.tp _/80mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+.**************************************************************************
+.ar DEBUND on
+.hy off
+:SWISS8.
+.if &L'&MEDNAVN = 0
+.th Jeg
+.el Vi
+bekræfter herved, at
+.if &L'&MEDNAVN = 0
+.th jeg
+.el vi
+er indforstået med, at ovennævnte
+specificerede bilagsmateriale kan videregives til kautionisten, ligesom
+.if &L'&MEDNAVN = 0
+.th jeg
+.el vi
+giver samtykke til, at kautionisten 1 gang årligt kan modtage
+oplysninger fra &BANKNAVN om kautionsforpligtelsens størrelse.
+.sp 3mm
+.tp 20mm _/84mm 92mm _/155mm
+¤¤ , den ¤¤
+.ar off
+.**********************
+.ar DEBUND1 on
+.tp 42mm center 124mm center
+.if &L'&MEDNAVN = 0
+.th .go MED0
+.el .go MED1
+...MED0
+.tp 42mm _/129.5mm
+¤¤
+.br
+.tp 86mm center
+¤&KTONAVN
+.go UNDERSL
+...MED1
+.tp 3mm _/80mm 90mm _/167mm
+¤¤¤¤
+.br
+.tp 41.5mm center 128.5mm center
+¤&KTONAVN ¤&MEDNAVN
+...UNDERSL
+.ar off

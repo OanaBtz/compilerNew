@@ -1,0 +1,541 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.******************************************************************
+.da KRYDS       20.5mm  45mm width 160mm
+.da DATO        160mm 66mm width 30mm
+.da CVR         25mm  81.5mm width 185mm
+.da FORRET      25mm  93mm width 185mm
+.da KONTO       25mm  124mm width 80mm
+.da INDLØS      23.5mm  137.8mm width 170mm
+.da TIDL       25mm  206.3mm width 165mm
+.da BEM        25mm  223mm width 165mm
+.da EMAIL      118mm  248mm width 80mm
+.**** TEST TIL FEJLTEKSTER *******************************************
+.if &U'X&GENAFTAL eq XA
+.or &U'X&GENAFTAL eq XB
+.or &U'X&GENAFTAL eq XC
+.or &U'X&GENAFTAL eq XD
+.or &U'X&GENAFTAL eq XE
+.or &U'X&GENAFTAL eq XF
+.th .go GODNOK
+.el .mg/T/ Forkert indtastet aftaletype./
+...GODNOK
+.if &L'&GENNUMMER gt 0
+.th .go NUMMER
+.if &U'X&GENAFTAL eq XA
+.or &U'X&GENAFTAL eq XB
+.th .go UNDER
+.if &U'X&GENAFTAL eq XC
+.or &U'X&GENAFTAL eq XD
+.or &U'X&GENAFTAL eq XE
+.or &U'X&GENAFTAL eq XF
+.th .mg/T/ Forretningsnummeret skal være udfyldt./
+.th .go UNDER
+...NUMMER
+.if &U'X&GENAFTAL eq XB
+.th .mg/T/ Forretningsnr. kendes ikke, på en ny forretning./
+...UNDER
+.**** Her indsættes ikraftrædelsesdato *******************************
+.ar DATO on
+&DATO
+.ar off
+.***** CVRnr m.m **************************************************
+.ar CVR on
+.tp 58mm 116mm
+         ¤&GENTLF.¤&GENNUMMER
+.ar off
+.***** FORRETNINGSOPL. ***********************************************
+.ar FORRET on
+.if &U'X&GENAFTAL eq XD
+.th .go UDEND
+.tp 49mm 130mm
+&NAVN
+.sp 3mm
+&GADE
+.sp 3mm
+.su off
+.se post = substr &BY 1 4
+.se by = substr &BY 5 29
+.su on
+&post.¤&by.¤&LAND
+.sp 2.6mm
+.tp 93mm
+.if &U'X&GENAFTAL eq XC
+.th .go BKODE
+.if &U'X&GENBOGST1A eq XJ
+.th .se kode = 'Ja'
+.th .go BKODE
+.if &U'X&GENBOGST1A eq XN
+.th .se kode = 'Nej'
+.el .mg/T/ Der skal svares J eller N til branchekode 7995/
+...BKODE
+&GENBRANCHE ¤&kode
+...UDEND
+.ar off
+.***** REG/KTONR. ******************************
+.ar KONTO on
+.if &U'X&GENAFTAL eq XC
+.or &U'X&GENAFTAL eq XF
+.th .go KRYDS
+.if &L'&GENKTONR eq 0
+.th .mg/T/ Forretningens krediteringskonto skal være udfyldt./
+.tp 49mm
+.su off
+.se regnr = substr &GENKTONR 1 4
+.se kto = substr &GENKTONR 5 7
+.su on
+&regnr.¤&kto.
+...KRYDS
+.ar off
+.*******************************
+.ar KRYDS on
+.tp 76mm 140mm
+.if &U'X&GENAFTAL eq XA
+.th X
+.th .go NY
+.if &U'X&GENAFTAL eq XB
+.th ¤X
+.th .go NY
+.if &U'X&GENAFTAL eq XC
+.th ¤¤X
+.th .go BEM
+.sp 5.5mm
+.if &U'X&GENAFTAL eq XD
+.th X
+.th .go BEM
+.if &U'X&GENAFTAL eq XE
+.th ¤X
+.th .go NY
+.sp 5.5mm
+.if &U'X&GENAFTAL eq XF
+.th X
+.th .go FORRET
+...NY
+.if &L'&GENKRYDS1 eq 0
+.an &L'&GENKRYDS2 eq 0
+.th .mg/T/ Indløsningstype skal udfyldes ved A) B) E)./
+.ar off
+.**** INDLØSNINGSTYPE **************
+.ar INDLØS on
+.tp 80mm 96mm
+.if &L'&GENKRYDS1 gt 0
+.th X
+.el &ÅRB
+.sp 7.5mm
+.if &L'&GENKRYDS2 eq 0
+.th .go BEM
+.***** HER LAVES FEJLTESTS TIL SAMMENHÆNG I TERMINALLEVERANDØR*******
+.if &L'&GENTEKST4 eq 0
+.an &L'&GENTEKST5 eq 0
+.th .mg/T/ Der skal skrives en terminalleverandør./
+.if &L'&GENTEKST4 gt 0
+.an &L'&GENTEKST5 gt 0
+.th .mg/T/ Der skal kun skrives en terminalleverandør./
+.**** FLEXTERMINAL*******
+.if &L'&GENKRYDS3 gt 0
+.or &L'&GENKRYDS4 gt 0
+.or &L'&GENKRYDS6 gt 0
+.go UDENOM
+.if &L'&GENKRYDS5 gt 0
+.th .go FLEX
+.if &L'&GENANT gt 0
+.or &L'&GENTAL1A gt 0
+.th .mg/T/ Der mangler kryds i Flexterminal/
+.el .go UDENOM
+...FLEX
+.if &L'&GENANT eq 0
+.or &L'&GENTAL1A eq 0
+.th .mg/T/"Antal PSAM" og "sendes til" mangler, ved kryds i Flexterminal/
+...UDENOM
+.**** HER FORTSÆTTER PLACERINGEN AF KRYDSER *************
+.if &L'&GENKRYDS3 gt 0
+.th X
+.el &ÅRB
+.sp 2.5mm
+.if &L'&GENKRYDS4 gt 0
+.th X
+.el &ÅRB
+.sp 2.5mm
+.tp 44mm 70mm 83mm
+.if &L'&GENKRYDS5 gt 0
+.th X¤¤&GENANT
+.el &ÅRB
+.sp 0.5mm
+.if &L'&GENKRYDS5 gt 0
+.an X&GENTAL1A eq X1
+.th ¤X
+.th .go TAL1A
+.if &L'&GENKRYDS5 gt 0
+.an X&GENTAL1A eq X2
+.th ¤¤¤X
+.el &ÅRB
+...TAL1A
+.sp 4mm
+.if &L'&GENKRYDS6 gt 0
+.th X
+.el &ÅRB
+.sp 8.2mm
+.tp 75mm
+.if &L'&GENTEKST4. gt 0
+.th X¤&GENTEKST4
+.el &ÅRB
+.sp 3.7mm
+.if &L'&GENTEKST5. gt 0
+.th X¤&GENTEKST5
+.el &ÅRB
+...FORRET
+.ar off
+.**** TIDLIGERE FORRETNINGSOPLYSNINGER **************
+.ar off
+.ar TIDL on
+.if &U'X&GENAFTAL eq XA
+.or &U'X&GENAFTAL eq XE
+.th .go BEM
+.tp 49mm 90mm
+&GENNAVN2.¤¤&GENADR2
+.sp 3mm
+.su off
+.se postnr2 = substr &GENBY2 1 4
+.se byen2 = substr &GENBY2 5 29
+.su on
+&GENNUMMER1.¤&postnr2.¤&byen2
+...BEM
+.ar off
+.**** BEMÆRKNINGER ***************************************************
+.ar BEM on
+&GENTEKST1
+&GENTEKST2
+.ar off
+.************************
+.ar EMAIL on
+.tp 17mm
+.if &L'&GENEMAIL eq 0
+.an &L'&AFDFAX eq 0
+.th .mg/T/ E-mail eller fax-nr. skal udfyldes./
+.if &L'&GENEMAIL gt 0
+.th ¤&GENEMAIL
+.el ¤&ÅRB
+.sp 5mm
+.if &L'&AFDFAX gt 0
+.th ¤&AFDFAX
+.el ¤&ÅRB
+.sp 5mm
+&GENATT
+.ar off
+.** SIDESKIFT
+.pa
+.******************************************************************
+.da KRYDS1      20.5mm  40.2mm width 160mm
+.da DATO1       160mm 57mm width 30mm
+.da CVR         25mm  72mm width 185mm
+.da FORRET      25mm  93.5mm width 90mm
+.da FORRET1    115mm  93.5mm width 90mm
+.da KONTO       25mm  132.5mm width 80mm
+.da TRANS      112mm  130.5mm width 80mm
+.da KAPIT      157.5mm  130.5mm width 80mm
+.da TER        53.5mm  142.5mm width 131mm
+.da TIDL        25mm  166mm width 175mm
+.da BEM         25mm  192mm width 80mm
+.da AFR        115mm  190mm width 80mm
+.******************************************************************
+.ar KRYDS1 on
+.tp 76mm 140mm
+.if &U'X&GENAFTAL eq XA
+.th X
+.th .go BUND1
+.if &U'X&GENAFTAL eq XB
+.th ¤X
+.th .go BUND1
+.if &U'X&GENAFTAL eq XC
+.th ¤¤X
+.th .go BUND1
+.sp 5.5mm
+.if &U'X&GENAFTAL eq XD
+.th X
+.th .go BUND1
+.if &U'X&GENAFTAL eq XE
+.th ¤X
+.th .go BUND1
+.sp 5.5mm
+.if &U'X&GENAFTAL eq XF
+.th X
+...BUND1
+.ar off
+.***** Ikrafttrædelsesdato *******************************
+.ar DATO1 on
+&DATO
+.ar off
+.***** CVRnr m.m **************************************************
+.ar CVR on
+.tp 90mm 135mm
+         ¤&GENTLF.¤&GENNUMMER
+.ar off
+.***** FORRETNINGSOPL. DAGLIG ****************************************
+.ar FORRET on
+.tp 20mm
+&NAVN
+.sp 6mm
+&GADE
+.sp 6mm
+.su off
+.se post3 = substr &BY 1 4
+.se by3 = substr &BY 5 29
+.su on
+&post3.¤&by3
+.ar off
+.***** FORRETNINGSOPL. REGISTRERET ***********************************
+.ar FORRET1 on
+.tp 20mm
+&GENNAVN1
+.sp 6mm
+&GENADR1
+.sp 6mm
+.su off
+.se post4 = substr &GENBY1 1 4
+.se by4 = substr &GENBY1 5 29
+.su on
+&post4.¤&by4
+.ar off
+.***** REG/KTONR. ****************************************************
+.ar KONTO on
+.if &U'X&GENAFTAL eq XC
+.th .go BEM1
+.if &U'X&GENAFTAL eq XF
+.th .go FORRET1
+.tp 20mm
+.su off
+.se regnr = substr &GENKTONR 1 4
+.se kto = substr &GENKTONR 5 7
+.su on
+&regnr.¤&kto.
+.if &U'X&GENAFTAL eq XB
+.or &U'X&GENAFTAL eq XA
+.th .go NAVNE
+.if &U'X&GENAFTAL eq XF
+.th .go FORRET1
+.el .go BEM1
+...NAVNE
+.ar off
+.******* TRANSAKTIONSGEBYR ***********************************
+.ar TRANS on
+.tp 33mm right
+¤&GENBELØB1
+.ar off
+.******* KAPITALKÆDE *****************************************
+.ar KAPIT on
+.tp 17mm
+.if &U'&GENJANEJ1 = J
+.th X
+.el ¤X
+.ar off
+.******* KRYDSER I INDLØSNINGSTYPE A) B) *********************************
+.ar TER on
+.tp 41mm 98mm
+.if &L'&GENKRYDS2 eq 0
+.th ¤¤X
+.th .go FORRET1
+.if &L'&GENTEKST4 gt 0
+.th X
+.th .sp 1.5mm
+.th ¤&GENTEKST4
+.th .go FORRET1
+.if &L'&GENTEKST5 gt 0
+.th .sp 4.5mm
+.th X¤&GENTEKST5.
+...FORRET1
+.**** TIDLIGERE FORRETNINGSOPLYSNINGER **************
+.ar off
+.ar TIDL on
+.if &U'X&GENAFTAL eq XA
+.th .go BEM1
+.tp 49mm 90mm
+&GENNAVN2.¤¤&GENADR2
+.sp 5mm
+.su off
+.se postnr2 = substr &GENBY2 1 4
+.se byen2 = substr &GENBY2 5 29
+.su on
+&GENNUMMER1.¤&postnr2.¤&byen2
+...BEM1
+.ar off
+.**** BEMÆRKNINGER OG ANDRE INDLØSNINGSAFTALER ***********************
+.ar BEM on
+&GENTEKST1
+&GENTEKST2
+.ar off
+.**** AFREGNING ******************************************************
+.ar AFR on
+.tp 25mm
+.if &U'X&GENDAG1 = XD
+.th Dagligt
+.th .go FÆRD
+.if &U'X&GENDAG1 = XM
+.th Månedligt
+.th .go FÆRD
+.if &U'X&GENDAG1 = XU
+.th Ugentligt
+.th .sp 7mm
+.th &GENTEKST
+...FÆRD
+.ar off
+.if &U'X&GENAFTAL eq XC
+.th .go SPRING5
+.**********************************************************
+.da SIDENR 160mm 33mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:COUR8.
+Side &GENSIDE1 af &GENIALT1
+:SKRSLUT.
+.ar off
+.**********************************************************
+...SPRING5
+.** SIDESKIFT
+.pa
+.if &U'X&GENAFTAL eq XC
+.th .go SPRING11
+.**********************************************************
+.da SIDENR 160mm 33mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:COUR8.
+Side &GENSIDE2 af &GENIALT1
+:SKRSLUT.
+.ar off
+.**********************************************************
+...SPRING11
+.** SIDESKIFT
+.pa
+.if &U'X&GENAFTAL eq XC
+.th .go SPRING17
+.**********************************************************
+.da SIDENR 160mm 33mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:COUR8.
+Side &GENSIDE3 af &GENIALT1
+:SKRSLUT.
+.ar off
+.**********************************************************
+...SPRING17
+.** SIDESKIFT
+.pa
+.if &U'X&GENAFTAL eq XC
+.th .go SPRING23
+.**********************************************************
+.da SIDENR 160mm 33mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:COUR8.
+Side &GENSIDE4 af &GENIALT1
+:SKRSLUT.
+.ar off
+.**********************************************************
+...SPRING23
+.** SIDESKIFT
+.pa
+.*************** definer siden som et areal *******************************
+.da SIDE 21mm 32mm width 175mm
+.da KAS  20mm 50mm width 175mm
+.da KASV 21mm 52mm width 80mm
+.da KASH 91mm 52mm width 100mm
+.da TALTOP  50mm 51.5mm width 50mm
+.da TALBUND 21mm 256mm width 175mm
+.da FODNOTE 21mm 261mm width 175mm
+.************
+.ar KAS on
+.bx left 89mm right
+.sp 5mm
+.bx new left 89mm right
+.sp 5mm
+.bx new left 89mm right
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.ar off
+.************ REGLER ******************************************************
+.ar SIDE on
+:SWISS12.
+:FED.
+Bilag til indløsningsaftale:SKRSLUT.
+.sp 5mm
+:SWISS10.
+:FED.
+Prisliste til Brugerregler gældende fra 1.1.2005
+.ar off
+.************
+.ar KASV on
+:SWISS10.
+Pris pr. transaktion
+.sp 3.5mm
+Gebyr for oprettelse af indløsningsaftale
+.sp 3.5mm
+Gebyr for behandling af berettigede indsigelser
+.ar off
+.************
+.ar KASH on
+.tp 80mm right
+¤0,50 kr.
+.sp 3.5mm
+¤0,00 kr.
+.sp 3.5mm
+¤Dokumenterede omkostninger
+.ar off
+.*******
+.ar TALTOP on
+.tp 34.5mm
+:SWISS6.
+1
+.sp 12mm
+ 
+.ar off
+.********
+.ar TALBUND on
+:SWISS6.
+.tp 0mm _/50mm
+¤¤
+.br
+1
+.sp 1mm
+¤De første 5.000 transaktioner er gratis (kapitalkæder og transaktioner
+via ubetjente pinkodeautomater er undtaget).
+.ar off
+.********

@@ -1,0 +1,35 @@
+I DB2-system kan GIL som primær ASF-database logisk opdeles i en
+GIL til "test" og en GIL til "produktion".
+o  En "test"-GIL bruges til at definere, vedligeholde og kontrollere
+   GIL-emner
+o  En "produktions"-GIL bruges til at oprette struktureret
+   korrespondance i firmaet
+ 
+På basis af DB2 leverer ASF funktioner, der støtter den
+o  logiske opdeling af en GIL i test- og produktionsdele
+o  styrede frigivelse af GIL-emner fra test til produktion
+ 
+Disse funktioner kan aktiveres til en GIL-database, hvis der er
+angivet de rigtige indstillinger i systemtilpasningen FSNT100C/I: i
+definitionen til det systemmiljø, der anvender den pågældende GIL,
+skal tilpasningsparameteren MAINTACT være sat til '1'.
+Et system, hvor MAINTACT = '1', bliver henvist til som et "system med
+styring af frigivelse". Et sådant system afviger fra et system UDEN
+styring af frigivelse ved at indeholde op til to varianter af et
+GIL-emne (hvis der her ses bort fra yderligere historiske udgaver af
+GIL-emner). Før et GIL-emne kan frigives til produktion, skal det
+gennemgå adskillige trin i forbindelse med kontrol af konsistens og
+(reference)integritet.
+Overførslen af frigivne emner fra test til produktion er en
+totrins-proces, der er involverer funktionerne
+o  FSNBRULC/I - Udlæsning af ressource
+o  FSNBRRLC/I - Genindlæsning af ressource
+ 
+Første trin:
+FSNBRULC/I udføres med valgmuligheden RLSGIL. Alle emner i
+test-GIL'en med frigivelsesstatus '9' udlæses.
+ 
+Andet trin:
+FSNBRRLC/I udføres med parameteren RELEASE. Outputdatasæt for det
+første trin er behandlet, og alle emner er indlæst i produktions-GIL'en.
+Alle tilsvarende GIL-emner i test-GIL'en er slettet.

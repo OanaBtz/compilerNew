@@ -1,0 +1,453 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se medku1 = substr &MEDKUNDENR 1 6
+.se medku2 = substr &MEDKUNDENR 8 4
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.********
+.if &L'&MEDNAVN = 0
+.an &U'&GENMEDKTOH = J
+.th .mg/T/Der findes ingen medktohaver/
+.*************************
+.if &U'&GENMEDKTOH eq J
+.an &U'&TILTALE = DU
+.th .mg /T/Tiltale forkert, da der også skrives til medkontohaver/
+.if &U'&GENMEDKTOH eq J
+.an &U'&TILTALE = DE
+.th .mg /T/Tiltale forkert, da der også skrives til medkontohaver/
+.* .if &U'&GENMEDKTOH eq N
+.* .an &U'&TILTALE = I
+.* .th .mg /T/Tiltale forkert, da medkontohaver ikke bruges/
+.***************
+.if &U'&B30BREV eq N
+.an &U'&B30SVARK eq N
+.an &U'&B30TELEFON eq N
+.an &U'&B30MAIL eq N
+.th .mg /T/Der skal vælges enten BREV, SVARKUPON, TELEFON eller MAIL/
+.***************
+.if &U'&B30JANEJP eq J
+.an &U'&B30SVAR eq J
+.th .mg /T/Der skal vælges enten Nemkonto tilmeldes og svarkupon vedlægges/
+.***************
+.**TEST PÅ AT DER KUN ER VALGT ÉN TILMELDING TIL WEBBANK ***********
+.se web = 0
+.if &U'X&B30WEB = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &U'X&B30WEBID = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &U'X&B30WEBSELV = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &U'X&B30WEBGL = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &U'X&B30TLFWEB = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &U'X&B30SVARKU  = XJ
+.th .se web = &web + 1
+.el .se web = &web
+.if &web > 1
+.th .mg/T/Kun en tilmelding til Webbank eller 'Webbank og Telefonservice'/
+.************
+.if &U'X&B30TLFS = XJ
+.an &U'X&B30TLFWEB = XJ
+.th .mg/T/Enten tilm. Telefonservice eller 'Webbank og Telefonservice'/
+.***************
+.if &U'&B30FLYTLØN = N
+.th .go EJLØNP
+.if &U'&B30LØNJN = N
+.an &L'&B30KTOLØN = 0
+.th .mg /T/Ved Ja til lønbrev, skal løn-kontonummer indtastes/
+.***************
+.if &U'&B30LØNMEDK eq J
+.an &L'&B30KONTO = 0
+.th .mg /T/Ved Ja til medktoh lønbrev, skal medktoh løn-kontonr. indtastes/
+...EJLØNP
+.***************
+.************
+.if &U'&B30BB eq J
+.an &L'&DEPNR = 0
+.th .mg/T/ Ved Ja til depot, skal depotnr indtastes/
+.***************
+.if &U'&B30MEDSKUN = J
+.an &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.*************************
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+MULTIKONTO NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+B30HØJ01
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.kp on
+.if &U'&B30BREV eq J
+.th I forlængelse af &DIT brev
+.th .go VIDRT01
+.*****
+.if &U'&B30SVARK eq J
+.th I forlængelse af indsendte svarkupon
+.th .go VIDRT01
+.*****
+.if &U'&B30TELEFON eq J
+.th Som aftalt telefonisk
+.th .go VIDRT01
+.*****
+.if &U'&B30MAIL eq J
+.th I forlængelse af &DIN mail
+.*****
+...VIDRT01
+skal vi hermed bekræfte, at vi har
+oprettet ovennævnte multikonto til &DIG..
+.sp
+.**********.kp off ligger i næste modul**************
+.if &U'&B30MEDSKUN = J .or &U'&KONTOOPR = J .or &U'&B30PRAKDK eq J
+.th Materialet, der skal returneres til banken, vil være hæftet sammen
+.th med vedlagte svarkuvert.
+.th .sp
+.**********
+.if &U'&B30MEDSKUN = J
+.th :CALIB10.
+.th :FED.
+.th Kundeoprettelse
+.th :SKRSLUT.
+.th .br
+.th &SDU bedes udfylde blanketten og returnere den sammen med kopi af
+.th billedlegitimation.
+.th Bankens almindelige forretningsbetingelser vedlægges.
+.th .sp
+.**********
+.kp off
+.kp on
+.************
+.if &U'&KONTOOPR eq J
+.th :CALIB10.
+.th :FED.
+.th Kontooprettelse/ændring
+.th :SKRSLUT.
+.th .br
+.th Vedlagte Kontooprettelse/ændring bedes underskrevet
+.th og returneret til os.
+.th .sp
+.************
+.kp off
+.kp on
+.************
+.if &U'&B30PRAKDK eq J
+.th :CALIB10.
+.th :FED.
+.th Bestilling af Visa/Dankort
+.th :SKRSLUT.
+.th .br
+.th Visa/Dankort bestilles, når vi har modtaget vedlagte dokumenter
+.th retur i underskrevet stand.
+.th .sp
+.************
+.kp off
+.kp on
+.**** Nemkonto *******
+.if &U'&B30JANEJP eq J
+.th Vi vil tilmelde &DIN konto til Nemkonto.
+.th .sp
+.if &U'&B30SVAR eq J
+.th Vi har vedlagt en svarkupon, der kan udfyldes og underskrives,
+.th hvis &DU ønsker &DIN konto som Nemkonto.
+.th .sp
+.***************
+.if &U'&B30FLYTLØN eq J
+.th :CALIB10.
+.th :FED.
+.th Brev til lønkontoret
+.th :SKRSLUT.
+.th .br
+.th Brev til lønkontoret vedlægges. Brevet afleveres på
+.th lønkontoret, således at lønnen fremover kan indgå på
+.th &DIN konto hos os.
+.th .sp
+.************
+.kp off
+.kp on
+.************
+.if &U'&B30BB eq J .an &L'&DEPNR gt 0
+.th :CALIB10.
+.th :FED.
+.th Depot
+.th :SKRSLUT.
+.th .br
+.th Vi har oprettet depotnr. &DEPNR.. &SDU vil kunne handle værdipapirer
+.th via Netbank. &SDU kan også bede bankens medarbejdere om at foretage
+.th handler, men dette indebærer et tillæg til kurtagen på 200 kr.
+.th .sp
+.************
+.kp off
+.kp on
+.************
+.if &U'&B30WEBSELV eq J .or &U'&B30WEBGL eq J .or &U'&B30SVARKU eq J
+.or &U'&B30WEB eq J .or &U'&B30WEBID eq J
+.th :CALIB10.
+.th :FED.
+.th Netbank
+.th :SKRSLUT.
+.th .br
+.************
+.if &U'&B30WEBSELV eq J .an &U'&B30WEBGL eq N .an &U'&B30SVARKU eq N
+.an &U'&B30WEB eq N .an &U'&B30WEBID eq N
+.th &SDU har selv oprettet &DIG som bruger i Netbank, og du kan
+.th logge på med dit nuværende NemID.
+.th .sp
+.************
+.if &U'&B30WEBSELV eq N .an &U'&B30WEBGL eq J .an &U'&B30SVARKU eq N
+.an &U'&B30WEB eq N .an &U'&B30WEBID eq N
+.th &SDIN tidligere tilmelding til Netbank kan fortsat anvendes.
+.th .sp
+.************
+.if &U'&B30WEBSELV eq N .an &U'&B30WEBGL eq N .an &U'&B30SVARKU eq J
+.an &U'&B30WEB eq N .an &U'&B30WEBID eq N
+.th &SDU kan få gratis adgang til &DIN konto via Netbank. Oprettelse
+.th kan ske on-line på bankens hjemmeside &B30HJEMME.
+.th .sp
+.************
+.if &U'&B30WEBSELV eq N .an &U'&B30WEBGL eq N .an &U'&B30SVARKU eq N
+.an &U'&B30WEB eq J .an &U'&B30WEBID eq N
+.th Vi har oprettet &DIG som bruger i Netbank. Brev fra NemID med
+.th bruger-id og adgangskode vil blive fremsendt snarest.
+.th .sp
+.************
+.if &U'&B30WEBSELV eq N .an &U'&B30WEBGL eq N .an &U'&B30SVARKU eq N
+.an &U'&B30WEB eq N .an &U'&B30WEBID eq J
+.th Vi har oprettet &DIG som bruger i Netbank, og &DU kan logge
+.th på med &DIT nuværende NemID.
+.th .sp
+.************
+.kp off
+.kp on
+.************
+.if &U'&B30TLFWEB eq J
+.th :CALIB10.
+.th :FED.
+.th Nebbank og telefonservice
+.th :SKRSLUT.
+.th .br
+.th Tilmelding til TelefonService vedlægges.
+.th .br
+.th Vi har også oprettet &DIG som bruger i Netbank, og &DU kan logge
+.th på med &DIT nuværende NemID.
+.th .sp
+.************
+.if &U'&B30TLFS eq J
+.th :CALIB10.
+.th :FED.
+.th Telefonservice
+.th :SKRSLUT.
+.th .br
+.th Tilmelding til TelefonService vedlægges.
+.th .sp
+.kp off
+.th .sp
+.*******
+.if &L'&GENTEKST1 gt 0
+.th &GENTEKST1 &GENTEKST2 &GENTEKST3
+.th &GENTEKST4 &GENTEKST5
+.th .sp
+.*******
+.kp off
+.kp on
+Har &DU nogen spørgsmål, er &DU velkommen til at kontakte os.
+.kp on
+.if &U'&B30GLDKK eq J
+.an &L'&BANKREGNR gt 0
+.th .sp
+.th :FED.
+.th Når du har aktiveret dit nye kort, skal du huske at sende os en
+.th besked, så vi ved at du er klar til at få overført dine konti.
+.th Du markulerer selv dine gamle kort.
+.th :SKRSLUT.
+.th .sp
+.kp off
+.***************************************************************
+.kp on
+.if &U'&B30PRIVPBS eq N
+.th .go HOPT03
+:CALIB10.
+:FED.
+Overførsel af betalingsservice
+:SKRSLUT.
+.br
+&SDINE PBS-betalinger vil blive flyttet
+.***********
+.if &L'&GENKTONR gt 0
+.th til konto nr. &GENKTONR., når vi anmoder &BKNAVN om overførsel
+.th af konti.
+.th .sp
+.**********
+...HOPT03
+.**********
+.kp off
+.kp on
+.if &L'&BANKREGNR gt 0
+.th Når ovennævnte er på plads, vil vi anmode &BKNAVN om at overføre
+.th &DIT engagement til os jf. tidligere indsendt svarkupon.
+.th .sp
+.***********
+.kp off
+.kp on
+.**************
+.if &L'&BANKREGNR gt 0
+.th &SDU kan allerede nu flytte penge fra &BKNAVN til os, til
+.th dækning af forbrug samt PBS-betalinger.
+.th .sp
+.*******
+.kp off
+.kp on
+.*******
+.if &L'&GENTEKST10 gt 0
+.th &GENTEKST10 &GENTEKST11 &GENTEKST12
+.th &GENTEKST13 &GENTEKST14 &GENTEKST15
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel

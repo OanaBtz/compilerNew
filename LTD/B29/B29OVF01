@@ -1,0 +1,256 @@
+.ar START on
+:FED.
+Kapitalpension 7570 &KTONR1., &KTONAVN., CPR-nr. &KTOKNDNR1.
+:SKRSLUT.
+.sp
+I henhold til Deres anmodning om overførsel af ovenstående konto
+af den &GENIDTO1., fremsendes vedlagt check på
+:vs.&GENBEL10.
+kr. til indsættelse på kapitalpension hos Dem.
+.sp1
+Jeg skal samtidig meddele, at ordningen er etableret efter den 01.04.1990,
+samt at der er tale om en arbejdsgiverordning, der i forbindelse med
+kontohavers fratræden fra pensionsgivende stilling og opnået alder 60 kan
+videreføres som privat ordning.
+:FED.
+.sp
+Har De spørgsmål?
+:SKRSLUT.
+.sp
+Har De spørgsmål, er De altid velkommen
+til at ringe til mig på telefon &GENTLFNR..
+.*******
+.da BREVHOVED 26mm 40mm width 80mm
+.ar BREVHOVED on
+:SWISS10.
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:SWISS10.
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.pa
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤&GENEKSP
+.br
+.el &GENMTITEL ¤&GENTITEL
+.ar off
+.************
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.dr stregtyk weight 0,05mm
+.tp ./85mm r 120mm r 158mm r
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT*****
+.ar START on
+:FED.
+&SDIN
+.if &U'&GENAFTALE = K
+.th kapitalpension
+.el selvpension
+er nu overført til &BKNAVN.
+:SKRSLUT.
+.sp 1
+.************
+Kære &KTONAVN
+.sp 1
+Vi skriver til &DIG for at bekræfte, at vi har opgjort og overført &DIN
+.if &U'&GENAFTALE = K
+.th kapitalpension
+.el selvpension
+i &BANKNAVN med kontonummer &REGNR &KTONR1 til &BKNAVN., som &DU bad
+os om den &GENIDTO1..
+.*********
+.sp 1
+.if &U'&GENAFTALE = K
+.th Kapitalpensionen
+.el Selvpensionen
+er opgjort den &GENIDTO2., og udregningen ser således ud:
+.sp
+Saldo ¤¤¤&RESULTA kr.
+.br
+Renter til dato ¤¤¤&GENBEL11. kr.
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.br
+I alt ¤¤¤&GENBEL10. kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.sp
+I forbindelse med overførslen af &DIN
+.if &U'&GENAFTALE = K
+.th kapitalpensionen
+.el selvpensionen
+har vi oplyst &BKNAVN. om saldo, renter og andre nødvendige
+kontooplysninger. Vi har vedlagt en kopi af brevet og det
+overførselsskema, som vi har sendt til &BKNAVN..
+:FED.
+.sp
+Har &DU spørgsmål?
+:SKRSLUT.
+.sp
+Har &DU spørgsmål, er &DU altid velkommen
+til at ringe til mig på telefon &GENTLFNR..
+.*******
+.da BREVHOVED 26mm 40mm width 80mm
+.ar BREVHOVED on
+:SWISS10.
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:SWISS10.
+.ls by 1.30
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.*
+.if &U'&GENAFTALE = K
+.or &U'&GENAFTALE = S
+.th .go AFTOK
+.el .mg/T/Pensionsaftale skal være K=Kapitalpension eller S=Selvpension/
+...AFTOK
+.******************************************************************
+.if &BANKREGNR = 0000
+.th .mg/T/Regnr. for PI som skal modtage beløbet, skal være udfyldt S/
+.******************************************************************
+.*Beregn længde på understregning (= længden på indtastning i &GENBEL10)
+.*streglng1 = stregens længde i kolonne 1
+.*streglng2 = stregens længde i kolonne 2
+.**********************
+.if &L'&GENBEL10 < 5
+.th .se streglng1 = 105mm
+.th .se streglng2 = 145,2mm
+.th .go UDOM1.
+.if &L'&GENBEL10 < 6
+.th .se streglng1 = 105mm
+.th .se streglng2 = 143,2mm
+.th .go UDOM1.
+.if &L'&GENBEL10 < 8
+.th .se streglng1 = 103mm
+.th .se streglng2 = 141mm
+.th .go UDOM1.
+.if &L'&GENBEL10 < 9
+.th .se streglng1 = 99,5mm
+.th .se streglng2 = 137,5mm
+.th .go UDOM1.
+.if &L'&GENBEL10 < 10
+.th .se streglng1 = 97,5mm
+.th .se streglng2 = 135,5mm
+.th .go UDOM1.
+.if &L'&GENBEL10 < 12
+.th .se streglng1 = 96mm
+.th .se streglng2 = 134mm
+.th .go UDOM1.
+.if &L'&GENBEL10 < 13
+.th .se streglng1 = 92mm
+.th .se streglng2 = 130mm
+.th .go UDOM1.
+.if &L'&GENBEL10  < 14
+.th .se streglng1 = 92mm
+.th .se streglng2 = 130mm
+...UDOM1.
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤&GENEKSP
+.br
+.el &GENMTITEL ¤&GENTITEL
+.ar off

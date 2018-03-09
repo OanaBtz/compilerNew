@@ -1,0 +1,429 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+.*
+.su off
+.se year = substr &DATO 7 4
+.su on
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 8
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "BØRN01"**************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XBØRN01DU
+.th .go BØR01
+.el .go DUEXIT
+...BØR01
+.* VÆRGEOPLYSNINGEN KAN UNDVÆRES, DA DER IKKE ER UNDERSKRIFTSFELT TIL
+.* VÆRGEN PÅ DOKUMENTET!!!! Eva Brandt, d. 3-6-2014
+.*.if &L'&GENNAVN > 0
+.*.an &L'&DUROLLE2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast VAE i DUROLLE2/
+.*.if &L'&GENCPR > 0
+.*.an &L'&DUCPRNR2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
+.*************************************************************
+...DUEXIT
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.if &L'&MEDNAVN > 0
+.th .sp 92mm
+.el .sp 76mm
+.*.sp 76mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+:FED.
+Opretter
+:SKRSLUT.
+&INDSTIL
+.br
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+.sp 6mm
+.tp 7mm
+.kp on
+har i dag indgået aftale med &BANKNAVN. om oprettelse af en Børneopsparing
+på følgende vilkår:
+.sp 2mm
+:FED.
+Oprettelse af konto
+:SKRSLUT.
+.br
+Der kan kun oprettes een konto for hvert barn.
+.sp 2mm
+.if &L'&E69FRITXT1. > 0
+.th :FED.
+.th Overført fra andet pengeinstitut
+.th :SKRSLUT.
+.th .br
+.th Kontoen er overført fra &E69FRITXT1., med følgende oplysninger:
+.th .br
+.th .if &L'&E69FRITXT2. > 0
+.th .th &E69FRITXT2.
+.th .th .br
+.th .if &L'&E69FRITXT3. > 0
+.th .th &E69FRITXT3.
+.th .th .br
+.th .if &L'&E69FRITXT4. > 0
+.th .th &E69FRITXT4.
+.th .th .br
+.th .if &L'&E69FRITXT5. > 0
+.th .th &E69FRITXT5.
+.th .th .br
+.th .sp 2mm
+:FED.
+Regler for indskud
+:SKRSLUT.
+.br
+administreres af barnets værge i samråd med barnet. Jeg erklærer endvidere,
+at barnet ikke har eller har haft en tilsvarende konto i Spar Nord Bank A/S
+eller noget andet pengeinstitut.
+.sp 2mm
+Jeg (opretter) har derudover gjort mig bekendt med Spar Nord Bank A/S's
+almindelige forretningsbetingelser - Privatkunder samt bekendtgørelse om
+børneopsparingskonti, som også gælder for kundeforholdet. De gældende
+Almindelige forretningsbetingelser kan til enhver tid findes på Spar Nord
+Bank A/S's  hjemmeside www.sparnord.dk.
+Der kan højst indskydes DKK 3.000,00 årligt, og det samlede indskud må ikke
+overstige DKK 36.000,00. Der er intet minimumskrav til indskud. Tilskrevne
+renter m.v. kan ikke hæves. Indskud kan kun foretages af barnet eller en
+person, der er beslægtet med barnet i ret opadstigende linie.
+.br
+Stedbarnsforhold og plejeforhold sidestilles med naturligt slægtskab.
+.sp 2mm
+Indskuddet sker på en børneopsparingskonto lydende på barnets navn, og
+indeståendet tilhører barnet.
+.sp 2mm
+:FED.
+Bindingsperiode
+.br
+:SKRSLUT.
+Indestående er bundet til og med den &FRIDATO Perioden kan ændres jvf.
+"Bekendtgørelse om børneopsparingskonti".
+.sp 2mm
+:FED.
+Indbetaling og udbetaling
+.br
+:SKRSLUT.
+Indbetaling sker ved kontant indskud eller overførsel fra anden konto.
+.sp 2mm
+Indestående, herunder tilskrevne renter m.v., kan ikke hæves før
+bindingsperioden er udløbet. Indestående på kontoen kan derefter hæves
+uden opsigelse.
+.sp 2mm
+Indestående kan dog frigives til kontohaverens frie rådighed i tilfælde af
+kritisk sygdom jvf. "Bekendtgørelse om børneopsparingskonti".
+.sp 2mm
+.kp off
+.kp on
+:FED.
+Renter og omkostninger
+.br
+:SKRSLUT.
+Renter m.v. samt omkostninger fastsættes til enhver tid af Spar Nord Bank
+A/S.
+.sp 2mm
+:USENKEL.
+Kreditrente
+:SKRSLUT.
+Kreditrenten er variabel og udgør for tiden &TOTKRE1 % p.a.
+.sp 2mm
+.kp off
+.kp on
+Jeg er indforstået med, at kontoen er bundet indtil den &FRIDATO , således
+at hverken kapitalbeløb eller rente m.v. kan udbetales tidligere. Jeg er
+desuden gjort bekendt med og accepterer, at indestående ved
+bindingsperiodens udløb, hvis denne ligger før barnets 18. år, skal
+.**************************************************************************
+.dr tynd weight 0.2mm
+.***************************
+.tp 2mm
+.in 0mm
+.sp 25mm
+.hr tynd 0mm 70mm
+¤Som opretter
+.sp 25mm
+.hr tynd 0mm 70mm
+:FED.
+¤Spar Nord Bank A/S
+:SKRSLUT.
+.pa
+.**************************************************************************
+:FED.
+Bekendtgørelse om børneopsparingskonti
+.br
+(Bekendtgørelse nr. 1059 af 17. november 2011)
+:SKRSLUT.
+.kp on
+.sp 2mm
+I medfør af § 51 i pensionsbeskatningsloven, jf. lovbekendtgørelse nr. 1246
+af 15. oktober 2010, fastsættes:
+.sp 2mm
+§ 1. Opsparings- og forsikringsordninger, der udelukkende har
+familieforsørgelse til formål (børneopsparingskonti), kan oprettes i
+pensionsinstitutter omfattet af lov om finansiel virksomhed.
+.sp 2mm
+Stk. 2. Indeståendet på en børneopsparingskonto kan overføres fra et
+pengeinstitut eller et livsforsikringsselskab til et andet pengeinstitut
+eller livsforsikringsselskab som omhandlet i stk. 1. Aftale om overførsel
+af indeståendet på en børneopsparingskonto kan kun indgås mellem
+pengeinstituttet henholdsvis forsikringsselskabet og opretteren af kontoen.
+.sp 2mm
+Stk. 3. Aftale om, hvorledes indeståendet på en børneopsparingskonto skal
+placeres, herunder om opsparingen skal placeres på kontantkonto, i særskilt
+depot eller i pulje, kan kun indgås mellem pengeinstituttet henholdsvis
+forsikringsselskabet og opretteren af kontoen.
+.sp 2mm
+§ 2. For hvert barn kan der kun oprettes én børneopsparingskonto, der skal
+lyde på barnets navn.
+.sp 2mm
+Stk. 2. En børneopsparingskonto kan senest oprettes i det år, hvori barnet
+(kontohaveren) fylder 14 år.
+.sp 2mm
+Stk. 3. En børneopsparingskonto kan oprettes af en person, der er beslægtet
+med barnet i ret opstigende linie. Stedbarnsforhold og plejeforhold
+sidestilles med naturligt slægtskab.
+.sp 2mm
+Stk. 4. Opretteren af en børneopsparingskonto, jf. stk. 3 og 5, kan
+overdrage retten til at indgå aftale om overførsel af indeståendet, jf. §
+1, stk. 2, om placering af indeståendet, jf. § 1, stk. 3, og om forlængelse
+af bindingsperioden, jf. § 4, stk. 2, til en person omfattet af
+personkredsen i stk. 3. Den, til hvem retten overdrages, anses herefter i
+relation til bestemmelserne i denne bekendtgørelse som opretteren.
+.sp 2mm
+Stk. 5. Såfremt opretteren af en børneopsparingskonto, jf. stk. 3 og 4,
+afgår ved døden, kan den efterlevende ægtefælle overtage retten til at
+indgå aftale om overførsel af indeståendet, jf. § 1, stk. 2, om placering
+af indeståendet, jf. § 1, stk. 3, og om forlængelse af bindingsperioden,
+jf. § 4, stk. 2. Er afdøde ikke en af barnets forældre, kan retten til at
+indgå aftale om overførsel af indeståendet, jf. § 1, stk. 2, om placering
+af indeståendet, jf. § 1, stk. 3, og om forlængelse af bindingsperioden,
+finder anvendelse ved afgørelsen af, om tilladelse til udbetaling kan
+gives.
+.sp 2mm
+§ 5. Hvis der i strid med § 2, stk. 1, oprettes mere end én
+børneopsparingskonto for samme barn, har kun den konto, der er oprettet
+først, skattemæssig gyldighed som børneopsparingskonto.
+.sp 2mm
+Stk. 2. Hvis der er oprettet mere end én børneopsparingskonto, kan
+opretterne af kontiene dog aftale, at kontiene skal sammenlægges til én
+børneopsparingskonto. Sammenlægning kan ske enten på den først oprettede
+konto eller en senere oprettet konto.
+.sp 2mm
+Stk. 3. Sammenlægning efter stk. 2 har virkning fra de oprindelige
+oprettelsestidspunkter for de sammenlagte konti og indtil udløbet af den
+længste af bindingsperioderne, jf. § 4 stk. 1 og 2, for de sammenlagte
+konti.
+.sp 2mm
+Stk. 4. Ved overskridelse af beløbsgrænserne i § 3, stk. 1, for de
+sammenlagte konti under ét tilbagebetaler pensionsinstituttet overskydende
+beløb fra børneopsparingskontoen.
+.sp 2mm
+Stk. 5. Pensionsinstituttet giver told- og skatteforvaltningen oplysninger
+om størrelsen af det tilbagebetalte beløb og navn, adresse, personnummer
+(CPR-nr.) på den person, hvortil tilbagebetaling er sket.
+.sp 2mm
+§ 6. Denne bekendtgørelse træder i kraft den 1. december 2011. Samtidig
+ophæves bekendtgørelse nr. 1028 af 24. oktober 2005 om
+børneopsparingskonti.
+jf. § 4, stk. 2, tillige overtages af en af disse, såfremt afdødes
+eventuelle efterlevende ægtefælle samtykker hertil. Såfremt afdøde ikke
+efterlader en ægtefælle, kan kontohaverens værge overtage retten til at
+indgå aftale om overførsel af indeståendet, jf. § 1, stk. 2, om placering
+af indeståendet, jf. § 1, stk. 3, og om forlængelse af bindingsperioden,
+jf. § 4, stk. 2. Stk. 4, 2. pkt., finder tilsvarende anvendelse.
+.sp 2mm
+§ 3. På en børneopsparingskonto kan der hvert år højst indskydes 3.000 kr.
+og i alt højst 36.000 kr.
+.sp 2mm
+Stk. 2. Renter, bonus, udbytter efter ligningslovens § 16 A,
+afståelsessummer efter ligningslovens § 16 B, gevinst og tab som omhandlet
+i kursgevinstloven og aktieavancebeskatningsloven samt gevinst og tab, der
+skyldes kursændringer på beholdninger af værdipapirer, af indeståendet på
+en børneopsparingskonto, der i bindingsperioden, jf. § 4, tilskrives
+kontoen, skal ikke medregnes i den skattepligtige indkomst.
+.sp 2mm
+Stk. 3. Indskud på en børneopsparingskonto kan foretages af kontohaveren
+eller af personer som nævnt i § 2, stk. 3.
+.kp off
+.pa
+§ 4. Indeståendet på en børneopsparingskonto, herunder tilskrevne renter
+m.v., jf. § 3, stk. 2, kan tidligst hæves ved udløbet af en aftalt
+bindingsperiode. Denne periode skal mindst være på 7 år og kan tidligst
+udløbe, når kontohaveren fylder 14 år, og senest i det år, hvori
+kontohaveren fylder 21 år, jf. dog bestemmelsen i stk. 5.
+.sp 2mm
+Stk. 2. Periodens længde skal aftales mellem pengeinstituttet henholdsvis
+forsikringsselskabet og opretteren af kontoen, jf. § 2, stk. 3, ved
+kontoens oprettelse. Forlængelse af perioden kan dog aftales inden udløbet
+af den oprindeligt fastsatte periode, såfremt der fra tidspunktet for den
+senere aftale og indtil det ændrede udbetalingstidspunkt bliver en periode
+på mindst 7 år, og bindingen ikke udstrækkes ud over det år, hvori
+kontohaveren fylder 21 år. Aftale om forlængelse af perioden kan kun indgås
+mellem pengeinstituttet henholdsvis forsikringsselskabet og opretteren af
+kontoen, jf. § 2, stk. 3-5.
+.sp 2mm
+Stk. 3. I bindingsperioden kan indeståendet på børneopsparingskontoen,
+herunder tilskrevne renter m.v., jf. § 3, stk. 2, ikke overdrages til eje
+eller pant.
+.sp 2mm
+Stk. 4. Afgår kontohaveren ved døden i bindingsperioden, ophører
+børneopsparingskontoen pr. dødsdagen, og indeståendet frigives til den, der
+ifølge skifteudskrift er berettiget til indeståendet.
+.sp 2mm
+Stk. 5. Told- og skatteforvaltningen kan i tilfælde af diagnosticeret
+livstruende sygdom hos kontohaveren tillade, at indeståendet på en
+børneopsparingskonto hæves uanset reglerne i stk. 1 og 2 og udbetales til
+kontohaverens frie rådighed. Reglerne i bekendtgørelse nr. 1031 af 24.
+oktober 2005 om udbetaling af kapitalpension m.v. ved livstruende sygdom
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

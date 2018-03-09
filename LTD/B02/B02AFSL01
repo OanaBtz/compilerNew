@@ -1,0 +1,130 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.if &U'&GENRKI = J
+.or &U'&GENRKI = N
+.th
+.el .mg/T/RKI: Skriv J eller N/
+.**************************************************************************
+.if &U'&GENRKI = N
+.an &L'&GENANDEN = 0
+.th .mg/T/Der skal vælges mindst et register, som kunden er registreret i/
+.**************************************************************************
+.if &L'&GENANDEN > 0
+.an &L'&GENANDADR > 0
+.th .go OKANDEN
+.if &L'&GENANDEN = 0
+.an &L'&GENANDADR = 0
+.th .go OKANDEN
+.mg/T/Udfyld både navn og adresse på andet register/
+...OKANDEN
+.**************************************************************************
+.*TEST PÅ OM KUNDEN ER REGISTRERET I ALLE REGISTRE ************************
+.se tal = 0
+.*.if &U'&GENCHECKM = J
+.*.th .se tal1 = &tal + 1
+.*.el .se tal1 = &tal
+.if &U'&GENRKI = J
+.th .se tal1 = &tal + 1
+.el .se tal1 = &tal
+.if &L'&GENANDEN > 0
+.th .se tal2 = &tal1 + 1
+.el .se tal2 = &tal1
+.**************************************************************************
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.us &SDIN kreditanmodning
+.sp
+.**************************************************************************
+.tp 5mm
+.**************************************************************************
+Efter modtagelse af &DIN kreditanmodning skal vi herved meddele &DIG., at
+vi ikke ønsker at imødekomme &DIN anmodning, idet vi har konstateret at
+&DU. er registreret i
+.sp
+.*TEST PÅ OM KUNDEN ER REGISTRERET I BEGGE REGISTRE ***********************
+.if &U'X&GENRKI = XJ
+.th .se tal1 = 1
+.th .se tal2 = 2
+.el .se tal1 = *
+.el .se tal2 = *
+.if &U'&GENRKI = J
+.th &tal1.) ¤RKI - registeret
+.if &L'&GENANDEN > 0
+.th .br
+.th &tal2.) ¤&GENANDEN.
+.sp
+Såfremt &DU. ønsker yderligere oplysning om nævnte registrering kan &DU.
+rette henvendelse til:
+.sp
+.if &U'X&GENRKI = XJ
+.th &tal1.) ¤Experian A/S, Kristianiagade 9, 2100 Købehavn Ø.
+.if &L'&GENANDADR > 0
+.th .br
+.th &tal2.) ¤&GENANDADR.
+.sp
+Nærværende information gives i medfør af Lov om kreditaftaler §7 stk. 3.
+.if &L'&GENTEKST1 > 0
+.or &L'&GENTEKST2 > 0
+.or &L'&GENTEKST3 > 0
+.th .sp
+.th &GENTEKST1. &GENTEKST2. &GENTEKST3.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

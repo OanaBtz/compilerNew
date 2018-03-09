@@ -1,0 +1,508 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
+.su off
+.se kunr = substr &KUNDENR 1 2
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.***********************************************************************
+.if &L'&MEDNAVN = 0
+.an &U'&GENMEDKTOH = J
+.th .mg/T/Der findes ingen medktohaver/
+.*********************************
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DU
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DE
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert da der ingen medktohaver er/
+.******************************
+.if &U'&GENMEDKTOH = N
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert, da der ingen medktohaver er/
+.*********************
+.if &U'&B30MEDSKUN = N
+.th .go TSTBET
+.***************
+.if &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.*********************
+...TSTBET
+.if &U'&B30NYGRUP = N
+.th .go EJNYGRP
+.if &L'&B30MEDNR > 0
+.an &L'&B30STEMPEL > 0
+.th .go EJNYGRP
+.el .mg/T/Medlemsnr. og aftalenr. skal også indtastes/
+...EJNYGRP
+.***************************
+.if &U'&GENMEDKTOH = J
+.an &U'&OMTALEF = JEG
+.th .mg/T/Omtale forkert, da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&OMTALEF = VI
+.th .mg/T/Omtale forkert, da der ingen medktohaver er/
+.if &U'&GENMEDKTOH = N
+.an &U'&OMTALEF = VI
+.th .mg/T/Omtale forkert, da der ingen medktohaver er/
+.******************
+.if &L'&B30BETMED gt 0
+.an &U'X&B30BETMED ne XJ
+.an &U'X&B30BETMED ne XN
+.th .mg/T/ Skriv J eller N i betalingsanmodning lån/
+.*****************************
+.if &U'&B30BETMED = N
+.th .go NOBETP
+.*********************
+.if &L'&B30LÅNKRE > 0
+.th .go VIDRP
+.el .mg/T/Vælg L for 1lån eller D for 2lån/
+...VIDRP
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.th .go OKP
+.el .mg/T/Vælg L for 1 lån eller D for 2 lån/
+.****************
+...OKP
+.if &L'&B30YDL > 0
+.an x&GENIDTO001 ne x01.01.1800
+.an &L'&B30FREK1 > 0
+.th .go OKBETANM
+.el .mg/T/Alle parametre til betalingsanmodning skal indtastes/
+.**********
+...OKBETANM
+.if &L'&B30FREK1 = 0
+.th .mg/T/Frekvens på 1 lån skal vælges/
+.if &B30FREK1 < 1
+.or &B30FREK1 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
+.*******************
+.if &U'X&B30LÅNKRE eq XL
+.th .go NOBETP
+.*****************************
+.if &L'&B30BELÅN2 > 0
+.an x&GENIDTOFØR ne x01.01.1800
+.an &L'&B30FREK2 > 0
+.th .go OKBETAN2
+.el .mg/T/Alle parametre til betalingsanmodning2 skal indtastes/
+.*****************************
+...OKBETAN2
+.if &L'&B30FREK2 = 0
+.th .mg/T/Frekvens på 2.lån skal vælges/
+.if &B30FREK2 < 1
+.or &B30FREK1 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5 på lån 2/
+.**************************
+...NOBETP
+.*TEST PÅ VALG AF ÆNDRING***************************
+.if &U'&B30GLGRUP = J
+.an &U'&B30HARF = J
+.th .go UDENOM
+.**************************
+.if &U'&B30GLGRUP eq J
+.an &U'&B30FATF = N
+.an &U'&B30FBTF = N
+.an &U'&B30FCTF = N
+.an &U'&B30FDTF = N
+.an &U'&B30FETF = N
+.an &U'&B30FCTD = N
+.an &U'&B30FBTA = N
+.th .mg/T/Der skal vælges en ændring/
+.*TEST PÅ AT DER ER VALGT 1 OG KUN 1 ÆNDRINGSTYPE **
+.se tal = 0
+.if &U'&B30FATF = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.if &U'&B30FBTF = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.if &U'&B30FCTF = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.if &U'&B30FDTF = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.if &U'&B30FETF = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.if &U'&B30FCTD = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.if &U'&B30FBTA = J
+.th .se tal = &tal + 1
+.el .se tal = &tal
+.*********************
+.if &U'&B30GLGRUP = J
+.an &tal = 0
+.th .mg/T/Der skal vælges 1 ændringstype/
+.*********************
+.if &U'&B30GLGRUP = J
+.an &tal > 1
+.th .mg/T/Der skal KUN vælges 1 ændringstype/
+.************
+...UDENOM
+.***
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+ETABLERING AF ANDELSBOLIGLÅN
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.th :CALIB10.
+.th :FED.
+.th Brev til andelsboligforeningen
+.th :SKRSLUT.
+.th .br
+.th &SDU bedes underskrive brevet samt indhente underskrift af
+.th bestyrelsen for andelsboligforeningen.
+.th .sp
+.kp off
+.******* KUNDEOPRETTELSE *******************
+.kp on
+.if &U'&B30MEDSKUN eq J
+.th :CALIB10.
+.th :FED.
+.th Kundeoprettelse
+.th :SKRSLUT.
+.th .br
+.th &SDU bedes udfylde blanketten og returnere den sammen med kopi af
+.th billedlegitimation.
+.th .sp
+.th Bankens almindelige forretningsbetingelser vedlægges.
+.th .sp
+.kp off
+&SDIN ansøgning om andelsboliglån i &BANKNAVN
+er blevet bevilget.
+.sp
+Vedlagt dette brev er en række
+dokumenter, der skal underskrives af &DIG.. Materiale,
+der skal underskrives og returneres til banken, vil være
+hæftet sammen med den røde returkuvert.
+.sp
+.kp on
+Vedlagt er følgende:
+.sp
+.***********
+.if &U'&B30LÅNKRE eq L
+.th * Låneaftale
+.th .br
+.************
+.if &U'&B30LÅNKRE eq D
+.th * Låneaftaler
+.th .br
+.***********
+.if &U'&B30NYGLEP eq J
+.th * Ejerpantebrev
+.th .br
+.if &U'&B30HÅNDAND eq J
+.th .br
+.th * Håndpantsætningserklæring
+.if &U'&B30BOLALL eq J
+.th * Allonge til ejerpantebrev og håndpantsætningserklæring
+.sp
+.************
+.if &U'&B30LÅNKRE eq L .an &U'&B30HÅNDAND eq N
+.th Dokumentet
+.el Dokumenterne
+bedes venligst
+underskrevet af &DIG og returneret til os.
+.if &U'&B30VALG4 eq J
+.th &SDU bedes indhente underskrift af to vitterlighedsvidner, der ikke må
+.th være i familie/samboende med &DIG..
+.sp
+.***************
+.kp off
+.kp on
+.if &U'&B30ANDIND eq J
+.th Når &DU modtager andelsbeviset bedes &DU venligst fremsende dette til
+.th os til opbevaring ved sagen.
+.th .sp
+.kp off
+.**************
+.kp on
+.if &U'&B30BREVAND eq J
+.** TEST PÅ GRPLIV ********************************************************
+.kp on
+.if &U'&B30NYGRUP = J
+.an &U'&B30GLGRUP = J
+.th .go GRPLIV
+.el .go TTYPESL
+.***************
+...GRPLIV
+:FED
+Anmeldelsesblanket til gruppelivsforsikring
+:SKRSLUT
+.br
+Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
+&BANKNAVN..
+.sp
+.**TYPE : KUN NY GRUPPE (BNJGRP02 UDSKRIVES I 3 EKS. **********************
+.if &U'&B30NYGRUP eq J
+.th Vedlagte anmeldelsesblanket bedes udfyldt og i underskreven stand
+.th returneret til os. Vi vil videresende den til Lægeforeningen. Som
+.th aftalt pantsættes denne gruppelivsforsikring til banken. &SDU bedes
+.th underskrive blanketterne og returnere original og en kopi til banken.
+.th .sp
+.th .go TTYPESL
+.**TYPE: KUN GL GRUPPE, BNJGRP01 UDSKRIVES *******************************
+.if &U'&B30GLGRUP eq J
+.th .go TTYPE
+.el .go TTYPESL
+.************
+...TTYPE
+.if &U'&B30HARF eq J
+.th Som aftalt pantsættes &DIN eksisterende gruppelivsforsikring til
+.th banken. &SDU bedes underskrive blanketterne og returnere original og en
+.th kopi samt den originale police fra Forenede Gruppeliv til banken.
+.th .sp
+.th .go TTYPESL
+.************
+Den gruppelivsforsikring &DU har, er en såkaldt type
+.********************
+.if &U'&B30FATF eq J
+.th A uden fradragsret.
+.th Denne kan ændres til en type F, som kan pantsættes til banken. Dette
+.th kræver en ny helbredserklæring.
+.********************
+.if &U'&B30FBTF eq J
+.th B med fradragsret.
+.th Denne kan ændres til en type F uden fradragsret, som kan pantsættes
+.th til banken. Dette kræver en ny helbredserklæring.
+.********************
+.if &U'&B30FETF eq J
+.th E med fradragsret.
+.th Denne kan ændres til en type F uden fradragsret, som kan pantsættes
+.th til banken.
+.********************
+.if &U'&B30FCTF eq J
+.th C med fradragsret.
+.th Denne kan ændres til en type F uden fradragsret, som kan pantsættes
+.th til banken. Præmien i 2006 er kr. 1.700,00.
+.********************
+.if &U'&B30FDTF eq J
+.th D uden fradragsret.
+.th Denne kan ændres til en type F, som kan pantsættes til banken. Præmien
+.th i 2006 er kr. 1.700,00.
+.********************
+.if &U'&B30FCTD eq J
+.th C med fradragsret.
+.th Denne kan ændres til en type D uden fradragsret, som kan pantsættes
+.th til banken.
+.****************
+.if &U'&B30FBTA eq J
+.th B med fradragsret.
+.th Denne kan ændres til en type A uden fradragsret.
+.********************
+.**TYPE: KUN GL GRUPPE - fortsat tekst alle typer - UNDTAGEN B30HARF ******
+.sp
+Brev til Lægeforeningens registreringsafdeling vedlægges. Vi beder &DIG
+underskrive og returnere brevet til os, så tager vi kontakt til
+Lægeforeningen.
+.sp
+Som aftalt pantsættes denne gruppelivsforsikring til banken. &SDU bedes
+underskrive blanketterne og returnere original og en kopi til banken.
+.sp
+.**************************************************************************
+...TTYPESL
+.kp off
+.******* BETALINGSANMODNING(ER) **************
+.kp on
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETT1
+.***** PÅ 1 LÅN ***********
+.if &U'&B30LÅNKRE eq L
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodning
+.th :SKRSLUT.
+.th .br
+.th De månedlige ydelser på lånet skal trækkes via PBS på en konto i et
+.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanket og
+.th returnere den til os.
+.th .sp
+.kp off
+.******* PÅ 2 LÅN ********
+.kp on
+.if &U'&B30LÅNKRE eq D
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodninger
+.th :SKRSLUT.
+.th .br
+.th De månedlige ydelser på lånene skal trækkes via PBS på en konto i et
+.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanketter og
+.th returnere dem til os.
+.th .sp
+.kp off
+...EJBETT1
+.****** BETALINGSINSTRUKS ******************
+.kp on
+.if &U'&B30BETI eq J
+.th :CALIB10.
+.th :FED.
+.th Betalingsinstruks
+.th :SKRSLUT.
+.th .br
+.th Vedlagte betalingsinstruks bedes venligst returneret i udfyldt
+.th og underskrevet stand.
+.th .sp
+.kp off
+.************
+.kp on
+.if &L'&GENTEKST1 gt 0
+.th &GENTEKST1. &GENTEKST2. &GENTEKST3.
+.th &GENTEKST4. &GENTEKST5. &GENTEKST6.
+.th .sp
+.th Har &DU nogen spørgsmål, er &DU velkommen til at kontakte os.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

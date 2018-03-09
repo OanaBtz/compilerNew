@@ -1,0 +1,257 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+.*Parametre, substrings og tests ******************************************
+.su off
+.se fdag = substr &KTOKNDNR1 1 2
+.se fmd = substr &KTOKNDNR1 3 2
+.se faar = substr &KTOKNDNR1 5 2
+.se cprx = substr &KTOKNDNR1 10 1
+.** SUBSTRING PÅ KONTO ***************************************************
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.su on
+.*TEST PÅ KUNDENS KØN*
+.if x&cprx = x1
+.or x&cprx = x3
+.or x&cprx = x5
+.or x&cprx = x7
+.or x&cprx = x9
+.th .se koen = han
+.el .se koen = hun
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Erklæring om ret til folkepension
+:SKRSLUT.
+.ar off
+.*************************************************************************
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+.tp 87.5mm
+.******************************************************************
+.da NAVN          25mm  47mm width 85mm
+.da PIOPL        112.5mm  47mm width 85mm
+.da CPR          25mm  73.5mm width 170mm
+.da KTONR        25mm 83mm width 170mm
+.da UNDER        107.5mm  182.5mm width 87mm
+.*.da KOMMUNE      25mm  195mm width 87mm
+.*.da UNDKOMM      107.5mm 210mm width 87mm
+.******************************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.******************************************************************
+.ar NAVN on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.******************************************************************
+.ar CPR on
+&KTOKNDNR1 ¤&GENEKSP
+.ar off
+.******************************************************************
+.ar KTONR on
+&regnr &ktonr ¤&AFDTLF
+.ar off
+.*************************************
+.ar UNDER on
+.ce on
+&KTONAVN
+.ce off
+.ar off
+.*************************************
+:SWISS8.
+.da INDHOLD 21mm 93mm width 170mm
+.******************************************
+.ar INDHOLD on
+Jeg anmoder Udbetaling Danmark om at bekræfte overfor &BANKNAVN., at jeg
+fra mit &GENALDER. år er berettiget til at modtage folkepension. Jeg giver
+hermed samtykke til, at oplysningerne kan vidergives til &BANKNAVN..
+.sp 6mm
+Da &KTONAVN., &KTOKNDNR1., snart skal begynde udbetaling fra sin
+indeksopsparing, bedes
+.sp 3mm
+.in +5mm
+Udbetaling Danmark
+.br
+Pension
+.br
+Kongens Vænge 8
+.br
+3400 Hillerød
+.in -5mm
+.sp 3mm
+derfor bekræfte, at &koen fra sit
+&GENALDER.. år er eller vil være berettiget til at modtage folkepension.
+.sp 3mm
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+:SWISS10.:FED.
+.bx left 87.5mm right
+:SWISS8.
+.tp 1mm 88.5mm
+¤Kontohaver ¤Pengeinstitut
+.sp 23mm
+.bx left 87.5mm right
+¤CPR-/SE-nr. ¤Kontaktperson
+.sp 5mm
+.bx left 87.5mm right
+¤Kontonummer ¤Telefonnummer
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.************ INDHOLD *****************************************************
+:SWISS10.:FED.
+Indhold
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 65mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Kontohavers underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+:SWISS8.
+.sp 7mm
+.bx left 87.5mm right
+¤Dato: ¤Kontohavers underskrift
+.sp 11mm
+.bx off
+.*.*KASSE TIL KOMMUNENS UNDERSKRIFT *************************************
+.*:SWISS10.:FED.
+.*Udbetaling Danmarks bekræftelse
+.*:SKRSLUT.
+.*:SWISS8.
+.*.tp 88.5mm 154mm
+.*.bx left 87.5mm right
+.*¤Udbetaling Danmarks stempel og underskrift¤Dato:
+.*.sp 18mm
+.*.bx off
+.ar off

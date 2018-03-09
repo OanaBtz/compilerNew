@@ -1,0 +1,114 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 60mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Kundeaftale  -  Særlige vilkår
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+:TILTALE &TILTALEF
+.da TEXT 25mm 60mm width 160mm
+.ar TEXT on
+Mellem &BANKNAVN og &NAVN er aftalt følgende særlige vilkår i forhold
+til bankens gældende
+.if &B02VALG3 eq 1
+.th satser:
+.if &B02VALG3 eq 2
+.th regler:
+.sp 2
+&B02TEXT1.
+&B02TEXT2.
+&B02TEXT3.
+&B02TEXT4.
+&B02TEXT5.
+&B02TEXT6.
+&B02TEXT7.
+&B02TEXT8.
+&B02TEXT9.
+.sp
+.if &U'&B02VALG20 = X
+.th Da ovenstående muligvis kan have indflydelse på tildelingen og/eller
+.th størrelsen af offentlige udbetalinger, henvises &DU til at rette
+.th eventuelle spørgsmål vedrørende dette til den udbetalende myndighed
+.th eller til revisor.
+.el
+.tp 80mm
+.sp 5
+Dato: ¤Dato: &DATO
+.sp 4
+¤&BANKNAVN
+.sp
+¤&B02AFD
+.sp 6
+.hr 0mm 70mm 80mm 160mm
+:SWISS10.
+.br
+&NAVN ¤ &GENEKSP

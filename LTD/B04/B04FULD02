@@ -1,0 +1,465 @@
+.* Fuldmagt for konto - Tekstpåføring 1
+.da KTOHAVER   25mm  49mm
+.da KUNDENR    98mm  52.5mm
+.da IREGKTO    98mm  60mm
+.da MEDKNDNR  160mm  52.5mm
+.da MEDNAVN   137mm  60mm
+.da MEDKTO    137mm  53mm
+.da PI         25mm  76mm
+.da REF       146mm  87mm
+.da FULDM1TEG 148mm 111.5mm
+.da FULDM1     25mm 115mm
+.da FULDM1CPR  36mm 126.5mm
+.da FULDM2TEG 148mm 131mm
+.da FULDM2     25mm 135mm
+.da FULDM2CPR  36mm 146mm
+.da FULDM3TEG 148mm 151mm
+.da FULDM3     25mm 155mm
+.da FULDM3CPR  36mm 165.5mm
+.da FULDM4TEG 148mm 170.5mm
+.da FULDM4     25mm 174mm
+.da FULDM4CPR  36mm 185mm
+.da DATO      173mm 236.5mm
+.da UNDERSKR   25mm 236mm width 170mm
+.da UNDERSKR1  21mm 237mm width 175mm
+.**** KONTOHAVER *******************************
+.ar KTOHAVER on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.ar KUNDENR on
+&KTOKNDNR1
+.ar off
+.ar IREGKTO on
+&IREGKTO
+.ar off
+.ar MEDKTO on
+:SWISS8
+.if &L'&MEDNAVN gt 0
+.th Medkontohaver:
+:SKRSLUT.
+.ar MEDKNDNR on
+.if &L'&MEDNAVN gt 0
+.th &MEDKNDNR1
+.ar off
+.ar MEDNAVN on
+.th &MEDNAVN
+.ar off
+.**** PENGEINSTITUT ****************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.ar REF on
+&GENEKSP
+.ar off
+.**** 1. FULDMAGTSHAVER ***************************
+.ar FULDM1TEG
+.if .&BECPJN1 = .1
+.th alene
+.if .&BECPJN1 = .2
+.th i forening
+.ar off
+.ar FULDM1
+&BECNAVN401
+.br
+&BECGADE401
+.br
+&BECBY401
+.ar FULDM1CPR on
+&BECCPR01
+.ar off
+.**** 2. FULDMAGTSHAVER ***************************
+.ar FULDM2TEG
+.if .&BECPJN2 = .1
+.th alene
+.if .&BECPJN2 = .2
+.th i forening
+.ar off
+.ar FULDM2
+&BECNAVN402
+.br
+&BECGADE402
+.br
+&BECBY402
+.ar FULDM2CPR on
+&BECCPR02
+.ar off
+.**** FORTSÆTTES **********************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+B04FULD02
+.ar off
+.*************** OVERSKRIFT **********************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Åbning af/fuldmagt til konto
+:SKRSLUT.
+(gælder ikke Netbank)
+.ar off
+.*************************************************************************
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.* Parameterafsnit
+.* Fuldmagt for konto - Kasser og ledetekst 2
+.ll 180mm
+.da BETK1  21mm 195mm WIDTH 85mm
+.da BETK2 111mm 195mm WIDTH 83mm
+.** BETINGELSER ****************
+.ar BETK1 on
+:SWISS8.
+til for ovenstående konto overfor pengeinstituttet at disponere på
+samme måde,som om det var mig/os selv, der disponerede.
+.sp 1.5mm
+Fuldmagten er gyldig, indtil pengeinstituttet har modtaget SKRIFTLIG
+tilbagekaldelse.
+.sp 1.5mm
+Undertegnede erklærer herved, at tilbagekaldelse af den til ovennævnte
+givne fuldmagt i forhold til pengeinstituttet kun kan ske mod
+.ar off
+.*******************************
+.ar BETK2 on
+:SWISS8.
+min/vor
+samtidige tilbagelevering af fuldmagtshavers eventuelt udleverede ID-,
+hæve-, betalingskort.
+.sp 1.5mm
+.ar off
+.**** SLUT *********************
+.* Fuldmagt for konto - Kasser og ledetekst
+.ti ¤ 05
+.fo left
+.da BOX 20mm 40mm WIDTH 175mm
+.ll 180mm
+.**********************************
+.ar BOX on
+:SWISS10.:FED.
+Parter
+:SKRSLUT.
+.**********************************
+.bx left right
+.tp 1mm 61mm 116mm
+:SWISS8.
+¤Kontohaver/fuldmagtsgiver
+.sp 5mm
+¤¤CPR-/SE-nr.
+.sp 4mm
+¤¤Kontonr.
+.sp 4mm
+¤¤Mærke:
+:SKRSLUT.
+.bx off
+.**********************************
+.bx set left right
+:SWISS8.
+¤Pengeinstitut
+:SKRSLUT.
+.sp 12.5mm
+:SWISS8.
+¤¤¤Ref.:
+:SKRSLUT.
+.bx off
+.**********************************
+:SWISS8.
+Jeg/vi har oprettet ovennævnte konto og bekræfter herved at have modtaget
+et eksemplar af bankens almindelige forretningsbetingelser, der også
+gælder for min/vor konto.
+:SKRSLUT.
+.br
+:SWISS10.:FED.
+Fuldmagt og underskriftsprøve
+:SKRSLUT.
+.***** KASSE BETINGELSER **********
+.bx left 90mm right
+.tp 1mm 91mm 145mm
+:SWISS8.
+¤Undertegnede bemyndiger herved med fuld bindende virkning
+.ct ¤Angiv om fuldmagt er gældende ALENE eller I FORENING
+¤for mig/os
+:SKRSLUT.
+.bx off
+.***** 1. FULDMAGTSHAVER ***********
+.bx set left 90mm right
+:SWISS8.
+¤Fuldmagtshaver
+.ct ¤der underskriver og tegner:
+:SKRSLUT.
+.sp 12mm
+:SWISS8.
+¤CPR-nr.
+:SKRSLUT.
+.bx off
+.***** 2. FULDMAGTSHAVER ***********
+.bx set left 90mm right
+:SWISS8.
+¤Fuldmagtshaver
+.ct ¤der underskriver og tegner:
+:SKRSLUT.
+.sp 12mm
+:SWISS8.
+¤CPR-nr.
+:SKRSLUT.
+.bx off
+.***** 3. FULDMAGTSHAVER ***********
+.bx set left 90mm right
+:SWISS8.
+¤Fuldmagtshaver
+.ct ¤der underskriver og tegner:
+:SKRSLUT.
+.sp 12mm
+:SWISS8.
+¤CPR-nr.
+:SKRSLUT.
+.bx off
+.***** 4. FULDMAGTSHAVER ***********
+.bx set left 90mm right
+:SWISS8.
+¤Fuldmagtshaver
+.ct ¤der underskriver og tegner:
+:SKRSLUT.
+.sp 12mm
+:SWISS8.
+¤CPR-nr.
+:SKRSLUT.
+.bx off
+.***** BETINGELSER *****************
+:SWISS10.:FED.
+Betingelser
+:SKRSLUT.
+.bx left right
+.sp 35mm
+.bx off
+.**********************************
+:SWISS10.:FED.
+Underskrifter
+:SKRSLUT.
+.bx left right
+.sp 16mm
+.bx off
+.bx set left right
+:SWISS8.
+¤Til vitterlighed om ægte underskrift(er), dateringens rigtighed og
+udstederens/udstedernes myndighed
+.sp 3mm
+¤Stilling:
+.sp 1mm
+¤Navn:
+.sp 1mm
+¤Bopæl:
+:SKRSLUT.
+.sp 3mm
+.bx off
+.**********************************
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Fuldmagt for konto - Tekstpåføring 2
+.**** 3. FULDMAGTSHAVER ***************************
+.ar FULDM3TEG
+.if .&BECPJN3 = .1
+.th alene
+.if .&BECPJN3 = .2
+.th i forening
+.ar off
+.ar FULDM3
+&BECNAVN403
+.br
+&BECGADE403
+.br
+&BECBY403
+.ar FULDM3CPR on
+&BECCPR03
+.ar off
+.**** 4. FULDMAGTSHAVER ***************************
+.ar FULDM4TEG
+.if .&BECPJN4 = .1
+.th alene
+.if .&BECPJN4 = .2
+.th i forening
+.ar off
+.ar FULDM4
+&BECNAVN404
+.br
+&BECGADE404
+.br
+&BECBY404
+.ar FULDM4CPR on
+&BECCPR04
+.ar off
+.**** DATO ****************************************
+.ar DATO on
+&DATO8
+.ar off
+.ar UNDERSKR on
+.tp 50mm
+¤&NAVN
+.sp
+.sp
+.if &L'&MEDNAVN gt 0
+.th ¤&MEDNAVN
+.ar off
+.ar UNDERSKR1 on
+.tp 142mm
+:SWISS8.
+Underskrift af
+.if &L'&MEDNAVN gt 0
+.th kontohavere ¤Dato:
+.el kontohaver ¤Dato:
+:SKRSLUT.
+.ar off
+.*******************************************************

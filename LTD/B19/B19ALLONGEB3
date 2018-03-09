@@ -1,0 +1,309 @@
+.ar off
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parameterafsnit
+.ll 168,5mm
+.fo left
+.da OVER0 25mm  80mm
+.da OVER1 25mm  90mm
+.da OVER2 25mm 100mm
+.da OVER3 25mm 110mm
+.da BRØD0 25mm  89mm
+.da BRØD1 25mm  99mm
+.da BRØD2 25mm 111mm
+.da BRØD3 25mm 121mm
+:VERDA10.
+.sp
+.in7
+.ti ¤ 05
+.tp 10 32 49
+.in+2
+Allonge til pantebrev opr. kr. &HOVEDSTOL    ¤¤¤          Side &B19L9
+.br
+udstedt af &DEBNAVN
+.br
+opr. til &B19L2
+.br
+med pant i matr. nr. &MATRNR &MATRBET1 &MATRBET2
+.br
+.if &L'&MATRGADE gt 0 .or &L'&MATRBY gt 0
+.th beliggende &MATRGADE &MATRBY
+.br
+Tinglyst første gang den &B19DATO o.s.
+.sp2
+______________________________________________________________
+.sp2
+.tp 50 66 right
+ANMELDER: ;.br
+&BKNAVN ;.br
+&BKADR ¤Afgift.. ¤&B19BELØB2 ;.br
+&BKBY ¤___________________
+.br
+.if &BANKREGNR = 7600 .or &BANKREGNR = 7601 .or &BANKREGNR = 7602
+.or &BANKREGNR = 7604 .or &BANKREGNR = 7605 .or &BANKREGNR = 7606
+.or &BANKREGNR = 7607 .or &BANKREGNR = 7730 .or &BANKREGNR = 7732
+.or &BANKREGNR = 7733 .or &BANKREGNR = 7734 .or &BANKREGNR = 7735
+.or &BANKREGNR = 7736 .or &BANKREGNR = 7737 .or &BANKREGNR = 7738
+.or &BANKREGNR = 7739
+.th .go HJEMME1
+.el .go UDE1
+...HJEMME1
+.if &BANKREGNR = 7600 ;.th Tlf. nr. 9663 3100
+.if &BANKREGNR = 7601 ;.th Tlf. nr. 9663 3200 ;.br
+.if &BANKREGNR = 7602 ;.th Tlf. nr. 9663 3400 ;.br
+.if &BANKREGNR = 7603 ;.th Tlf. nr. 9663 2000 ;.br
+.if &BANKREGNR = 7604 ;.th Tlf. nr. 9663 2500 ;.br
+.if &BANKREGNR = 7605 ;.th Tlf. nr. 9663 2600 ;.br
+.if &BANKREGNR = 7606 ;.th Tlf. nr. 9663 2700 ;.br
+.if &BANKREGNR = 7607 ;.th Tlf. nr. 9663 3300 ;.br
+.if &BANKREGNR = 7730 ;.th Tlf. nr. 9663 2300 ;.br
+.if &BANKREGNR = 7732 ;.th Tlf. nr. 9663 2800 ;.br
+.if &BANKREGNR = 7733 ;.th Tlf. nr. 9663 2000 ;.br
+.if &BANKREGNR = 7734 ;.th Tlf. nr. 9663 3700 ;.br
+.if &BANKREGNR = 7735 ;.th Tlf. nr. 9663 2400 ;.br
+.if &BANKREGNR = 7736 ;.th Tlf. nr. 9663 3500 ;.br
+.if &BANKREGNR = 7737 ;.th Tlf. nr. 9663 2390 ;.br
+.if &BANKREGNR = 7738 ;.th Tlf. nr. 9663 3000 ;.br
+.if &BANKREGNR = 7739 ;.th Tlf. nr. 9663 3600 ;.br
+.go FREM
+...UDE1
+.if &L'&B19L1 gt 0
+.th Tlf. nr. &B19L1
+.go FREM
+...FREM
+¤Ialt... ¤&B19BELØB2
+.sp2;.ll+6
+.if &L'&B19DATO1 gt 0 .or &L'&B19BELØB gt 0 .or &L'&B19L6 gt 0
+.or &L'&B19TEST1A gt 0 .or &L'&B19TEST1B gt 0
+.th .go ANDET
+.el .go EJ
+...ANDET
+.if &L'&B19TEST1B gt 0 .if &B19TEST1B = x
+.th .go ANN
+.el .go ANDET1
+...ANDET1
+.if &L'&B19TEST1A gt 0 .if &B19TEST1A = x
+.th .go MEDDEL
+.el .go NEXT
+...NEXT
+.if &L'&B19L6 gt 0
+.th .go RESP
+.el .go NEXT1
+...NEXT1
+.if &L'&B19DATO1 gt 0 .or &L'&B19BELØB gt 0
+.th .go TRANS
+.el .go EJ
+...ANN
+.sp2;Til annullation af retsanmærkning.;.sp;.go SLUT
+...RESP
+Nærværende pantebrev må af pantegæld fremtidig alene respektere:;.sp
+&B19L6 ;.br;&B19L7 ;.br;&B19L8 ;.sp
+F.s.v. angår servitutter og byrder henvises til ejendommens;.br
+blad i tingbogen.;.go SLUT
+...MEDDEL
+Meddelelser ifølge retsplejelovens par 563 og par 564 og andre;.br
+meddelelser, der ifølge lovgivningen skal sendes til pante-;.br
+kreditor, bedes sendt til ;.sp
+&B19L3 ;.br
+&B19L14 ;.br
+&B19L4 ;.br
+&B19L5 ;.sp
+der iøvrigt bemyndiges til at underskrive påtegninger af enhver;.br
+art på nærværende pantebrev, herunder kvitterings-, transport-,;.br
+moderations- og relaxationspåtegninger. ;.sp
+Ovennævnte begæres kun tinglyst f.s.v. angår meddelelsen.
+.go SLUT
+...TRANS
+.us
+TRANSPORT;.sp
+Nærværende pantebrev til rest pr. &B19DATO1 ;.sp
+kr. &B19BELØB ;.sp
+transporteres herved med vedhængende rente til;.sp
+&B19L3 ;.br;&B19L14 ;.br;&B19L4 ;.br;&B19L5 ;.sp
+For transporten, der sker uden ansvar for mig/os
+.br
+er jeg/vi fyldestgjort.
+.go SLUT
+...EJ
+Nærværende pantebrev kvitteres som fuldt indfriet til
+.br
+aflysning af tingbogen.
+.go SLUT
+...SLUT
+.sp2
+Dette pantebrev består nu af &B19L9 sider.
+.sp2
+&EKSPBY., den &B19DATO2
+.sp2
+.*.in-7
+.*Side &B19L9
+.*.in+7;.sp
+--------------------------------
+.br
+&NAVN ;.br
+.if &L'&B19L13 gt 0
+.th &B19L13
+.pa
+.tm 0
+.in9;.ll+15
+.ti ¤ 05
+.tp 10 51 right 45
+.sp
+&MATRNR ¤¤&B19BELØB2 ;.br
+&MATRBET1
+.br
+¤¤&B19BELØB2 ;.sp
+.go VIDERE
+...VIDERE
+.ll+6
+&MATRGADE ¤¤¤&BKNAVN
+.br
+&MATRBY   ¤¤¤&BKADR
+.br
+          ¤¤¤&BKBY
+.ll-6
+.if &BANKREGNR = 7600 .or &BANKREGNR = 7601 .or &BANKREGNR = 7602
+.or &BANKREGNR = 7604 .or &BANKREGNR = 7605 .or &BANKREGNR = 7606
+.or &BANKREGNR = 7607 .or &BANKREGNR = 7730 .or &BANKREGNR = 7732
+.or &BANKREGNR = 7733 .or &BANKREGNR = 7734 .or &BANKREGNR = 7735
+.or &BANKREGNR = 7736 .or &BANKREGNR = 7737 .or &BANKREGNR = 7738
+.or &BANKREGNR = 7739
+.th .go HJEMME
+.el .go UDE
+...HJEMME
+.if &BANKREGNR = 7600 ;.th ¤¤¤Tlf. nr. 9663 3100
+.if &BANKREGNR = 7601 ;.th ¤¤¤Tlf. nr. 9663 3200
+.if &BANKREGNR = 7602 ;.th ¤¤¤Tlf. nr. 9663 3400
+.if &BANKREGNR = 7603 ;.th ¤¤¤Tlf. nr. 9663 2000
+.if &BANKREGNR = 7604 ;.th ¤¤¤Tlf. nr. 9663 2500
+.if &BANKREGNR = 7605 ;.th ¤¤¤Tlf. nr. 9663 2600
+.if &BANKREGNR = 7606 ;.th ¤¤¤Tlf. nr. 9663 2700
+.if &BANKREGNR = 7607 ;.th ¤¤¤Tlf. nr. 9663 3300
+.if &BANKREGNR = 7730 ;.th ¤¤¤Tlf. nr. 9663 2300
+.if &BANKREGNR = 7732 ;.th ¤¤¤Tlf. nr. 9663 2800
+.if &BANKREGNR = 7733 ;.th ¤¤¤Tlf. nr. 9663 2000
+.if &BANKREGNR = 7734 ;.th ¤¤¤Tlf. nr. 9663 3700
+.if &BANKREGNR = 7735 ;.th ¤¤¤Tlf. nr. 9663 2400
+.if &BANKREGNR = 7736 ;.th ¤¤¤Tlf. nr. 9663 3500
+.if &BANKREGNR = 7737 ;.th ¤¤¤Tlf. nr. 9663 2390
+.if &BANKREGNR = 7738 ;.th ¤¤¤Tlf. nr. 9663 3000
+.if &BANKREGNR = 7739 ;.th ¤¤¤Tlf. nr. 9663 3600
+.ll-15
+.go VIDERE1
+...UDE
+.br
+     ¤¤¤Tlf.nr. &B19L1
+.go VIDERE1
+...VIDERE1
+.sp3
+.ll+15
+Genpart af påtegning på pantebrev opr. kr. &HOVEDSTOL
+.br
+Opr. udstedt af &DEBNAVN
+.br
+opr. til &B19L2
+.br
+med pant i matr. nr. &MATRNR &MATRBET1 &MATRBET2
+.br
+Tinglyst første gang den &B19DATO..
+.sp2
+________________________________________________________________
+.sp3
+.ll+20
+.if &L'&B19DATO1 gt 0 .or &L'&B19BELØB gt 0 .or &L'&B19L6 gt 0
+.or &L'&B19TEST1A gt 0 .or &L'&B19TEST1B gt 0
+.th .go AND
+.el .go EJ
+...AND
+.if &L'&B19TEST1B gt 0 .if &B19TEST1B = x
+.th .sp2;.th Til annullation af retsanmærkning;.th .sp;.th .go SLUT
+.el .go NEXT
+...NEXT
+.if &L'&B19TEST1A gt 0 .if &B19TEST1A = x
+.th .go MEDDEL
+.el .go NEXTA
+...NEXTA
+.if &L'&B19L6 gt 0
+.th .go RESP
+.el .go NEXT1
+...NEXT1
+.if &L'&B19DATO1 gt 0 .or &Lø&B19BELØB gt 0
+.th .go TRANS
+.el .go EJ
+...RESP
+Nærværende pantebrev må af pantegæld fremtidig alene respektere:
+.sp
+&B19L6 ;.br;&B19L7 ;.br;&B19L8 ;.sp
+F.s.v. angår servitutter og byrder henvises til ejendommens
+blad i tingbogen.
+.go SLUT
+...MEDDEL
+Meddelelser ifølge retsplejelovens par. 563 og par. 564 og
+andre meddelelser, der ifølge lovgivningen skal sendes til
+pantekreditor, bedes sendt til ;.sp
+&B19L3 ;.br; &B19L14 ;.br;&B19L4 ;.br;&B19L5 ;.sp
+der iøvrigt bemyndiges til at underskrive påtegninger af enhver
+art på nærværende pantebrev, herunder kvitterings-, transport-,
+moderations- og relaxationspåtegninger.;.sp
+Ovennævnte begæres kun tinglyst f.s.v. angår meddelelsen.
+.go SLUT
+...TRANS
+.us;.ud
+TRANSPORT ;.sp
+Nærværende pantebrev til rest pr. &B19DATO1 ;.sp
+kr. &B19BELØB ;.sp
+transporteres herved med vedhængende renter til:;.sp
+&B19L3 ;.br;&B19L14 ;.br;&B19L4 ;.br;&B19L5 ;.sp
+For transporten, der sker uden ansvar for mig/os,
+er jeg/vi fyldestgjort.
+.go SLUT
+...EJ
+Nærværende pantebrev kvitteres som fuldt indfriet til aflysning
+af tingbogen.
+.go SLUT
+...SLUT
+.sp2
+Dette pantebrev består nu af &B19L9 sider.
+.sp2
+&EKSPBY., den &B19DATO2
+.sp4
+--------------------------------
+.br
+&NAVN ;.br
+.if &L'&B19L13 gt 0
+.th &B19L13

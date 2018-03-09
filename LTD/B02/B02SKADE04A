@@ -1,0 +1,426 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* Parametre *****************************************************
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.************************
+.*  ændring af banksenr
+.if &BANKSTED = 519100
+.or &BANKSTED = 519200
+.or &BANKSTED = 520105
+.or &BANKSTED = 520108
+.or &BANKSTED = 520110
+.or &BANKSTED = 520111
+.or &BANKSTED = 520115
+.or &BANKSTED = 520124
+.or &BANKSTED = 520125
+.or &BANKSTED = 520140
+.or &BANKSTED = 520144
+.or &BANKSTED = 520145
+.or &BANKSTED = 520146
+.or &BANKSTED = 520147
+.or &BANKSTED = 520148
+.or &BANKSTED = 520150
+.or &BANKSTED = 520154
+.or &BANKSTED = 520156
+.or &BANKSTED = 520157
+.or &BANKSTED = 520158
+.or &BANKSTED = 520159
+.or &BANKSTED = 520160
+.or &BANKSTED = 520161
+.or &BANKSTED = 520162
+.or &BANKSTED = 520163
+.or &BANKSTED = 520165
+.or &BANKSTED = 520170
+.or &BANKSTED = 520171
+.or &BANKSTED = 520175
+.or &BANKSTED = 520176
+.th .se BANKSENR = 32321577
+.el .se BANKSENR = 32049664
+.*********************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************************************************************************
+.da AFGIFT   124mm 5.5mm width 60mm
+.da SENR     115mm 23.5mm width 60mm
+.da ANMELDER 115mm 35mm width 88mm
+.da PAATEGN 115mm 63mm width 88mm
+.da DEBITOR 29mm 99mm width 80mm
+.da MEDDEB 115mm 99mm width 80mm
+.da KRED    29mm 136.5mm width 80mm
+.da GLD 29mm 171.5mm width 170mm
+.da KRYDS1 29mm 202mm width 160mm
+.da KRYDS2 29mm 211mm width 160mm
+.da KRYDS3 29mm 220mm width 160mm
+.da KRYDS4 29mm 229mm width 160mm
+.da KRYDS5 29mm 238mm width 160mm
+.da KRYDS6 29mm 247mm width 160mm
+.da KRYDS7 29mm 256mm width 160mm
+.da KRYDS8 29mm 265mm width 160mm
+.**************************************************************************
+.ar AFGIFT on
+:VS. &AFGIFT
+.ar off
+.**************************************************************************
+.ar SENR on
+&ANMELDER50
+.ar off
+.**************************************************************************
+.ar ANMELDER on
+&ANMELDER10
+.br
+&ANMELDER20
+.br
+&ANMELDER30
+.br
+&ANMELDER40
+.ar off
+.************************************************************************
+.ar PAATEGN on
+&PAATEGN1
+.br
+&PAATEGN2
+.br
+&PAATEGN3
+.br
+&PAATEGN4
+.ar off
+.************************************************************************
+.ar DEBITOR on
+&DEPKUNDENR
+.if &L'&GENCVRCPR > 0
+.th .go TSTCPR
+.el .go TSTCPRSL
+...TSTCPR
+.if &GENCVRCPR ne &DEPKUNDENR
+.th / &GENCVRCPR
+...TSTCPRSL
+.br
+&DEBITOR1
+.br
+&DEBITOR2
+.br
+&DEBITOR3
+.br
+&DEBITOR4
+.br
+&DEBITOR5
+.ar off
+.************************************************************************
+.ar MEDDEB on
+.***********************************
+&MEDEJERNR
+.br
+&MEDEJER1
+.br
+&MEDEJER2
+.br
+&MEDEJER3
+.br
+&MEDEJER4
+.br
+&MEDEJER5
+.ar off
+.************************************************************************
+.su off
+.se cvr12 = substr &BANKSENR 1 2
+.se cvr34 = substr &BANKSENR 3 2
+.se cvr56 = substr &BANKSENR 5 2
+.se cvr78 = substr &BANKSENR 7 2
+.su on
+.********************************
+.ar KRED on
+CVR: &cvr12 &cvr34 &cvr56 &cvr78
+.br
+&ANMELDER1
+.br
+&ANMELDER2
+.br
+&ANMELDER3
+.br
+&ANMELDER4
+.ar off
+.************************************************************************
+.ar GLD on
+&U'&MØNTKODE &ÅCONT
+:VS.&GÆLD
+:SWISS8.
+skriver
+:SKRSLUT.
+&U'&MØNTKODE &SKRIVER.&SKRIVER1
+.ar off
+.**************************************************************************
+.tp 2.5mm center
+.*************************************************************************
+.ar KRYDS1 on
+.if &L'&GENKRYDS1 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS2 on
+.if &L'&GENKRYDS2 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS3 on
+.if &L'&GENKRYDS3 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS4 on
+.if &L'&GENKRYDS4 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS5 on
+.if &L'&GENKRYDS5 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS6 on
+.if &L'&GENKRYDS6 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS7 on
+.if &L'&GENKRYDS7 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+.ar KRYDS8 on
+.if &L'&GENKRYDS8 > 0
+.th ¤X
+.ar off
+.**************************************************************************
+:SWISS8.
+.******************************************
+.da SIDE1 24mm 6mm width 175mm
+.da KASSE 24mm 27mm width 175mm
+.da TEKST 24mm 145mm width 175mm
+.********************* SIDE 1 ********************************************
+.ar SIDE1 on
+.tp 88mm
+¤Afgift: kr.
+.ar off
+.****************************************************************
+.ar KASSE on
+.bx 86mm right
+.tp 87mm
+¤Anmelder
+.sp 25mm
+.bx off
+.sp 25mm
+:SWISS14.:FED.
+Skadesløsbrev (Virksomhedspant) :SKRSLUT.
+.br
+:SWISS10.
+Debitor(er)s CVR-nr., og/eller CPR-nr., navn(e)og bopæl(e)
+.br
+(Hvis debitor er en enkeltmandsvirksomhed, oplyses CVR-nr. og CPR-nr.)
+.bx left right
+.in 1mm
+.sp 25mm
+:SWISS8.
+giver herved
+.bx off
+.in 0mm
+:SWISS10.
+Kreditors CVR-nr. og/eller CPR-nr., navn, bopæl og tlf.nr.
+.br
+(Hvis kreditor er en enkeltmandsvirksomhed oplyses CVR-nr. og CPR-nr.):
+.bx left right
+.sp 23mm
+.in 1mm
+.ir 1mm
+:SWISS8.
+panteret i alt, hvad debitor ejer og fremtidig erhverver inden for en eller
+flere af de nedenfor nævnte aktivtyper, jf. tinglysningslovens
+.br
+§ 47 c, stk. 3 nr. 1 - 7, til sikkerhed for skadesløs betaling af,
+hvad jeg/vi til enhver tid måtte være kreditor skyldig, dog ikke ud over:
+.in 0mm
+.ir 0mm
+.bx off
+:SWISS10.
+Beløbets størrelse
+.bx left right
+:SWISS8.
+.sp 9mm
+.bx off
+:SWISS10.
+Opsigelse
+.bx left right
+.sp 1mm
+:SWISS8.
+.in 1mm
+Skadesløsbrevet kan til enhver tid opsiges af kreditor eller debitor med
+14 dages varsel.
+.in 0mm
+.sp 1mm
+.bx off
+:SWISS10.
+Panteretten omfatter de nedenfor afkrydsede aktivtyper
+.bx left right
+.sp 75mm
+.bx off
+:SWISS8.
+:FED.NB!:SKRSLUT. Bopælsforandring skal meddeles kreditor.
+.ar off
+.************************************************************************
+.******************************************
+.da PANTTX1 35mm 203mm width 160mm
+.da PANTTX2 35mm 212mm width 160mm
+.da PANTTX3 35mm 219.5mm width 160mm
+.da PANTTX4 35mm 230mm width 160mm
+.da PANTTX5 35mm 239mm width 160mm
+.da PANTTX6 35mm 248mm width 160mm
+.da PANTTX7 35mm 255.5mm width 160mm
+.da PANTTX8 35mm 265.5mm width 160mm
+.da PANTKS1 24mm 201.5mm width 10mm
+.da PANTKS2 24mm 210.5mm width 10mm
+.da PANTKS3 24mm 219.5mm width 10mm
+.da PANTKS4 24mm 228.5mm width 10mm
+.da PANTKS5 24mm 237.5mm width 10mm
+.da PANTKS6 24mm 246.5mm width 10mm
+.da PANTKS7 24mm 255.5mm width 10mm
+.da PANTKS8 24mm 264.5mm width 10mm
+.*************************************************************************
+.ar PANTTX1 on
+Simple fordringer hidrørende fra salg af varer og tjenesteydelser
+(tinglysningslovens § 47 c, stk. 3, nr. 1).
+.ar off
+.**************************************************************************
+.ar PANTTX2 on
+Lagre af råvarer, halvfabrikata og færdigvarer
+(tinglysningslovens § 47 c, stk. 3, nr. 2).
+.ar off
+.**************************************************************************
+.ar PANTTX3 on
+De i tinglysningslovens § 42 c nævnte køretøjer, som ikke er og aldrig har
+været registreret i Centralregistret for Motorkøretøjer eller i et
+tilsvarende udenlandsk register (tinglysningslovens § 47 c, stk. 3, nr. 3).
+.ar off
+.**************************************************************************
+.ar PANTTX4 on
+Driftsinventar og driftsmateriel (tinglysningslovens § 47 c, stk. 3, nr.
+4).
+.ar off
+.**************************************************************************
+.ar PANTTX5 on
+Drivmidler og andre hjælpestoffer (tinglysningslovens § 47 c, stk. 3, nr.
+5).
+.ar off
+.**************************************************************************
+.ar PANTTX6 on
+Besætning (tinglysningslovens § 47 c, stk. 3, nr. 6).
+.ar off
+.**************************************************************************
+.ar PANTTX7 on
+Goodwill, domænenavne og rettigheder i henhold til patentloven,
+varemærkeloven, designloven, brugsmodelloven, mønsterloven, ophavsretsloven
+og lov om beskyttelse af halvlederprodukters udformning (topografi)
+(tinglysningslovens § 47 c, stk. 3, nr. 7).
+.ar off
+.**************************************************************************
+.ar PANTTX8 on
+Tinglysningslovens § 47 c, stk. 3, nr. 8 (Brugte køretøjer - Pantsætter
+driver erhvervsvirksomhed med køb og salg af køretøjer).
+.ar off
+.**************************************************************************
+.ar PANTKS1 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS2 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS3 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS4 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS5 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS6 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.**************************************************************************
+.ar PANTKS7 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+.ar PANTKS8 on
+.bx 5mm 10mm
+.sp 3mm
+.bx off
+.ar off
+.************************************************************************
+:SKRSLUT.

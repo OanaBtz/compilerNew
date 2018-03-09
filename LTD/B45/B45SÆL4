@@ -1,0 +1,2728 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.im (b45syvar)
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.if &L'&RESULTZ lt 5
+.th .mg/T/Brevet kan ikke udskrives - reg.nr. på fremmed PI er forkert.
+.*.if &L'&B45BELØB11 gt 6 .an &L'&B45BELØB lt 5
+.*.th .mg/T/FEJL: Pris for ejerpantebrev til køber mangler.
+.*.if &REGTYPE ne 2225
+.*.th .mg/T/Brevet kan ikke udskrives - brug Sælgerkredit som indgangsnøgle
+.if &U'&B45TELA eq U .an &L'&B45KURS gt 1
+.th .mg/T/FEJL: Indfrielsesmetode = U, men kurs på kurskontrakt er anført.
+.if &U'&B45TELA eq O .an &L'&BECTEKST24 lt 7
+.th .mg/T/Indtast dato for indfrielsestidspunkt i hæftelse 1.
+.if &U'&B45TELA eq M .an &L'&BECTEKST24 lt 7
+.th .mg/T/Indtast dato for indfrielsestidspunkt i hæftelse 1.
+.if &U'&B45TELF eq O .an &L'&BECTEKST25 lt 7
+.th .mg/T/Indtast dato for indfrielsestidspunkt i hæftelse 2.
+.if &U'&B45TELF eq M .an &L'&BECTEKST25 lt 7
+.th .mg/T/Indtast dato for indfrielsestidspunkt i hæftelse 2.
+.if &U'&B45TELG eq O .an &L'&BECTEKST26 lt 7
+.th .mg/T/Indtast dato for indfrielsestidspunkt i hæftelse 3.
+.if &U'&B45TELG eq M .an &L'&BECTEKST26 lt 7
+.th .mg/T/Indtast dato for indfrielsestidspunkt i hæftelse 3.
+:tiltale &TILTALEF
+:VERDA11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+&B45STILL3
+.br
+&B45NAVN3
+.br
+&B45GADE
+.br
+&POSTNRBY
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.*.pa
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.if &U'&UDSKRSTED eq C
+.an &IREGKTO eq 60606060600
+.th .mg /T/Brevet kan ikke udskrives centralt med kontonr. 6060 6060600 +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:VERDA08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&MEDNAVN gt 1
+.an &L'&NAVN gt 28
+.th .go USOR
+.if &L'&MEDNAVN lt 1
+.an &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+.th tinglysningssvar på lyst skøde til &GENEMAIL
+.th samt bekræfte, at de i ejendommen ikke-overtagne
+.th prioriteter må indfries af deponerede midler, mod at vi indestår for
+.th sletning af anmærkninger på skødet.
+.th .go MEDD
+Tinglysning af skødet bedes foretaget hurtigst muligt.
+ 
+Efter tinglysning beder vi Dem sende Boliggruppen en kopi af
+skødet, lyst med anmærkninger, hvorefter indfrielse af lån i
+ejendommen vil blive påbegyndt.
+...MEDD
+ 
+Meddelelse om frigivelse af deponeringen bedes ligeledes sendt til
+Boliggruppen.
+ 
+Vi ser frem til et godt samarbejde.
+:tiltale &TILTALEF
+:FED.
+Orientering om ejendomshandel :skrslut.
+.br
+.ti > 05
+.tp 9
+.if &L'&KTOGADE1 gt 1
+.th Ejendom:>&KTOGADE1
+.el Ejendom:>&KTOGADE., &KTOBY
+.br
+Matr.nr.:>&B45MATRNR
+.br
+Køber:>&NAVN
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6 &ÅCONT.
+.el &ÅCONT.
+.*.if &KUNDENR eq 4450606060 .an &L'&B45ÆCPR gt 1
+.*.th (&B45ÆCPR.)
+.*.if &KUNDENR ne 4450606060
+.*.th (&KUNDENR.)
+.br
+Sælger:>&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+.br
+Vor ref.:>&IREGKTO
+.br
+______________________________________________________________________
+ 
+I forbindelse med ovennævnte ejendomshandel er vi af sælger blevet
+bedt om at modtage deponeringen og sørge for nødvendige
+indfrielser som nævnt i købsaftalen.
+.br
+Garanti og deponering for restkøbesummen er tiltransporteret &BDbankas..
+ 
+:fed.Sagen vil blive ekspederet fra vores Boliggruppe,
+Axeltorv 4,
+4700 Næstved,
+tlf. 5575 4897, fax 5575 4451. :skrslut.
+ 
+.if &U'&B45JN4 eq A .an &U'&B45JN5 eq K
+.th Tinglysningssvar på lyst skøde bedes sendt til &GENEMAIL.,
+.th idet de i ejendommen
+.th .br
+.th ikke-overtagne
+.th prioriteter indfries af deponerede midler, mod at vi indestår for
+.th sletning af anmærkninger på skødet.
+.th .go MEDD
+.if &U'&B45JN4 eq A .an &U'&B45JN5 eq A
+.th Vi beder Dem sende
+.im (b45syvar)
+.if &L'&GENTLFNR lt 9
+.th .mg/T/Der mangler et blanktegn i GENTLFNR i Proj. 99, funktion 75003.
+.if &L'&GENTLFNR gt 9
+.th .mg/T/Der må kun være ét blanktegn i GENTLFNR i P99, funktion 75003.
+.if &BREVNAVN eq B45INV18
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45BOL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KØB5
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT7
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT8
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45RAT9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR12
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KORT17
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA8
+.th .go ALIGEVEL
+.if &E'&B45NR eq 1 .an &B45NR ne 7
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:GL..TP 28:EGL.
+:NY..TP 71MM:ENY.
+.kp on
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.el &h.&i
+.kp off
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+:VERDA11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+&B45STILL3
+.br
+&B45NAVN3
+.br
+&B45GADE
+.br
+&POSTNRBY
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.pa
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.if &U'&UDSKRSTED eq C
+.an &IREGKTO eq 60606060600
+.th .mg /T/Brevet kan ikke udskrives centralt med kontonr. 6060 6060600 +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:VERDA08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&MEDNAVN gt 1
+.an &L'&NAVN gt 28
+.th .go USOR
+.if &L'&MEDNAVN lt 1
+.an &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+.th Tinglysningssvar på lyst skøde bedes sendt til &GENEMAIL.,
+.th idet de i ejendommen
+.th .br
+.th ikke-overtagne
+.th prioriteter indfries af deponerede midler, mod at vi indestår for
+.th sletning af anmærkninger på skødet.
+.th .go MEDD
+.if &U'&B45JN4 eq A .an &U'&B45JN5 eq A
+.th Vi beder Dem sende
+.th tinglysningssvar på lyst skøde til &GENEMAIL
+.th samt bekræfte, at de i ejendommen ikke-overtagne
+.th prioriteter må indfries af deponerede midler, mod at vi indestår for
+.th sletning af anmærkninger på skødet.
+.th .go MEDD
+Tinglysning af skødet bedes foretaget hurtigst muligt.
+ 
+Efter tinglysning beder vi Dem sende Boliggruppen en kopi af
+skødet, lyst med anmærkninger, hvorefter indfrielse af lån i
+ejendommen vil blive påbegyndt.
+...MEDD
+ 
+Meddelelse om frigivelse af deponeringen bedes ligeledes sendt til
+Boliggruppen.
+ 
+Vi ser frem til et godt samarbejde.
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   B O L I G G R U P P E N
+.ar off
+.da tlf 20mm 60mm width 68mm
+.ar tlf on
+.if &L'&B45TLF gt 1
+.th Tlf. &B45TLF
+.ar off
+:tiltale &TILTALEF
+:FED.
+Orientering om ejendomshandel :skrslut.
+.br
+.ti > 05
+.tp 9
+.if &L'&KTOGADE1 gt 1
+.th Ejendom:>&KTOGADE1
+.el Ejendom:>&KTOGADE., &KTOBY
+.br
+Matr.nr.:>&B45MATRNR
+.br
+Køber:>&NAVN
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6 &ÅCONT.
+.el &ÅCONT.
+.*.if &KUNDENR eq 4450606060 .an &L'&B45ÆCPR gt 1
+.*.th (&B45ÆCPR.)
+.*.if &KUNDENR ne 4450606060
+.*.th (&KUNDENR.)
+.br
+Sælger:>&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+.br
+Vor ref.:>&IREGKTO
+.br
+______________________________________________________________________
+ 
+I forbindelse med ovennævnte ejendomshandel er vi af sælger blevet
+bedt om at modtage deponeringen og sørge for nødvendige
+indfrielser som nævnt i købsaftalen.
+.br
+Garanti og deponering for restkøbesummen er tiltransporteret &BDbankas..
+ 
+:fed.Sagen vil blive ekspederet fra vores Boliggruppe,
+Axeltorv 4,
+4700 Næstved,
+tlf. 5575 4897, fax 5575 4451. :skrslut.
+ 
+.if &U'&B45JN4 eq A .an &U'&B45JN5 eq K
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.th PBS /ATM-gruppen
+.th .br
+.th Lautrupbjerg 10
+.th .br
+.th 2750  Ballerup
+.el &BKNAVN
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp 3
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.pa
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &BANKREGNR eq 0000 .an &BREVNAVN ne B45INV11
+.el Deponeringen kan overføres til reg.nr. 6060, kontonr. &B45TILKTO.. Vi
+går ud fra, at evt. aflysning eller ændring til afgiftspantebrev
+foretages af jer via eFPI.
+.if &L'&B45BELØB11 gt 2
+.el .go UDEN
+ 
+Der er på nuværende tidspunkt tinglyst ejerpant på
+:vs.&B45BELØB11
+kr. i ejendommen.
+.br
+Hvis køber ønsker at overtage dette, skal der senest på overtagelsesdagen
+ligge en
+transportpåtegning klar
+til vores underskrift på Tinglysning.dk - vær opmærksom
+på, at &BDbank anvender to underskrifter. Hvis
+ejerpantebrev skal overtages, opretter vi aflysning af vor underpant
+til jeres anmeldelse.
+ 
+:kursiv.Venligst giv besked på &GENEMAIL., når evt. transportpåtegning er
+klar. Er meddelelse ikke givet, vil vores underpant samt ejerpant blive
+aflyst senest på overtagelsesdagen.
+:skrslut.
+...UDEN
+.*Vi ser frem til et godt samarbejde.
+:tiltale &TILTALEF
+:FED.
+Orientering om ejendomshandel :skrslut.
+.br
+.ti > 05
+.tp 9
+.if &L'&KTOGADE1 gt 1
+.th Ejendom:>&KTOGADE1
+.el Ejendom:>&KTOGADE., &KTOBY
+.br
+Matr.nr.:>&B45MATRNR
+.br
+Køber:>&NAVN
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6 &ÅCONT.
+.el &ÅCONT.
+.*.if &KUNDENR eq 4450606060 .an &L'&B45ÆCPR gt 1
+.*.th (&B45ÆCPR.)
+.*.if &KUNDENR ne 4450606060
+.*.th (&KUNDENR.)
+.br
+Sælger:>&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+.br
+Vor ref.:>&IREGKTO
+.br
+______________________________________________________________________
+ 
+I forbindelse med ovennævnte ejendomshandel er vi af sælger blevet
+bedt om at modtage deponeringen og sørge for nødvendige
+indfrielser som nævnt i købsaftalen.
+.*.br
+.*For at beholde muligheden for stempeloverførsel beder vi
+.*om besked, så snart det nye lån er
+.*.if &U'&B45JN4 eq A
+.*.th underskrevet. Vi gør opmærksom på, at indfrielser foretages 15
+.*.th bankdage
+.*.th efter underskrift af købsaftalen i h.t. gældende bestemmelser.
+.*.el underskrevet. Indfrielser påbegyndes, når tinglyst skøde foreligger.
+ 
+:fed.Sagen vil blive ekspederet fra vores Boliggruppe,
+Axeltorv 4,
+4700 Næstved,
+tlf. 5575 4897, fax 5575 4451. :skrslut.
+ 
+Garanti og deponering for restkøbesummen er tiltransporteret &BDbankas..
+.br
+.if &U'&B45JANEJ eq J
+.th Vi bekræfter at have modtaget deponeringen. - Vi
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.th PBS /ATM-gruppen
+.th .br
+.th Lautrupbjerg 10
+.th .br
+.th 2750  Ballerup
+.el &BKNAVN
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp 3
+.if &U'&B45ANBEFAL eq J
+.el .sp
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 3
+.el .sp 4
+.pa
+.if &U'&UDSKRSTED eq C
+.an &U'&B45ANBEFAL eq J
+.th .mg /T/Brevet kan ikke udskrives både anbefalet og centralt! +++
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &BANKREGNR eq 0000 .an &BREVNAVN ne B45INV11
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   B O L I G G R U P P E N
+.ar off
+:tiltale &TILTALEF
+:FED.
+Orientering om ejendomshandel :skrslut.
+.br
+.ti > 05
+.tp 9
+.if &L'&KTOGADE1 gt 1
+.th Ejendom:>&KTOGADE1
+.el Ejendom:>&KTOGADE., &KTOBY
+.br
+Matr.nr.:>&B45MATRNR
+.br
+Køber:>&NAVN
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6 &ÅCONT.
+.el &ÅCONT.
+.*.if &KUNDENR eq 4450606060 .an &L'&B45ÆCPR gt 1
+.*.th (&B45ÆCPR.)
+.*.if &KUNDENR ne 4450606060
+.*.th (&KUNDENR.)
+.br
+Sælger:>&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+.br
+Vor ref.:>&IREGKTO
+.br
+______________________________________________________________________
+ 
+I forbindelse med ovennævnte ejendomshandel er vi af sælger blevet
+bedt om at modtage deponeringen og sørge for nødvendige
+indfrielser som nævnt i købsaftalen.
+.*.br
+.*For at beholde muligheden for stempeloverførsel beder vi
+.*om besked, så snart det nye lån er
+.*.if &U'&B45JN4 eq A
+.*.th underskrevet. Vi gør opmærksom på, at indfrielser foretages 15
+.*.th bankdage
+.*.th efter underskrift af købsaftalen i h.t. gældende bestemmelser.
+.*.el underskrevet. Indfrielser påbegyndes, når tinglyst skøde foreligger.
+ 
+:fed.Sagen vil blive ekspederet fra vores Boliggruppe,
+Axeltorv 4,
+4700 Næstved,
+tlf. 5575 4897, fax 5575 4451. :skrslut.
+
+Garanti og deponering for restkøbesummen er tiltransporteret &BDbankas..
+.br
+.if &U'&B45JANEJ eq J
+.th Vi bekræfter at have modtaget deponeringen. - Vi
+.el Deponeringen kan overføres til reg.nr. 6060, kontonr. &B45TILKTO.. Vi
+går ud fra, at evt. aflysning eller ændring til afgiftspantebrev
+foretages af jer via eFPI.
+.if &L'&B45BELØB11 gt 2
+.el .go UDEN
+ 
+Der er på nuværende tidspunkt tinglyst ejerpant på
+:vs.&B45BELØB11
+kr. i ejendommen.
+.br
+Hvis køber ønsker at overtage dette, skal der senest på overtagelsesdagen
+ligge en
+transportpåtegning klar
+til vores underskrift på Tinglysning.dk - vær opmærksom
+på, at &BDbank anvender to underskrifter. Hvis
+ejerpantebrev skal overtages, opretter vi aflysning af vor underpant
+til jeres anmeldelse.
+ 
+:kursiv.Venligst giv besked på &GENEMAIL., når evt. transportpåtegning er
+klar. Er meddelelse ikke givet, vil vores underpant samt ejerpant blive
+aflyst senest på overtagelsesdagen.
+:skrslut.
+...UDEN
+.*Vi ser frem til et godt samarbejde.
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.pa
+.tm +6
+.fo left
+.sp2
+:verda18.:fed.Kontanthandelsaftale (sælger)
+ 
+.ti > 05
+.tp 38
+:verda09.&BDbank (i det følgende kaldet banken) og
+ 
+.if &MEDKUNDENR eq 000000-0000
+.th &KTONAVN (&KTOKUNDENR.)
+.el &KTONAVN (&KTOKUNDENR.) >&MEDNAVN (&MEDKUNDENR.)
+.br
+&KTOGADE >&MEDGADE
+.br
+&KTOBY >&MEDBY
+ 
+(i det følgende kaldet sælger) indgår hermed kontanthandelsaftale
+i forbindelse med salget af ejendommen, matr.nr. &B45MATRNR., beliggende
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1.,
+.el &KTOGADE., &KTOBY.,
+med overtagelse den &B45DATO..
+ 
+.if &B45BELØB9 ne &RESULTA
+.th .go UFORL
+Aftalen indebærer, at banken stiller midlertidig finansiering til
+rådighed til
+.if &L'&BECTEKST01 gt 2
+.th indfrielse af lån, der ikke skal overtages af køber, samt udbetaler
+forlods
+.if &L'&BECTEKST01 gt 2
+.el udbetaling
+af ejendommens salgsprovenu, som ifølge provenuberegning
+fra &B45ANDET udgør anslået
+.if &B45BELØB9 lt 0,00
+.th &B45BELØB9
+.th .go POS
+:vs.&B45BELØB9
+...POS
+kr.
+ 
+.go GRUND
+...UFORL
+Aftalen indebærer, at banken stiller midlertidig finansiering til
+rådighed til
+.if &L'&BECTEKST01 gt 2
+.th indfrielse af lån, der ikke skal overtages af køber.
+.th .sp
+>Indfrielsestidspunkt:>&ÅCONT.
+.if &U'&B45JANEJ eq B
+.th Efter tinglysning af skøde
+.el &BECTEKST25
+.if &L'&BECTEKST03 gt 1
+.el .go VIDER
+.sp
+3.>&BECTEKST03.&ÅCONT.
+.if &L'&B45BELØB18 gt 1 .an &U'&B45TELG ne A
+.th , hovedstol >>&B45BELØB18 kr.
+.br
+>Indfrielsesbeløb ifølge provenuberegningen >>&B45BELØB19 kr.
+.br
+.if &U'&B45TELG eq S
+.th >Indfrielsesmetode:>Paristraksindfrielse
+.if &U'&B45TELG eq O
+.th >Indfrielsesmetode:>Indfries m/opsigelse
+.if &U'&B45TELG eq M
+.th >Indfrielsesmetode:>Obligationsindfrielse med kurskontrakt
+.if &U'&B45TELG eq U
+.th >Indfrielsesmetode:>Obligationsindfrielse uden kurskontrakt
+.br
+.if &U'&B45TELG eq A
+.th >Indfrielseskurs:>&BECTEKST23
+.th .br
+>Indfrielsestidspunkt:>&ÅCONT.
+.if &U'&B45JANEJ eq B
+.th Efter tinglysning af skøde
+.el &BECTEKST26
+...VIDER
+.if &L'&B45KURS gt 1
+.th .sp
+.th Der er indgået kurskontrakt på indfrielse af lån nr. 1 til kurs
+.th &B45KURS med afvikling &BECTEKST24..
+.if &U'&B45TELA eq U
+.th .sp
+.th Der er ikke indgået kurskontrakt, og sælger er gjort bekendt med, at
+.th kursændringer får konsekvenser for provenuets størrelse.
+...VIDER2
+ 
+.in-2
+.
+in+2.
+ti > 05.
+tp 5 20 60 right.
+if &L'&BECTEKST01 gt 1.
+el Ingen.
+el .go VIDER21
+.>&BECTEKST01.&ÅCONT..
+if &L'&B45BELØB13 gt 1 .an &U'&B45TELA ne A.
+th , hovedstol >>&B45BELØB13 kr..
+br>
+Indfrielsesbeløb ifølge provenuberegningen >>&B45BELØB15 kr..
+br.
+if &U'&B45TELA eq S.
+th >Indfrielsesmetode:>Paristraksindfrielse.
+if &U'&B45TELA eq O.
+th >Indfrielsesmetode:>Indfries m/opsigelse.
+if &U'&B45TELA eq M.
+th >Indfrielsesmetode:>Obligationsindfrielse med kurskontrakt.
+if &U'&B45TELA eq U.
+th >Indfrielsesmetode:>Obligationsindfrielse uden kurskontrakt.
+br.
+if &U'&B45TELA eq A.
+th >Indfrielseskurs:>&BECTEKST21.
+th .br>
+Indfrielsestidspunkt:>&ÅCONT..
+if &U'&B45JANEJ eq B.
+th Efter tinglysning af skøde.
+el &BECTEKST24.
+if &L'&BECTEKST02 gt 1.
+el .go VIDER.
+sp2
+.>&BECTEKST02.&ÅCONT..
+if &L'&B45BELØB14 gt 1 .an &U'&B45TELF ne A.
+th , hovedstol >>&B45BELØB14 kr..
+br>
+Indfrielsesbeløb ifølge provenuberegningen >>&B45BELØB16 kr..
+br.
+if &U'&B45TELF eq S.
+th >Indfrielsesmetode:>Paristraksindfrielse.
+if &U'&B45TELF eq O.
+th >Indfrielsesmetode:>Indfries m/opsigelse.
+if &U'&B45TELF eq M.
+th >Indfrielsesmetode:>Obligationsindfrielse med kurskontrakt.
+if &U'&B45TELF eq U.
+th >Indfrielsesmetode:>Obligationsindfrielse uden kurskontrakt.
+br.
+if &U'&B45TELF eq A.
+th >Indfrielseskurs:>&BECTEKST22.
+th .br
+.th .go GRUND
+udbetaling af ejendommens salgsprovenu, som ifølge
+provenuberegning
+fra &B45ANDET udgør anslået
+.if &B45BELØB9 lt 0,00
+.th &B45BELØB9
+.th .go POS
+:vs.&B45BELØB9
+...POS
+kr.
+ 
+...GRUND
+.if &U'&B45JN4 eq A
+.th &BDbank indestår overfor skødeskriver, så indfrielsesbeløbet kan
+.th frigives fra deponeringskontoen.
+ 
+:fed.Grundlag:skrslut.
+.br
+Grundlaget for aftalen er dels den indleverede underskrevne købsaftale og
+.if &B45BELØB17 eq 0,00
+.th .go UGAR
+dels den indleverede garanti på
+:vs.&B45BELØB17
+kr. udstedt af &BKNAVN., &BKADR., &BKBY..
+.go OMF
+...UGAR
+dels deponeringen foretaget af køber.
+...OMF
+ 
+:fed.Aftalens omfang:skrslut.
+.br
+Aftalen omfatter Sælgerkredit nr. &KTONR1 med et maximum på
+:vs.&B45BELØB10
+kr., der anvendes til indfrielse af nedenstående
+.if &B45BELØB9 ne &RESULTA
+.th lån, forlods udbetaling af salgsprovenuet
+.el lån
+samt betaling af omkostninger m.m. - kreditoplysninger fremgår af særskilt
+kontrakt.
+ 
+Aftalen omfatter
+.us indfrielse af lån
+med pant i ejendommen,
+som fremgår af
+.if &U'&B45JN4 eq A
+.th provenuberegningen, dog tidligst 15 bankdage efter underskrift af
+.th købsaftalen (og
+.el provenuberegningen (og
+under iagttagelse af evt. aftale mellem sælger
+og køber m.h.t. reduktion i tinglysningsafgiften):
+.if &B45BELØB9 ne &RESULTA
+.el .go VIDER3
+Aftalen omfatter
+.us forlods udbetaling
+på &RESULTB kr.,
+som bogføres således (anslået):
+ 
+.in+2
+.if &B45BELØB4 ne 0,00
+.th >&BECTEKST04.
+.th .br
+.th >&BECTEKST14.>>&B45BELØB4 kr.
+.th .br
+.if &B45BELØB5 ne 0,00
+.th >&BECTEKST05.
+.th .br
+.th >&BECTEKST15.>>&B45BELØB5 kr.
+.th .br
+.if &B45BELØB6 ne 0,00
+.th >&BECTEKST06.
+.th .br
+.th >&BECTEKST16.>>&B45BELØB6 kr.
+.th .br
+.if &B45BELØB7 ne 0,00
+.th >&BECTEKST07.>>&B45BELØB7 kr.
+.th .br
+.if &B45BELØB8 ne 0,00
+.th >&BECTEKST08.>>&B45BELØB8 kr.
+.in-2
+ 
+...VIDER3
+.kp on
+:fed.Hæftelse og sikkerhedsstillelse :skrslut.
+.br
+Sælger hæfter som debitor for den gæld, som Sælgerkredit nr. &KTONR1
+til enhver tid udviser til
+banken. Hvis sælgerkreditten ikke kan indfries ved handlens afslutning,
+eller hvis handelen af en eller anden grund ikke bliver gennemført,
+forpligter sælger sig til at indfri gælden senest 3 uger efter afslutningen
+hhv. meddelelse om manglende gennemførelse af salget. Hvis indfrielsen
+kræver optagelse
+af lån hhv. reetablering af indfriede lån, forpligter
+sælger sig til at underskrive dokumenter hertil indenfor samme tidsramme.
+.kp off
+ 
+Deponeringen, som er aftalt i købsaftalen, indsættes på konto
+nr. &B45TILKTO..
+ 
+.if &L'&B45OVFKTO gt 1
+.th Boligsalgskonto nr. &B45OVFKTO opgøres over Sælgerkreditten ved
+.kp off
+.tm-6
+kr. for oprettelse og administration af deponeringskonto.
+.if &B45BELØB2 eq 0,00
+.th .go UKU
+ 
+Der beregnes særskilt gebyr på
+:vs.&B45BELØB2
+kr. for tegning af kurskontrakt.
+...UKU
+.kp off
+ 
+.kp on
+:fed.Særskilte aftaler :skrslut.
+.br
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A
+.kp off
+ 
+ 
+.kp on
+:kursiv.Sælger indestår banken for ethvert krav, der måtte blive gjort
+gældende i forbindelse med denne aftale. Sælger erklærer samtidig at være
+gjort bekendt med bankens forretningsbetingelser, som er en del af
+vilkårene for denne aftale samt afledte forretninger.:skrslut.
+.kp off
+ 
+Dette dokument kan tjene som grundlag for tvangsfuldbyrdelse,
+jfr. Retsplejelovens §478.
+ 
+ 
+.tp 38
+.kp on
+Dato: >Dato:
+ 
+Sælger og debitor:>                             :fed.&BDbank :skrslut.
+ 
+ 
+ 
+_____________________________________>_____________________________________
+.br
+&KTONAVN   &MEDNAVN >&GENEKSP
+.th modtagelse af deponeringen.
+.th .sp
+Sagen afsluttes når køber/købers advokat frigiver
+deponeringskontoen. Nettobeløbet
+efter indfrielse af sælgerkreditten bogføres over konto
+nr. &B45FRAKTO..
+ 
+Sælger giver banken uigenkaldelig transport i garanti, nævnt under
+Grundlag. Transporten omfatter tillige den efterfølgende deponering og
+gives til sikkerhed for enhver nuværende og fremtidig gæld til banken.
+ 
+.kp on
+:fed.Rente :skrslut.
+.br
+Det er aftalt, at gælden på sælgerkreditten forrentes med
+p.t. &B45PCT.% p.a. Renten
+er variabel og tilskrives kvartalsvis. I fastsættelsen er der blandt andet
+taget hensyn til renten på lån, der indfries.
+.kp off
+ 
+.kp on
+.if &L'&B45BELØB11 gt 1
+.el .go VIDER4
+:fed.Ejerpantebrev/e:skrslut.
+.br
+Sælger har tinglyst ejerpant for
+:vs.&B45BELØB11
+kr. i ejendommen. Hvis der i købsaftalen er indgået aftale om købers
+overtagelse af ejerpantebrevet, effektuerer banken denne. Hvis der ikke er
+truffet aftale, giver sælger banken fuldmagt til at tilbyde køber, at denne
+kan overtage ejerpantebrevet mod betaling af
+:vs.&B45BELØB
+kr. - Har køber ikke givet accept indenfor 5 hverdage, aflyses
+ejerpantebrevet.
+.kp off
+ 
+...VIDER4
+.kp on
+:fed.Gebyr :skrslut.
+.br
+Gebyr for sagens behandling er aftalt til
+:vs.&B45BELØB3
+kr., som forlods trækkes på sælgerkreditten. Beløbet dækker blandt andet
+rådgivning, beregning på og indfrielse af lån,
+aflysning af pantebreve, telefoniske og skriftlige aftaler med købers bank,
+købers advokat, realkreditinstitut og tinglysningskontor samt fremsendelse
+af diverse bilag og udskrifter til sælger ved sagens afslutning.
+ 
+Der opkræves særskilt gebyr på
+:vs.&B45BELØB1
+.pa
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   S U P P O R T - B O L I G
+.ar off
+.tm +6
+.fo left
+.sp2
+:verda18.:fed.Kontanthandelsaftale (sælger)
+ 
+.ti > 05
+.tp 38
+:verda09.&BDbank (i det følgende kaldet banken) og
+ 
+.if &MEDKUNDENR eq 000000-0000
+.th &KTONAVN (&KTOKUNDENR.)
+.el &KTONAVN (&KTOKUNDENR.) >&MEDNAVN (&MEDKUNDENR.)
+.br
+&KTOGADE >&MEDGADE
+.br
+&KTOBY >&MEDBY
+ 
+(i det følgende kaldet sælger) indgår hermed kontanthandelsaftale
+i forbindelse med salget af ejendommen, matr.nr. &B45MATRNR., beliggende
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1.,
+.el &KTOGADE., &KTOBY.,
+med overtagelse den &B45DATO..
+ 
+.if &B45BELØB9 ne &RESULTA
+.th .go UFORL
+Aftalen indebærer, at banken stiller midlertidig finansiering til
+rådighed til
+.if &L'&BECTEKST01 gt 2
+.th indfrielse af lån, der ikke skal overtages af køber, samt udbetaler
+forlods
+.if &L'&BECTEKST01 gt 2
+.el udbetaling
+af ejendommens salgsprovenu, som ifølge provenuberegning
+fra &B45ANDET udgør anslået
+.if &B45BELØB9 lt 0,00
+.th &B45BELØB9
+.th .go POS
+:vs.&B45BELØB9
+...POS
+kr.
+ 
+.go GRUND
+...UFORL
+Aftalen indebærer, at banken stiller midlertidig finansiering til
+.br
+.if &U'&B45TELF eq A
+.th >Indfrielseskurs:>&BECTEKST22
+.th .br
+>Indfrielsestidspunkt:>&ÅCONT.
+.if &U'&B45JANEJ eq B
+.th Efter tinglysning af skøde
+.el &BECTEKST25
+.if &L'&BECTEKST03 gt 1
+.el .go VIDER
+.sp
+3.>&BECTEKST03.&ÅCONT.
+.if &L'&B45BELØB18 gt 1 .an &U'&B45TELG ne A
+.th , hovedstol >>&B45BELØB18 kr.
+.br
+>Indfrielsesbeløb ifølge provenuberegningen >>&B45BELØB19 kr.
+.br
+.if &U'&B45TELG eq S
+.th >Indfrielsesmetode:>Paristraksindfrielse
+.if &U'&B45TELG eq O
+.th >Indfrielsesmetode:>Indfries m/opsigelse
+.if &U'&B45TELG eq M
+.th >Indfrielsesmetode:>Obligationsindfrielse med kurskontrakt
+.if &U'&B45TELG eq U
+.th >Indfrielsesmetode:>Obligationsindfrielse uden kurskontrakt
+.br
+.if &U'&B45TELG eq A
+.th >Indfrielseskurs:>&BECTEKST23
+.th .br
+>Indfrielsestidspunkt:>&ÅCONT.
+.if &U'&B45JANEJ eq B
+.th Efter tinglysning af skøde
+.el &BECTEKST26
+...VIDER
+.if &L'&B45KURS gt 1
+.th .sp
+.th Der er indgået kurskontrakt på indfrielse af lån nr. 1 til kurs
+.th &B45KURS med afvikling &BECTEKST24..
+.if &U'&B45TELA eq U
+.th .sp
+.th Der er ikke indgået kurskontrakt, og sælger er gjort bekendt med, at
+.th kursændringer får konsekvenser for provenuets størrelse.
+...VIDER2
+ 
+.in-2
+.th købsaftalen (og
+.el provenuberegningen (og
+under iagttagelse af evt. aftale mellem sælger
+og køber m.h.t. reduktion i tinglysningsafgiften):
+ 
+.in+2
+.ti > 05
+.tp 5 20 60 right
+.if &L'&BECTEKST01 gt 1
+.el Ingen
+.el .go VIDER2
+1.>&BECTEKST01.&ÅCONT.
+.if &L'&B45BELØB13 gt 1 .an &U'&B45TELA ne A
+.th , hovedstol >>&B45BELØB13 kr.
+.br
+>Indfrielsesbeløb ifølge provenuberegningen >>&B45BELØB15 kr.
+.br
+.if &U'&B45TELA eq S
+.th >Indfrielsesmetode:>Paristraksindfrielse
+.if &U'&B45TELA eq O
+.th >Indfrielsesmetode:>Indfries m/opsigelse
+.if &U'&B45TELA eq M
+.th >Indfrielsesmetode:>Obligationsindfrielse med kurskontrakt
+.if &U'&B45TELA eq U
+.th >Indfrielsesmetode:>Obligationsindfrielse uden kurskontrakt
+.br
+.if &U'&B45TELA eq A
+.th >Indfrielseskurs:>&BECTEKST21
+.th .br
+>Indfrielsestidspunkt:>&ÅCONT.
+.if &U'&B45JANEJ eq B
+.th Efter tinglysning af skøde
+.el &BECTEKST24
+.if &L'&BECTEKST02 gt 1
+.el .go VIDER
+.sp
+2.>&BECTEKST02.&ÅCONT.
+.if &L'&B45BELØB14 gt 1 .an &U'&B45TELF ne A
+.th , hovedstol >>&B45BELØB14 kr.
+.br
+>Indfrielsesbeløb ifølge provenuberegningen >>&B45BELØB16 kr.
+.br
+.if &U'&B45TELF eq S
+.th >Indfrielsesmetode:>Paristraksindfrielse
+.if &U'&B45TELF eq O
+.th >Indfrielsesmetode:>Indfries m/opsigelse
+.if &U'&B45TELF eq M
+.th >Indfrielsesmetode:>Obligationsindfrielse med kurskontrakt
+.if &U'&B45TELF eq U
+.th >Indfrielsesmetode:>Obligationsindfrielse uden kurskontrakt
+rådighed til
+.if &L'&BECTEKST01 gt 2
+.th indfrielse af lån, der ikke skal overtages af køber.
+.th .sp
+.th .go GRUND
+udbetaling af ejendommens salgsprovenu, som ifølge
+provenuberegning
+fra &B45ANDET udgør anslået
+.if &B45BELØB9 lt 0,00
+.th &B45BELØB9
+.th .go POS
+:vs.&B45BELØB9
+...POS
+kr.
+ 
+...GRUND
+.if &U'&B45JN4 eq A
+.th &BDbank indestår overfor skødeskriver, så indfrielsesbeløbet kan
+.th frigives fra deponeringskontoen.
+ 
+:fed.Grundlag:skrslut.
+.br
+Grundlaget for aftalen er dels den indleverede underskrevne købsaftale og
+.if &B45BELØB17 eq 0,00
+.th .go UGAR
+dels den indleverede garanti på
+:vs.&B45BELØB17
+kr. udstedt af &BKNAVN., &BKADR., &BKBY..
+.go OMF
+...UGAR
+dels deponeringen foretaget af køber.
+...OMF
+ 
+:fed.Aftalens omfang:skrslut.
+.br
+Aftalen omfatter Sælgerkredit nr. &KTONR1 med et maximum på
+:vs.&B45BELØB10
+kr., der anvendes til indfrielse af nedenstående
+.if &B45BELØB9 ne &RESULTA
+.th lån, forlods udbetaling af salgsprovenuet
+.el lån
+samt betaling af omkostninger m.m. - kreditoplysninger fremgår af særskilt
+kontrakt.
+ 
+Aftalen omfatter
+.us indfrielse af lån
+med pant i ejendommen,
+som fremgår af
+.if &U'&B45JN4 eq A
+.th provenuberegningen, dog tidligst 15 bankdage efter underskrift af
+.th Boligsalgskonto nr. &B45OVFKTO opgøres over Sælgerkreditten ved
+.th modtagelse af deponeringen.
+.th .sp
+Sagen afsluttes når køber/købers advokat frigiver
+deponeringskontoen. Nettobeløbet
+efter indfrielse af sælgerkreditten bogføres over konto
+nr. &B45FRAKTO..
+ 
+Sælger giver banken uigenkaldelig transport i garanti, nævnt under
+Grundlag. Transporten omfatter tillige den efterfølgende deponering og
+gives til sikkerhed for enhver nuværende og fremtidig gæld til banken.
+ 
+.kp on
+:fed.Rente :skrslut.
+.br
+Det er aftalt, at gælden på sælgerkreditten forrentes med
+p.t. &B45PCT.% p.a. Renten
+er variabel og tilskrives kvartalsvis. I fastsættelsen er der blandt andet
+taget hensyn til renten på lån, der indfries.
+.kp off
+ 
+.kp on
+.if &L'&B45BELØB11 gt 1
+.el .go VIDER4
+:fed.Ejerpantebrev/e:skrslut.
+.br
+Sælger har tinglyst ejerpant for
+:vs.&B45BELØB11
+kr. i ejendommen. Hvis der i købsaftalen er indgået aftale om købers
+overtagelse af ejerpantebrevet, effektuerer banken denne. Hvis der ikke er
+truffet aftale, giver sælger banken fuldmagt til at tilbyde køber, at denne
+kan overtage ejerpantebrevet mod betaling af
+:vs.&B45BELØB
+kr. - Har køber ikke givet accept indenfor 5 hverdage, aflyses
+ejerpantebrevet.
+.kp off
+ 
+...VIDER4
+.kp on
+:fed.Gebyr :skrslut.
+.br
+Gebyr for sagens behandling er aftalt til
+:vs.&B45BELØB3
+kr., som forlods trækkes på sælgerkreditten. Beløbet dækker blandt andet
+rådgivning, beregning på og indfrielse af lån,
+aflysning af pantebreve, telefoniske og skriftlige aftaler med købers bank,
+købers advokat, realkreditinstitut og tinglysningskontor samt fremsendelse
+af diverse bilag og udskrifter til sælger ved sagens afslutning.
+ 
+Der opkræves særskilt gebyr på
+.*.if &B45BELØB4 ne 0,00
+.if &B45BELØB9 ne &RESULTA
+.el .go VIDER3
+Aftalen omfatter
+.us forlods udbetaling
+på &RESULTB kr.,
+som bogføres således (anslået):
+ 
+.in+2
+.if &B45BELØB4 ne 0,00
+.th >&BECTEKST04.
+.th .br
+.th >&BECTEKST14.>>&B45BELØB4 kr.
+.th .br
+.if &B45BELØB5 ne 0,00
+.th >&BECTEKST05.
+.th .br
+.th >&BECTEKST15.>>&B45BELØB5 kr.
+.th .br
+.if &B45BELØB6 ne 0,00
+.th >&BECTEKST06.
+.th .br
+.th >&BECTEKST16.>>&B45BELØB6 kr.
+.th .br
+.if &B45BELØB7 ne 0,00
+.th >&BECTEKST07.>>&B45BELØB7 kr.
+.th .br
+.if &B45BELØB8 ne 0,00
+.th >&BECTEKST08.>>&B45BELØB8 kr.
+.in-2
+ 
+...VIDER3
+.kp on
+:fed.Hæftelse og sikkerhedsstillelse :skrslut.
+.br
+Sælger hæfter som debitor for den gæld, som Sælgerkredit nr. &KTONR1
+til enhver tid udviser til
+banken. Hvis sælgerkreditten ikke kan indfries ved handlens afslutning,
+eller hvis handelen af en eller anden grund ikke bliver gennemført,
+forpligter sælger sig til at indfri gælden senest 3 uger efter afslutningen
+hhv. meddelelse om manglende gennemførelse af salget. Hvis indfrielsen
+kræver optagelse
+af lån hhv. reetablering af indfriede lån, forpligter
+sælger sig til at underskrive dokumenter hertil indenfor samme tidsramme.
+.kp off
+ 
+Deponeringen, som er aftalt i købsaftalen, indsættes på konto
+nr. &B45TILKTO..
+ 
+.if &L'&B45OVFKTO gt 1
+&KTONAVN   &MEDNAVN >&GENEKSP
+.kp off
+.tm-6
+:vs.&B45BELØB1
+kr. for oprettelse og administration af deponeringskonto.
+.if &B45BELØB2 eq 0,00
+.th .go UKU
+ 
+Der beregnes særskilt gebyr på
+:vs.&B45BELØB2
+kr. for tegning af kurskontrakt.
+...UKU
+.kp off
+ 
+.kp on
+:fed.Særskilte aftaler :skrslut.
+.br
+.su off
+.se a = substr &B45FRIL1A 60 1
+.se b = substr &B45FRIL1B 60 1
+.su on
+.if &L'&a = 0 .an &L'&b = 0
+.th &B45FRIL1A &B45FRIL1B &B45FRIL2A
+.if &L'&a = 0 .an &L'&b = 1
+.th &B45FRIL1A &B45FRIL1B.&B45FRIL2A
+.if &L'&a = 1 .an &L'&b = 0
+.th &B45FRIL1A.&B45FRIL1B &B45FRIL2A
+.if &L'&a = 1 .an &L'&b = 1
+.th &B45FRIL1A.&B45FRIL1B.&B45FRIL2A
+.kp off
+ 
+ 
+.kp on
+:kursiv.Sælger indestår banken for ethvert krav, der måtte blive gjort
+gældende i forbindelse med denne aftale. Sælger erklærer samtidig at være
+gjort bekendt med bankens forretningsbetingelser, som er en del af
+vilkårene for denne aftale samt afledte forretninger.:skrslut.
+.kp off
+ 
+Dette dokument kan tjene som grundlag for tvangsfuldbyrdelse,
+jfr. Retsplejelovens §478.
+ 
+ 
+.tp 38
+.kp on
+Dato: >Dato:
+ 
+Sælger og debitor:>                             :fed.&BDbank :skrslut.
+ 
+ 
+ 
+_____________________________________>_____________________________________
+.br
+.pa
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   S U P P O R T - B O L I G
+.ar off
+.fo left
+.sp2
+:verda18.Bevillingsinstruks (internt notat)
+ 
+.ti > 05
+.tp 38
+:verda09.Kontanthandelsaftale (sælger) i henhold til sælgerkredit
+nr. &KTONR1 er indgået med
+ 
+.if &MEDKUNDENR eq 000000-0000
+.th &KTONAVN (&KTOKUNDENR.)
+.el &KTONAVN (&KTOKUNDENR.) >&MEDNAVN (&MEDKUNDENR.)
+.br
+&KTOGADE >&MEDGADE
+.br
+&KTOBY >&MEDBY
+ 
+i forbindelse med salget af ejendommen, matr.nr. &B45MATRNR., beliggende
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1..
+.el &KTOGADE., &KTOBY..
+ 
+ 
+:fed.Salgsprovenu og maksimum :skrslut.
+.br
+Salgsprovenu
+udgør anslået
+.if &B45BELØB9 lt 0,00
+.th &B45BELØB9
+.th .go POS
+:vs.&B45BELØB9
+...POS
+kr. ifølge provenuberegning fra &B45ANDET.. Sælgerkreditten er bevilget med
+et maksimum på
+:vs.&B45BELØB10
+kr.
+ 
+ 
+:fed.Generelt :skrslut.
+.br
+Kontanthandelsaftaler bevilges i overensstemmelse med de retningslinier,
+der fremgår af den enkeltes bevillingsbeføjelse.
+ 
+Det er en forudsætning for bevilling, at rådgiver har fuld indsigt i
+sælgers økonomi og fuldt overblik og kontrol over sagen, hvilket også
+indebærer kendskab til aktuel tingbog.
+ 
+Den største risiko findes i sager, hvor sælger har andre utålmodige
+kreditorer, som muligvis kunne nå at presse et udlæg ind i ejendommen,
+inden køber får tinglyst skøde. Risikoen må alt andet lige være størst i
+sager med et begrænset provenu, men afhænger i øvrigt altid af størrelsen
+af øvrige usikrede kreditorer set i forhold til provenuet af
+ejendomssalget.
+ 
+For at begrænse risikoen i vores ekspedition, skal rådgiver nedenfor
+anføre, om sagen kan gennemføres som en type A eller type B sag.
+ 
+ 
+.tp 4 10
+:fed.Bevilling :skrslut.
+ 
+.if &U'&B45JN4 eq A
+.th x &ÅCONT.
+>:fed.Type A>:skrslut.Anses for at være risikofri. Bolig vil derfor
+gennemføre ekspeditionen straks og sende
+.br
+>>indfriede pantebreve til
+aflysning. Evt. ejerpantebreve sendes straks til købers bank
+.br
+>>eller til aflysning.
+ 
+.if &U'&B45JN4 eq B
+.th x &ÅCONT.
+>:fed.Type B >:skrslut.Anses for at være forbundet med risiko. Bolig vil
+derfor ikke påbegynde indfrielser,
+.br
+>>
+før kopi af skøde, tinglyst med anmærkninger, er modtaget.
+ 
+:kursiv.Bemærk: Forlods udbetaling af provenu kan kun ske i en type A sag.
+:skrslut.
+ 
+ 
+.tp 38
+:fed.Afdelingens indstilling >Bevilling af højere myndighed
+:skrslut.
+ 
+[ ] Bevilget som ansøgt  >[ ] Bevilget som ansøgt
+.br
+[ ] Indstilles til bevilling
+ 
+Dato: >Dato:
+
+
+
+_
+____________________________________>_____________________________________.
+br&
+GENEKSP
+.if &KUNDETYPE ne 06
+.th .go GLKU
+.pa
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   K O N S U L E N T
+.ar off
+.fo left
+.sp2
+.ti > 05
+.tp 38
+:verda18.Kundeemne (internt notat)
+ 
+:verda09.I forbindelse med indgået kontanthandelsaftale har jeg
+registreret
+følgende køber som kundeemne, kundetype 06, med
+.if &KUNDETILH eq 606003
+.th 0414
+.if &KUNDETILH eq 606004
+.th 0414
+.if &KUNDETILH eq 606007
+.th 0414
+.if &KUNDETILH eq 606008
+.th 0414
+.if &KUNDETILH eq 606011
+.th 0414
+.if &KUNDETILH eq 606016
+.th 0650
+.if &KUNDETILH eq 606019
+.th 0651
+.if &KUNDETILH eq 606020
+.th 0661
+.if &KUNDETILH eq 606022
+.th 0650
+.if &KUNDETILH eq 606023
+.th 0577
+som kundeansvarlig:
+ 
+&NAVN (&KUNDENR.)
+.br
+&GADE
+.br
+&BY
+ 
+ 
+Til orientering er
+kontanthandelsaftalen indgået med sælger:
+ 
+.if &MEDKUNDENR eq 000000-0000
+.th &KTONAVN (&KTOKUNDENR.)
+.el &KTONAVN (&KTOKUNDENR.) >&MEDNAVN (&MEDKUNDENR.)
+.br
+&KTOGADE >&MEDGADE
+.br
+&KTOBY >&MEDBY
+ 
+ved købet af ejendommen, matr.nr. &B45MATRNR., beliggende
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1..
+.el &KTOGADE., &KTOBY..
+ 
+ 
+Købers pengeinstitut:>Reg.nr. &BANKREGNR
+>&BKNAVN
+.br
+>&BKADR
+.br
+>&BKBY
+ 
+Evt. ejerpantebrev:>&ÅCONT.
+.if &L'&B45BELØB11 lt 2
+.th .go UDEP
+:vs.&B45BELØB11
+kr.
+.br
+>tilbudt køber for &ÅCONT.
+:vs.&B45BELØB
+kr.
+.br
+>den &DATO8
+...UDEP
+ 
+ 
+Evt. supplerende oplysninger:
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+ 
+___________________________________________________________________________
+H
+i
+l
+sen fra &G
+E
+NEKSP   
+ 
+ 
+ 
+ 
+:
+k
+u
+rsiv.Bilaget sendes til.if
+ &KUNDETILH eq 606003.th
+ Morten Olsen.if
+ &KUNDETILH eq 606004.th
+ Morten Olsen.if
+ &KUNDETILH eq 606007.th
+ Morten Olsen.if
+ &KUNDETILH eq 606008.th
+ Morten Olsen.if
+ &KUNDETILH eq 606011.th
+ Morten Olsen.if
+ &KUNDETILH eq 606016.th
+ Tina Due Lauritsen.if
+ &KUNDETILH eq 606019.th
+ Annelene Plüger.if
+ &KUNDETILH eq 606020.th
+ Lasse W. Jørgensen.if
+ &KUNDETILH eq 606022.th
+ Tina Due Lauritsen.if
+ &KUNDETILH eq 606023.th
+ Henrik Svendsentil
+lige med kopi af købsaftalens forside (kun forsiden).:sk
+rslut....
+GLKU
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &L'&B45BELØB11 gt 2
+.el .qu
+.pa
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&MEDNAVN gt 1
+.an &L'&NAVN gt 28
+.th .go USOR
+.if &L'&MEDNAVN lt 1
+.an &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.br
+&NAVN
+.br
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6
+.th .br
+&GADE
+.br
+&BY
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.th .sp
+.el .sp2
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 4
+.el .sp 5
+:FED.
+Tillykke med &DIN nye ejendom:skrslut.
+ 
+&SDU har købt ejendommen
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1
+.el &KTOGADE., &KTOBY.,
+af
+&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+- og i den forbindelse har sælger bedt os om at modtage deponeringen
+og sørge for de nødvendige indfrielser.
+ 
+.if &L'&B45BELØB11 gt 2
+.el .go UDEN
+På nuværende tidspunkt
+er der ejerpant for i alt
+:vs.&B45BELØB11
+kr. i ejendommen,
+som sælger tilbyder &DIG at overtage for
+:vs.&B45BELØB
+kr.
+ 
+Det kan være en fordel for &DIG., fordi der kan spares tinglysningsafgift,
+hvis &DU
+skal låne penge til købet - eller ved en senere lejlighed - mod pant i
+ejendommen.
+ 
+&SDIN
+.if &BANKREGNR eq 6060
+.th rådgiver
+.el bank
+vil være &DIG behjælpelig med det praktiske med overtagelsen. Vær
+opmærksom på, at der også er en fast tinglysningafgift samt eventuelt
+gebyr til banken.
+ 
+:kursiv.
+Ønsker &DU at gøre brug af tilbuddet, beder vi &DIG
+.if &BANKREGNR eq 6060
+.th kontakte &DIN rådgiver
+.el underskrive og returnere vedlagte kopi af dette brev
+hurtigst muligt og
+inden 5 hverdage. Ellers vil ejerpantet blive aflyst.
+ 
+:skrslut.Accept bedes givet til vores Boliggruppe, Axeltorv 4, 4700
+Næstved, tlf. 5575 4897, fax 5575 4451. Afregning kan ske over
+refusionen.
+ 
+...UDEN
+Hvis &DU har spørgsmål i forbindelse med handlen, er
+&DU meget velkommen til at kontakte
+.if &BANKREGNR eq 6060
+.th &DIN rådgiver.
+.el mig på ovennævnte tlf.nr. eller e-mail.
+.if &L'&B45BELØB11 gt 2
+.el .go END
+.da a 6 58 width 79
+.ar a on
+___________________________________________________________________________
+ 
+   Jeg/vi ønsker at overtage ovennævnte ejerpant på de anførte vilkår.
+.ti > 05
+.tp 38
+ 
+ 
+   __________________________ >____________________________________
+   Sted og dato         >Underskrift/er
+.ar off
+...END
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &L'&B45BELØB11 gt 2
+.el .qu
+.pa
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&MEDNAVN gt 1
+.an &L'&NAVN gt 28
+.th .go USOR
+.if &L'&MEDNAVN lt 1
+.an &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.br
+&NAVN
+.br
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6
+.th .br
+&GADE
+.br
+&BY
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.th .sp
+.el .sp2
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 4
+.el .sp 5
+:FED.
+Tillykke med &DIN nye ejendom:skrslut.
+ 
+&SDU har købt ejendommen
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1
+.el &KTOGADE., &KTOBY.,
+af
+&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+- og i den forbindelse har sælger bedt os om at modtage deponeringen
+og sørge for de nødvendige indfrielser.
+ 
+.if &L'&B45BELØB11 gt 2
+.el .go UDEN
+På nuværende tidspunkt
+er der ejerpant for i alt
+:vs.&B45BELØB11
+kr. i ejendommen,
+som sælger tilbyder &DIG at overtage for
+:vs.&B45BELØB
+kr.
+ 
+Det kan være en fordel for &DIG., fordi der kan spares tinglysningsafgift,
+hvis &DU
+skal låne penge til købet - eller ved en senere lejlighed - mod pant i
+ejendommen.
+ 
+&SDIN
+.if &BANKREGNR eq 6060
+.th rådgiver
+.el bank
+vil være &DIG behjælpelig med det praktiske med overtagelsen. Vær
+opmærksom på, at der også er en fast tinglysningafgift samt eventuelt
+gebyr til banken.
+ 
+:kursiv.
+Ønsker &DU at gøre brug af tilbuddet, beder vi &DIG
+.if &BANKREGNR eq 6060
+.th kontakte &DIN rådgiver
+.el underskrive og returnere vedlagte kopi af dette brev
+hurtigst muligt og
+inden 5 hverdage. Ellers vil ejerpantet blive aflyst.
+ 
+:skrslut.Accept bedes givet til vores Boliggruppe, Axeltorv 4, 4700
+Næstved, tlf. 5575 4897, fax 5575 4451. Afregning kan ske over
+refusionen.
+ 
+...UDEN
+Hvis &DU har spørgsmål i forbindelse med handlen, er
+&DU meget velkommen til at kontakte
+.if &BANKREGNR eq 6060
+.th &DIN rådgiver.
+.el mig på ovennævnte tlf.nr. eller e-mail.
+.if &L'&B45BELØB11 gt 2
+.el .go END
+.da a 6 58 width 79
+.ar a on
+___________________________________________________________________________
+ 
+   Jeg/vi ønsker at overtage ovennævnte ejerpant på de anførte vilkår.
+.ti > 05
+.tp 38
+ 
+ 
+   __________________________ >____________________________________
+   Sted og dato         >Underskrift/er
+.ar off
+...END
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &L'&B45BELØB11 gt 2
+.el .qu
+.pa
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&MEDNAVN gt 1
+.an &L'&NAVN gt 28
+.th .go USOR
+.if &L'&MEDNAVN lt 1
+.an &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   B O L I G G R U P P E N
+.ar off
+.br
+&NAVN
+.br
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6
+.th .br
+&GADE
+.br
+&BY
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.th .sp
+.el .sp2
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 4
+.el .sp 5
+:FED.
+Tillykke med &DIN nye ejendom:skrslut.
+ 
+&SDU har købt ejendommen
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1
+.el &KTOGADE., &KTOBY.,
+af
+&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+- og i den forbindelse har sælger bedt os om at modtage deponeringen
+og sørge for de nødvendige indfrielser.
+ 
+.if &L'&B45BELØB11 gt 2
+.el .go UDEN
+På nuværende tidspunkt
+er der ejerpant for i alt
+:vs.&B45BELØB11
+kr. i ejendommen,
+som sælger tilbyder &DIG at overtage for
+:vs.&B45BELØB
+kr.
+ 
+Det kan være en fordel for &DIG., fordi der kan spares tinglysningsafgift,
+hvis &DU
+skal låne penge til købet - eller ved en senere lejlighed - mod pant i
+ejendommen.
+ 
+&SDIN
+.if &BANKREGNR eq 6060
+.th rådgiver
+.el bank
+vil være &DIG behjælpelig med det praktiske med overtagelsen. Vær
+opmærksom på, at der også er en fast tinglysningafgift samt eventuelt
+gebyr til banken.
+ 
+:kursiv.
+Ønsker &DU at gøre brug af tilbuddet, beder vi &DIG
+.if &BANKREGNR eq 6060
+.th kontakte &DIN rådgiver
+.el underskrive og returnere vedlagte kopi af dette brev
+hurtigst muligt og
+inden 5 hverdage. Ellers vil ejerpantet blive aflyst.
+ 
+:skrslut.Accept bedes givet til vores Boliggruppe, Axeltorv 4, 4700
+Næstved, tlf. 5575 4919, fax 5575 4451. Afregning kan ske over
+refusionen.
+ 
+...UDEN
+Hvis &DU har spørgsmål i forbindelse med handlen, er
+&DU meget velkommen til at kontakte
+.if &BANKREGNR eq 6060
+.th &DIN rådgiver.
+.el mig på ovennævnte tlf.nr. eller e-mail.
+.if &L'&B45BELØB11 gt 2
+.el .go END
+.da a 6 58 width 79
+.ar a on
+___________________________________________________________________________
+ 
+   Jeg/vi ønsker at overtage ovennævnte ejerpant på de anførte vilkår.
+.ti > 05
+.tp 38
+ 
+ 
+   __________________________ >____________________________________
+Sted og dato         >Underskrift/er.ar
+ off...
+END
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i
+.*.th MEDDELELSE
+.ar off
+:verda11.
+.in 3mm
+.ll 172mm
+.sp3
+.fo left
+.if &U'&B45ANBEFAL eq J
+.th ANBEFALET
+.th .br
+.if &L'&B45BELØB11 gt 2
+.el .qu
+.if &KUNDETYPE ne 06
+.th .qu
+.pa
+.da kopi 128mm 4mm width 68mm
+.ar kopi on
+T I L   K O N S U L E N T
+.ar off
+.da afs 128mm 38mm width 68mm
+.da sor 95mm 38mm width 20mm
+.da med 23mm 78mm width 68mm
+.ar afs on
+.br
+.*.up on
+:verda08.
+&BDbank · &AFDNAVN
+.sp 1mm
+&AFDGADE ;.sp 1mm
+&AFDBY ;.sp 1mm
+.if &L'&GENTLFNR eq 9
+.th Telefon &GENTLFNR ;.br
+.el .se a = substr &GENTLFNR 1 4
+.el .se b = substr &GENTLFNR 5 4
+.el Telefon &a &b ;.br
+.sp 1mm ;&AFDFAX ;.sp 1mm
+.if &L'&GENEMAIL gt 2
+.th E-mail: &GENEMAIL
+.sp 1mm
+ 
+.sp 1mm
+.if &U'&UDSKRSTED eq C
+.th &DATO
+.up off
+.ar off
+.ar sor on
+.if &U'&UDSKRSTED ne C
+.th .go USOR
+.if &L'&MEDNAVN gt 1
+.an &L'&NAVN gt 28
+.th .go USOR
+.if &L'&MEDNAVN lt 1
+.an &L'&STILL gt 28
+.th .go USOR
+6060
+...USOR
+.ar off
+.ar med on
+.if &U'&UDSKRSTED eq C
+.th :BRED.:FED.
+.br
+&NAVN
+.br
+.if &L'&BECTEKST6 gt 1
+.th og &BECTEKST6
+.th .br
+&GADE
+.br
+&BY
+...ATT
+.if &L'&B45REF lt 2
+.th .sp2
+.th .go DATERING
+.su off
+.se a = substr &B45REF 1 3
+.su on
+.sp
+.if &U'&a eq ATT
+.th &B45REF
+.el Att.: &B45REF
+...DATERING
+.sp &BLANKLIN
+.if &U'&B45ANBEFAL eq J
+.th .sp
+.el .sp2
+.if &U'&UDSKRSTED eq D
+.th &EKSPBY., den &RESULTZ
+.th .sp 4
+.el .sp 5
+:FED.
+Tillykke med &DIN nye ejendom:skrslut.
+ 
+&SDU har købt ejendommen
+.if &L'&KTOGADE1 gt 1
+.th &KTOGADE1
+.el &KTOGADE., &KTOBY.,
+af
+&KTONAVN
+.if &L'&MEDNAVN gt 1
+.th og &MEDNAVN
+- og i den forbindelse har sælger bedt os om at modtage deponeringen
+og sørge for de nødvendige indfrielser.
+ 
+.if &L'&B45BELØB11 gt 2
+.el .go UDEN
+På nuværende tidspunkt
+er der ejerpant for i alt
+:vs.&B45BELØB11
+kr. i ejendommen,
+som sælger tilbyder &DIG at overtage for
+:vs.&B45BELØB
+kr.
+ 
+Det kan være en fordel for &DIG., fordi der kan spares tinglysningsafgift,
+hvis &DU
+skal låne penge til købet - eller ved en senere lejlighed - mod pant i
+ejendommen.
+ 
+&SDIN
+.if &BANKREGNR eq 6060
+.th rådgiver
+.el bank
+vil være &DIG behjælpelig med det praktiske med overtagelsen. Vær
+opmærksom på, at der også er en fast tinglysningafgift samt eventuelt
+gebyr til banken.
+ 
+:kursiv.
+Ønsker &DU at gøre brug af tilbuddet, beder vi &DIG
+.if &BANKREGNR eq 6060
+.th kontakte &DIN rådgiver
+.el underskrive og returnere vedlagte kopi af dette brev
+hurtigst muligt og
+inden 5 hverdage. Ellers vil ejerpantet blive aflyst.
+ 
+:skrslut.Accept bedes givet til vores Boliggruppe, Axeltorv 4, 4700
+Næstved, tlf. 5575 4897, fax 5575 4451. Afregning kan ske over
+refusionen.
+ 
+...UDEN
+Hvis &DU har spørgsmål i forbindelse med handlen, er
+&DU meget velkommen til at kontakte
+.if &BANKREGNR eq 6060
+.th &DIN rådgiver.
+.el mig på ovennævnte tlf.nr. eller e-mail.
+.if &L'&B45BELØB11 gt 2
+.el .go END
+.da a 6 58 width 79
+.ar a on
+___________________________________________________________________________
+ 
+   Jeg/vi ønsker at overtage ovennævnte ejerpant på de anførte vilkår.
+.ti > 05
+.tp 38
+ 
+ 
+   __________________________ >____________________________________
+   Sted og dato         >Underskrift/er
+.ar off
+...END
+.el &h.&i
+...SLUT
+.da z 7mm 289mm width 150mm rotate -90
+.ar z on
+.fo left
+.*:verda05. CVR-nr. 32127711 Næstved - SWIFT/BIC DIBADK22 -
+:verda05. &BDcvr - &BDswift -
+&KLOKKESLET - &BREVNAVN
+:SKRSLUT.
+.ar off
+...NOBREV3
+.if &BREVNAVN eq B45SÆL2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN11
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45KOR4
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45GEN3
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE1
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45NYE2
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45PAN9
+.th .go ALIGEVEL
+.if &BREVNAVN eq B45REA3
+.th .go ALIGEVEL
+.if &U'&B45TELF eq N
+.th .go NOBREV3
+.if &BREVNAVN eq B45KØB5 .an &REGTYPE gt 1999
+.th .go NOBREV3
+...ALIGEVEL
+.sp 2
+.* omskrivning af titler til stort begyndelsesbogstav
+.su off
+.se g = substr &GENTITEL 1 1
+.se h = &U'&g
+.se i = substr &GENTITEL 2
+.se j = substr &GENMTITEL 1 1
+.se k = &U'&j
+.se l = substr &GENMTITEL 2
+.su on
+.ti ¤ 05
+:NY..TP 71MM:ENY.
+Med venlig hilsen
+.if &U'&UDSKRSTED eq C
+.th .sp2
+.el .sp3
+.if &L'&GENMEKSP = 0
+.or &U'&B45BRUGMED eq N
+.th &GENEKSP
+.el &GENMEKSP ¤&GENEKSP
+.br
+.if &L'&GENMTITEL = 0
+.an &L'&GENMEKSP gt 0
+.th .go SLUT
+.if &L'&GENMTITEL gt 0
+.an &L'&GENMEKSP gt 0
+.an &L'&GENTITEL gt 0
+.an &U'&B45BRUGMED eq J
+.th &k.&l ¤&h.&i

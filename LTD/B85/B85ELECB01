@@ -1,0 +1,181 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.******** BREVHOVED via kontonr. evt. incl. medktohaver*****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 20mm  46mm width 170mm
+.ar ADRESSE on
+:SWISS10.
+:FED.
+.if &U'&MEDKUNDENR = 000000-0000
+.th .go TEST1
+.el .go TEST2
+.**************KONTOHAVER OG MEDKONTOHAVER
+...TEST2
+&KTONAVN og
+.br
+&MEDNAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+.go VIDERE
+.***********KONTOHAVER
+...TEST1
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+...VIDERE
+.ar off
+.********* B85hovedkto er slut**********************
+.******** BREVHOVED - afsenderadresse *****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da AFSEND 126mm  34mm width  75mm
+.ar AFSEND on
+:SWISS10.
+.tp 14mm
+&AFDBNKNAVN
+.br
+.if &L'&AFDNAVN gt 0
+.th &AFDNAVN
+.th.br
+.el.br
+&AFDGADE
+.br
+&AFDBY
+.br
+Telefon: ¤ &AFDTLF
+.br
+Telefax: ¤ &AFDFAX
+.br
+&GENEMAIL
+.sp
+www.lokalbanken.dk
+.br
+Swift: LOHIDK22
+.sp
+Reference: &B85NAVN
+.br
+&DATO
+.br
+.ar off
+.********* B85hovedafs er slut
+.**
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN - 07.11.2003
+.ar off
+.***********************************************************************
+.* Parameterafsnit
+.oc **
+:tiltale &TILTALE
+.ll 170mm
+.ti ¤ 05
+.da TEKST 20mm 110mm width 170mm
+.ar TEKST on
+.fo on
+.************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.************************************************************************
+:SWISS12.
+:FED.
+&BANKNAVN - Visa Electron nr. &kortnr1 &kortnr2 &kortnr3 &kortnr4
+:SKRSLUT.
+.sp
+Vi bekræfter herved, at vi den &DATO8 kl. &GENSPAERKL har modtaget &DIN
+meddelelse om,
+.if &B85VALG = 1
+.th at ovennævnte kort er stjålet.
+.el
+.if &B85VALG = 2
+.th at ovennævnte kort er bortkommet.
+.el
+.if &B85VALG = 3
+.th at der muligvis er udstedt falsk kort.
+.sp
+Kortet er straks spærret, både hos os og i det internationale system. Men
+det forhindrer desværre ikke, at køb på kortet i en kortere periode kan
+blive præsenteret til betaling.
+.sp
+Af forsikringsmæssige årsager er vi nødt til at viderefakturere disse
+udbetalinger til &DIG., således at &DU herefter, på tro og love, kan
+fraskrive &DIG ansvaret for forbruget.
+.sp
+Hvis det spærrede kort kommer til veje igen, bedes &DU kontakte
+&AFDBNKNAVN på telefon &AFDTLF.
+.sk
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 3
+&B85NAVN
+.sk
+.ar off

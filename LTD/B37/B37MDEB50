@@ -1,0 +1,695 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*Parametre
+.************** HB DOKUMENT TEST   ***************************************
+.* PRIOMIDL. fjernet08.10.2010 PS. Regtyp 1138,39,40,41,34,42 HBKREDIT ES
+.* PRIOMIDL. indsat 08.06.2010 PS. Regtyp 1135,36,37,43 ES
+.* PRIOMIDL. indsat 04.06.2010 PS. Regtyp 1138,39,40,41,42,34 ES
+.* PRIOANDL. indsat 19.03.2010 PS. Regtyp skal OGSÅ være i PRIOVAR/FAST
+.* TEST til ERHVERV STÅENDE LÅN i 1.pos. særlige best.(stående!dd.mm.åååå)
+.*go TESTREG
+.se tal = 0
+.se sep1 = ''
+.se sep2 = ''
+.se sep3 = ''
+.se stal = 0
+.if &L'&SAERBET01 = 0
+.th .go EJMSLUT
+.*if x&tal = x1
+.se  str = '&SAERBET01.'
+.se lstr = &L'&str
+...IGEN
+.*if &L'&SAERBET01 = 0
+.if &tal > &lstr
+.th .go MSLUT
+.se tal = &tal + 1
+.se ldoktst = &L'&SAERBET01
+.if x&ldoktst = x0
+.th .se ldokrst = 0
+.el .se ldokrst = &ldoktst - 1
+.se DOKTST = SUBSTR '&SAERBET01.' 1 1
+.se DOKTXT = SUBSTR '&SAERBET01.' 2 &ldokrst
+...NUL
+.if x&DOKTST ne x( .and x&tal = x1
+.th .go EJMSLUT
+.el .se SAERBET01 = '&DOKTXT.'
+.*.el .se PRIOPF   = 1
+.if x&DOKTST = x)
+.th .se SAERBET01 = '&DOKTXT.'
+.th .se stal = &tal
+.* SIDSTE PARAMETER (3)**************
+.se bsep1 = 2
+.*** HVIS ) ER KOMMET, MEN DER IKKE ER ! TIL ALLE PARAMETRE **
+.if &tal. gt &stal .AN x&stal. ne x0
+.el .go PARMTST
+.if &L'&sep1 = 0
+.th .se  sep1 = &stal.
+.th .se bsep2 = &stal. + 1
+.if x&sep1 = x&stal .and &bsep1 > &sep1
+.th .se lsep1 = 0
+.el .se lsep1 = &sep1 - &bsep1
+.if &L'&sep2 = 0
+.th .se  sep2 = &stal.
+.th .se bsep3 = &stal. + 1
+.if x&sep2 = x&stal .and &bsep2 > &sep2
+.th .se lsep2 = 0
+.el .se lsep2 = &sep2 - &bsep2
+.if &L'&sep3 = 0
+.th .se  sep3 = &stal.
+.th .se bsep4 = &stal. + 1
+.if x&sep3 = x&stal .and &bsep3 > &sep3
+.th .se lsep3 = 0
+.el .se lsep3 = &sep3 - &bsep3
+...PARMTST
+.if x&DOKTST = x) .and x&sep1 ne x .and x&sep2 ne x
+.th .se  sep3 = &tal
+.th .se lsep3 = &sep3 - &bsep3
+.if x&DOKTST  = x! .and x&sep1 ne x .and x&sep2 = x
+.th .se  sep2 = &tal
+.th .se lsep2 = &sep2 - &bsep2
+.th .se bsep3 = &tal + 1
+.if x&DOKTST  = x! .and x&sep1 = x .and x&sep2 = x
+.th .se  sep1 = &tal
+.th .se lsep1 = &sep1 - &bsep1
+.th .se bsep2 = &tal + 1
+.IF x&tal = x30
+.th go MSLUT
+.if &tal < 29
+.th .go IGEN
+...MSLUT
+.if x&stal = x0
+.th .go FEJL
+.se srstr = &stal + 1
+.***
+.go EJGL
+.*if &L'&sep1 = 0
+.*th .se sep1 = &stal
+.*if &L'&sep1 ne 0 .and &sep1 gt 2
+.*th .se lsep1 = &sep1 - 2
+.*se lsep2 = &sep2 - 2
+.*if &L'&sep2 = 0
+.*th .se sep2 = &stal
+.*if &L'&sep2 ne 0 .and &sep2 gt 2
+.*th .se lsep2 = &sep2 - 2
+.*if &L'&sep2 ne 0 .and &sep2 gt &sep1
+...EJGL
+.***
+.se SAERBET01 = SUBSTR '&str.' &srstr.
+.se par1      = SUBSTR '&str.' 2 &lsep1.
+.se par2      = SUBSTR '&str.' &bsep2. &lsep2.
+.se par3      = SUBSTR '&str.' &bsep3. &lsep3.
+.* SÆT PARAMETER FOR NORMAL FASTLÅN ****
+.* SKER VED LABEL  EJMSLUT *****
+.*** SÆT PARAMETER FOR PRIORITETSLÅN/STÅENDE LÅN
+.*if x&U'&par1 = xPRIO2
+.*th .se PRIOPF2  = 2
+.*if x&U'&par1 = xPRIOFAST
+.*th .se PRIOFAST  = 1
+.*th .se EJSTOP    = 1
+.*if x&U'&par1 = xPRIOVAR
+.*th .se PRIOVAR   = 1
+.*th .se EJSTOP    = 1
+.*if x&U'&par1 = xPRIOKREDIT
+.*th .se PRIOKRED  = 1
+.*th .se EJSTOP    = 1
+.if x&U'&par1 = xSTÅENDE .an x&L'&par2 = x10
+.th .se STLAN     = 1
+.th .se STLANDATO = &par2
+.th .se EJSTOP    = 1
+.if x&EJSTOP = 1
+.th .go EJMSLUT
+.go EJMSLUT
+.**************************
+...FEJL
+:SWISS16.
+.sp 10mm
+Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEBITOR2
+.sp 10mm
+DER ER FEJL I DOKUMENT TESTSTRENGEN:
+ 
+FORMAT i førsteposition af særlige bemærkinger:
+.sp
+.*(PrioFast) eller (PrioVar) eller (PrioKredit)
+.*(PrioFast!xx)
+(stående!dd.mm.åååå)
+.sp
+   stående    = Kravs TEST ord for stående lån
+   dd.mm.åååå = Udløbsdato (2. afviklingsdato med 10 karakterer)
+   () og !    = Kravs tegn
+.sp 10mm
+ 
+DU HAR SKREVET:
+ 
+&str.
+ 
+.qu
+.**************************
+...EJMSLUT
+.******* TEST ***
+.*** SÆT PARAMETER FOR NORMAL FASTLÅN
+.*if x&par1  = x
+.*or &E'&par1  = 0
+.*th .se NORMAL   = 1
+.******* TESTPARAMETRE UDSKRIVES ***
+.if x&U'&par3 ne xTEST
+.th .go SLUTTEST
+.da TESTa 20mm 200mm
+.ar TESTa on
+ 
+ PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
+tal = &tal stal = &stal
+.br
+Særlige betingelser:
+'&SAERBET01.'
+.*'&SÆRBET1A.' '&SÆRBET1B.'
+.br
+sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
+par1='&par1.'par2='&par2.'par3 = '&par3.'
+.br
+srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
+STLAN = '&STLAN.' STLANDATO = '&STLANDATO.'
+bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
+bsep3 = &bsep3 lsep3=&lsep3
+.ar off
+...SLUTTEST
+.* TEST PÅ REGTYPE ***************
+...TESTREG
+.se NORMAL   = 1
+.se LIT      = J ;.* Løbetidsbaseret intern rente
+.se PRIOANDEL = 0 ;.* Andelsbolig tekst
+.if x&E'&PRIERH = x0
+.th .se PRIERH = P
+.if x&REGTYPE11 = x1000
+.or x&REGTYPE11 = x1004
+.or x&REGTYPE11 = x1009
+.or x&REGTYPE11 = x1010
+.or x&REGTYPE11 = x1030
+.or x&REGTYPE11 = x1031
+.or x&REGTYPE11 = x1072
+.th .se LIT    = N
+.th .se PRIERH = E
+.*if x&U'&par1 = xPRIOFAST
+.if x&REGTYPE11 = x1330
+.or x&REGTYPE11 = x1331
+.or x&REGTYPE11 = x1332
+.or x&REGTYPE11 = x1361
+.or x&REGTYPE11 = x1333
+.or x&REGTYPE11 = x1334
+.or x&REGTYPE11 = x1342
+.or x&REGTYPE11 = x1350
+.or x&REGTYPE11 = x1118
+.or x&REGTYPE11 = x1142
+.or x&REGTYPE11 = x1119
+.or x&REGTYPE11 = x1134
+.or x&REGTYPE11 = x1354
+.or x&REGTYPE11 = x1102
+.th .se PRIERH = P
+.th .se PRIOFAST  = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.if x&REGTYPE11 = x1335
+.or x&REGTYPE11 = x1358
+.or x&REGTYPE11 = x1110
+.or x&REGTYPE11 = x1135
+.or x&REGTYPE11 = x1336
+.or x&REGTYPE11 = x1355
+.or x&REGTYPE11 = x1101
+.or x&REGTYPE11 = x1111
+.or x&REGTYPE11 = x1136
+.or x&REGTYPE11 = x1337
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1137
+.or x&REGTYPE11 = x1338
+.or x&REGTYPE11 = x1359
+.or x&REGTYPE11 = x1113
+.or x&REGTYPE11 = x1138
+.or x&REGTYPE11 = x1356
+.or x&REGTYPE11 = x1111
+.or x&REGTYPE11 = x1339
+.or x&REGTYPE11 = x1360
+.or x&REGTYPE11 = x1114
+.or x&REGTYPE11 = x1139
+.or x&REGTYPE11 = x1357
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1340
+.or x&REGTYPE11 = x1115
+.or x&REGTYPE11 = x1140
+.or x&REGTYPE11 = x1341
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1141
+.or x&REGTYPE11 = x1343
+.or x&REGTYPE11 = x1117
+.or x&REGTYPE11 = x1143
+.or x&REGTYPE11 = x1351
+.or x&REGTYPE11 = x1352
+.or x&REGTYPE11 = x1353
+.or x&REGTYPE11 = x2854
+.or x&REGTYPE11 = x2856
+.th .se PRIERH = P
+.th .se PRIOVAR   = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.if x&REGTYPE11 = x1322
+.or x&REGTYPE11 = x1323
+.or x&REGTYPE11 = x1324
+.th .se LIT    = N
+.th .se PRIERH = E
+.th .se PRIOFAST  = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.if x&REGTYPE11 = x1325
+.or x&REGTYPE11 = x1100
+.or x&REGTYPE11 = x1125
+.or x&REGTYPE11 = x1326
+.or x&REGTYPE11 = x1126
+.or x&REGTYPE11 = x1327
+.or x&REGTYPE11 = x1127
+.or x&REGTYPE11 = x1328
+.or x&REGTYPE11 = x1103
+.or x&REGTYPE11 = x1128
+.or x&REGTYPE11 = x1329
+.or x&REGTYPE11 = x1104
+.or x&REGTYPE11 = x1129
+.th .se LIT    = N
+.th .se PRIERH = E
+.th .se PRIOVAR   = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.* PRIORITETSKREDITTER (Skal også være i PRIOVAR/FAST ovenfor)
+.if x&REGTYPE11 = x2854
+.or x&REGTYPE11 = x2856
+.or x&REGTYPE11 = x2858
+.th .se PRIOKRED = 1
+.* ANDELSBOLIGREGTYPER (Skal også være i PRIOVAR/FAST ovenfor)
+.if x&REGTYPE11 = x1350
+.or x&REGTYPE11 = x1351
+.or x&REGTYPE11 = x1352
+.or x&REGTYPE11 = x1353
+.if x&REGTYPE11 = x1354
+.or x&REGTYPE11 = x1355
+.or x&REGTYPE11 = x1356
+.or x&REGTYPE11 = x1357
+.or x&REGTYPE11 = x2857
+.th .se PRIOANDEL = 1
+.* HANDELSBANKEN KREDIT(Skal også være i PRIOVAR/FAST ovenfor)
+.se B37HYCVR = N
+.* TESTKUNDE
+.*if x&KTOKNDNR1 = x4370274881
+.*el .go EJTSTCVR
+.if x&REGTYPE11 = x1110
+.or x&REGTYPE11 = x1113
+.or x&REGTYPE11 = x1114
+.or x&REGTYPE11 = x1115
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1117
+.or x&REGTYPE11 = x1118
+.or x&REGTYPE11 = x1119
+.or x&REGTYPE11 = x1135
+.or x&REGTYPE11 = x1136
+.or x&REGTYPE11 = x1137
+.or x&REGTYPE11 = x1143
+.th .se B37HYCVR = J
+.th .se BANKNAVN = 'Handelsbanken Kredit'
+.el .se B37HYCVR = N
+.* BETINGELSESSIDE og UNSKR KAN ENDNU IKKE HÅNDTERE REGTYPE11 FRA LÅNESAG
+.if x&REGTYPE = x1110
+.or x&REGTYPE = x1113
+.or x&REGTYPE = x1114
+.or x&REGTYPE = x1115
+.or x&REGTYPE = x1116
+.or x&REGTYPE = x1117
+.or x&REGTYPE = x1118
+.or x&REGTYPE = x1119
+.or x&REGTYPE = x1135
+.or x&REGTYPE = x1136
+.or x&REGTYPE = x1137
+.or x&REGTYPE = x1143
+.th .se B37HYCVR = J
+.th .se BANKNAVN = 'Handelsbanken Kredit'
+...EJTSTCVR
+.* STOPREGTYPER (Fastrente brug SD)
+.if x&REGTYPE11 = x1000
+.or x&REGTYPE11 = x1001
+.or x&REGTYPE11 = x1004
+.or x&REGTYPE11 = x1030
+.or x&REGTYPE11 = x1071
+.or x&REGTYPE11 = x1072
+.or x&REGTYPE11 = x1074
+.or x&REGTYPE11 = x1320
+.or x&REGTYPE11 = x1321
+.th .se STOP = 1
+.******* TEST SLUT ***
+.* MAKROEN hklogo defineres - tom eller med logo og cvrtekst
+.* Hvis parametren B37PDF = J, så tom. Tilføjet 12.06.2012 es
+.************** LOGO * TEKST STARTER **************************
+.dm hklogo on
+.**** HVIS VÆRDIEN IKKE ER SAT TIL J dannes makroen uden indhold **********
+.if x&U'&B37HYCVR ne xJ
+.th .go TOM
+.el .go TAGMED
+...TAGMED
+.if x&U'&B37PDF = xJ
+.th .go TOM
+.************** Areal definitioner ****************************************
+.*da HKLOG 80mm 11.7mm width 110mm
+.da HKLOG 20mm 11.7mm width 110mm
+.da HKCVR 18.5mm 276.8mm width 177mm
+.************** LOGO * TEKST STARTER **************************
+.ar HKLOG on
+:SWISS20.:FED.
+Handelsbanken Kredit
+.ar off
+.**************** CVR* TEKST STARTER **************************
+.ar HKCVR on
+.sp 11mm
+:SWISS6.
+.se hk1 'Handelsbanken Kredit CVR-nr. 32476759 Filial af'
+.se hk2 'Stadshypotek AB, Sverige * Org.nr. SE556459-6715'
+.ce on
+&hk1 &hk2
+.ce off
+.ar off
+...TOM
+.dm off
+.*og med hovedkontor på Kungsträgårdsgatan 2, SE-10370 Stockholm, Sverige),
+.*ct et helejet datterselskab af
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.* HANDELSBANKEN KREDIT ***************************************************
+.hklogo
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+KL. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Øvrige låntagere
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**************************************************************************
+.da BOX 20mm 40mm width 175mm
+.**************************************************************************
+.ar BOX on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+.* RETTET D.9.11.2011 vedr. UNDERSKRIFTSRUM es
+.* ¤Banksted¤Kontonummer¤Kontotype¤Udskrivningsdato
+¤Banksted¤Kontonummer¤Kontotype¤Dannelsesdato
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 220.5mm
+.bx off
+.ar off
+.**************************************************************************
+&DEB06ADR1
+.br
+&DEB06ADR2
+.br
+&DEB06ADR3
+.br
+&DEB06ADR4
+.br
+&DEB06ADR5
+.br
+&DEB06KNDNR
+.sp 3mm
+.********
+&DEB07ADR1
+.br
+&DEB07ADR2
+.br
+&DEB07ADR3
+.br
+&DEB07ADR4
+.br
+&DEB07ADR5
+.br
+&DEB07KNDNR
+.sp 3mm
+.********
+&DEB08ADR1
+.br
+&DEB08ADR2
+.br
+&DEB08ADR3
+.br
+&DEB08ADR4
+.br
+&DEB08ADR5
+.br
+&DEB08KNDNR
+.sp 3mm
+.********
+&DEB09ADR1
+.br
+&DEB09ADR2
+.br
+&DEB09ADR3
+.br
+&DEB09ADR4
+.br
+&DEB09ADR5
+.br
+&DEB09KNDNR
+.**************************************************************************
+.da BANKSTED 20mm 47mm width 175mm
+.da MEDDEB1 25mm 62mm width 85mm
+.da MEDDEB2 112.5mm 62mm width 85mm
+.**************************************************************************
+.ar BANKSTED on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.**************************************************************************
+.ar MEDDEB1 on
+&DEB03ADR1
+.br
+&DEB03ADR2
+.br
+&DEB03ADR3
+.br
+&DEB03ADR4
+.br
+&DEB03ADR5
+.br
+&DEB03KNDNR
+.sp 3mm
+.********
+&DEB04ADR1
+.br
+&DEB04ADR2
+.br
+&DEB04ADR3
+.br
+&DEB04ADR4
+.br
+&DEB04ADR5
+.br
+&DEB04KNDNR
+.sp 3mm
+.********
+&DEB05ADR1
+.br
+&DEB05ADR2
+.br
+&DEB05ADR3
+.br
+&DEB05ADR4
+.br
+&DEB05ADR5
+.br
+&DEB05KNDNR
+.sp 3mm
+.********
+&DEB17ADR4
+.br
+&DEB17ADR5
+.br
+&DEB17KNDNR
+.sp 3mm
+.********
+&DEB18ADR1
+.br
+&DEB18ADR2
+.br
+&DEB18ADR3
+.br
+&DEB18ADR4
+.br
+&DEB18ADR5
+.br
+&DEB18KNDNR
+.sp 3mm
+.********
+&DEB19ADR1
+.br
+&DEB19ADR2
+.br
+&DEB19ADR3
+.br
+&DEB19ADR4
+.br
+&DEB19ADR5
+.br
+&DEB19KNDNR
+.sp 3mm
+.********
+&DEB20ADR1
+.br
+&DEB20ADR2
+.br
+&DEB20ADR3
+.br
+&DEB20ADR4
+.br
+&DEB20ADR5
+.br
+&DEB20KNDNR
+.ar off
+.********
+&DEB13ADR5
+.br
+&DEB13KNDNR
+.sp 3mm
+.********
+&DEB14ADR1
+.br
+&DEB14ADR2
+.br
+&DEB14ADR3
+.br
+&DEB14ADR4
+.br
+&DEB14ADR5
+.br
+&DEB14KNDNR
+.sp 3mm
+.********
+&DEB15ADR1
+.br
+&DEB15ADR2
+.br
+&DEB15ADR3
+.br
+&DEB15ADR4
+.br
+&DEB15ADR5
+.br
+&DEB15KNDNR
+.sp 3mm
+.********
+&DEB16ADR1
+.br
+&DEB16ADR2
+.br
+&DEB16ADR3
+.br
+&DEB16ADR4
+.br
+&DEB16ADR5
+.br
+&DEB16KNDNR
+.sp 3mm
+.********
+&DEB17ADR1
+.br
+&DEB17ADR2
+.br
+&DEB17ADR3
+.br
+.sp 3mm
+.********
+&DEB10ADR1
+.br
+&DEB10ADR2
+.br
+&DEB10ADR3
+.br
+&DEB10ADR4
+.br
+&DEB10ADR5
+.br
+&DEB10KNDNR
+.sp 3mm
+.**********
+&DEB11ADR1
+.br
+&DEB11ADR2
+.br
+&DEB11ADR3
+.br
+&DEB11ADR4
+.br
+&DEB11ADR5
+.br
+&DEB11KNDNR
+.ar off
+.**************************************************************************
+.ar MEDDEB2 on
+&DEB12ADR1
+.br
+&DEB12ADR2
+.br
+&DEB12ADR3
+.br
+&DEB12ADR4
+.br
+&DEB12ADR5
+.br
+&DEB12KNDNR
+.sp 3mm
+.********
+&DEB13ADR1
+.br
+&DEB13ADR2
+.br
+&DEB13ADR3
+.br
+&DEB13ADR4
+.br

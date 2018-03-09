@@ -1,0 +1,953 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&KTOSTILL
+.BR
+&KTONAVN
+.BR
+&KTOCO
+.BR
+&KTOGADE
+.BR
+&KTOBY  &KTOLAND
+.SK
+:EGL.
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.**************************************************************************
+.* REC-felt
+.da RECF 24mm 43.0mm
+.**************************************************************************
+.if &E'&B37REC. = 0
+.th .go EJREC
+.if &L'&B37REC. = 0
+.th .go EJREC
+.ar RECF on
+:COUR10.
+&B37REC
+:SKRSLUT.
+.ar off
+.if .&U'&UDSKRSTED. = .D
+.th .go EJREC
+.mg /t/  "Rec m.v." er (&B37REC.). "Udskriv.sted" (&UDSKRSTED.) skal være D
+...EJREC
+.***********************************************************************
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.*
+.da FORM 20mm 95mm width 175mm
+.ar FORM on
+:SWISS10.
+.tp 55mm
+Remburs nr.^Favør
+.br
+.*p 1mm
+Dokumenter over:
+.br
+.*p 1mm
+Deres rembursbegæring af
+.hr left right
+.sp
+Vi meddeler Dem herved, at der mod vedlagte dokumenter under ovennævnte
+remburs er
+.tp 90mm 130mm
+.sp
+Veksel stor ^^pr.
+.br
+Fakturabeløbet ^á ^kr.
+.br
+ ^^kr.
+.sp 2mm
+.tp 35mm ./125mm 130mm
++ omkostninger:
+   Dokumentprovision ^^^kr.
+   Acceptprovision      ^^^kr.
+.tp 65mm ./125mm 130mm
+ ^^^kr.
+ ^^^kr.
+.hr 130mm 175mm
+.tp 42mm 124mm 130mm
+ ^Hævet på Deres konto nr. ^ialt^kr.
+.hr 124mm 175mm
+.tp 60mm 120mm
+.sp
+_____  faktura    ^_____  exportlicens      ^_____  konnossement
+.br
+_____  pakkeliste ^_____  forsikringspolice ^_____  luftfragtbrev
+.br
+_____  GSP Form A ^_____  ben. certifikat   ^_____  speditørerklæring
+.br
+_____  oprindelsescertifikat ^_____  ^_____
+.sp 38mm
+Afregning og dokumenter bedes godkendt på vedlagte genpart. Deres
+godkendelse vil samtidig blive betragtet som bemyndigelse til at
+hæve/frigive eventuelle garantier/forbehold.
+.sp 2mm
+.bx left right
+.sp 1mm
+:FED.
+.ce Kopien bedes returneret i underskrevet stand senest 3 dage ef
+.ct ter modtagelsen.
+:SKRSLUT.
+.sp 1mm
+.bx off
+.sp
+.ce Med venlig hilsen
+.sp
+.ce Rembursafdelingen
+.ar off
+.da REMNR  44mm  95mm
+.da FAVØR  89mm  95mm
+.da DOKOV  53mm  99mm
+.da REMAF  66mm 103mm
+.da BEACC 165mm 111.0mm
+.da VXSTO  42mm 119.0mm
+.da PRKR   79mm 119mm
+.da KURS  117mm 122.5mm
+.da FRIFA  20mm 126mm
+.da FRIGE  21mm 143.0mm
+.da KTONR 110mm 152mm
+.da DOKVE  20mm 160.8mm
+.da TEKST  40mm 180mm
+.ar REMNR on
+7610/&MIBEM51
+.AR OFF
+.ar FAVØR on
+&MIBEMNE1
+.ar off
+.ar DOKOV on
+&MIBEM551
+.ar off
+.ar REMAF on
+&MIBEM552
+.ar off
+.ar BEACC on
+.if &U'&MIBJN2 = B
+.th betalt
+.el accepteret
+.br
+.ar off
+.ar KURS  on
+.if .&MIBBEL6 ne .100,00
+.th &MIBBEL6
+.ar off
+.ar FRIFA on
+.*n 1
+&MIBEMNE3
+.ar off
+.ar VXSTO on
+&MIBEMNE2
+.if &L'&MIBEMNE2 = 0
+.th .sp
+.el .br
+.is 3
+.if .&MIBBEL1 = .0,00
+.th &MIBEM241
+.el &MIBEM241  &MIBBEL1
+.ar off
+.ar PRKR on
+.TP set 80mm
+.if &L'&MIBPRDAT > 0
+.th ^&MIBPRDAT
+.th .br
+.el .sp
+.TP set 115mm right
+.if &RESULTA ne 0,00
+.th ^&RESULTA
+.th .br
+.el .sp
+.if &RESULTH ne 0,00
+.th ^&RESULTH
+.th .sp 7mm
+.el .sp 10.5mm
+.if &RESULTB ne 0,00
+.th ^&RESULTB
+.th .br
+.el .sp
+.if &RESULTC ne 0,00
+.th ^&RESULTC
+.th .br
+.el .sp
+.if &RESULTD ne 0,00
+.th ^&RESULTD
+.th .br
+.el .sp
+.if &RESULTE ne 0,00
+.th ^&RESULTE
+.th .sp 1.5mm
+.el .sp 5mm
+.if &RESULTF ne 0,00
+.th ^&RESULTF
+.ar off
+.ar FRIGE on
+.in 0
+ &MIBEM281
+.br
+ &MIBEM282
+.ar off
+.ar KTONR on
+&REGNR./&KTONR.
+.ar off
+.ar DOKVE on
+.tp set 0mm 60mm 72mm 120mm 132mm
+.br
+ ^&MIBEM5N1.^&MIBEM5N5.^^&MIBEM5N9.
+.br
+ ^&MIBEM5N2.^&MIBEM5N6.^^&MIBEM5N10.
+.br
+ ^&MIBEM5N3.^&MIBEM5N7.^^&MIBEM5N11.
+.br
+ ^&MIBEM5N4.^&MIBEM5N8.^&MIBEM161.^&MIBEM5N12.^&MIBEM162.
+.br
+.ar off
+.ar TEKST on
+ &MIBOBJK1
+.br
+ &MIBOBJK2
+.br
+ &MIBOBJK3
+.br
+ &MIBOBJK4
+.br
+ &MIBOBJK5
+.br
+ &MIBOBJK6
+.br
+ &MIBOBJK7
+.br
+ &MIBOBJK8
+.br
+ &MIBOBJK9
+.ar off
+.** SIDESKIFT
+.pa
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &E'&GENDERREF = 1 .an &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &E'&B37VORREF = 1 .an &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.**************************************************************************
+.* REC-felt
+.da RECF 24mm 43.0mm
+.**************************************************************************
+.if &E'&B37REC. = 0
+.th .go EJREC
+.if &L'&B37REC. = 0
+.th .go EJREC
+.ar RECF on
+:COUR10.
+&B37REC
+:SKRSLUT.
+.ar off
+.if .&U'&UDSKRSTED. = .D
+.th .go EJREC
+.mg /t/  "Rec m.v." er (&B37REC.). "Udskriv.sted" (&UDSKRSTED.) skal være D
+...EJREC
+.***********************************************************************
+.** TEKST KOPI hvor KOPI normalt påføres
+.da KUNDKOPI 20mm 71.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.KUNKOP
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*
+.da FORM 20mm 95mm width 175mm
+.ar FORM on
+:SWISS10.
+.tp 55mm
+Remburs nr.^Favør
+.br
+.*p 1mm
+Dokumenter over:
+.br
+.*p 1mm
+Deres rembursbegæring af
+.hr left right
+.sp
+Vi meddeler Dem herved, at der mod vedlagte dokumenter under ovennævnte
+remburs er
+.tp 90mm 130mm
+.sp
+Veksel stor ^^pr.
+.br
+Fakturabeløbet ^á ^kr.
+.br
+ ^^kr.
+.sp 2mm
+.tp 35mm ./125mm 130mm
++ omkostninger:
+   Dokumentprovision ^^^kr.
+   Acceptprovision      ^^^kr.
+.tp 65mm ./125mm 130mm
+ ^^^kr.
+ ^^^kr.
+.hr 130mm 175mm
+.tp 42mm 124mm 130mm
+ ^Hævet på Deres konto nr. ^ialt^kr.
+.hr 124mm 175mm
+.tp 60mm 120mm
+.sp
+_____  faktura    ^_____  exportlicens      ^_____  konnossement
+.br
+_____  pakkeliste ^_____  forsikringspolice ^_____  luftfragtbrev
+.br
+_____  GSP Form A ^_____  ben. certifikat   ^_____  speditørerklæring
+.br
+_____  oprindelsescertifikat ^_____  ^_____
+.sp 38mm
+Afregning og dokumenter bedes godkendt på vedlagte genpart. Deres
+godkendelse vil samtidig blive betragtet som bemyndigelse til at
+hæve/frigive eventuelle garantier/forbehold.
+.sp 2mm
+.bx left right
+.sp 1mm
+:FED.
+.ce Kopien bedes returneret i underskrevet stand senest 3 dage ef
+.ct ter modtagelsen.
+:SKRSLUT.
+.sp 1mm
+.bx off
+.sp
+.ce Med venlig hilsen
+.sp
+.ce Rembursafdelingen
+.ar off
+.*
+.da HKOPI 20mm 245mm width 175mm
+.ar HKOPI on
+:SWISS14.:FED.
+HERTIL KOPI
+.hr left right
+:SWISS10.
+Ovennævnte dokumenter og afregning modtaget og godkendt.
+.sp 10mm
+__________________________ den ________________________
+.sp 10mm
+_______________________________________________________
+.ar off
+.da REMNR  44mm  95mm
+.da FAVØR  89mm  95mm
+.da DOKOV  53mm  99mm
+.da REMAF  66mm 103mm
+.da BEACC 165mm 111.0mm
+.da VXSTO  42mm 119.0mm
+.da PRKR   79mm 119mm
+.da KURS  117mm 122.5mm
+.da FRIFA  20mm 126mm
+.da FRIGE  21mm 143.0mm
+.da KTONR 110mm 152mm
+.da DOKVE  20mm 160.8mm
+.da TEKST  40mm 180mm
+.ar REMNR on
+7610/&MIBEM51
+.AR OFF
+.ar FAVØR on
+&MIBEMNE1
+.ar off
+.ar DOKOV on
+&MIBEM551
+.ar off
+.ar REMAF on
+&MIBEM552
+.ar off
+.ar BEACC on
+.if &U'&MIBJN2 = B
+.th betalt
+.el accepteret
+.br
+.ar off
+.ar KURS  on
+.if .&MIBBEL6 ne .100,00
+.th &MIBBEL6
+.ar off
+.ar FRIFA on
+.*n 1
+&MIBEMNE3
+.ar off
+.ar VXSTO on
+&MIBEMNE2
+.if &L'&MIBEMNE2 = 0
+.th .sp
+.el .br
+.is 3
+.if .&MIBBEL1 = .0,00
+.th &MIBEM241
+.el &MIBEM241  &MIBBEL1
+.ar off
+.ar PRKR on
+.TP set 80mm
+.if &L'&MIBPRDAT > 0
+.th ^&MIBPRDAT
+.th .br
+.el .sp
+.TP set 115mm right
+.if &RESULTA ne 0,00
+.th ^&RESULTA
+.th .br
+.el .sp
+.if &RESULTH ne 0,00
+.th ^&RESULTH
+.th .sp 7mm
+.el .sp 10.5mm
+.if &RESULTB ne 0,00
+.th ^&RESULTB
+.th .br
+.el .sp
+.if &RESULTC ne 0,00
+.th ^&RESULTC
+.th .br
+.el .sp
+.if &RESULTD ne 0,00
+.th ^&RESULTD
+.th .br
+.el .sp
+.if &RESULTE ne 0,00
+.th ^&RESULTE
+.th .sp 1.5mm
+.el .sp 5mm
+.if &RESULTF ne 0,00
+.th ^&RESULTF
+.ar off
+.ar FRIGE on
+.in 0
+ &MIBEM281
+.br
+ &MIBEM282
+.ar off
+.ar KTONR on
+&REGNR./&KTONR.
+.ar off
+.ar DOKVE on
+.tp set 0mm 60mm 72mm 120mm 132mm
+.br
+ ^&MIBEM5N1.^&MIBEM5N5.^^&MIBEM5N9.
+.br
+ ^&MIBEM5N2.^&MIBEM5N6.^^&MIBEM5N10.
+.br
+ ^&MIBEM5N3.^&MIBEM5N7.^^&MIBEM5N11.
+.br
+ ^&MIBEM5N4.^&MIBEM5N8.^&MIBEM161.^&MIBEM5N12.^&MIBEM162.
+.br
+.ar off
+.ar TEKST on
+ &MIBOBJK1
+.br
+ &MIBOBJK2
+.br
+ &MIBOBJK3
+.br
+ &MIBOBJK4
+.br
+ &MIBOBJK5
+.br
+ &MIBOBJK6
+.br
+ &MIBOBJK7
+.br
+ &MIBOBJK8
+.br
+ &MIBOBJK9
+.ar off
+.** SIDESKIFT
+.pa
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &E'&GENDERREF = 1 .an &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &E'&B37VORREF = 1 .an &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.**************************************************************************
+.* REC-felt
+.da RECF 24mm 43.0mm
+.**************************************************************************
+.if &E'&B37REC. = 0
+.th .go EJREC
+.if &L'&B37REC. = 0
+.th .go EJREC
+.ar RECF on
+:COUR10.
+&B37REC
+:SKRSLUT.
+.ar off
+.if .&U'&UDSKRSTED. = .D
+.th .go EJREC
+.mg /t/  "Rec m.v." er (&B37REC.). "Udskriv.sted" (&UDSKRSTED.) skal være D
+...EJREC
+.***********************************************************************
+.** TEKST KOPI hvor KOPI normalt påføres
+.da KUNDKOPI 20mm 71.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.KUNKOP
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*
+.da FORM 20mm 95mm width 175mm
+.ar FORM on
+:SWISS10.
+.tp 55mm
+Remburs nr.^Favør
+.br
+.*p 1mm
+Dokumenter over:
+.br
+.*p 1mm
+Deres rembursbegæring af
+.hr left right
+.sp
+Vi meddeler Dem herved, at der mod vedlagte dokumenter under ovennævnte
+remburs er
+.tp 90mm 130mm
+.sp
+Veksel stor ^^pr.
+.br
+Fakturabeløbet ^á ^kr.
+.br
+ ^^kr.
+.sp 2mm
+.tp 35mm ./125mm 130mm
++ omkostninger:
+   Dokumentprovision ^^^kr.
+   Acceptprovision      ^^^kr.
+.tp 65mm ./125mm 130mm
+ ^^^kr.
+ ^^^kr.
+.hr 130mm 175mm
+.tp 42mm 124mm 130mm
+ ^Hævet på Deres konto nr. ^ialt^kr.
+.hr 124mm 175mm
+.tp 60mm 120mm
+.sp
+_____  faktura    ^_____  exportlicens      ^_____  konnossement
+.br
+_____  pakkeliste ^_____  forsikringspolice ^_____  luftfragtbrev
+.br
+_____  GSP Form A ^_____  ben. certifikat   ^_____  speditørerklæring
+.br
+_____  oprindelsescertifikat ^_____  ^_____
+.sp 38mm
+Afregning og dokumenter bedes godkendt på vedlagte genpart. Deres
+godkendelse vil samtidig blive betragtet som bemyndigelse til at
+hæve/frigive eventuelle garantier/forbehold.
+.sp 2mm
+.bx left right
+.sp 1mm
+:FED.
+.ce Kopien bedes returneret i underskrevet stand senest 3 dage ef
+.ct ter modtagelsen.
+:SKRSLUT.
+.sp 1mm
+.bx off
+.sp
+.ce Med venlig hilsen
+.sp
+.ce Rembursafdelingen
+.ar off
+.da REMNR  44mm  95mm
+.da FAVØR  89mm  95mm
+.da DOKOV  53mm  99mm
+.da REMAF  66mm 103mm
+.da BEACC 165mm 111.0mm
+.da VXSTO  42mm 119.0mm
+.da PRKR   79mm 119mm
+.da KURS  117mm 122.5mm
+.da FRIFA  20mm 126mm
+.da FRIGE  21mm 143.0mm
+.da KTONR 110mm 152mm
+.da DOKVE  20mm 160.8mm
+.da TEKST  40mm 180mm
+.ar REMNR on
+7610/&MIBEM51
+.AR OFF
+.ar FAVØR on
+&MIBEMNE1
+.ar off
+.ar DOKOV on
+&MIBEM551
+.ar off
+.ar REMAF on
+&MIBEM552
+.ar off
+.ar BEACC on
+.if &U'&MIBJN2 = B
+.th betalt
+.el accepteret
+.br
+.ar off
+.ar KURS  on
+.if .&MIBBEL6 ne .100,00
+.th &MIBBEL6
+.ar off
+.ar FRIFA on
+.*n 1
+&MIBEMNE3
+.ar off
+.ar VXSTO on
+&MIBEMNE2
+.if &L'&MIBEMNE2 = 0
+.th .sp
+.el .br
+.is 3
+.if .&MIBBEL1 = .0,00
+.th &MIBEM241
+.el &MIBEM241  &MIBBEL1
+.ar off
+.ar PRKR on
+.TP set 80mm
+.if &L'&MIBPRDAT > 0
+.th ^&MIBPRDAT
+.th .br
+.el .sp
+.TP set 115mm right
+.if &RESULTA ne 0,00
+.th ^&RESULTA
+.th .br
+.el .sp
+.if &RESULTH ne 0,00
+.th ^&RESULTH
+.th .sp 7mm
+.el .sp 10.5mm
+.if &RESULTB ne 0,00
+.th ^&RESULTB
+.th .br
+.el .sp
+.if &RESULTC ne 0,00
+.th ^&RESULTC
+.th .br
+.el .sp
+.if &RESULTD ne 0,00
+.th ^&RESULTD
+.th .br
+.el .sp
+.if &RESULTE ne 0,00
+.th ^&RESULTE
+.th .sp 1.5mm
+.el .sp 5mm
+.if &RESULTF ne 0,00
+.th ^&RESULTF
+.ar off
+.ar FRIGE on
+.in 0
+ &MIBEM281
+.br
+ &MIBEM282
+.ar off
+.ar KTONR on
+&REGNR./&KTONR.
+.ar off
+.ar DOKVE on
+.tp set 0mm 60mm 72mm 120mm 132mm
+.br
+ ^&MIBEM5N1.^&MIBEM5N5.^^&MIBEM5N9.
+.br
+ ^&MIBEM5N2.^&MIBEM5N6.^^&MIBEM5N10.
+.br
+ ^&MIBEM5N3.^&MIBEM5N7.^^&MIBEM5N11.
+.br
+ ^&MIBEM5N4.^&MIBEM5N8.^&MIBEM161.^&MIBEM5N12.^&MIBEM162.
+.br
+.ar off
+.ar TEKST on
+ &MIBOBJK1
+.br
+ &MIBOBJK2
+.br
+ &MIBOBJK3
+.br
+ &MIBOBJK4
+.br
+ &MIBOBJK5
+.br
+ &MIBOBJK6
+.br
+ &MIBOBJK7
+.br
+ &MIBOBJK8
+.br
+ &MIBOBJK9
+.ar off

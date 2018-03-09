@@ -1,0 +1,281 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* PARAMETERAFSNIT
+.* Teksten ligger i AFSNIT T
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.se TR = ' '
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.*.if &fundet = 0 .TLADR2 &post
+.*.if &fundet = 0 .TLADR3 &post
+.*.if &fundet = 0 .TLADR4 &post
+.*.if &fundet = 0 .TLADR5 &post
+.*.if &fundet = 0 .go EJFUND
+.if &fundet = 1
+.th .go RET
+.el .go EJFUND
+.**************************************************************************
+...RET
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.th .se gb = substr '&TB.' 7 28
+.th .se TR = '&GENRET. &gb.'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0003 .se TN = 'Andelsboligbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .2100 .se TN = 'Skibsregistret'
+.th .se TR = ' '
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+.th .se TR = ' '
+.if .&post1 = .9500 .se TN = 'Tinglysningsretten'
+.th .se TR = ' '
+...EJFUND
+...DM
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0001
+.or &ITLPN = 0002
+.or &ITLPN = 0003
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .se ktonr = '0216 4069152155'
+.th .go SLUT
+.if &ITLPN = 0110
+.th .se TG 'C. Pløyensgøta 1'
+.th .se TB '110  Tórshavn'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 9500
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500 Hobro'
+.th .se ktonr = ''
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ********
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENRET  = '&TR.'
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENRET.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**********************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL *********
+:GL.
+&GENRET.
+.br
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
+.* Parameterafsnit
+.* Tinglysning - Effekter - brevnavn mv.
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.dr thin weight 0.1mm
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.ll 175mm
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.if X&BECPNJ1 eq X1
+.th Effekter til tinglysning &BECTEKST09
+.if X&BECPNJ1 eq X2
+.th Effekter til aflysning &BECTEKST09
+.if X&BECPNJ1 eq X3
+.th Lysning af påtegninger &BECTEKST09
+.if X&BECPNJ1 eq X4
+.th Annullering af retsanmærkninger &BECTEKST09
+.**************************************************************************
+.if &L'&BECTEKST07 eq 0
+.an &L'&BECTEKST06 eq 0
+.th .br
+.th .hr thin left right
+.***********************
+.if &L'&BECTEKST07 gt 0
+.an &L'&BECTEKST06 eq 0
+.th .br
+.th Beliggende &BECTEKST07
+.th .br
+.th .hr thin left right
+.***********************
+.if &L'&BECTEKST06 gt 0
+.an &L'&BECTEKST07 eq 0
+.th .br
+.th Tilhørende &BECTEKST06
+.th .br
+.th .hr thin left right
+.***********************
+.if &L'&BECTEKST07 gt 0
+.an &L'&BECTEKST06 gt 0
+.th .br
+.th Beliggende &BECTEKST07
+.th .br
+.th Tilhørende &BECTEKST06
+.th .br
+.th .hr thin left right
+.sp
+.**************************************************************************
+.* Tinglysning - Effekter vedr. (matr.nr., bilbog, løsøre)
+Vedlagt fremsendes:
+.sk
+.in 25mm
+.if &L'&BECTEKST10 = 0 .an &L'&BECTEKST32 > 0
+.th .sp
+.el .br
+.el &BECTEKST10.
+.if &L'&BECTEKST32 = 0 .an &L'&BECTEKST33 > 0
+.th .sp
+.el .br
+.el &BECTEKST32.
+.if &L'&BECTEKST33 = 0 .an &L'&BECTEKST34 > 0
+.th .sp
+.el .br
+.el &BECTEKST33.
+.if &L'&BECTEKST34 = 0 .an &L'&BECTEKST35 > 0
+.th .sp
+.el .br
+.el &BECTEKST34
+.if &L'&BECTEKST35 = 0 .an &L'&BECTEKST36 > 0
+.th .sp
+.el .br
+.el &BECTEKST35.
+.if &L'&BECTEKST36 = 0 .an &L'&BECTEKST37 > 0
+.th .sp
+.el .br
+.el &BECTEKST36.
+.if &L'&BECTEKST37 = 0 .an &L'&BECTEKST38 > 0
+.th .sp
+.el .br
+.el &BECTEKST37.
+.if &L'&BECTEKST38 = 0 .an &L'&BECTEKST39 > 0
+.th .sp
+.el .br
+.el &BECTEKST38.
+.if &L'&BECTEKST39 = 0 .an &L'&BECTEKST40 > 0
+.th .sp
+.el .br
+.el &BECTEKST39.
+.if &L'&BECTEKST40 = 0 .an &L'&BECTEKST41 > 0
+.th .sp
+.el .br
+.el &BECTEKST40.
+.if &L'&BECTEKST41 = 0 .an &L'&BECTEKST42 > 0
+.th .sp
+.el .br
+.el &BECTEKST41.
+.if &L'&BECTEKST42 = 0 .an &L'&BECTEKST43 > 0
+.th .sp
+.el .br
+.el &BECTEKST42.
+.if &L'&BECTEKST43 = 0 .an &L'&BECTEKST44 > 0
+.th .sp
+.el .br
+.el &BECTEKST43.
+.br
+&BECTEKST44
+.*****************************
+.in
+.sk
+.if .&L'&BECTEKST11 > .0
+.th Som legitimation medsendes &BECTEKST11..
+.th .sk
+.if .&RESULTA. ne .0,00
+.sp
+.th Til dækning af tinglysningsgebyr vedlægges i check
+.th &RESULTA. kr.
+.th .sk
+Efter endt ekspedition beder vi Dem venligst returnere effekterne
+til anmelder.
+.br
+.***********************************
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

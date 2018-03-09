@@ -1,0 +1,207 @@
+.* I dette afsnit er det valgfrit om, man vil underskrive med en eller to
+.* underskrifter. Standard er 1 underskrift.
+.* Er parameteren B19TEST1A udfyldt med X, så anvendes 2 underskrifter.
+.*************************************************************************
+.ti ¤ 05
+.tp 75mm
+.su on
+:VERDA10.
+.*********************************
+.tp 75mm
+.sp 5mm
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+.br
+:SKRSLUT.
+.go VIDERE
+...VIDERE
+.sp 10mm
+.****************** Underskrift/er tilføjes ********************
+.if &L'&B19TEST1Z gt 0 .if &U'&B19TEST1Z = X
+.th .go TO
+.el .go EEN
+...EEN
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+.go THEEND
+...TO
+&GENMEKSP ¤&GENEKSP
+.br
+:KURSIV.
+&GENMTITEL ¤&GENTITEL
+...THEEND
+.ar off
+Ekspeditionsgebyr kr. &B19TX10A har vi hævet på ovennævnte konto.
+.sp
+.th .go KREDIT
+.el .go KREDIT
+...KREDIT
+.if &L'&B19TX1B gt 0
+.th Endvidere vedlægges lovpligtige kreditoplysninger.
+.th .go END
+.el .go END
+...END
+.sp
+.da SIDE 25mm 100mm width 150mm
+.ar SIDE on
+.tp 110mm 150mm right
+:VERDA10.
+:FED.
+Midlertidig trækningsret på konto nr. &IREGKTO
+.sp
+:SKRSLUT.
+Vi har etableret en midlertidig trækningsret
+.br
+på ovennævnte konto på ¤kr. ¤&BEVOVTR
+.br
+udover kontoens maksimum på ¤kr. ¤&MAXIMUM
+.sp 1mm
+.hr 110mm right
+.sp 1mm
+således, at der i alt kan trækkes ¤kr. ¤&RESULTA
+.sp 1mm
+.hr 110mm right
+.sp
+.if &B19TX1A = 1
+.th .go ONE
+.if &B19TX1A = 2
+.th .go TWO
+.if &B19TX1A = 3
+.th .go THREE
+...ONE
+Den midlertidige trækningsret bortfalder den &BEVSLUT
+.sp
+.go GEBYR
+...TWO
+Den midlertidige trækningsret ændres til &B19TX20A
+den &B19DATO2 og bortfalder helt pr. &B19DATO3..
+.sp
+.go GEBYR
+...THREE
+&B19L4
+.br
+&B19L5
+.br
+&B19L6
+.br
+&B19L7
+.br
+&B19L8
+.sp
+.go GEBYR
+...GEBYR
+.if &L'&B19TX10A gt 0
+.th
+.*
+.fo left
+.ti ¤ 05
+:COUR10.
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:SWISS12.
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.***********************TABULATOR**********************
+.ti ¤ 05
+.tp 12mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+&NAVN
+.if X&L'&MEDNAVN gt X0
+.th og
+.br
+&MEDNAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.br
+.if &L'&B56TX30A gt 0
+.th Att. &B56TX30A
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA08.
+&REGNR
+.ar off
+.*****************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte: ¤&GENTLFNR
+.br
+E-mail: ¤&GENEMAIL
+.sp
+&DATO
+:VERDA10.
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

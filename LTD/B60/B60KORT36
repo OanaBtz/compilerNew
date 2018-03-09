@@ -1,0 +1,227 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**** DETTE AFSNIT SKAL DER TAGES KOPI AF, OG TILFØJES EN STANDARDVÆRDI **
+.**** I ALLE FELTERNE *********************************************
+.** EKS *****
+.*** skriv sl i linie udfor første parameter *******
+.**
+.*****Instruktionstekst. Samlet træk 100%.:
+.*****Standardværdi  . . 1.200.000,00
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+B60KORT36
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA10.:FED.
+Dit MasterCard er på vej
+.sp
+:SKRSLUT.
+:SKRSLUT.
+.**************************************************************************
+Tak for din henvendelse om MasterCard
+.if x&GENVALG = x1
+.th Standard.
+.if x&GENVALG = x2
+.th Guld.
+.if x&GENVALG = x3
+.th Platinum.
+.sp
+Du kan forvente at få kortet tilsendt indenfor 7 arbejdsdage. Herefter
+går der yderligere et par dage, før pinkoden kommer med posten.
+.sp
+:VERDA10.:FED.
+Kredit til dit MasterCard
+.br
+.***** HER DELES REGISTRERINGSNUMME
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+:SKRSLUT.
+:SKRSLUT.
+Vi bekræfter herved, at der er etableret et kreditmaksimum på
+MasterCard kortkonto &regnr &ktonr
+som gælder indtil videre.
+.sp
+Kreditmaksimum er på &MAXIMUM kr. og er bevilget ifølge ansøgning af
+&GENDATO7.. Ansøgningen
+vedlægges som kopi.
+.sp
+Følgende betalingsbetingelser er aftalt:
+.sp
+.if x&GENVAL = x1
+.th Hver måned betales et fast beløb på
+.th :VS. &GENBELØB20
+.th kr., dog højest kortkontoens saldo.
+.if x&GENVAL = x2
+.th Hver måned betales en fast procentdel på &GENPCTPA.% minimum
+.th :VS. &GENBELØB21
+.th kr., dog højst kortkontoens saldo.
+.sp
+Beløbet hæves på konto &DEBREGNR &DEBKTONR1..
+.sp
+Rente af saldoen i &BANKNAVN.s favør beregnes ifølge
+kortbestemmelserne med for tiden &GENRENTMDR.% om måneden. Dette
+svarer til en årlig nominel rente på &GENÅRNOMRE.%. Renten
+tilskrives
+.if x&GENFREKVEN = x1
+.th  årligt.
+.if x&GENFREKVEN = x2
+.th  halvårligt.
+.if x&GENFREKVEN = x3
+.th  hvert kvartal.
+.if x&GENFREKVEN = x4
+.th  månedlig.
+.sp
+:VERDA10.:FED.
+Oplysninger ifølge Lov om Kreditaftaler
+.br
+:SKRSLUT.
+:SKRSLUT.
+Kreditaftaleloven kræver, at &BANKNAVN giver dig en række
+oplysninger om din kortkonto. Du
+skal have oplysning om det samlede beløb,
+der skal betales ved forskellige udnyttelser af kreditten på din
+kortkonto. Det samlede beløb opgøres som summen af lånebeløbet og
+kreditomkostningerne. Ved beregning af kreditomkostningerne er der
+anvendt de rentesatser og omkostninger, der gælder i dag.
+.sp
+Beregningerne, som du kan se på næste side,
+er med forbehold for, at rente
+og gebyrer ikke ændres, at der ikke pålægges andre omkostninger i
+løbetiden, at der ikke indgås nye aftaler eller sker ændringer i
+aftalens varighed. Hvis der sker ændringer, vil beregningerne blive
+påvirket. De kan derfor ikke tages som det endelige udtryk for, hvilke
+kreditomkostninger, der skal betales, herunder de årlige omkostninger
+i procent.
+.ar off
+.** SIDESKIFT
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+B60KORT36
+.ar off
+.**************************************************************************
+.********* side 2 *********************
+.da SIDE2 20mm 50mm width 175mm
+.*********************************
+.ar SIDE2 on
+.if x&GENVALG = x1
+.th .go STAND
+.if x&GENVALG = x2
+.th .go GULD
+.if x&GENVALG = x3
+.th .go PLAT
+.********mastercard standard ************
+...STAND
+.tp 99mm 130mm 160mm
+:FED.
+Udnyttelse af kreditramme ¤100% ¤50% ¤25%
+:SKRSLUT.
+.tp 109mm char , 139mm char , 168mm char ,
+.br
+Samlet træk ¤&GENSTAND1 ¤&GENSTAND2 ¤&GENSTAND3
+.br
+Omkostninger ¤&GENSTAND3A ¤&GENSTAND3B ¤&GENSTAND3C
+.br
+Summen af renter i kredittens løbetid ¤&GENSTAND4 ¤&GENSTAND5 ¤&GENSTAND6
+.br
+Summen af lånebeløb og kreditomkostninger
+.ct ¤&GENSTAND7 ¤&GENSTAND8 ¤&GENSTAND9
+.br
+Årlige omkostninger i procent ¤&GENSTAND10 ¤&GENSTAND11 ¤&GENSTAND12
+.go WWW
+.**********mastercard guld ***************
+...GULD
+.tp 99mm 130mm 160mm
+:FED.
+Udnyttelse af kreditramme ¤100% ¤50% ¤25%
+:SKRSLUT.
+.tp 109mm char , 139mm char , 168mm char ,
+.br
+Samlet træk ¤&GENGULD1 ¤&GENGULD2 ¤&GENGULD3
+.br
+Omkostninger ¤&GENGULD3A ¤&GENGULD3B ¤&GENGULD3C
+.br
+Summen af renter i kredittens løbetid ¤&GENGULD4 ¤&GENGULD5 ¤&GENGULD6
+.br
+Summen af lånebeløb og kreditomkostninger
+.ct ¤&GENGULD7 ¤&GENGULD8 ¤&GENGULD9
+.br
+Årlige omkostninger i procent ¤&GENGULD10 ¤&GENGULD11 ¤&GENGULD12
+.go WWW
+.**********mastercard platinum************
+...PLAT
+.tp 99mm 130mm 160mm
+:FED.
+Udnyttelse af kreditramme ¤100% ¤50% ¤25%
+:SKRSLUT.
+.tp 109mm char , 139mm char , 168mm char ,
+.br
+Samlet træk ¤&GENPLATI1 ¤&GENPLATI2 ¤&GENPLATI3
+.br
+Omkostninger ¤&GENPLATI3A ¤&GENPLATI3B ¤&GENPLATI3C
+.br
+Summen af renter i kredittens løbetid ¤&GENPLATI4 ¤&GENPLATI5 ¤&GENPLATI6
+.br
+Summen af lånebeløb og kreditomkostninger
+.ct ¤&GENPLATI7 ¤&GENPLATI8 ¤&GENPLATI9
+.br
+Årlige omkostninger i procent ¤&GENPLATI10 ¤&GENPLATI11 ¤&GENPLATI12
+...WWW
+.sp 10mm
+Beregningerne er foretaget, som om kreditmaksimum kun gælder for 1 år, da
+det er aftalt, at kreditmaksimum på kortkontoen kun gælder indtil videre.
+.sp
+Denne bekræftelse, kortbestemmelserne for &BANKNAVN., prislisten og den
+ansøgning, hvori du har erklæret, at du har læst og accepteret
+kortbestemmelserne, udgør aftalegrundlaget for kortkontoen og
+kreditten. Du bør derfor gemme denne bekræftelse.
+.sp
+I øvrigt gælder &BANKNAVN.s almindelige forretningsbetingelser og
+vore almindelige bestemmelser for lån og kreditter til private formål.
+.ce on
+.sp 3
+:FED.
+Venlig hilsen
+.br
+Max Bank
+:SKRSLUT.
+.br
+.sk 2
+&B60NAVN1
+.ce off
+.ar off
+.da VEDL 20mm 260mm width 70mm
+.******************************
+.ar VEDL on
+Vedlagt: kopi af ansøgning
+.ar off

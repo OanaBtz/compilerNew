@@ -1,0 +1,1410 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.if &U'X&GENVITT ne XJ
+.an &U'X&GENVITT ne XN
+.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
+.**************************************************************************
+.if &L'&GENCPR1 > 0
+.an &L'&GENNAVN1 = 0
+.th .mg/T/1. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR2 > 0
+.an &L'&GENNAVN2 = 0
+.th .mg/T/2. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR3 > 0
+.an &L'&GENNAVN3 = 0
+.th .mg/T/3. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR4 > 0
+.an &L'&GENNAVN4 = 0
+.th .mg/T/4. fuldmagtshavers navn mangler/
+.**************************************************************************
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.sp
+.kp off
+.kp on
+:FED.
+Almindelige forretningsbetingelser
+:SKRSLUT.
+.br
+.if &L'&G08ADRESSE > 0
+.th Vi
+.el Jeg
+har derudover gjort
+.if &L'&G08ADRESSE > 0
+.th os
+.el mig
+bekendt med &BANKNAVN.s almindelige forretningsbetingelser, som også gælder
+for aftalen. De gældende Almindelige forretningsbetingelser kan til enhver
+tid findes på &BANKNAVN.s hjemmeside www.djs.dk.
+.kp off
+.sp
+.kp on
+:FED.
+Underskrifter
+:SKRSLUT.
+.sp 3mm
+Som kontohaver:
+.sp 4mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&KTONAVN
+.sp 5mm
+.***************************
+.if &U'&GENVITT = N
+.th .go MEDKTO
+.***************************
+:FED.Vitterlighedspåtegninger:SKRSLUT.
+.sp 3mm
+Til vitterlighed om ægte underskrift, dateringens rigtighed
+og udstederens myndighed.
+.sp 5mm
+.tp _/80mm 90mm _/170mm
+Navn ¤ ¤Navn ¤
+.sp 4mm
+Stilling ¤ ¤Stilling ¤
+.sp 4mm
+Adresse ¤ ¤Adresse ¤
+.sp 4mm
+Postnr./by ¤ ¤Postnr./by ¤
+.sp 4mm
+Underskrift ¤ ¤Underskrift ¤
+.sp 5mm
+.hr left right
+.sp 3mm
+.***************************
+...MEDKTO
+.kp off
+.****
+.if &L'&G08ADRESSE = 0
+.th .go MEDSLUT
+.**************************************************************************
+.kp on
+.tp _/50mm 55mm 72mm  _/170mm
+Som medkontohaver(e):
+.sp 4mm
+.if &L'&G08ADRESSE = 0
+.th .go MEDSLUT
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESSE
+.sp 5mm
+.if &L'&G08ADRESS1 = 0
+.th .go MEDSLUT
+.tp _/50mm 55mm 72mm  _/170mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESS1
+.sp 5mm
+.if &L'&G08ADRESS2 = 0
+.th .go MEDSLUT
+.tp _/50mm 55mm 72mm  _/170mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESS2
+.sp 5mm
+.if &L'&G08ADRESS3 = 0
+.th .go MEDSLUT
+.tp _/50mm 55mm 72mm  _/170mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESS3
+.sp 5mm
+.if &L'&G08ADRESS4 = 0
+.th .go MEDSLUT
+.tp _/50mm 55mm 72mm  _/170mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESS4
+.sp 5mm
+.if &L'&G08ADRESS5 = 0
+.th .go MEDSLUT
+.tp _/50mm 55mm 72mm  _/170mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESS5
+.sp 5mm
+.if &L'&G08ADRESS6 = 0
+.th .go MEDSLUT
+.tp _/50mm 55mm 72mm  _/170mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&G08ADRESS6
+.sp 5mm
+.***********************
+.if &U'&GENVITT = N
+.th .go MEDSLUT
+:FED.Vitterlighedspåtegninger:SKRSLUT.
+.sp 3mm
+Til vitterlighed om ægte underskrift, dateringens rigtighed
+og udstederens myndighed.
+.sp 5mm
+.tp _/80mm 90mm _/170mm
+Navn ¤ ¤Navn ¤
+.sp 4mm
+Stilling ¤ ¤Stilling ¤
+.sp 4mm
+Adresse ¤ ¤Adresse ¤
+.sp 4mm
+Postnr./by ¤ ¤Postnr./by ¤
+.sp 4mm
+Underskrift ¤ ¤Underskrift ¤
+.sp 5mm
+.kp off
+.**************************************************************************
+.kp off
+...MEDSLUT
+.**************************************************************************
+.in 5mm
+.ir 5mm
+.**********************
+.tp _/50mm 55mm 72mm  _/170mm
+.kp on
+:FED.Garantiformuen :SKRSLUT.
+.br
+Mit samlede indestående i &BANKNAVN. over kr. 750.000 er ikke dækket af
+Garantiformuen.
+.br
+Såfremt kontoen har flere ejere, er hver af disse dækket op til den
+nævnte dækningssum.
+.br
+Se mere på www.gii.dk
+.kp off
+.sp
+.kp on
+:FED.
+Fortrydelsesret
+:SKRSLUT.
+.br
+Efter forbrugeraftalelovens § 18 kan forbrugere fortryde en aftale om en
+finansiel tjenesteydelse inden for 14 dage, hvis aftalen er
+.br
+- en såkaldt fjernsalgsaftale, fx en aftale indgået via telefonen/netbank
+.br
+- indgået uden for &BANKNAVN.'s lokaler, fx på et møde på kundens bopæl
+eller arbejdsplads.
+.sp
+Fristen regnes som udgangspunkt fra den dag, kunden modtager den aftalte
+ydelse. Det gælder dog kun, hvis kunden samtidig får de oplysninger, som
+kunden efter forbrugeraftaleloven har krav på   bl.a. om fortrydelsesretten
+og om det produkt, som kunden har bestilt. De nævnte oplysninger skal være
+på skrift eller andet varigt medium, fx på papir, som elektronisk post
+eller i kundens netbank.
+.sp
+Hvis bestillingen fx afgives mandag den 1. og de nævnte oplysninger er
+givet, så løber fristen til og med mandag den 15. Udløber fristen på en
+lørdag, søndag, helligdag, dagen efter kr. himmelfartsdag, grundlovsdag,
+juleaftensdag eller nytårsaftensdag, kan fortrydelse ske den følgende
+hverdag.
+.br
+Fortryder kunden en aftale, skal kunden kontakte &BANKNAVN. inden
+fristens udløb. Som bevis for overholdelse af fristen, anbefales det at
+sende pr. anbefalet brev.
+.sp
+Hvis kunden udnytter fortrydelsesretten, skal kunden tilbagelevere det,
+kunden har modtaget. &BANKNAVN. skal betale det beløb tilbage, som
+kunden har betalt, bortset fra &BANKNAVN.'s ekspeditionsomkostninger
+og andre omkostninger, fx tinglysningsafgifter eller omkostninger i
+forbindelse med ejendomsvurdering. Afhængig af sagens omfang kan
+pengeinstituttet beregne en timepris for sit arbejde, hvis kunden udnytter
+sin fortrydelsesret.
+.if &U'&GENKRYDS1 = J
+.th
+.el .go KRESLUT
+:FED.Kreditorbeskyttelse :SKRSLUT.
+.br
+Nærværende indlånskontonummer &LANGKTONR. er oprettet den &KOPRETDATO..
+.sp
+Indeståendet hidrører fra en erstatning for invaliditet eller tab af
+forsørger eller i godtgørelse hermed. Beløbet tilkommer skadeslidte eller
+den, som har mistet en forsørger.
+.sp
+Indeståendet er kreditorbeskyttet i henhold til retsplejelovens § 513,
+hvilket medfører, at der ikke kan foretages udlæg i beløbet.
+.sp
+En forudsætning for denne kreditorbeskyttelse er, at beløbet holdes klart
+adskilt fra kontohavers øvrige formue, tilsvarende gælder om renter af
+kapitalen.
+.sp
+Dette medfører, at der ikke må indbetales andre beløb på kontoen end det
+pågældende erstatningsbeløb samt renter heraf, såfremt kreditorbeskyttelsen
+skal opretholdes.
+.sp
+Udbetalte beløb fra kontoen, f.eks. hvis der sker overførsel til en anden
+af kontohavers konti, er ikke kreditorbeskyttet.
+.sp
+Kontohaver: &KTONAVN. erklærer at være gjort bekendt med ovenstående regler
+og have ønsket denne påtegning på kontoen.
+.sp
+...KRESLUT
+.*Valider regtype
+.if &REGTYPE = 5620
+.th .go REG5620
+.el .go REG5620s
+...REG5620
+:SWISS9.
+.tp 55mm 80mm
+.kp on
+:FED.Indskud :SKRSLUT.
+.br
+Der kan indskydes efter de til enhver tid gældende lovregler for
+Iværksætterkonto.
+.br
+Indkomst/henlæggelsesår: &GENAAR1.
+.sp
+:FED.Udbetaling :SKRSLUT.
+.br
+Indestående på kontoen kan udbetales efter de til enhver tid gældende
+lovregler for Iværksætterkonto.
+.sp
+:FED.Renter og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+:USENKEL.Kreditrente :SKRSLUT.
+.br
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den &RNTTILDTOK..
+.sp
+Tilskrevne renter kan frit hæves.
+.kp off
+.sp
+...REG5620s
+.*Valider regtype
+.if &REGTYPE = 5610
+.th .go REG5610
+.el .go REG5610s
+...REG5610
+:SWISS9.
+.tp 55mm 80mm
+.kp on
+:FED.Indskud :SKRSLUT.
+.br
+Der kan indskydes efter de til enhver tid gældende lovregler for
+Etableringskonto.
+.br
+Indkomst/henlæggelsesår: &GENAAR1.
+.sp
+:FED.Udbetaling :SKRSLUT.
+.br
+Indestående på kontoen kan udbetales efter de til enhver tid gældende
+lovregler for Etableringskonto.
+.sp
+:FED.Renter og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+:USENKEL.Kreditrente :SKRSLUT.
+.br
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den &RNTTILDTOK..
+.sp
+Tilskrevne renter kan frit hæves.
+.kp off
+.sp
+...REG5610s
+.*Valider regtype
+.if &REGTYPE = 5000
+.th .go REG5000
+.el .go REG5000s
+...REG5000
+:SWISS9.
+.tp 55mm 80mm
+.kp on
+:FED.Indskudsvilkår :SKRSLUT.
+.br
+Mindste førstegangsindskud på kontoen er DKK 100,00.
+.sp
+:FED.Indbetaling og udbetaling :SKRSLUT.
+.br
+Indbetaling på kontoen sker ved kontant indskud eller overførsel fra anden
+konto.
+.sp
+Indestående på kontoen kan hæves med et opsigelsesvarsel på 3 måneder. Ikke
+opsagte beløb kan dog hæves med kortere varsel mod betaling af dekort på
+p.t. 0,5% af det hævede beløb.
+.sp
+Gevinster kan hæves frit i hele den kalendermåned, hvori de er udtrukket.
+Udtrækningen sker i begyndelsen af måneden.
+.sp
+:FED.Renter og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+:USENKEL.Kreditrente :SKRSLUT.
+.br
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den &RNTTILDTOK..
+.kp off
+.sp
+...REG5000s
+.*Valider regtype
+.if &REGTYPE = 3024
+.th .go REG3024
+.el .go REG3024s
+...REG3024
+:SWISS9.
+.tp 10mm 55mm 80mm
+.kp on
+:FED.Fordele ved &REGTYPELNG. :SKRSLUT.
+.br
+.kp off
+.kp on
+*¤Rabat på
+.in 10mm nobreak
+finansieringsomkostningerne ved boligkøb gennem DJS. Rabatten svarer til
+4% af indeståendet på din &REGTYPELNG. - (dog max 4% af 100.000 kr.)
+.in 5mm
+.kp off
+.kp on
+*¤Indflyttegave
+.kp off
+.kp on
+*¤Sparer op, så du kan købe en bolig
+.kp off
+.sp
+:FED.Indbetaling :SKRSLUT.
+.br
+Indbetaling på kontoen kan ske ved kontant indskud eller overførsel fra
+anden konto, også via Netbank.
+.br
+For at opnå fordelene ved &REGTYPELNG. skal første indbetaling være
+foretaget 1 år før etablering af Totalkreditlånet.
+.sp
+:FED.Udbetaling :SKRSLUT.
+.br
+Kontoens indestående kan hæves - helt eller delvis - med et
+opsigelsesvarsel på 31 dage.
+.br
+Opsagte beløb, der ikke er hævet senest 30 dage efter opsigelsesdatoen er
+automatisk bundet igen.
+.sp
+:FED.Dekort :SKRSLUT.
+.br
+Beløb, der ikke er opsagt kan hæves med en dekort på 0,250% af det hævede
+beløb.
+.sp
+:FED.Rente :SKRSLUT.
+.br
+Kontoen forrentes med en variabel rente på p.t. &TOTKRE1.%.
+.br
+Renten beregnes bagud og tilskrives hvert år den 31.12.
+.br
+Kontoens rente fastsættes til enhver tid af &BANKNAVN., og kan ses på
+Sparekassens hjemmeside eller i Netbank.
+.sp
+Ved køb af en bolig foretages almindelig kreditvurdering i henhold til
+&BANKNAVN.s kreditpolitik.
+.sp
+...REG3024s
+.*Valider regtype
+.if &REGTYPE = 3021
+.or &REGTYPE = 8441
+.or &REGTYPE = 8442
+.or &REGTYPE = 8443
+.or &REGTYPE = 8444
+.or &REGTYPE = 8445
+.or &REGTYPE = 8446
+.or &REGTYPE = 8447
+.or &REGTYPE = 3022
+.or &REGTYPE = 8451
+.or &REGTYPE = 8452
+.or &REGTYPE = 8453
+.or &REGTYPE = 8454
+.or &REGTYPE = 8455
+.or &REGTYPE = 8456
+.or &REGTYPE = 8457
+.or &REGTYPE = 8458
+.th .go REG3021
+.el .go REG3021s
+...REG3021
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere over den
+anførte konto ved at rette henvendelse til &BANKNAVN..
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+Kontoens indestående kan hæves - helt eller delvist - med et
+opsigelsesvarsel på 18 måneder.
+Opsagte beløb, der ikke er hævet senest 30 dage efter opsigelsesdatoen er
+automatisk bundet igen.
+.br
+Beløb der ikke er opsagt kan hæves med en dekortsats på 0,500%
+p.a. af det hævede beløb, beregnet for hele bindingsperioden.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående på kontoen
+ske uafhængig af hinanden. Renten for indestående ændresnormalt i takt med
+generelle renteændringer for indlån.
+.kp off
+.sp
+...REG3021s
+.*Valider regtype
+.if &REGTYPE = 3000
+.th .go REG3000
+.el .go REG3000s
+...REG3000
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere over den
+anførte konto, medmindre andet er aftalt.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående på kontoen
+kan ske uafhængig af hinanden. Renten for indestående ændres normalt i takt
+med generelle renteændringer for indlån.
+.kp off
+.sp
+...REG3000s
+.*Valider regtype
+.if &REGTYPE = 2151
+.or &REGTYPE = 2152
+.or &REGTYPE = 2153
+.or &REGTYPE = 2154
+.or &REGTYPE = 2155
+.or &REGTYPE = 2156
+.or &REGTYPE = 2157
+.or &REGTYPE = 2158
+.or &REGTYPE = 2159
+.or &REGTYPE = 2160
+.or &REGTYPE = 2161
+.or &REGTYPE = 1200
+.or &REGTYPE = 1201
+.or &REGTYPE = 1202
+.or &REGTYPE = 1203
+.th .go REG2151
+.el .go REG2151s
+...REG2151
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere alene over
+den anførte konto ved anvendelse af betalingskort eller på anden måde,
+medmindre andet er aftalt.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
+&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
+overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.kp off
+.sp
+...REG2151s
+.*Valider regtype
+.if &REGTYPE = 2031
+.or &REGTYPE = 2030
+.or &REGTYPE = 2032
+.th .go REG2031
+.el .go REG2031s
+...REG2031
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere over den
+anførte konto, medmindre andet er aftalt.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
+&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
+overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.kp off
+.sp
+...REG2031s
+.*Valider regtype
+.if &REGTYPE = 2025
+.th .go REG2025
+.el .go REG2025s
+...REG2025
+:SWISS9.
+.tp 55mm 80mm
+.kp on
+:FED.Indskudsvilkår :SKRSLUT.
+.br
+Kontoen kan oprettes af alle, der er konfirmeret i 2017.
+.sp
+:FED.Indbetaling :SKRSLUT.
+.br
+Indbetaling på kontoen kan ske ved kontant indskud eller overførsel fra
+anden konto, også via Netbank.
+.sp
+:FED.Udbetaling :SKRSLUT.
+.br
+Kontoens indestående kan frit hæves.
+.sp
+:FED.Rente :SKRSLUT.
+.br
+Renten er fast. &TOTKRE1.% garanteret til den 31. december 2017 og er
+gældende for et beløb op til 25.000,00 kr.
+.br
+Indestående over 25.000,00 kr. forrentes med sparekassens almindelige rente
+på ungdomskonti, p.t. &TOTKRE2.%.
+.kp off
+.sp
+...REG2025s
+.*Valider regtype
+.if &REGTYPE = 2022
+.or &REGTYPE = 2020
+.th .go REG2022
+.el .go REG2022s
+...REG2022
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere over den
+anførte konto ved anvendelse af betalingskort eller på anden måde,
+medmindre andet er aftalt.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver. Kontohaver skal
+samtidig tilbagelevere betalingskort, som er udleveret til
+fuldmagtshaveren.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
+&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
+overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.kp off
+.sp
+:FED.Ungdomskonceptet :SKRSLUT.
+.br
+Som ung kunde i &BANKNAVN. får jeg med ungdomskonceptet en lang række
+fordele.
+.br
+Når jeg fylder 28 år er jeg ikke længere omfattet af ungdomskonceptet.
+.br
+Jeg kan læse mere om ungdomskonceptet og mine fordele på www.djs.dk.
+.sp
+...REG2022s
+.*Valider regtype
+.if &REGTYPE = 2021
+.th .go REG2021
+.el .go REG2021s
+...REG2021
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere over den
+anførte konto ved anvendelse af betalingskort eller på anden måde,
+medmindre andet er aftalt.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver. Kontohaver skal
+samtidig tilbagelevere betalingskort, som er udleveret til
+fuldmagtshaveren.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
+&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
+overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.kp off
+.sp
+:FED.Ungdomskonceptet :SKRSLUT.
+.br
+Som ung kunde i &BANKNAVN. får jeg med ungdomskonceptet en lang række
+fordele.
+.br
+Når jeg fylder 28 år er jeg ikke længere omfattet af ungdomskonceptet.
+.br
+Jeg kan læse mere om ungdomskonceptet og mine fordele på www.djs.dk.
+.sp
+...REG2021s
+.*Valider regtype
+.if &REGTYPE = 2000
+.or &REGTYPE = 2001
+.or &REGTYPE = 2016
+.th .go REG2000
+.el .go REG2000s
+...REG2000
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere over den
+anførte konto ved anvendelse af betalingskort eller på anden måde,
+medmindre andet er aftalt.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af kontohaver. Kontohaver skal
+samtidig tilbagelevere betalingskort, som er udleveret til
+fuldmagtshaveren.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
+&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
+overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.kp off
+.sp
+...REG2000s
+.*Valider regtype
+.if &REGTYPE = 1101
+.or &REGTYPE = 1102
+.th .go REG1101
+.el .go REG1101s
+...REG1101
+.tp 70mm right 80mm 145mm right
+:FED.Disponering :SKRSLUT.
+.br
+På kontoen må kun disponeres i henhold til de enhver tid gældende
+Klientkontovedtægter udfærdiget af Advokatrådet.
+.sp
+Specielt for denne konto, er det gældende, at der kun kan disponeres ved
+overførsel til klientkonto eller ved Netbank-overførsel,hvor det af
+betalingsafsenders konto fremgår, hvem der har beordret overførslen, og til
+hvilken konto beløbet er overført.
+.sp
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.kp off
+.sp
+...ENDSAER
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+:USENKEL.Kreditrente :SKRSLUT.
+.br
+.if &TOTKRE2 = 0,000
+.th
+.el .go KNAEK
+Kontoen forrentes med en variabel rente på p.t. &TOTKRE1.%.
+.go UKNAEK
+...KNAEK
+Kreditrente udgør for tiden:
+.sp
+:USENKEL.Beregningsmåde¤Beløbsgrænse¤Fast/variabel¤Procentsats p.a.
+:SKRSLUT.
+.br
+knæk¤&KRETRIN1.¤variabel¤&TOTKRE1.
+.br
+knæk¤&KRETRIN2.¤variabel¤&TOTKRE2.
+...UKNAEK
+.sp
+Kreditrenten beregnes bagud og tilskrives hver årsultimo, første gang den
+&RNTTILDTOK..
+.kp off
+.sp
+...REG1101s
+.if &REGTYPE = 1101
+.or &REGTYPE = 2000
+.or &REGTYPE = 2001
+.or &REGTYPE = 2016
+.or &REGTYPE = 2020
+.or &REGTYPE = 2021
+.or &REGTYPE = 2022
+.or &REGTYPE = 2025
+.or &REGTYPE = 2031
+.or &REGTYPE = 2032
+.or &REGTYPE = 2151
+.or &REGTYPE = 2152
+.or &REGTYPE = 2153
+.or &REGTYPE = 2154
+.or &REGTYPE = 2155
+.or &REGTYPE = 2156
+.or &REGTYPE = 2157
+.or &REGTYPE = 2158
+.or &REGTYPE = 2159
+.or &REGTYPE = 2160
+.or &REGTYPE = 2161
+.or &REGTYPE = 3000
+.or &REGTYPE = 3021
+.or &REGTYPE = 3024
+.or &REGTYPE = 5000
+.or &REGTYPE = 5610
+.or &REGTYPE = 5620
+.or &REGTYPE = 8441
+.or &REGTYPE = 8442
+.or &REGTYPE = 8443
+.or &REGTYPE = 8444
+.or &REGTYPE = 8445
+.or &REGTYPE = 8446
+.or &REGTYPE = 8447
+.or &REGTYPE = 3022
+.or &REGTYPE = 8451
+.or &REGTYPE = 8452
+.or &REGTYPE = 8453
+.or &REGTYPE = 8454
+.or &REGTYPE = 8455
+.or &REGTYPE = 8456
+.or &REGTYPE = 8457
+.or &REGTYPE = 8458
+.th .go REGELSEs
+.el .go REGELSE
+...REGELSE
+.*****
+Hver kontohaver og fuldmagtshaver er berettiget til at disponere alene over
+den anførte konto ved anvendelse af betalingskort eller på anden måde,
+medmindre andet er aftalt.
+.sp 3mm
+.kp off
+.*********************************
+...ENDRENTE
+...REGELSEs
+.sp 3mm
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.sp 3mm
+.kp off
+...ENDSAER
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af en kontohaver. Kontohaver
+skal samtidig tilbagelevere betalingskort og checks, som er udleveret til
+fuldmagtshaveren.
+.sp 3mm
+.kp off
+.if &U'X&KTOPRIERH = XP
+.an &U'X&BETKTO01 = XJ
+.th .go RENTE
+.el .go ENDRENTE
+...RENTE
+.** UDSKRIVES KUN FOR PRIVATE ***
+.kp on
+I tilfælde af overtræk på kontonummer &LANGKTONR. beregner &BANKNAVN.
+en overtræksrente på p.t. &OVTRTE01 % p.a.,
+som beregnes dag til dag af det til
+enhver tid værende overtræk, svarende til en debitorrente på
+&DEBRTE01 % p.a.
+.if &L'&GENNAVN2 > 0
+.th &GENCPR2 ¤&GENNAVN2 ¤¤
+.th .sp 5mm
+.if &L'&GENNAVN3 > 0
+.th &GENCPR3 ¤&GENNAVN3 ¤¤
+.th .sp 5mm
+.if &L'&GENNAVN4 > 0
+.th &GENCPR4 ¤&GENNAVN4 ¤¤
+.th .sp 3mm
+:SKRSLUT.
+...FULDEND
+.kp off
+.*****
+.sp
+Ovenstående parter har i dag indgået aftale med Den Jyske Sparekasse om
+oprettelse af en &REGTYPELNG. på følgende vilkår:
+.sp
+:SWISS9.
+.*************************************************************************
+.if &FRIDATO = 01.01.0001
+.th .se frid = &ÅRB
+.el .se frid = &FRIDATO
+.if &FRISTDATO = 01.01.0001
+.th .se fristd = &ÅRB
+.el .se fristd = &FRISTDATO
+.*************************************************************************
+.tp 55mm 80mm
+.kp on
+:FED.
+Konto
+:SKRSLUT.
+.br
+Kontonr. ¤Regtype/betegnelse
+.br
+&LANGKTONR. ¤&REGTYPELNG.
+.sp 3mm
+.if &L'&GENMÆRKE = 0
+.an &FRIDATO = 01.01.0001
+.an &FRISTDATO = 01.01.0001
+.th .go IMRK
+.el .go MRK
+...MRK
+Evt. mærke ¤Frigivelsesdato ¤Fristdato
+.br
+&GENMÆRKE ¤&frid ¤&fristd
+.sp 5mm
+...IMRK
+.kp off
+.kp on
+.**TEST PÅ OM DER ER FULDMAGTSHAVERE ***
+.if &L'&GENNAVN1 = 0
+.an &L'&GENNAVN2 = 0
+.an &L'&GENNAVN3 = 0
+.an &L'&GENNAVN4 = 0
+.th .go FULDEND
+.***************************************
+:FED.
+Fuldmagtshaver(e):
+:SKRSLUT.
+.br
+.*****
+.tp 28mm 88mm _/173mm
+CPR-nr ¤Navn ¤Underskrift
+.sp 5mm
+.if &L'&GENNAVN1 > 0
+.th &GENCPR1 ¤&GENNAVN1 ¤¤
+.th .sp 5mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Kontooprettelse/ændring
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.in 5mm
+.ir 1mm
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+:SWISS9.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 70.5mm width 80mm
+.da MCPR   121.5mm 70.5mm width 80mm
+.da PI        25mm 80mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.**************************************************************************
+.ar MKUNDE on
+.if &L'&G08ADRESSE > 0
+.th &G08ADRESSE.
+.th .br
+.if &L'&G08ADRESS1 > 0
+.th &G08ADRESS1.
+.th .br
+.if &L'&G08ADRESS2 > 0
+.th &G08ADRESS2.
+.th .br
+.if &L'&G08ADRESS3 > 0
+.th &G08ADRESS3.
+.th .br
+.if &L'&G08ADRESS4 > 0
+.th &G08ADRESS4.
+.th .br
+.if &L'&G08ADRESS5 > 0
+.th &G08ADRESS5.
+.th .br
+.if &L'&G08ADRESS6 > 0
+.th &G08ADRESS6.
+.th .br
+.ar off
+.**************************************************************************
+.ar CPR on
+&KTOKNDNR1
+.ar off
+.**************************************************************************
+.ar MCPR on
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.if &L'&G08ADRESSE = 0
+.th .bx left right
+.th ¤Kontohaver
+.el .bx left 87.5mm right
+.el ¤Kontohaver ¤Medkontohaver(e)
+.sp 23mm
+.if &L'&MEDNAVN = 0
+.th ¤&kunnr
+.el ¤&kunnr
+.bx new left right
+¤Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Kontooprettelse/ændring
+:SKRSLUT.
+.ar off

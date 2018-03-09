@@ -1,0 +1,370 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.da FEJL 20mm 60mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Ansøgning om privatkort
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**AREALER*****************************************************************
+.da SIDE    20mm  60mm width 175mm
+.da AFREGN1 20mm 120mm width  10mm
+.dr thin weight 0.2mm
+.*KORTHINDEHAVER-OPLYSNINGER***********************************************
+.ar SIDE on
+.tp 1mm
+:SWISS10.
+:FED.
+Kontoindehaver
+:SKRSLUT.
+.bx left right
+:SWISS8.
+¤Navn
+.sp 3mm
+:SWISS8.
+.bx new left right
+¤Adresse
+.sp 3mm
+.tp 1mm 41mm
+.bx new left 40mm right
+¤Postnr. ¤By
+.sp 3mm
+.bx new left right
+¤CPR-nr.
+.sp 3mm
+.bx new left 58.5mm 117mm right
+.tp 1mm 59.5mm 118mm
+¤Telefon arbejde ¤Telefon privat ¤Mobiltelefon
+.sp 3mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.*AFREGNING ***************************************************************
+.tp 1mm 88.5mm
+:SWISS10.
+:FED.
+Afregning
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 2mm
+:FED.
+¤Vi opkræver kortgebyret én gang om året på kortets konto.
+:SKRSLUT.
+.sp 2mm
+.bx new left right
+:FED.
+¤Afregning af forbrug
+:SKRSLUT.
+.sp 11mm
+:FED.
+¤Månedlig afvikling af kredit (beløb eller procent)
+:SKRSLUT.
+.sp 27mm
+.bx off
+.bx can
+.*PENGEINSTITUT ***********************************************************
+.tp 1mm
+:SWISS10.
+:FED.
+Pengeinstitut
+:SKRSLUT.
+:SWISS8.
+.tp  88.5mm
+.bx left 87.5mm right
+¤Tlf.nr.
+.sp 4mm
+.hr 87.5mm right
+¤Faxnr.
+.sp 4mm
+.bx off
+.*ERKLÆRING ***************************************************************
+.tp 1mm
+:SWISS10.
+:FED.
+Erklæring
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 87mm
+.bx off
+.ar off
+.** HER LAVES DE SMÅ AFKRYDSNINGSKASSER I RUBRIKKEN AFREGNING ************
+.ar AFREGN1 on
+:SWISS10.
+.*1 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 1mm
+.*2 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 4.8mm
+.*3 ks *******
+.bx thin 5mm 8mm
+.sp 1.4mm
+.bx off
+.sp 1mm
+.*4 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da KORTHOLD  25mm  67.5mm width 170mm
+.da AFREGN1 25.5mm   134mm width 169mm
+.da AFRPCT  25.5mm 139mm width 169mm
+.da AFREGN2   21mm 154mm width 173mm
+.da PI        25mm   167mm width 169mm
+.da PITLF  112.5mm   170mm width  85mm
+.da PIFAX  112.5mm   178.5mm width  85mm
+.da UNDER     56mm   270.7mm width  85mm
+.*SUBSTRINGS **************************************************************
+.su off
+.se postnr = substr &BY 1 4
+.se bynavn = substr &BY 7 28
+.su on
+.*KORTHOLDER **************************************************************
+.ar KORTHOLD on
+.tp 40mm
+&NAVN
+.sp 4mm
+.if &L'&COADR > 0
+.th &COADR., &GADE
+.el &GADE
+.sp 4mm
+&postnr ¤&bynavn
+.sp 4mm
+&KUNDENR.
+.sp 4mm
+.tp 58.5mm 117mm
+&KTTLF2 ¤&KTTLFPRIV2 ¤&KTMOBIL2
+.ar off
+.**************************************************************************
+.ar AFREGN1 on
+.tp 52mm right
+¤&KTBELKR
+.ar off
+.**************************************************************************
+.ar AFRPCT on
+.tp 54mm right 107mm right
+¤&KTAFVPCT ¤&KTBELPCT
+.ar off
+.**************************************************************************
+.if &L'&GENKONTO9 = 0
+.th .go UDENOM
+.ar AFREGN2 on
+.tp 17mm 43mm 78mm
+¤&BANKREGNR. ¤&GENKONTO9. ¤&BKNAVN. &BKAFD.
+.ar off
+...UDENOM
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar PITLF on
+&AFDTLF
+.ar off
+.**************************************************************************
+.ar PIFAX on
+&AFDFAX
+.ar off
+.**************************************************************************
+.ar UNDER on
+&NAVN
+.ar off
+.**************************************************************************
+ansøgningsblanket, kortbestemmelserne og prislisten.
+.of
+.sp 3mm
+Jeg giver samtykke til, at:
+.br
+.of 3mm
+-¤&BANKNAVN kan sende mig information og markedsføring om
+eksisterende og kommende samarbejdspartneres virksomhed og om
+indløsningssteder, der tilbyder fordele i kraft af rabat eller en
+særlig service, når kortet anvendes
+.of
+.of 3mm
+-¤&BANKNAVN kan, som kortudsteder, sende mig favorable tilbud
+på rejser, flybilletter, hotelophold og lignende
+.of
+.of 3mm
+-¤modtage nyhedsbreve, magasiner og lignende, som kan indeholde
+markedsføring af andre virksomheders produkter inden for områderne
+rejse, livsstil, kultur og lignende.
+.of
+.sp 2mm
+Ovennævnte samtykker er en forudsætning for at have kortet.
+.sp 3mm
+Jeg er opmærksom på, at &BANKNAVN modtager provision ved
+kortets anvendelse i forretninger mv.
+.ar off
+.**************************************************************************
+.ar UNDER on
+:SWISS8.
+.tp 1mm _/30mm 35mm _/120mm
+¤¤ ¤¤
+.tp 1mm 35mm
+¤Dato
+.ar off
+.**************************************************************************
+.tp _/25mm _/65mm 70mm
+.if &L'&BKNAVN > 0
+.th Reg.nr. ¤ Kontonr. ¤ ¤i
+.el Reg.nr. ¤ Kontonr.¤
+.ar off
+.*********************************************************************
+.ar AFREGN3 on
+.if X&GENFORBRUG = X1
+.th X
+.el .sp 5.2mm
+.if X&GENFORBRUG = X2
+.th X
+.ar off
+.*********************************************************************
+.ar ERKL1 on
+.tp 3mm
+:SWISS8.
+Jeg har modtaget, læst og accepteret kortbestemmelser og prisliste,
+ligesom jeg bekræfter rigtigheden af oplysningerne i denne ansøgning.
+.sp 2mm
+Jeg erkender at skylde &BANKNAVN det beløb, der måtte være
+trukket på kortkontoen med eventuelt tillæg af rente, overtræksrente
+samt gebyrer og omkostninger, jf. § 61 og 62 i Lov om
+betalingstjenester.
+.sp 2mm
+Jeg accepterer, at:
+.br
+.of 3mm
+-¤&BANKNAVN vurderer min økonomi og eventuelt indhenter
+oplysninger hos eller videregiver oplysninger til
+kreditoplysningsbureauer og pengeinstitutter om både nuværende og evt.
+tidligere engagementer med &BANKNAVN
+.br
+.of
+.of 3mm
+-¤&BANKNAVN løbende vurderer min økonomi
+.of
+.of 3mm
+-¤der kan knyttes de til enhver tid eksisterende tillægsydelser til
+kortet. Oplysninger om samarbejdspartnere fås i &BANKNAVN.s
+afdelinger og på &BANKHJEMME.
+.of
+.of 3mm
+-¤&BANKNAVN er berettiget til at udveksle oplysninger med en
+samarbejdspartner. Oplysningerne bruges til at etablere og
+administrere tillægsydelser, der er knyttet til kortet, og ved
+eventuel skadebehandling
+.of
+.of 2mm
+-¤aftalegrundlaget for &KTTYPTLNG. består af denne
+.******************************************************************
+.da ANSOEG   20mm  40mm width 175mm
+.da AFREGN1A 25mm 120.5mm width 168mm
+.da AFREGN1B 25mm 151mm width 175mm
+.da AFREGN3  25.5mm 120.2mm width 169mm
+.da ERKL1    21mm 188mm width 173mm
+.da UNDER    20mm 271mm width 175mm
+.******************************************************************
+.ar ANSOEG on
+.tp 5mm
+:SWISS8.
+:FED.
+Jeg ønsker at ansøge om:
+:SKRSLUT.
+.sp 2.5mm
+¤&KTTYPTLNG., forbrugsgrænse &KTBELOBGR. kr.
+.sp 2mm
+.if X&U'&KTFORSIK = XJ
+.th ¤Kortet er udstedt med forsikring
+.el ¤Kortet er udstedt uden forsikring
+.**************************************************************************
+.ar AFREGN1A on
+:SWISS8.
+.tp 5mm
+¤Via Betalingsservice (udfyld kontonr.)
+.sp 2mm
+¤Via konto (udfyld kontonr.)
+.sp 6mm
+.tp 1mm 5mm  _/54mm _/111mm
+¤&GENVALGKR ¤I kroner ¤
+.sp 2mm
+¤&GENVALGPCT ¤I procent ¤ (Dog minimum ¤ kr.)
+.sp 1mm
+:SWISS6.
+.ir 3mm
+(Anføres 100% bliver hele det afregnede
+beløb hævet på den valgte konto, og
+der bliver ikke beregnet rente af træk på kredit i &BANKNAVN.). Anføres
+andet end 100 % skal der indgås separat kreditaftale. Forinden
+kreditaftale indgås er &BANKNAVN. forpligtet til at udlevere
+Standardiserede europæiske
+.HW for-bru-ger-kre-dit-op-lys-nin-ger.
+.ir 0mm
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar AFREGN1B on
+:SWISS8.
+Den månedlige betaling hæves på nedenstående konto:
+.sp 1mm

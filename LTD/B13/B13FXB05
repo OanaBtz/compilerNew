@@ -1,0 +1,259 @@
+.oc **
+:becfst.b13045
+.*
+.ll 73
+.in 3
+.sp 17mm
+.cl 35
+.cd 2 1 32
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.cb
+.ri on
+&EDATO
+.ri off
+.sk
+.sc
+.in 4
+.sp 3
+.se antlin = &ÅLC - 51
+.if &antlin GT 0
+.th .sp &antlin
+&B13STILL
+.br
+&B13NAVN
+.br
+&B13COADR
+.br
+&B13GADE
+.br
+&B13BY
+.sp 3
+.se antlin = &ÅLC - 42
+.if &antlin GT 0
+.th .sp &antlin
+.*             Her indtastes møntkode og indbetalingsbeløbet
+.*             Hvis kursen er lig med 100,0000
+.*             Så udskrives intet i beløb og kurs.
+.if &B13KURS = 100,0000
+.th .sp 3
+.th .go NEJ
+&U'&B13MTKD1
+.vs &B13UDLBE1
+.sp
+.vs &B13KURS
+.sp 2
+...NEJ
+.se antlin = &ÅLC - 37
+.if &antlin GT 0
+.th .sp &antlin
+&B13TEXT1
+&B13TEXT2
+&B13TEXT3
+&B13TEXT4
+&B13TEXT5
+&B13TEXT6
+.sp 2
+.se antlin = &ÅLC - 23
+.if &antlin GT 0
+.th .sp &antlin
+.cl 25
+.cd 4 0 17 35 42
+&KTONR
+.cb
+&U'&B13MTKD2
+&RESULTA
+.cb
+.*              Hvis kursen er lig med 100,00 så skal møntkode 1
+.*              være lig med møntkode 2.
+.*              Hvis kursen er forskellig fra 100,00, så skal
+.*              møntkode 1 og møntkode 2 også være forskellig.
+.if &B13KURS EQ 100,0000
+.th .go KURS100
+.*
+.*              Kursen er IKKE 100
+.if &B13MTKD1 EQ &B13MTKD2
+.th .go FEJL
+.el .go VIDERE
+.*
+.*              Kursen er 100
+...KURS100
+.if &B13MTKD1 eq &B13MTKD2
+.th .go VIDERE
+...FEJL
+.mg /T/Der er noget forkert mellem møntkoder og kurs
+...VIDERE
+.*
+.*
+&B13VAL
+.cb
+&U'&B13MTKD2
+.if &U'&B13MTKD2 eq DKK
+.th &RESULTB
+.el &RESULTC
+.sc
+.sp 2
+.in 2
+.se antlin = &ÅLC - 14
+.if &antlin GT 0
+.th .sp &antlin
+&U'&B13UDLNAVN
+.sk 3
+&EKSPNAVN    &B13FUNDER
+:becfsl
+:becfst.b13050
+.ll 73
+.in 3
+.sp 17mm
+.cl 35
+.cd 2 1 32
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.cb
+.ri on
+&EDATO
+.ri off
+.sk
+.sc
+.in 4
+.sp 3
+.se antlin = &ÅLC - 51
+.if &antlin GT 0
+.th .sp &antlin
+&B13STILL
+.br
+&B13NAVN
+.br
+&B13COADR
+.br
+&B13GADE
+.br
+&B13BY
+.sp 3
+.se antlin = &ÅLC - 42
+.if &antlin gt 0
+.th .sp &antlin
+.*             Her indtastes møntkode og indbetalingsbeløbet
+.*             Hvis kursen er lig med 100,0000
+.*             Så udskrives intet i beløb og kurs.
+.if &B13KURS = 100,0000
+.th .sp 3
+.th .go NEJ
+&U'&B13MTKD1
+.vs &B13UDLBE1
+.sp
+.vs &B13KURS
+.sp 2
+...NEJ
+.se antlin = &ÅLC - 37
+.if &antlin gt 0
+.th .sp &antlin
+&B13TEXT1
+&B13TEXT2
+&B13TEXT3
+&B13TEXT4
+&B13TEXT5
+&B13TEXT6
+.sp 2
+.se antlin = &ÅLC - 23
+.if &antlin gt 0
+.th .sp &antlin
+.cl 25
+.cd 4 0 17 35 42
+&KTONR
+.cb
+&U'&B13MTKD2
+&RESULTA
+.cb
+.*              Hvis kursen er lig med 100,00 så skal møntkode 1
+.*              være lig med møntkode 2.
+.*              Hvis kursen er forskellig fra 100,00, så skal
+.*              møntkode 1 og møntkode 2 også være forskellig.
+.if &B13KURS eq 100,0000
+.th .go KURS100
+.*
+.*              Kursen er IKKE 100
+.if &B13MTKD1 eq &B13MTKD2
+.th .go FEJL
+.el .go VIDERE
+.*
+.*              Kursen er 100
+...KURS100
+.if &B13MTKD1 eq &B13MTKD2
+.th .go VIDERE
+...FEJL
+.mg /T/Der er noget forkert mellem møntkoder og kurs
+...VIDERE
+.*
+.*
+&B13VAL
+.cb
+&U'&B13MTKD2
+.if &U'&B13MTKD2 eq DKK
+.th &RESULTB
+.el &RESULTC
+.sc
+.sp 2
+.in 2
+.se antlin = &ÅLC - 14
+.if &antlin GT 0
+.th .sp &antlin
+&U'&B13UDLNAVN
+.sk 3
+&EKSPNAVN    &B13FUNDER
+.sp 2,5
+.cl 25
+.cd 6 2 21 40 44 52 71
+.if &U'&B13MTKD1 eq DKK
+.th .vs &B13UDLBE1
+.el .vs &RESULTD
+.cb
+&KTONR
+.cb
+&B13TKKTO
+.cb
+.*
+.cb
+.if &U'&B13MTKD2 eq DKK
+.th 0,00
+.el .vs &RESULTA
+.cb
+&B13OMSKD
+.sc
+.sp 2
+.mc
+.if &U'&B13MTKD1 eq DKK
+.th .vs &B13UDLBE1
+.el .vs &RESULTD
+.cb
+&B13MODKTO
+.cb
+&B13TKMKTO
+.cb
+.*
+.cb
+.if &U'&B13MTKD1 eq DKK
+.th 0,00
+.el .vs &B13UDLBE1
+.cb
+&B13OMSKD
+.sc
+:becfsl

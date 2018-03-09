@@ -1,0 +1,268 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.******** BREVHOVED - afsenderadresse *****
+.da DATO  28mm  70mm width 156mm
+.da AFS  156.8mm 260mm width  50mm
+.ar DATO on
+.fo right
+:SWISS12.
+&DATO
+.ar off
+.ar AFS on
+:SWISS8.
+.fo right
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf.: &AFDTLF
+.sp
+&GENEMAIL
+.br
+www.lokalbanken.dk
+.ar off
+.if &U'&B85HBCVR ne J
+.th .go NEJBUND
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.da HBCVR 25mm 275mm width 110mm
+.********************* TEKST STARTER **************************
+.ar HBCVR on
+:SWISS8.
+Handelsbanken CVR-nr. 24246361 Filial af Svenska Handelsbanken AB (publ),
+Sverige
+.ar off
+...NEJBUND
+.******** BREVHOVED via kontonr. evt. incl. medktohaver*****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 25mm  46mm width 170mm
+.ar ADRESSE on
+:SWISS12.
+.if &U'&MEDKUNDENR = 000000-0000
+.th .go TEST1
+.el .go TEST2
+.**************KONTOHAVER OG MEDKONTOHAVER
+...TEST2
+&KTONAVN og
+.br
+&MEDNAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+.go VIDERE
+.***********KONTOHAVER
+...TEST1
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+...VIDERE
+.ar off
+.********* B85hovedkto er slut**********************
+.* Parameterafsnit
+.oc **
+:NY. :tiltale &TILTALEF :ENY.
+:GL. &&??# :EGL.
+.* Parameterafsnit
+.* BRUGES I FORSKELLIGE BREVE - TJEK GIL-LISTE!
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN - 9.4.2008
+.ar off
+.***********************************************************************
+.ll 170mm
+.ti ¤ 05
+.fo left
+.da TEKST 25mm 110mm width 160mm
+.ar TEKST on
+:SWISS12.
+:FED.
+Forlængelse af &DIN. kredit
+:SKRSLUT.
+.sp
+Loven siger, at vi skal have forskellige oplysninger fra &DIG.,
+før vi må forlænge kreditten (Bkg. om god skik for finansielle
+virksomheder).
+Det er nu tid til at forlænge &DIN. kredit nr. &IREGKTO..
+.sp
+.if &U'&B85MØDE = J
+.th .go MØDE
+.el .go KONTAKT
+...MØDE
+Jeg har derfor reserveret tid til et møde
+.sp
+.ce &B85UGEDAG den &B85DATO01. kl. &B85KLOKKEN..
+.sp
+Jeg håber tidspunktet passer &DIG.. Kontakt mig, så vi enten kan bekræfte
+aftalen eller finde et andet tidspunkt, der passer bedre.
+.sp
+.go SLUT
+...KONTAKT
+Jeg vil derfor bede &DIG. kontakte mig for at aftale et møde.
+.sp
+.go SLUT
+...SLUT
+.sp
+.* Dette er et vælge-afsnit.
+.* Hvis første VALG er afkrydset, hoppes til TEKSTafsnit nr. 1, teksten
+.* skrives i brevet og der fortsættes til VALG nr. 2 o.s.v.
+.* Hvis VALG nr. 1 IKKE afkrydses, fortsættes direkte til VALG nr. 2
+.***********************************************************************
+.* Bruges i flere breve - TJEK GIL-LISTE
+.***********************************************************************
+.if x&B85VALG eq x2
+.th Til mødet må &DU. derfor meget gerne tage følgende med:
+.if x&B85VALG eq x1
+.th Inden mødet må &DU. derfor meget gerne sende eller indlevere
+.th følgende til mig:
+.sp
+.in 5mm
+.if &L'&B85AFVALG1 gt 0
+.th .go TEKST1
+.el .go VALG2
+.***************************************
+...TEKST1
+- årsopgørelse ;.br
+.***************************************
+...VALG2
+.if &L'&B85AFVALG2 gt 0
+.th .go TEKST2
+.el .go VALG3
+...TEKST2
+- seneste lønseddel ;.br
+.**************************************
+...VALG3
+.if &L'&B85AFVALG3 gt 0
+.th .go TEKST3
+.el .go VALG4
+...TEKST3
+- budget ;.br
+.**************************************
+...VALG4
+.if &L'&B85AFVALG4 gt 0
+.th .go TEKST4
+.el .go VALG5
+...TEKST4
+- oversigt fra andet pengeinstitut ;.br
+.**************************************
+...VALG5
+.if &L'&B85AFVALG5 gt 0
+.th .go TEKST5
+.el .go VALG6
+...TEKST5
+- BBR Ejermeddelelse ;.br
+.**************************************
+...VALG6
+.if &L'&B85AFVALG6 gt 0
+.th .go TEKST6
+.el .go VALG7
+...TEKST6
+- ejendomsvurdering ;.br
+.***********************************
+...VALG7
+.if &L'&B85AFVALG7 gt 0
+.th .go TEKST7
+.el .go VALG8
+...TEKST7
+- brandpolice ;.br
+.********************************************
+...VALG8
+.if &L'&B85AFVALG8 gt 0
+.th .go TEKST8
+.el .go VALG9
+...TEKST8
+- regnskab ;.br
+.********************************************
+...VALG9
+.if &L'&B85AFVALG9 gt 0
+.th .go TEKST9
+.el .go VALG10
+...TEKST9
+- salgsbudget ;.br
+...VALG10
+.if &L'&B85FRITXT2 gt 0
+.th - &B85FRITXT2
+.el
+.if &L'&B85FRITXT3 gt 0
+.th.br
+.th - &B85FRITXT3
+.el
+.if &L'&B85FRITXT4 gt 0
+.th.br
+.th - &B85FRITXT4
+.th .go SLUT
+.el .go SLUT
+.********************************************
+...SLUT
+.in -5mm
+.sp
+På gensyn.
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 3
+&B85NAVN
+.sk
+.ar off

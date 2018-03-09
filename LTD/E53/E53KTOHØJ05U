@@ -1,0 +1,206 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre og test på regtype ********************************************
+.if &REGTYPE ne 1021
+.th .mg/T/Der skal vælges en konto med regtypen 1021/
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da IDOPL 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar IDOPL on
+:COUR8.
+Reg.nr. &regnr
+.br
+Kontonummer &ktonr
+.br
+:FED.&REGTYPELNG.:SKRSLUT.
+.br
+CPR-nr./CVR-nr. &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.tp 8mm
+.**************************************************************************
+.if &MEDKNDNR1 = 0000000000
+.th Din Højrentekonto med fast rente er nu udløbet og opgjort. Vi har
+.th oprettet en ny Højrentekonto med variabel rente kontonummer
+.th :FED.
+.th &IREGKTO.
+.th :SKRSLUT.
+.th og overført beløbet dertil. Såfremt du ønsker at forlænge bindingen
+.th med 6 måneder, 12 måneder eller 3 år er du velkommen til at kontakte
+.th os. Du kan læse kontovilkårene nedenfor.
+.el Jeres Højrentekonto med fast rente er nu udløbet og opgjort. Vi har
+.el oprettet en ny Højrentekonto med variabel rente kontonummer
+.el :FED.
+.el &IREGKTO.
+.el :SKRSLUT.
+.el og overført beløbet dertil. Såfremt I ønsker at forlænge bindingen
+.el med 6 måneder, 12 måneder eller 3 år er I velkomne til at kontakte
+.el os. I kan læse kontovilkårene nedenfor.
+.sp
+.us Kontoaftale
+.sp
+&BANKNAVN har oprettet en Højrentekonto på følgende vilkår:
+.sp
+.of 8mm
+*¤Kontoen er en anfordringskonto
+.of
+.sp
+.of 8mm
+*¤Indestående på kontoen er ikke bundet og kan frit hæves
+.of
+.sp
+.of 8mm
+*¤Indbetaling kan ske løbende og eventuelt ved elektronisk overførsel
+.of
+.sp
+.of 8mm
+*¤Indestående op til &KRETRIN2 kr. forrentes p.t. med &TOTKRE1.%.p.a.
+.sp
+.********
+.if &KRETRIN3 = 0
+.th Den del af indestående, der overstiger &KRETRIN2 kr., forrentes p.t.
+.th med &TOTKRE2.% p.a.
+.el Hvis indestående er mellem &KRETRIN2 kr. og &KRETRIN3 kr., forrentes
+.el hele saldoen p.t. med &TOTKRE2.% p.a.
+.el .sp
+.el Den del af indestående, der overstiger &KRETRIN3 kr., forrentes p.t.
+.el med &TOTKRE3.% p.a.
+.*******
+.sp
+.of
+.sp
+.of 8mm
+*¤Rentesatserne er variable og kan til enhver tid ændres af &BANKNAVN.
+.of
+.sp
+.of 8mm
+*¤Renten tilskrives kontoen hvert år ultimo december
+.of
+.sp
+.of 8mm
+*¤Kontoen føres uden bankbog. Der udsendes gratis kontoudskrift, når
+antallet af posteringer er 40, ved rentetilskrivning og når kontoen
+opgøres. Ønskes udskrifter på andre tidspunkter, kan dette aftales mod
+gebyr. Gebyrets størrelse fremgår af bankens til enhver tid gældende
+satser i henhold til prislisten
+.of
+.sp
+.of 8mm
+*¤For kontoen gælder &BANKNAVN.s almindelige forretningsbetingelser for
+.if &MEDKNDNR1 = 0000000000
+.th privatkunder, som du kan se på www.brf.dk
+.el privatkunder, som I kan se på www.brf.dk
+.of
+.sp
+.us Netbank
+.sp
+.if &MEDKNDNR1 = 0000000000
+.th Til din Højrentekonto tilknytter vi BRFnetbank, der
+.th bl.a. giver dig mulighed for at følge bevægelserne på kontoen,
+.th se saldo og overføre penge til andre bankkonti
+.el Til jeres Højrentekonto tilknytter vi BRFnetbank, der
+.el bl.a. giver jer mulighed for at følge bevægelserne på kontoen,
+.el se saldo og overføre penge til andre bankkonti
+.of
+.ar off
+.** SIDESKIFT
+.pa
+.da side2 20mm 50mm
+.ar side2 on
+.if &MEDKNDNR1 = 0000000000
+.th Hvis du har spørgsmål, er du velkommen til at kontakte vores
+.el Hvis I har spørgsmål, er I velkomne til at kontakte vores
+kundecenter på telefon 70 10 21 00. Kundecentret har åbent alle ugens
+dage kl. 9.00-21.00.
+.sp
+.of
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

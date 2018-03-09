@@ -1,0 +1,71 @@
+.if X&BECPJN1 eq X1
+.or X&BECPJN1 eq X2
+.or X&BECPJN1 eq X3
+.or X&BECPJN1 eq X5
+.th .go REGNR5
+.**************************************************************************
+:SWISS10.
+.**************************************************************************
+.da PFA1 27mm 47mm width 85mm
+.da KUNDE 27mm 79.5mm width 85mm
+.da CPR 119mm 79.5mm width 85mm
+.da FORFALD1 25mm 90.3mm width 175mm
+.da OVFDATO 25.5mm 99.3mm width 175mm
+.da REGNR 25.5mm 106.3mm width 175mm
+.**************************************************************************
+.ar PFA1 on
+PFA Pension
+.br
+Pengeinstitutgruppen
+.br
+Sundkrogsgade 4
+.br
+2100 København Ø
+.ar off
+.**************************************************************************
+.*TESTS DER ANVENDES I BECPFA19 0G BECPFA33 *******************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.se c = substr &GENCPR  1 6
+.se d = substr &GENCPR  7 4
+.su on
+.**************************************************************************
+.*FORSIKRINGSTAGER = GENNAVN; FORSIKREDE = NAVN**************************
+.ar KUNDE on
+.if &U'X&brev eq XPFA19
+.or &U'X&brev eq XPFA33
+.th &GENNAVN
+.el &NAVN
+.ar off
+.**************************************************************************
+.*FORSIKREDES CPR = &A.-&B, FORSIKRINGSTAGERS CPR = &C.-&D. ***************
+.ar CPR on
+.if &U'X&brev eq XPFA19
+.or &U'X&brev eq XPFA33
+.th &c.-&d.
+.el &a.-&b.
+.ar off
+.* TEKST TIL MODTAGENDE PENGEINSTITUT FORFALD *****************************
+.ar FORFALD1 on
+.tp 57mm center 129mm center
+.if X&BECPJN5 gt X2
+.th .mg/T/Vælg 1 eller 2 for forfald/
+.th .go OVFDATO
+.if X&BECPJN5 eq X1
+.th ¤x
+.if X&BECPJN5 eq X2
+.th ¤¤x
+...OVFDATO
+.ar off
+.*OVERFØRSEL PR. DEN ******************************************************
+.ar OVFDATO on
+.tp 2mm center 51mm _/56mm 57mm 59mm _/64mm 65mm
+.if &L'&GENDATO gt 0
+.th ¤x ¤&GENDATO
+.ar off
+.* NYT REG.NR. I MODTAGENDE PENGEINSTITUT**********************************
+.ar REGNR on
+.tp 2mm center 82.5mm center 112.5mm center
+¤x ¤&REGNR ¤&B04FIL
+.ar off
+...REGNR5

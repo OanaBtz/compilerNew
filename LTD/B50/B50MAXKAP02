@@ -1,0 +1,114 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING***********************************
+:SWISS10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER**********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar VEND off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
+.ar START on
+:SWISS12.:FED.
+Udbetaling af
+.if &U'&GENVALG = J
+.th ratepension
+.el kapitalpension
+med 60% afgift
+:SKRSLUT.
+.sp2
+:SWISS10.
+.ar START off
+.*************************************************************************
+.***********************************************
+.da INDHOLD 20mm 120mm width 170mm
+.***********************************************
+.ar INDHOLD on
+Jeg ønsker min
+.if &U'&GENVALG = J
+.th ratepension
+.el kapitalpension
+kontonr. &IREGKTO i &BANKNAVN udbetalt på en gang.
+.sp
+Udbetalingen koster 450 kr. Afgift og pensionsskat beregnes og hæves
+efter gældende regler.
+.sp2
+Cpr. nr. &KTOKNDNR1
+.sp
+&NAVN
+.br
+&GADE
+.br
+&BY
+.sp6
+.tp 35mm
+.hr 0mm 25mm 35mm 100mm
+Dato ¤&NAVN
+.ar INDHOLD off
+.if &U'&B50VALG01 = J
+.th .da ARBJGIVER 20mm 210mm width 170mm
+.th .ar ARBJGIVER on
+.th .tp 70mm 105mm
+.th Arbejdsgiver: ¤Arbejdsgivers underskrift:
+.th .sp
+.th &B50NAVN1
+.th .br
+.th &B50NAVN2
+.th .br
+.th &B50NAVN3
+.th .br
+.th &B50NAVN4
+.th .hr 70mm 95mm 105mm 170mm
+.th .br
+.th ¤Dato ¤&B50NAVN1
+.th .ar ARBJGIVER off

@@ -1,0 +1,281 @@
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+.*
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NR PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************
+i pantsætningen. Er ægtefælle/samlever medejer, underskrives som
+debitor og pantsætter.
+.ar off
+.*************************************************
+.sp 3mm
+&B48DEBN1 ¤&B48DEBN4
+.sp 0.5mm
+&B48DEBN2
+.sp 0.5mm
+&B48DEBN3
+.sp 0.5mm
+Cpr.nr. &B48DEBN6 ¤Cpr.nr. &B48DEBN7
+.sp 1.5mm
+Der har erhvervet den pantsatte ejendom og som ved sin underskrift på
+nærværende påtegning overtager ejerpantebrevet som debitor og kreditor.
+.sp 3mm
+Bemyndiges til på mine/vore vegne at underskrive
+påtegninger af enhver art på nærværende ejerpantebrev, herunder
+kvitterings-, transport-, moderations- samt relaksationspåtegninger.
+.sp 3mm
+Med hensyn til servitutter og andre byrder henvises til ejendommens
+blad i tingbogen.
+.sp 3mm
+I øvrigt forbliver ejerpantebrevets bestemmelser uændret gældende.
+.sp 3mm
+&LANDSBY., den &B48DATO
+.ar off
+.*************************************************
+.ar AFSENDER1 on
+.hr left right
+Som ny(e) kreditor(er) og debitor(er):
+.sp 0.5mm
+&B48DEBN1
+.ar off
+.**************************************************
+.ar USKR1 on
+For så vidt pantebrevet alene underskrives af debitor, erklærer denne
+samtidig at være ugift, eller at ejendommen ikke omfattes af lov om
+ægteskabets retsvirkninger § 18.
+.sp 10mm
+.hr left right
+Som tidligere ejer(e):
+.sp 0.5mm
+&B48DEBN5
+.ar off
+.*************************************************
+.ar AFSENDER2 on
+.hr left right
+.sp 4mm
+&B48DEBN4
+.ar off
+.*************************************************
+.ar USKR2 on
+For så vidt debitor er gift, erklærer medunderskrevne ægtefælle samtykke
+:SWISS10.
+.da MATRNR     30mm   20mm width 165mm
+.da CVRNR     125mm   39mm width  70mm
+.da ANMELDER  125mm   45mm width  70mm
+.da SIDE       30mm   68mm width 165mm
+.da AFSENDER1  30mm  193mm width  80mm
+.da AFSENDER2 115mm  193mm width  75mm
+.da USKR1      30mm  206mm width  80mm
+.da USKR2     115mm  206mm width  75mm
+.*************************************************
+.ar MATRNR on
+.tp 20mm 34mm 95mm
+Afgift: kr. &ÅCONT
+:VS.&B48BELØB1
+.sp 0.5mm
+Allonge til ejerpantebrev (Andel) stort opr. kr. &ÅCONT
+:VS.&B48BELØB
+.sp 1mm
+Vedr. ¤&B48ANDENN1
+.sp 0.5mm
+¤Kommunekode: &B48ANDENN2 Vejkode: &B48TEKST2
+.sp 0.5mm
+.sp 0.5mm
+Udstedt af: ¤&B48ANDENN
+.ar off
+.*************************************************
+.ar CVRNR on
+.if &L'&AFDSENR gt 0
+.th CVR-nr.: &AFDSENR
+.ar off
+.*************************************************
+.ar ANMELDER on
+:FED.Anmelder::SKRSLUT.
+.sp 2.5mm
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+.if &L'&AFDTLF gt 0
+.th &AFDTLF
+.el Ingen telefon
+.ar off
+.*************************************************
+.ar SIDE on
+.tp 65mm
+Nærværende ejerpantebrev (Andel) transporteres til:

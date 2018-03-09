@@ -1,0 +1,875 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.if &GENERHVTYP = 0
+.or &GENERHVTYP > 3
+.th .mg/T/Valg af korttype, skriv 1 - 3/
+.**************************************************************************
+.su off
+.se postnr1 = substr &BY 1 4
+.se BYNAVN = substr &BY 7 28
+.su on
+.**************************************************************************
+.if &GENFORBRUG = 0
+.or &GENFORBRUG > 2
+.th .mg/T/Afregning af forbrug, skriv 1 eller 2/
+.**************************************************************************
+.**AREALER*****************************************************************
+.da KS 19mm 50mm width 10mm
+.da SIDE  20mm 65mm width 175mm
+.da KSAFREG 20mm 189mm width 10mm
+.dr thin weight 0.2mm
+.**SMÅ KASSER TIL (JEG ØNSKER AT ANSØGE OM)********************************
+.ar KS on
+:SWISS10.
+.*2 KS. ***
+.bx thin 1mm 4mm
+.sp 1.5mm
+.bx off
+.sp 1mm
+.*3 KS. ***
+.bx thin 1mm 4mm
+.sp 1.5mm
+.bx off
+.ar off
+.*KORTHOLDEROPLYSNINGER ***************************************************
+.ar SIDE on
+.tp 1mm
+:SWISS10.
+:FED.
+Kortholderoplysninger
+:SKRSLUT.
+.bx left right
+:SWISS8.
+¤Navn
+:SWISS6.
+(maks. 26 karakterer inkl. mellemrum)
+.sp 5mm
+:SWISS8.
+.bx new left right
+¤Adresse
+.sp 5mm
+.tp 1mm 41mm
+.bx new left 40mm right
+¤Postnr. ¤By
+.sp 5mm
+.tp 1mm 88.5mm
+.bx new left 87.5mm right
+¤Telefon arbejde ¤Mobiltelefon
+.sp 5mm
+.tp 1mm 41mm
+.bx new left 40mm right
+¤CPR-nr. ¤Stilling
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.*FIRMAOPLYSNINGER ********************************************************
+.tp 1mm
+:SWISS10.
+:FED.
+Firmaoplysninger
+:SKRSLUT.
+:SWISS8.
+.bx left right
+¤Firmanavn
+:SWISS6.
+(maks. 26 karakterer inkl. mellemrum)
+.sp 5mm
+.bx new left right
+:SWISS8.
+¤Adresse
+.sp 5mm
+.tp 1mm 41mm
+.bx new left 40mm right
+¤Postnr. ¤By
+.sp 5mm
+.tp 1mm 88.5mm 132.5mm
+.bx new left 87.5mm 131.5mm right
+¤Kontaktperson i virksomhed ¤CVR-nr. ¤MasterCard kontonr.
+.sp 5mm
+.tp 1mm 66mm 116mm
+.bx new left 65mm 115mm right
+¤Selskabsform (A/S, ApS, andet) ¤Telefon ¤Fax
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.*AFREGNING ***************************************************************
+.tp 1mm
+:SWISS10.
+:FED.
+Afregning
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 2mm
+:FED.
+¤Vi opkræver kortgebyret én gang om året på kortets konto.
+.sp 2mm
+.bx new left right
+.sp 2mm
+¤Afregning af forbrug
+:SKRSLUT.
+.sp 30mm
+.bx off
+.bx can
+.*PENGEINSTITUT ***********************************************************
+.tp 1mm 88.5mm
+:SWISS10.
+:FED.
+Pengeinstitut
+:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+¤¤Tlf.nr.
+.sp 9mm
+.hr 87.5mm right
+¤¤Faxnr.
+.sp 9mm
+.bx off
+.ar off
+.** HER LAVES DE SMÅ AFKRYDSNINGSKASSER I RUBRIKKEN AFREGNING *************
+.ar KSAFREG on
+:SWISS10.
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 1mm
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da KORTTYP 20.5mm 50mm width 175mm
+.da KORTHOLD 25mm 74.5mm width 170mm
+.da FIRMA 25mm 126.5mm width 170mm
+.da AFREGN1 25.5mm 189mm width 169mm
+.da AFREGN2 21mm 202mm width 173mm
+.da PI 25mm 228mm width 175mm
+.da PITLF 112.5mm 232.5mm width 175mm
+.da PIFAX 112.5mm 246mm width 175mm
+.*KORTTYPE ****************************************************************
+.ar KORTTYP on
+.tp 103mm 132mm 136mm
+.if &GENERHVTYP = 1
+.th X
+.th .go TYPSL
+.el .sp 5.25mm
+.if &GENERHVTYP = 2
+.th X ¤X
+.th .go TYPSL
+.if &GENERHVTYP = 3
+.th X ¤¤X
+...TYPSL
+.ar off
+.*SUBSTRINGS **************************************************************
+.su off
+.se postnr = substr &BY 1 4
+.se bynavn = substr &BY 7 28
+.se fapostnr = substr &KTOBY 1 4
+.se fabynavn = substr &KTOBY 7 28
+.su on
+.*KORTHOLDER **************************************************************
+.ar KORTHOLD on
+.tp 40mm
+&NAVN
+.sp 6mm
+.if &L'&COADR > 0
+.th &COADR., &GADE
+.el &GADE
+.sp 6mm
+&postnr ¤&bynavn
+.sp 6mm
+.tp 87.8mm
+&GENTLF ¤&GENKTMOBIL
+.sp 6mm
+.tp 40mm
+&KUNDENR ¤&STILL
+.ar off
+.*FIRMA *******************************************************************
+.ar FIRMA on
+&KTONAVN
+.sp 6mm
+&KTOGADE
+.sp 6mm
+.tp 40mm
+&fapostnr ¤&fabynavn
+.sp 6mm
+.tp 87.5mm 130.5mm
+&GENKONTAKT ¤&KTOKNDNR1 ¤&IREGKTO
+.sp 6mm
+.tp 65mm 115mm
+&GENSELFRM ¤&GENTLF01 ¤&GENFAX
+.ar off
+.**************************************************************************
+.ar AFREGN2 on
+.tp 10mm 36mm
+:SWISS8.
+Reg.nr.
+:SKRSLUT.
+:USENKEL.&BANKREGNR:SKRSLUT.
+:SWISS8.
+Kontonr.
+:SKRSLUT.
+:USENKEL.&GENAFRGKTO:SKRSLUT.
+:SWISS8.
+.is 3mm
+i
+:SKRSLUT.
+.tp 4mm
+.sp 3mm
+¤&BKNAVN
+.br
+¤&BKAFD
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar PITLF on
+&AFDTLF
+.ar off
+.**************************************************************************
+.ar PIFAX on
+&AFDFAX
+.ar off
+.**************************************************************************
+.******************************************************************
+.da ANSOEG 20mm 45mm width 175mm
+.da AFREGN1 21mm 190mm width 175mm
+.******************************************************************
+.ar ANSOEG on
+:SWISS8.
+.tp 5mm 70mm _/170mm
+:FED.
+Jeg ønsker at ansøge om:
+:SKRSLUT.
+.sp 3mm
+¤MasterCard Guld Business ¤Forbrugsgrænse 50.000 kr.
+.sp 2mm
+.tp 5mm 70mm 108mm 137mm
+¤MasterCard Platinum Business ¤Ønsket forbrugsgrænse: ¤100.000 kr.
+:FED.  eller:SKRSLUT. ¤250.000 kr.
+.**************************************************************************
+.ar AFREGN1 on
+:SWISS8.
+.tp 9mm
+.sp 4mm
+¤Via konto (udfyld kontonr.)
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.** SIDESKIFT
+.pa
+.** SIDESKIFT
+.pa
+.*TEST PÅ OM UDSKRIVNING ER FOR  FIRMAER STANDARD ***********************
+.* I BECVDKRÅD07 TESTES PÅ GENPRIERHV OG GENTYP *************************
+.* I BECKORT30/32 TESTES PÅ GENPRIVTYP **********************************
+.* I BECKORT31 TESTES PÅ GENERHVTYP *************************************
+.* I BECKORT33 TESTES PÅ B11KTTYPE
+.************************************************************************
+.if &GENPRIERHV ne 2
+.th .go ERHOVSL1
+.if &GENTYP = 1
+.or &GENERHVTYP = 1
+.th .go ERHOV1
+.el .go ERHOVSL1
+...ERHOV1
+.**************************************************************
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 23mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Prisliste - MasterCard Standard Business
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Gældende pr. 19.09.2009
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Version 19102005
+.ar off
+.***********************************************************************
+...ERHOVSL1
+.*TEST PÅ OM UDSKRIVNING ER FOR ERHVERV STANDARD ************************
+.* I BECVDKRÅD07 TESTES PÅ GENPRIERHV OG GENTYP *************************
+.* I BECKORT30/32 TESTES PÅ GENPRIVTYP **********************************
+.* I BECKORT31 TESTES PÅ GENERHVTYP *************************************
+.* I BECKORT33 TESTES PÅ B11KTTYPE
+.************************************************************************
+.if &GENPRIERHV ne 2
+.th .go ERHVSSL
+.if &GENTYP = 1
+.or &GENERHVTYP = 1
+.th .go ERHVS
+.el .go ERHVSSL
+...ERHVS
+.************************************************************************
+.ti ¤ 05
+:SWISS8.
+.da SIDE 20mm 35mm width 175mm
+.************************************************************************
+.tp 1mm 96mm right 135mm right 174mm right
+.**ÅRLIGT KORTGEBYR *****************************************************
+.ar SIDE on
+.tp 1mm 123mm right
+:SWISS8.
+:FED.
+Årligt kortgebyr
+:SKRSLUT.
+.bx left 61mm right
+¤Firma ¤150,00 kr.
+.bx off
+.sp 3mm
+.**HÆVEBEGRÆNSNINGER VED KONTANTHÆVNING *********************************
+:FED.
+Hævebegrænsninger ved kontanthævning
+:SKRSLUT.
+.bx left 61mm right
+¤Kontanthævninger pr. dag ¤3.000 kr.
+.hr left right
+¤Kontanthævninger pr. løbende måned ¤15.000 kr.
+.bx off
+.***********
+.sp 1mm
+I udlandet kan der være fastsat lokale begrænsninger på
+kontantudbetalinger.
+.sp 3mm
+.**ØVRIGE PRISER **********************************************************
+:FED.
+Øvrige priser
+:SKRSLUT.
+.bx left 61mm right
+¤Oprettelsesgebyr ¤0,00 kr.
+.hr left right
+.******
+¤Kurérforsendelse Europa ¤200,00 kr.
+.hr left right
+.******
+¤Kurérforsendelse uden for Europa ¤Efter regning
+.hr left right
+.******
+¤Nødkontanter (hvis kortet bortkommer i
+.br
+¤udlandet) ¤fra 450,00 kr.
+.hr left right
+.******
+¤Kopi af nota (hvis nota er i overensstemmelse
+.br
+¤med det fakturerede) ¤100,00 kr.
+.hr left right
+.******
+¤Erstatningskort (MasterCard) ¤100,00 kr.
+.hr left right
+.******
+¤Advisering via BetalingsService ¤Gratis via webbank
+.bx off
+.sp 1mm
+I udlandet kan betalingsmodtagere opkræve gebyr for brug af kortet.
+.sp 3mm
+.**INDSIGELSESBEHANDLING ************************************************
+:FED.
+Indsigelsesbehandling
+:SKRSLUT.
+.sp 1mm
+Ved uberettiget indsigelse
+.bx left 56mm right
+¤Pr. postering ¤350,00 kr.
+.hr left right
+¤Notabestilling pr. nota ¤220,00 kr.
+.bx off
+.sp 3mm
+.**GEBYR PR. KONTANTHÆVNING ********************************************
+:FED.
+Gebyr pr. kontanthævning
+:SKRSLUT.
+.bx left 61mm right
+¤Eget pengeinstitut ¤2 %, min. 50,00 kr.
+.hr left right
+¤Øvrige kontanthævninger ¤2 %, min. 50,00 kr.
+.bx off
+.sp 3mm
+.**GEBYR VED MANGLENDE BETALING *******************************************
+:FED.
+Gebyr ved manglende betaling
+:SKRSLUT.
+.bx left 61mm right
+¤Betalingspåmindelse pr. stk. ¤100,00 kr.
+.hr left right
+¤Overdragelse til advokat ¤100,00 kr.
+.bx off
+.sp 3mm
+.**OMREGNINGSKURS VED BRUG I UDLANDET *************************************
+:FED.
+Omregningskurs ved brug i udlandet
+:SKRSLUT.
+.tp 1mm 62mm
+.bx left 61mm right
+¤Europæiske valutaer offentliggjort på ¤Referencekurs på bankdagen
+før transaktionen cleares hos PBS tillagt 1%.
+.br
+¤www.pbs.dk/valutakurser
+.hr left right
+¤Andre valutaer offentliggjort på ¤Referencekurs på bankdagen før
+transaktionen cleares hos PBS tillagt 1,5%. Undtagelser
+.br
+¤www.pbs.dk/valutakurser ¤kan forekomme.
+.hr left right
+¤Øvrige valutaer ¤Omregnes til USD, der herefter omregnes til
+danske kroner som ovenfor. Undtagelser
+¤ ¤ kan forekomme.
+.bx off
+.bx can
+.in
+.br
+MasterCard beregner sig et tillæg på 0,16%.
+.sp 3mm
+.**************************************************************************
+.** RENTESATS ************************************************************
+.tp 1mm 89mm char ,
+:FED.
+Rentesats
+:SKRSLUT.
+.bx left right
+¤Når hele saldoen på kortkontoen tilbagebetales
+hver måned, er kreditten rentefri.
+.sp 1mm
+.bx new left right
+.sp 3mm
+.************************
+.in 1mm
+.ir 1mm
+Vi gør opmærksom på, at &BANKNAVN modtager provision ved kortets
+anvendelse i forretninger mv.
+.in
+.ir
+.bx off
+.bx can
+.ar off
+...ERHVSSL
+.*TEST PÅ OM UDSKRIVNING ER FOR FIRMAER GULD ****************************
+.* I BECVDKRÅD07 TESTES PÅ GENPRIERHV OG GENTYP *************************
+.* I BECKORT30/32 TESTES PÅ GENPRIVTYP **********************************
+.* I BECKORT31 TESTES PÅ GENERHVTYP *************************************
+.* I BECKORT33 TESTES PÅ B11KTTYPE
+.************************************************************************
+.if &GENPRIERHV ne 2
+.th .go ERHOVSL2
+.if &GENTYP = 2
+.or &GENERHVTYP = 2
+.th .go ERHOV2
+.el .go ERHOVSL2
+...ERHOV2
+.**************************************************************
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 23mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Prisliste - MasterCard Guld Business
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Gældende pr. 19.09.2009
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Version 19102005
+.ar off
+.***********************************************************************
+...ERHOVSL2
+.*TEST PÅ OM UDSKRIVNING ER FOR ERHVERV STANDARD ************************
+.* I BECVDKRÅD07 TESTES PÅ GENPRIERHV OG GENTYP *************************
+.* I BECKORT30/32 TESTES PÅ GENPRIVTYP **********************************
+.* I BECKORT31 TESTES PÅ GENERHVTYP *************************************
+.* I BECKORT33 TESTES PÅ B11KTTYPE
+.************************************************************************
+.if &GENPRIERHV ne 2
+.th .go ERHGSL
+.if &GENTYP = 2
+.or &GENERHVTYP = 2
+.th .go ERHGP
+.el .go ERHGSL
+...ERHGP
+.************************************************************************
+.ti ¤ 05
+:SWISS8.
+.da SIDE 20mm 35mm width 175mm
+.************************************************************************
+.tp 1mm 96mm right 135mm right 174mm right
+.**ÅRLIGT KORTGEBYR *****************************************************
+.ar SIDE on
+.tp 1mm 123mm right
+:SWISS8.
+:FED.
+Årligt kortgebyr
+:SKRSLUT.
+.bx left 61mm right
+¤Firma ¤695,00 kr.
+.bx off
+.sp 3mm
+.**HÆVEBEGRÆNSNINGER VED KONTANTHÆVNING *********************************
+:FED.
+Hævebegrænsninger ved kontanthævning
+:SKRSLUT.
+.bx left 61mm right
+¤Kontanthævninger pr. dag ¤6.000 kr.
+.hr left right
+¤Kontanthævninger pr. løbende måned ¤30.000 kr.
+.bx off
+.***********
+.sp 1mm
+I udlandet kan der være fastsat lokale begrænsninger på
+kontantudbetalinger.
+.sp 3mm
+.**ØVRIGE PRISER **********************************************************
+:FED.
+¤Øvrige priser
+:SKRSLUT.
+.bx left 61mm right
+¤Oprettelsesgebyr ¤0,00 kr.
+.hr left right
+.******
+¤Kurérforsendelse Europa ¤200,00 kr.
+.hr left right
+.******
+¤Kurérforsendelse uden for Europa ¤Efter regning
+.hr left right
+.******
+¤Nødkontanter (hvis kortet bortkommer i
+.br
+¤udlandet) ¤Fra 450,00 kr.
+.hr left right
+.******
+¤Kopi af nota (hvis nota er i overensstemmelse
+.br
+¤med det fakturerede) ¤100,00kr.
+.hr left right
+.******
+¤Erstatningskort (MasterCard) ¤100,00 kr.
+.hr left right
+.******
+¤Advisering via BetalingsService ¤Gratis via webbank
+.bx off
+.sp 1mm
+I udlandet kan betalingsmodtagere opkræve gebyr for brug af kortet.
+.sp 3mm
+.**INDSIGELSESBEHANDLING ************************************************
+:FED.
+Indsigelsesbehandling
+:SKRSLUT.
+.sp 1mm
+Ved ubrettiget indsigelse
+.bx left 56mm right
+¤Pr. postering ¤350,00 kr.
+.hr left right
+¤Notabestilling pr. nota ¤220,00 kr.
+.bx off
+.sp 3mm
+.**GEBYR PR. KONTANTHÆVNING ********************************************
+:FED.
+Gebyr pr. kontanthævning
+:SKRSLUT.
+.bx left 61mm right
+¤Eget pengeinstitut ¤2 %, min. 50,00 kr.
+.hr left right
+¤Øvrige kontanthævninger ¤2 %, min. 50,00 kr.
+.bx off
+.sp 3mm
+.**GEBYR VED MANGLENDE BETALING *******************************************
+:FED.
+Gebyr ved manglende betaling
+:SKRSLUT.
+.bx left 61mm right
+¤Betalingspåmindelse pr. stk. ¤100,00 kr.
+.hr left right
+¤Overdragelse til advokat ¤100,00 kr.
+.bx off
+.sp 3mm
+.**OMREGNINGSKURS VED BRUG I UDLANDET *************************************
+:FED.
+Omregningskurs ved brug i udlandet
+:SKRSLUT.
+.tp 1mm 62mm
+.bx left 61mm right
+¤Europæiske valutaer offentliggjort på ¤Referencekurs på bankdagen
+før transaktionen cleares hos PBS tillagt 1%.
+.br
+¤www.pbs.dk/valutakurser
+.hr left right
+¤Andre valutaer offentliggjort på ¤Referencekurs på bankdagen før
+transaktionen cleares hos PBS tillagt 1,5%. Undtagelser
+.br
+¤www.pbs.dk/valutakurser ¤kan forekomme.
+.hr left right
+¤Øvrige valutaer ¤Omregnes til USD, der herefter omregnes til
+danske kroner som ovenfor. Undtagelser
+¤ ¤kan forekomme.
+.bx off
+.bx can
+.in
+.br
+MasterCard beregner sig et tillæg på 0,16%.
+.sp 3mm
+.**************************************************************************
+.** RENTESATS *************************************************************
+.tp 1mm 89mm char ,
+:FED.
+Rentesats
+:SKRSLUT.
+.bx left right
+¤Når hele saldoen på kortkontoen tilbagebetales
+hver måned, er kreditten rentefri.
+.sp 1mm
+.bx new left right
+.in 1mm
+.ir 1mm
+Vi gør opmærksom på, at &BANKNAVN modtager provision ved kortets
+anvendelse i forretninger mv.
+.in
+.ir
+.bx off
+.bx can
+.ar off
+...ERHGSL
+.*TEST PÅ OM UDSKRIVNING ER FOR FIRMAER PLATIN ***************
+.* I BECVDKRÅD07 TESTES PÅ GENPRIERHV OG GENTYP *************************
+.* I BECKORT30/32 TESTES PÅ GENPRIVTYP **********************************
+.* I BECKORT31 TESTES PÅ GENERHVTYP *************************************
+.* I BECKORT33 TESTES PÅ B11KTTYPE
+.**************************************************************
+.if &GENPRIERHV ne 2
+.th .go ERHOVSL3
+.if &GENTYP > 2
+.or &GENERHVTYP > 2
+.th .go ERHOV3
+.el .go ERHOVSL3
+...ERHOV3
+.**************************************************************
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 23mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Prisliste - MasterCard Platinum Business
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Gældende pr. 19.09.2009
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Version 19102005
+.ar off
+.***********************************************************************
+...ERHOVSL3
+.*TEST PÅ OM UDSKRIVNING ER FOR ERHVERV STANDARD ************************
+.* I BECVDKRÅD07 TESTES PÅ GENPRIERHV OG GENTYP *************************
+.* I BECKORT30/32 TESTES PÅ GENPRIVTYP **********************************
+.* I BECKORT31 TESTES PÅ GENERHVTYP *************************************
+.* I BECKORT33 TESTES PÅ B11KTTYPE
+.************************************************************************
+.if &GENPRIERHV ne 2
+.th .go ERHPSL
+.if &GENTYP = 3
+.or &GENERHVTYP > 2
+.th .go ERHPP
+.el .go ERHPSL
+...ERHPP
+.************************************************************************
+.ti ¤ 05
+:SWISS8.
+.da SIDE 20mm 35mm width 175mm
+.************************************************************************
+.tp 1mm 96mm right 135mm right 174mm right
+.**ÅRLIGT KORTGEBYR *****************************************************
+.ar SIDE on
+.tp 1mm 123mm right
+:SWISS8.
+:FED.
+Årligt kortgebyr
+:SKRSLUT.
+.bx left 61mm right
+¤Firma ¤1.295,00 kr.
+.bx off
+.sp 3mm
+.**HÆVEBEGRÆNSNINGER VED KONTANTHÆVNING *********************************
+:FED.
+Hævebegrænsninger ved kontanthævning
+:SKRSLUT.
+.bx left 61mm right
+¤Kontanthævninger pr. dag ¤10.000 kr.
+.hr left right
+¤Kontanthævninger pr. løbende måned ¤50.000 kr.
+.bx off
+.***********
+.sp 1mm
+I udlandet kan der være fastsat lokale begrænsninger på
+kontantudbetalinger.
+.sp 3mm
+.**ØVRIGE PRISER **********************************************************
+:FED.
+Øvrige priser
+:SKRSLUT.
+.bx left 61mm right
+¤Oprettelsesgebyr ¤0,00 kr.
+.hr left right
+.******
+¤Kurérforsendelse Europa ¤200,00 kr.
+.hr left right
+.******
+¤Kurérforsendelse uden for Europa ¤Efter regning
+.hr left right
+.******
+¤Nødkontanter (hvis kortet bortkommer i
+.br
+¤udlandet) ¤fra 450,00 kr.
+.hr left right
+.******
+¤Kopi af nota (hvis nota er i overensstemmelse
+.br
+¤med det fakturerede) ¤100,00 kr.
+.hr left right
+.******
+¤Erstatningskort (MasterCard) ¤100,00 kr.
+.hr left right
+.******
+¤Advisering via BetalingsService ¤Gratis via webbank
+.bx off
+.sp 1mm
+I udlandet kan betalingsmodtagere opkræve gebyr for brug af kortet.
+.sp 3mm
+.**INDSIGELSESBEHANDLING ***********************************************
+:FED.
+Indsigelsesbehandling
+:SKRSLUT.
+.sp 1mm
+Ved uberettiget indsigelse
+.bx left 56mm right
+¤Pr. postering ¤350,00 kr.
+.hr left right
+¤Notabestilling pr. nota ¤220,00 kr.
+.bx off
+.sp 3mm
+.**GEBYR PR. KONTANTHÆVNING ********************************************
+:FED.
+Gebyr pr. kontanthævning
+:SKRSLUT.
+.bx left 61mm right
+¤Eget pengeinstitut ¤2 %, min. 50,00 kr.
+.hr left right
+¤Øvrige kontanthævninger ¤2 %, min. 50,00 kr.
+.bx off
+.sp 3mm
+.**GEBYR VED MANGLENDE BETALING *******************************************
+:FED.
+Gebyr ved manglende betaling
+:SKRSLUT.
+.bx left 61mm right
+¤Betalingspåmindelse pr. stk. ¤100,00 kr.
+.hr left right
+¤Overdragelse til advokat ¤100,00 kr.
+.bx off
+.sp 3mm
+.**OMREGNINGSKURS VED BRUG I UDLANDET *************************************
+:FED.
+Omregningskurs ved brug i udlandet
+:SKRSLUT.
+.tp 1mm 62mm
+.bx left 61mm right
+¤Europæiske valutaer offentliggjort på ¤Referencekurs på bankdagen
+før transaktionen cleares hos PBS tillagt 1%.
+.br
+¤www.pbs.dk/valutakurser
+.hr left right
+¤Andre valutaer offentliggjort på ¤Referencekurs på bankdagen før
+transaktionen cleares hos PBS tillagt 1,5%. Undtagelser
+.br
+¤www.pbs.dk/valutakurser ¤kan forekomme.
+.hr left right
+¤Øvrige valutaer ¤Omregnes til USD, der herefter omregnes til
+danske kroner som ovenfor. Undtagelser
+¤ ¤ kan forekomme.
+.bx off
+.bx can
+.in
+.br
+MasterCard beregner sig et tillæg på 0,16%.
+.sp 3mm
+.**************************************************************************
+.** RENTESATS ************************************************************
+.tp 1mm 89mm char ,
+:FED.
+Rentesats
+:SKRSLUT.
+.bx left right
+¤Når hele saldoen på kortkontoen tilbagebetales
+hver måned, er kreditten rentefri.
+.sp 1mm
+.bx new left right
+.sp 3mm
+.************************
+.in 1mm
+.ir 1mm
+Vi gør opmærksom på, at &BANKNAVN modtager provision ved kortets
+anvendelse i forretninger mv.
+.in
+.ir
+.bx off
+.bx can
+.ar off
+...ERHPSL
+.** SIDESKIFT
+.pa

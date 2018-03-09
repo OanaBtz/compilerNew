@@ -1,0 +1,1193 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.if X&B93AFV eq X1
+.or X&B93AFV eq X2
+.or X&B93AFV eq X3
+.th
+.el .mg /T/Afvikling vælg type 1 - 3/
+.******************
+.if X&B93AFV eq X3
+.an &L'&AFTDATO = 0
+.th .mg /T/Aftaledato ej udfyldt/
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 03mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.:FED.
+Låneaftale (gældsbrev) Erhverv
+.hr 0mm 76mm
+:SKRSLUT.
+.ar off
+:VERDA08.
+.**********************************************************
+.da SIDENR 160mm 9mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:VERDA07.
+.if &ÅPN = 1
+.th Side 1 af 11 sider
+.if &ÅPN = 2
+.th side 2/11
+.if &ÅPN = 3
+.th side 3/11
+.if &ÅPN = 4
+.th side 4/11
+.if &ÅPN = 5
+.th side 5/11
+.if &ÅPN = 6
+.th side 6/11
+.if &ÅPN = 7
+.th side 7/11
+.if &ÅPN = 8
+.th side 8/11
+.if &ÅPN = 9
+.th side 9/11
+.if &ÅPN = 10
+.th side 10/11
+.if &ÅPN = 11
+.th side 11/11
+.ar off
+.**********************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 12mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+:VERDA08.
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+:SKRSLUT.
+.sp 6mm
+.bx off
+.sp 3mm
+.************ LÅNTAGER ****************************************************
+.bx left right
+:VERDA08.
+¤Låntager
+:SKRSLUT.
+.sp 22mm
+.bx off
+.sp 3mm
+.********************** GÆLDSBREV TEKST ******************************
+.bx left right
+.sp 205mm
+.bx off
+.ar off
+.******************************************************************
+.da BANKSTED      20mm  19mm width 175mm
+.da KUNDEOPL       25mm  35mm width 85mm
+.da KUNDEOPL2    112.5mm 35mm width 85mm
+.da TEKST        21mm 65mm width 173mm
+.******************************************************************
+.******* plecering af side nr. **********************
+.ar SIDE on
+.*************************************************************
+.ar BANKSTED on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.*************************************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&GADE
+.br
+&BY
+.sp
+&KTOKNDNR1
+.sp
+.ar off.
+.********************* DOKUMENT TEKST **********************************
+.ar KUNDEOPL2 on
+&MEDSTILL.
+.br
+&MEDNAVN.
+.br
+&MEDGADE.
+.br
+&MEDBY.
+.sp
+.if X&MEDKNDNR1 ne X0000000000
+.th &MEDKNDNR1
+.ar off
+.********************* tekst ********************************
+.ar TEKST on
+:FED.
+Beløb
+.br
+:SKRSLUT.
+:VERDA08.
+Vi bekræfter herved, at vi skylder &BANKNAVN. &B93BELOB.
+.if X&B93VALTYPE eq X1
+.th EUR
+.if X&B93VALTYPE eq X2
+- at omlægge lånet til danske kroner
+.br
+- at tillade en overskridelse af ovennævnte grænse
+.br
+- at træffe særlig aftale med kunden eller
+.br
+- at stille krav om sikkerhed i form af indlån i &BANKNAVN. i danske kr.
+.br
+I sidstnævnte tilfælde skal sikkerheden tilvejebringes på anfordring.
+.sp
+&GENTEKST1
+&GENTEKST2
+&GENTEKST3
+&GENTEKST4
+&GENTEKST5
+.SP2mm
+:SKRSLUT.
+:VERDA08.
+:FED
+Betaling
+.br
+:SKRSLUT.
+:VERDA08.
+&BANKNAVN bedes ved forfald hæve betalinger til afvikling i henhold
+til låneaftalen på konto &DEBKONTO.. Vi får ikke separat meddelelse om
+beløb, der er hævet på kontoen. Vi skal selv sørge for, at der er dækning.
+.sp
+:FED.
+Opsigelse
+.br
+:SKRSLUT.
+:VERDA08.
+Såvel vi som &BANKNAVN. har altid ret til at opsige lånet uden varsel. I
+så fald skal vi betale det skyldige beløb, herunder påløbne renter og
+omkostninger til indfrielsesdagen.
+.sp
+Låneaftalen kan tjene som grundlag for tvangsfuldbyrdelse,
+jf. retsplejelovens § 478, stk. 1 nr. 5.
+.sp
+.* Sikkerheder
+.********************
+.if X&B93VALTYPE eq X1
+.th EUR ultimo hvert
+.if X&B93VALTYPE eq X2
+.th CHF ultimo hvert
+.if X&B93VALTYPE eq X3
+.th YEN ultimo hvert
+.if X&B93FREKLE eq X4
+.th kvartal,
+.if X&B93FREKLE eq X1
+.th år,
+første gang den &B93DATO1.. I alt &B93AFVKL. gange.
+.if &L'&B93FINDF gt 0
+.th Lånet forfalder til fuld indfrielse den &B93FINDF..
+.if X&B93AFV. eq X1
+.th Renten betales ved hver tilskrivning.
+.if &L'&B93GENFDTO gt 0
+.th Lånet genforhandles hvert år, når regnskab foreligger. Senest den
+.th &B93GENFDTO..
+...SOPL
+.sp
+:SKRSLUT.
+:VERDA08.
+:FED
+Særlige oplysninger og betingelser.
+.br
+:SKRSLUT.
+:VERDA08
+&BANKNAVN. har gjort låntager opmærksom på og har rådgivet om, at det
+er forbundet med en betydelig risiko at optage lån i og handle med fremmed
+valuta. Modværdien af lånet i danske kroner kan blive forøget eller
+formindsket, og der er dermed en betydelig risiko for tab, idet låntager
+også hæfter for en eventuel forøgelse af lånet opgjort i danske kroner.
+.sp
+&BANKNAVN. er ikke forpligtet til at orientere låntager om ændrede
+markedsforhold eller kursudvikling. Beslutning om optagelse af lån i
+fremmed valuta er låntagers eget ansvar, og &BANKNAVN. bærer ikke
+ansvaret for tab, der måtte følge heraf.
+.sp
+&BANKNAVN. forudsætter, at debitor uden &BANKNAVN.s medvirken har
+gjort sig bekendt med de skattemæssige konsekvenser, der er forbundet med
+optagelsen af lån i fremmed valuta. &BANKNAVN. har i den forbindelse
+henvist debitor til professionel og uafhængig rådgivning. &BANKNAVN.
+er uden ansvar for den skattemæssige behandling af lån i fremmed valuta.
+.sp
+For lånet gælder en mulighed, men ikke en forpligtelse, for &BANKNAVN.
+til, i det omfang valutakursen ændres til ugunst for DKK med mere end 10%
+fra nuværende kurs på p.t. &B93VKURS.,
+.br
+- at opsige lånet uden varsel
+.br.
+.th CHF
+.if X&B93VALTYPE eq X3
+.th YEN
+eller modværdien heraf i anden valuta.
+.sp
+:FED
+Rente og omkostninger
+.br
+:SKRSLUT
+:VERDA08.
+Renten beregnes med faktor 365/365 dage. Renten beregnes bagud fra lånets
+udbetalingsdag og tilskrives ultimo hvert kvartal, første gang ved
+førstkommende kvartalsultimo efter lånets udbetaling, samt på lånets
+endelige forfaldsdag.
+.sp
+Renten er variabel og baseres på &BANKNAVN.s cost of funding for lånets
+valuta. &BANKNAVN.s cost of funding kan ikke være lavere end 0%.
+.br
+Renten fastsættes hver den sidste bankdag i kvartalet for det kommende
+kvartal.
+.sp
+Udlånsrenten er &BANKNAVN.s cost of funding plus p.t. &B93MARG. point i
+margin.
+.br
+Margin er variabel og kan til enhver tid ændres af banken i
+overensstemmelse med bankens almindelige forretningsbetingelser og
+særlige bestemmelser for lån og kreditter - erhvervskunder.
+.sp
+Eventuel indestående på kontoen forrentes ikke.
+.sp
+Omkostninger for lånet hæves på vores konto &DEBKONTO. ifølge
+separat nota.
+.br
+Hvis lånebeløbet udbetales i en anden valuta, sker omvekslingen til
+&BANKNAVN.s vekselkurs.
+.sp
+:FED
+Afvikling
+.br
+:SKRSLUT.
+:VERDA08.
+.if X&B93AFV eq X1
+.th Lånet afvikles med et afdrag på &B93YDELSE.
+.************'ydelse
+.if X&B93AFV eq X2
+.th Lånet afvikles med en ydelse på &B93YDELSE.
+.if X&B93AFV eq X3
+.th Lånet genforhandles senest den &AFTDATO.. Renten betales ved hver
+.th tilskrivning
+.th .go SOPL
+:NY.
+.DA afdadr 20mm 283mm width 35mm
+.DA afdtlf 55mm 283mm width 30mm
+.DA regnr 154mm 283mm width 40mm
+.IN 0MM
+:VERDA10.
+.ar afdadr on
+&AFDGADE
+.BR
+&AFDBY
+.AR OFF
+.*
+.ar afdtlf on
+.ti \ 05
+.tp 9mm
+Tlf. \&AFDTLF
+.BR
+Fax. \&AFDFAX
+.AR OFF
+.*
+.ar regnr on
+.fo right
+Bank reg.nr. 6880
+.br
+www.totalbanken.dk
+.fo off
+.ar off
+:ENY.
+.pa
+.**********************************************************
+.da SIDENR 160mm 9mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:VERDA07.
+.if &ÅPN = 1
+.th Side 1 af 11 sider
+.if &ÅPN = 2
+.th side 2/11
+.if &ÅPN = 3
+.th side 3/11
+.if &ÅPN = 4
+.th side 4/11
+.if &ÅPN = 5
+.th side 5/11
+.if &ÅPN = 6
+.th side 6/11
+.if &ÅPN = 7
+.th side 7/11
+.if &ÅPN = 8
+.th side 8/11
+.if &ÅPN = 9
+.th side 9/11
+.if &ÅPN = 10
+.th side 10/11
+.if &ÅPN = 11
+.th side 11/11
+.ar off
+.**********************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 03mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.:FED.
+Sikkerheder
+.hr 0mm 29mm
+:SKRSLUT.
+.ar off
+:VERDA08.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 12mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+:VERDA08.
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+:SKRSLUT.
+.sp 6mm
+.bx off
+.sp 3mm
+.************ LÅNTAGER ****************************************************
+.bx left right
+:SKRSLUT.
+.sp 230mm
+.bx off
+.ar off
+&B93DEPOBY4
+.sp
+&B93DEPONR4
+.sp
+.if &L'&B93DEPONR4. GT 0
+.th De til enhver tid i sikkerhedsdepot nr. &B93DEPOTN4
+.th .br
+.th beroende effekter.
+.sp
+.if &L'&DEPONR5 = 0
+.th .go SLUT
+.br
+&B93DEPONA5
+.br
+&B93DEPOGA5
+.br
+&B93DEPOBY5
+.sp
+&B93DEPONR5
+.sp
+.if &L'&B93DEPONR5. GT 0
+.th De til enhver tid i sikkerhedsdepot nr. &B93DEPOTN5
+.th .br
+.th beroende effekter.
+.sp
+...SLUT
+.ar off
+.******************************************************************
+.da BANKSTED1     20mm  19mm width 175mm
+.da KAUTIONSTYPE  21mm  45mm width 173mm
+.tp 85mm
+.********************* BANKSTED **********************************
+.ar BANKSTED1 on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.******************** sorteting på kaution ************************
+.ar KAUTIONSTYPE on
+.if &U'X&B93JANEJ11 eq XNEJ
+.th .go DEPONENT
+.if &U'X&B93JANEJ11 eq XJA
+.th .go KAU
+...KAU
+.**********************1. KAUTIONIST ******************************
+.if &L'&B93KAUNA1 gt 0
+.th Selvskyldnerkaution/begrænset selvskyldnerkaution af gælden inklusive
+.th renter m.v.
+.th .br
+.th af:
+.sp
+&B93KAUSTI1. ¤&B93KAUSTI2.
+.br
+&B93KAUNA1. ¤&B93KAUNA2.
+.br
+&B93KAUGAD1. ¤&B93KAUGAD2.
+.br
+&B93KAUBY1. ¤&B93KAUBY2.
+.br
+&B93KAUNR1. ¤&B93KAUNR2.
+.if &L'&B93KAUNR1P gt 0
+.th .br
+.th f.s.v. angår &B93KAUNR1P. %
+.sp
+&B93KAUSTI3. ¤&B93KAUSTI4.
+.br
+&B93KAUNA3. ¤&B93KAUNA4.
+.br
+&B93KAUGAD3. ¤&B93KAUGAD4.
+.br
+&B93KAUBY3. ¤&B93KAUBY4.
+.br
+&B93KAUNR3. ¤&B93KAUNR4.
+.sp
+&B93KAUSTI5. ¤&B93KAUSTI6.
+.br
+&B93KAUNA5. ¤&B93KAUNA6.
+.br
+&B93KAUGAD5. ¤&B93KAUGAD6.
+.br
+&B93KAUBY5. ¤&B93KAUBY6.
+.br
+&B93KAUNR5. ¤&B93KAUNR6.
+.sp
+&B93KAUSTI7. ¤&B93KAUSTI8.
+.br
+&B93KAUNA7. ¤&B93KAUNA8.
+.br
+&B93KAUGAD7. ¤&B93KAUGAD8.
+.br
+&B93KAUBY7. ¤&B93KAUBY8.
+.br
+&B93KAUNR7. ¤&B93KAUNR8.
+.sp
+&B93KAUSTI9.
+.br
+&B93KAUNA9.
+.br
+&B93KAUGAD9.
+.br
+&B93KAUBY9.
+.br
+&B93KAUNR9.
+.sp
+.************************* 1. DEOPNENT ************************************
+...DEPONENT
+.************************
+.if &L'&DEPONR1 = 0
+.an &L'&DEPONR2 = 0
+.an &L'&DEPONR3 = 0
+.an &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go SLUT
+Deponeret
+.br
+af:
+.sp
+&B93DEPOST1
+.br
+&B93DEPONA1
+.br
+&B93DEPOGA1
+.br
+&B93DEPOBY1
+.sp
+&B93DEPONR1.
+.sp
+.if &L'&B93DEPONR1. GT 0
+.th De til enhver tid i sikkerhedesdepot nr. &DEPONR1.
+.th .br
+.th beroende effekter.
+.sp
+.if &L'&DEPONR2 = 0
+.an &L'&DEPONR3 = 0
+.an &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go SLUT
+&B93DEPOST2
+.br
+&B93DEPONA2
+.br
+&B93DEPOGA2
+.br
+&B93DEPOBY2
+.sp
+&B93DEPONR2
+.sp
+.if &L'&B93DEPONR2. GT 0
+.th De til enhver tid i sikkerhedesdepot nr. &DEPONR2.
+.th .br
+.th beroende effekter.
+.sp
+.if &L'&DEPONR3 = 0
+.an &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go SLUT
+.br
+&B93DEPONA3
+.br
+&B93DEPOGA3
+.br
+&B93DEPOBY3
+.sp
+&B93DEPONR3
+.sp
+.if &L'&DEPONR3. GT 0
+.th De til enhver tid i sikkerhedsdepot nr. &DEPONR3.
+.th .br
+.th beroende effekter.
+.sp
+.if &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go SLUT
+.br
+&B93DEPONA4
+.br
+&B93DEPOGA4
+.br
+:NY.
+.DA afdadr 20mm 283mm width 35mm
+.DA afdtlf 55mm 283mm width 30mm
+.DA regnr 154mm 283mm width 40mm
+.IN 0MM
+:VERDA10.
+.ar afdadr on
+&AFDGADE
+.BR
+&AFDBY
+.AR OFF
+.*
+.ar afdtlf on
+.ti \ 05
+.tp 9mm
+Tlf. \&AFDTLF
+.BR
+Fax. \&AFDFAX
+.AR OFF
+.*
+.ar regnr on
+.fo right
+Bank reg.nr. 6880
+.br
+www.totalbanken.dk
+.fo off
+.ar off
+:ENY.
+.pa
+.**********************************************************
+.da SIDENR 160mm 9mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:VERDA07.
+.if &ÅPN = 1
+.th Side 1 af 11 sider
+.if &ÅPN = 2
+.th side 2/11
+.if &ÅPN = 3
+.th side 3/11
+.if &ÅPN = 4
+.th side 4/11
+.if &ÅPN = 5
+.th side 5/11
+.if &ÅPN = 6
+.th side 6/11
+.if &ÅPN = 7
+.th side 7/11
+.if &ÅPN = 8
+.th side 8/11
+.if &ÅPN = 9
+.th side 9/11
+.if &ÅPN = 10
+.th side 10/11
+.if &ÅPN = 11
+.th side 11/11
+.ar off
+.**********************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 03mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.:FED.
+Underskrift.
+.hr 0mm 30mm
+:SKRSLUT.
+.ar off
+:VERDA08.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 12mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+:VERDA08.
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+:SKRSLUT.
+.sp 6mm
+.bx off
+.sp 3mm
+.************ LÅNTAGER ****************************************************
+.bx left right
+.sp 245mm
+.bx off
+.ar off
+.******************************************************************
+.da BANKSTED1     20mm  19mm width 175mm
+.da UNDERSKRIFT  21mm  40mm width 173mm
+.********************* BANKSTED **********************************
+.ar BANKSTED1 on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.**********************Kautionstype **************************************
+.tp 5mm 35mm 115mm
+.ar UNDERSKRIFT on
+:FED
+Underskrift som låntager(e) og pantsætter(e)
+:SKRSLUT
+.sp 5mm
+:VERDA08
+Vi er bekendt med og accepterer, at &BANKNAVN.'s "Almindelige
+forretningsbetingelser og særlige bestemmelser for lån og kreditter -
+erhvervskunder" er en del af denne aftale, og vi har fået en kopi af
+aftalen.
+.sp 15mm
+.hr 1mm 25mm 30mm 80mm 83mm 172mm
+¤Dato ¤&NAVN. ¤&MEDNAVN
+.sp 15mm
+.************************* 1. DEOPNENT ************************************
+...DEPONENT
+.************************
+:FED
+Underskrift som pantsætter(e), herunder pantsætters ægtefælle
+:SKRSLUT
+:VERDA08
+.sp 10mm
+.if &L'&DEPONR1 = 0
+.an &L'&DEPONR2 = 0
+.an &L'&DEPONR3 = 0
+.an &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go KAUTI
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93DEPONA1
+.sp 10mm
+.if &L'&DEPONR2 = 0
+.an &L'&DEPONR3 = 0
+.an &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go KAUTI
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93DEPONA2
+.sp 10mm
+.if &L'&DEPONR3 = 0
+.an &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go KAUTI
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93DEPONA3
+.sp 10mm
+.if &L'&B93DEPOTN4 = 0
+.an &L'&B93DEPOTN5 = 0
+.th .go KAUTI
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93DEPONA4
+.sp 10mm
+.if &L'&B93DEPOTN5 = 0
+.th .go KAUTI
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93DEPONA5
+.sp 10mm
+...KAUTI
+.if &L'&B93KAUNA1 eq 0
+.th .go SLUT
+:FED
+Underskrift(er) som kautionist(er)
+:SKRSLUT
+:VERDA08
+.sp 5mm
+Jeg (kautionisten) bekræfter samtidig, at &BANKNAVN har gennemgået
+betingelserne for og konsekvenserne af kautionsforpligtelsen. Jeg er
+herunder gjort bekendt med, at &BANKNAVN kan kræve, at jeg straks infrier
+den del af lånet/kreditten, jeg har påtaget mig at kautionere for, hvis
+debitor ikke opfylder sine betalingsforpligtelser. Jeg er klar over, at
+det ikke kun er debitors manglende betalinger (restancen), som &BANKNAVN
+kan kræve. Jer er indforstået med, at det er hele kautionsforpligtelsen
+samt renter heraf, der forfalder til betaling, hvis debitor ikke betaler
+ydelsen til tiden.
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA1.
+.if &L'&B93KAUNR2 = 0
+.an &L'&B93KAUNR3 = 0
+.an &L'&B93KAUNR4 = 0
+.an &L'&B93KAUNR5 = 0
+.an &L'&B93KAUNR6 = 0
+.an &L'&B93KAUNR7 = 0
+.an &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA2.
+.if &L'&B93KAUNR3 = 0
+.if &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA9.
+.th .go SLUT
+.sp 10mm
+...SLUT
+.ar off
+.an &L'&B93KAUNR4 = 0
+.an &L'&B93KAUNR5 = 0
+.an &L'&B93KAUNR6 = 0
+.an &L'&B93KAUNR7 = 0
+.an &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA3.
+.if &L'&B93KAUNR4 = 0
+.an &L'&B93KAUNR5 = 0
+.an &L'&B93KAUNR6 = 0
+.an &L'&B93KAUNR7 = 0
+.an &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA4.
+.if &L'&B93KAUNR5 = 0
+.an &L'&B93KAUNR6 = 0
+.an &L'&B93KAUNR7 = 0
+.an &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA5.
+.if &L'&B93KAUNR6 = 0
+.an &L'&B93KAUNR7 = 0
+.an &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA6.
+.if &L'&B93KAUNR7 = 0
+.an &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA7.
+.if &L'&B93KAUNR8 = 0
+.an &L'&B93KAUNR9 = 0
+.th .go SLUT
+.sp 10mm
+.hr 1mm 25mm 30mm 100mm
+¤Dato ¤&B93KAUNA8.
+:NY.
+.DA afdadr 20mm 283mm width 35mm
+.DA afdtlf 55mm 283mm width 30mm
+.DA regnr 154mm 283mm width 40mm
+.IN 0MM
+:VERDA10.
+.ar afdadr on
+&AFDGADE
+.BR
+&AFDBY
+.AR OFF
+.*
+.ar afdtlf on
+.ti \ 05
+.tp 9mm
+Tlf. \&AFDTLF
+.BR
+Fax. \&AFDFAX
+.AR OFF
+.*
+.ar regnr on
+.fo right
+Bank reg.nr. 6880
+.br
+www.totalbanken.dk
+.fo off
+.ar off
+:ENY.
+.pa
+.**********************************************************
+.da SIDENR 160mm 9mm width 60mm
+.**********************************************************
+.ar SIDENR on
+:VERDA07.
+.if &ÅPN = 1
+.th Side 1 af 11 sider
+.if &ÅPN = 2
+.th side 2/11
+.if &ÅPN = 3
+.th side 3/11
+.if &ÅPN = 4
+.th side 4/11
+.if &ÅPN = 5
+.th side 5/11
+.if &ÅPN = 6
+.th side 6/11
+.if &ÅPN = 7
+.th side 7/11
+.if &ÅPN = 8
+.th side 8/11
+.if &ÅPN = 9
+.th side 9/11
+.if &ÅPN = 10
+.th side 10/11
+.if &ÅPN = 11
+.th side 11/11
+.ar off
+.**********************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 03mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.:FED.
+Omkostninger
+.hr 0mm 33mm
+:SKRSLUT.
+.ar off
+:VERDA08.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 12mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+:VERDA08.
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+:SKRSLUT.
+.sp 6mm
+.bx off
+.sp 3mm
+.************ LÅNTAGER ****************************************************
+.bx left right
+:VERDA08.
+.sp 22mm
+.bx off
+.sp 3mm
+.**************************Omkostninger ********************************
+.bx left right
+.sp 100mm
+.bx off
+.ar off
+.br
+¤Udfærdigelse og etablering af sikkerheder ¤kr. ¤&B93BELØB3.
+.br
+¤Stempelafgift til staten ¤kr. ¤&B93BELØB4.
+.br
+¤Tinglysningsafgift til staten ¤kr. ¤&B93BELØB5.
+.sp 5mm
+¤Omkostninger i alt ¤kr. ¤&RESULTA
+.sp 25mm
+¤Beløbet hæves på konto &DEBKONTO.
+.sp 10mm
+.******************************************************************
+.da BANKSTED2      20mm  19mm width 175mm
+.da KUNDEOPL11       25mm  35mm width 85mm
+.da KUNDEOPL21    112.5mm 35mm width 85mm
+.da OMKOST       21mm 74mm width 175mm
+.******************************************************************
+.ar BANKSTED2 on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.*************************************
+.ar KUNDEOPL11 on
+&STILL
+.br
+&NAVN
+.br
+&GADE
+.br
+&BY
+.sp
+.ar of
+.*******************Medkontohaver ***
+.ar KUNDEOPL21 on
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDGADE
+.br
+&MEDBY
+.sp
+.ar of
+.********************* OMKOSTNINGER ************************************
+.ar OMKOST on
+:VERDA09.
+.tp 1mm left 90mm left 117mm char ,
+:FED
+¤Omkostninger ved lån i fremmed mønt på &B93BELOB.
+.if X&B93VALTYPE eq X1
+.th EUR
+.if X&B93VALTYPE eq X2
+.th CHF
+.if X&B93VALTYPE eq X3
+.th YEN
+:SKRSLUT
+:VERDA09.
+.sp 20mm
+¤Stiftelsesprovision ¤kr. ¤&B93BELØB1.
+.br
+¤Dokumentgebyr ¤kr. ¤&B93BELØB2.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+:VERDA12.
+&BANKNAVN
+:SKRSLUT.
+.sp 3
+&GENEKSP
+.ce off
+.ar off
+:NY.
+.DA afdadr 20mm 283mm width 35mm
+.DA afdtlf 55mm 283mm width 30mm
+.DA regnr 154mm 283mm width 40mm
+.IN 0MM
+:VERDA10.
+.ar afdadr on
+&AFDGADE
+.BR
+&AFDBY
+.AR OFF
+.*
+.ar afdtlf on
+.ti \ 05
+.tp 9mm
+Tlf. \&AFDTLF
+.BR
+Fax. \&AFDFAX
+.AR OFF
+.*
+.ar regnr on
+.fo right
+Bank reg.nr. 6880
+.br
+www.totalbanken.dk
+.fo off
+.ar off
+:ENY.
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 03mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.:FED.
+Bogføring af omkostninger ved lån i fremmed mønt
+.hr 0mm 123mm
+:SKRSLUT.
+.ar off
+:VERDA08.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 12mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+:VERDA08.
+¤Banksted¤Kontonummer¤Kontonavn¤Udskrivningsdato
+:SKRSLUT.
+.sp 6mm
+.bx off
+.sp 3mm
+.************ LÅNTAGER ****************************************************
+.bx left right
+:VERDA08.
+.sp 22mm
+.bx off
+.sp 3mm
+.**************************Omkostninger ********************************
+.bx left right
+.sp 100mm
+.bx off
+.ar off
+.ti ¤ 05
+.***********************************************************************
+.da BANKSTED2      20mm  19mm width 175mm
+.da KUNDEOPL11       25mm  35mm width 85mm
+.da KUNDEOPL21    112.5mm 35mm width 85mm
+.da SIDE 21mm 100mm width 175mm
+.***********BANKSTED MM*************************************************
+.ar BANKSTED2 on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.**************** Kontohaver**********
+.ar KUNDEOPL11 on
+&STILL
+.br
+&NAVN
+.br
+&GADE
+.br
+&BY
+.sp
+.ar of
+.*******************Medkontohaver ***
+.ar KUNDEOPL21 on
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDGADE
+.br
+&MEDBY
+.sp
+.ar of
+.*******************BOGFØRINGSBILAG ***************************
+.ar SIDE on
+:VERDA09.
+.tp 1mm left 30mm right 60mm right 90mm right 120mm right 150mm right
+.tp add 173mm right
+.sp 1
+¤Gebyr ¤Stift.prov ¤Dokument ¤Sikkerhed ¤Stempel ¤Tinglys.afg. ¤I alt (-)
+.br
+¤Beløb ¤&B93BELØB1. ¤&B93BELØB2. ¤&B93BELØB3. ¤&B93BELØB4. ¤&B93BELØB5.
+.ct ¤&RESULTA.
+.sp
+¤&BANKSTED
+.if X&BANKSTED eq X688000
+.th ¤¤9009605 ¤9053207 ¤9053207 ¤9300004 ¤9300004 ¤&DEBKONTO
+.if X&BANKSTED eq X688003
+.th ¤¤9009613 ¤9053231 ¤9053231 ¤9300533 ¤9300533 ¤&DEBKONTO
+.if X&BANKSTED eq X688004
+.th ¤¤9009621 ¤9053249 ¤9053249 ¤9300541 ¤9300541 ¤&DEBKONTO
+.if X&BANKSTED eq X688006
+.th ¤¤9009639 ¤9053264 ¤9053264 ¤9300566 ¤9300566 ¤&DEBKONTO
+.if X&BANKSTED eq X688020
+.th ¤¤9009647 ¤9053280 ¤9053280 ¤9300590 ¤9300590 ¤&DEBKONTO
+.if X&BANKSTED eq X688021
+.th ¤¤9009654 ¤9053298 ¤9053298 ¤9300640 ¤9300640 ¤&DEBKONTO
+.if X&BANKSTED eq X688023
+.th ¤¤9009662 ¤9053421 ¤9053421 ¤9300525 ¤9300525 ¤&DEBKONTO
+.if X&BANKSTED eq X688024
+.th ¤¤9009670 ¤9053223 ¤9053223 ¤9300558 ¤9300558 ¤&DEBKONTO
+.if X&BANKSTED eq X688030
+.th ¤¤9009688 ¤9053439 ¤9053439 ¤9300608 ¤9300608 ¤&DEBKONTO
+.sp2
+Bogført den
+.sp2
+Af
+:NY.
+.DA afdadr 20mm 283mm width 35mm
+.DA afdtlf 55mm 283mm width 30mm
+.DA regnr 154mm 283mm width 40mm
+.IN 0MM
+:VERDA10.
+.ar afdadr on
+&AFDGADE
+.BR
+&AFDBY
+.AR OFF
+.*
+.ar afdtlf on
+.ti \ 05
+.tp 9mm
+Tlf. \&AFDTLF
+.BR
+Fax. \&AFDFAX
+.AR OFF
+.*
+.ar regnr on
+.fo right
+Bank reg.nr. 6880
+.br
+www.totalbanken.dk
+.fo off
+.ar off
+:ENY.

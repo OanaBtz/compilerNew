@@ -1,0 +1,2220 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS8.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift
+.da OVER 20mm 32mm width 150mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVER on
+:SWISS12.
+:FED.
+.if &U'&PENTYPE = E
+.th .us Aftale om ratepension - Privat (§ 15A ordning)
+.if &U'&PENTYPE = H
+.th .us Aftale om ratepension - Privat (§ 15A ordning uden indbetaling)
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO. Kl. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.el .ct .
+.ar off
+.**INGEN INDBETALINGER ****************************************************
+.ar INDB on
+.if &U'&PENTYPE = H
+.th Der er ingen indbetaling.
+.ar off
+.*************************************************************************
+.**************************************************************************
+.da KUNDEOPL   25mm    47mm   width  84mm
+.da PIOPL      25mm    69.6mm width  84mm
+.da KTOOPL     112.5mm 70mm   width  80mm
+.da TEKST      21mm    83,5mm width 170mm
+.da INDB       21mm    101mm  width 170mm
+.**************************************************************************
+.ar KUNDEOPL on
+&PENKADR1
+.br
+&PENKADR2
+.br
+&PENKADR3
+.br
+&PENKADR4
+.br
+&PENKADR5
+.ar off
+.**************************************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.***** HER DELES KTONR, DEPOTNR. OP I HVER 2 PARAMETRE ********************
+.su off
+.se dregnr = substr &PENDEPNR 1 4
+.se depnr = substr &PENDEPNR 5 6
+.se regnr = substr &PENKTONR 1 4
+.se ktonr = substr &PENKTONR 5 10
+.su on
+.**************************************************************************
+.ar KTOOPL on
+.tp 43mm
+&KUNDENR
+.sp 6mm
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.*********************************************************
+.ar TEKST on
+Undertegnede parter indgår herved aftale om oprettelse
+af ratepension (rateopsparing omfattet af pensionsbeskatningslovens
+§ 15A)
+.if &L'&PENKONDATO > 0
+.th .ct , som erstatter kontrakt af &PENKONDATO..
+.**************************************************************************
+.da SIDE1  20mm 38mm width 175mm
+.**************************************************************************
+.ar SIDE1 on
+.tp 1mm 88.5mm 131.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
+.bx left 87.5mm right
+¤Kontohaver
+.sp 18mm
+.***** her laves kassen til pengeinstitut og regnr ************************
+.bx new left 87.5mm right
+¤Pengeinstitut ¤CPR-nr.
+.sp 4.5mm
+.***** her laves kassen til kontonr og depotnr ****************************
+.bx new 87.5mm 130.5mm right
+¤¤Kontonr. ¤Depotnr.
+.sp 4.5mm
+.***** her laves kassen til formål ****************************************
+.bx new left right
+.sp 6.5mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til indbetalinger   *******************************
+.bx left right
+¤Indbetalinger
+.sp 40mm
+.***** her laves kassen til placering af opsparing*************************
+.bx new left right
+¤Placering af opsparing
+.sp 9.5mm
+.***** her laves kassen til Udbetalinger **********************************
+.bx new left right
+¤Udbetaling
+.sp 19mm
+.***** her laves kassen til Begunstigede **********************************
+.bx new left right
+¤Begunstigede udbetaling ved død
+.sp 17mm
+.***** her laves kassen til Væsentlige aftaler ****************************
+.bx new left right
+¤Væsentlige aftaler
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.**************************************************************************
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+:SKRSLUT.
+.if &U'&PENSAMLVR ne J
+.th .go UDENSAM
+.***** her laves kassen begunstigelse af samlever *************************
+.bx left right
+.sp 19mm
+.***** her laves kassen til kontohaver. underskrift ***********************
+.tp 1mm 61mm 145mm
+.bx new left right
+¤Kontohavers underskrift ¤¤Dato:
+.sp 5mm
+.bx off
+.bx can
+.sp
+.*UDEN SAMLEVER************************************************************
+...UDENSAM
+.***** her laves kassen til generelle vilkår  *****************************
+.bx left right
+.sp 7mm
+.***** her laves kassen til kontohaver/arbejdsg. underskrift **************
+.bx new left 87.5mm right
+.tp 1mm 61mm 145mm
+¤Kontohavers underskrift ¤Dato:
+.sp 6.5mm
+.***** her laves kassen til pi- underskrift *******************************
+.bx new left right
+¤Pengeinstituttets underskrift ¤¤Dato:
+.sp 6.5mm
+.bx off
+.bx can
+.bx can
+.ar off
+.**************************************************************************
+.da INDBENG 21mm  101mm width 170mm
+.**************************************************************************
+.ar INDBENG on
+.if &U'&PENTYPE = E
+.th .go PENG
+.el .go PENGSL
+...PENG
+.if &L'&PENFKTONR1 = 0
+.an &L'&PENSTDATO1 = 0
+.th .go PENGSL
+Kontohaver indbetaler et engangsindskud på &PENTOTAL1. kr.
+.if &L'&PENFKTONR1 = 0
+.th .go DATOENGA
+.el .se regnrf1 = substr &PENFKTONR1 1 4
+.el .se ktonrf1 = substr &PENFKTONR1 5 10
+.el .ct , der overføres fra kontonr. &regnrf1. &ktonrf1.
+...DATOENGA
+.ct  den &PENSTDATO1..
+...PENGSL
+.ar off
+.****************************************************
+.**************************************************************************
+.da PLACERING  21mm 145mm   width 170mm
+.da UDBETAL    21mm 160mm   width 170mm
+.da BEGUNSTIG  21mm 183mm   width 170mm
+.da VAESENT    21mm 204.5mm width 170mm
+.da BEGUNSAML  21mm 214mm   width 170mm
+.da UNDTEKST1  21mm 214.5mm width 170mm
+.da UNDTEKST2  21mm 248,2mm width 170mm
+.da NAVN       25mm 239.5mm width 170mm
+.da AFSL1      25mm 229mm   width 170mm
+.da AFSL2      25mm 263mm   width 170mm
+.**************************************************************************
+.ar PLACERING on
+Opsparingen kan efter kontohavers valg placeres efter de i lovgivningen
+og &BANKNAVN.s til enhver tid gældende regler.
+.ar off
+.*UDBETALINGSÅR ***********************************************************
+.su off
+.se udaar = substr &PENUDBDATO 7 4
+.su on
+.**************************************************************************
+.ar UDBETAL on
+Rateudbetalingen til kontohaver begyndes den &PENUDBDATO.,
+og i kalenderåret &udaar fylder kontohaver &PENSTALDER. år.
+.br
+Udbetalingen sker i rater over &PENANTUDÅR
+år, således at sidste rate udbetales i det kalenderår, hvor kontohaver
+fylder &PENSLALDER. år.
+.sp 3mm
+Rateudbetaling kan desuden påbegyndes ved kontohavers varigt nedsatte
+arbejdsevne, som efter reglerne i lov om social pension berettiger
+kontohaver til førtidspension.
+.ar off
+.**************************************************************************
+.ar BEGUNSTIG on
+.if &U'&PENBEGUN = A
+.th Se kontraktens side 2.
+.th .br
+.if &U'&PENBEGUN = I
+.th Ingen begunstigelse - opsparingen vil blive udbetalt til kontohavers
+.th dødsbo og vil dermed ikke være kreditorbeskyttet.
+.th .br
+.if &U'&PENBEGUN = N
+.th Ved kontohavers død udbetales indestående til kontohavers "nærmeste
+.th pårørende" jf. generelle vilkår pkt. 4.
+.th .br
+.if &U'&PENBEGUN = H
+.th Henvisning til særskilt begunstigelseserklæring af
+.th &PENHENDATO..
+.th .br
+.if &U'&PENBEGUN = V
+.th Se nærmere under væsentlige aftaler, side 2.
+.th .br
+.if &U'&PENNYBEGUN = N
+.th .sp
+.th Der er ikke aftalt ændringer til begunstigelsesbestemmelsen, der derfor
+.th fortsat er omfattet af reglerne fra før den 1. januar 2008.
+.ar off
+.*************************************************************************
+.ar VAESENT on
+.if &U'&PENVÆSAFT = N
+.th Ingen.
+.th .go VAESSL
+.el .go VAESJA
+...VAESJA
+.**Ja til væsentlige aftaler**********************************************
+.**test på, om væsentlige aftaler kommer på side 2 eller 3 afhængigtaf ***
+.**om der udskrives side med begunstigede *dvs. kun for PENBEGUN = A ******
+.if &U'&PENBEGUN = A
+.th Se kontraktens side 3.
+.el Se kontraktens side 2.
+...VAESSL
+.ar off
+.********************************************************************
+.if &U'&PENSAMLVR ne J
+.th .go NEJSAM
+.*********************
+.ar BEGUNSAML on
+Ved begunstigelse af "samlever" og/eller "samlevers livsarvinger":
+.sp 3mm
+Jeg erklærer hermed, at min samlever, som jeg har begunstiget, har fælles
+folkeregisteradresse med mig. Jeg har fået oplyst, at manglende fælles
+folkeregisteradresse på begunstigelsestidspunktet medfører, at
+pensionsordningen skal ophæves med 60 pct.'s afgift til staten, samt at
+jeg ikke har fradragsret for indbetalinger efter begunstigelsestidspunktet,
+ligesom eventuel pensionsafkastskat mv. skal reguleres.
+.ar off
+.**********************
+...NEJSAM
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .ar UNDTEKST1 on
+.el .ar UNDTEKST2 on
+Vedlagte "Generelle vilkår for Ratepension - (§ 15A ordning)",
+dateret &PENVER15A. er gældende for denne aftale.
+Jeg erklærer hermed at
+have modtaget vilkårene, og at &BANKNAVN har gennemgået vilkårene med mig.
+.ar off
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .go AFSL
+.ar NAVN on
+.ce &PENKNAVN
+.ar off
+...AFSL
+.**************************************************************************
+.if &U'&PENSAMLVR ne J
+.th .ar AFSL1 on
+.el .ar AFSL2 on
+.tp 39mm center
+¤&PENKNAVN
+.sp 7.7mm
+.ce &BANKNAVN
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:SWISS8.
+.if &U'&PENBEGUN ne A
+.th .go BEGUNSL1
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift
+.da OVER 20mm 32mm width 150mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVER on
+:SWISS12.
+:FED.
+.if &U'&PENTYPE = E
+.th .us Aftale om ratepension - Privat (§ 15A ordning)
+.if &U'&PENTYPE = H
+.th .us Aftale om ratepension - Privat (§ 15A ordning uden indbetaling)
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO. Kl. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+...BEGUNSL1
+.if &U'&PENBEGUN ne A
+.th .go BEGUNSL2
+.**************************************************************************
+.da KUNDEOPL       25mm   47mm width 84mm
+.da KTOOPL        112.5mm 50mm width 80mm
+.**************************************************************************
+.ar KUNDEOPL on
+&PENKADR1
+.br
+&PENKADR2
+.br
+&PENKADR3
+.br
+&PENKADR4
+.br
+&PENKADR5
+.ar off
+.**************************************************************************
+.ar KTOOPL on
+.tp 43mm
+&KUNDENR
+.sp 7.5mm
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.**************************************************************************
+...BEGUNSL2
+.if &U'&PENBEGUN ne A
+.th .go BEGUNSL3
+.**************************************************************************
+.da SIDE2  20mm 38mm width 175mm
+.**************************************************************************
+.ar SIDE2 on
+.tp 1mm 88.5mm 131.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
+.bx left 87.5mm right
+¤Kontohaver ¤CPR-nr.
+.sp 6.5mm
+.***** her laves kassen til kontonr og depotnr ****************************
+.bx new 87.5mm 130.5mm right
+¤¤Kontonr. ¤Depotnr.
+.sp 6.5mm
+.hr left right
+.bx can
+.bx can
+.***** her laves kassen til Begunstigede **********************************
+:SWISS10.
+:FED.
+Begunstigelse
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+¤Begunstigede udbetaling ved død
+.sp 97mm
+.***** her laves kassen til Subsidiær begunstigelse ***********************
+.bx new left right
+¤Subsidiær begunstigelse
+.sp 100mm
+.bx off
+.bx can
+.ar off
+.**************************************************************************
+...BEGUNSL3
+.**************************************************************************
+.if &U'&PENBEGUN ne A
+.th .go BEGUNSL4
+.**************************************************************************
+.da BEGUN 21mm 76mm width 170mm
+.**************************************************************************
+.**PERSONER (TYPE P) ******************************************************
+.if &U'&PENBGTYPE = P
+.th .go BEG1P1
+.el .go BEG1G1
+...BEG1P1
+.ar BEGUN on
+.**1. linje ***
+I stedet for udbetaling til "nærmeste pårørende" ønskes følgende personer
+begunstiget: (Vælg mellem ægtefælle, én person der har fælles
+bopæl med kontohaver ved indsættelsen (samlever), fraskilt ægtefælle,
+livsarvinger (børn, børnebørn o.s.v.), samlevers livsarvinger,
+stedbørn og disses livsarvinger).
+.sp
+Ved kontohavers død udbetales indestående til følgende personer:
+.ar off
+.**KOLONNER****************************************************************
+.sp 71mm
+.cd 2 5mm 92.5mm
+.cl 85mm
+.if &L'&GENCPRBD1 > 0
+.th CPR-nr. &GENCPRBD1
+.if &L'&GENNAVNBD1 > 0
+.th &GENNAVNBD1
+.th .br
+.if &L'&GENRELABD1 > 0
+.th &GENRELABD1.
+.th .br
+.if &L'&PENPCTBD1 > 0
+.th Fordeling: &PENPCTBD1 %
+.if &U'X&GENUIGBD1 = XJ
+.th Begunstigelsen er uigenkaldelig
+.cb
+.**2. linje ***
+.if &L'&GENCPRBD2 > 0
+.th CPR-nr. &GENCPRBD2
+.if &L'&GENNAVNBD2 > 0
+.th &GENNAVNBD2
+.th .br
+.if &L'&GENRELABD2 > 0
+.th &GENRELABD2.
+.th .br
+.if &L'&PENPCTBD2 > 0
+.th Fordeling: &PENPCTBD2 %
+.if &U'X&GENUIGBD2 = XJ
+.th Begunstigelsen er uigenkaldelig
+.sc
+.if &L'&GENCPRBD1 > 0
+.or &L'&GENCPRBD2 > 0
+.th .sp 3mm
+.**3. linje ***
+.mc
+.if &L'&GENCPRBD3 > 0
+.th CPR-nr. &GENCPRBD3
+.if &L'&GENNAVNBD3 > 0
+.th &GENNAVNBD3
+.th .br
+.if &L'&GENRELABD3 > 0
+.th &GENRELABD3.
+.th .br
+.if &L'&PENPCTBD3 > 0
+.th Fordeling: &PENPCTBD3 %
+.if &U'X&GENUIGBD3 = XJ
+.th Begunstigelsen er uigenkaldelig
+.cb
+.**4. linje ***
+.if &L'&GENCPRBD4 > 0
+.th CPR-nr. &GENCPRBD4
+.if &L'&GENNAVNBD4 > 0
+.th &GENNAVNBD4
+.th .br
+.if &L'&GENRELABD4 > 0
+.th &GENRELABD4.
+.th .br
+.if &L'&PENPCTBD4 > 0
+.th Fordeling: &PENPCTBD4 %
+.if &U'X&GENUIGBD4 = XJ
+.th Begunstigelsen er uigenkaldelig
+.sc
+.if &L'&GENCPRBD3 > 0
+.or &L'&GENCPRBD4 > 0
+.th .sp 3mm
+.**5. linje ***
+.mc
+.if &L'&GENCPRBD5 > 0
+.th CPR-nr. &GENCPRBD5
+.if &L'&GENCPRBD5 > 0
+.th &GENNAVNBD5
+.th .br
+.if &L'&GENRELABD5 > 0
+.th &GENRELABD5.
+.th .br
+.if &L'&PENPCTBD5 > 0
+.th Fordeling: &PENPCTBD5 %
+.if &U'X&GENUIGBD5 = XJ
+.th Begunstigelsen er uigenkaldelig
+.cb
+.**6. linje ***
+.if &L'&GENCPRBD6 > 0
+.th CPR-nr. &GENCPRBD6
+.if &L'&GENNAVNBD6 > 0
+.th &GENNAVNBD6
+.th .br
+.if &L'&GENRELABD6 > 0
+.th &GENRELABD6.
+.th .br
+.if &L'&PENPCTBD6 > 0
+.th Fordeling: &PENPCTBD6 %
+.if &U'X&GENUIGBD6 = XJ
+.th Begunstigelsen er uigenkaldelig
+.sc
+.if &L'&GENCPRBD5 > 0
+.or &L'&GENCPRBD6 > 0
+.th .sp 3mm
+.**7. linje ***
+.mc
+.if &L'&GENCPRBD7 > 0
+.th CPR-nr. &GENCPRBD7
+.if &L'&GENNAVNBD7 > 0
+.th &GENNAVNBD7
+.th .br
+.if &L'&GENRELABD7 > 0
+.th &GENRELABD7.
+.th .br
+.if &L'&PENPCTBD7 > 0
+.th Fordeling: &PENPCTBD7 %
+.if &U'X&GENUIGBD7 = XJ
+.th Begunstigelsen er uigenkaldelig
+.cb
+.**8. linje ***
+.if &L'&GENCPRBD8 > 0
+.th CPR-nr. &GENCPRBD8
+.if &L'&GENNAVNBD8 > 0
+.th &GENNAVNBD8
+.th .br
+.if &L'&GENRELABD8 > 0
+.th &GENRELABD8.
+.th .br
+.if &L'&PENPCTBD8 > 0
+.th Fordeling: &PENPCTBD8 %
+.if &U'X&GENUIGBD8 = XJ
+.th Begunstigelsen er uigenkaldelig
+.sc
+.if &L'&GENCPRBD7 > 0
+.or &L'&GENCPRBD8 > 0
+.th .sp 3mm
+.**9. linje ***
+.mc
+.if &L'&GENCPRBD9 > 0
+.th CPR-nr. &GENCPRBD9
+.if &L'&GENNAVNBD9 > 0
+.th &GENNAVNBD9
+.th .br
+.if &L'&GENRELABD9 > 0
+.th &GENRELABD9.
+.th .br
+.if &L'&PENPCTBD9 > 0
+.th Fordeling: &PENPCTBD9 %
+.if &U'X&GENUIGBD9 = XJ
+.th Begunstigelsen er uigenkaldelig
+.cb
+.**10. linje ***
+.if &L'&GENCPRBD10 > 0
+.th CPR-nr. &GENCPRBD10
+.if &L'&GENNAVNB10 > 0
+.th &GENNAVNB10
+.th .br
+.if &L'&GENRELAB10 > 0
+.th &GENRELAB10.
+.th .br
+.if &L'&PENPCTBD10 > 0
+.th Fordeling: &PENPCTBD10 %
+.if &U'X&GENUIGBD9 = XJ
+.th Begunstigelsen er uigenkaldelig
+.sc
+.if &L'&GENCPRBD9 > 0
+.or &L'&GENCPRBD10 > 0
+.th .sp 3mm
+.cd 1 1mm
+.cl 170mm
+Hvis flere personer er begunstigede udbetales opsparingen
+i henhold til ovenstående fordeling.
+.br
+Hvis en af de
+begunstigede dør, tilfalder dennes andel den/de øvrige begunstigede til
+lige deling, medmindre andet er bestemt.
+.in 0mm
+.go BEGUNSL4
+.**PERSONGRUPPER (TYPE G) *************************************************
+...BEG1G1
+.ar BEGUN on
+Ved kontohavers død udbetales indestående til følgende persongrupper:
+.sp 3mm
+.in 4mm
+&GENRELABD1.
+.sp
+.su off
+.se grup = substr &GENRELABD1 1 4
+.su on
+.br
+.if &grup = Børn
+.th .go BØRN
+.if &grup = Sted
+.th .go STED
+.if &grup = Saml
+.th .go SAML
+...BØRN
+Hvis der er flere børn, udbetales opsparingen til lige deling mellem
+børnene. Hvis et barn dør før kontohaveren, vil afdødes (barnets)
+eventuelle børn få udbetalt afdødes andel til lige deling. Hvis det afdøde
+barn ikke efterlader sig børn, vil afdødes (barnets) andel af udbetalingen
+blive delt lige mellem kontohaverens efterlevende børn på tilsvarende måde.
+.go GRSLUT
+...STED
+Hvis der er flere stedbørn, udbetales opsparingen til lige deling mellem
+stedbørnene. Hvis et stedbarn dør før kontohaveren, vil afdødes
+(stedbarnets) eventuelle børn få udbetalt afdødes andel til lige deling.
+Hvis det afdøde stedbarn ikke efterlader sig børn, vil afdødes
+(stedbarnets) andel af udbetalingen blive delt lige mellem kontohaverens
+efterlevende stedbørn på tilsvarende måde.
+.go GRSLUT
+...SAML
+Hvis samleveren efterlader sig flere livsarvinger, udbetales opsparingen
+til lige deling mellem samlevers livsarvinger. Hvis en af samleverens
+livsarvinger dør før kontohaveren, vil afdødes (samleverens livsarvings)
+eventuelle børn få udbetalt afdødes andel til lige deling. Hvis samleverens
+afdøde livsarving ikke efterlader sig børn, vil afdødes (samleverens
+livsarvings) andel af udbetalingen blive delt lige mellem samleverens
+efterlevende børn på tilsvarende måde.
+...GRSLUT
+.ar off
+...BEGUNSL4
+.if &U'&PENBEGUN ne A
+.th .go BEGUNSL5
+.**************************************************************************
+.da SUBBEGUN  21mm 178mm width 170mm
+.da SUBPER1   26mm 183mm width  85mm
+.da SUBPER2  112mm 183mm width  85mm
+.**PERSONER (TYPE P) ******************************************************
+.if &U'&PENSBTYPE = P
+.th .go SUBPENSP
+.el .go SUBPENSG
+...SUBPENSP
+.*NAVNGIVNE PERSONER **
+.ar SUBBEGUN on
+Er alle de ovenstående begunstigede
+døde, udbetales indestående til følgende personer:
+.ar off
+.ar SUBPER1 on
+.if &L'&GENCPRSB1 > 0
+.th CPR-nr. &GENCPRSB1
+.if &L'&GENNAVNSB1 > 0
+.th &GENNAVNSB1
+.br
+.if &L'&GENRELASB1 > 0
+.th &GENRELASB1.
+.th .br
+.if &L'&PENPCTSB1 > 0
+.th Fordeling: &PENPCTSB1 %
+.sp
+.**3. linje **********
+.if &L'&GENCPRSB3 > 0
+.th CPR-nr. &GENCPRSB3
+.if &L'&GENNAVNSB3 > 0
+.th &GENNAVNSB3
+.br
+.if &L'&GENRELASB3 > 0
+.th &GENRELASB3.
+.th .br
+.if &L'&PENPCTSB3 > 0
+.th Fordeling: &PENPCTSB3 %
+.sp
+.**5. linje **********
+.if &L'&GENCPRSB5 > 0
+.th CPR-nr. &GENCPRSB5
+.if &L'&GENNAVNSB5 > 0
+.th &GENNAVNSB5
+.br
+.if &L'&GENRELASB5 > 0
+.th &GENRELASB5.
+.th .br
+.if &L'&PENPCTSB5 > 0
+.th Fordeling: &PENPCTSB5 %
+.sp
+.**7. linje **********
+.if &L'&GENCPRSB7 > 0
+.th CPR-nr. &GENCPRSB7
+.if &L'&GENNAVNSB7 > 0
+.th &GENNAVNSB7
+.br
+.if &L'&GENRELASB7 > 0
+.th &GENRELASB7.
+.th .br
+.if &L'&PENPCTSB7 > 0
+.th Fordeling: &PENPCTSB7 %
+.sp
+.**9. linje **********
+.if &L'&GENCPRSB9 > 0
+.th CPR-nr. &GENCPRSB9
+.if &L'&GENNAVNSB9 > 0
+.th &GENNAVNSB9
+.br
+.if &L'&GENRELASB9 > 0
+.th &GENRELASB9.
+.th .br
+.if &L'&PENPCTSB9 > 0
+.th Fordeling: &PENPCTSB9 %
+.ar off
+.ar SUBPER2 on
+.**2. linje **********
+.if &L'&GENCPRSB2 > 0
+.th CPR-nr. &GENCPRSB2
+.if &L'&GENNAVNSB2 > 0
+.th &GENNAVNSB2
+.br
+.if &L'&GENRELASB2 > 0
+.th &GENRELASB2.
+.th .br
+.if &L'&PENPCTSB2 > 0
+.th Fordeling: &PENPCTSB2 %
+.sp
+.**4. linje **********
+.if &L'&GENCPRSB4 > 0
+.th CPR-nr. &GENCPRSB4
+.if &L'&GENNAVNSB4 > 0
+.th &GENNAVNSB4
+.br
+.if &L'&GENRELASB4 > 0
+.th &GENRELASB4.
+.th .br
+.if &L'&PENPCTSB4 > 0
+.th Fordeling: &PENPCTSB4 %
+.sp
+.**6. linje **********
+.if &L'&GENCPRSB6 > 0
+.th CPR-nr. &GENCPRSB6
+.if &L'&GENNAVNSB6 > 0
+.th &GENNAVNSB6
+.br
+.if &L'&GENRELASB6 > 0
+.th &GENRELASB6.
+.th .br
+.if &L'&PENPCTSB6 > 0
+.th Fordeling: &PENPCTSB6 %
+.sp
+.**8. linje **********
+.if &L'&GENCPRSB8 > 0
+.th CPR-nr. &GENCPRSB8
+.if &L'&GENNAVNSB8 > 0
+.th &GENNAVNSB8
+.br
+.if &L'&GENRELASB8 > 0
+.th &GENRELASB8.
+.th .br
+.if &L'&PENPCTSB8 > 0
+.th Fordeling: &PENPCTSB8 %
+.sp
+.**10. linje **********
+.if &L'&GENCPRS10 > 0
+.th CPR-nr. &GENCPRS10
+.if &L'&GENNAVNS10 > 0
+.th &GENNAVNS10
+.br
+.if &L'&GENRELAS10 > 0
+.th &GENRELAS10.
+.th .br
+.if &L'&PENPCTS10 > 0
+.th Fordeling: &PENPCTS10 %
+.ar off
+.go BEGUNSL5
+.**PERSONGRUPPER (TYPE G) *************************************************
+...SUBPENSG
+.ar SUBBEGUN on
+.if &U'&PENSBTYPE = G
+.th .go SUBGRP1
+.el .go SUBNAER
+...SUBGRP1
+.**PERSONGRUPPER **********************************************************
+Er alle de ovenstående begunstigede
+døde, udbetales indestående til følgende
+persongrupper:
+.sp 3mm
+.in 4mm
+&GENRELASB1.
+.sp
+.su off
+.se grup1 = substr &GENRELASB1 1 4
+.su on
+.br
+.if &grup1 = Børn
+.th .go BØRN1
+.if &grup1 = Sted
+.th .go STED1
+.if &grup1 = Saml
+.th .go SAML1
+...BØRN1
+Hvis der er flere børn, udbetales opsparingen til lige deling mellem
+børnene. Hvis et barn dør før kontohaveren, vil afdødes (barnets)
+eventuelle børn få udbetalt afdødes andel til lige deling. Hvis det afdøde
+barn ikke efterlader sig børn, vil afdødes (barnets) andel af udbetalingen
+blive delt lige mellem kontohaverens efterlevende børn på tilsvarende måde.
+.go GRSLUT1
+...STED1
+Hvis der er flere stedbørn, udbetales opsparingen til lige deling mellem
+stedbørnene. Hvis et stedbarn dør før kontohaveren, vil afdødes
+(stedbarnets) eventuelle børn få udbetalt afdødes andel til lige deling.
+Hvis det afdøde stedbarn ikke efterlader sig børn, vil afdødes
+(stedbarnets) andel af udbetalingen blive delt lige mellem kontohaverens
+efterlevende stedbørn på tilsvarende måde.
+.go GRSLUT1
+...SAML1
+Hvis samleveren efterlader sig flere livsarvinger, udbetales opsparingen
+til lige deling mellem samlevers livsarvinger. Hvis en af samleverens
+livsarvinger dør før kontohaveren, vil afdødes (samleverens livsarvings)
+eventuelle børn få udbetalt afdødes andel til lige deling. Hvis samleverens
+afdøde livsarving ikke efterlader sig børn, vil afdødes (samleverens
+livsarvings) andel af udbetalingen blive delt lige mellem samleverens
+efterlevende børn på tilsvarende måde.
+...GRSLUT1
+.in
+...SUBNAER
+.**NÆRMESTE (TYPE N) ******************************************************
+.if &U'&PENSBTYPE = N
+.th .go SUBN1
+.el .go SUBINGEN
+...SUBN1
+Er alle de ovenstående begunstigede
+døde, udbetales
+indestående til kontohavers
+"nærmeste pårørende" jf. generelle vilkår for pkt. 5.
+.go BEGSBSL
+.**INGEN (TYPE I) *********************************************************
+...SUBINGEN
+.if &U'&PENSBTYPE = I
+.th Ingen subsidiær begunstiget indsat.
+...BEGSBSL
+.in
+.ar off
+.**************************************************************************
+...BEGUNSL5
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:SWISS8.
+.if &U'&PENVÆSAFT = N
+.th .go VAESSL1
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift
+.da OVER 20mm 32mm width 150mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVER on
+:SWISS12.
+:FED.
+.if &U'&PENTYPE = E
+.th .us Aftale om ratepension - Privat (§ 15A ordning)
+.if &U'&PENTYPE = H
+.th .us Aftale om ratepension - Privat (§ 15A ordning uden indbetaling)
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&DATO. Kl. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+...VAESSL1
+.*Bodelingsmetode**********************************************************
+.if &L'&PENMETODE > 0
+.th
+.el .go TESTVÆ
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .go BODELAF
+...TESTVÆ
+.if &U'&PENVÆSAFT = N
+.th .go VAESSL2
+...BODELAF
+.**************************************************************************
+.da KUNDEOPL       25mm  47mm   width  84mm
+.da KTOOPL        112.5mm  50mm width  80mm
+.**************************************************************************
+.ar KUNDEOPL on
+&PENKADR1
+.br
+&PENKADR2
+.br
+&PENKADR3
+.br
+&PENKADR4
+.br
+&PENKADR5
+.ar off
+.**************************************************************************
+.ar KTOOPL on
+.tp 43mm
+&KUNDENR
+.sp 7.5mm
+&regnr &ktonr ¤&dregnr &depnr
+.ar off
+.**************************************************************************
+...VAESSL2
+.* TEST PÅ "PENVÆSAFT" ER FLYTTET LIDT NED I DETTE TEKSTMODUL *************
+.**************************************************************************
+.if &L'&PENMETODE > 0
+.th
+.el .go VAEK1
+.if X&PENMETODE = X1
+.or X&PENMETODE = X2
+.th .go BODEL1
+...VAEK1
+.if &U'&PENVÆSAFT = N
+.th .go VAESSL3
+...BODEL1
+.**************************************************************************
+.da SIDE3  20mm 38mm width 175mm
+.**************************************************************************
+.ar SIDE3 on
+.tp 1mm 88.5mm 131.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
+.bx left 87.5mm right
+¤Kontohaver ¤CPR-nr.
+.sp 6.5mm
+.***** her laves kassen til kontonr og depotnr ****************************
+.bx new 87.5mm 130.5mm right
+¤¤Kontonr. ¤Depotnr.
+.sp 6.5mm
+.hr left right
+.bx can
+.bx can
+.***** her laves kassen til Særlige vilkår ifm Bodeling/skilsmisse*********
+.if &L'&PENMETODE > 0
+.an X&PENMETODE ne X3
+.th .go SAERVI
+.el .go VAEK2
+...SAERVI
+.if X&PENMETODE = X3
+.th .go VAEK2
+.*************************************************************************
+:SWISS10.
+:FED.
+Særlige vilkår
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+.if &U'&PENGODKJN = J
+.th .go GODLAV
+.el .sp 44mm
+.el .go SAEREND
+...GODLAV
+.if X&PENMETODE = X1
+.th .sp 52mm
+.if X&PENMETODE = X2
+.th .sp 49mm
+...SAEREND
+.bx off
+.**************************************************************************
+.if &U'&PENVÆSAFT = J
+.th .go VAEK2
+.if &U'&PENVÆSAFT = N
+.an X&PENMETODE ne X3
+.th .go VAEK2
+.el .go VAESSL3
+...VAEK2
+.***** her laves kassen til Væsentlige aftaler og forudsætninger **********
+:SWISS10.
+:FED.
+Væsentlige aftaler/forudsætninger
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+.if &L'&PENMETODE > 0
+.th .go VAEMET
+.el .sp 205mm
+.el .go VAESOFF
+...VAEMET
+.if &U'&PENGODKJN = J
+.th .go LAVVAE
+.if X&PENMETODE ne X3
+.th .sp 156mm
+.th .go VAESOFF
+.el .sp 205mm
+.el .go VAESOFF
+...LAVVAE
+.if X&PENMETODE = X1
+.th .sp 150mm
+.if X&PENMETODE = X2
+.th .sp 153mm
+.if X&PENMETODE = X3
+.th .sp 205mm
+...VAESOFF
+.bx off
+.ar off
+.**************************************************************************
+...VAESSL3
+.* TEST PÅ "PENVÆSAFT" ER FLYTTET LIDT NED I DETTE TEKSTMODUL *************
+.**************************************************************************
+.se brev1 = substr &BREVNAVN 7 2
+.if &L'&PENMETODE > 0
+.th
+.el .go VAET2
+.if &U'&PENGODKJN = J
+.th .go LAVGODT2
+...LAVGODT2
+.if X&PENMETODE = X1
+.th .da SAERVIL  21mm 70mm width 170mm
+.th .da VAESENT  21mm 129mm width 170mm
+.th .go BODEL2
+.if X&PENMETODE = X2
+.th .da SAERVIL  21mm 70mm width 170mm
+.th .da VAESENT  21mm 126mm width 170mm
+.th .go BODEL2
+...VAET2
+.if &U'&PENVÆSAFT = N
+.th .go VAESSL4
+.el .da VAESENT  21mm 70mm width 170mm
+.el .go VAESN2
+...BODEL2
+.****Særlige vilkår - tekst i forbindelse med bodeling/skilsmisse**********
+.ar SAERVIL on
+:SWISS8.
+.us Indbetalinger:
+.sp 1mm
+Vilkårene på bodelingstidspunktet for den pensionsordning, hvorfra
+udlodningen er foretaget, gælder også for den udloddede del.
+.sp 2mm
+.of 5mm
+For kontoen gælder desuden følgende:
+.br
+.if X&PENMETODE = X1
+.th *¤Der kan ikke indbetales på kontoen
+.th .br
+*¤Kontohaver kan indsætte begunstigede
+.br
+*¤Kontohaveren kan selv bestemme i hvilket institut, den udloddede del skal
+føres.
+.of
+.sp
+.us Udbetaling:
+.sp 1mm
+.if x&brev1 = x40
+.or x&brev1 = x60
+.th .go UDBTXT
+.if X&PENMETODE ne X3
+.an &U'&PENGODKJN = J
+.th .go RATETXT
+...RATETXT
+.th Udbetalingen sker i rater over &PENANTUDÅR. år, således at sidste rate
+.th udbetales i det kalenderår, hvor &ktohav fylder &PENSLALDER. år.
+.th .sp 1mm
+...UDBTXT
+Kontoens indestående kan desuden udbetales, hvis kontohaveren, på den konto
+hvorfra denne pensionsordning er udloddet, rammes af varigt nedsat
+erhvervsevne, som efter reglerne i lov om social pension berettiger
+kontohaveren, på den konto hvorfra denne pensionsordning er udloddet, til
+førtidspension og hvis den konto, hvorfra denne pensionsordning er udloddet
+er oprettet før kontohaveren, på den konto hvorfra denne pensionsordning er
+udloddet, bliver berettiget til førtidspension. Desuden kan kontoens
+indestående udbetales, hvis kontohaveren, på den konto hvorfra denne
+pensionsordning er udloddet, rammes af en af visse livstruende sygdomme.
+.ar off
+.if &U'&PENVÆSAFT = N
+.th .go VAESSL4
+...VAESN2
+.**************************************************************************
+.*Der er valgt at have en skrifttype SWISS10, her så det fylder lidt mere
+.*på siden*****************************************************************
+.ar VAESENT on
+:SWISS10.
+.if &L'&PENTEKST01 = 0
+.th .sp
+.el &PENTEKST01.
+.el .br
+.if &L'&PENTEKST02 = 0
+.th .sp
+.el &PENTEKST02.
+.el .br
+.if &L'&PENTEKST03 = 0
+.th .sp
+.el &PENTEKST03.
+.el .br
+.if &L'&PENTEKST04 = 0
+.th .sp
+.el &PENTEKST04.
+.el .br
+.if &L'&PENTEKST05 = 0
+.th .sp
+.el &PENTEKST05.
+.el .br
+.if &L'&PENTEKST06 = 0
+.th .sp
+.el &PENTEKST06.
+.el .br
+.if &L'&PENTEKST07 = 0
+.th .sp
+.el &PENTEKST07.
+.el .br
+.if &L'&PENTEKST08 = 0
+.th .sp
+.el &PENTEKST08.
+.el .br
+.if &L'&PENTEKST09 = 0
+.th .sp
+.el &PENTEKST09.
+.el .br
+.if &L'&PENTEKST10 = 0
+.th .sp
+.el &PENTEKST10.
+.el .br
+.if &L'&PENTEKST11 = 0
+.th .sp
+.el &PENTEKST11.
+.el .br
+.if &L'&PENTEKST12 = 0
+.th .sp
+.el &PENTEKST12.
+.el .br
+.if &L'&PENTEKST13 = 0
+.th .sp
+.el &PENTEKST13.
+.el .br
+.if &L'&PENTEKST14 = 0
+.th .sp
+.el &PENTEKST14.
+.el .br
+.if &L'&PENTEKST15 = 0
+.th .sp
+.el &PENTEKST15.
+.el .br
+.if &L'&PENTEKST16 = 0
+.th .sp
+.el &PENTEKST16.
+.el .br
+.if &L'&PENTEKST17 = 0
+.th .sp
+.el &PENTEKST17.
+.el .br
+.if &L'&PENTEKST18 = 0
+.th .sp
+.el &PENTEKST18.
+.el .br
+.if &L'&PENTEKST19 = 0
+.th .sp
+.el &PENTEKST19.
+.el .br
+.if &L'&PENTEKST20 = 0
+.th .sp
+.el &PENTEKST20.
+.el .br
+.if &L'&PENTEKST21 = 0
+.th .sp
+.el &PENTEKST21.
+.el .br
+.if &L'&PENTEKST22 = 0
+.th .sp
+.el &PENTEKST22.
+.el .br
+.if &L'&PENTEKST23 = 0
+.th .sp
+.el &PENTEKST23.
+.el .br
+.if &L'&PENTEKST24 = 0
+.th .sp
+.el &PENTEKST24.
+.el .br
+.if &L'&PENTEKST25 = 0
+.th .sp
+.el &PENTEKST25.
+.el .br
+.if &L'&PENTEKST26 = 0
+.th .sp
+.el &PENTEKST26.
+.el .br
+.if &L'&PENTEKST27 = 0
+.th .sp
+.el &PENTEKST27.
+.el .br
+.if &L'&PENTEKST28 = 0
+.th .sp
+.el &PENTEKST28.
+.el .br
+.if &L'&PENTEKST29 = 0
+.th .sp
+.el &PENTEKST29.
+.el .br
+.if &L'&PENTEKST30 = 0
+.th .sp
+.el &PENTEKST30.
+.el .br
+.if &L'&PENTEKST31 = 0
+.th .sp
+.el &PENTEKST31.
+.el .br
+.if &L'&PENTEKST32 = 0
+.th .sp
+.el &PENTEKST32.
+.el .br
+.if &L'&PENTEKST33 = 0
+.th .sp
+.el &PENTEKST33.
+.el .br
+.if &L'&PENTEKST34 = 0
+.th .sp
+.el &PENTEKST34.
+.el .br
+.if &L'&PENTEKST35 = 0
+.th .sp
+.el &PENTEKST35.
+.el .br
+.if &L'&PENTEKST36 = 0
+.th .sp
+.el &PENTEKST36.
+.el .br
+.if &L'&PENTEKST37 = 0
+.th .sp
+.el &PENTEKST37.
+.el .br
+.if &L'&PENTEKST38 = 0
+.th .sp
+.el &PENTEKST38.
+.el .br
+.if &L'&PENTEKST39 = 0
+.th .sp
+.el &PENTEKST39.
+.el .br
+.if &L'&PENTEKST40 = 0
+.th .sp
+.el &PENTEKST40.
+.el .br
+.*****Bodelingskontrakt - hvis metode 1,2 og lavere godkendt pensionsalder
+.********************** - så stopper vi her!!
+.if X&PENMETODE ne X3
+.an &U'&PENGODKJN = J
+.th .go VAESEND
+.if &L'&PENTEKST41 = 0
+.th .sp
+.el &PENTEKST41.
+.el .br
+.if &L'&PENTEKST42 = 0
+.th .sp
+.el &PENTEKST42.
+.el .br
+.*****Bodelingskontrakt - hvis metode 1 el. 2 så stopper vi her ********
+.if &L'&PENMETODE > 0
+.an X&PENMETODE = X1
+.th .go VAESEND
+.if &L'&PENMETODE > 0
+.an X&PENMETODE = X2
+.th .go VAESEND
+.if &L'&PENTEKST43 = 0
+.th .sp
+.el &PENTEKST43.
+.el .br
+.if &L'&PENTEKST44 = 0
+.th .sp
+.el &PENTEKST44.
+.el .br
+.if &L'&PENTEKST45 = 0
+.th .sp
+.el &PENTEKST45.
+.el .br
+.if &L'&PENTEKST46 = 0
+.th .sp
+.el &PENTEKST46.
+.el .br
+.if &L'&PENTEKST47 = 0
+.th .sp
+.el &PENTEKST47.
+.el .br
+.if &L'&PENTEKST48 = 0
+.th .sp
+.el &PENTEKST48.
+.el .br
+.if &L'&PENTEKST49 = 0
+.th .sp
+.el &PENTEKST49.
+.el .br
+.if &L'&PENTEKST50 = 0
+.th .sp
+.el &PENTEKST50.
+.el .br
+.if &L'&PENTEKST51 = 0
+.th .sp
+.el &PENTEKST51.
+.el .br
+.if &L'&PENTEKST52 = 0
+.th .sp
+.el &PENTEKST52.
+.el .br
+.if &L'&PENTEKST53 = 0
+.th .sp
+.el &PENTEKST53.
+.el .br
+.if &L'&PENTEKST54 = 0
+.th .sp
+.el &PENTEKST54.
+.el .br
+&PENTEKST55.
+:SKRSLUT.
+...VAESEND
+.ar off
+.**************************************************************************
+...VAESSL4
+.**************************************************************************
+.**Hvis der står N(ej) i feltet "PENVILKÅR = Udskriv vilkår J/N, stopper
+.**udskrivningen **********************************************************
+.**************************************************************************
+.if &U'&PENVILKÅR = N
+.th .qu
+;T.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.**************************************************************************
+.da BOX 20mm 42mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 39mm width 175mm
+.**************************************************************************
+:SWISS8.
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+.bx left right
+.sp 232mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Version &PENVER15A.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS10.
+:FED.
+Generelle vilkår for Ratepension (§15A ordning)
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
+.**************************************************************************
+.sp 33mm
+:SWISS10.
+.rh off
+.rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.*KOLONNEDEFINITION *******************************************************
+.cd 2 1mm 88mm
+.cl 85mm
+.**************************************************************************
+¤31.12.1962
+.hr left 65mm
+¤01.01.1963 -  ¤63
+.br
+¤31.12.1966
+.hr left 65mm
+¤01.01.1967 eller ¤63 år + evt. regulering
+.br
+¤senere
+.bx off
+.*********TABEL SLUT*******************************************************
+.sp
+.kp off
+.kp on
+Kontohaver kan ændre udbetalingstidspunktet og udbetalingsperiodens længde
+indtil dagen før den første rateudbetaling finder sted.
+.sp 3mm
+.kp off
+:SWISS10.
+.tp 5mm
+2.¤Placering af opsparing
+.sp 3mm
+:SWISS8.
+Kontoens indestående kan efter kontohavers eget valg placeres efter de i
+lovgivningen og efter &BANKNAVN.s til enhver tid gældende regler.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+.tp 5mm
+3.¤Udbetaling
+.sp 3mm
+:SWISS8.
+Opsparingen udbetales til kontohaver i overensstemmelse med aftalen. Der
+skal gå mindst fem år fra oprettelsen af ratepensionskontoen, før den kan
+udbetales.
+.sp 3mm
+.kp off
+.kp on
+Kontohaver aftaler med &BANKNAVN., hvornår rateudbetalingerne skal
+starte. Raterne
+skal udbetales over mindst ti år og kan tidligst starte, når
+kontohaver når pensionsudbetalingsalderen. Der er ikke i reglerne for
+§ 15A-ordninger fastsat noget sluttidspunkt for seneste
+rateudbetaling. Kontohavers pensionsudbetalingsalder fremgår af
+skemaet nedenfor:
+.sp
+.***********TABEL START****************************************************
+.tp 1mm 31mm
+.bx left 30mm 65mm
+¤Fødselsdato ¤Pensionsudbetalingsalder
+.hr left 65mm
+¤31.12.1958 eller før ¤60
+.hr left 65mm
+¤01.01.1959 - ¤60½
+.br
+¤30.06.1959
+.hr left 65mm
+¤01.07.1959 - ¤61
+.br
+¤31.12.1959
+.hr left 65mm
+¤01.01.1960 - ¤61½
+.br
+¤30.06.1960
+.hr left 65mm
+¤01.07.1960 -  ¤62
+.br
+:SWISS8.
+.tp 5mm
+.**********
+.kp on
+Vilkårene for rateopsparing omfattet af pensionsbeskatningslovens
+§ 15A gælder, medmindre andet udtrykkeligt er aftalt.
+Vilkårene
+ændres, hvis lovgivningen om ratepension ændres. Iøvrigt gælder
+&BANKNAVN.s almindelige forretningsbetingelser.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+1.¤Indbetalinger
+:SWISS8.
+.sp 3mm
+De aftalte indbetalinger indsættes i &BANKNAVN på en ratepensionskonto
+tilhørende kontohaver.
+.sp 3mm
+.kp off
+.kp on
+§ 15A-ratepensionsaftaler kan kun oprettes af personer over 55 år,
+som har drevet selvstændig erhvervsvirksomhed i sammenlagt mindst 10 år
+inden for de seneste 15 år før oprettelsen. Ratepensionen
+anses først for oprettet, når første indbetaling til kontoen er
+gennemført.
+.sp 3mm
+.kp off
+.kp on
+Der kan samlet højst indbetales &GENMAX15. kr. (&GENMAXDATO.). Beløbet
+reguleres
+hvert år. Indbetalingen kan dog ikke overstige den skattepligtige
+fortjeneste, kontohaver opnår ved afhændelse af sin virksomhed eller andel
+af denne.
+.sp 3mm
+.kp off
+.kp on
+Indbetalingerne skal foretages indenfor en periode på maksimalt 10 år
+løbende fra det år, hvor hele virksomheden eller den første andel af
+virksomheden afstås. Muligheden for at indbetale ophører i
+kalenderåret før første aftalte rateudbetaling.
+.sp 3mm
+.kp off
+.kp on
+&BANKNAVN sender mindst én gang årligt meddelelse til kontohaver
+med angivelse af indbetalinger, tilskrevet afkast, betalte skatter,
+eventuelle administrationsomkostninger og forsikringspræmier.
+.sp 5mm
+.kp off
+.kp on
+.tp 5mm
+.***************************
+.kp on
+Hvis der indtræder en varigt nedsat arbejdsevne, som berettiger
+kontohaver til
+førtidspension, kan udbetalingen ligeledes starte.
+.sp 3mm
+.kp off
+.kp on
+Før udbetalingens start skal kontohaver vælge mellem to udbetalingsforløb.
+.sp 3mm
+.in 4mm
+.tp 8mm
+.of 4mm
+a)¤En samlet årlig rateudbetaling, der ved en konstant rente vil give et
+jævnt stigende udbetalingsforløb, eller
+.of
+.sp 3mm
+.of 4mm
+b)¤En samlet årlig rateudbetaling, der ved en konstant rente vil give
+lige store årlige rater.
+.of
+.in
+.sp 3mm
+.kp off
+.kp on
+Er hele kontoens indestående udbetalt inden udløbet af den valgte
+udbetalingsperiode, ophører udbetalingerne.
+.sp 5mm
+.kp off
+.kp on
+.tp 4mm
+.us
+Ændring af udbetaling efter første udbetaling er sket
+.sp 2mm
+Efter første udbetaling har kontohaveren fortsat mulighed for at aftale
+ændringer til udbetalingen. Der er dog nogle begrænsninger i kontohaverens
+muligheder for aftaler:
+.sp 3mm
+*¤Alle
+.in 4mm nobreak
+aftaler om ændring har først virkning fra de følgende kalenderår. I
+det kalenderår, hvor aftalen om udbetaling ændres, fortsætter udbetalingen
+i henhold til den gældende aftale.
+.in 0mm
+.sp 3mm
+*¤Der
+.in 4mm nobreak
+er ikke mulighed for at ændre udbetalingsterminerne til helårlig eller
+halvårlig udbetaling.
+.in 0mm
+.sp 3mm
+*¤Hvis
+.in 4mm nobreak
+der allerede er aftalt helårlig eller halvårlig udbetaling, er det
+ikke muligt at ændre tidspunktet i løbet af året, hvor den årlige
+udbetaling skal ske.
+.in 0mm
+.sp 3mm
+*¤Hvis
+.in 4mm nobreak
+der allerede er aftalt helårlige eller halvårlige
+udbetalingsterminer, kan disse terminer fortsætte uændret
+uanset andre vilkår for udbetalingen aftales ændret.
+.in 0mm
+.sp 3mm
+*¤De
+.in 4mm nobreak
+ovenfor angivne regler for udbetaling af ratepension, jf. pkt. 3 skal
+fortsat overholdes.
+.in 0mm
+.sp 3mm
+*¤Der
+.in 4mm nobreak
+kan ikke aftales forkortelser af udbetalingsperioden.
+.in 0mm
+.sp 5mm
+.kp off
+.kp on
+.tp 5mm
+:SWISS10.
+4.¤Begunstigelse - Udbetaling ved død
+.sp 3mm
+:SWISS8.
+.us
+"Nærmeste pårørende"
+.sp 2mm
+Udbetaling ved kontohavers død sker direkte til kontohavers "nærmeste
+pårørende", medmindre andet er skriftligt
+aftalt med &BANKNAVN.. Med "nærmeste
+pårørende" menes kontohavers ægtefælle. Hvis der ikke efterlades ægtefælle,
+udbetales til kontohavers
+.*******Afs. er kun med med nye begyns. regler fra 1/1-08*****
+.if &U'&PENNYBEGUN = J
+.th samlever, og hvis der heller ikke efterlades en samlever, sker
+.th udbetalingen til kontohavers
+.********
+livsarvinger, dvs. børn, børnebørn o.s.v. i den
+nævnte rækkefølge. Hvis der heller ikke efterlades livsarvinger, udbetales
+til kontohavers arvinger i henhold til et testamente eller efter loven.
+.sp 3mm
+.kp off
+.*******
+.if &U'&PENNYBEGUN = J
+.th .go NYBEG1
+.el .go GLBEG1
+.*******Afs. er kun med med nye begyns. regler fra 1/1-08*****
+...NYBEG1
+.kp on
+For at en person kan betragtes som en samlever i forhold begunstigelsen
+"nærmeste pårørende", er det en betingelse, at personen bor sammen med
+kontohaveren:
+.sp 3mm
+1)¤har,
+.in 5mm nobreak
+har haft eller venter et fællesbarn med kontohaveren, eller
+.in 0mm
+.sp 3mm
+2)¤har
+.in 5mm nobreak
+levet sammen med kontohaveren i et ægteskabslignende forhold i mindst 2 år.
+.in 0mm
+.sp 3mm
+.kp off
+.kp on
+Et forhold er ægteskabslignende, hvis kontohaver og samlever kunne have
+indgået ægteskab med hinanden. I praksis betyder det, at de ikke må være
+gift eller under separation, ligesom de ikke må være søskende eller i
+familie med hinanden i ret op- eller nedstigende linie.
+.sp 3mm
+.kp off
+.kp on
+Det skal bemærkes, at der stilles andre krav, hvis der er tale om en
+samlever, der indsættes ved navns nævnelse, se nedenfor.
+.sp 5mm
+.kp off
+...GLBEG1
+.*********
+.if &U'&PENNYBEGUN = J
+.th .go NYBEG2
+.*****Afs. er kun med ved gl. begun. regler fra før 1/1-08********
+.kp on
+.us
+"Nærmeste pårørende" - og "samlevende"
+.sp 2mm
+Kontohaver skal være opmærksom på, at en samlever ikke
+umiddelbart vil få udbetalt pensionsopsparingen ved kontohavers
+død, hvis standardbegunstigelsen "nærmeste pårørende" beholdes.
+.br
+.kp off
+.kp on
+Såfremt kontohaver ønsker at begunstige sin samlever direkte, anbefales
+det derfor, at begunstigelsen ændres, så samlever
+begunstiges direkte ved navn.
+.br
+Hvis begunstigelsen "nærmeste pårørende" bevares i aftalen,
+vil en eventuel samlever
+.us kun
+kunne få udbetalt
+pensionsopsparingen, hvis følgende krav begge er opfyldt:
+.sp 3mm
+.in 4mm
+.tp 8mm
+.of 4mm
+a)¤der er oprettet et testamente, hvor samleveren er tilgodeset
+med pensionsopsparingen.
+.of
+.sp 3mm
+.of 4mm
+b)¤kontohaver hverken har børn eller ægtefælle. (Hvis kontohaver har det,
+vil opsparingen nemlig blive
+udbetalt til dem).
+.of
+.in
+.sp 5mm
+.kp off
+...NYBEG2
+.kp on
+.us
+Indsættelse af andre begunstigede
+.sp 2mm
+I stedet for "nærmeste pårørende" kan kontohaver bestemme, at
+én eller flere personer skal have udbetalt opsparingen ved
+kontohavers død. Der kan vælges mellem ægtefælle, én navngiven
+person, der har fælles bopæl med kontohaver ved
+indsættelsen (samlever), fraskilt ægtefælle, livsarvinger (børn, børnebørn
+o.s.v.), samlevers livsarvinger samt stedbørn og disses
+livsarvinger. Kontohaver kan frit bestemme, hvordan opsparingen
+skal fordeles mellem de begunstigede. Indsættelsen skal for at være
+gyldig foretages skriftligt.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+.us
+.******Nye beg. regler fra 1/1-08 har en anden overskrift********
+.if &U'&PENNYBEGUN = J
+.th Særligt om samlevende, der er indsat ved navns nævnelse
+.el Særligt om samlevende
+.sp 3mm
+:KURSIV.Fælles bopæl ved indsættelsen:
+:SKRSLUT.
+.br
+Opmærksomheden henledes på, at kontohaver kun kan indsætte en samlever,
+med hvem der er fælles bopæl ved
+.us indsættelsen.
+.br
+.kp off
+.kp on
+Ved fælles bopæl forståes fælles folkeregisteradresse. Den fælles bopæl
+skal være opfyldt, når begunstigelsesaftalen indgåes. I modsat
+fald vil pensionsopsparingen af skattemyndighederne
+kunne kræves ophævet med 60 pct.'s afgift. Desuden vil kontohavers
+fradragsret for indbetalinger bortfalde med
+virkning tilbage til begunstigelsestidspunktet. Hvis samlevers livsarvinger
+indsættes som begunstiget, kræves det ligeledes, at kontohaver har
+fælles bopæl med
+.us samleveren
+ved indsættelsen.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.Fælles bopæl ved død:
+:SKRSLUT.
+.br
+Begunstigelsen af samlever bortfalder som udgangspunkt ikke ved ophør af
+fælles bopæl. Dog vil eventuelle indsigelser f.eks. fra arvinger eller
+kreditorer mod udbetalingen til en tidligere samlever kunne føre til, at
+begunstigelsen falder bort, hvis domstolene afgør, at der er tale om
+bristede forudsætninger i den konkrete sag.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.Hvem kan være samlever:
+:SKRSLUT.
+.br
+En samlever som begunstiges kan foruden en person, som kontohaver
+lever i ægteskabslignende parforhold med, desuden være søskende
+eller andre, som kontohaver bor sammen med. Dog kan der kun
+indsættes én samlever.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.Mulighed for yderligere krav til samlever:
+:SKRSLUT.
+.br
+Hvis kontohaver ønsker det, kan kontohaver, såfremt &BANKNAVN kan acceptere
+vilkåret, opstille yderligere krav til, hvornår en samlever kan få udbetalt
+opsparingen ved kontohavers død, f.eks. at samlivet skal have bestået i en
+bestemt årrække, eller begunstigelsen af samlever bortfalder, hvis der ikke
+længere er fælles bopæl.
+.br
+.kp off
+.kp on
+Kontohaver skal være opmærksom på, at et krav om, at udbetaling til
+samlever forudsætter fælles bopæl også ved kontohavers død vil medføre, at
+begunstigelsen af samlever straks vil bortfalde, hvis samlever og
+kontohaver får forskellig folkeregisteradresse.
+.br
+Det gælder også f.eks. ved erhvervsarbejde et andet sted i landet,
+plejehjemsophold mv., hvor det formentlig ikke er hensigten, at
+begunstigelsen skal falde bort. &BANKNAVN anbefaler derfor, at yderligere
+krav til begunstigelsen overvejes nøje.
+.sp 5mm
+.kp off
+.*********
+.if &U'&PENNYBEGUN = J
+.th .go NYBEG3
+.el .go GLBEG3
+.*******Afs. er kun med med nye begyns. regler fra 1/1-08*****
+...NYBEG3
+.kp on
+.us on
+Indsigelse mod "urimelige" begunstigelser
+.us off
+.sp 2mm
+Afdødes ægtefælle eller livsarvinger (børn, børnebørn osv.) kan gøre
+indsigelse mod den begunstigelsesbestemmelse, som kontohaveren har indsat
+i pensionsopsparingen.
+Hvis skifteretten vurderer, at begunstigelsen er
+urimelig i forhold til ægtefællen eller livsarvingerne, kan retten
+bestemme, at pensionsopsparingen helt eller delvist skal tilfalde
+ægtefællen eller livsarvingerne.
+Ved vurderingen af, om en begunstigelse er
+urimelig, kan der bl.a. lægges vægt på baggrunden for indsættelse af den
+begunstigede, ægtefællens, livsarvingernes og den begunstigedes økonomiske
+behov samt omstændighederne i øvrigt.
+.sp 5mm
+.kp off
+...GLBEG3
+.**********
+.if &U'&PENNYBEGUN = J
+.th .go NYBEG4
+.*****Afs. er kun med ved gl. begun. regler fra før 1/1-08********
+.kp on
+.us on
+Samlever, fraskilt ægtefælle, samlevers livsarvinger
+eller stedbørn - indsigelser
+.us off
+.sp 2mm
+Hvis kontohaver bestemmer, at samleveren, samleverens livsarvinger,
+en fraskilt ægtefælle eller stedbørn
+skal have udbetalt opsparingen, og kontohaver samtidig har børn
+eller/og ægtefælle på dødstidspunktet, kan disse gøre indsigelser mod
+udbetalingen.
+.br
+.kp off
+.kp on
+Dette vil medføre, at aktuel ægtefælle eller/og børn kan
+få udbetalt en del af opsparingen svarende til deres tvangsarv af dødsboet
+inklusiv pensionsopsparingen.
+.br
+Den begunstigede vil dog altid få udbetalt mindst en tredjedel
+af pensionsopsparingen efter fradrag af afgifter til staten.
+.sp 5mm
+.kp off
+.kp on
+.us
+Uigenkaldelig begunstigelse
+.sp 2mm
+Hvis begunstigelsen af samleveren, samleverens livsarvinger,
+den fraskilte ægtefælle
+eller stedbørn gøres uigenkaldelig, det vil sige, at den ikke kan ændres
+uden den begunstigedes samtykke, kan der ikke gøres indsigelser mod
+udbetalingerne, og den begunstigede vil få hele opsparingen udbetalt
+efter fradrag af afgifter til staten. Det er muligt at gøre den
+uigenkaldelige begunstigelse betinget af, at der fx også er fælles
+bopæl ved død.
+.sp 3mm
+.kp off
+.kp on
+Det bemærkes, at hvis begunstigelsen er uigenkaldelig, kan
+pensionsopsparingen ikke ophæves i utide, ligesom
+begunstigelsen ikke kan ændres ensidigt af kontohaver, eksempelvis ved
+samlivsophør. &BANKNAVN anbefaler derfor, at uigenkaldelig begunstigelse
+overvejes nøje.
+.sp 5mm
+.kp off
+...NYBEG4
+.kp on
+.us
+Subsidiær begunstigelse
+.sp 2mm
+Hvis den/de begunstigede alle er døde ved kontohavers død, udbetales
+pensionsopsparingen til kontohavers
+"nærmeste pårørende" medmindre kontohaver har aftalt andet skriftligt med
+&BANKNAVN.. "Nærmeste pårørende" er altså automatisk subsidiært
+begunstiget.
+.sp 3mm
+.kp off
+.if &U'&PENNYBEGUN = J
+.th .go NYBEG5
+.el .go GLBEG5
+...GLBEG5
+.kp on
+Såfremt der ikke er indsat en subsidiær begunstiget, og kontohaver
+glemmer at indsætte en ny begunstiget ved den begunstigedes død vil
+opsparingen ved kontohavers død blive udbetalt til dødsboet, hvor
+eventuelle kreditorer har førsteret til boets midler.
+.sp 5mm
+.kp off
+...NYBEG5
+.kp on
+.us
+Begunstigelse - aftales skriftligt
+.sp 2mm
+Indsættelse af andre begunstigede end "nærmeste pårørende" skal fremgå
+af pensionsaftalen eller meddeles &BANKNAVN skriftligt.
+.sp 5mm
+.kp off
+.kp on
+.us
+Udbetaling direkte til begunstigede
+.sp 2mm
+De begunstigede får udbetalt den del af opsparingen, der tilkommer dem,
+direkte udenom dødsboet.
+.sp 5mm
+.kp off
+.kp on
+.us
+Ingen begunstiget
+.sp 2mm
+Kontohaver kan også bestemme, at der ikke skal være nogen begunstiget,
+hvilket skal aftales skriftligt med &BANKNAVN..
+.kp off
+.if &U'&PENNYBEGUN = J
+.th .go NYBEG6
+.el .go GLBEG6
+...GLBEG6
+.kp on
+Samme situation vil
+desuden opstå, hvis den begunstigede er død, og der ikke er nogen subsidiær
+begunstiget.
+.sp 3mm
+.kp off
+...NYBEG6
+.kp on
+Dette vil betyde, at opsparingen ved kontohavers død udbetales til
+dødsboet. Kontohaver skal så være opmærksom på, at eventuelle kreditorer
+har førsteret til boets midler. Hvis der er penge tilbage i boet, efter
+at eventuelle kreditorer har fået deres del, vil de blive fordelt mellem
+arvingerne i henhold til eventuelt testamente og til arveloven.
+.sp 5mm
+.kp off
+.kp on
+.us
+Ændring af begunstigelse
+.sp 2mm
+Kontohaver kan på hvilket som helst tidspunkt ændre på, hvem der er
+begunstiget, med mindre begunstigelsen er gjort
+.if &U'&NYBEGUN = J
+.th uigenkaldelig.
+.el uigenkaldelig (se ovenfor).
+Ved arbejdsgiverordninger kan der ændres uden arbejdsgivers samtykke.
+.sp 3mm
+.kp off
+.kp on
+"Begunstigelsen" bør jævnligt tages op til overvejelse, blandt andet når
+der sker større ændringer i kontohavers liv, herunder etablering af samliv,
+ægteskab, børn, ophævelse af samliv, skilsmisse, eller hvis den
+begunstigede dør.
+.sp 5mm
+.kp off
+.tp 5mm
+.kp on
+:SWISS10.
+5.¤Kreditorbeskyttelse
+:SWISS8.
+.sp 3mm
+Ratepensionen kan ikke overdrages til eje, sikkerhed eller på
+anden måde gøres til genstand for retsforfølgning fra kreditorers
+side.
+.sp 3mm
+.kp off
+.kp on
+Hvis kontohaver kommer under konkurs, kan konkursboet forlange at
+evt. uforholdsmæssige store indbetalinger i løbet af de seneste tre
+år, set i forhold til kontohavers formuestand indbetales til
+konkursboet.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+6.¤Skatte - og afgiftsregler
+.sp 3mm
+:SWISS8.
+.us
+Indbetalinger
+.sp 2mm
+Indbetalinger trækkes fra i den personlige indkomst.
+.sp 3mm
+Der gives fuldt fradrag for
+indbetalinger op til &GENMAX15. kr. (&GENMAXDATO.)
+i det indkomstår, hvor kontohaver afvikler eller afstår sin virksomhed,
+hvis indbetalingerne foretages senest 1. juli i det efterfølgende
+indkomstår. Beløbet reguleres hvert år. De fradragsberettigede
+indbetalinger kan dog ikke overstige den skattepligtige fortjeneste
+kontohaver opnår ved afståelse af sin virksomhed eller en del af denne.
+.sp 5mm
+.kp off
+.kp on
+.us
+Afkast - skat
+.sp 2mm
+Afkast, kursgevinster mv. medregnes ikke ved opgørelsen af den
+skattepligtige indkomst, men beskattes efter reglerne i
+pensionsafkastbeskatningsloven. Skatten hæves på
+kontoen.
+.sp 3mm
+.kp off
+.kp on
+.us
+Udbetalinger
+.sp 2mm
+Rateudbetalinger beskattes som personlig indkomst, og &BANKNAVN trækker og
+afregner A-skat ved hver udbetaling.
+.sp 3mm
+.kp off
+.kp on
+Rateudbetalinger beskattes desuden med
+udligningsskatten. Udligningsskatten pålægges store
+pensionsudbetalinger. Skatten er midlertidig, og den opkræves med følgende
+satser i de enkelte år:
+.sp 3mm
+.kp off
+.kp on
+.***********TABEL START*******
+.tp 1mm 21mm
+.bx left 20mm 40mm
+¤Årstal ¤Procentsats
+.hr left 40mm
+¤2011 - 2014 ¤6 %
+.hr left 40mm
+¤2015 ¤5 %
+.hr left 40mm
+¤2016 ¤4 %
+.hr left 40mm
+¤2017 ¤3 %
+.hr left 40mm
+¤2018 ¤2 %
+.hr left 40mm
+¤2019 ¤1 %
+.hr left 40mm
+¤2020 -> ¤0 %
+.bx off
+.sp 3mm
+.***********TABEL SLUT********
+.kp off
+.kp on
+De udligningsskattepligtige pensioner er primært:
+.tp 5mm
+*¤Ratepensioner
+.br
+*¤Livrenter
+.br
+*¤Indekskontrakter
+.br
+*¤Ægtefælle-samlever og børnepensioner
+.br
+*¤Tjenestemandspensioner
+.br
+*¤ATP
+.br
+*¤Folkepensionens grundbeløb
+.sp 3mm
+.kp off
+.kp on
+Der er desuden enkelte mere ualmindelige pensionsudbetalinger, der er
+omfattet af udligningsskatten.
+.sp 3mm
+.kp off
+.kp on
+Udligningsskatten betales af udbetalinger fra de omfattede typer af
+pensioner, der overstiger et bundfradrag på &UDLIGNSKAT kr. (&GENMAXDATO.)
+om året. Du kan ikke reducere beskatningsgrundlaget ved at indbetale på en
+fradragsberettiget pensionsordning.
+.sp 3mm
+.kp off
+.kp on
+Der er mulighed for at overføre op til &OVFÆGTFÆL kr. (&GENMAXDATO.) om
+året i
+uudnyttet bundfradrag mellem ægtefæller. Beløbet skal dog reduceres med
+ægtefællens egen indkomst, både pensionsindkomst og anden personlig
+indkomst.
+.sp 3mm
+.kp off
+.kp on
+Da udbetalinger fra ratepensionen indgår i den personlige indkomst, har
+udbetalingerne betydning for størrelse af offentlige ydelser som
+folkepension, boligydelse og personlige tillæg. Derudover har
+rateudbetalingerne indflydelse på ejendomsværdiskatten.
+.sp 3mm
+Ved udbetaling efter kontohavers død udbetales opsparingen som en sum
+efter fradrag af en afgift på 40 pct. til staten. Ved udbetaling til
+ægtefælle, fraskilt ægtefælle, livsarvinger under 24 år, samlever eller
+dennes livsarvinger under 24 år, stedbørn eller stedbørns livsarvinger
+under 24 år, kan der vælges rateudbetalinger i stedet. I de tilfælde
+beskattes rateudbetalingerne som personlig indkomst.
+.sp 3mm
+.kp off
+.kp on
+Ved udbetaling til begunstigede fratrækker &BANKNAVN desuden boafgift til
+staten ifølge gældende lov.
+.sp 3mm
+.kp off
+.kp on
+Udbetales kontoens indestående helt eller delvist på et andet tidspunkt,
+det vil sige i strid med aftalens bestemmelser, skal der betales en endelig
+afgift til staten på 60 pct. af udbetalingen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+7.¤Overtræk på pensionskontoen
+.sp 3mm
+:SWISS8.
+Hvis ratepensionskontoen overtrækkes i forbindelse med afregning af
+PAL-skat, vil overtrækket blive forrentet efter reglerne i lovgivningen
+og i &BANKNAVN..
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+8.¤Indvirkning på efterløn
+.sp 3mm
+:SWISS8.
+.us
+For personer, der er født den 31. december 1955 eller tidligere:
+.sp 2mm
+Indbetalinger på ratepensionen efter kontohaver når efterlønsalderen
+og indtil der er gået mindst 2 år fra udstedelsen afefterlønsbeviset
+og inden kontohaver har arbejdet minimum 3.120 timer
+(som fuldtidsforsikret) vil
+blive tillagt den pensionsværdi, der er opgjort inden kontohaver når
+efterlønsalderen, og som anvendes til beregning af eventuel
+nedsættelse af efterlønnen.
+.sp 3mm
+.kp off
+.kp on
+Hvis kontohaver går på efterløn indenfor 2 år efter udstedelse af
+efterlønsbeviset, og inden kontohaver har arbejdet minimum 3.120 timer
+(som fuldtidsforsikret) i den periode, nedsættes efterlønnen som hovedregel
+med 3 pct. af ratepensionens værdi, når kontohaver når efterlønsalderen
+efter fradrag af et bundfradrag. Der sker fradrag i efterlønnen, uanset om
+ratepensionen udbetales eller ej.
+.sp 3mm
+.kp off
+.kp on
+Hvis kontohaver venter med at gå på efterløn til 2 år efter
+efterlønsbevisets udstedelse, og efter kravet på arbejde i 3.120 timer er
+opfyldt, nedsættes efterlønnen ikke ved udbetaling af ratepensionen.
+.sp 3mm
+.kp off
+.kp on
+.us
+For personer født den 1. januar 1956 eller senere:
+.sp 2mm
+Hvis kontohaveren går på efterløn, nedsættes efterlønnen årligt med et
+beløb, der svarer til 4 pct. af ratepensionens værdi. Indbetaling på
+ratepensionen efter kontohaver når efterlønsalderen vil blive tillagt
+den pensionsværdi, der er opgjort inden kontohaver når efterlønsalderen, og
+som anvendes til beregning af nedsættelse af efterlønnen. Der sker
+nedsættelse af efterlønnen uanset om ratepensionen udbetales eller ej.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+9.¤Forsikringsdækning
+.sp 3mm
+:SWISS8.
+Der kan gennem &BANKNAVN tegnes forsikringer i form af
+livsforsikringer og invaliditetsforsikringer. Forsikringerne kan
+tilknyttes pensionsordningen. Dette gælder også arbejdsgiverordninger,
+hvor kontohaver kan anvende indbetalinger til dækning af forsikringspræmier
+uden arbejdsgivers samtykke. Dette gælder med mindre arbejdsgiver har
+bestemt andet i aftalen
+.sp 3mm
+.kp off
+.kp on
+Kontohaver skal træffe særskilt aftale med &BANKNAVN., hvis
+der ønskes tegnet forsikringer.
+.sp 5mm
+:SWISS10.
+.tp 7mm
+10.¤Skilsmisse/separation
+.sp 3mm
+:SWISS8.
+Ved skifte af fællesbo i anledning af separation, skilsmisse eller
+bosondring, udtager ægtefællerne egne rimelige ratepensioner af
+fællesboet. Det afgøres konkret om den enkelte ratepension er rimelig i
+forhold til ægtefællens uddannelsesmæssige og arbejdsmæssige situation.
+Ratepensioner, der overstiger det rimelige, indgår i delingen af
+fællesboet.
+.sp 3mm
+.kp off
+.kp on
+Ved ægteskaber af kortere varighed udtages alle
+ratepensioner forlods.
+.sp 3mm
+Ægtefæller kan ved tinglyst ægtepagt aftale at en ratepension skal være
+særeje eller fælleseje.
+.kp off

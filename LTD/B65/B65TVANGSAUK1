@@ -1,0 +1,226 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da overskr 33mm 90mm width 135mm depth 180mm
+.da vend 7mm 270mm width 180mm rotate -90
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+:SWISS9.
+.*&AFDBNKNAVN
+.*.br
+.*&AFDNAVN
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.sp
+CVR &BANKSENR
+.*.if &B65P2U EQ 2
+.*.TH Reference:¤&GENEKSP
+.br
+Telefon &GENTLFNR
+.BR
+.* Telefax ¤&AFDFAX
+.* .br
+&GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference:
+.TH .br
+.th  &B65DREF
+.TH .SP6mm
+:SWISS11.
+.EL .SP10mm
+&DATO
+.ar off
+.***************** BREVNAVN **************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+:SKRSLUT.
+.ar off
+.***** Herfra begynder teksten ******
+.ar tekst on
+:DUTCH12.
+.ti ¤ 05
+.tp 10mm 15mm
+:FED.Kan manglende terminsbetaling betyde tvangsauktion?
+:SKRSLUT.
+.br
+Vi kan konstatere at den seneste ydelse på &DIT realkreditlån ikke er
+betalt. Hvis denne og efterfølgende ydelser ikke betales - uden at der
+træffes andre aftaler - kan det betyde at &DIN ejendom kommer på
+tvangsauktion.
+Da det ofte vil være den dårligst mulige løsning for &DIG., vil vi stærkt
+opfordre til at &DU gør, hvad &DU kan for at afværge denne. Vi vil derfor
+meget gerne i dialog med &DIG om den opståede situation for at drøfte
+hvilke muligheder der kan findes.
+.sp
+:FED.Muligheder
+:SKRSLUT.
+.br
+Vi kan måske medvirke til at etablere en betalingsaftale eller sætte gang i
+et salg, hvor &DU sælger ejendommen i fri handel i stedet for
+tvangsauktion.
+På vores hjemmeside, www.roskildebank.dk kan &DU under punktet
+Gældsrådgivning, finde gode råd og inspiration til at få overblik over
+&DIN økonomi.
+.sp
+:FED.Omkostninger
+:SKRSLUT.
+.br
+Forløbet frem mod en eventuel tvangsauktion over &DIN ejendom er
+desværre langtfra gratis. De samlede omkostninger &DU skal betale følger
+af lovgivningen og afhænger af sagens forløb. Omkostningerne er til
+inkasso, inkasso-advokat, udlægsforretning, salær for auktionsbegæring,
+salær for salgsopstilling, auktionsgebyr og fogedgebyr m.m.
+.sp
+:FED.Gælden efter tvangsauktionen
+:SKRSLUT.
+.br
+Hvis det ikke lykkes at finde en løsning og afværge auktionen, bliver &DU
+indkaldt til et møde i fogedretten. På mødet har &DU mulighed for at få en
+afværgefrist på fire uger, hvis &DU kan bevise at &DU vil kunne betale
+det beløb, &DU skylder. I fogedretten bliver der sat en dato for
+tvangsauktion over &DIN ejendom. &SDU skal senest flytte fra
+ejendommen, når tvangsauktionen er afholdt.
+Efter tvangsauktionen bliver &DIN restgæld gjort op. Det får &DU brev
+om. &SDU hæfter fortsat personligt for den gæld, som ikke er blevet dækket
+af salget af &DIN ejendom.
+.sp
+I &DIN egen interesse, ser vi frem til at høre fra &DIG indenfor 14 dage.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+.su off
+.*se a = substr &AFDNAVN 1 4
+.SU ON
+.*IF X'&a = XSTED
+.*th .go STEDET
+.GO HILSEN
+...STEDET
+Vi ses på STEDET
+.GO HILSLUT
+...HILSEN
+Med venlig hilsen
+.sp 15MM
+&GENEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL
+...HILSLUT
+.ar off

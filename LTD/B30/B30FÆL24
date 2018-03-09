@@ -1,0 +1,385 @@
+.rh cancel
+.*************************
+.su off
+.se medku1 = substr &MEDKUNDENR 1 6
+.se medku2 = substr &MEDKUNDENR 8 4
+.su on
+.*************************
+.if &MEDKUNDENR ne 000000-0000
+.th .go UNDMED
+.* Kun kundens Underskrift og kundenr**************************
+.sp3
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato    ¤&KTONAVN
+.br
+¤&KTOKNDNR1
+.go UNDSLUT
+.* kunden og medkundens Underskrift og deres kundenr *******
+...UNDMED
+.sp3
+.tp _/130mm
+¤
+.br
+.tp 20mm 80mm
+Dato ¤&KTONAVN ¤&MEDNAVN
+.br
+¤&KTOKNDNR1 ¤&medku1.&medku2
+...UNDSLUT
+.********* SLUT   ******************************************
+.kp on
+.if &L'&GENTEKST gt 0
+.th :CALIB10.
+.th :FED.
+.th Særlige bestemmelser
+.th :SKRSLUT.
+.th .br
+.th &GENTEKST &GENTEKST1 &GENTEKST2 &GENTEKST3 &GENTEKST4
+.th &GENTEKST5
+.th .sp
+.kp off
+.**********
+.kp on
+:CALIB10.
+:FED.
+Udlevering af dokumenter
+:SKRSLUT.
+.br
+&SJEG kvitterer hermed for at have modtaget:
+.sp
+¤En kopi af disse supplerende vilkår.
+.br
+.********
+.if &U'&B30SUPPANT eq P
+.th ¤En kopi af pantebrevet der udgør pantebrevslånet
+.th .br
+.********
+.if &U'&B30SUPPANT eq E
+.th ¤En kopi af gældsbrevet der udgør lånet, samt en kopi af
+.th ejerpantebrevet
+.th .br
+.********
+.if &U'&B30SUPFORR eq J
+.th ¤Et eksemplar af "Almindelige forretningsbetingelser".
+.th .br
+.********
+.if &L'&B30SUP1 gt 1
+.th ¤&B30SUP1
+.th .br
+.********
+.if &L'&B30SUP2 gt 1
+.th ¤&B30SUP2
+.th .br
+.sp
+.kp off
+.********
+:CALIB10.
+:FED.
+Baggrund
+:SKRSLUT
+.br
+&SJEG. har dags dato optaget et
+.if &U'&B30SUPPANT eq P
+.th pantebrevslån
+.if &U'&B30SUPPANT eq E
+.th lån
+på
+:VS.&GENBELOEB
+kr. i
+&BANKNAVN med pant i &MIN faste ejendom. Rentevilkårerne for
+&MIN indlånskonto nr. &IREGKTO suppleres med nedenstående vilkår,
+der er gældende fra det tidspunkt, hvor
+.if &U'&B30SUPPANT eq P
+.th pantebrevslånet
+.if &U'&B30SUPPANT eq E
+.th lånet
+forrentes overfor banken.
+.sp
+Udnyttelsen af en eventuel trækningsret reguleres alene af den
+kreditkontrakt, der er indgået i den forbindelse.
+.sp
+.**********
+.kp on
+.if &U'&B30SUPPANT eq P
+.th Pantebrevslånet reguleres af bestemmelserne i pantebrevet.
+.if &U'&B30SUPPANT eq E
+.th Lånet reguleres efter bestemmelserne i gældsbrevet.
+.sp
+:CALIB10.
+:FED.
+Kontobestemmelser
+:SKRSLUT.
+.br
+Et eventuelt frit provenue fra pantebrevslånet overføres til kontoen.
+.sp
+Der kan tilknyttes VISA/Dankort, Webbank, BetalingsServiceaftaler mv.
+til kontoen, der således kan anvendes som lønkonto, transaktionskonto
+m.v.
+.sp
+.kp off
+.*******
+.kp on
+Den del af indlånet, der svarer til restgælden på
+.if &U'&B30SUPPANT eq P
+.th pantebrevslånet,
+.if &U'&B30SUPPANT eq E
+.th lånet,
+bliver forrentet med samme rente som
+.if &U'&B30SUPPANT eq P
+.th pantebrevslånet.
+.if &U'&B30SUPPANT eq E
+.th lånet.
+.if &GENRNT = 1
+.th .go RENTE1
+.if &GENRNT = 2
+.th .go RENTE2
+.if &GENRNT = 3
+.th .go RENTE3
+.if &GENRNT = 4
+.th .go RENTE4
+.***********
+...RENTE1
+Renten er
+variabel og svarer til Danmarks Nationalbanks til enhver tid fastsatte
+rente på indskudsbeviser, der p.t. er på -0,20 pct. om året, plus et
+rentetillæg, der er fastsat af banken. Rentetillægget er på 3,30
+procentpoint. Det giver i alt en rente på p.t. 3,10 pct. p.a. Hvis
+Danmarks Nationalbank ikke længere fastsætter rente på indskudsbeviser,
+er &BANKNAVN berettiget til at vælge en anden tilsvarende
+referencerente.
+.sp
+.kp off
+.kp on
+Rentetillægget kan sættes
+op eller ned jf. bankens ret til
+at ændre rente, dog jf. bankens "Almindelige forretningsbetingelser"
+.go RENTESL
+.***********
+...RENTE2
+Udlånsrenten er 1-årig rentetilpasning og svarer til
+.br
+12 måneders CIBOR rente + 3,30 pct. i perioden 17.09 - 31.03.
+.br
+9 måneders CIBOR rente + 3,30 pct. i perioden 01.04 - 30.06.
+.br
+6 måneders CIBOR rente + 3,30 pct. i perioden 01.07 - 30.09.
+.br
+Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
+.go RENTESL
+.***************
+...RENTE3
+Udlånsrenten er 3-årig rentetilpasning og svarer til den effektive
+rente + 3,30 pct. på den Realkredit Danmark obligation, der ligger nærmest
+mindsterenten med en fastrenteperiode på 3 år.
+.br
+Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
+.go RENTESL
+.**********
+...RENTE4
+Udlånsrenten er 5-årig rentetilpasning og svarer til
+den effektive rente + 3,30 pct. på den Realkredit Danmark
+obligation, der ligger nærmest mindsterenten med en fastrenteperiode på 5
+år.
+.br
+Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
+.**********
+...RENTESL
+.sp
+.kp off
+.kp on
+Et indestående ud over det der svarer til restgælden på
+.if &U'&B30SUPPANT eq P
+.th pantebrevet,
+.if &U'&B30SUPPANT eq E
+.th lånet,
+bliver forrentet med den rente, der er gældende for Højrentekontoen.
+.sp
+Renten beregnes og tilskrives kvartalsvis bagud.
+.sp
+Et eventuelt overtræk forrentes efter bankens regler herom.
+.sp
+.kp off
+.******
+.kp on
+.if &U'&B30SUPFULD eq J .an &U'&B30SUPPANT eq E
+.th :CALIB10.
+.th :FED.
+.th Fuldmagt
+.th :SKRSLUT.
+.th .br
+.th Ved underskrift på disse supplerende kontovilkår giver &JEG banken
+.th fuldmagt til at trække alle renter/ydelser, der skal betales på
+.th lånet på denne indlånskonto.
+.th .sp
+.kp off
+.************
+.kp on
+.if &U'&B30SUPFULD eq J .an &U'&B30SUPPANT eq P
+.th :CALIB10.
+.th :FED.
+.th Fuldmagt
+.th :SKRSLUT.
+.th .br
+.th Ved underskrift på disse supplerende kontovilkår giver &JEG banken
+.th fuldmagt til at trække alle renter/ydelser, der skal betales på
+.th pantebrevslånet på denne indlånskonto.
+.th .sp
+.kp off
+.***********
+.kp on
+:CALIB10.
+:FED.
+Ophør
+:SKRSLUT.
+.br
+Når
+.if &U'&B30SUPPANT eq P
+.th pantebrevslånet
+.if &U'&B30SUPPANT eq E
+.th lånet
+indfries, bortfalder indlånskontoen. Et eventuelt indestående
+på indlånskontoen overføres til en Højrentekonto i samme navn i
+&BANKNAVN..
+.sp
+.kp off
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.***********
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.***********
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT
+.da OVERS 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERS on
+:CALIB10.
+:FED.
+SUPPLERENDE VILKÅR FOR INDLÅNSKONTO NR. &IREGKTO..
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER *******************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER *******************************************
+.rh execute
+.*LINIELÆNGDEN ***********************************************************
+:omtale &OMTALEF
+.ll 130mm
+.in 2mm
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.*PARAMETRE OG TESTS ******************************************************
+.if &GENRNT = 0
+.or &GENRNT > 4
+.th .mg/T/Valg af rente skriv 1 - 4/
+.**************************************************************************
+.if &GENRNT > 1
+.an &GENRNT < 5
+.an &L'&GENRENTE = 0
+.th .mg/T/Skriv rente i alt ved rentevalg 2-4/
+.*****************************
+.su off
+.se medku1 = substr &MEDKUNDENR 1 6
+.se medku2 = substr &MEDKUNDENR 8 4
+.su on
+.********************
+.if &U'&GENMEDKTOH = J
+.an &MEDKUNDENR = 000000-0000
+.th .mg/T/Der findes ingen medktohaver/
+.***********************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV ´%&GENDUNYTBV.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

@@ -1,0 +1,560 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre og tests******************************************************
+.if &REGTYPE < 1040
+.or &REGTYPE > 1043
+.th .mg/T/Der skal vælges en konto med regtype 1040, 1041, 1042 el. 1043/
+.**************************************************************************
+.if &L'&GENNAVN2 > 0
+.th .se flgbr2 = 1
+.el .se flgbr2 = 0
+.if &L'&GENNAVN3 > 0
+.th .se flgbr3 = 1
+.el .se flgbr3 = 0
+.if &L'&GENNAVN4 > 0
+.th .se flgbr4 = 1
+.el .se flgbr4 = 0
+.if &L'&GENNAVN5 > 0
+.th .se flgbr5 = 1
+.el .se flgbr5 = 0
+.if &L'&GENNAVN6 > 0
+.th .se flgbr6 = 1
+.el .se flgbr6 = 0
+.se total = &flgbr2 + &flgbr3 + &flgbr4 + &flgbr5 + &flgbr6
+.**************************************************************************
+.se total2 = &flgbr2
+.se total3 = &flgbr2 + &flgbr3
+.se total4 = &flgbr2 + &flgbr3 + &flgbr4
+.se total5 = &flgbr2 + &flgbr3 + &flgbr4 + &flgbr5
+.se total6 = &flgbr2 + &flgbr3 + &flgbr4 + &flgbr5 + &flgbr6
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da FASTEOPL 126.5mm 34mm
+.da ADRESSE 20mm 47.5mm width 85mm
+.da DATO 126.5mm 57.7mm
+.da REF 126.5mm 64.5mm
+.**************************************************************************
+.ar FASTEOPL on
+:COUR8.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.ar ADRESSE on
+&GENNAVN
+.br
+&GENCO
+.br
+&GENGADE
+.br
+&GENBY
+.br
+&GENLAND
+.ar off
+.**************************************************************************
+.ar DATO on
+:COUR8.
+&DATO
+.ar off
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+...KOEB2
+.**************************************************************************
+.if &total = 0
+.th .qu
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da FASTEOPL 126.5mm 34mm
+.da ADRESSE 20mm 47.5mm width 85mm
+.da DATO 126.5mm 57.7mm
+.da REF 126.5mm 64.5mm
+.**************************************************************************
+.ar FASTEOPL on
+:COUR8.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.if &total2 < 1
+.th .go BREV3
+.ar ADRESSE on
+&GENNAVN2
+.br
+&GENCO2
+.br
+&GENGADE2
+.br
+&GENBY2
+.br
+&GENLAND2
+.ar off
+.go BREVSLUT
+.**************************************************************************
+...BREV3
+.if &total3 < 1
+.th .go BREV4
+.ar ADRESSE on
+&GENNAVN3
+.br
+&GENCO3
+.br
+&GENGADE3
+.br
+&GENBY3
+.br
+&GENLAND3
+.ar off
+.go BREVSLUT
+.**************************************************************************
+...BREV4
+.if &total4 < 1
+.th .go BREV5
+.ar ADRESSE on
+&GENNAVN4
+.br
+&GENCO4
+.br
+&GENGADE4
+.br
+&GENBY4
+.br
+&GENLAND4
+.ar off
+.go BREVSLUT
+.**************************************************************************
+...BREV5
+.if &total5 < 1
+.th .go BREV6
+.ar ADRESSE on
+&GENNAVN5
+.br
+&GENCO5
+.br
+&GENGADE5
+.br
+&GENBY5
+.br
+&GENLAND5
+.ar off
+.go BREVSLUT
+.**************************************************************************
+...BREV6
+.if &total6 < 1
+.th .go BREVSLUT
+.ar ADRESSE on
+&GENNAVN6
+.br
+&GENCO6
+.br
+&GENGADE6
+.br
+&GENBY6
+.br
+&GENLAND6
+.ar off
+...BREVSLUT
+.**************************************************************************
+.ar DATO on
+:COUR8.
+&DATO
+.ar off
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+.**************************************************************************
+.if &total = 1
+.th .qu
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da FASTEOPL 126.5mm 34mm
+.da ADRESSE 20mm 47.5mm width 85mm
+.da DATO 126.5mm 57.7mm
+.da REF 126.5mm 64.5mm
+.**************************************************************************
+.ar FASTEOPL on
+:COUR8.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.if &total3 < 2
+.th .go BREV4A
+.ar ADRESSE on
+&GENNAVN3
+.br
+&GENCO3
+.br
+&GENGADE3
+.br
+&GENBY3
+.br
+&GENLAND3
+.ar off
+.go BREVSLA
+.**************************************************************************
+...BREV4A
+.if &total4 < 2
+.th .go BREV5A
+.ar ADRESSE on
+&GENNAVN4
+.br
+&GENCO4
+.br
+&GENGADE4
+.br
+&GENBY4
+.br
+&GENLAND4
+.ar off
+.go BREVSLA
+.**************************************************************************
+...BREV5A
+.if &total5 < 2
+.th .go BREV6A
+.ar ADRESSE on
+&GENNAVN5
+.br
+&GENCO5
+.br
+&GENGADE5
+.br
+&GENBY5
+.br
+&GENLAND5
+.ar off
+.go BREVSLA
+.**************************************************************************
+...BREV6A
+.if &total6 < 2
+.th .go BREVSLA
+.ar ADRESSE on
+&GENNAVN6
+.br
+&GENCO6
+.br
+&GENGADE6
+.br
+&GENBY6
+.br
+&GENLAND6
+.ar off
+...BREVSLA
+.**************************************************************************
+.ar DATO on
+:COUR8.
+&DATO
+.ar off
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+.**************************************************************************
+.**************************************************************************
+.if &total = 2
+.th .qu
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da FASTEOPL 126.5mm 34mm
+.da ADRESSE 20mm 47.5mm width 85mm
+.da DATO 126.5mm 57.7mm
+.da REF 126.5mm 64.5mm
+.**************************************************************************
+.ar FASTEOPL on
+:COUR8.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.if &total4 < 3
+.th .go BREV5B
+.ar ADRESSE on
+&GENNAVN4
+.br
+&GENCO4
+.br
+&GENGADE4
+.br
+&GENBY4
+.br
+&GENLAND4
+.ar off
+.go BREVSLB
+.**************************************************************************
+...BREV5B
+.if &total5 < 3
+.th .go BREV6B
+.ar ADRESSE on
+&GENNAVN5
+.br
+&GENCO5
+.br
+&GENGADE5
+.br
+&GENBY5
+.br
+&GENLAND5
+.ar off
+.go BREVSLB
+.**************************************************************************
+...BREV6B
+.if &total6 < 3
+.th .go BREVSLB
+.ar ADRESSE on
+&GENNAVN6
+.br
+&GENCO6
+.br
+&GENGADE6
+.br
+&GENBY6
+.br
+&GENLAND6
+.ar off
+...BREVSLB
+.**************************************************************************
+.ar DATO on
+:COUR8.
+&DATO
+.ar off
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+.**************************************************************************
+.**************************************************************************
+.if &total = 3
+.th .qu
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da FASTEOPL 126.5mm 34mm
+.da ADRESSE 20mm 47.5mm width 85mm
+.da DATO 126.5mm 57.7mm
+.da REF 126.5mm 64.5mm
+.**************************************************************************
+.ar FASTEOPL on
+:COUR8.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.if &total5 < 4
+.th .go BREV6C
+.ar ADRESSE on
+&GENNAVN5
+.br
+&GENCO5
+.br
+&GENGADE5
+.br
+&GENBY5
+.br
+&GENLAND5
+.ar off
+.go BREVSLC
+.**************************************************************************
+...BREV6C
+.if &total6 < 4
+.th .go BREVSLC
+.ar ADRESSE on
+&GENNAVN6
+.br
+&GENCO6
+.br
+&GENGADE6
+.br
+&GENBY6
+.br
+&GENLAND6
+.ar off
+...BREVSLC
+.**************************************************************************
+.ar DATO on
+:COUR8.
+&DATO
+.ar off
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+.**************************************************************************
+.**************************************************************************
+.if &total = 4
+.th .qu
+.**************************************************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da FASTEOPL 126.5mm 34mm
+.da ADRESSE 20mm 47.5mm width 85mm
+.da DATO 126.5mm 57.7mm
+.da REF 126.5mm 64.5mm
+.**************************************************************************
+.ar FASTEOPL on
+:COUR8.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.if &total6 < 5
+.th .go BREVSLD
+.ar ADRESSE on
+&GENNAVN6
+.br
+&GENCO6
+.br
+&GENGADE6
+.br
+&GENBY6
+.br
+&GENLAND6
+.ar off
+...BREVSLD
+.**************************************************************************
+.ar DATO on
+:COUR8.
+&DATO
+.ar off
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar REF on
+:COUR8.
+.tp 33.6mm
+Vor ref.:¤&GENKORTREF./&ktonr
+.ar off
+.**************************************************************************

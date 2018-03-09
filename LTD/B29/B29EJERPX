@@ -1,0 +1,1052 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*test på om der er 2 andelsboliger ***************************************
+.if &U'&GENTOANDEL = J
+.th .go 2TEST
+.el .go 2TESTEND
+...2TEST
+.if &L'&GENKOMMUN2 = 0
+.or &L'&GENVEJKOD2 = 0
+.or &L'&GENHUS2 = 0
+.or &L'&GENGADE7 = 0
+.or &L'&POSTNR2 = 0
+.or &L'&POSTNRBY2 = 0
+.th .mg/T/Der er valgt 2 andelsboliger. Indtast oplysninger på begge/
+...2TESTEND
+.if &U'&GENTOANDEL eq J
+.or &U'&GENTOANDEL eq N
+.th .go ANDELOK
+.el .mg/T/sammenlægning af andelsboliger skriv J eller N/
+...ANDELOK
+.*
+.*
+.*
+.*
+.*
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Kl. &KLOKKESLET
+.ar off
+.*************************************************************************
+.da AFGIFT   124mm 27.5mm width 60mm
+.da SENR     115mm 33.5mm width 60mm
+.da ANMELDER 115mm 44mm width 88mm
+.**************************************
+.da KOMMUNKD 51mm 90mm width 157mm
+.da GADE 51mm 97mm width 157mm
+.da POSTNR 51mm 103mm width 157mm
+.da OEVRIGOPL 51mm 109mm width 145mm
+.**************************************
+.da KOMMUNKD2 51mm 120mm width 157mm
+.da GADE2 51mm 126mm width 157mm
+.da POSTNR2 51mm 132mm width 157mm
+.da OEVRIGOPL2 51mm 138mm width 145mm
+.***************************************
+.da DEBITOR 29mm 155.5mm width 80mm
+.da MEDDEB 114mm 155.5mm width 80mm
+.da GLD 29mm 193mm width 55mm
+.da GLDSKR 42mm 197.5mm width 155mm
+.da RENTE 44mm 211mm width 15mm
+.da PANTSAT1 29mm 224.5mm width 170mm depth 50mm
+.*************************************************************************
+.*TEST VEDR. BECANDEL01 (ERKLÆRING OM ADKOMST) SIDE 4 *********************
+.*TEST PÅ AT DER KUN ER UDFYLDT EN TYPE OM TINGLYSNINGSDOKUMENTET *********
+.se tal = 0
+.if &L'&GENKRYDS1 > 0
+.th .se tal1 = &tal + 1
+.el .se tal1 = &tal
+.if &L'&GENKRYDS2 > 0
+.th .se tal2 = &tal1 + 1
+.el .se tal2 = &tal1
+.if &L'&GENKRYDS3 > 0
+.th .se tal3 = &tal2 + 1
+.el .se tal3 = &tal2
+.if &tal4 = 0
+.th .mg/T/Tinglysningsdokument, der skal vælges type/
+.if &tal4 > 1
+.th .mg/T/Tinglysningsdokument, der skal kun vælges én type/
+.***********************************************************************
+.ar AFGIFT on
+:VS. &GENTINGAFG
+.ar off
+.************************************************************************
+.ar SENR on
+.su off
+.se cvr12 = substr &BANKSENR 1 2
+.se cvr34 = substr &BANKSENR 3 2
+.se cvr56 = substr &BANKSENR 5 2
+.se cvr78 = substr &BANKSENR 7 2
+.su on
+.if &U'&GENJANEJ = J
+.th CVR: &cvr12 &cvr34 &cvr56 &cvr78
+.ar off
+.************************************************************************
+.ar ANMELDER on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+.**************************************************************************
+.ar KOMMUNKD on
+.tp 27mm 67mm 93mm 117mm
+&GENKOMMUNE ¤&GENVEJKODE ¤&GENHUS ¤&GENETAGE ¤&GENSIDE
+.ar off
+.**************************************************************************
+.ar GADE on
+&GENGADE
+.ar off
+.**************************************************************************
+.ar POSTNR on
+&POSTNRBY
+.ar off
+.**************************************************************************
+.ar OEVRIGOPL on
+&GENTEKST1
+&GENTEKST2.
+.ar off
+.*HER SKRIVES OPLYSNINGER PÅ ANDELSBOLIG 2 ********************************
+.if &U'&GENTOANDEL eq N
+.th .go 2ANDSLUT
+.ar KOMMUNKD2 on
+.tp 27mm 67mm 93mm 117mm
+&GENKOMMUN2 ¤&GENVEJKOD2 ¤&GENHUS2 ¤&GENETAGE2 ¤&GENSIDE5
+.ar off
+.**************************************************************************
+.ar GADE2 on
+&GENGADE7
+.ar off
+.**************************************************************************
+.ar POSTNR2 on
+&POSTNR2  &POSTNRBY2
+.ar off
+.**************************************************************************
+.ar OEVRIGOPL2 on
+&GENTEKST19
+&GENTEKST22.
+.ar off
+...2ANDSLUT
+.************************************************************************
+.ar DEBITOR on
+&KTOKNDNR1
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.************************************************************************
+.ar MEDDEB on
+.su off
+.se medcpr1 = substr &MEDKUNDENR 1 6
+.se medcpr2 = substr &MEDKUNDENR 8 4
+.su on
+.if &L'&MEDNAVN > 0
+.th &medcpr1.&medcpr2
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.ar off
+.************************************************************************
+.ar GLD on
+&U'&GENMØNTKD &ÅCONT
+:VS.&GENGAELD
+.ar off
+.**************************************************************************
+.ar GLDSKR on
+&U'&GENMØNTKD &GENGAELDT1.&GENGAELDT2
+.ar off
+.**************************************************************************
+.ar RENTE on
+&GENPCTPA
+.ar off
+.**************************************************************************
+.ar PANTSAT1 on
+.tp 44mm right 61mm right 71mm right 78mm
+.***********************************************************************
+.*TEST BELØB 1*************************************************************
+.se bel1 = 0
+.if &L'&GENMØNTKD1 > 0
+.th .se bel1a = &bel1 + 1
+.el .se bel1a = &bel1
+.if &L'&GENBELØB11 > 0
+.th .se bel1b = &bel1a + 1
+.el .se bel1b = &bel1a
+.if &L'&GENPCTPA1 > 0
+.th .se bel1c = &bel1b + 1
+.el .se bel1c = &bel1b
+.if &L'&GENTP1 > 0
+.th .se bel1d = &bel1c + 1
+.el .se bel1d = &bel1c
+.if &L'&GENTEXT1 > 0
+.th .se bel1e = &bel1d + 1
+.el .se bel1e = &bel1d
+.if x&bel1e = x0
+.or x&bel1e = x5
+.th .go OPRYK2
+.el .mg/T/Der mangler oplysninger vedr. 1. opr. panteret/
+.**************************************************************************
+.*TEST BELØB 2**************************************************
+...OPRYK2
+.se bel2 = 0
+.if &L'&GENMØNTKD2 > 0
+.th .se bel2a = &bel2 + 1
+.el .se bel2a = &bel2
+.if &L'&GENBELØB12 > 0
+.th .se bel2b = &bel2a + 1
+.el .se bel2b = &bel2a
+.if &L'&GENPCTPA2 > 0
+.th .se bel2c = &bel2b + 1
+.el .se bel2c = &bel2b
+.if &L'&GENTP2 > 0
+.th .se bel2d = &bel2c + 1
+.el .se bel2d = &bel2c
+.if &L'&GENTEXT2 > 0
+.th .se bel2e = &bel2d + 1
+.el .se bel2e = &bel2d
+.if x&bel2e = x0
+.or x&bel2e = x5
+.th .go OPRYK3
+.el .mg/T/Der mangler oplysninger vedr. 2. opr. panteret/
+.*********************************************************************
+.*TEST BELØB 3***********
+...OPRYK3
+.se bel3 = 0
+.if &L'&GENMØNTKD3 > 0
+.th .se bel3a = &bel3 + 1
+.el .se bel3a = &bel3
+.if &L'&GENBELØB13 > 0
+.th .se bel3b = &bel3a + 1
+.el .se bel3b = &bel3a
+.if &L'&GENPCTPA3 > 0
+.th .se bel3c = &bel3b + 1
+.el .se bel3c = &bel3b
+.if &L'&GENTP3 > 0
+.th .se bel3d = &bel3c + 1
+.el .se bel3d = &bel3c
+.if &L'&GENTEXT3 > 0
+.th .se bel3e = &bel3d + 1
+.el .se bel3e = &bel3d
+.if x&bel3e = x0
+.or x&bel3e = x5
+.th .go OVER
+.el .mg/T/Der mangler oplysninger vedr. 3. opr. panteret/
+.********************************************************
+...OVER
+.if x&bel1e = x5
+.or x&bel2e = x5
+.or x&bel3e = x5
+.th .go OVER1
+.el Der er ingen foranstående hæftelser.
+.el .go SLUT
+...OVER1
+.*************************************************
+.tp 44mm right 61mm right 65mm  84mm
+Mønt ¤Opr.beløb ¤% P.A. ¤Type ¤Kreditor/Tekstoplysninger
+.sp 3mm
+&U'&GENMØNTKD1 ¤&GENBELØB11 ¤&GENPCTPA1 ¤&GENTP1 ¤&GENTEXT1
+.br
+&U'&GENMØNTKD2 ¤&GENBELØB12 ¤&GENPCTPA2 ¤&GENTP2 ¤&GENTEXT2
+.br
+&U'&GENMØNTKD3 ¤&GENBELØB13 ¤&GENPCTPA3 ¤&GENTP3 ¤&GENTEXT3
+...SLUT
+.ar off
+.************************************************************************
+.******************************************
+.da SIDE1 24mm 28mm width 175mm
+.da ANDEL1 24mm 89mm width 175mm
+.da ANDEL2 24mm 115mm width 175mm
+.********************* SIDE 1 ********************************************
+.ar SIDE1 on
+.ti ¤ 05
+.tp 88mm 111mm 137mm 162mm
+:SWISS8.
+¤Afgift: kr.
+.sp 6mm
+.bx 86mm right
+.tp 87mm
+¤Anmelder
+.sp 20mm
+.bx off
+.sp 15mm
+:SWISS14.:FED.
+Ejerpantebrev (Andel) :SKRSLUT.
+.br
+:SWISS10.
+.if &U'&GENTOANDEL eq J
+.th De pantsatte andele
+.el Den pantsatte andel
+.bx left right
+:SWISS8.
+.sp 60mm
+.bx off
+:SWISS10.
+Debitors(ers) CPR-/CVR-nr., navn(e) og adresse(r)
+.bx left right
+.in 1mm
+.sp 19mm
+:SWISS8.
+giver
+.bx off
+.in 0mm
+:SWISS10.
+Kreditor
+.bx left right
+:SWISS8.
+.in 1mm
+sig selv/os selv, eller den/de til hvem nærværende pantebrev måtte blive
+overdraget til eje eller pant panteret i ovenstående andel.
+.bx off
+.in 0mm
+:SWISS10.
+Beløbets størrelse
+.bx left right
+.sp 5mm
+:SWISS8.
+.tp 5mm
+¤skriver
+.sp 1mm
+.bx off
+:SWISS10.
+.tp 2mm
+Rente og betalingsvilkår
+.bx left right
+.in 1mm
+.ir 1mm
+.tp 34mm
+:SWISS8.
+Ved tvangsauktion over
+.if &U'&GENTOANDEL eq J
+.th de pantsatte andele,
+.el den pantsatte andel,
+forrentes ejerpantebrevet fra
+tvangsauktionstidspunktet til betaling finder sted.
+.br
+Renten udgør ¤pct. over den officielle udlånsrente på
+tvangsauktionstidspunktet, som Nationalbanken har fastsat henholdsvis
+pr. den 1. januar og den 1. juli det pågældende år.
+.bx off
+:SWISS10.
+.in 0mm
+.ir 0mm
+Foranstående hæftelser
+.bx left right
+.sp 36mm
+.bx off
+.ar off
+.**************************************************
+.ar ANDEL1 on
+.tp 1mm 40mm 76mm 110mm 135mm
+:SWISS8.
+.sp 2mm
+¤Kommunekode: ¤Vejkode: ¤Husnummer: ¤Etage: ¤Side:
+.sp 3mm
+¤Adresse:
+.sp 3mm
+¤Postnr:
+.sp 3mm
+¤Øvrige oplysninger:
+.ar off
+.**************************************************
+.ar ANDEL2 on
+.if &U'&GENTOANDEL ne J
+.th .go 2ANDELSL
+.tp 1mm 40mm 76mm 110mm 135mm
+:SWISS8.
+.sp 5mm
+¤Kommunekode: ¤Vejkode: ¤Husnummer: ¤Etage: ¤Side:
+.sp 3mm
+¤Adresse:
+.sp 3mm
+¤Postnr:
+.sp 3mm
+¤Øvrige oplysninger:
+...2ANDELSL
+.ar off
+.da BILAG 29mm 265mm width 100mm
+.ar BILAG on
+:DUTCH10.
+&KTOKUNDENR / &GENKORTREF
+.ar off
+.** SIDESKIFT
+.pa
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Kl. &KLOKKESLET
+.ar off
+.*************************************************************************
+.************************************************************************
+.da MEDDKRE 29mm 48mm width 170mm
+.da KREDOPL 110.5mm 83mm width 90mm
+.da SAERLIG 29mm 97mm width 169mm
+.da UNDERS1 30mm 155mm width 75mm
+.da UNDERS2 117mm 155mm width 75mm
+.************************************************************************
+.ar MEDDKRE on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR: &cvr12 &cvr34 &cvr56 &cvr78
+.ar off
+.************************************************************************
+.ar KREDOPL on
+.tp 35mm
+.if &U'&GENJANEJ1 = J
+.th X
+.el ¤X
+.ar off
+.************************************************************************
+.ar SAERLIG on
+&GENSAER1A.
+&GENSAER2A.
+&GENSAER3A.
+&GENSAER4A.
+&GENSAER5A.
+.ar off
+.************************************************************************
+.ar UNDERS1 on
+&KTONAVN
+.ar off
+.************************************************************************
+.ar UNDERS2 on
+&MEDNAVN
+.ar off
+.da SIDE2 24mm 38mm width 175mm
+.da UNDER 24mm 119.5mm width 175mm
+.da UNDERSK1 29mm 155.5mm width 85mm
+.da UNDERSK2 116mm 155.5mm width 85mm
+.da VITTER1 24mm 172.5mm width 85mm
+.da VITTER2 111mm 172.5mm width 85mm
+.da STREGER 24mm 209mm width 175mm
+.***************** SIDE 2 *************************************************
+.ar SIDE2 on
+:SWISS10.
+Fuldmagtshaver og adressat for eventuel meddelelse om retsforfølgning mv.
+.bx left right
+.in 1mm
+.ir 1mm
+:SWISS8.
+Meddelelser ifølge retsplejelovens kapitel 50 og andre meddelelser, der
+efter loven skal sendes til pantekreditor, bedes sendt til:
+.sp 21mm
+der i øvrigt bemyndiges til på mine vegne at underskrive påtegninger
+af enhver art på nærværende pantebrev, herunder kvitterings-, transport-,
+moderations- og relaksationspåtegninger.
+.in 0mm
+.ir 0mm
+.bx off
+:SWISS10.
+Øvrige kreditoplysninger
+.bx left right
+.in 1mm
+.sp 2mm
+:SWISS8.
+.bx new 85mm 90mm / 120mm 125mm
+.tp 80mm 110mm
+Er ejerpantebrevet omfattet af lov om kreditaftaler ¤Ja ¤Nej
+.bx off
+.sp 1mm
+.bx off
+:SWISS10.
+.in 0mm
+:SWISS10.
+.in 0mm
+Særlige bestemmelser
+.bx left right
+:SWISS8.
+.sp 20mm
+.in 1mm
+I øvrigt gælder Justitsministeriets pantebrevsformular ANDEL (side 3).
+.in 0mm
+.bx off
+.ar off
+.***** Areal til kassen med underskrifter*******************
+.ar UNDER on
+:SWISS10.
+Underskrifter
+.bx left right
+:SWISS8.
+.tp 90mm
+.in 1mm
+.sp 5mm
+.tp 20mm _/83mm 92mm _/155mm
+¤¤, den ¤¤
+.sp 26mm
+.bx off
+:SWISS10.
+.in 0mm
+Vitterlighedspåtegning
+.bx left right
+:SWISS8.
+.in 1mm
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed.
+.sp 37mm
+.bx off
+.ar off
+.***********************************************************************
+.* Her kommer venstre side af underskriftsfeltet.
+.ar UNDERSK1 on
+:SWISS8.
+.tp _/79mm
+¤
+.ar off
+.***********************************************************************
+.* Her kommer højre side af underskriftsfeltet.
+.ar UNDERSK2 on
+:SWISS8.
+.tp _/79mm
+¤
+.ar off
+.***********************************************************************
+.ar VITTER1 on
+.in 1mm
+:SWISS8.
+.tp _/84mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+.**************************************************************************
+.ar VITTER2 on
+:SWISS8.
+.tp _/84mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+.**************************************************************************
+.ar STREGER on
+.** her laves 2 lodrette linier, så man kan se at der ikke kommer ****
+.** mere tekst på siden   ********************
+.sp 5mm
+.vr 40mm 130mm
+.sp 63mm
+.vr off
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Kl. &KLOKKESLET
+.ar off
+.*************************************************************************
+.**************************************************************************
+.tp 3mm 6mm
+.**************************************************************************
+.da PTBF 24mm 32mm width 175mm
+.da KOLV 25mm 40mm width 85mm
+.da KOLH 113mm 40mm width 85mm
+.da STREGER 24mm 170mm width 175mm
+.**************************************************************************
+.ar PTBF on
+:SWISS12.:FED.
+Justitsministeriets pantebrevsformular ANDEL
+.bx left right
+.sp 130mm
+.bx off
+.ar off
+.**************************************************************************
+.ar KOLV on
+:SWISS8.
+.of 3mm
+1.¤Betalinger efter dette pantebrev skal ske portofrit på
+kreditors bopæl eller på et andet sted inden for landets grænser,
+der opgives af kreditor.
+.sp 3mm
+.of
+.of 3mm
+2.¤Alle betalinger er rettidige, når de sker senest 7 dage efter
+forfaldsdagen, for terminsbetalinger senest 7 dage efter første
+terminsdag. Hvis forfaldsdagen eller sidste rettidige betalingsdag
+falder på en helligdag, en lørdag, grundlovsdag den 5. juni,
+juleaftensdag den 24. december eller nytårsaftensdag den 31.
+december udskydes dagen til den følgende hverdag. På samme måde
+udskydes udløbsdagen for alle frister efter pantebrevet.
+Indbetaling inden for ovennævnte frist til et pengeinstitut her i
+landet, bortset fra Grønland, til befordring til betalingsstedet
+er rettidig betaling.
+.sp 3mm
+.of
+.of 3mm
+3.¤Debitor har pligt til at underrette kreditor om
+bopælsforandring. Sådan underretning kan ikke ske på en
+betalingsblanket, såfremt det af blankettens tekst fremgår, at
+meddelelser til betalingsmodtageren ikke må gives på denne. Påkrav
+fra kreditor, herunder opsigelse, kan afsendes til eller
+fremsættes på den af debitor senest oplyste bopæl uanset
+bopælsforandring, medmindre kreditor er bekendt med debitors nye
+bopæl. Bliver kreditor opmærksom på, at en opsigelse som følge af
+bopælsforandring ikke er kommet frem til debitor, skal kreditor
+straks give debitor meddelelse om opsigelsen, såfremt debitors nye
+bopæl fremgår af folkeregistret eller anden let tilgængelig kilde.
+.sp 3mm
+.of
+.of 3mm
+4.¤Pantet omfatter debitors andel i foreningsformuen og brugsret
+til den i pantebrevet nævnte lejlighed, forbedringer af
+lejligheden samt inventar, der er særligt tilpasset eller
+installeret i lejligheden, jf. tinglysningslovens § 42 j, stk. 4.
+Pantet omfatter desuden udlodninger af foreningsformuen,
+lejeindtægter samt erstatnings- og forsikringssummer, der træder i
+stedet for det pantsatte.
+.sp 3mm
+.of
+.of 3mm
+5.¤Debitor erklærer, at ingen har rettigheder over pantet i
+henhold til pantebrev, købekontrakt, lejekontrakt eller andet, der
+er til hinder for nærværende pantebrevs prioritetsstilling.
+.sp 3mm
+.of
+.ar off
+.**************************************************************************
+.ar KOLH on
+:SWISS8.
+.of 3mm
+6.¤Debitor forpligter sig til at holde pantet i forsvarlig stand.
+Debitor forpligter sig til hurtigst muligt at underrette kreditor,
+dersom andelsboligforeningen fremsætter krav om dækning af
+omkostninger til istandsættelse af den i pantebrevet nævnte
+lejlighed.
+.sp 3mm
+.of
+.of 3mm
+7.¤Kreditor har panteret for krav ifølge pantebrevet på betaling
+af kapital, renter og andre ydelser af tilsvarende karakter -
+herunder administrationsbidrag og kautionsforsikringspræmier -
+samt morarenter. Kreditor har endvidere panteret for omkostninger,
+som med føje er afholdt ved opsigelse, inddrivelse samt til
+varetagelse af kreditors interesse i tilfælde af retsskridt mod
+pantet fra anden side. For så vidt angår udenretlige
+inkassoomkostninger, har kreditor panteret for de omkostninger,
+der kan kræves betalt i overensstemmelse med reglerne i lov om
+renter ved forsinket betaling mv. og den i medfør af loven
+udstedte bekendtgørelse om udenretlige inddrivelsesomkostninger i
+anledning af forsinket betaling.
+.sp 3mm
+.of
+.of 3mm
+8.¤Uanset uopsigelighed eller opsigelsesfrist kan kreditor
+forlange kapitalen indfriet i følgende tilfælde:
+.br
+.of
+.in 3mm
+.of 3mm
+a)¤¤hvis renter eller afdrag ikke betales senest sidste
+rettidige betalingsdag. Det er dog en betingelse for, at
+kapitalen kan forlanges indfriet, at debitor ikke har betalt
+renter og afdrag senest 7 dage efter, at skriftligt påkrav
+herom er afsendt eller fremsat. Kreditors påkrav skal være
+afgivet efter sidste rettidige betalingsdag, jf. herved pkt. 2,
+og skal udtrykkeligt angive, at kapitalen kan forlanges
+indfriet, hvis renter og afdrag ikke betales inden fristens udløb,
+.br
+.of
+.of 3mm
+b)¤¤hvis pantet væsentligt forringes eller vanrøgtes, uden at
+der efter påkrav stilles betryggende sikkerhed,
+.br
+.of
+.of 3mm
+c)¤¤hvis debitor nægter kreditor eller dennes fuldmægtig adgang
+til at efterse pantet,
+.br
+.of
+.of 3mm
+d)¤¤hvis debitor ikke på opfordring godtgør, at ejendommen er
+behørigt brandforsikret,
+.br
+.of
+.of 3mm
+e)¤¤hvis pantet eller for pantesikkerheden væsentlige dele heraf
+skifter ejer, herunder ved salg, bytte, gave og skifte med
+ægtefælle eller af dødsbo, og
+.br
+.of
+.of 3mm
+f)¤¤hvis pantet uden panthavers samtykke udlejes for mere end tre år.
+.of
+.ar off
+.**************************************************************************
+.ar STREGER on
+.** her laves 2 lodrette linier, så man kan se at der ikke kommer ****
+.** mere tekst på siden   ********************************************
+.sp 5mm
+.vr 40mm 130mm
+.sp 100mm
+.vr off
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*************** AREAL-DEFINITION ****************************************
+.da SIDENR 160mm 9mm width 60mm
+.*************************************************************************
+.ar SIDENR on
+:COUR8.
+.if &ÅPN = 1
+.th Side 1 af 3
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+.ar off
+.*************************************************************************
+.ti ¤ 05
+.fo on
+:COUR10.
+.*******************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*******************************************
+.ar VEND on
+:COUR6.
+BECANDEL01
+.br
+Kl. &KLOKKESLET
+.ar off
+.*******************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Erklæring om adkomst
+:SKRSLUT.
+.sp 0.5mm
+:SWISS10.
+:FED.
+.us (til brug for tinglysning af pant, udlæg eller lign. i andelsboliger)
+:SKRSLUT.
+.us off
+.ar off
+.da KRYDS1 21mm 118.5mm
+.da KRYDS2 41mm 118.5mm
+.da KRYDS3 61mm 118.5mm
+.da KRYDS4 86mm 118.5mm
+.da BELOB 50mm 128.5mm width 67mm
+.da PI 42mm 139mm
+.**************************************************************************
+.*TEST PÅ AT DER KUN ER UDFYLDT EN TYPE OM TINGLYSNINGSDOKUMENTET *********
+.se tal = 0
+.if &L'&GENKRYDS1 > 0
+.th .se tal1 = &tal + 1
+.el .se tal1 = &tal
+.if &L'&GENKRYDS2 > 0
+.th .se tal2 = &tal1 + 1
+.el .se tal2 = &tal1
+.if &L'&GENKRYDS3 > 0
+.th .se tal3 = &tal2 + 1
+.el .se tal3 = &tal2
+.if &L'&GENANDET > 0
+.th .se tal4 = &tal3 + 1
+.el .se tal4 = &tal3
+.if &tal4 = 0
+.th .mg/T/Tinglysningsdokument, der skal vælges type/
+.if &tal4 > 1
+.th .mg/T/Tinglysningsdokument, der skal kun vælges én type/
+.**************************************************************************
+.ar KRYDS1 on
+.if &L'&GENKRYDS1 > 0
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS2 on
+.if &L'&GENKRYDS2 > 0
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS3 on
+.if &L'&GENKRYDS3 > 0
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS4 on
+.if &L'&GENANDET > 0
+.th X
+.ar off
+.**************************************************************************
+.ar BELOB on
+.fo right
+&GENGAELD
+.ar off
+.**************************************************************************
+.ar PI on
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.ar off
+:SWISS8.
+.**************************************************************************
+.da TEKST 20mm 45mm width 175mm
+.dr thin weight 0.1mm
+.**************************************************************************
+.ar TEKST on
+.ce on
+(udfyldes med blokbogstaver)
+.ce off
+.sp 6mm
+.tp 22mm _/170mm
+Herved erklærer¤¤, at
+.br
+¤(andelsboligforeningens navn)
+.sp 6mm
+.br
+.hr thin left right
+.br
+¤(andelshavers fulde navn)
+.sp 3mm
+er godkendt af andelsboligforeningens bestyrelse som andelshaver
+med brugsret til
+.*
+.sp 6mm
+.tp _/30mm _/175mm
+¤ beliggende ¤
+.br
+.tp 46mm
+(andelslejlighedens nr.) ¤(andelslejlighedens adresse)
+.sp 3mm
+.if &U'&GENTOANDEL ne J
+.th .sp 16mm
+.th .go OPLYS
+og
+.sp 3mm
+.tp _/30mm _/175mm
+¤ beliggende ¤
+.br
+.tp 46mm
+(andelslejlighedens nr.) ¤(andelslejlighedens adresse)
+.sp 4mm
+.*
+...OPLYS
+Oplysninger om tinglysningsdokumentet (sæt kryds):
+.br
+(udfyldes af långiver/kreditor)
+.sp 4mm
+.tp 5mm 25mm 45mm 70mm
+.bx left 4mm / 20mm 24mm / 40mm 44mm / 65mm 69mm
+¤pantebrev ¤udlæg ¤udpantning
+.if &L'&GENANDET = 0
+.th .ct ¤andet (angiv dokumenttype)
+.el .ct ¤&GENANDET
+.bx off
+.sp 3mm
+.tp  _/100mm
+Beløb angivet i
+.br
+tinglysningsdokumentet: ¤ kr.
+.sp 3mm
+Navn på
+.br
+långiver/kreditor:
+.sp 13mm
+Har andelsboligforeningen i forbindelse med andelshaverens køb af andelen
+stillet garanti for en del af købesummen?
+.br
+.tp 11mm 20mm
+.bx 5mm 9mm / 15mm 19mm
+Nej ¤/ja¤- hvis ja oplyses:
+.bx off
+.sp 3mm
+.in 20mm
+.tp 70mm _/120mm
+- størrelsen af det garanterede beløb ¤¤ kr.
+.sp 4mm
+- Dato for garantistillelse ¤¤
+.sp 4mm
+.tp 70mm _/175mm
+- långivers navn ¤¤
+.in
+.sp 3mm
+Udfyldes kun ved pantsætning: Indeholder andelsboligforeningens vedtægter
+begrænsning af adgangen til pantsætning til 80 procent af pantets værdi på
+lånetidspunktet?
+.br
+.tp 11mm 20mm
+.bx 5mm 9mm / 15mm 19mm
+Nej ¤/ja¤- hvis ja erklæres, at nærværende pantsætning overholder denne
+grænse.
+.bx off
+.sp 2mm
+Foreningens eventuelle bemærkninger til det i erklæringen oplyste:
+.sp 6mm
+.tp 30mm
+.hr thin left right
+.sp 6mm
+.hr thin left right
+.sp 10mm
+.hr thin left for 25mm 30mm to 175mm
+.br
+Dato ¤Underskrifter (bestyrelsen/tegningsberettigede)
+.sp 6mm
+.hr thin left for 25mm 30mm to 175mm
+.br
+Dato ¤Underskrifter (bestyrelsen/tegningsberettigede)
+.sp 6mm
+.hr thin left for 25mm 30mm to 175mm
+.br
+Dato ¤Underskrifter (bestyrelsen/tegningsberettigede)
+.sp 6mm
+.hr thin left for 25mm 30mm to 175mm
+.br
+Dato ¤Underskrifter (bestyrelsen/tegningsberettigede)
+.sp 6mm
+.hr thin left for 25mm 30mm to 175mm
+.br
+Dato ¤Underskrifter (bestyrelsen/tegningsberettigede)
+.ar off
+.** SIDESKIFT
+.pa
+.* Brevnavn, roteret i venstre hjørne
+.ti ¤ 05
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+.if &U'&B29RETUR eq J
+.th B29RETT
+.ar off
+.******************** AREALDEFINITIONER ***********************
+.* Tekststart
+.da TEKST 10mm 120mm width 190mm
+.**************************************************************
+.ar TEKST on
+:SWISS20
+.if &U'&B29RETUR eq J
+.th .ce AFTALER, BLANKETTER OG FORMULARER MV.
+.th .sp3mm
+.th .ce VEDHÆFTET DETTE BILAG SKAL AFLEVERES TIL
+.th .sp3mm
+.th .ce FORENINGENS BESTYRELSE ELLER ADMINISTRATOR
+.th .sp3mm
+.th .pa

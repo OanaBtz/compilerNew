@@ -1,0 +1,239 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.br
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+.*TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************* ADRESSE FORNEDEN PÅ BREVET **********************
+.da AB 20mm 285mm width 170mm
+.ar AB on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Fuldmagt
+:SKRSLUT.
+.br
+Underskriftkort
+.sp
+Kundenr.: &KUNDENR
+.ri off
+.ar off
+.**************************************************************************
+.da TEKST 20mm 35mm width 170mm
+.da AB 20mm 285mm
+.ar TEKST on
+:SWISS11.
+Undertegnede
+.sp
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.sp
+.tp 22mm
+:SWISS11.
+giver fuldmagt til &B02TEXT1.
+.sp
+Kundenr.:¤&B02CPR
+.sp
+.************ ***********valg3: 1:alle ***** 2:nedennævnte ************
+.if &B02VALG3 eq 1
+.th til at disponere over alle &NAVN.'s konti/depoter.
+.if &B02VALG3 eq 2
+.th til at disponere på følgende:
+.if &L'&B02REGKTO1 eq 0
+.th .go depot
+.sp
+.if &L'&B02REGKTO1 gt 0
+Konti:
+.tp 21
+:SWISS9.
+:FED.
+.sp
+Kontonummer ¤Tilføjelse accepteret
+:SKRSLUT.
+:SWISS11.
+.sp
+&B02REGKTO1
+.if &L'&B02REGKTO2 gt 0
+.th .sp
+.th &B02REGKTO2
+.if &L'&B02REGKTO3 gt 0
+.th .sp
+.th &B02REGKTO3
+.if &L'&B02REGKTO4 gt 0
+.th .sp
+.th &B02REGKTO4
+.if &L'&B02REGKTO5 gt 0
+.th .sp
+.th &B02REGKTO5
+.go depot
+...depot
+.if &L'&B02DEPNR1 eq 0
+.th .go øvrig
+.sp
+Depoter:
+.tp 21
+:SWISS9.
+:FED.
+.sp
+Depotnummer ¤Tilføjelse accepteret
+:SWISS11.
+.sp
+&B02DEPNR1
+.if &L'&B02DEPNR2 gt 0
+.th .sp
+.th &B02DEPNR2
+.if &L'&B02DEPNR3 gt 0
+.th .sp
+.th &B02DEPNR3
+.br
+_____________ ¤_____________________
+.go øvrig
+...øvrig
+.sp
+Nærværende fuldmagt er kun gældende for eksisterende
+konti/depoter
+og ikke eventuelle fremtidige konti/depoter, som fuldmagtsgiver måtte få.
+.sp
+Fuldmagten er gældende indtil banken har modtaget skriftlig
+tilbagekaldelse.
+.if &L'&B02TEXT6 gt 0
+.th .sp
+.th Øvrige bemærkninger:
+.th .br
+.th &B02TEXT6. &B02TEXT7.
+.************************ erklæring *************
+.th .go konto
+...konto
+.sp
+Fuldmagtshaver erklærer samtidig ved sin underskrift at have modtaget
+bankens Almindelige forretningsbetingelser samt Tillæg for
+betalingstjenester
+.if &L'&B02DEPNR1 eq 0
+.an &B02VALG3 eq 2
+.th .ct .
+.if &L'&B02DEPNR1 gt 0
+.or &B02VALG3 eq 1
+.th .ct ,
+.th Forretningsbetingelser for handel med
+.th finansielle instrumenter samt Forretningsbetingelser for opbevaring af
+.th værdipapirer.
+.sp 2
+.tp 45mm 90mm
+Dato:
+.sp 3
+________________________________ ¤¤______________________________
+:SWISS8.
+.br
+&NAVN ¤¤&B02TEXT1
+.ar off
+.pa
+.sp 11
+:SWISS14. :FED.
+HUSK AT UDSKRIVE.
+:SKRSLUT
+"Almindelige forretningsbetingelser"og "Tillæg om betalingstjenster -
+forbruger
+.sp 2
+Som udskrives fra intranettet under:  Værktøjer > betingelser
+.sp 4
+:FED.
+NB!
+:SKRSLUT.
+.sp
+Såfremt kunden er tilmeldt Netbank skal ovenstående
+.br
+:FED.betingelser :SKRSLUT.ikke udskrives, da kunden har modtaget
+.br
+disse sammen med netbank-aftalen.
+.sp 3
+.tp 25mm
+:SWISS14. :FED.
+HUSK at registrere:
+:SKRSLUT.
+:SWISS12.
+.sp 2
+Telefon: ¤I*net >kundeoplysninger >Kommunikation
+.br
+E-mail: ¤I*net >Kundeoplysninger >Kommunikation
+.br
+Mobilnr.: ¤I*net >Kundeoplysninger >Kommunikation
+.sp
+Nyhedsbrev og tilbud:
+.sp 3mm
+I*net >Kundeoplysninger >Kontakt og
+markedsføring >E-mail: kontakt ang. alt
+.br
+.tp 70mm 102mm 117mm
+¤Eventuelt også: ¤SMS: ¤kontakt ang. alt
+.br
+¤¤Tlf: ¤kontakt ang. alt
+.br
+¤¤Brev: ¤kontakt ang. alt
+;T

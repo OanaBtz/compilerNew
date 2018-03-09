@@ -1,0 +1,276 @@
+tilbageholder skat.
+.sk
+Hvis du har spørgsmål, er du naturligvis velkommen til at kontakte banken.
+.sp2
+:VERDA10.
+.sp 65mm
+:FED.
+Udbetaling af indeks-kontomummer &IREGKTO skal til at begynde :SKRSLUT.
+.br
+Den &SALDATO. begynder udbetalingen af din indeksopsparing. Inden
+udbetalingen kan begynde, skal Udbetalingen Danmark bekræfte, at du
+er berettiget til at modtage folkepension. Det er ikke et krav, at du rent
+faktisk modtager folkepension. Du skal derfor underskrive vedlagte
+erklæring og returnere den i  vedlagte svarkonvolut.
+.sp
+:FED.
+Indekstillæg og minimumsudbetaling :SKRSLUT.
+.br
+Udbetaling af din indeksopsparing består af en udbetaling fra din
+indekskonto (egenudbetaling) og et indekstillæg fra Staten. Indekstillægget
+udbetales, lige så længe, der er penge på din indekskonto i banken. Jo
+længere udbetalingen fra din indekskonto kan strækkes, jo mere indekstillæg
+vil du derfor modtage fra Staten. Der skal dog udbetales en
+minimumsudbetaling fra din indekskonto. Minimumsudbetalingen reguleres
+hvert år af Staten.
+.sp
+:FED.
+Valg af grundrente  :SKRSLUT.
+.br
+Når man skal beregne, hvor stor en månedlig ydelse, du kan få fra din
+indeksopsparing, skal man bruge en såkaldt grundrente. Grundrenten bruges
+kun til beregninger, og har ingen betydning for, hvilken rente du rent
+faktisk får på din indekskonto. Man kan enten bruge en "fast" eller en
+"variabel" grundrente. I Salling Bank anvender vi den variable grundrente,
+da vi ser dette som en fordel for kunderne. Ønsker du alligevel, at vi
+anvender fast grundrente så kontakt din rådgiver. Såfremt det senere bliver
+en fordel at vælge den faste grundrente, så kan dette ændres for
+efterfølgende udbetalinger.
+.sk
+:FED.
+Forkortet udbetaling :SKRSLUT.
+.br
+Opsparingen på din indekskonto kan være for lille til, at du kan få
+udbetalt minimumsudbetalingen i den fulde udbetalingsperiode. Det gælder
+uanset om du vælger den faste eller den variable grundrente.
+Udbetalingsperioden kan derfor blive kortere end indekskontraktens
+udbetalingsperiode.
+.sk
+:FED.
+Din udbetaling :SKRSLUT.
+.br
+Vi forventer at din første udbetaling bliver kr. &B28BELØB.. Heraf udgør
+Statens indekstillæg kr. &B28BELØB1.. Udbetalingen er skattepligtig. Med
+mindre du giver os besked om andet, anvender vi dit bikort, når vi
+.da hoved 20mm 46mm width 90mm
+.ar hoved on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.da ref 115mm 58mm width 78mm
+.ar ref on
+.ti > 05
+.tp 25mm
+Dato: >&DATO
+.br
+Direkte tlf.: >&B28EKSPTLF
+.br
+Mail: >&B28EKSMAIL
+.ar off
+Med venlig hilsen
+.br
+:FED.
+Salling Bank
+:SKRSLUT.
+.sk 2
+&EKSPNAVN
+.br
+&B28EKSPTIT
+.*Parametre, substrings og tests ******************************************
+.su off
+.se fdag = substr &KTOKNDNR1 1 2
+.se fmd = substr &KTOKNDNR1 3 2
+.se faar = substr &KTOKNDNR1 5 2
+.se cprx = substr &KTOKNDNR1 10 1
+.** SUBSTRING PÅ KONTO ***************************************************
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.*TEST PÅ KUNDENS KØN*
+.if x&cprx = x1
+.or x&cprx = x3
+.or x&cprx = x5
+.or x&cprx = x7
+.or x&cprx = x9
+.th .se koen = han
+.el .se koen = hun
+.**************************************************************************
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Erklæring om ret til folkepension
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.tp 87.5mm
+.******************************************************************
+.da NAVN          25mm  47mm width 85mm
+.da PIOPL        112.5mm  47mm width 85mm
+.da CPR          25mm  73.5mm width 170mm
+.da KTONR        25mm 83mm width 170mm
+.da UNDER        107.5mm  182.5mm width 87mm
+.*.da KOMMUNE      25mm  195mm width 87mm
+.*.da UNDKOMM      107.5mm 210mm width 87mm
+.******************************************************************
+:SWISS10.
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.******************************************************************
+.ar NAVN on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.******************************************************************
+.ar CPR on
+&KTOKNDNR1 ¤&GENEKSP
+.ar off
+.******************************************************************
+.ar KTONR on
+&regnr &ktonr ¤&AFDTLF
+.ar off
+.*************************************
+.ar UNDER on
+.ce on
+&KTONAVN
+.ce off
+.ar off
+.*************************************
+:SWISS8.
+.da INDHOLD 21mm 93mm width 170mm
+.******************************************
+.ar INDHOLD on
+Jeg anmoder Udbetaling Danmark om at bekræfte overfor &BANKNAVN., at jeg
+fra mit &GENALDER. år er berettiget til at modtage folkepension. Jeg giver
+hermed samtykke til, at oplysningerne kan vidergives til &BANKNAVN..
+.sp 6mm
+Da &KTONAVN., &KTOKNDNR1. snart skal begynde udbetaling fra sin
+indeksopsparing, bedes Udbetaling Danmark derfor bekræfte, at &koen fra sit
+67. år er eller vil være berettiget til at modtage folkepension.
+.sp 3mm
+.sp 30mm
+Jeg ønsker den månedlige udbetaling indsat på
+min konto nr. ________________________________________
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+:SWISS10.:FED.
+.bx left 87.5mm right
+:SWISS8.
+.tp 1mm 88.5mm
+¤Kontohaver ¤Pengeinstitut
+.sp 23mm
+.bx left 87.5mm right
+¤CPR-/SE-nr. ¤Kontaktperson
+.sp 5mm
+.bx left 87.5mm right
+¤Kontonummer ¤Telefonnummer
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.************ INDHOLD *****************************************************
+:SWISS10.:FED.
+Indhold
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 65mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Kontohavers underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+:SWISS8.
+.sp 7mm
+.bx left 87.5mm right
+¤Dato: ¤Kontohavers underskrift
+.sp 11mm
+.bx off
+.*.*KASSE TIL KOMMUNENS UNDERSKRIFT *************************************
+.*:SWISS10.:FED.
+.*Udbetaling Danmarks bekræftelse
+.*:SKRSLUT.
+.*:SWISS8.
+.*.tp 88.5mm 154mm
+.*.bx left 87.5mm right
+.*¤Udbetaling Danmarks stempel og underskrift¤Dato:
+.*.sp 18mm
+.*.bx off
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.ll 171mm
+.fo left
+:VERDA10.

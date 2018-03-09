@@ -1,0 +1,1286 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************************
+.* Valider at garantibeløbet er udfyldt
+.if &L'&B32BELOB. = 0
+.th .mg/T/Garantibeløb ej udfyldt (frigør evt. med PF10)
+.**************************************************************************
+.* Valider at garantien udløbsdato er udfyldt
+.if &L'&GARUDLDATO. = 0
+.th .mg/T/Udløbsdato ej udfyldt (frigør evt. med PF10)
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.ce on
+Garanti
+.ce off
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da OVER 25mm 55mm width 170mm
+.da GARTXT1  25mm 85mm width 170mm
+.**************************************************************************
+.su off
+.se garreg = substr &IREGKTO. 1 4
+.se garkto = substr &IREGKTO. 5 7
+.su on
+.ar OVER on
+:FED.
+Nærværende garanti er stillet i henhold til § 6 i bekendtgørelse nr.
+1489 af 12. december 2007 om godskørsel eller § 10 i bekendtgørelse
+nr. 1488 af 12. december 2007 om buskørsel
+:SKRSLUT.
+.sp 10mm
+Garanti nr.: &garreg.-&garkto..
+.ar off
+.**************************************************************************
+.ar GARTXT1 on
+1. På foranledning af og for regning for
+&KTONAVN.,
+.*********************************
+.if &L'&KTOCO. gt 0
+.th &KTOCO.,
+.*********************************
+&KTOGADE.,
+.*********************************
+.if &L'&KTOLAND. gt 0
+.th &KTOBY., &KTOLAND.,
+.el &KTOBY.,
+.*********************************
+CPR/CVR-nr: &KTOKNDNR1.
+.*********************************
+.if &L'&MEDNAVN. eq 0
+.an &L'&MEDCO. eq 0
+.an &L'&MEDGADE. eq 0
+.an &L'&MEDBY. eq 0
+.an &L'&MEDLAND. eq 0
+.th .go EJMEDKTO
+.*********************************
+og &MEDNAVN.,
+.*********************************
+.if &L'&MEDCO. gt 0
+.th &MEDCO.,
+.*********************************
+&MEDGADE.,
+.*********************************
+.if &L'&MEDLAND. gt 0
+.th &MEDBY., &MEDLAND.,
+.el &MEDBY.,
+.*********************************
+CPR/CVR-nr: &MEDKUNDENR.
+.*********************************
+...EJMEDKTO
+(herefter kaldet ordregiver) påtager garantistiller sig herved garanti
+over for alle og enhver indtil et beløb på DKK
+:VS.&B32BELOB.,
+skriver danske kroner
+&B32BELOBT1.&B32BELOBT2..
+.sp 5mm
+2. Garantien skal over for alle og enhver tjene til sikkerhed for
+opfyldelsen af forpligtelser, som ordregiver i forbindelse med sin
+virksomhed har pådraget sig inden for den periode, hvor virksomheden
+har været indehaver af gyldige tilladelser.
+.sp 5mm
+3. Garantien er gyldig til den
+&GARUDLDATO.
+(gyldighedsperioden),
+hvilken dato er
+fastsat som 6 måneder efter sidste gyldighedsdato for de af
+Trafikstyrelsen til virksomheden udstedte tilladelser, medmindre den
+forinden er frigivet af Trafikstyrelsen, jf. pkt. 4 og 6 nedenfor.
+Krav, som ønskes gjort gældende i henhold til garantien, skal anmeldes
+inden udløbet af garantiens gyldighedsperiode.
+.sp 5mm
+4. I tilfælde af skift af garantistiller tjener den nye
+garantistillelse til sikkerhed for opfyldelse af forpligtelser, som
+ordregiver i forbindelse med sin virksomhed har pådraget sig inden for
+den periode, hvor virksomheden har været indehaver af gyldig
+tilladelse. Dette gælder uanset om forpligtelsen er pådraget før
+stiftelsen af den nye garantistillelse. Krav, der er anmeldt i henhold
+til den oprindelige garanti, overgår til den ny garanti ved
+Trafikstyrelsens frigivelse af den oprindelige garanti. Der kan ikke
+ske udbetaling for samme krav i både den oprindelige og den nye
+garantistillelse.
+.sp 3mm
+Den ny garantistiller skal ved overtagelse af garantiforpligtelsen
+straks underrette Trafikstyrelsen herom.
+.br
+Den oprindelige garantistiller frigives først ved Trafikstyrelsens
+meddelelse herom.
+.sp 5mm
+5. I forbindelse med fornyelse af ordregivers tilladelser ved disses
+udløb vil garantien kunne forlænges for en ny gyldighedsperiode. I så
+fald er krav, som er opstået forud for fornyelsen af tilladelsernes
+gyldighedsdato, fortsat omfattet af garantien. Garantien skal ved
+forlængelse have en påtegning af følgende ordlyd: "Nærværende garanti,
+der overfor alle og enhver dækker indtil et beløb på
+DKK________(xxx)________ skriver________(xxx)________danske kroner,
+;Tforlænges________(xxx)________  (ny gyldighedsperiode, der fastsættes
+som angivet under pkt. 3). Der indsendes en bekræftet kopi af den
+forlængede garanti til Trafikstyrelsen, jf. pkt. 19 nedenfor.
+.sp 5mm
+6. Garantien kan inden gyldighedsperiodens udløb helt eller delvist
+frigives af Trafikstyrelsen efter skriftlig anmodning fra
+garantistiller eller ordregiver, såfremt ordregiver helt eller delvist
+ophører med at drive virksomhed, og samtlige omhandlede tilladelser er
+afleveret til Trafikstyrelsen.
+.br
+Garantien udløber i disse tilfælde 6 måneder efter den dato, hvor
+Trafikstyrelsen har modtaget de omhandlede vognmandstilladelser.
+Såfremt det fastsatte krav om egenkapital helt eller delvist
+dokumenteres opfyldt på anden vis (der henvises til Trafikstyrelsens
+vejledning om opgørelse af egenkapital), kan garantien helt eller
+delvis frigives af Trafikstyrelsen.
+.br
+I disse tilfælde frigives garantien helt eller delvist ved
+Trafikstyrelsens modtagelse af dokumentation for egenkapital.
+.sp 5mm
+.**************************************************************************
+.ar off
+.************** Areal definitioner ****************************************
+.da BUNDH 160mm 267mm width 175mm
+.*************************
+.if &U'&B32UDSKRIV eq N
+.th .go BUNDSLUT
+.*************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN.
+.br
+&BANKGADE.
+.br
+&BANKBY.
+.br
+&B32WWWNYK
+.ar off
+...BUNDSLUT
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da GARTXT2  25mm 40mm width 170mm
+.**************************************************************************
+.ar GARTXT2 on
+7. Garantien er uopsigelig for garantistiller i gyldighedsperioden.
+.sp 5mm
+8. Krav under garantien anmeldes skriftligt over for garantistiller.
+Garantistiller kan ikke selv søge sig fyldestgjort i garantibeløbet
+for krav under garantien mod ordregiver i forbindelse med sit
+engagement med denne. Garantistiller kan dog, såfremt garantibeløbet
+indgår i en betalingsstandsning, konkurs, akkordforhandling,
+gældssanering, tvangsopløsning eller dødsbobehandling ved bobestyrer,
+jf. pkt. 14, 15 og 17 anmelde og opnå
+fyldestgørelse for andre eventuelle krav jf. pkt. 2, der ikke hidrører
+fra udbetaling af garantibeløbet, på lige fod med andre kreditorer.
+Er den oprindelige garanti blevet frigivet, og en ny garantistiller
+indtrådt, jf. pkt. 4, kan den oprindelige garantistiller gøre krav
+gældende i henhold til den ny garanti på lige fod med de øvrige
+kreditorer. Dette gælder dog ikke krav, som måtte være udbetalt i
+henhold til den oprindelige garanti.
+.sp 5mm
+9. Udbetaling under garantien sker til en kreditor, hvis krav er
+gyldigt anmeldt, og som har dokumenteret, at kravet er stiftet i
+forbindelse med ordregivers virksomhed, når ordregiver skriftligt over
+for garantistiller har godkendt udbetaling.
+.br
+Såfremt ordregiver ikke samtykker i udbetaling, kan udbetaling kun
+ske, når eksekutionsfristen uden påanke er udløbet i henhold til dom
+eller kendelse, herunder kendelse truffet i henhold til § 20, stk. 2 i
+lov om arbejdsretten, eller når forfaldstid er indtrådt i henhold til
+retsforlig eller forlig indgået for en faglig eller anden
+voldgiftsret, eller i henhold til udenretligt indgået forlig, som i
+henhold til retsplejelovens § 478, stk. 4, kan danne grundlag for
+fuldbyrdelse, samt til dækning af krav, som i lovgivningen er tillagt
+udpantningsret, jf. retsplejelovens § 478, stk. 2.
+Er betingelserne for udbetaling opfyldt samtidigt for flere krav, dvs.
+krav der er anmeldt indenfor samme bankdag, sker udbetaling
+forholdsmæssigt i forhold til kravenes størrelse, såfremt
+(rest)garantiens dækningssum ikke fuldt ud kan rumme kravene.
+.sp 5mm
+10. Såfremt garantistiller i garantiens gyldighedsperiode har modtaget
+anmeldelse af krav dokumenteret i form af kopi af indleveret stævning
+eller klageskrift, fremsendt med anbefalet brev, hvoraf fremgår, at
+rets- eller voldgiftssag om et krav omfattet af garantien er
+påbegyndt, vil garantien fortsat dække sådanne krav, også efter at
+garantiens gyldighedsperiode er udløbet. Udbetaling sker under de i
+pkt. 9 angivne betingelser.
+.sp 5mm
+11. Garantiens dækningsbeløb nedskrives uden særlig meddelelse herom i
+takt med stedfundne udbetalinger. Nedskrivningen af garantien sker med
+virkning over for enhver aktuel eller fremtidig kreditor.
+.sp 5mm
+12. Garantistiller skal underrette Trafikstyrelsen om eventuelle
+udbetalinger på baggrund af garantien. Hvis garantiens beløb - efter
+en udbetaling - opskrives til det oprindelig garantibeløb, skal
+Trafikstyrelsen ligeledes have underretning om denne opskrivning.
+.sp 5mm
+13. Hvis der vedrørende ordregiver til skifteretten indgives
+anmeldelse om betalingsstandsning, eller begæring om konkurs,
+akkordforhandling eller gældssanering eller tvangsopløsning, kan
+udbetaling under garantien ikke ske, før der er truffet beslutning om
+anmeldelsen eller begæringen, jf. pkt. 14, 15 og 16.
+.sp 5mm
+14. Fører betalingsstandsningen eller begæringen om akkordforhandling
+eller gældssanering eller tvangsopløsning til en akkord, indgår
+garantibeløbet ved vurdering af akkorddividendens størrelse og kan
+udbetales til fordeling mellem de berettigede kreditorer som et led i
+akkorden.
+.sp 5mm
+15. Fører betalingsstandsningen eller begæringen om konkurs eller
+akkordforhandling eller gældssanering eller tvangsopløsning til
+afsigelse af konkursdekret eller anden form for tvangsopløsning eller
+ved gældssanering til afsigelse af kendelse fra skifteretten, træffer
+bobestyreren, ved gældssanering skifteretten, beslutning om frigivelse
+af garantien overfor garantistiller, når boet og kreditorerne har fået
+dækning for eventuelle krav i henhold til garantien.
+.sp 5mm
+16. Trækkes anmeldelsen af betalingsstandsningen eller begæringen om
+konkurs eller akkordforhandling eller gældssanering eller
+tvangsopløsning tilbage, kan udbetaling fortsat ske under de i pkt. 9
+angivne betingelser.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da GARTXT3  25mm 40mm width 170mm
+.**************************************************************************
+.ar GARTXT3 on
+17. I et dødsbo, der behandles efter reglerne om behandling ved
+bobestyrer, finder pkt. 13 og pkt. 15 anvendelse, således at
+udbetaling under garantien ikke kan finde sted efter dødsfaldets
+indtræden, og således at bobestyreren træffer beslutning om frigivelse
+af garantien overfor garantistiller, når boet og kreditorerne har fået
+dækning for eventuelle krav i henhold til garantien.
+.sp 5mm
+18. Eventuelle udbetalinger under garantien kan omstødes efter
+konkurslovens regler om betalinger foretaget af skyldneren selv.
+.sp 5mm
+19. Den originale garanti opbevares af garantistiller, som sender en
+bekræftet kopi heraf til Trafikstyrelsen.
+.sp 5mm
+20. Eventuelle tvister vedrørende denne garanti skal afgøres efter
+dansk ret og ved en dansk domstol.
+.sp 26mm
+.ce on
+København, den &DATO1
+.sp 3mm
+&BANKNAVN.
+.ce off
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.ce on
+Garanti
+.ce off
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da OVER 25mm 55mm width 170mm
+.da GARTXT1  25mm 85mm width 170mm
+.**************************************************************************
+.su off
+.se garreg = substr &IREGKTO. 1 4
+.se garkto = substr &IREGKTO. 5 7
+.su on
+.ar OVER on
+:FED.
+Nærværende garanti er stillet i henhold til § 6 i bekendtgørelse nr.
+1489 af 12. december 2007 om godskørsel eller § 10 i bekendtgørelse
+nr. 1488 af 12. december 2007 om buskørsel
+:SKRSLUT.
+.sp 10mm
+Garanti nr.: &garreg.-&garkto..
+.ar off
+.**************************************************************************
+.ar GARTXT1 on
+1. På foranledning af og for regning for
+&KTONAVN.,
+.*********************************
+.if &L'&KTOCO. gt 0
+.th &KTOCO.,
+.*********************************
+&KTOGADE.,
+.*********************************
+.if &L'&KTOLAND. gt 0
+.th &KTOBY., &KTOLAND.,
+.el &KTOBY.,
+.*********************************
+CPR/CVR-nr: &KTOKNDNR1.
+.*********************************
+.if &L'&MEDNAVN. eq 0
+.an &L'&MEDCO. eq 0
+.an &L'&MEDGADE. eq 0
+.an &L'&MEDBY. eq 0
+.an &L'&MEDLAND. eq 0
+.th .go EJMEDKTO
+.*********************************
+og &MEDNAVN.,
+.*********************************
+.if &L'&MEDCO. gt 0
+.th &MEDCO.,
+.*********************************
+&MEDGADE.,
+.*********************************
+.if &L'&MEDLAND. gt 0
+.th &MEDBY., &MEDLAND.,
+.el &MEDBY.,
+.*********************************
+CPR/CVR-nr: &MEDKUNDENR.
+.*********************************
+...EJMEDKTO
+(herefter kaldet ordregiver) påtager garantistiller sig herved garanti
+over for alle og enhver indtil et beløb på DKK
+:VS.&B32BELOB.,
+skriver danske kroner
+&B32BELOBT1.&B32BELOBT2..
+.sp 5mm
+2. Garantien skal over for alle og enhver tjene til sikkerhed for
+opfyldelsen af forpligtelser, som ordregiver i forbindelse med sin
+virksomhed har pådraget sig inden for den periode, hvor virksomheden
+har været indehaver af gyldige tilladelser.
+.sp 5mm
+3. Garantien er gyldig til den
+&GARUDLDATO.
+(gyldighedsperioden),
+hvilken dato er
+fastsat som 6 måneder efter sidste gyldighedsdato for de af
+Trafikstyrelsen til virksomheden udstedte tilladelser, medmindre den
+forinden er frigivet af Trafikstyrelsen, jf. pkt. 4 og 6 nedenfor.
+Krav, som ønskes gjort gældende i henhold til garantien, skal anmeldes
+inden udløbet af garantiens gyldighedsperiode.
+.sp 5mm
+4. I tilfælde af skift af garantistiller tjener den nye
+garantistillelse til sikkerhed for opfyldelse af forpligtelser, som
+ordregiver i forbindelse med sin virksomhed har pådraget sig inden for
+den periode, hvor virksomheden har været indehaver af gyldig
+tilladelse. Dette gælder uanset om forpligtelsen er pådraget før
+stiftelsen af den nye garantistillelse. Krav, der er anmeldt i henhold
+til den oprindelige garanti, overgår til den ny garanti ved
+Trafikstyrelsens frigivelse af den oprindelige garanti. Der kan ikke
+ske udbetaling for samme krav i både den oprindelige og den nye
+garantistillelse.
+.sp 3mm
+Den ny garantistiller skal ved overtagelse af garantiforpligtelsen
+straks underrette Trafikstyrelsen herom.
+.br
+Den oprindelige garantistiller frigives først ved Trafikstyrelsens
+meddelelse herom.
+.sp 5mm
+5. I forbindelse med fornyelse af ordregivers tilladelser ved disses
+udløb vil garantien kunne forlænges for en ny gyldighedsperiode. I så
+fald er krav, som er opstået forud for fornyelsen af tilladelsernes
+gyldighedsdato, fortsat omfattet af garantien. Garantien skal ved
+forlængelse have en påtegning af følgende ordlyd: "Nærværende garanti,
+der overfor alle og enhver dækker indtil et beløb på
+DKK________(xxx)________ skriver________(xxx)________danske kroner,
+;Tforlænges________(xxx)________  (ny gyldighedsperiode, der fastsættes
+som angivet under pkt. 3). Der indsendes en bekræftet kopi af den
+forlængede garanti til Trafikstyrelsen, jf. pkt. 19 nedenfor.
+.sp 5mm
+6. Garantien kan inden gyldighedsperiodens udløb helt eller delvist
+frigives af Trafikstyrelsen efter skriftlig anmodning fra
+garantistiller eller ordregiver, såfremt ordregiver helt eller delvist
+ophører med at drive virksomhed, og samtlige omhandlede tilladelser er
+afleveret til Trafikstyrelsen.
+.br
+Garantien udløber i disse tilfælde 6 måneder efter den dato, hvor
+Trafikstyrelsen har modtaget de omhandlede vognmandstilladelser.
+Såfremt det fastsatte krav om egenkapital helt eller delvist
+dokumenteres opfyldt på anden vis (der henvises til Trafikstyrelsens
+vejledning om opgørelse af egenkapital), kan garantien helt eller
+delvis frigives af Trafikstyrelsen.
+.br
+I disse tilfælde frigives garantien helt eller delvist ved
+Trafikstyrelsens modtagelse af dokumentation for egenkapital.
+.sp 5mm
+.**************************************************************************
+.ar off
+.************** Areal definitioner ****************************************
+.da BUNDH 160mm 267mm width 175mm
+.*************************
+.if &U'&B32UDSKRIV eq N
+.th .go BUNDSLUT
+.*************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN.
+.br
+&BANKGADE.
+.br
+&BANKBY.
+.br
+&B32WWWNYK
+.ar off
+...BUNDSLUT
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da GARTXT2  25mm 40mm width 170mm
+.**************************************************************************
+.ar GARTXT2 on
+7. Garantien er uopsigelig for garantistiller i gyldighedsperioden.
+.sp 5mm
+8. Krav under garantien anmeldes skriftligt over for garantistiller.
+Garantistiller kan ikke selv søge sig fyldestgjort i garantibeløbet
+for krav under garantien mod ordregiver i forbindelse med sit
+engagement med denne. Garantistiller kan dog, såfremt garantibeløbet
+indgår i en betalingsstandsning, konkurs, akkordforhandling,
+gældssanering, tvangsopløsning eller dødsbobehandling ved bobestyrer,
+jf. pkt. 14, 15 og 17 anmelde og opnå
+fyldestgørelse for andre eventuelle krav jf. pkt. 2, der ikke hidrører
+fra udbetaling af garantibeløbet, på lige fod med andre kreditorer.
+Er den oprindelige garanti blevet frigivet, og en ny garantistiller
+indtrådt, jf. pkt. 4, kan den oprindelige garantistiller gøre krav
+gældende i henhold til den ny garanti på lige fod med de øvrige
+kreditorer. Dette gælder dog ikke krav, som måtte være udbetalt i
+henhold til den oprindelige garanti.
+.sp 5mm
+9. Udbetaling under garantien sker til en kreditor, hvis krav er
+gyldigt anmeldt, og som har dokumenteret, at kravet er stiftet i
+forbindelse med ordregivers virksomhed, når ordregiver skriftligt over
+for garantistiller har godkendt udbetaling.
+.br
+Såfremt ordregiver ikke samtykker i udbetaling, kan udbetaling kun
+ske, når eksekutionsfristen uden påanke er udløbet i henhold til dom
+eller kendelse, herunder kendelse truffet i henhold til § 20, stk. 2 i
+lov om arbejdsretten, eller når forfaldstid er indtrådt i henhold til
+retsforlig eller forlig indgået for en faglig eller anden
+voldgiftsret, eller i henhold til udenretligt indgået forlig, som i
+henhold til retsplejelovens § 478, stk. 4, kan danne grundlag for
+fuldbyrdelse, samt til dækning af krav, som i lovgivningen er tillagt
+udpantningsret, jf. retsplejelovens § 478, stk. 2.
+Er betingelserne for udbetaling opfyldt samtidigt for flere krav, dvs.
+krav der er anmeldt indenfor samme bankdag, sker udbetaling
+forholdsmæssigt i forhold til kravenes størrelse, såfremt
+(rest)garantiens dækningssum ikke fuldt ud kan rumme kravene.
+.sp 5mm
+10. Såfremt garantistiller i garantiens gyldighedsperiode har modtaget
+anmeldelse af krav dokumenteret i form af kopi af indleveret stævning
+eller klageskrift, fremsendt med anbefalet brev, hvoraf fremgår, at
+rets- eller voldgiftssag om et krav omfattet af garantien er
+påbegyndt, vil garantien fortsat dække sådanne krav, også efter at
+garantiens gyldighedsperiode er udløbet. Udbetaling sker under de i
+pkt. 9 angivne betingelser.
+.sp 5mm
+11. Garantiens dækningsbeløb nedskrives uden særlig meddelelse herom i
+takt med stedfundne udbetalinger. Nedskrivningen af garantien sker med
+virkning over for enhver aktuel eller fremtidig kreditor.
+.sp 5mm
+12. Garantistiller skal underrette Trafikstyrelsen om eventuelle
+udbetalinger på baggrund af garantien. Hvis garantiens beløb - efter
+en udbetaling - opskrives til det oprindelig garantibeløb, skal
+Trafikstyrelsen ligeledes have underretning om denne opskrivning.
+.sp 5mm
+13. Hvis der vedrørende ordregiver til skifteretten indgives
+anmeldelse om betalingsstandsning, eller begæring om konkurs,
+akkordforhandling eller gældssanering eller tvangsopløsning, kan
+udbetaling under garantien ikke ske, før der er truffet beslutning om
+anmeldelsen eller begæringen, jf. pkt. 14, 15 og 16.
+.sp 5mm
+14. Fører betalingsstandsningen eller begæringen om akkordforhandling
+eller gældssanering eller tvangsopløsning til en akkord, indgår
+garantibeløbet ved vurdering af akkorddividendens størrelse og kan
+udbetales til fordeling mellem de berettigede kreditorer som et led i
+akkorden.
+.sp 5mm
+15. Fører betalingsstandsningen eller begæringen om konkurs eller
+akkordforhandling eller gældssanering eller tvangsopløsning til
+afsigelse af konkursdekret eller anden form for tvangsopløsning eller
+ved gældssanering til afsigelse af kendelse fra skifteretten, træffer
+bobestyreren, ved gældssanering skifteretten, beslutning om frigivelse
+af garantien overfor garantistiller, når boet og kreditorerne har fået
+dækning for eventuelle krav i henhold til garantien.
+.sp 5mm
+16. Trækkes anmeldelsen af betalingsstandsningen eller begæringen om
+konkurs eller akkordforhandling eller gældssanering eller
+tvangsopløsning tilbage, kan udbetaling fortsat ske under de i pkt. 9
+angivne betingelser.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da GARTXT3  25mm 40mm width 170mm
+.**************************************************************************
+.ar GARTXT3 on
+17. I et dødsbo, der behandles efter reglerne om behandling ved
+bobestyrer, finder pkt. 13 og pkt. 15 anvendelse, således at
+udbetaling under garantien ikke kan finde sted efter dødsfaldets
+indtræden, og således at bobestyreren træffer beslutning om frigivelse
+af garantien overfor garantistiller, når boet og kreditorerne har fået
+dækning for eventuelle krav i henhold til garantien.
+.sp 5mm
+18. Eventuelle udbetalinger under garantien kan omstødes efter
+konkurslovens regler om betalinger foretaget af skyldneren selv.
+.sp 5mm
+19. Den originale garanti opbevares af garantistiller, som sender en
+bekræftet kopi heraf til Trafikstyrelsen.
+.sp 5mm
+20. Eventuelle tvister vedrørende denne garanti skal afgøres efter
+dansk ret og ved en dansk domstol.
+.sp 26mm
+.ce on
+København, den &DATO1
+.sp 3mm
+&BANKNAVN.
+.ce off
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX1 25mm 40mm width 170mm
+.**************************************************************************
+.ar REGARTX1 on
+:VERDA12.
+:FED.
+Regaranti - Erhverv
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+Undertegnede &KTONAVN
+.**************************
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN.
+.**************************
+(herefter
+garantianmoder) anmoder ved min underskrift på nærværende
+regarantierklæring &BANKNAVN. (herefter garantistiller) om at
+afgive ovenstående garanti for min/vores regning og risiko og
+indestår garantistiller for enhver følge af den stillede garanti.
+.sp 3mm
+Endvidere forpligter garantianmoder sig til, hvis garantistiller
+måtte ønske det, omgående at stille en af garantistiller godkendt
+sikkerhed op til garantiens maksimum.
+.sp 5mm
+:FED.
+Betaling af krav under garantien
+:SKRSLUT.
+.br
+Såfremt garantien er udformet som en anfordringsgaranti, er
+garantianmoder indforstået med, at garantistiller betaler krav
+under garantien, når garantimodtager beder om det, uden at der har
+været en retssag og uden at have kontaktet garantianmoder først.
+Dette gælder dog ikke, hvis der er aftalt særlige
+udbetalingsvilkår for garantien.
+.sp 3mm
+Garantistiller betaler krav i henhold til garantien uden at tage
+stilling til, om det underliggende krav (skyldforholdet mellem
+garantianmoder og garantimodtager) er forfaldent og gyldigt.
+Eventuelle tvister om dette skyldforhold er garantistiller
+uvedkommende og skal efterfølgende afgøres mellem garantimodtager
+og garantianmoder.
+.sp 3mm
+Garantianmoder er indforstået med, at udbetaling derfor kan
+forekomme på trods af garantianmoders indvending mod betalingen.
+Garantianmoder giver derfor afkald på indsigelser over for
+garantistillers regreskrav mod garantianmoder. Garantianmoder
+giver ligeledes over for garantistillers regreskrav afkald på at
+fremsætte andre indsigelser (herunder om modregning), som
+garantianmoder måtte have over for garantimodtager.
+.sp 3mm
+Såfremt garantien er udformet som en garanti under AB 92/ABT 93,
+er garantianmoder indforstået med, at garantistiller kan foretage
+udbetaling til garantimodtager på trods af garantianmoders
+indgivelse af begæring til Voldgiftsnævnet om sagkyndig
+beslutning, hvis garantistiller fra garantianmoder ikke forinden
+udbetaling skriftligt har modtaget orientering om denne begæring.
+.sp 3mm
+Såfremt garantistiller har stillet kontragaranti over for en
+udenlandsk bank, accepterer garantianmoder, at garantistiller
+altid betaler krav herunder også selvom der er indsigelser.
+.sp 3mm
+Beløb, som garantistiller måtte udbetale i henhold til garantien,
+forrentes med garantistillers til enhver tid gældende udlånsrente
+fra udbetalingstidspunktet.
+.sp 5mm
+:FED.
+Garantianmoders hæftelse
+:SKRSLUT.
+.br
+Garantianmoder forpligter sig til på 1. skriftlige anfordring fra
+garantistiller og uden rettergang at indbetale til garantistiller
+ethvert beløb, som garantistiller har betalt i henhold til
+garantien sammen med alle omkostninger, som garantistiller måtte
+have i den forbindelse.
+.sp 3mm
+Garantianmoders hæftelse over for garantistiller gælder, indtil
+garantistiller ikke længere er forpligtet ifølge garantien.
+.sp 3mm
+Garantistiller er i øvrigt til enhver tid berettiget til uden
+varsel at opsige garantien over for garantianmoder med den
+virkning, at garantistiller herefter kan gøre krav gældende over
+for garantianmoder, som om garantien var blevet effektiv for sit
+maksimale beløb over for garantianmoder. Dette gælder uanset
+garantiens gyldighedsperiode og hvilke forpligtelser garantien
+sikrer.
+.sp 3mm
+Uanset om garantistiller har frigivet garantianmoders hæftelse for
+garantien, gælder hæftelsen fortsat, hvis ophøret af garantien
+senere bliver omstødt af et eventuelt konkursbo. Det samme gælder,
+hvis eventuelle sikkerheder, der er stillet over for
+garantistiller for garantien eller provenuet af sikkerhederne,
+senere bliver omstødt.
+.sp 3mm
+Garantianmoder er opmærksom på, at der kan komme krav, som
+garantistiller har pligt til at betale, som garantianmoder hæfter
+for, selvom der står en udløbsdato i garantien.
+.sp 3mm
+Såfremt garantianmoder på et senere tidspunkt ønsker at få ændret
+garantien, gælder betingelserne i nærværende aftale også for den
+ændrede garanti.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX2 25mm 40mm width 170mm
+.*
+.ar REGARTX2 on
+Garantianmoder giver garantistiller transport i beløb, der er
+betalt under garantien, og som garantimodtager eventuelt skal
+betale tilbage, inklusive påløbne renter.
+.sp 5mm
+:FED.
+Garantistillers erstatningsansvar
+:SKRSLUT.
+.br
+Garantistiller er ikke ansvarlig for følgerne af forsinkelse,
+bortkomst og andre uregelmæssigheder i forbindelse med
+forsendelser af breve, dokumenter, telefax og lignende.
+.sp 3mm
+Garantistiller er erstatningsansvarlig, hvis garantistiller på
+grund af fejl eller forsømmelser opfylder aftalte forpligtelser
+for sent eller mangelfuldt.
+.sp 3mm
+Selv på de områder, hvor der gælder et strengere ansvar, er
+garantistiller ikke ansvarlig for tab, som skyldes
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤nedbrud i/manglende adgang til IT-systemer eller
+beskadigelser af data i disse systemer, der kan henføres til
+nedennævnte begivenheder, uanset om det er garantistiller
+selv eller en ekstern leverandør, der står for driften af
+systemerne,
+.of
+.of 5mm
+*¤svigt i garantistillers strømforsyning eller
+telekommunikation, lovindgreb eller forvaltningsakter,
+naturkatastrofer, krig, oprør, borgerlige uroligheder,
+sabotage, terror eller hærværk (herunder computervirus og
+hacking),
+.of
+.of 5mm
+*¤strejke, lockout, boykot eller blokade, uanset om konflikten
+er rettet mod eller iværksat af garantistiller selv eller
+dens organisation, og uanset konfliktens årsag. Det gælder
+også, når konflikten kun rammer dele af garantistiller
+.of
+.of 5mm
+*¤andre omstændigheder, som er uden for garantistillers
+kontrol.
+.of
+.sp 3mm
+Garantistillers ansvarsfrihed gælder ikke, hvis
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤garantistiller burde have forudset det forhold, som er årsag
+til tabet, da aftalen blev indgået, eller burde have undgået
+eller overvundet årsagen til tabet,
+.of
+.of 5mm
+*¤lovgivningen under alle omstændigheder gør garantistiller
+ansvarlig for det forhold, som er årsag til tabet.
+.of
+.sp 3mm
+Garantianmoder accepter i øvrigt garantistillers almindelige
+forretningsbetingelser, der også er gældende for garantien
+medmindre disse er fraveget i nærværende regarantiaftale.
+Garantianmoder har modtaget et eksemplar af garantistillers
+Bankguide  og har gjort sig bekendt med indholdet.
+.sp 3mm
+Garantianmoder accepterer garantistillers til enhver tid gældende
+priser for garantier. Priserne oplyses efter anmodning og kan
+findes på &B32WWWNYK..
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.*************************************************************************
+.*  hvis medktohav. udskriv 2 underskrifts linier eller kun 1.
+.*
+.if &L'&MEDNAVN eq 0
+.th ¤¤¤
+.el ¤¤¤¤¤
+.*************************************************************************
+.*  hvis medktohav. udskriv begge navne ellers kun kontohavers
+.*
+.tp 2mm 34mm 107mm
+.if &L'&MEDNAVN eq 0
+.th ¤Dato ¤&KTONAVN
+.el ¤Dato ¤&KTONAVN. ¤&MEDNAVN
+.*************************************************************************
+.ar off
+.** SIDESKIFT
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.ce on
+Garanti
+.ce off
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da OVER 25mm 55mm width 170mm
+.da GARTXT1  25mm 85mm width 170mm
+.**************************************************************************
+.su off
+.se garreg = substr &IREGKTO. 1 4
+.se garkto = substr &IREGKTO. 5 7
+.su on
+.ar OVER on
+:FED.
+Nærværende garanti er stillet i henhold til § 6 i bekendtgørelse nr.
+1489 af 12. december 2007 om godskørsel eller § 10 i bekendtgørelse
+nr. 1488 af 12. december 2007 om buskørsel
+:SKRSLUT.
+.sp 10mm
+Garanti nr.: &garreg.-&garkto..
+.ar off
+.**************************************************************************
+.ar GARTXT1 on
+1. På foranledning af og for regning for
+&KTONAVN.,
+.*********************************
+.if &L'&KTOCO. gt 0
+.th &KTOCO.,
+.*********************************
+&KTOGADE.,
+.*********************************
+.if &L'&KTOLAND. gt 0
+.th &KTOBY., &KTOLAND.,
+.el &KTOBY.,
+.*********************************
+CPR/CVR-nr: &KTOKNDNR1.
+.*********************************
+.if &L'&MEDNAVN. eq 0
+.an &L'&MEDCO. eq 0
+.an &L'&MEDGADE. eq 0
+.an &L'&MEDBY. eq 0
+.an &L'&MEDLAND. eq 0
+.th .go EJMEDKTO
+.*********************************
+og &MEDNAVN.,
+.*********************************
+.if &L'&MEDCO. gt 0
+.th &MEDCO.,
+.*********************************
+&MEDGADE.,
+.*********************************
+.if &L'&MEDLAND. gt 0
+.th &MEDBY., &MEDLAND.,
+.el &MEDBY.,
+.*********************************
+CPR/CVR-nr: &MEDKUNDENR.
+.*********************************
+...EJMEDKTO
+(herefter kaldet ordregiver) påtager garantistiller sig herved garanti
+over for alle og enhver indtil et beløb på DKK
+:VS.&B32BELOB.,
+skriver danske kroner
+&B32BELOBT1.&B32BELOBT2..
+.sp 5mm
+2. Garantien skal over for alle og enhver tjene til sikkerhed for
+opfyldelsen af forpligtelser, som ordregiver i forbindelse med sin
+virksomhed har pådraget sig inden for den periode, hvor virksomheden
+har været indehaver af gyldige tilladelser.
+.sp 5mm
+3. Garantien er gyldig til den
+&GARUDLDATO.
+(gyldighedsperioden),
+hvilken dato er
+fastsat som 6 måneder efter sidste gyldighedsdato for de af
+Trafikstyrelsen til virksomheden udstedte tilladelser, medmindre den
+forinden er frigivet af Trafikstyrelsen, jf. pkt. 4 og 6 nedenfor.
+Krav, som ønskes gjort gældende i henhold til garantien, skal anmeldes
+inden udløbet af garantiens gyldighedsperiode.
+.sp 5mm
+4. I tilfælde af skift af garantistiller tjener den nye
+garantistillelse til sikkerhed for opfyldelse af forpligtelser, som
+ordregiver i forbindelse med sin virksomhed har pådraget sig inden for
+den periode, hvor virksomheden har været indehaver af gyldig
+tilladelse. Dette gælder uanset om forpligtelsen er pådraget før
+stiftelsen af den nye garantistillelse. Krav, der er anmeldt i henhold
+til den oprindelige garanti, overgår til den ny garanti ved
+Trafikstyrelsens frigivelse af den oprindelige garanti. Der kan ikke
+ske udbetaling for samme krav i både den oprindelige og den nye
+garantistillelse.
+.sp 3mm
+Den ny garantistiller skal ved overtagelse af garantiforpligtelsen
+straks underrette Trafikstyrelsen herom.
+.br
+Den oprindelige garantistiller frigives først ved Trafikstyrelsens
+meddelelse herom.
+.sp 5mm
+5. I forbindelse med fornyelse af ordregivers tilladelser ved disses
+udløb vil garantien kunne forlænges for en ny gyldighedsperiode. I så
+fald er krav, som er opstået forud for fornyelsen af tilladelsernes
+gyldighedsdato, fortsat omfattet af garantien. Garantien skal ved
+forlængelse have en påtegning af følgende ordlyd: "Nærværende garanti,
+der overfor alle og enhver dækker indtil et beløb på
+DKK________(xxx)________ skriver________(xxx)________danske kroner,
+;Tforlænges________(xxx)________  (ny gyldighedsperiode, der fastsættes
+som angivet under pkt. 3). Der indsendes en bekræftet kopi af den
+forlængede garanti til Trafikstyrelsen, jf. pkt. 19 nedenfor.
+.sp 5mm
+6. Garantien kan inden gyldighedsperiodens udløb helt eller delvist
+frigives af Trafikstyrelsen efter skriftlig anmodning fra
+garantistiller eller ordregiver, såfremt ordregiver helt eller delvist
+ophører med at drive virksomhed, og samtlige omhandlede tilladelser er
+afleveret til Trafikstyrelsen.
+.br
+Garantien udløber i disse tilfælde 6 måneder efter den dato, hvor
+Trafikstyrelsen har modtaget de omhandlede vognmandstilladelser.
+Såfremt det fastsatte krav om egenkapital helt eller delvist
+dokumenteres opfyldt på anden vis (der henvises til Trafikstyrelsens
+vejledning om opgørelse af egenkapital), kan garantien helt eller
+delvis frigives af Trafikstyrelsen.
+.br
+I disse tilfælde frigives garantien helt eller delvist ved
+Trafikstyrelsens modtagelse af dokumentation for egenkapital.
+.sp 5mm
+.**************************************************************************
+.ar off
+.************** Areal definitioner ****************************************
+.da BUNDH 160mm 267mm width 175mm
+.*************************
+.if &U'&B32UDSKRIV eq N
+.th .go BUNDSLUT
+.*************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN.
+.br
+&BANKGADE.
+.br
+&BANKBY.
+.br
+&B32WWWNYK
+.ar off
+...BUNDSLUT
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da GARTXT2  25mm 40mm width 170mm
+.**************************************************************************
+.ar GARTXT2 on
+7. Garantien er uopsigelig for garantistiller i gyldighedsperioden.
+.sp 5mm
+8. Krav under garantien anmeldes skriftligt over for garantistiller.
+Garantistiller kan ikke selv søge sig fyldestgjort i garantibeløbet
+for krav under garantien mod ordregiver i forbindelse med sit
+engagement med denne. Garantistiller kan dog, såfremt garantibeløbet
+indgår i en betalingsstandsning, konkurs, akkordforhandling,
+gældssanering, tvangsopløsning eller dødsbobehandling ved bobestyrer,
+jf. pkt. 14, 15 og 17 anmelde og opnå
+fyldestgørelse for andre eventuelle krav jf. pkt. 2, der ikke hidrører
+fra udbetaling af garantibeløbet, på lige fod med andre kreditorer.
+Er den oprindelige garanti blevet frigivet, og en ny garantistiller
+indtrådt, jf. pkt. 4, kan den oprindelige garantistiller gøre krav
+gældende i henhold til den ny garanti på lige fod med de øvrige
+kreditorer. Dette gælder dog ikke krav, som måtte være udbetalt i
+henhold til den oprindelige garanti.
+.sp 5mm
+9. Udbetaling under garantien sker til en kreditor, hvis krav er
+gyldigt anmeldt, og som har dokumenteret, at kravet er stiftet i
+forbindelse med ordregivers virksomhed, når ordregiver skriftligt over
+for garantistiller har godkendt udbetaling.
+.br
+Såfremt ordregiver ikke samtykker i udbetaling, kan udbetaling kun
+ske, når eksekutionsfristen uden påanke er udløbet i henhold til dom
+eller kendelse, herunder kendelse truffet i henhold til § 20, stk. 2 i
+lov om arbejdsretten, eller når forfaldstid er indtrådt i henhold til
+retsforlig eller forlig indgået for en faglig eller anden
+voldgiftsret, eller i henhold til udenretligt indgået forlig, som i
+henhold til retsplejelovens § 478, stk. 4, kan danne grundlag for
+fuldbyrdelse, samt til dækning af krav, som i lovgivningen er tillagt
+udpantningsret, jf. retsplejelovens § 478, stk. 2.
+Er betingelserne for udbetaling opfyldt samtidigt for flere krav, dvs.
+krav der er anmeldt indenfor samme bankdag, sker udbetaling
+forholdsmæssigt i forhold til kravenes størrelse, såfremt
+(rest)garantiens dækningssum ikke fuldt ud kan rumme kravene.
+.sp 5mm
+10. Såfremt garantistiller i garantiens gyldighedsperiode har modtaget
+anmeldelse af krav dokumenteret i form af kopi af indleveret stævning
+eller klageskrift, fremsendt med anbefalet brev, hvoraf fremgår, at
+rets- eller voldgiftssag om et krav omfattet af garantien er
+påbegyndt, vil garantien fortsat dække sådanne krav, også efter at
+garantiens gyldighedsperiode er udløbet. Udbetaling sker under de i
+pkt. 9 angivne betingelser.
+.sp 5mm
+11. Garantiens dækningsbeløb nedskrives uden særlig meddelelse herom i
+takt med stedfundne udbetalinger. Nedskrivningen af garantien sker med
+virkning over for enhver aktuel eller fremtidig kreditor.
+.sp 5mm
+12. Garantistiller skal underrette Trafikstyrelsen om eventuelle
+udbetalinger på baggrund af garantien. Hvis garantiens beløb - efter
+en udbetaling - opskrives til det oprindelig garantibeløb, skal
+Trafikstyrelsen ligeledes have underretning om denne opskrivning.
+.sp 5mm
+13. Hvis der vedrørende ordregiver til skifteretten indgives
+anmeldelse om betalingsstandsning, eller begæring om konkurs,
+akkordforhandling eller gældssanering eller tvangsopløsning, kan
+udbetaling under garantien ikke ske, før der er truffet beslutning om
+anmeldelsen eller begæringen, jf. pkt. 14, 15 og 16.
+.sp 5mm
+14. Fører betalingsstandsningen eller begæringen om akkordforhandling
+eller gældssanering eller tvangsopløsning til en akkord, indgår
+garantibeløbet ved vurdering af akkorddividendens størrelse og kan
+udbetales til fordeling mellem de berettigede kreditorer som et led i
+akkorden.
+.sp 5mm
+15. Fører betalingsstandsningen eller begæringen om konkurs eller
+akkordforhandling eller gældssanering eller tvangsopløsning til
+afsigelse af konkursdekret eller anden form for tvangsopløsning eller
+ved gældssanering til afsigelse af kendelse fra skifteretten, træffer
+bobestyreren, ved gældssanering skifteretten, beslutning om frigivelse
+af garantien overfor garantistiller, når boet og kreditorerne har fået
+dækning for eventuelle krav i henhold til garantien.
+.sp 5mm
+16. Trækkes anmeldelsen af betalingsstandsningen eller begæringen om
+konkurs eller akkordforhandling eller gældssanering eller
+tvangsopløsning tilbage, kan udbetaling fortsat ske under de i pkt. 9
+angivne betingelser.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da GARTXT3  25mm 40mm width 170mm
+.**************************************************************************
+.ar GARTXT3 on
+17. I et dødsbo, der behandles efter reglerne om behandling ved
+bobestyrer, finder pkt. 13 og pkt. 15 anvendelse, således at
+udbetaling under garantien ikke kan finde sted efter dødsfaldets
+indtræden, og således at bobestyreren træffer beslutning om frigivelse
+af garantien overfor garantistiller, når boet og kreditorerne har fået
+dækning for eventuelle krav i henhold til garantien.
+.sp 5mm
+18. Eventuelle udbetalinger under garantien kan omstødes efter
+konkurslovens regler om betalinger foretaget af skyldneren selv.
+.sp 5mm
+19. Den originale garanti opbevares af garantistiller, som sender en
+bekræftet kopi heraf til Trafikstyrelsen.
+.sp 5mm
+20. Eventuelle tvister vedrørende denne garanti skal afgøres efter
+dansk ret og ved en dansk domstol.
+.sp 26mm
+.ce on
+København, den &DATO1
+.sp 3mm
+&BANKNAVN.
+.ce off
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX1 25mm 40mm width 170mm
+.**************************************************************************
+.ar REGARTX1 on
+:VERDA12.
+:FED.
+Regaranti - Erhverv
+:SKRSLUT.
+:SKRSLUT.
+.sp 5mm
+Undertegnede &KTONAVN
+.**************************
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN.
+.**************************
+(herefter
+garantianmoder) anmoder ved min underskrift på nærværende
+regarantierklæring &BANKNAVN. (herefter garantistiller) om at
+afgive ovenstående garanti for min/vores regning og risiko og
+indestår garantistiller for enhver følge af den stillede garanti.
+.sp 3mm
+Endvidere forpligter garantianmoder sig til, hvis garantistiller
+måtte ønske det, omgående at stille en af garantistiller godkendt
+sikkerhed op til garantiens maksimum.
+.sp 5mm
+:FED.
+Betaling af krav under garantien
+:SKRSLUT.
+.br
+Såfremt garantien er udformet som en anfordringsgaranti, er
+garantianmoder indforstået med, at garantistiller betaler krav
+under garantien, når garantimodtager beder om det, uden at der har
+været en retssag og uden at have kontaktet garantianmoder først.
+Dette gælder dog ikke, hvis der er aftalt særlige
+udbetalingsvilkår for garantien.
+.sp 3mm
+Garantistiller betaler krav i henhold til garantien uden at tage
+stilling til, om det underliggende krav (skyldforholdet mellem
+garantianmoder og garantimodtager) er forfaldent og gyldigt.
+Eventuelle tvister om dette skyldforhold er garantistiller
+uvedkommende og skal efterfølgende afgøres mellem garantimodtager
+og garantianmoder.
+.sp 3mm
+Garantianmoder er indforstået med, at udbetaling derfor kan
+forekomme på trods af garantianmoders indvending mod betalingen.
+Garantianmoder giver derfor afkald på indsigelser over for
+garantistillers regreskrav mod garantianmoder. Garantianmoder
+giver ligeledes over for garantistillers regreskrav afkald på at
+fremsætte andre indsigelser (herunder om modregning), som
+garantianmoder måtte have over for garantimodtager.
+.sp 3mm
+Såfremt garantien er udformet som en garanti under AB 92/ABT 93,
+er garantianmoder indforstået med, at garantistiller kan foretage
+udbetaling til garantimodtager på trods af garantianmoders
+indgivelse af begæring til Voldgiftsnævnet om sagkyndig
+beslutning, hvis garantistiller fra garantianmoder ikke forinden
+udbetaling skriftligt har modtaget orientering om denne begæring.
+.sp 3mm
+Såfremt garantistiller har stillet kontragaranti over for en
+udenlandsk bank, accepterer garantianmoder, at garantistiller
+altid betaler krav herunder også selvom der er indsigelser.
+.sp 3mm
+Beløb, som garantistiller måtte udbetale i henhold til garantien,
+forrentes med garantistillers til enhver tid gældende udlånsrente
+fra udbetalingstidspunktet.
+.sp 5mm
+:FED.
+Garantianmoders hæftelse
+:SKRSLUT.
+.br
+Garantianmoder forpligter sig til på 1. skriftlige anfordring fra
+garantistiller og uden rettergang at indbetale til garantistiller
+ethvert beløb, som garantistiller har betalt i henhold til
+garantien sammen med alle omkostninger, som garantistiller måtte
+have i den forbindelse.
+.sp 3mm
+Garantianmoders hæftelse over for garantistiller gælder, indtil
+garantistiller ikke længere er forpligtet ifølge garantien.
+.sp 3mm
+Garantistiller er i øvrigt til enhver tid berettiget til uden
+varsel at opsige garantien over for garantianmoder med den
+virkning, at garantistiller herefter kan gøre krav gældende over
+for garantianmoder, som om garantien var blevet effektiv for sit
+maksimale beløb over for garantianmoder. Dette gælder uanset
+garantiens gyldighedsperiode og hvilke forpligtelser garantien
+sikrer.
+.sp 3mm
+Uanset om garantistiller har frigivet garantianmoders hæftelse for
+garantien, gælder hæftelsen fortsat, hvis ophøret af garantien
+senere bliver omstødt af et eventuelt konkursbo. Det samme gælder,
+hvis eventuelle sikkerheder, der er stillet over for
+garantistiller for garantien eller provenuet af sikkerhederne,
+senere bliver omstødt.
+.sp 3mm
+Garantianmoder er opmærksom på, at der kan komme krav, som
+garantistiller har pligt til at betale, som garantianmoder hæfter
+for, selvom der står en udløbsdato i garantien.
+.sp 3mm
+Såfremt garantianmoder på et senere tidspunkt ønsker at få ændret
+garantien, gælder betingelserne i nærværende aftale også for den
+ændrede garanti.
+.ar off
+.**************************************************************************
+.** SIDESKIFT
+.pa
+.*********************AREAL-DEFINITIONER***********************************
+.da REGARTX2 25mm 40mm width 170mm
+.*
+.ar REGARTX2 on
+Garantianmoder giver garantistiller transport i beløb, der er
+betalt under garantien, og som garantimodtager eventuelt skal
+betale tilbage, inklusive påløbne renter.
+.sp 5mm
+:FED.
+Garantistillers erstatningsansvar
+:SKRSLUT.
+.br
+Garantistiller er ikke ansvarlig for følgerne af forsinkelse,
+bortkomst og andre uregelmæssigheder i forbindelse med
+forsendelser af breve, dokumenter, telefax og lignende.
+.sp 3mm
+Garantistiller er erstatningsansvarlig, hvis garantistiller på
+grund af fejl eller forsømmelser opfylder aftalte forpligtelser
+for sent eller mangelfuldt.
+.sp 3mm
+Selv på de områder, hvor der gælder et strengere ansvar, er
+garantistiller ikke ansvarlig for tab, som skyldes
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤nedbrud i/manglende adgang til IT-systemer eller
+beskadigelser af data i disse systemer, der kan henføres til
+nedennævnte begivenheder, uanset om det er garantistiller
+selv eller en ekstern leverandør, der står for driften af
+systemerne,
+.of
+.of 5mm
+*¤svigt i garantistillers strømforsyning eller
+telekommunikation, lovindgreb eller forvaltningsakter,
+naturkatastrofer, krig, oprør, borgerlige uroligheder,
+sabotage, terror eller hærværk (herunder computervirus og
+hacking),
+.of
+.of 5mm
+*¤strejke, lockout, boykot eller blokade, uanset om konflikten
+er rettet mod eller iværksat af garantistiller selv eller
+dens organisation, og uanset konfliktens årsag. Det gælder
+også, når konflikten kun rammer dele af garantistiller
+.of
+.of 5mm
+*¤andre omstændigheder, som er uden for garantistillers
+kontrol.
+.of
+.sp 3mm
+Garantistillers ansvarsfrihed gælder ikke, hvis
+.sp 3mm
+.tp 5mm
+.of 5mm
+*¤garantistiller burde have forudset det forhold, som er årsag
+til tabet, da aftalen blev indgået, eller burde have undgået
+eller overvundet årsagen til tabet,
+.of
+.of 5mm
+*¤lovgivningen under alle omstændigheder gør garantistiller
+ansvarlig for det forhold, som er årsag til tabet.
+.of
+.sp 3mm
+Garantianmoder accepter i øvrigt garantistillers almindelige
+forretningsbetingelser, der også er gældende for garantien
+medmindre disse er fraveget i nærværende regarantiaftale.
+Garantianmoder har modtaget et eksemplar af garantistillers
+Bankguide  og har gjort sig bekendt med indholdet.
+.sp 3mm
+Garantianmoder accepterer garantistillers til enhver tid gældende
+priser for garantier. Priserne oplyses efter anmodning og kan
+findes på &B32WWWNYK..
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.*************************************************************************
+.*  hvis medktohav. udskriv 2 underskrifts linier eller kun 1.
+.*
+.if &L'&MEDNAVN eq 0
+.th ¤¤¤
+.el ¤¤¤¤¤
+.*************************************************************************
+.*  hvis medktohav. udskriv begge navne ellers kun kontohavers
+.*
+.tp 2mm 34mm 107mm
+.if &L'&MEDNAVN eq 0
+.th ¤Dato ¤&KTONAVN
+.el ¤Dato ¤&KTONAVN. ¤&MEDNAVN
+.*************************************************************************
+.ar off
+.** SIDESKIFT
+.pa

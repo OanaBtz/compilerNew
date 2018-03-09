@@ -1,0 +1,188 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc ** Lønkonto - brev til arbejdsgiver
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm width 170mm
+.* Brevnavn, roteret i nederste venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar START on
+.us Udbetalinger til &KTONAVN
+.sp
+.**************************************************************************
+.if &BECTEST01 = 1
+.th .go afs1
+.if &BECTEST01 = 2
+.th .go afs2
+.if &BECTEST01 = 3
+.th .go afs3
+...afs1
+.ce on
+:SWISS12.
+:FED.
+.ce
+TIL LØNNINGSKONTORET
+:SKRSLUT.
+.ce off
+.TP 50mm
+.sp3
+Jeg ønsker fremtidig min lønudbetaling overført til:
+.sp 2
+¤&B34MORBANK
+.br
+¤&AFDGADE
+.br
+¤&AFDBY
+.br
+¤
+.sp
+.se regnr = substr &BECKONTO01 1 4
+.se ktonr = substr &BECKONTO01 5 7
+Reg.nr. konto nr.: ¤&regnr. &ktonr.
+.sp 2
+Navn: ¤&NAVN.
+.br
+.if &L'&STILL > 0
+.th Stilling: ¤&STILL.
+.th .br
+Adresse: ¤&GADE.
+.br
+Postnr. og by: ¤&BY
+.br
+Personnr.: ¤&KUNDENR.
+.if &L'&BECTEKST30 > 0
+.th .sp
+.th Arbejdsnr.: ¤&BECTEKST30.
+.if &L'&BECTEKST31 > 0
+.th .sp
+.th Arbejdsgiver: ¤&BECTEKST31.
+.sp2
+&DATO.
+.sp5
+.ce on
+________________________________________
+.br
+(Lønmodtagerens underskrift)
+.ce off
+.go slut
+...afs2
+.TP 50mm
+:SWISS12.
+.ce on
+:FED.
+TIL SOCIALFORVALTNINGEN
+:SKRSLUT.
+.ce off
+.sp3
+Jeg ønsker fremtidig min pensionsudbetaling overført til:
+.sp 2
+¤&B34MORBANK
+.br
+¤&AFDNAVN
+.br
+¤&AFDGADE
+.br
+¤&AFDBY
+.br
+¤
+.sp
+.se regnr = substr &BECKONTO01 1 4
+.se ktonr = substr &BECKONTO01 5 7
+Reg.nr. konto nr.: ¤&regnr. &ktonr.
+.sp 2
+Navn: ¤&NAVN.
+.sp
+.if &L'&STILL > 0
+.th Stilling: ¤&STILL.
+.th .sp
+Adresse: ¤&GADE.
+.sp
+Postnr. og by: ¤&BY
+.sp
+Personnr.: ¤&KUNDENR.
+.sp 8
+.ce on
+________________________________________
+.br
+(Underskrift)
+.ce off
+.go slut
+...afs3
+.TP 50mm
+.ce on
+:SWISS12.
+:FED.
+TIL A-KASSEN
+:SKRSLUT.
+.ce off
+.sp3
+Jeg ønsker fremtidig mine dagpenge overført til:
+.sp 2
+¤&B34MORBANK
+.br
+¤&AFDNAVN
+.br
+¤&AFDGADE
+.br
+¤&AFDBY
+.sp
+.se regnr = substr &BECKONTO01 1 4
+.se ktonr = substr &BECKONTO01 5 7
+Reg.nr. konto nr.: ¤&regnr. &ktonr.
+.sp 2
+Navn: ¤&NAVN.
+.sp
+.if &L'&STILL > 0
+.th Stilling: ¤&STILL.
+.th .sp
+Adresse: ¤&GADE.
+.sp
+Postnr. og by: ¤&BY
+.sp
+Personnr.: ¤&KUNDENR.
+.sp 8
+.ce on
+________________________________________
+.br
+(Underskrift)
+.ce off
+.go slut
+...slut

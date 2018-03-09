@@ -1,0 +1,430 @@
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm  32mm width 175mm
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Garanti - Realkredit
+:SKRSLUT.
+.ar off
+.sp 15mm
+.*************************************************************************
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.* Parameterafsnit - beregning
+.**************************************************************************
+.* Parameterafsnit
+.**************************************************************************
+.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
+.*for at nuv. banker kan fortsætte med at bruge disse.*********************
+.**************************************************************************
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Realkreditinstitut ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.if &U'X&GENJANEJ2 = XJ
+.or &U'X&GENJANEJ2 = XN
+.th
+.el .mg/T/Løbetid <= 3 måneder: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ1 = XJ
+.or &U'X&GENJANEJ1 = XN
+.th
+.el .mg/T/Medarbejderunderskrift: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ = XJ
+.or &U'X&GENJANEJ = XN
+.th
+.el .mg/T/Vitterlighedsvidner: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ2 = XN
+.an &L'&PROV = 0
+.th.mg/T/Garantiprovision skal udfyldes/
+.el
+.**************************************************************************
+.if &U'X&GENJANEJ2 = XJ
+.an &L'&GEBYR = 0
+.th.mg/T/Ekspeditionsgebyr skal udfyldes/
+.el
+.if &L'&MEDNAVN > 0
+.th .se jegvi  = vi
+.th .se minvor = vor
+.el .se jegvi  = jeg
+.el .se minvor = min
+.**************************************************************************
+.if &U'X&GENJANEJ3 = XJ
+.an &L'&DEPOTNR = 0
+.th .mg/T/Depotnummer skal udfyldes/
+.dr tynd weight 0.1mm
+.**************************************************************************
+:SWISS8.
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+Kontonr. for garanti:
+.ct  &regnr. &ktonr.
+.sp 3mm
+Undertegnede:
+.sp 3mm
+.***
+.if &L'&MEDNAVN > 0
+.th .cd 2 0mm 87mm
+.th .cl 85mm
+.***
+.if &L'&KTOSTILL = 0
+.th &ÅRB
+.el &KTOSTILL.
+.br
+&KTONAVN.
+.br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE.
+.br
+&KTOBY.
+.if &L'&KTOLAND = 0
+.th &ÅRB
+.el &KTOLAND.
+.br
+Kundenummer: &KTOKNDNR1.
+.***
+.if &L'&MEDNAVN > 0
+.th .go MEDNVN
+.el .go MEDNVNSL
+.***
+...MEDNVN
+.cb
+.if &L'&MEDSTILL = 0
+.th &ÅRB
+.el &MEDSTILL.
+.br
+&MEDNAVN.
+.br
+.if &L'&MEDCO > 0
+.th &MEDCO.
+.th .br
+&MEDGADE.
+.br
+&MEDBY.
+.if &L'&MEDLAND = 0
+.th &ÅRB
+.el &MEDLAND.
+.br
+Kundenummer: &MEDKNDNR1.
+.sc
+.***
+...MEDNVNSL
+.sp 5mm
+anmoder herved &BANKNAVN. om for &minvor regning at stille garanti stor:
+.sp 3mm
+.ce on
+&VALUTA. &RESULTA.
+.ct
+.br
+skriver &RESULTAT1.&RESULTAT2.
+.ce off
+.sp 3mm
+Over for:
+.br
+&GARMODADR1.
+.br
+&GARMODADR2.
+.br
+&GARMODADR3.
+.br
+&GARMODADR4.
+.br
+&GARMODADR5.
+.kp on
+.sp 3mm
+i henhold til det af kreditforeningen udarbejdede udkast til fuldmagt og
+garantierklæring, hvoraf &jegvi har modtaget en kopi. Garantien stilles i
+favør af ovennævnte kreditforening, idet &jegvi erklærer på anfordring at
+ville indbetale ethvert beløb, som &BANKNAVN. måtte komme til at
+tilsvare som følge af garantien,
+.if &U'X&GENJANEJ2 = XN
+.th og betale den til enhver tid af &BANKNAVN. fastsatte
+.th garantiprovision, p.t. &PROV. p.a.
+.el herunder ekspeditionsgebyr på kr. &GEBYR..
+.sp 3mm
+Til sikkerhed for nærværende garanti og byggelån/boligkonto
+nr. &GENKTONR2. meddeles der herved &BANKNAVN. transport på det til enhver
+tid indestående på sikringskonto nr. &GENKTONR3.
+.if &U'&GENJANEJ3 = J
+.th .ct , samt håndpant i de til
+.th enhver tid henlagte værdipapirer i sikkerhedsdepot nr. &DEPOTNR..
+.el .ct .
+.sp 3mm
+Til vitterlighed om ægte underskrift/underskrifter, dateringens
+rigtighed og udstederens/udstedernes myndighed.
+.sp 8mm
+.in 1mm
+.tp 85mm
+Navn:¤Navn:
+.hr tynd 15mm 73mm 101mm 159mm
+.sp 6mm
+Stilling:¤Stilling:
+.hr tynd 15mm 73mm 101mm 159mm
+.sp 6mm
+Adresse:¤Adresse:
+.hr tynd 15mm 73mm 101mm 159mm
+.sp 6mm
+Postnr./by:¤Postnr./by:
+.hr tynd 15mm 73mm 101mm 159mm
+.sp 6mm
+Underskrift:¤Underskrift
+.hr tynd 15mm 73mm 101mm 159mm
+.kp off
+...ENDVIT1
+.th .go 1UNDSK
+.el .go UNSKRS
+...2UNDSK
+&KTONAVN.
+.sp 10mm
+.hr tynd 0mm 80mm 85mm 165mm
+¤&E69USKRT1.¤&E69USKRT2.
+.sp 10mm
+.if x&E69USKRV1 = x4
+.th .go 4UNDSK
+.if x&E69USKRV1 = x3
+.th .go 3UNDSK
+.el .go UNSKRS
+...1UNDSK
+&KTONAVN.
+.sp 10mm
+.hr tynd 0mm 80mm
+¤&E69USKRT1.
+.sp 10mm
+.go UNSKRS
+...4UNDSK
+.hr tynd 0mm 80mm 85mm 165mm
+¤&E69USKRT3.¤&E69USKRT4.
+.sp 10mm
+.go UNSKRS
+...3UNDSK
+.hr tynd 0mm 80mm
+¤&E69USKRT3.
+.sp 10mm
+.go UNSKRS
+...UNSKRS
+.kp off
+...NOERHV
+.*MEDARBEJDERUNDERSKRIFT***********
+.if &U'X&GENJANEJ1 = XN
+.th .go VITT
+.sc
+Kvittering for modtagelse af underskrift:
+.sp 12mm
+.hr 0mm 70mm
+.*VITTERLIGHED*********************
+...VITT
+.if &U'X&GENJANEJ = XN
+.th .go ENDVIT1
+.sp 5mm
+.kp on
+:FED.
+Til vitterlighed
+:SKRSLUT.
+.sp 5mm
+Provenue fra prioriteringen, indestående på sikringskonto
+nr. &GENKTONR3., skal anvendes til indfrielse af kredit nr. &GENKTONR2..
+.sp 3mm
+Transporten/håndpantsætningen er gældende indtil endeligt anmærkningsfrit
+pantebrev er overleveret til kreditforeningen og &BANKNAVN.'s
+garanti/indeståelse overfor denne er endeligt frigivet.
+.sp 5mm
+.kp off
+.if &U'&E69VALG1 = E
+.th .go ERHV
+.kp on
+:FED.
+Underskrift
+:SKRSLUT.
+.sp 5mm
+Dato:
+.sp 12mm
+.if &L'&MEDNAVN > 0
+.th .cd 2 0mm 87mm
+.th .cl 85mm
+.hr 0mm 70mm
+&KTONAVN.
+.sp 1mm
+.if &L'&MEDNAVN > 0
+.th
+.el .go UDENOM
+.cb
+.hr 0mm 70mm
+&MEDNAVN.
+.in 0mm
+.sp 1mm
+...UDENOM
+.kp off
+.sp 10mm
+.go NOERHV
+...ERHV
+.sp 5mm
+.*UNDERSKRIFT *************************************************************
+.kp on
+.dr tynd weight 0.1mm
+.tp 35mm center 130mm center
+:FED.Underskrift:SKRSLUT.
+.sp 5mm
+Dato
+.sp 6mm
+.if x&E69USKRV1 = x4
+.or x&E69USKRV1 = x3
+.or x&E69USKRV1 = x2
+.th .go 2UNDSK
+.if x&E69USKRV1 = x1

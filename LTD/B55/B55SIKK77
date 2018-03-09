@@ -1,0 +1,713 @@
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 55mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND     7mm  270mm width 180mm rotate -90
+.da OVERSKR 20mm   36mm width 175mm
+.da BOX     20mm   47mm width 175mm
+.da ID      20mm   54mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.
+:FED.
+.if &U'&B55SPØRG1 EQ A
+.th Fuldmagt til forhøjelse af ejerpantebrev og underpant i forhøjelsen
+.if &U'&B55SPØRG1 EQ B
+.th Fuldmagt til transport af ejerpantebrev og underpant
+.if &U'&B55SPØRG1 EQ C
+.th Fuldmagt til transport og forhøjelse af ejerpantebrev og
+.th .br
+.th underpant i det oprindelige og forhøjede ejerpantebrev
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar BOX on
+:VERDA08.
+.tp 1mm 100mm 140mm
+.bx left right
+¤Kundenr. ¤Afgift ¤Udskrevet
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 211mm
+.bx off
+.ar off
+.***********************************************************************
+.ar ID on
+:VERDA09.
+.tp 1mm 90mm 140mm
+¤&KTOKNDNR1. ¤&B55BELØB1. kr. ¤&DATO.
+.ar off
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T.*Parametre
+.if &L'&PRIERH = 0
+.th .mg/T/Skriv P for privat eller E for erhverv/
+.*OMTALEPARAMETRE *********************************************************
+.*ERHVERV *****************************************************************
+.if &U'&PRIERH = E
+.th .se debsomt = 'Vi'
+.th .se deblomt = 'vi'
+.th .se migos = 'os'
+.th .se min = 'vores'
+.th .go OMTALEND
+.*PRIVAT *************
+.if &DEBANTAL = 1
+.th .se debsomt = 'Jeg'
+.th .se deblomt = 'jeg'
+.th .se migos = 'mig'
+.th .se min = 'min'
+.el .se debsomt = 'Vi'
+.el .se deblomt = 'vi'
+.el .se migos = 'os'
+.el .se min = 'vores'
+...OMTALEND
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 55mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.**************************************************************************
+.da OVERSKR 20mm 36mm width 175mm
+.da BOX 20mm 47mm width 175mm
+.da ID 20mm 54mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+:VERDA08.
+.tp 1mm 100mm 140mm
+.bx left right
+¤Kundenr. ¤Afgift ¤Udskrevet
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 211.5mm
+.bx off
+.ar off
+.***********************************************************************
+.ar ID on
+:VERDA09.
+.tp 1mm 90mm 140mm
+¤&KTOKNDNR1. ¤&B55BELØB1. kr. ¤&DATO.
+.ar off
+.**************************************************************************
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:VERDA12.
+:FED.
+.if &U'&B55SPØRG1 EQ A
+.th Fuldmagt til forhøjelse af ejerpantebrev og underpant i forhøjelsen
+.if &U'&B55SPØRG1 EQ B
+.th Fuldmagt til transport af ejerpantebrev og underpant
+.if &U'&B55SPØRG1 EQ C
+.th Fuldmagt til transport og forhøjelse af ejerpantebrev og
+.th .br
+.th underpant i det oprindelige og forhøjede ejerpantebrev
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.in 2mm
+.ll 178mm
+.tp 11mm 22mm 35mm 90mm
+.*************
+.kp on
+:FED.
+Anmelder:
+:SKRSLUT.
+.br
+&BANKNAVN.
+.br
+Storegade 29
+.br
+4780  Stege
+.sp
+CVR NR.:  65746018
+.kp off
+.sp
+.*******************
+.kp on
+:FED.
+Ejerpantebrevet relaterer sig til:
+:SKRSLUT
+.br
+Ejerpantebrevet med Løbenr. &B55FRI27A og
+hovedstol kr. &B55BEL8. med pant i Matr.nr. &B55FRI1., &B55FRI48A.
+.kp off
+.sp
+.*******************
+.kp on
+:FED.
+Underpanthaver:
+:SKRSLUT.
+.br
+&BANKNAVN.
+.br
+Storegade 29
+.br
+4780  Stege
+.sp
+CVR NR.:  65746018
+.kp off
+.sp
+.*******************
+.kp on
+:FED
+Debitorer og kreditorer:
+:SKRSLUT
+.br
+&STILL.
+.br
+&NAVN. ¤¤¤¤&MEDNAVN.
+.br
+&GADE.
+.br
+&BY
+.sp 2mm
+Cpr.nr &KTOKNDNR1. ¤¤¤¤Cpr.nr. &MEDKUNDENR.
+.kp off
+.*******************
+.sp
+.if &U'&B55SPØRG1 EQ B
+.th .kp on
+.th :FED.
+.th Debitor giver hermed sig selv eller den, til hvem dette
+.th ejerpantebrev er underpantsat panteret for den angivne hovedstol.
+.th .sp
+.th Hovedstol:
+.th :SKRSLUT.
+.th .sp 3mm
+.th .tp 25mm char
+.th ¤&B55BEL8.
+.th .sp
+.th &B55BEL8T1.&B55BEL8T2.
+.th .kp off
+.**********************
+.th .sp
+.th .kp on
+.th :FED.
+.th Særlige bestemmelser:
+.th :SKRSLUT.
+.th .br
+.th Ejerpantebrevet respekterer de servitutter og andre
+.th byrder, der er tinglyst på anmeldelsestidspunktet.
+.th .sp
+.th Justitsministeriets Almindelige betingelser(A)/(AA) gælder for
+.th pantebrevet. Dog forbliver pantebrevet ikke indestående
+.th i ejendommen i tilfælde af tvangsauktion.
+.th .kp off
+.th .sp
+.th .kp on
+.th &BANKNAVN. bemyndiges til på mine/vores vegne at udstede, digitalt
+.th signere og anmelde ejerpantebrevet til tinglysning
+.th i overensstemmelse hermed. &BANKNAVN. bemyndiges tillige til at
+.th udstede, digitalt signere og tinglyse underpant til &BANKNAVN. i
+.th det forhøjede ejerpantebrev. &BANKNAVN. kan overlade
+.th udstedelsen, signering og/eller anmeldelsen til en samarbejdspartner.
+.th .sp
+.th &BANKNAVN. har ret til at afgive de i forbindelsen med denne
+.th disposition nødvendige erklæringer.
+.th .kp off
+.th .sp
+.th .kp on
+.th Møns Bank bemyndiges til på mine/vores vegne at underskrive
+.th påtegninger af enhver art på det elektroniske ejerpantebrev. Herunder
+.th kvitterings-, transport-, moderations- og
+.th relaksationspåtegninger.
+.th .kp off
+.th .sp
+.** SIDESKIFT
+.pa
+.kp on
+:FED.
+Særligt om pant
+:SKRSLUT.
+.sp
+.us1. Sikkerhedsstillelsens omfang
+.br
+Pant tjener til sikkerhed for betaling af kapital, renter, provision,
+sagsomkostninger og andre udgifter, som er afholdt i forbindelse med
+inddrivelse af skylden.
+.sp
+Pant stillet af debitor tjener til sikkerhed for enhver forpligtelse, som
+debitor har eller måtte få over for &BANKNAVN..
+.sp
+&BANKNAVN. kan frit vælge hvilken del af det samlede tilgodehavende,
+eller hvilket tilgodehavende ud af flere, der skal nedbringes med provenuet
+af pantet.
+.kp off
+.sp
+.***********************
+.kp on
+.us2. Forsikring af pantsatte effekter
+.br
+Har &BANKNAVN. pant i bil, båd, andet løsøre eller i fast ejendom,
+har pantsætter pligt til at kasko- og/eller brandforsikre det pantsatte.
+.sp
+Er pantet stillet af tredjemand, har debitor pligt til at betale
+forsikringspræmien, hvis den ikke betales af tredjemand.
+.kp off
+.sp
+.***********************
+.kp on
+.us3. Forringelse af pant
+.br
+Hvis pantets værdi forringes væsentligt, kan &BANKNAVN. stille krav
+om, at debitor enten ekstraordinært nedbringer gælden/maksimum på kreditten
+eller, at der stilles yderligere sikkerhed, der modsvarer den skete
+forringelse. I modsat fald kan &BANKNAVN. betragte lånet/kreditten
+som misligholdt.
+.sp
+Hvis &BANKNAVN. har pant i en ejendom, der tjener som helårsbeboelse
+for debitor, vil &BANKNAVN. dog ikke ved forringelse af
+ejendomsværdien stille krav om ekstraordinær nedbringelse eller yderligere
+sikkerhed, medmindre forringelsen skyldes vanrøgt.
+.kp off
+.sp
+.***********************
+.kp on
+.us4. &BANKNAVN.s rettigheder over det pantsatte
+.br
+&BANKNAVN. kan udnytte alle pantsætters rettigheder over det
+pantsatte, herunder modtage og kvittere for ethvert beløb ifølge det
+pantsatte, opsige og inddrive, kvittere samt transportere pantsatte
+fordringer og pantebreve til sig selv eller andre samt hæve beløb på
+pantsatte indlånskonti.
+.sp
+Ved pantsætning af aktier, anparter og lignende kan &BANKNAVN. udøve
+alle de rettigheder, som aktionærer og anpartshavere har efter gældende
+selskabslove, selskabets vedtægter, eventuelle ejeraftaler og lignende.
+Stemmeretten tilkommer dog pantsætter, indtil &BANKNAVN. udtrykkeligt
+meddeler at ville udnytte denne. Pantsætter skal på anmodning fra
+&BANKNAVN. fremsende meddelelse fra selskabet, herunder bl.a.
+indkaldelse til generalforsamlinger og referater herfra.
+.sp
+Hvis pantet omfatter forsikringspolicer, er pantsætter pligtig til på
+anfordring at forevise &BANKNAVN. behørig kvittering for præmiens
+rettidige betaling.
+.sp
+Såfremt &BANKNAVN. vælger at søge sig fyldestgjort i policens
+tilbagekøbsværdi, skal &BANKNAVN. være berettiget hertil uden at
+afvente det i forsikringsaftaleloven fastsatte varsel.
+.sp
+&BANKNAVN. har ingen pligt til forlods at søge dækning i det stillede
+pant, ligesom &BANKNAVN. har valgfrihed med hensyn til anvendelsen i
+forhold til det samlede engagement.
+.kp off
+.sp
+.***********************
+.kp on
+.us 5. Udgifter angående pantet
+.br
+&BANKNAVN. kan forlange betaling af omkostninger for pantsatte
+effekter.
+.sp
+&BANKNAVN. kan også forlange betaling af &BANKNAVN.s udgifter
+til at varetage sine interesser som panthaver, herunder eventuelle udgifter
+til betaling af forsikringspræmie, besigtigelse af det pantsatte, udgifter
+til juridisk bistand m.v.
+.th .kp off
+.th .sp
+.***********************
+.kp on
+.us 6. Afkast af pantet
+.br
+Under pantsætningen er indbefattet renter og udbytte af enhver art af det
+pantsatte, derunder bonus på livsforsikringspolicer, ved aktier eventuelle
+fondsaktier og tegningsrettigheder, provenu af udtrukne obligationer,
+lejeindtægter og lignende.
+.sp
+&BANKNAVN. er berettiget, men ikke forpligtet (heller ikke i forhold
+til kautionister), til at modtage renter og udbytte til betaling af afdrag,
+renter og omkostninger.
+.kp off
+.sp
+.***********************
+.kp on
+.us 7. Meddelelser
+.br
+Alle meddelelser, som pantsætter modtager vedrørende de pantsatte effekter,
+har denne pligt til omgående at videresende til &BANKNAVN..
+.kp off
+.sp
+.***********************
+.kp on
+.us 8. Udtrækning af obligationer
+.br
+Hvis pantsatte obligationer udtrækkes, og der købes andre i stedet for de
+udtrukne, er &BANKNAVN. bemyndiget til over for VP Securities A/S at
+registrere panteret over disse.
+.kp off
+.sp
+.***********************
+.kp on
+.us 9. Ophør
+.br
+Pant stillet af tredjemand ophører efter 10 år, dog efter 5 år ved pant
+stillet af tredjemand for kredit med variabelt lånebeløb og uden fast
+forfaldstidspunkt. &BANKNAVN.s krav mod tredjemandspantsætter
+bortfalder ikke, hvis kravet forinden er gjort gældende af
+&BANKNAVN..
+.kp off
+.sp
+.***********************
+.kp on
+.us 10. Omstødelse
+.br
+Hvis den/det pantsikrede lån/kredit indfries helt eller delvist og
+betalingerne senere omstødes, er pantsætter forpligtet til at genetablere
+&BANKNAVN.s pant, uanset om &BANKNAVN. har frigivet pantet.
+.kp off
+.sp
+.***********************
+.kp on
+.us 11. Henstand
+.br
+&BANKNAVN. kan uden samtykke fra pantsætter give låntager henstand
+med betaling af afdrag, renter, og øvrige omkostninger, dog med respekt af
+lov om finansiel virksomhed § 48 for så vidt angår tredjemandspantsætning.
+.kp off
+.sp
+.***********************
+.kp on
+.us 12. Tvangsfuldbyrdelse
+.br
+Eventuel realisation af panterettigheder sker efter forudgående varsel til
+pantsætter ved tvangsauktion eller på anden måde, som &BANKNAVN.
+skønner hensigtsmæssig, herunder realisation ved &BANKNAVN.s egen
+foranstaltning.
+.sp
+Inden &BANKNAVN. sælger effekterne, sendes et anbefalet brev, hvor
+pantsætter med en uges varsel opfordres til at opfylde &BANKNAVN.s
+krav.
+.sp
+Det gælder dog ikke, hvis omgående salg er nødvendigt for at undgå eller
+begrænse et tab.
+.kp off
+.** SIDESKIFT
+.pa
+...VITTEND
+.kp off
+.kp on
+:FED.
+Underskrifter
+:SKRSLUT.
+.sp
+.tp 85mm
+Hvis denne bemyndigelse kun underskrives af ¤Hvis fuldmagtsgiver er
+gift/lever i registreret part-
+.br
+undertegnede, erklærer jeg samtdig at være ¤nerskab og den pantsatte
+ejendom er omfattet af
+.br
+ugift/ikke leve i registreret partnerskab eller at ¤lov om ægteksabets
+retsvirkninger § 18, giver
+.br
+ejendommen ikke omfattes af lov om ægteska- ¤medunderskrevne
+ægtefælle/partner samtykke til
+.br
+bets retsvirkninger § 18 ¤tinglysningen. Er ægtefællen/partneren medejer,
+.br
+¤underskrives som fuldmagtsgiver.
+.sp 6mm
+.tp 40mm 85mm
+_______________ Den ¤¤Som fuldmagtsgiver eller Ægtefælle/partner
+.sp 12mm
+___________________________________  ¤¤___________________________________
+.br
+&NAVN. ¤¤&MEDNAVN.
+.sp 10mm
+.if &U'&GENVITT = J
+.th .go VITT
+.el .go VITTEND
+.***
+...VITT
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed.
+.sp 3mm
+Navn: ¤¤Navn:
+.sp 2mm
+Stilling: ¤¤Stilling:
+.sp 2mm
+Gade: ¤¤Gade:
+.sp 2mm
+Postnr/By: ¤¤Postnr/By:
+.sp 10mm
+_________________________________  ¤¤_________________________________
+.br
+:VERDA08.
+Underskrift ¤¤Underskrift
+:SKRSLUT.
+.th ...NÆSTE
+.if &U'&B55SPØRG1 EQ A
+.th .go NÆST.
+.if &U'&B55SPØRG1 EQ C
+...NÆST.
+.th .kp on
+.th :FED.
+.th Ejerpantebrevets størrelse:
+.th :SKRSLUT
+.th .sp 3mm
+.th .bx new  2mm 32mm 62mm 92mm
+.th .tp 3mm 33mm 63mm
+.th ¤før forhøjelse ¤forhøjelse ¤efter forhøjelse
+.th .hr 2mm 92mm
+.th .tp 25mm char , 55mm char , 85mm char ,
+.th ¤&B55BEL8. ¤&B55BELØB8A. ¤&RESULTA
+.th .bx off
+.th .sp
+.th Debitor giver hermed sig selv eller den, til hvem
+.th det forhøjede ejerpantebrev
+.th er underpantsat, panteret uden personligt gældsansvar.
+.th .kp off
+.th .sp
+.*****************
+.th .kp on
+.th Pantebrevets øvrige bestemmelser gentages i alle dets ord og
+.th punkter med det forbehold, at der meddeles afkald på en eventuel
+.th renteopskrivningsbestemmelse for så vidt angår forhøjelsesbeløbet.
+.th .kp off
+.th .sp
+.*******************************
+.th .kp on
+.th &BANKNAVN. bemyndiges til på mine/vores vegne at udstede, digitalt
+.th signere og anmelde forhøjelsen af ejerpantebrevet til tinglysning
+.th i overensstemmelse hermed. &BANKNAVN. bemyndiges tillige til at
+.th udstede, digitalt signere og tinglyse underpant til &BANKNAVN. i
+.th det forhøjede ejerpantebrev. &BANKNAVN. kan overlade
+.th udstedelsen, signering og/eller anmeldelse til en samarbejdspartner.
+.th .kp off
+.th .sp
+.th &BANKNAVN har ret til at afgive de i forbindelsen med denne
+.th disposition nødvendige erklæringer.
+.th .kp off
+.th .sp
+.***********************
+.th .kp on
+.th :FED.
+.th Øvrig bemyndigelse:
+.th :SKRSLUT.
+.th .br
+.th I forbindelse med f.eks. pengeinstitutskifte eller ejerskifte af
+.th den pantsatte genstand bemyndiges &BANKNAVN. endvidere til at
+.th tinglyse de nødvendige påtegninger, herunder bl.a. men ikke
+.th begrænset hertil:
+.th .br
+.th .in 7mm
+.th *   debitor- og kreditorskifte
+.th .br
+.th *   sletning i selve dokumentet (implicitte fuldmagter)
+.th .br
+.th *   sletning af meddelelseshaver
+.th .br
+.th *   rykning af pantebrev
+.th .in 2mm
+.th .sp
+.th &BANKNAVN har ret til at afgive de i forbindelse med denne disposition
+.th nødvendige erklæringer.
+.th .kp off
+.th .sp
+.**********************
+.th .kp on
+.th :FED.
+.th Underpant i det forhøjede ejerpantebrev er til sikkerhed for:
+.th :SKRSLUT.
+.th .br
+.th Ethvert mellemværende eksisterende som fremtidigt.
+.th .sp
+.th Underpantet erstatter underpant i det oprindelige ejerpantebrev
+.th før forhøjelsen.
+.th .kp off
+.th .sp
+.*******************
+...NÆSTE
+.kp on
+.if &U'&PRIVERHV = E
+.th &BANKNAVN.s Almindelige forretningsbetingelser (Erhvervskunder)
+.el &BANKNAVN.s Almindelige forretningsbetingelser (Privatkunder)
+gælder for underpantsætningen. De gældende Almindelige
+forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
+hjemmeside.
+.kp off
+.sp

@@ -1,0 +1,307 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.***********************
+:TILTALE &TILTALE
+:OMTALE &OMTALEF
+.se RETTET = 220300
+.*********************AREAL-DEFINITIONER***********************************
+.da EKSPOPL   126mm  34mm width  79mm
+.da ADROPL     25mm  50mm width 100mm
+.da SWISSDATO  20mm  85mm width 150mm
+.da VEND        7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.se TR = ' '
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.*.if &fundet = 0 .TLADR2 &post
+.*.if &fundet = 0 .TLADR3 &post
+.*.if &fundet = 0 .TLADR4 &post
+.*.if &fundet = 0 .TLADR5 &post
+.*.if &fundet = 0 .go EJFUND
+.if &fundet = 1
+.th .go RET
+.el .go EJFUND
+.**************************************************************************
+...RET
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.th .se gb = substr '&TB.' 7 28
+.th .se TR = '&GENRET. &gb.'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0003 .se TN = 'Andelsboligbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .2100 .se TN = 'Skibsregistret'
+.th .se TR = ' '
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+.th .se TR = ' '
+.if .&post1 = .9500 .se TN = 'Tinglysningsretten'
+.th .se TR = ' '
+...EJFUND
+...DM
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0001
+.or &ITLPN = 0002
+.or &ITLPN = 0003
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .se ktonr = '0216 4069152155'
+.th .go SLUT
+.if &ITLPN = 0110
+.th .se TG 'C. Pløyensgøta 1'
+.th .se TB '110  Tórshavn'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 9500
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500 Hobro'
+.th .se ktonr = ''
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ****
+.se GENSTILL = ' '
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.ar ekspopl on
+:NY.
+:SWISS10.
+:ENY.
+&AFDNAVN
+.br
+&AFDGADE., &AFDBY.
+.br
+Website www.maxbank.dk
+.br
+.se FAX = '55 78 01 22'
+.se EMAIL = post
+.if &EKSPBNKST = 607001
+.th .se EMAIL = herlufmagle
+.th .se FAX = '55 50 14 48'
+.if &EKSPBNKST = 607003
+.th .se EMAIL = herlufmagle
+.th .se FAX = '55 50 14 48'
+.if &EKSPBNKST = 607004
+.th .se EMAIL = storcenter
+.th .se FAX = '55 72 08 18'
+.if &EKSPBNKST = 607005
+.th .se EMAIL = haslev
+.th .se FAX = '56 36 57 01'
+.if &EKSPBNKST = 607008
+.th .se EMAIL = slagelse
+.th .se FAX = '58 56 05 68'
+.if &EKSPBNKST = 607010
+.th .se EMAIL = storcenter
+.th .se FAX = '55 72 08 18'
+.if &EKSPBNKST = 607015
+.th .se EMAIL = erhverv
+.if &EKSPBNKST = 607020
+.th .se EMAIL = privat
+.if &EKSPBNKST = 607035
+.th .se EMAIL = finans
+.if &EKSPBNKST = 607045
+.th .se EMAIL = kredit
+.if &EKSPBNKST = 607500
+.th .se EMAIL = park
+.th .se FAX = '55 72 81 93'
+&AFDTLF
+.br
+CVR-nr. &BANKSENR.
+.br
+E-mail &EMAIL.@maxbank.dk
+:NY.
+:SKRSLUT.
+:ENY.
+.ar off
+.ar adropl on
+:NY.
+:SWISS12.
+:ENY.
+.fo left
+.if &L'&GENSTILL gt 0
+.th &GENSTILL
+.th .br
+&GENNAVN
+.br
+.if &L'&GENCOADR gt 0
+.th &GENCOADR
+.th .br
+&GENGADE
+.br
+&GENBY
+.ar off
+.ar SWISSDATO on
+:NY
+:SWISS12.
+:ENY
+&DATO
+.ar off
+.da SWISSTEKST 25mm 100mm width 150mm
+.**********************
+.ar SWISSTEKST on
+:SWISS12.
+.ri
+Vor ref: &B50TEXTP23
+.tp 50mm
+Vedlagt fremsendes til ¤1) Aflysning
+.br
+¤2) Tinglysning
+.br
+¤3) Lysning af påtegning
+.br
+¤4) Annullation af retsanmærkninger
+.sp
+af &BANKNAVN.
+.sp 2
+&B50TEXTP04
+.br
+&B50TEXTP05
+.br
+&B50TEXTP06
+.br
+&B50TEXTP07
+.br
+&B50TEXTP08
+.br
+&B50TEXTP09
+.br
+&B50TEXTP10
+.br
+&B50TEXTP11
+.br
+&B50TEXTP12
+.br
+&B50TEXTP13
+.br
+&B50TEXTP14
+.br
+&B50TEXTP15
+.br
+&B50TEXTP16
+.br
+&B50TEXTP17
+.br
+&B50TEXTP18
+.sp 2
+Med pant i &B50TEXTP01
+.sp
+Udstedt af &NAVN
+.sp 2
+.tp 25mm 30mm
+.**************
+.if &L'&B50TEXTP19 gt 0
+Betaling ¤:
+.if &U'X&B50JANEJ = XJ
+.th .br
+.th Genanvendelse af tinglysningsafgiften jf. Tinglysningsafgiftlovens
+.th §5a, stk. 1.
+.sp
+.if &U'X&B50JANEJ = XN
+.if &L'&B50TEXTP19 gt 0
+.th &B50TEXTP19
+.th .sp
+.**************
+Legitimation ¤:
+.br
+&B50TEXTP20
+.br
+¤¤&B50TEXTP21
+.br
+¤¤&B50TEXTP22
+.sp 2
+Efter endt ekspedition bedes dokumenterne returneret til os.
+.ti ¤ 05
+.sp 2
+Med venlig hilsen
+.br
+&BANKNAVN.
+.sp 3
+.if &U'&GENJANEJ = J
+.th .tp 0mm 80mm
+.th ¤&GENEKSP ¤&GENMEKSP
+.th .br
+.th ¤Telefon &GENTLFNR
+.th .br
+.th ¤E-mail &GENEMAIL
+.el &GENEKSP
+.el .br
+.el Telefon &GENTLFNR.
+.el .br
+.el E-mail &GENEMAIL.
+.ar off
+

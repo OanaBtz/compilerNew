@@ -1,0 +1,183 @@
+:SWISS8.
+.da KONTOH     21mm    44mm   width  85mm
+.da ARBG      108.5mm  44mm   width  85mm
+.da PI         21mm    73mm   width  85mm
+.da CPRNR     108.5mm  73mm   width  85mm
+.da KONTONR   108.5mm  83mm   width  45mm
+.da DEPNR     151mm    83mm   width  45mm
+.da TEKST      21mm    94mm   width 170mm
+.da INDBET     21mm   107mm   width 173mm
+.*************************************
+.ar KONTOH on
+Kontohaver
+.ar off
+.***********************
+.ar PI on
+Pengeinstitut
+.ar off
+.**********************
+.ar CPRNR on
+CPR-nr.
+.ar off
+.*********************
+.ar KONTONR on
+Kontonr.
+.ar off
+.**************************
+.ar DEPNR on
+Depotnr.
+.ar off
+.**************************
+.ar TEKST on
+Undertegnede parter indgår herved aftale om oprettelse
+af ratepension (rateopsparing i pensionsøjemed)
+.if &L'&GENIDTO13 > 0
+.th .ct , som erstatter kontrakt af
+.th :SKRSLUT.
+.th &GENIDTO13.
+.*******************************************************************
+.*** Tekst for gammel ordning før 1.maj 2007 + § 41-overførsel******
+.if &L'&GENIDTO13 > 0
+.an &L'&GEN1MAJ07 > 0
+.th .go GLORD
+.el .go GLORDSL
+...GLORD
+:SWISS8.
+.ct ,
+.if &L'&GEN41OVF > 0
+.th og som oprettes som led i en § 41-overførsel af en
+.th ordning oprindelig oprettet før
+.el der oprindelig er oprettet før
+:SKRSLUT.
+01.05.2007
+...GLORDSL
+.ct .
+.ar off
+.**************************
+.ar INDBET on
+Indbetalinger
+.sp
+.*** test hvilken ordning **************************
+Indbetalingerne til ratepensionen aftales mellem kontohaver og
+:SKRSLUT.
+:COUR10.
+&BANKNAVN..
+:SKRSLUT.
+:SWISS8.
+Indbetalingerne skal senest ophøre i kalenderåret inden første
+udbetaling.
+.br
+.if &L'&GENPRIFAST gt 0
+.th .go PRIFAST
+.if &L'&GENPRIENGA gt 0
+.th .go PRIENGA
+.if &L'&GENPRIOPFY gt 0
+.th .go PRIOPFY
+.el .go INDBSLUT
+.**** PRIVATORDNINGER ****
+.**** privat fast beløb ***************
+...PRIFAST
+.tp 148mm
+I forbindelse med, at aftalen er indgået, er det aftalt, at
+.if x&GENLØNINDB = x1
+.th .ct  kontohaver indbetaler et fast beløb på ¤kr. pr. år.
+.th .go AA1
+.ct  kontohaver indbetaler et fast beløb på ¤kr.
+.if x&GENLØNINDB = x2
+.th pr. halvår,
+.if x&GENLØNINDB = x3
+.th pr. kvartal,
+.if x&GENLØNINDB = x4
+.th pr. måned,
+.if x&GENLØNINDB = x5
+.th pr. 14. dag,
+.if x&GENLØNINDB = x6
+.th pr. uge,
+.tp 50mm
+svarende til ¤kr. årligt.
+...AA1
+.sp
+...TPRISTAL
+.sp
+.**** test for pristalsregulering ************
+.tp 64mm
+.if &L'&GENPRISTAL gt 0
+.or &L'&GENPRIFRI gt 0
+.th Indbetalingen pristalreguleres årligt på grundlag af
+.el .sp
+.el .go INDBSLUT
+.if x&GENPRISTAL = x1
+.th forbrugerprisindekset.
+.th .go INDBSLUT
+.if x&GENPRISTAL = x2
+.th nettoprisindekset.
+.th .go INDBSLUT
+.if x&GENPRISTAL = x3
+.th timelønsindekset.
+.th .go INDBSLUT
+.if x&GENPRISTAL = x4
+.th lønindekset.
+.th .go INDBSLUT
+.if &L'&GENPRIFRI gt 0
+.th .ct ¤&GENPRIFRI..
+.**********************************************************
+.** privat engangsindskud *********************************
+...PRIENGA
+.tp 153mm
+I forbindelse med, at aftalen er indgået, er det aftalt, at
+.ct  kontohaver indbetaler et engangsindskud på ¤kr.
+.sp
+.go INDBSLUT
+.********************************************
+.**** privat op til opfyldningsfradraget ****
+...PRIOPFY
+.sp
+Indbetaling sker i henhold til særlige betingelser for selvstændige
+erhvervsdrivende jf. punkt 7 "Skatte- og afgiftsregler" i
+generelle vilkår for ratepension.
+.sp
+...INDBSLUT
+.ar off
+.**************************************************************************
+.* PARAMETRENE VEDR. MAKSIMUMBELØB -ÅR ************************************
+.* PARAMETRE TIL KAPITALPENSIONS-, RATEPENSIONS-, ALDERSOPSPARINGSBREVENE:
+.************ PENSIONSAFTALESYSTEMET **************************************
+.* BECPEN01
+.* BECPEN02
+.* BECPEN20
+.* BECPEN40
+.* BECPEN45
+.* BECPEN55
+.* BECPEN56
+.* BECPEN60
+.* BECPEN65
+.************ STANDARDBREVSSYSTEMET ***************************************
+.* BECRAT16
+.* BECRAT17
+.**************************************************************************
+.* DET ER FLG. PARAMETRE:
+.* GENMAXBEL, GENMAXBELA (INCL ARBEJDSMARKEDSBIDRAG)
+.* GENMAX15, GENMAX15B  *****
+.* GENMAXRAT, GENMAXOPF ***** tilføjet 2009
+.* GENMAXRAA,           ***** tilføjet 2013
+.* GENMAXDATO                                                         *****
+.* GENMAXALD
+.**************************************************************************
+.* UDLIGNSKAT, OVFÆGTEFÆL **** tilføjet 2010                          *****
+.* OVENSTÅENDE 2 PARAMETRE BRUGES I FØLGENDE BREVE ****************
+.* BECPENRV
+.* BECPEN02
+.**************************************************************************
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

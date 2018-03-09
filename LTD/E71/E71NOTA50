@@ -1,0 +1,233 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.*Parametre
+.*Parametre
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.*DETTE TEKSTMODUL ANVENDES OGSÅ I BECUNOTA50, DER SAMTIDIG OPDATERES *****
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.*DETTE TEKSTMODUL ANVENDES OGSÅ I BECUNOTA50, DER SAMTIDIG OPDATERES *****
+.**************************************************************
+.*  ændring af banknavn fra Capinordic bank A/S
+.*  til Finansieringsselskabet af 2/11-2010
+.**************************************************************
+.if &L'&BANKNAVN gt 0
+.th .se BANKNAVN = 'Finansieringsselskabet af 11/2-2010 A/S'
+.***********************************************************************
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.*DETTE TEKSTMODUL ANVENDES OGSÅ I BECUNOTA50, DER SAMTIDIG OPDATERES *****
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 110mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+:SKRSLUT
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.if x&AFREGNTYPE = x1
+.th .us Foreløbig afregningsnota
+.if x&AFREGNTYPE = x2
+.th .us Afregning lånesag
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.*DETTE TEKSTMODUL ANVENDES OGSÅ I BECUNOTA50, DER SAMTIDIG OPDATERES *****
+.******************************************************************
+.da KUNDEOPL      20mm  47mm width 85mm
+.da BANKSTED     126.5mm  66mm width 80mm
+.******************************************************************
+.ar KUNDEOPL on
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.ar off
+.*************************************
+.ar BANKSTED ON
+:COUR8.
+.tp 21mm
+.if &L'&BANKSTED > 0
+.th Banksted ¤&BANKSTED
+.th .br
+Kontonr. ¤&LANGKTONR.
+.br
+.if &L'&REGTYPE11 > 0
+.th Regtype ¤&REGTYPE11
+.th .br
+.hy off
+.if &L'&REGTYPELNG > 0
+.th .of 21mm
+.th Kontonavn ¤&REGTYPELNG
+.th .of
+.th .br
+.hy on
+Kundenummer ¤&KTOKNDNR1
+.ar off
+:SKRSLUT.
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.************* OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS - OBS ********
+.*DETTE TEKSTMODUL ANVENDES OGSÅ I BECUNOTA50, DER SAMTIDIG OPDATERES *****
+.da KUNDEOPL2 20mm 118.5mm width 175mm
+.**************************************************************************
+:SWISS9.
+.**************************************************************************
+.ar KUNDEOPL2 on
+.if &DEBANTAL = 1
+.th .go OMK
+.tp 88.5mm
+:FED.
+På dette lån er der flere låntagere
+.if &DEBANTAL > 2
+.th .ct , en af disse er
+.ct :
+:SKRSLUT.
+.sp 3mm
+&DEB2ADR1
+.br
+&DEB2ADR2
+.br
+&DEB2ADR3
+.br
+&DEB2ADR4
+.br
+&DEB2ADR5
+.sp 3mm
+Kundenummer &DEB2KNDNR
+.if &DEBANTAL > 2
+.th .sp 3mm
+.th Der er flere låntagere, som ikke er specificeret.
+.sp 5mm
+.** OMKOSTNINGER **********************************************************
+...OMK
+.tp 32.5mm 92.5mm right 142.5mm right
+.if &L'&LÅNBELTX1A > 0
+.or &L'&LÅNBELTX1B > 0
+.th &LÅNBELTX1A.&LÅNBELTX1B
+.th .sp
+.if &L'&LÅNBELTX2A > 0
+.or &L'&LÅNBELTX2B > 0
+.th &LÅNBELTX2A.&LÅNBELTX2B
+.th .sp
+.if &L'&LÅNBELTX3A > 0
+.or &L'&LÅNBELTX3B > 0
+.th &LÅNBELTX3A.&LÅNBELTX3B
+.th .sp
+.if &L'&BELØB10 > 0
+.th ¤&TEKST10 ¤¤&BELØB10 kr.
+.th .br
+.if &L'&BELØB11 > 0
+.th ¤&TEKST11 ¤¤&BELØB11 kr.
+.th .br
+.if &L'&BELØB12 > 0
+.th ¤&TEKST12 ¤¤&BELØB12 kr.
+.th .br
+.if &L'&BELØB13 > 0
+.th ¤&TEKST13 ¤¤&BELØB13 kr.
+.th .br
+.if &L'&BELØB14 > 0
+.th ¤&TEKST14 ¤¤&BELØB14 kr.
+.th .br
+.if &L'&BELØB15 > 0
+.th ¤&TEKST15 ¤¤&BELØB15 kr.
+.th .br
+.if &L'&BELØB16 > 0
+.th ¤&TEKST16 ¤¤&BELØB16 kr.
+.th .br
+.if &L'&BELØB17 > 0
+.th ¤&TEKST17 ¤¤&BELØB17 kr.
+.th .br
+.if &L'&BELØB18 > 0
+.th ¤&TEKST18 ¤¤&BELØB18 kr.
+.th .br
+.if &L'&BELØB19 > 0
+.th ¤&TEKST19 ¤¤&BELØB19 kr.
+.th .br
+.if &L'&BELØB20 > 0
+.th ¤&TEKST20 ¤¤&BELØB20 kr.
+.th .br
+.if &L'&BELØB21 > 0
+.th ¤&TEKST21 ¤¤&BELØB21 kr.
+.th .br
+.if &L'&BELØB22 > 0
+.th ¤&TEKST22 ¤¤&BELØB22 kr.
+.th .br
+.if &L'&BELØB23 > 0
+.th ¤&TEKST23 ¤¤&BELØB23 kr.
+.th .br
+.if &L'&BELØB24 > 0
+.th ¤&TEKST24 ¤¤&BELØB24 kr.
+.th .br
+.if X&FORTEGN = X+
+.or X&FORTEGN = X-
+.th .hr 32.5mm 142.5mm
+.th .sp
+.if X&FORTEGN = X+
+.th ¤Indsat på kontonr. ¤&PROVKTONR1 ¤&PROVENUE kr.
+.th .sp
+.if X&FORTEGN = X-
+.th ¤Hævet på kontonr. ¤&PROVKTONR1 ¤&PROVENUE kr.
+.th .sp
+.if X&FORTEGN = X0
+.th &ÅRB
+.*DATO OG UNDERSKRIFT******************************************************
+.sp 10mm
+Med venlig hilsen
+.sp2
+&BANKNAVN
+.**************************************************************************

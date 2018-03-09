@@ -1,0 +1,170 @@
+.*******************************************
+&BANKNAVN. skal hermed bekræfte notering af
+.if &U'&sidste = S
+.th &NAVN.'
+.el &NAVN.s
+sekundære underpant i:
+.sp
+.in 2mm nobreak
+&J15TEKST4.
+.if &L'&BECTEKST02. > 0
+.th .br
+.th &BECTEKST02.
+.if &L'&BECTEKST03. > 0
+.th .br
+.th &BECTEKST03.
+.if &L'&BECTEKST04. > 0
+.th .br
+.th &BECTEKST04.
+.if &L'&BECTEKST05. > 0
+.th .br
+.th &BECTEKST05.
+.if &L'&BECTEKST06. > 0
+.th .br
+.th &BECTEKST06.
+.in 0mm
+.sp
+Det kan oplyses, at
+.if &J15TAL1. > 1
+.th ejerpantebrevene
+.el ejerpantebrevet
+primært ligger til sikkerhed for følgende
+.if &J15TAL2. > 1
+.th engagementer
+.el engagement
+med &BANKNAVN.:
+.sp
+.tp 130mm 162mm char ,
+Restgæld på lån med hovedstol
+.br
+på DKK :VS.&J15BELØB4.
+¤DKK¤&J15BELØB1.
+.sp
+Markedsværdi af indegåede forretninger
+.br
+under rammeaftale¤DKK¤&J15BELØB2.
+.sp
+&BANKNAVN.' samlede eksponering pr. &J15TEKST6.¤DKK¤&J15BELØB3.
+.sp
+&BANKNAVN. forbeholder sig retten til at udvide engagementet med sikkerhed
+i ejerpantebrevet med prioritet forud for
+.if &U'&sidste2 = S
+.th &J15TEKST1.'
+.el &J15TEKST1.s
+sekundære underpant heri med ethvert krav, som &BANKNAVN. i medfør af den
+til enhver tid gældende ret kan udvide det sikrede gældsforhold med,
+herunder i det omfang markedsværdien af indgåede forretninger under
+rammeaftalen ændrer sig i negativ retning i takt med ændringer i
+renteniveauet.
+.sp
+&BANKNAVN forbeholder sig derudover ret til uden at advisere herom at give
+henstand med ydelser samt at lade ydelser udgå.
+.sp 2
+Med venlig hilsen
+.sp 3
+&BANKNAVN.
+.fo left
+.ti ¤ 05
+.***********************************************************************
+.se tal = &L'&NAVN.
+.su off
+.se sidste = substr &NAVN &tal 1
+.su on
+.se tal2 = &L'&J15TEKST1
+.su off
+.se sidste2 = substr &J15TEKST1. &tal2 1
+.su on
+.se cvrtal = substr &KUNDENR 1 2
+.*.if cvrtal = '00'
+.*.th .se cvrnr = substr &KUNDENR 2 8
+.*.el .se cvrnr = &KUNDENR
+.***********************************************************************
+.da OVERSKR 20mm 110mm width 170mm
+.* Brevnavn roteret i nederste, venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.***********************************************************************
+:COUR10.
+.ar OVERSKR on
+.us
+Notering af sekundær pant - &NAVN., CVR-nr. &KUNDENR..
+.us off
+.sp
+.***********************************************************************
+.*************** AREAL-DEFINITIONER ***************************************
+.da AFS  116.5mm 34.5mm width 150mm
+.da DATO 116.5mm 58mm width 150mm
+.*** Bankens afsenderoplysninger ******************************************
+.ar AFS on
+:COUR8.
+&BANKNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.if &L'&EKSPNAVN > 5
+.th .br
+.th Kundeansvarlig &EKSPNAVN.
+.ar off
+.*** Dato *****************************************************************
+.ar DATO on
+:COUR8.
+&DATO.
+.ar off
+:COUR10
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 20mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+&J15TEKST1.
+.br
+&J15TEKST2.
+.br
+&J15TEKST3.
+.br
+.**************************************************************************
+...HOVSL
+.ar off
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***********************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

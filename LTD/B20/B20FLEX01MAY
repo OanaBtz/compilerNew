@@ -1,0 +1,251 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.oc **B20FLEX01
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T:VERDA09.
+.fo left
+.ti ¤ 05
+.* brevnavn roteret
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.* overskrift
+.da START 20mm 110mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+B20FLEX01
+.ar off
+.****************************************
+.ar START on
+:VERDA10.
+:FED.
+Betingelser for AL-FormueFLEX-Privat
+:SKRSLUT.
+:SKRSLUT.
+.ti ¤ 05
+.tp 50mm right 70mm
+.sp
+Kontoen er et højrenteprodukt til privatkunder.
+.sp
+Du må maksimalt indskyde 25.000.000,00 kr. i alt på dine
+AL-FormueFLEX-konti.
+Kontoens saldo kan godt overstige 25.000.000,00 kr. med de løbende
+rentetilskrivninger.
+.sp
+Overstiger indskuddet mere end 25.000.000,00 kr., er banken
+berettiget til, at overføre den overskydende saldo til en anden kontoform.
+.sp
+Der er ingen tidsbegrænsninger.
+.sp
+Der er ingen bindingsperiode.
+.sp
+Du kan frit hæve 6 gange pr. kalenderår. Kontoen kan derfor ikke
+anvendes som almindelig transaktionskonto. Du betaler 20,00 kr. pr.
+hævning ud over de første 6 hævninger pr. kalenderår.
+.sp
+Rentesatserne er variable, og kan ændres i overensstemmelse
+med bankens almindelige forretningsbetingelser.
+.sp
+Rentesatserne er dags dato:
+.sp
+Saldointerval ¤¤Rentesats dags dato
+¤¤for saldointerval
+.if &B20TEST01 = J .or &B20TEST01 = j
+.th .sp
+.th .in 14mm
+.th 0,00 -   ¤24.999,99 ¤0,000% p.a.
+.th .in 0mm
+.th .br
+.th .in 5mm
+.th 25.000,00 -  ¤274.999,99 ¤0,150% p.a.
+.th .in 0mm
+.th .br
+.th .in 3mm
+.th 275.000,00 -  ¤999.999,99 ¤0,150% p.a.
+.th .in 0mm
+.th .br
+.th 1.000.000,00 -¤4.999.999,99 ¤0,150% p.a.
+.th .br
+.th 5.000.000,00 -¤og derover   ¤0,150% p.a.
+.el .sp
+.el .in 14mm
+.el 0,00 -   ¤24.999,99 ¤0,000% p.a.
+.el .in 0mm
+.el .br
+.el .in 5mm
+.el 25.000,00 -  ¤274.999,99 ¤0,000% p.a.
+.el .in 0mm
+.el .br
+.el .in 3mm
+.el 275.000,00 -  ¤999.999,99 ¤0,000% p.a.
+.el .in 0mm
+.el .br
+.el 1.000.000,00 -¤4.999.999,99 ¤0,000% p.a.
+.el .br
+.el 5.000.000,00 -¤og derover   ¤0,000% p.a.
+.sp
+Renten beregnes bagud og tilskrives hvert år den 30. november.

@@ -1,0 +1,163 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&KTOSTILL
+.BR
+&KTONAVN
+.BR
+&KTOCO
+.BR
+&KTOGADE
+.BR
+&KTOBY  &KTOLAND
+.SK
+:EGL.
+.*Parameterafsn
+.* Hvis vor reference er blank og underskriver eksisterer
+.if &L'&B37VORREF = 0 .an &E'&GENEKSP = 1
+.th .se B37VORREF = '&GENEKSP.'
+.*Regneafsnit
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &E'&GENDERREF = 1 .an &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &E'&B37VORREF = 1 .an &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.da DEPOTGEBYR 20mm  80mm
+.ar DEPOTGEBYR on
+:COUR14.:FED.
+DEPOTGEBYR
+.ar off
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.******************* Evt. ALTERNATIV PRINTER ******
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.**************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.**************************************************
+.ti ^ 05
+:COUR10.
+.**************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.**************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.*ir 25mm
+.* ÆNDRET d. 1/12.99 jvf. Standard for breve.
+.ir 20mm
+.*MB-RET (flere valg tilladt)
+.sp 30mm
+:SWISS16.
+Afvikling af terminskontrakt
+.hr left 150mm
+:SWISS10.
+.**********************************************************************
+ 
+Vi har valør &RESULTA. afviklet kontrakt(er) nr. &MIBEMNE2.
+ 
+som følger:
+ 
+ 
+                    er krediteret konto nr. &REGNR.-&KTONR.
+ 
+                    er debiteret  konto nr. &REGNR.-&KTONR.
+.** Stopper et areal
+.ar off

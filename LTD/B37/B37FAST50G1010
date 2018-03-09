@@ -1,0 +1,735 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* REGTYPE indsat af HB for at styre Handelsbanken Kredit dokumenter
+.************** HB DOKUMENT TEST   ***************************************
+.* PRIOMIDL. fjernet08.10.2010 PS. Regtyp 1138,39,40,41,34,42 HBKREDIT ES
+.* PRIOMIDL. indsat 08.06.2010 PS. Regtyp 1135,36,37,43 ES
+.* PRIOMIDL. indsat 04.06.2010 PS. Regtyp 1138,39,40,41,42,34 ES
+.* PRIOANDL. indsat 19.03.2010 PS. Regtyp skal OGSÅ være i PRIOVAR/FAST
+.* TEST til ERHVERV STÅENDE LÅN i 1.pos. særlige best.(stående!dd.mm.åååå)
+.*go TESTREG
+.se tal = 0
+.se sep1 = ''
+.se sep2 = ''
+.se sep3 = ''
+.se stal = 0
+.if &L'&SAERBET01 = 0
+.th .go EJMSLUT
+.*if x&tal = x1
+.se  str = '&SAERBET01.'
+.se lstr = &L'&str
+...IGEN
+.*if &L'&SAERBET01 = 0
+.if &tal > &lstr
+.th .go MSLUT
+.se tal = &tal + 1
+.se ldoktst = &L'&SAERBET01
+.if x&ldoktst = x0
+.th .se ldokrst = 0
+.el .se ldokrst = &ldoktst - 1
+.se DOKTST = SUBSTR '&SAERBET01.' 1 1
+.se DOKTXT = SUBSTR '&SAERBET01.' 2 &ldokrst
+...NUL
+.if x&DOKTST ne x( .and x&tal = x1
+.th .go EJMSLUT
+.el .se SAERBET01 = '&DOKTXT.'
+.*.el .se PRIOPF   = 1
+.if x&DOKTST = x)
+.th .se SAERBET01 = '&DOKTXT.'
+.th .se stal = &tal
+.* SIDSTE PARAMETER (3)**************
+.se bsep1 = 2
+.*** HVIS ) ER KOMMET, MEN DER IKKE ER ! TIL ALLE PARAMETRE **
+.if &tal. gt &stal .AN x&stal. ne x0
+.el .go PARMTST
+.if &L'&sep1 = 0
+.th .se  sep1 = &stal.
+.th .se bsep2 = &stal. + 1
+.if x&sep1 = x&stal .and &bsep1 > &sep1
+.th .se lsep1 = 0
+.el .se lsep1 = &sep1 - &bsep1
+.if &L'&sep2 = 0
+.th .se  sep2 = &stal.
+.th .se bsep3 = &stal. + 1
+.if x&sep2 = x&stal .and &bsep2 > &sep2
+.th .se lsep2 = 0
+.el .se lsep2 = &sep2 - &bsep2
+.if &L'&sep3 = 0
+.th .se  sep3 = &stal.
+.th .se bsep4 = &stal. + 1
+.if x&sep3 = x&stal .and &bsep3 > &sep3
+.th .se lsep3 = 0
+.el .se lsep3 = &sep3 - &bsep3
+...PARMTST
+.if x&DOKTST = x) .and x&sep1 ne x .and x&sep2 ne x
+.th .se  sep3 = &tal
+.th .se lsep3 = &sep3 - &bsep3
+.if x&DOKTST  = x! .and x&sep1 ne x .and x&sep2 = x
+.th .se  sep2 = &tal
+.th .se lsep2 = &sep2 - &bsep2
+.th .se bsep3 = &tal + 1
+.if x&DOKTST  = x! .and x&sep1 = x .and x&sep2 = x
+.th .se  sep1 = &tal
+.th .se lsep1 = &sep1 - &bsep1
+.th .se bsep2 = &tal + 1
+.IF x&tal = x30
+.th go MSLUT
+.if &tal < 29
+.th .go IGEN
+...MSLUT
+.if x&stal = x0
+.th .go FEJL
+.se srstr = &stal + 1
+.***
+.go EJGL
+.*if &L'&sep1 = 0
+.*th .se sep1 = &stal
+.*if &L'&sep1 ne 0 .and &sep1 gt 2
+.*th .se lsep1 = &sep1 - 2
+.*se lsep2 = &sep2 - 2
+.*if &L'&sep2 = 0
+.*th .se sep2 = &stal
+.*if &L'&sep2 ne 0 .and &sep2 gt 2
+.*th .se lsep2 = &sep2 - 2
+.*if &L'&sep2 ne 0 .and &sep2 gt &sep1
+...EJGL
+.***
+.se SAERBET01 = SUBSTR '&str.' &srstr.
+.se par1      = SUBSTR '&str.' 2 &lsep1.
+.se par2      = SUBSTR '&str.' &bsep2. &lsep2.
+.se par3      = SUBSTR '&str.' &bsep3. &lsep3.
+.* SÆT PARAMETER FOR NORMAL FASTLÅN ****
+.* SKER VED LABEL  EJMSLUT *****
+.*** SÆT PARAMETER FOR PRIORITETSLÅN/STÅENDE LÅN
+.*if x&U'&par1 = xPRIO2
+.*th .se PRIOPF2  = 2
+.*if x&U'&par1 = xPRIOFAST
+.*th .se PRIOFAST  = 1
+.*th .se EJSTOP    = 1
+.*if x&U'&par1 = xPRIOVAR
+.*th .se PRIOVAR   = 1
+.*th .se EJSTOP    = 1
+.*if x&U'&par1 = xPRIOKREDIT
+.*th .se PRIOKRED  = 1
+.*th .se EJSTOP    = 1
+.if x&U'&par1 = xSTÅENDE .an x&L'&par2 = x10
+.th .se STLAN     = 1
+.th .se STLANDATO = &par2
+.th .se EJSTOP    = 1
+.if x&EJSTOP = 1
+.th .go EJMSLUT
+.go EJMSLUT
+.**************************
+...FEJL
+:SWISS16.
+.sp 10mm
+Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEBITOR2
+.sp 10mm
+DER ER FEJL I DOKUMENT TESTSTRENGEN:
+ 
+FORMAT i førsteposition af særlige bemærkinger:
+.sp
+.*(PrioFast) eller (PrioVar) eller (PrioKredit)
+.*(PrioFast!xx)
+(stående!dd.mm.åååå)
+.sp
+   stående    = Kravs TEST ord for stående lån
+   dd.mm.åååå = Udløbsdato (2. afviklingsdato med 10 karakterer)
+   () og !    = Kravs tegn
+.sp 10mm
+ 
+DU HAR SKREVET:
+ 
+&str.
+ 
+.qu
+.**************************
+...EJMSLUT
+.******* TEST ***
+.*** SÆT PARAMETER FOR NORMAL FASTLÅN
+.*if x&par1  = x
+.*or &E'&par1  = 0
+.*th .se NORMAL   = 1
+.******* TESTPARAMETRE UDSKRIVES ***
+.if x&U'&par3 ne xTEST
+.th .go SLUTTEST
+.da TESTa 20mm 200mm
+.ar TESTa on
+ 
+ PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
+tal = &tal stal = &stal
+.br
+Særlige betingelser:
+'&SAERBET01.'
+.*'&SÆRBET1A.' '&SÆRBET1B.'
+.br
+sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
+par1='&par1.'par2='&par2.'par3 = '&par3.'
+.br
+srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
+STLAN = '&STLAN.' STLANDATO = '&STLANDATO.'
+bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
+bsep3 = &bsep3 lsep3=&lsep3
+.ar off
+...SLUTTEST
+.* TEST PÅ REGTYPE ***************
+...TESTREG
+.se NORMAL   = 1
+.se LIT      = J ;.* Løbetidsbaseret intern rente
+.se PRIOANDEL = 0 ;.* Andelsbolig tekst
+.if x&E'&PRIERH = x0
+.th .se PRIERH = P
+.if x&REGTYPE11 = x1000
+.or x&REGTYPE11 = x1004
+.or x&REGTYPE11 = x1009
+.or x&REGTYPE11 = x1010
+.or x&REGTYPE11 = x1030
+.or x&REGTYPE11 = x1031
+.or x&REGTYPE11 = x1072
+.th .se LIT    = N
+.th .se PRIERH = E
+.*if x&U'&par1 = xPRIOFAST
+.if x&REGTYPE11 = x1330
+.or x&REGTYPE11 = x1331
+.or x&REGTYPE11 = x1332
+.or x&REGTYPE11 = x1361
+.or x&REGTYPE11 = x1333
+.or x&REGTYPE11 = x1334
+.or x&REGTYPE11 = x1342
+.or x&REGTYPE11 = x1350
+.or x&REGTYPE11 = x1118
+.or x&REGTYPE11 = x1142
+.or x&REGTYPE11 = x1119
+.or x&REGTYPE11 = x1134
+.or x&REGTYPE11 = x1354
+.or x&REGTYPE11 = x1102
+.th .se PRIERH = P
+.th .se PRIOFAST  = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.if x&REGTYPE11 = x1335
+.or x&REGTYPE11 = x1358
+.or x&REGTYPE11 = x1110
+.or x&REGTYPE11 = x1135
+.or x&REGTYPE11 = x1336
+.or x&REGTYPE11 = x1355
+.or x&REGTYPE11 = x1101
+.or x&REGTYPE11 = x1111
+.or x&REGTYPE11 = x1136
+.or x&REGTYPE11 = x1337
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1137
+.or x&REGTYPE11 = x1338
+.or x&REGTYPE11 = x1359
+.or x&REGTYPE11 = x1113
+.or x&REGTYPE11 = x1138
+.or x&REGTYPE11 = x1356
+.or x&REGTYPE11 = x1111
+.or x&REGTYPE11 = x1339
+.or x&REGTYPE11 = x1360
+.or x&REGTYPE11 = x1114
+.or x&REGTYPE11 = x1139
+.or x&REGTYPE11 = x1357
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1340
+.or x&REGTYPE11 = x1115
+.or x&REGTYPE11 = x1140
+.or x&REGTYPE11 = x1341
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1141
+.or x&REGTYPE11 = x1343
+.or x&REGTYPE11 = x1117
+.or x&REGTYPE11 = x1143
+.or x&REGTYPE11 = x1351
+.or x&REGTYPE11 = x1352
+.or x&REGTYPE11 = x1353
+.or x&REGTYPE11 = x2854
+.or x&REGTYPE11 = x2856
+.th .se PRIERH = P
+.th .se PRIOVAR   = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.if x&REGTYPE11 = x1322
+.or x&REGTYPE11 = x1323
+.or x&REGTYPE11 = x1324
+.th .se LIT    = N
+.th .se PRIERH = E
+.th .se PRIOFAST  = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.if x&REGTYPE11 = x1325
+.or x&REGTYPE11 = x1100
+.or x&REGTYPE11 = x1125
+.or x&REGTYPE11 = x1326
+.or x&REGTYPE11 = x1126
+.or x&REGTYPE11 = x1327
+.or x&REGTYPE11 = x1127
+.or x&REGTYPE11 = x1328
+.or x&REGTYPE11 = x1103
+.or x&REGTYPE11 = x1128
+.or x&REGTYPE11 = x1329
+.or x&REGTYPE11 = x1104
+.or x&REGTYPE11 = x1129
+.th .se LIT    = N
+.th .se PRIERH = E
+.th .se PRIOVAR   = 1
+.th .se EJSTOP    = 1
+.th .se NORMAL   = 0
+.* PRIORITETSKREDITTER (Skal også være i PRIOVAR/FAST ovenfor)
+.if x&REGTYPE11 = x2854
+.or x&REGTYPE11 = x2856
+.or x&REGTYPE11 = x2858
+.th .se PRIOKRED = 1
+.* ANDELSBOLIGREGTYPER (Skal også være i PRIOVAR/FAST ovenfor)
+.if x&REGTYPE11 = x1350
+.or x&REGTYPE11 = x1351
+.or x&REGTYPE11 = x1352
+.or x&REGTYPE11 = x1353
+.if x&REGTYPE11 = x1354
+.or x&REGTYPE11 = x1355
+.or x&REGTYPE11 = x1356
+.or x&REGTYPE11 = x1357
+.or x&REGTYPE11 = x2857
+.th .se PRIOANDEL = 1
+.* HANDELSBANKEN KREDIT(Skal også være i PRIOVAR/FAST ovenfor)
+.se B37HYCVR = N
+.* TESTKUNDE
+.*if x&KTOKNDNR1 = x4370274881
+.*el .go EJTSTCVR
+.if x&REGTYPE11 = x1110
+.or x&REGTYPE11 = x1113
+.or x&REGTYPE11 = x1114
+.or x&REGTYPE11 = x1115
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1117
+.or x&REGTYPE11 = x1118
+.or x&REGTYPE11 = x1119
+.or x&REGTYPE11 = x1135
+.or x&REGTYPE11 = x1136
+.or x&REGTYPE11 = x1137
+.or x&REGTYPE11 = x1143
+.th .se B37HYCVR = J
+.th .se BANKNAVN = 'Handelsbanken Kredit'
+.el .se B37HYCVR = N
+.* BETINGELSESSIDE og UNSKR KAN ENDNU IKKE HÅNDTERE REGTYPE11 FRA LÅNESAG
+.if x&REGTYPE = x1110
+.or x&REGTYPE = x1113
+.or x&REGTYPE = x1114
+.or x&REGTYPE = x1115
+.or x&REGTYPE = x1116
+.or x&REGTYPE = x1117
+.or x&REGTYPE = x1118
+.or x&REGTYPE = x1119
+.or x&REGTYPE = x1135
+.or x&REGTYPE = x1136
+.or x&REGTYPE = x1137
+.or x&REGTYPE = x1143
+.th .se B37HYCVR = J
+.th .se BANKNAVN = 'Handelsbanken Kredit'
+...EJTSTCVR
+.* STOPREGTYPER (Fastrente brug SD)
+.if x&REGTYPE11 = x1000
+.or x&REGTYPE11 = x1001
+.or x&REGTYPE11 = x1004
+.or x&REGTYPE11 = x1030
+.or x&REGTYPE11 = x1071
+.or x&REGTYPE11 = x1072
+.or x&REGTYPE11 = x1074
+.or x&REGTYPE11 = x1320
+.or x&REGTYPE11 = x1321
+.th .se STOP = 1
+.******* TEST SLUT ***
+.* MAKROEN hklogo defineres - tom eller med logo og cvrtekst
+.* Hvis parametren B37PDF = J, så tom. Tilføjet 12.06.2012 es
+.************** LOGO * TEKST STARTER **************************
+.dm hklogo on
+.**** HVIS VÆRDIEN IKKE ER SAT TIL J dannes makroen uden indhold **********
+.if x&U'&B37HYCVR ne xJ
+.th .go TOM
+.el .go TAGMED
+...TAGMED
+.if x&U'&B37PDF = xJ
+.th .go TOM
+.************** Areal definitioner ****************************************
+.*da HKLOG 80mm 11.7mm width 110mm
+.da HKLOG 20mm 11.7mm width 110mm
+.da HKCVR 18.5mm 276.8mm width 177mm
+.************** LOGO * TEKST STARTER **************************
+.ar HKLOG on
+:SWISS20.:FED.
+Handelsbanken Kredit
+.ar off
+.**************** CVR* TEKST STARTER **************************
+.ar HKCVR on
+.sp 11mm
+:SWISS6.
+.se hk1 'Handelsbanken Kredit CVR-nr. 32476759 Filial af'
+.se hk2 'Stadshypotek AB, Sverige * Org.nr. SE556459-6715'
+.ce on
+&hk1 &hk2
+.ce off
+.ar off
+...TOM
+.dm off
+.*og med hovedkontor på Kungsträgårdsgatan 2, SE-10370 Stockholm, Sverige),
+.*ct et helejet datterselskab af
+.if x&fastlk = xN
+.th .go ASLUT
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS8.
+.fo left
+:TILTALE &TILTALE
+.**************************************************************************
+.da BOX 20mm 40mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 130mm
+.da OV1 21mm 45mm width 170mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.** HANDELSBANKEN KREDIT **************************************************
+.hklogo
+.**************************************************************************
+.ar BOX on
+.bx left right
+.sp 235mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+.hy off
+:SWISS12.:FED.
+.*Almindelige forretningsbetingelser og særlige bestemmelser for lån og
+.*kreditter - forbruger
+Bestemmelser for Prioritetslån - Privat
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*ar OV1 on
+.*SWISS8.
+.*De almindelige forretningsbetingelser og særlige bestemmelser
+.*for lån og kreditter gælder for ethvert mellemværende mellem
+.*&BANKNAVN. og &DIG., medmindre der udtrykkeligt er aftalt
+.*andet f.eks. i en indlånsaftale, udlånsaftale (kreditaftale),
+.*i depotvilkår, Check- og Dankortregler eller boksvilkår eller
+.*andre særlige vilkår.
+.*ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 60MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.*TILFØJ DE 30MM NEDENFOR *************************************************
+.**************************************************************************
+.sp 47mm
+:SWISS10.
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.pm 20mm
+.tm 13mm
+.bm 25mm
+.********KOLONNEDEFINITION
+.cd 2 1mm 88mm
+.cl 85mm
+...ASLUT
+;T.if x&fastlk = xN
+.th .go ASLUT
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS8.
+.fo left
+:TILTALE &TILTALE
+.**************************************************************************
+.da BOX 20mm 40mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 130mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.** HANDELSBANKEN KREDIT **************************************************
+.hklogo
+.**************************************************************************
+.ar BOX on
+.bx left right
+.sp 235mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+.hy off
+:SWISS12.:FED.
+.*Almindelige forretningsbetingelser og særlige bestemmelser for lån og
+.*kreditter - forbruger
+Bestemmelser for Prioritetslån - Privat
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 45MM: Y = 32mm + 13mm (TOPMARGIN) = 45mm
+.*TILFØJ DE 30MM NEDENFOR *************************************************
+.**************************************************************************
+.sp 32mm
+:SWISS10.
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.pm 20mm
+.tm 13mm
+.bm 25mm
+.********KOLONNEDEFINITION
+.cd 2 1mm 88mm
+.cl 85mm
+...ASLUT
+;T.if x&fastlk = xN
+.th .go ASLUT
+.**************************************************************************
+.da RAMME 20mm 40mm width 175mm
+.da OV1 23mm 45mm width 168mm depth 230mm
+.da ALM1 21mm 45mm width 85mm
+.da ALM2 109mm 45mm width 85mm
+.**************************************************************************
+.* STREGTYKKELSE TIL hr, vr og bx (streg og box)
+.dr tynd WEIGHT 0.1mm
+.****
+.*ar RAMME on
+.*bx left right
+.*sp 235mm
+.*bx off
+.*ar off
+.***
+.*ar OV1 on
+.*ar off
+.*** PARAMETER TIL SPALTESTYRING **
+.se S = 1
+.*** MACRO - NORMAL BRØDTEKST **
+.dm TXTSK
+:SWISS9.
+.dm off
+.*** MACRO - HOVED-OVERSKRIFT EFTER SIDESKIFT ***
+.dm OVH0 on
+.*sp 5mm
+:SWISS10.
+:FED.
+&*
+:SKRSLUT.
+:SWISS9.
+.sp 1.5mm
+.dm off
+.*** MACRO - HOVED-OVERSKRIFT EFTER SIDESKIFT ***
+.dm OVH1 on
+.sp 3mm
+:SWISS10.
+:FED.
+&*
+:SKRSLUT.
+:SWISS9.
+.sp 1.5mm
+.dm off
+.*** MACRO - AFSNITS HOVED-OVERSKRIFT EFTER SIDESKIFT ***
+.dm OVH2 on
+.sp 3mm
+:SWISS12.
+:FED.
+&*
+:SKRSLUT.
+:SWISS9.
+.sp 1.5mm
+.dm off
+.*** MACRO - OVERSKRIFT EFTER SIDESKIFT ***
+.dm OV0 on
+.*sp 5mm
+:SWISS9.
+:FED.
+&*
+:SKRSLUT.
+:SWISS9.
+.sp 1.5mm
+.dm off
+.*** MACRO - OVERSKRIFT *****
+.dm OV1 on
+.sp 3mm
+:SWISS9.
+:FED.
+&*
+:SKRSLUT.
+:SWISS9.
+.sp 1.5mm
+.dm off
+.***
+...ASLUT
+.if x&fastlk = xN
+.th .go ASLUT
+.* Punkt d) Hvis kunden afgår ved døden  - tilføjet 8.11.2010 es******
+.* Kopi af B37FAST04A1 nu med HKredit den 20.4.2010 ES ********************
+.* Banken erstattet af variabel d. 1.11.2010 es
+.**************************************************************************
+.*ar off
+.if &S = 1
+.th .ar OV1 on
+.el .ar ALM1 on
+.tp 5mm
+.ti ¤ 05
+.*dm I1 on
+.*of 5mm
+.*&*
+.*dm off
+.TXTSK
+.OVH0 Misligholdelse og andre forfaldsgrunde
+ 
+I følgende særlige situationer er &Sbanken berettiget til at ophæve
+lånet uden varsel og forlange hele gælden betalt straks:
+ 
+.of 5mm
+a) ¤Hvis ydelser, renter, provision eller afdrag ikke betales ved
+forfaldstidspunktet, og Låntager ikke har betalt 8 dage efter,
+at &Sbanken har sendt rykkerbrev til låntager på den af &Sbanken
+senest kendte adresse.
+.of
+ 
+.of 5mm
+b) ¤Hvis Låntager udsættes for individuel retsforfølgning i form af
+udlæg eller arrest.
+.of
+ 
+.of 5mm
+c) ¤Hvis Låntager standser betalingerne, kommer under konkurs,
+indleder forhandling om gældssanering eller indleder forhandling
+om akkord.
+.of
+ 
+.of 5mm
+d) ¤Hvis Låntager afgår ved døden.
+.of
+ 
+.of 5mm
+e) ¤Hvis Låntagers tilbagebetalingsevne efter &Sbanken.s vurdering er
+væsentlig forandret i en for &Sbanken ugunstig retning.
+.of
+ 
+.of 5mm
+f) ¤Hvis Låntager tager fast ophold uden for landets grænser, og der
+ikke forinden er truffet aftale om lånets(fortsatte) afvikling.
+.of
+ 
+.of 5mm
+g) ¤Hvis Låntager har givet urigtige oplysninger af betydning for
+lånets oprettelse.
+.of
+ 
+.of 5mm
+h) ¤Hvis Låntager ikke på &Sbanken.s forlangende indleverer
+selvangivelse, årsopgørelse eller eventuelt regnskab.
+.of
+ 
+.of 5mm
+i) ¤Hvis ejendommen uden &Sbanken.s samtykke
+udlejes til andre end familiemedlemmer i lige linje.
+.of
+ 
+.if x&U'&B37HYCVR eq xJ
+.th .of 5mm
+.th j) ¤Hvis låntager misligholder sit
+.th engagement med &Sbanken eller Handelsbanken
+.th .of
+.th .sp
+.OVH1 Dokumentation for gældens størrelse
+.if x&U'&B37HYCVR eq xJ
+.th En udskrift fra &Sbanken.s og/eller Handelsbankens registre
+.el En udskrift fra Handelsbankens registre
+skal til enhver tid betragtes som
+gyldigt bevis for gældens størrelse.
+ 
+.OVH1 Forbehold ved indbetalinger
+Alle indbetalinger på lånet, der foretages med checks, anvisninger
+eller lignende, sker med forbehold af, at &Sbanken modtager
+beløbet. Tilsvarende gælder for indbetaling ved checks trukket på konti i
+&Sbanken., eller hvis beløb overført fra konto i &Sbanken senere
+tilbageføres.
+ 
+Forbeholdet gælder, selvom det ikke er nævnt i kvittering eller
+anden meddelelse om indbetalingen.
+ 
+.OVH1 Anvendelse af indbetalinger
+Enhver indbetaling på lånet - herunder beløb, som hidrører fra
+sikkerhed stillet af Låntager eller tredjemand, og beløb som
+indbetales af kautionister - anvendes først til dækning af rente
+og provision.
+ 
+Øvrige indbetalinger anvendes dernæst til betaling af afdrag.
+.*z&REGTYPE.x&REGTYPE11.y.&B37HYCVR.y
+.ar off
+.*** Indsat d. 11.11.2010 for at afslutte pænt før tillægssider **
+.*BSLUT
+...ASLUT

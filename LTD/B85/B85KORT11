@@ -1,0 +1,152 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.******** BREVHOVED - afsenderadresse *****
+.da DATO  28mm  70mm width 156mm
+.da AFS  156.8mm 260mm width  50mm
+.ar DATO on
+.fo right
+:SWISS12.
+&DATO
+.ar off
+.ar AFS on
+:SWISS8.
+.fo right
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf.: &AFDTLF
+.sp
+&GENEMAIL
+.br
+www.lokalbanken.dk
+.ar off
+.if &U'&B85HBCVR ne J
+.th .go NEJBUND
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.da HBCVR 25mm 275mm width 110mm
+.********************* TEKST STARTER **************************
+.ar HBCVR on
+:SWISS8.
+Handelsbanken CVR-nr. 24246361 Filial af Svenska Handelsbanken AB (publ),
+Sverige
+.ar off
+...NEJBUND
+.oc  **Inddraget kort - brev til PBS/regnr.
+.ti ¤ 05
+.fo left
+.da ADRESSE 25mm 41.5mm width 156mm
+.ar ADRESSE on
+:SWISS12.
+.if &BANKREGNR = 0
+.th .go PBS1
+.el .go BANK2
+...PBS1
+&GENNAVN
+.br
+&GENCO
+.br
+&GENGADE
+.br
+&GENBY
+.sp
+&GENATT
+.br
+.go SLUT
+...BANK2
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.sp
+.if &L'&BECTEKST30 > 0
+.th Att: &BECTEKST30
+.th .br
+...SLUT
+.ar off
+.*************************************************************
+:SWISS12.
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 25mm 110mm width 160mm
+.ar VEND on
+:COUR6.
+&BREVNAVN - 15.1.2008
+.ar off
+.***********************************************************************
+.* Start
+.ar START on
+:FED.
+Kort inddraget i automat
+:SKRSLUT.
+.sp
+.******OPDELING AF KORTNUMMERET I BLOKKE AF 4
+.se kort1 = substr &BECKORTNR 1 4
+.se kort2 = substr &BECKORTNR 5 4
+.se kort3 = substr &BECKORTNR 9 4
+.se kort4 = substr &BECKORTNR 13 4
+.**************************************************************************
+Til videre ekspedition sender vi her
+&BECKTTYPT nr. &kort1 &kort2 &kort3 &kort4.,
+som er blevet inddraget i vores pengeautomat.
+.if &L'&BECTEKST1 > 0
+.th .sp
+...FRITEKST
+&BECTEKST10.
+&BECTEKST11.
+&BECTEKST12.
+&BECTEKST13.
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 3
+&B85NAVN
+.sk
+.ar off

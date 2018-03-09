@@ -1,0 +1,140 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.da BREVHOVED 26mm 40mm width 80mm
+.ar BREVHOVED on
+:SWISS10.
+&INDSTIL
+.br
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:SWISS10.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 90mm width 140mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+Når
+&B29BARN
+fylder &B29ALDER år den &B29DATO., udløber bindingsperioden på
+.**** HER TAGES DET SIDSTE TAL UD AF CPRNUMMERET VHA. SUBSTR ****
+.su off
+.se cprse = substr &KTOKUNDENR 11 1
+.su on
+.**** HER TESTES PÅ OM SIDSTE CIFFER I CPRNR ER ULIGE ********
+.if x&cprse eq x1
+.or x&cprse eq x3
+.or x&cprse eq x5
+.or x&cprse eq x7
+.or x&cprse eq x9
+.th .se sin = 'hans'
+.el .se sin = 'hendes'
+&sin
+børneopsparingskonto.
+Kontoen skal derfor opgøres og udbetales.
+.sp
+Såfremt du fortsat er værge for &B29BARN., bedes du venligst meddele os,
+om saldoen skal sendes til &B29BARN på en check eller indsættes på
+.if &L'&B29HØJKTO gt 0
+.th &sin højrentekonto 7570 &B29HØJKTO i Pen-Sam Bank.
+.if &L'&B29HØJKTO = 0
+.th en nyoprettet højrentekonto i &sin
+.th navn i
+.th Pen-Sam Bank. Denne kontoform er velegnet til opsparing,
+.th idet der til enhver tid kan indsættes og hæves når det ønskes. Kontoen
+.th giver i øjeblikket &B29HOJRT.% i rente pr. år. Vi vedlægger en
+.th oprettelsesblanket til højrentekontoen.
+.sp
+Såfremt du ikke længere er værge for &B29BARN., bedes du venligst meddele
+os, hvem der nu er værge.
+.sp
+Såfremt du måtte have spørgsmål, er du velkommen til at kontakte
+&GENEKSP..
+.sp 4
+Med venlig hilsen
+.sp4
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤&GENEKSP
+.br
+.el &GENMTITEL ¤&GENTITEL
+.ar off
+.da BILAG 26mm 265mm width 100mm
+.ar BILAG on
+.if &L'&B29HØJKTO gt 2
+.th .sp12mm
+.el Bilag:
+.el .br
+.el Oprettelsesblanket
+.el .br
+.el Svarkuvert
+.sp4mm
+:SWISS10.
+&KTOKUNDENR
+.ar off

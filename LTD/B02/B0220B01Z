@@ -1,0 +1,116 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Parameter afsnit
+.* Parameter afsnit
+.* Parameter afsnit
+.* Parameter afsnit
+.* Parameter afsnit
+.* Parameter afsnit
+.*
+.*
+.oc *** Denne linie fjernes ved udskrivning
+:GL.:BECFST.A9000:EGL.
+.dc cw ;
+.dc cont #
+.fo left
+.sp 6
+:GL..IN 3:EGL.
+.br
+&TN
+.br
+&TG
+.br
+&TB
+.sp 5
+Den &DATO
+.br
+Ref.: &B02REFEREN
+.sp 2
+.sk 3
+Matr. nr.   :  &LNMATRNR.  &LNMATRTXT.
+.br
+Beliggende  :  &LNADRVEJEJ., &LNADRBYEJ.
+.br
+Ejer        :  &LNNAVN.
+.sx //_//
+.ti ^ 05
+:GL..TP 10 25 50 68 RIGHT:EGL.
+.sk
+Vedlagt fremsendes følgende pantebreve til aflysning:
+ 
+.se lan1=0;.se lan2=0;.se lan3=0;.se lan4=0;.se lan5=0
+.se lan6=0;.se lan7=0;.se lan8=0;.se lan9=0;.se lanA=0;.se lo=9;.se ud=0
+.if &LNKONVERTA = 1 .an &LNHSTOLA > 0 .se ud=1;.th .se lanA=1;.th .se lo=10
+.if &LNKONVERT9 = 1 .an &LNHSTOL9 > 0 .se ud=1;.th .se lan9=1;.th .se lo=9
+.if &LNKONVERT8 = 1 .an &LNHSTOL8 > 0 .se ud=1;.th .se lan8=1;.th .se lo=8
+.if &LNKONVERT7 = 1 .an &LNHSTOL7 > 0 .se ud=1;.th .se lan7=1;.th .se lo=7
+.if &LNKONVERT6 = 1 .an &LNHSTOL6 > 0 .se ud=1;.th .se lan6=1;.th .se lo=6
+.if &LNKONVERT5 = 1 .an &LNHSTOL5 > 0 .se ud=1;.th .se lan5=1;.th .se lo=5
+.if &LNKONVERT4 = 1 .an &LNHSTOL4 > 0 .se ud=1;.th .se lan4=1;.th .se lo=4
+.if &LNKONVERT3 = 1 .an &LNHSTOL3 > 0 .se ud=1;.th .se lan3=1;.th .se lo=3
+.if &LNKONVERT2 = 1 .an &LNHSTOL2 > 0 .se ud=1;.th .se lan2=1;.th .se lo=2
+.if &LNKONVERT1 = 1 .an &LNHSTOL1 > 0 .se ud=1;.th .se lan1=1;.th .se lo=1
+.if &LNBEL2. > 0 .se ud=1
+.if &ud = 0 .go ejaflys
+.if &lan1 = 1 ^&PBT1. ^til &RN1. ^kr. ^&LNHSTOL1.;.br
+.if &lan2 = 1 ^&PBT2. ^til &RN2. ^kr. ^&LNHSTOL2.;.br
+.if &lan3 = 1 ^&PBT3. ^til &RN3. ^kr. ^&LNHSTOL3.;.br
+.if &lan4 = 1 ^&PBT4. ^til &RN4. ^kr. ^&LNHSTOL4.;.br
+.if &lan5 = 1 ^&PBT5. ^til &RN5. ^kr. ^&LNHSTOL5.;.br
+.if &lan6 = 1 ^&PBT6. ^til &RN6. ^kr. ^&LNHSTOL6.;.br
+.if &lan7 = 1 ^&PBT7. ^til &RN7. ^kr. ^&LNHSTOL7.;.br
+.if &lan8 = 1 ^&PBT8. ^til &RN8. ^kr. ^&LNHSTOL8.;.br
+.if &lan9 = 1 ^&PBT9. ^til &RN9. ^kr. ^&LNHSTOL9.;.br
+.if &lanA = 1 ^&PBTA. ^til &RNA. ^kr. ^&LNHSTOLA.;.br
+.se b2=INDEX &LNBEL2 , ;.se b2 = &b2 - 1
+.if &b2 >= 0
+.th .se LNBEL2 = substr &LNBEL2 1 &b2
+.if &LNBEL2. > 0 ^skadesløsbrev      ^^kr. ^&LNBEL2.
+ 
+...ejaflys
+.se lan1=0;.se lan2=0;.se lan3=0;.se lan4=0;.se lan5=0
+.se lan6=0;.se lan7=0;.se lan8=0;.se lan9=0;.se lanA=0;.se ud=0
+.if &LNKONVERT1 = 0 .an &LNHSTOL1 > 0 .an &lo < 1 .se ud=1;.th .se lan1=1
+.if &LNKONVERT2 = 0 .an &LNHSTOL2 > 0 .an &lo < 2 .se ud=1;.th .se lan2=1
+.if &LNKONVERT3 = 0 .an &LNHSTOL3 > 0 .an &lo < 3 .se ud=1;.th .se lan3=1
+.if &LNKONVERT4 = 0 .an &LNHSTOL4 > 0 .an &lo < 4 .se ud=1;.th .se lan4=1
+.if &LNKONVERT5 = 0 .an &LNHSTOL5 > 0 .an &lo < 5 .se ud=1;.th .se lan5=1
+.if &LNKONVERT6 = 0 .an &LNHSTOL6 > 0 .an &lo < 6 .se ud=1;.th .se lan6=1
+.if &LNKONVERT7 = 0 .an &LNHSTOL7 > 0 .an &lo < 7 .se ud=1;.th .se lan7=1
+.if &LNKONVERT8 = 0 .an &LNHSTOL8 > 0 .an &lo < 8 .se ud=1;.th .se lan8=1
+.if &LNKONVERT9 = 0 .an &LNHSTOL9 > 0 .an &lo < 9 .se ud=1;.th .se lan9=1
+.if &LNKONVERTA = 0 .an &LNHSTOLA > 0 .se ud=1;.th .se lanA=1
+.if &ud = 0 .go ejresp
+Til tinglysning af respektpåtegning:;.br
+.if &lan1 = 1 ^&PBT1. ^til &RN1. ^kr. ^&LNHSTOL1.;.br
+.if &lan2 = 1 ^&PBT2. ^til &RN2. ^kr. ^&LNHSTOL2.;.br
+.if &lan3 = 1 ^&PBT3. ^til &RN3. ^kr. ^&LNHSTOL3.;.br
+.if &lan4 = 1 ^&PBT4. ^til &RN4. ^kr. ^&LNHSTOL4.;.br
+.if &lan5 = 1 ^&PBT5. ^til &RN5. ^kr. ^&LNHSTOL5.;.br
+.if &lan6 = 1 ^&PBT6. ^til &RN6. ^kr. ^&LNHSTOL6.;.br
+.if &lan7 = 1 ^&PBT7. ^til &RN7. ^kr. ^&LNHSTOL7.;.br
+.if &lan8 = 1 ^&PBT8. ^til &RN8. ^kr. ^&LNHSTOL8.;.br
+.if &lan9 = 1 ^&PBT9. ^til &RN9. ^kr. ^&LNHSTOL9.;.br
+.if &lanA = 1 ^&PBTA. ^til &RNA. ^kr. ^&LNHSTOLA.;.br
+ 
+...ejresp
+Til sletning af retsanmærkninger:;.br
+^pantebrev ^til &RNN1. ^kr. ^&LNHSTOLN1.
+.if .&LNHSTOLN2 > .0 ^pantebrev ^til &RNN2. ^kr. ^&LNHSTOLN2.
+ 
+.if &LNBEL1. <> 0,00
+.th Der vedlægges check kr. &LNBEL1. til dækning af tinglysningsgebyr.
+.th .sk
+Efter endt ekspedition bedes effekterne returneret til anmelder.
+.br

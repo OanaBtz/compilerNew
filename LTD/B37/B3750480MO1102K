@@ -1,0 +1,218 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.**  MO11CHK - Macro til modulus 11 check
+.**  MO11CHK kunde/regkto/regdepot  ''/depot/cpr/cpr/vis vis
+.se B37MO11CHK=1
+.*
+.dm MO11CHK on
+.if &E'&*1 = 0 .se MO11CHK=1
+.th .go SLUT2
+.se kto=&*1
+.***
+...CPR
+.if .&U'&*2 = .CPR
+.or .&U'&*2 = .CVR
+.el .go CPRUD
+.se LOOPEXIT = 0
+...NULCPR
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 15
+.th .QQ
+.***
+.if &L'&kto < 11
+.th .se kto = 0&kto
+.th .go NULCPR
+.***
+...CPRUD
+.se MOREGNR=substr &kto 1 4
+.se MOKTONR=substr &kto 5 6
+.if .&U'&*2 = .DEPOT
+.th .se kto    = 0&kto
+.se MOREGNR1=substr &kto 1 4
+.se MOKTONR1=substr &kto 5 6
+.se MOK    =substr &kto 11 1
+.*
+...BEREGN
+.if .&U'&*2 = .CPR
+.or .&U'&*2 = .CVR
+.th .go LOOPUD
+.se LOOPEXIT = 0
+...NUL
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 15
+.th .QQ
+.if &L'&MOKTONR < 6
+.th .se MOKTONR = 0&MOKTONR
+.th .go NUL
+...LOOPUD
+.se NR = &MOREGNR1.&MOKTONR1
+.if &L'&NR = 10
+.th .go LNGOK
+.mg /t/  Fejl10 i MO11CHK - kontakt RDF - længde af NR &NR = &L'&NR
+...LNGOK
+.* ISOLATION AF ENKELTE CIFRE BAGFRA (10 stk) Kontrolværdi er nr. 11
+.se TEST1  = substr &NR 10 1
+.se TEST2  = substr &NR 9 1
+.se TEST3  = substr &NR 8 1
+.se TEST4  = substr &NR 7 1
+.se TEST5  = substr &NR 6 1
+.se TEST6  = substr &NR 5 1
+.se TEST7  = substr &NR 4 1
+.se TEST8  = substr &NR 3 1
+.se TEST9  = substr &NR 2 1
+.se TEST10 = substr &NR 1 1
+.* VÆGTNING AF ENKELTE CIFRE + SUM af vægte i TSTV
+.se TSTV   = &TEST1 * 2
+.se TSTSUM = &TSTV
+.se TSTV   = &TEST2 * 3
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST3 * 4
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST4 * 5
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST5 * 6
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST6 * 7
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST7 * 2
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST8 * 3
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST9 * 4
+.se TSTSUM = &TSTSUM + &TSTV
+.se TSTV   = &TEST10 * 5
+.se TSTSUM = &TSTSUM + &TSTV
+.**** VÆGTET SUM DIVIDERET MED 11 ***
+.se REST = &TSTSUM. / 11
+.se RESTB = &REST * 11
+.se REST11 = &TSTSUM - &RESTB
+.se KONTROL = 11 - &REST11
+.if .&KONTROL = .11
+.th .se KONTROL = 0
+.go SLUT
+.*
+...SLUT
+.if .&MOK = .&KONTROL
+.th .se MO11CHK=1
+.el .se MO11CHK=0
+.*
+.if .&U'&*2 = .VIS
+.or .&U'&*3 = .VIS
+.el .go SLUT2
+kommando= &*       ;.br
+Param1  = &*1      ;.br
+Param2  = &*2      ;.br
+kto     = &kto     ;.br
+moregnr1= &MOREGNR1 ;.br
+moktonr1= &MOKTONR1 ;.br
+moregnr = &MOREGNR ;.br
+moktonr = &MOKTONR ;.br
+mok     = &MOK     ;.br
+kontrol = &KONTROL ;.br
+mo11chk = &MO11CHK ;.br
+NR (tilrettet) = &NR ;.br
+ Vægt sum &TSTSUM REST &REST RESTB &RESTB REST11 &REST11 KONTROL &KONTROL
+ &TEST10 &TEST9 &TEST8 &TEST7 &TEST6 &TEST5 &TEST4 &TEST3 &TEST2 &TEST1
+ ---------
+.*
+...SLUT2
+.dm off
+.* LINIERNE NEDENFOR HAR FORSKELLIG EFFEKT
+.sp 60mm           ;.* Denne linie må IKKE slettes
+.fo off            ;.* (Tekst skrives som i MEMO)
+.sp &MIBSTK.       ;.* Denne linie må IKKE slettes
+.us                ;.* Denne linie danner understregning af NÆSTE linie
+Her skal du skrive din OVERSKRIFT
+ 
+Her skal du begynde din tekst. Startlinie 0 giver 42 tekstlin. på 1. side.

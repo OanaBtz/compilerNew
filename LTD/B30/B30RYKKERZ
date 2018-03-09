@@ -1,0 +1,156 @@
+.if &L'&B30KONTO eq 0 .an &SALDO ne 0,00 .an &U'&B302 eq N
+.th Vi har ikke modtaget genparten af pensionsaftalen, og vi beder Dem
+.th venligst returnere det underskrevne dokument i vedlagte
+.th svarkuvert.
+.th .sp
+.if &L'&B30KONTO eq 0 .an &SALDO eq 0,00 .an &U'&B302 eq N
+.th Vi har ikke modtaget genparten af pensionsaftalen. Hvis De
+.th fortsat ønsker at indgå aftalen, beder vi Dem
+.th venligst returnere det underskrevne dokument i vedlagte
+.th svarkuvert.
+.th .sp
+.if &L'&B30KONTO eq 0 .an &SALDO ne 0,00 .an &U'&B302 eq J
+.th Vi har ikke modtaget genparten af pensionsaftalen samt
+.th kundeoprettelsen. Vi beder Dem venligst returnere de underskrevne
+.th dokumenter i vedlagte svarkuvert.
+.th .sp
+.if &L'&B30KONTO eq 0 .an &SALDO eq 0,00 .an &U'&B302 eq J
+.th Vi har ikke modtaget genparten af pensionsaftalen samt
+.th kundeoprettelsen. Hvis De fortsat ønsker at indgå aftalerne, beder vi
+.th Dem venligst returnere de underskrevne dokumenter i vedlagte
+.th svarkuvert.
+.th .sp
+.if &L'&B30KONTO gt 0 .an &SALDO ne 0,00 .an &U'&B302 eq N
+.th Vi har ikke modtaget genparten af pensionsaftalerne, og vi beder Dem
+.th venligst returnere de underskrevne dokumenter i vedlagte
+.th svarkuvert.
+.th .sp
+.if &L'&B30KONTO gt 0 .an &SALDO eq 0,00 .an &U'&B302 eq N
+.th Vi har ikke modtaget genparten af pensionsaftalerne, og hvis De
+.th fortsat ønsker at indgå aftalerne, beder vi Dem
+.th venligst returnere de underskrevne dokumenter i vedlagte
+.th svarkuvert.
+.th .sp
+.if &L'&B30KONTO gt 0 .an &SALDO ne 0,00 .an &U'&B302 eq J
+.th Vi har ikke modtaget genparten af pensionsaftalerne samt
+.th kundeoprettelsen. Vi beder Dem venligst returnere de underskrevne
+.th dokumenter i vedlagte svarkuvert.
+.th .sp
+.if &L'&B30KONTO gt 0 .an &SALDO eq 0,00 .an &U'&B302 eq J
+.th Vi har ikke modtaget genparten af pensionsaftalerne samt
+.th kundeoprettelsen. Hvis De fortsat ønsker at indgå aftalerne, beder vi
+.th Dem venligst returnere de underskrevne dokumenter i vedlagte
+.th svarkuvert.
+.th .sp
+.if &L'&B30B gt 0
+.th &B30B &B30C &B30D &B30E &B30F &B30G &B30H
+.th .sp
+Såfremt De ønsker yderligere oplysninger, er De meget velkommen til at
+kontakte os.
+.sp 2
+.ri on
+Med venlig hilsen
+.sp 3
+&B30NAVN
+.ri off
+.br
+.pa
+:GL.:PRINT:EGL..
+.fo left
+.*** SÆT SKÆRM/PRINT-FORMAT ***
+.ti > 05
+:GL..PM 9:EGL.
+:GL..LL 62:EGL.
+.sp 4
+.*** BREVSTART ***
+:GL.&&??#:EGL.
+:GL..TP 46:EGL.
+.if &L'&STILL gt 0
+.th &STILL >Dato: &DATO2
+.th .br
+.th &NAVN
+.if &L'&STILL eq 0
+.th &NAVN >Dato: &DATO2
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+:FED.
+.sp 8
+.su off
+.se konto = substr &KTONR 1 2
+.se konto1 = substr &B30KONTO 1 2
+.su on
+.br
+.if /&konto eq /70 .an &L'&B30KONTO eq 0
+.th .us Kapitalpension 6771 &KTONR _________________________________
+.th .br
+.if /&konto eq /70 .an &L'&B30KONTO gt 0 .an /&konto1 eq /75
+.th .us Kapitalpension 6771 &KTONR og ratepension 6771 &B30KONTO ____
+.th .br
+.if /&konto eq /75 .an &L'&B30KONTO eq 0
+.th .us Ratepension 6771 &KTONR ____________________________________
+.th .br
+.th :SKRSLUT.
+.if /&konto eq /75 .an &L'&B30KONTO gt 0 .an /&konto1 eq /70
+.th .us Kapitalpension 6771 &B30KONTO og ratepension 6771 &KTONR ____
+.th .br
+:SKRSLUT.
+.sp
+.if /&konto eq /70 .an &L'&B30KONTO eq 0 .an &U'&B302 eq N
+.th I forbindelse med oprettelsen af ovennævnte pensionskonto
+.th fremsendte vi den &B30DATO1 en kapitalpensionsaftale til underskrift.
+.th .sp
+.if /&konto eq /75 .an &L'&B30KONTO eq 0 .an &U'&B302 eq N
+.th I forbindelse med oprettelsen af ovennævnte pensionskonto
+.th fremsendte vi den &B30DATO1 en ratepensionsaftale til underskrift.
+.th .sp
+.if /&konto eq /70 .an &L'&B30KONTO gt 0 .an /&konto1 eq /75
+.an &U'&B302 eq N
+.th I forbindelse med oprettelsen af ovennævnte pensionskonti
+.th fremsendte vi den &B30DATO1 en kapitalpensionsaftale
+.th og en ratepensionsaftale til underskrift.
+.th .sp
+.if /&konto eq /75 .an &L'&B30KONTO gt 0 .an /&konto1 eq /70
+.an &U'&B302 eq N
+.th I forbindelse med oprettelsen af ovennævnte pensionskonti
+.th fremsendte vi den &B30DATO1 en kapitalpensionsaftale
+.th og en ratepensionsaftale til underskrift.
+.th .sp
+.if /&konto eq /70 .an &L'&B30KONTO eq 0 .an &U'&B302 eq J
+.th I forbindelse med oprettelsen af ovennævnte pensionskonto
+.th fremsendte vi den &B30DATO1 en kapitalpensionsaftale og en
+.th kundeoprettelse til underskrift.
+.th .sp
+.if /&konto eq /75 .an &L'&B30KONTO eq 0 .an &U'&B302 eq J
+.th I forbindelse med oprettelsen af ovennævnte pensionskonto
+.th fremsendte vi den &B30DATO1 en ratepensionsaftale og en
+.th kundeoprettelse til underskrift.
+.th .sp
+.if &konto eq 70 .an &L'&B30KONTO gt 0 .an /&konto1 eq /75
+.an &U'&B302 eq J
+.th I forbindelse med oprettelsen af ovennævnte pensionskonti
+.th fremsendte vi den &B30DATO1 en kapitalpensionsaftale, en
+.th ratepensionsaftale og en kundeoprettelse til underskrift.
+.th .sp
+.if /&konto eq /75 .an &L'&B30KONTO gt 0 .an /&konto1 eq /70
+.an &U'&B302 eq J
+.th I forbindelse med oprettelsen af ovennævnte pensionskonti
+.th fremsendte vi den &B30DATO1 en kapitalpensionsaftale, en
+.th ratepensionsaftale og en kundeoprettelse til underskrift.
+.th .sp
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

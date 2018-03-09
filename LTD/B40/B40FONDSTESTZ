@@ -1,0 +1,194 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:GL.//LA!B40TR7!!:EGL.
+.* Terminskontrakt
+.* Udviklet af Glitten 26/1-1995
+:GL..LL 88:EGL.
+.da AREAL1 07 08 width 2
+.da AREAL2 34 08 width 2
+.br
+##1b4c#
+.br
+.if &U'&B40TERINHJ eq H
+.th .ar AREAL1 on
+.el .ar AREAL2 on
+X
+.ar off
+.sp6
+.br
+##1b4c#
+.br
+:GL..IN 38:EGL.
+&B40TERPANR
+.br
+##1b4c#
+##1b5b3b32352047#
+.br
+:GL..IN 47:EGL.
+&B40TERMANR
+.br
+##1b4c#
+.br
+&B40TERBELI
+:GL..IN 38:EGL.
+.br
+##1b5b3b33302047#
+##1b4c#
+.br
+:GL..LL 63:EGL.
+&B40TERNAVN
+.br
+##1b4c#
+.br
+&B40TERADR
+.br
+##1b4c#
+.br
+&B40TERPOBY
+.sp2
+:GL..IN 27:EGL.
+&AFDNAVN
+:GL..IN38:EGL.
+.br
+##1b4c#
+.br
+.if &L'&B40NAVN gt 25
+.th &BRUGERNR
+.el &B40NAVN
+.sp2
+:GL..IN 27:EGL.
+&B40TERREAL
+.SP
+.br
+##1b4b#
+.br
+.if &L'&B40TERKRDP < 1
+.th .sp
+.el &B40TERKRDP
+.br
+##1b4c#
+.br
+.if &L'&B40TEROMPK < 1
+.th .sp
+.el &B40TEROMPK
+.sp2
+:GL..IN38:EGL.
+&PAPFONDSK1
+:GL..IN27:EGL.
+.br
+##1b4c#
+.br
+&PAPBETGN1
+:GL..IN26:EGL.
+.br
+##1b4c#
+.br
+.if &U'&B40TERTYP eq K
+.th .sp
+.el X
+.br
+##1b4c#
+.br
+.if &U'&B40TERTYP eq O
+.th .sp
+.el X
+.sp2
+:GL..IR 5:EGL.
+.ri on
+&B40TERKPRV
+.br
+##1b4c#
+.br
+&B40TEROBEL
+.br
+##1b4c#
+.br
+.sp
+:GL..IR 0:EGL.
+.ri off
+.SP2
+:GL..IN 32:EGL.
+&B40TERKURS
+.br
+##1b4c#
+.br
+&B40DATOFRI
+.br
+.*
+.* ***********************************************************
+.* * Her starter testen af brugerens indtastninger           *
+.* *                                                         *
+.* * Der er bla. brugt .go sætninger. Dette er gjort for at  *
+.* * få lavet to .if .an sat sammen, da man ikke kan anvende *
+.* * .or.                                                    *
+.* ***********************************************************
+.*
+.if &U'&B40TERINHJ ne I .an &U'&B40TERINHJ ne H
+.th .mg /I/
+.th .mg /I/   Du skal indtaste et "I" Hvis det er en
+.th .mg /I/   indfrielse der er tale om
+.th .mg /I/   ER det derimod en hjemtagelse skal du taste "H".
+.th .mg /I/
+.th .mg /I/   For at rette fejlen skal du gå tilbage ved at trykke
+.th .mg /T/   F12 og der efter 5.
+.if &U'&B40TERINHJ eq I
+.an &L'&B40TERKRDP lt 1
+.th .go A1
+.if &U'&B40TERINHJ eq I
+.an &L'&B40TEROMPK lt 1
+.th .go A1
+.if &U'&B40TERINHJ eq H
+.an &L'&B40TERKRDP ge 1
+.th .go A1
+.if &U'&B40TERINHJ eq H
+.an &L'&B40TEROMPK ge 1
+.th .go A1
+.el .go A2
+...A1
+.mg /I/
+.mg /I/   Hvis det er en indfrielse du vil lave skal du huske at
+.mg /I/   der skal indtastes kreditforeningsdepot og
+.mg /I/   omprioriteringskonto.
+.mg /I/
+.mg /I/   Hvis det er en hjemtagelse du er igang med at lave, må du
+.mg /I/   ikke indtaste Kreditforeningsdepot og omprioriteringskonto
+.mg /I/
+.mg /T/   For at rette fejlen skal du trykke F12 og derefter vælge 5
+...A2
+.if &U'&B40TERTYP ne O .an &U'&B40TERTYP ne K
+.th .mg /I/
+.th .mg /I/   Du skal taste "O" for et obligationslån og "K" for et
+.th .mg /I/   kontantlån.
+.th .mg /I/
+.th .mg /T/   For at rette fejlen skal du trykke F12 og derefter vælge 5
+.if &B40TERKURS eq 100
+.an &B40TERKPRV ne &B40TEROBEL
+.th .go B1
+.go B2
+...B1
+.mg /I/   Kun hvis kursen er 100,000 er kontantprov. = nom. obl.beløb.
+.mg /I/
+.mg /I/   Hvis kursen er over 100,000 vil kontantprovenuet være
+.mg /I/   Større end nom. obl.beløb.Er kursen derimod under
+.mg /I/   100,000 vil kontantprovenuet været mindre end nom. obl.beløb.
+.mg /I/
+.mg /T/   For at rette fejlen skal du trykke F12 og derefter vælge 5
+...B2
+.*
+.* **********************************
+.* * Her slutter testen af brugeren *
+.* **********************************
+.br
+.br
+:GL.//LA!B40TR8!!:EGL.

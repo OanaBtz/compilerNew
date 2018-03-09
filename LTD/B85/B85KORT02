@@ -1,0 +1,198 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&B11KTKNDNR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.******** BREVHOVED - afsenderadresse *****
+.da DATO  28mm  70mm width 156mm
+.da AFS  156.8mm 260mm width  50mm
+.ar DATO on
+.fo right
+:SWISS12.
+&DATO
+.ar off
+.ar AFS on
+:SWISS8.
+.fo right
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf.: &AFDTLF
+.sp
+&GENEMAIL
+.br
+www.lokalbanken.dk
+.ar off
+.if &U'&B85HBCVR ne J
+.th .go NEJBUND
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.da HBCVR 25mm 275mm width 110mm
+.********************* TEKST STARTER **************************
+.ar HBCVR on
+:SWISS8.
+Handelsbanken CVR-nr. 24246361 Filial af Svenska Handelsbanken AB (publ),
+Sverige
+.ar off
+...NEJBUND
+.* Parameterafsnit
+.oc **
+:NY. :tiltale &TILTALEF :ENY.
+:GL. &&??# :EGL.
+.*Parametre
+.****** BREVHOVED via kortnummer
+.fo left
+.da ADRESSE 25mm 41.5mm width 156mm
+.ar ADRESSE on
+:SWISS12.
+&B11KTADR1
+.br
+&B11KTADR2
+.br
+&B11KTADR3
+.br
+&B11KTADR4
+.br
+&B11KTADR5
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:SWISS12.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN - 15.1.2008
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+Bekræftelse på spærring af &B11KTTYPT
+:SKRSLUT.
+.sp
+.*************************************************************************
+.if X&B11KTTYPE > X10
+.an X&B11KTTYPE < X55
+.th .go KORTOK
+.el .mg/T/Ikke et hævekort, Dankort eller VISA-Dankort/
+...KORTOK
+Vi har den &DATO8 kl. &GENSPAERKL modtaget anmodning om spærring af
+følgende &B11KTTYPT.:
+.sp
+.in 6
+Registreringsnr.: &B11KTREGNR
+.br
+Kortnr.         : &B11KTNR
+.br
+Kontonr.        : &B11KTKTONR
+.if &L'&GENDATO4 gt 0
+.th .br
+.th Udstedelsesdato : &GENDATO4
+.sp
+.in 0
+.se satning = 'Kortet blev anmodet spærret som følge af, at'
+.se taeller = 0
+.if &L'&GENTAB gt 0
+.th .se taeller = &taeller +1
+.if &L'&GENSTJ gt 0
+.th .se taeller = &taeller +1
+.if &L'&GENKEN gt 0
+.th .se taeller = &taeller +1
+.if &L'&GENÅRSSPR gt 0
+.th .se taeller = &taeller +1
+.if &taeller = 0
+.th .mg/T/Spærringsårsag mangler/
+.if &taeller gt 1
+.th .mg/T/En og kun en spærringsanmodning/
+.if &L'&GENTAB gt 0
+.th .se aarsag = 'kortet er tabt/bortkommet den'
+.th &satning &aarsag &GENTAB..
+.th .go SLUT
+.**************************************************************
+.if &L'&GENSTJ gt 0
+.th .se aarsag = 'kortet formodes stjålet den'
+.th &satning &aarsag &GENSTJ..
+.th .go SLUT
+.**************************************************************
+.if &L'&GENKEN gt 0
+.th .se aarsag = 'PIN-koden er uretmæssigt bekendt.'
+.th &satning &aarsag.
+.th .go SLUT
+.**************************************************************
+.if &L'&GENÅRSSPR gt 0
+.th &satning &GENÅRSSPR..
+.th .go SLUT
+.**************************************************************
+Kortet blev anmodet spærret som følge af:
+.sp
+.in 6
+.if &L'&GENTAB gt 0
+.th at kortet er tabt/bortkommet den &GENTAB
+.th .br
+.if &L'&GENSTJ gt 0
+.th at kortet formodes stjålet den &GENSTJ
+.th .br
+.if &L'&GENKEN gt 0
+.th at PIN-koden er uretmæssigt bekendt
+.th .br
+.if &L'&GENÅRSSPR gt 0
+.th &GENÅRSSPR
+.in 0
+...SLUT
+.sp
+.if &L'&GENDATO1 gt 0
+.th Politianmeldelse er foretaget den &GENDATO1..
+.sp
+Kortet er sidst retmæssigt benyttet den &GENDATO7..
+.br
+.***********************************************************
+Har &DU spørgsmål, er &DU velkommen til at kontakte os.
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 3
+&B85NAVN
+.sk
+.ar off

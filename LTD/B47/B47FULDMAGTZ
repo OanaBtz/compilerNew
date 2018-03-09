@@ -1,0 +1,158 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:TILTALE &TILTALEF
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.AR hoved on
+.* Chekcer om der skal udskrives til medktohaver
+.IF &U'&B47MKTOH EQ M
+.AN &MEDKUNDENR NE 000000-0000
+.th .GO MEDKTOH
+.* Check om der skal udskrives begge
+.IF &U'&B47MKTOH EQ B
+.AN &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.sp
+:FED.&B47ATT :SKRSLUT.
+.br
+.GO SLUT
+...MEDKTOH
+.* ADRESSEOPLYSNINGER PÅ MEDKONTOHAVER
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.* Er der indtastet en Attention, udskrives oplysningen
+:FED.&B47ATT :SKRSLUT.
+...SLUT
+.AR off
+.DA TEKST 20mm 85mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.*  ------------------------------------------------------------
+.AR TEKST ON
+.* SIDEINDSTILLINGER
+:OMTALE &OMTALEF
+:FED.
+.if &MEDKUNDENR EQ 000000-0000
+.th Fuldmagtsforhold til konto &IREGKTO. tilhørende &KTONAVN
+.el Fuldmagtsforhold til konto &IREGKTO. tilhørende &KTONAVN og &MEDNAVN
+.sp
+:SKRSLUT.
+.br
+.if &U'&B47PJN1 eq J
+.th .go FORENING
+.el &SJEG. bemyndiger herved nedenfor anførte person(er) til, at
+.el forpligte &MIG i alle forhold på konto &IREGKTO. overfor
+.el &BANKNAVN..
+.el .sp
+.el Fuldmagtsgiver og fuldmagtshaver bekræfter samtidig med deres
+.el underskrift, at være bekendt med og at have modtaget et eksemplar
+.el af bankens Almindelige Forretningsbetingelser.
+.el .sp
+.el.go SLUT
+...FORENING
+Foreningen bemyndiger herved
+nedenfor anførte person(er) fuldmagt til, at forpligte foreningen i alle
+forhold på &KTONR. overfor &BANKNAVN..
+.sp
+Fuldmagtsgiver og fuldmagtshaver
+bekræfter samtidig med deres underskrift,
+at være bekendt med og at have modtaget et eksemplar af bankens
+Almindelige Forretningsbetingelser.
+...SLUT
+.sp
+.us Dispositionsberettigede underskriver hver for sig / 2 i forening
+.sp
+.tp 10mm 60mm
+>Fuldmagtshavers navn>der underskriver således
+.sp 2
+>&B47P10 >________________________
+.sp
+.if &L'&B47P11 gt 0
+.th .sp
+.th >&B47P11 >________________________
+.th .sp
+.if &L'&B47P12 gt 0
+.th .sp
+.th >&B47P12 >________________________
+.th .sp
+.sp
+Fuldmagtsgiveren og fuldmagtshaveren er bekendt med, at hvis kontoen
+misbruges i form af overtræk, vil navn, adresse og CPR-nr. blive
+indberettet til pengeinstitutternes fælles
+checksmisbrugerregister.
+.sp
+Fuldmagten er gældende, indtil &BANKNAVN. har modtaget skriftlig
+tilbagekaldelse.
+.sp2
+ _______________________
+.br
+(Underskrift(er))
+.sp 3
+Denne fuldmagt er udfærdiget i 2 eksemplarer. Originalen skal være
+banken i hænde, før fuldmagten er gældende.
+.sp
+Kopien er til kontohavers brug og kan anvendes, hvis
+fuldmagten skal tilbagekaldes.
+.AR off

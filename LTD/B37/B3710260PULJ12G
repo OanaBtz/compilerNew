@@ -1,0 +1,966 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* Parameterafsnit
+.* Mix fjernet og Pulje 6 tilføjet 21.12.2000 es
+.* Parameter og TEST afsnit test tilføjet 22.3.2012 es
+.* TEST af rigtig indtastet strategi
+.if x&B37N20 ne x00 .an x&RESULTA = x100
+.el .go TST1
+.*g /I/ værdi: B37N20 = x&B37N20.x og RESULTA = x&RESULTA.x
+.mg /T/ Individuelle %-er SKAL være 0 ved valg af STRATEGI ikke = 00
+...TST1
+.if x&B37N20 = x00 ;.th .se strateg 'Valgfri'         ;.th .go PULINDV
+.if x&B37N20 = x11 ;.th .se strateg 'Kort/Forsigtig'
+.th .se B37PULJE1 '90'
+.th .se B37PULJE2 ' 0'
+.th .se B37PULJE3 ' 0'
+.th .se B37PULJE4 ' 5'
+.th .se B37PULJE5 ' 5'
+.th .se B37PULJE6 ' 0'
+.th .go PULSTRA
+.if x&B37N20 = x21 ;.th .se strateg 'Mellem/Forsigtig'
+.th .se B37PULJE1 '65'
+.th .se B37PULJE2 '10'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 ' 5'
+.th .se B37PULJE5 '15'
+.th .se B37PULJE6 ' 0'
+.th .go PULSTRA
+.if x&B37N20 = x31 ;.th .se strateg 'Lang/Forsigtig'
+.th .se B37PULJE1 '45'
+.th .se B37PULJE2 '20'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 ' 7'
+.th .se B37PULJE5 '18'
+.th .se B37PULJE6 ' 5'
+.th .go PULSTRA
+.if x&B37N20 = x12 ;.th .se strateg 'Kort/Neutral'
+.th .se B37PULJE1 '55'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 ' 0'
+.th .se B37PULJE4 ' 7'
+.th .se B37PULJE5 '15'
+.th .se B37PULJE6 ' 8'
+.th .go PULSTRA
+.if x&B37N20 = x22 ;.th .se strateg 'Mellem/Neutral'
+.th .se B37PULJE1 '30'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 '12'
+.th .se B37PULJE5 '28'
+.th .se B37PULJE6 '10'
+.th .go PULSTRA
+.if x&B37N20 = x32 ;.th .se strateg 'Lang/Neutral'
+.th .se B37PULJE1 '15'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 '10'
+.th .se B37PULJE4 '15'
+.th .se B37PULJE5 '35'
+.th .se B37PULJE6 '10'
+.th .go PULSTRA
+.if x&B37N20 = x13 ;.th .se strateg 'Kort/Risikovillig'
+.th .se B37PULJE1 '40'
+.th .se B37PULJE2 ' 5'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 '12'
+.th .se B37PULJE5 '30'
+.th .se B37PULJE6 ' 8'
+.th .go PULSTRA
+.if x&B37N20 = x23 ;.th .se strateg 'Mellem/Risikovillig'
+.th .se B37PULJE1 '10'
+.th .se B37PULJE2 '15'
+.th .se B37PULJE3 ' 5'
+.th .se B37PULJE4 '17'
+.th .se B37PULJE5 '43'
+.th .se B37PULJE6 '10'
+.th .go PULSTRA
+.if x&B37N20 = x33 ;.th .se strateg 'Lang/Risikovillig'
+.th .se B37PULJE1 ' 0'
+.th .se B37PULJE2 ' 5'
+.th .se B37PULJE3 '10'
+.th .se B37PULJE4 '21'
+.th .se B37PULJE5 '50'
+.th .se B37PULJE6 '14'
+.th .go PULSTRA
+.* Strategi er fejlindtastet
+.mg /T/ Strategi kan kun være 00,11,12,13,21,22,23,31,32,33 ikke &B37N20.
+...PULSTRA
+...PULINDV
+.* Parameter og TEST afsnit
+.if x&B37N20 ne x00 .an x&RESULTA = x0
+.th .go PULOK
+.if x&RESULTA = x100 .or x&RESULTA = x0
+.th .go PULOK
+.mg /T/ Pulje % skal være 0 eller 100, din indtastning giver ialt &RESULTA
+...PULOK
+.* Hvis pulje % = 0 og strategi = valgfri udskrives blank skema
+.if x&RESULTA = x0 .an x&B37N20 = x00
+.th .se B37PULJE1 ''
+.th .se B37PULJE2 ''
+.th .se B37PULJE3 ''
+.th .se B37PULJE4 ''
+.th .se B37PULJE5 ''
+.th .se B37PULJE6 ''
+.th .se strateg '                       '
+.*th .se strateg '_______________________'
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d. 28. og 31.1.00 Overskrift og mindre tekstkorrikttur Es
+.* d. 20.12.00 Pulje 6 tilføjet og MIX kasser fjernet Es
+.* d. 04.07.03 Banknavn rettet til parameter &BANKNAVN
+.* d. 10.8.05 Pulje nr. tekst tilføjet
+.* d. 29.9.05 Pulje gebyr for børneops fjernet
+.* d. 30.3.07 Ændring af oblnavne korrektion af boksplacering.
+.* d. 23.3.12 Indsat linie med risikoprofil i PULJE
+.da BOKS 20mm 33mm width 180mm
+.da PULJE 59mm  98mm width 114mm
+.da MIXK 119.5mm 103mm width 60mm
+.da PUTXTU 21mm  110mm width 86mm
+.da PUTXT1 22mm  183mm width 86mm
+.da PUTXT2 112mm  183mm width 86mm
+.dr tynd WEIGHT 0.1mm
+.*se a = 7.5mm
+.se a = 5.5mm
+.ti ¤ 05
+.****************
+.if &E'&FRIDATO = 1
+.th .se sty 'Handelsbankens'
+.th .se ty 'børneopsparing'
+.el .se sty 'Handelsbankens'
+.el .se ty 'pension'
+.ar BOKS on
+.if &E'&B37PULJE1 = 1
+.th .se oversk '&sty. Puljer - Puljeskift'
+.el .se oversk '&sty. Puljer - Udtræden'
+.if &E'&tilmeld = 1
+.th .se oversk '&sty. Puljer - Tilmelding'
+:SWISS12.:FED.
+.us
+&oversk
+.is 1
+:SWISS12.
+.* RETTET d. 28.1.1999 Es
+.*- tillæg til aftale om &ty.sopsparing
+- tillæg til aftale om &ty.
+.if &E'&FRIDATO = 0
+.th .ct sopsparing
+:SWISS8.
+.sp
+.in 1mm
+.ir 1mm
+.*tp 91mm
+.tp 81mm
+.****************
+.*bx left 90mm right
+.bx left 80mm right
+.sp 0.1mm
+Kontohavers navn: ¤Kundenr:
+.sp 5mm
+.hr left right
+.sp 0.1mm
+Pengeinstitut: ¤Kontooplysninger:
+.sp 1.9mm
+¤Kontonr.
+.sp 0.5mm
+¤Reg.type
+.sp 0.5mm
+.if &E'&FRIDATO = 1 ;.th .se bi 'Bindingsperiode' ;.el .se bi ' '
+ ¤&bi
+.sp 0.5mm
+¤Indestående  kr.
+.sp 1mm
+.bx off
+.****************
+:SWISS10.:FED.
+Betingelser
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 3mm
+Med virkning fra og med den:
+.sp 3mm
+.hr left right
+.se bet1b ' '
+.if &E'&B37PULJE1 = 1
+.th .se bet1a 'ønskes deltagelse i &BANKNAVN.s puljeordning'
+.th .se bet1b 'ændret til følgende: '
+.el .se bet1a 'ønskes udtræden af &BANKNAVN.s puljeordning'
+.el .se bet1a '&bet1a. af følgende årsag: '
+.if &E'&tilmeld = 1
+.th .se bet1b 'med følgende puljemix: '
+&bet1a &bet1b
+.sp 130mm
+.bx off
+.*ar off
+.****************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 0.1mm
+.if &E'&NAVNI = 1
+.th Kontoopretter:
+.el Kontohaver:
+.sp 30mm
+.bx off
+.ar off
+.****************
+.if &E'&B37PULJE1 = 0
+.th .go PENS
+.ar PULJE on
+.bx left 110mm
+.tp 10mm 52mm 45mm
+.sp 2.0mm
+¤  ANFØR % ¤¤
+.sp 2.0mm
+.*br
+.*¤¤¤sæt X (kun 1)
+.hr tynd left 110mm
+.*sp 7mm
+.sp 4.5mm
+ ¤  % i pulje 1 (Obligationer - korte)
+.sp &a
+ ¤  % i pulje 2 (Obligationer - mellemlange)
+.sp &a
+ ¤  % i pulje 3 (Obligationer - lange & indeks)
+.sp &a
+ ¤  % i pulje 4 (Aktier - Danmark)
+.sp &a
+ ¤  % i pulje 5 (Aktier - Global)
+.sp &a
+ ¤  % i pulje 6 (Aktier - Eurolande)
+.sp 5mm
+.in +5mm
+.ir +5mm
+Ovennævnte fordeling svarer til
+&BANKNAVN.s
+.sp 1mm
+nuværende strategi:
+.us &strateg.
+.*sp 5mm
+.sp 3mm
+.bx off
+.ar off
+.****************
+.**************** PENS
+...PENS
+.if .&ty = .børneopsparing
+.th .go BARN
+.if &E'&B37PULJE1 = 0
+.th .go UDTRP
+.if &E'&tilmeld = 1
+.th .go TILMELDP
+.ar PUTXT1 on
+:SWISS8.
+I øvrigt fortsætter pensionsordningen på uændrede vilkår - herunder
+""Vilkår for &BANKNAVN.s pensionspuljer
+"samt folderen "&BANKNAVN.s Puljer". Jeg har tidliger
+emodtaget et eksempla
+raf begge
+..s
+kJeg er indforstået med, at der beregnes et gebyr på p.t. kr. 500,00 fo
+rpuljeskift i perioden 1.5.-1.12
+..ar of
+f.go SLU
+T.*****
+*...TILMELD
+P.ar PUTXT1 o
+n:SWISS8
+.I puljen indskydes indestående på ovennævnte konto samt fremtidig
+eindbetalinger på kontoen
+..s
+pFor puljedeltagelsen gælder endvider
+e"Vilkår for &BANKNAVN.s pensionspuljer
+"samt "&BANKNAVN.s Puljer", hvoraf jeg har modtaget et eksempla
+raf begge
+..s
+pDesuden har jeg modtaget oplysninger om de enkelte puljers procentvis
+eafkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år
+..ar of
+f.go SLU
+T.**********
+*...UDTR
+P.ar PUTXTU o
+n:SWISS8
+.Jeg er indforstået med, at et eventuelt skyldigt afkast fr
+apuljedeltagelsen bliver hævet på ovennævnte konto
+..ar of
+f.go SLU
+T.**************** BØR
+N...BAR
+N.if &E'&B37PULJE1 = 
+0.th .go UDTR
+B.if &E'&tilmeld = 
+1.th .go TILMELD
+B.ar PUTXT1 o
+n:SWISS8
+.I øvrigt fortsætter børneopsparingsordningen på uændrede vilkår - herunde
+r"Vilkår for &BANKNAVN.s pensionspuljer" o
+g"&BANKNAVN.s Puljer", so
+mjeg tidliger
+ehar fået udleveret
+..*sp 3.5m
+m.*Gebyr fo
+r.*puljeskift i løbet af puljeåret skal indbetales af kontoopretter
+..ar of
+f;T.go SLUT
+.******
+...TILMELDB
+.ar PUTXT1 on
+:SWISS8.
+I puljen indskydes indestående på ovennævnte konto samt fremtidige
+indbetalinger på kontoen.
+.sp 3.5mm
+For puljedeltagelsen gælder endvidere
+"Vilkår for &BANKNAVN.s pensionspuljer" samt folderen "&BANKNAVN.s Puljer".
+.br
+Nævnte materiale er modtaget.
+.sp 3.5mm
+Desuden har jeg modtaget oplysninger om de enkelte puljers procentvise
+afkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år.
+.sp 3.5mm
+.ar off
+.ar PUTXT2 on
+:SWISS8.
+.*Gebyr for udtræden eller puljeskift i løbet af puljeåret skal
+.*indbetales af kontoopretter.
+.*sp 3.5mm
+Udtræden eller puljeskift i forbindelse med årsskifte eller ved
+børneopsparingskontoens frigivelse er gebyrfri.
+.ar off
+.go SLUT
+.***********
+...UDTRB
+.ar PUTXTU on
+:SWISS8.
+Jeg er indforstået med, at et eventuelt skyldigt afkast fra
+puljedeltagelsen bliver hævet på ovennævnte &ty.skonto.
+.*sp
+.*Gebyr for udtræden i løbet af puljeåret skal indbetales af kontoopretter.
+.ar off
+...SLUT
+.th Udbetaling i utide
+.ar off
+.***********
+...UNSKR
+.***********
+.ar UNSK on
+&EKSPBY., den &DATO
+.sp 20mm
+.if &E'&NAVNI = 1
+.th .ce &NAVNI
+.el .ce &KTONAVN
+.ar off
+.br
+&REGTYPE &REGTYPELNG
+.br
+.if &E'&FRIDATO = 1 ;.th .se bi '&FRIDATO.' ;.el .se bi ' '
+ ¤&bi
+.br
+¤&SALDO
+.ar off
+.***********
+.ar DATO on
+&B37DATO
+.ar off
+.***********
+.if &E'&B37PULJE1 = 0
+.th .go UDTR
+.ar PUL1 on
+.tp 17mm right 45mm
+ ¤&B37PULJE1. ¤
+.ar off
+.ar PUL2 on
+.tp 17mm right 45mm
+ ¤&B37PULJE2. ¤
+.ar off
+.ar PUL3 on
+.tp 17mm right 45mm
+ ¤&B37PULJE3. ¤
+.ar off
+.ar PUL4 on
+.tp 17mm right 45mm
+ ¤&B37PULJE4. ¤
+.ar off
+.ar PUL5 on
+.tp 17mm right 45mm
+ ¤&B37PULJE5. ¤
+.ar off
+.ar PUL6 on
+.tp 17mm right 45mm
+ ¤&B37PULJE6. ¤
+.ar off
+...UDTR
+.if &E'&MIBJN3 = 0
+.th .go UNSKR
+.ar UDTA on
+.if .&U'&MIBJN3 = .O
+.th Overførsel til andet pengeinstitut
+.if .&U'&MIBJN3 = .K
+.th Kontoen skal stå kontant fremover
+.if .&U'&MIBJN3 = .B
+.th Udbetaling ved udløb
+.if .&U'&MIBJN3 = .U
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d.10.8.05 puljenr tekst tilføjet
+.* d.30.3.07 Ænring af obl.navn og boksplacering.
+.* d.26.3.12 Ænring af afstand mellem PUL1-6.
+.*if x&RESULTA = x100
+.*th .go PULOK
+.*mg /T/ Pulje % skal være 100, du har &RESULTA
+...PULOK
+.da NAVN  25mm  46mm
+.*da CPR  115mm  46mm
+.da CPR  105mm  46mm
+.da PI    25mm  56mm
+.*da KTOO 127mm  56mm
+.da KTOO 117mm  56mm
+.da DATO  61mm  80mm
+.da UDTA  25mm  99mm
+.da PUL1  55mm 113.30mm
+.*da PUL2  55mm 124.28mm
+.da PUL2  55mm 122.28mm
+.*da PUL3  55mm 135.26mm
+.da PUL3  55mm 131.26mm
+.*da PUL4  55mm 146.24mm
+.da PUL4  55mm 140.24mm
+.*da PUL5  55mm 157.22mm
+.da PUL5  55mm 149.22mm
+.*da PUL6  55mm 168.20mm
+.da PUL6  55mm 158.20mm
+.da UNSK  25mm 234mm WIDTH 170mm
+.ti ¤ 05
+:COUR10.
+.***********
+.ar NAVN on
+&KTONAVN
+.ar off
+.***********
+.ar CPR on
+&KTOKUNDENR
+.ar off
+.***********
+.ar PI on
+&BKNAVN
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.***********
+.ar KTOO on
+.tp 9mm
+&REGNR &KTONR1
+.** SIDESKIFT
+.pa
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.*da KUNDKOPI 174.1mm 34.4mm
+.da KUNDKOPI 174.1mm 24.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d. 28. og 31.1.00 Overskrift og mindre tekstkorrikttur Es
+.* d. 20.12.00 Pulje 6 tilføjet og MIX kasser fjernet Es
+.* d. 04.07.03 Banknavn rettet til parameter &BANKNAVN
+.* d. 10.8.05 Pulje nr. tekst tilføjet
+.* d. 29.9.05 Pulje gebyr for børneops fjernet
+.* d. 30.3.07 Ændring af oblnavne korrektion af boksplacering.
+.* d. 23.3.12 Indsat linie med risikoprofil i PULJE
+.da BOKS 20mm 33mm width 180mm
+.da PULJE 59mm  98mm width 114mm
+.da MIXK 119.5mm 103mm width 60mm
+.da PUTXTU 21mm  110mm width 86mm
+.da PUTXT1 22mm  183mm width 86mm
+.da PUTXT2 112mm  183mm width 86mm
+.dr tynd WEIGHT 0.1mm
+.*se a = 7.5mm
+.se a = 5.5mm
+.ti ¤ 05
+.****************
+.if &E'&FRIDATO = 1
+.th .se sty 'Handelsbankens'
+.th .se ty 'børneopsparing'
+.el .se sty 'Handelsbankens'
+.el .se ty 'pension'
+.ar BOKS on
+.if &E'&B37PULJE1 = 1
+.th .se oversk '&sty. Puljer - Puljeskift'
+.el .se oversk '&sty. Puljer - Udtræden'
+.if &E'&tilmeld = 1
+.th .se oversk '&sty. Puljer - Tilmelding'
+:SWISS12.:FED.
+.us
+&oversk
+.is 1
+:SWISS12.
+.* RETTET d. 28.1.1999 Es
+.*- tillæg til aftale om &ty.sopsparing
+- tillæg til aftale om &ty.
+.if &E'&FRIDATO = 0
+.th .ct sopsparing
+:SWISS8.
+.sp
+.in 1mm
+.ir 1mm
+.*tp 91mm
+.tp 81mm
+.****************
+.*bx left 90mm right
+.bx left 80mm right
+.sp 0.1mm
+Kontohavers navn: ¤Kundenr:
+.sp 5mm
+.hr left right
+.sp 0.1mm
+Pengeinstitut: ¤Kontooplysninger:
+.sp 1.9mm
+¤Kontonr.
+.sp 0.5mm
+¤Reg.type
+.sp 0.5mm
+.if &E'&FRIDATO = 1 ;.th .se bi 'Bindingsperiode' ;.el .se bi ' '
+ ¤&bi
+.sp 0.5mm
+¤Indestående  kr.
+.sp 1mm
+.bx off
+.****************
+:SWISS10.:FED.
+Betingelser
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 3mm
+Med virkning fra og med den:
+.sp 3mm
+.hr left right
+.se bet1b ' '
+.if &E'&B37PULJE1 = 1
+.th .se bet1a 'ønskes deltagelse i &BANKNAVN.s puljeordning'
+.th .se bet1b 'ændret til følgende: '
+.el .se bet1a 'ønskes udtræden af &BANKNAVN.s puljeordning'
+.el .se bet1a '&bet1a. af følgende årsag: '
+.if &E'&tilmeld = 1
+.th .se bet1b 'med følgende puljemix: '
+&bet1a &bet1b
+.sp 130mm
+.bx off
+.*ar off
+.****************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 0.1mm
+.if &E'&NAVNI = 1
+.th Kontoopretter:
+.el Kontohaver:
+.sp 30mm
+.bx off
+.ar off
+.****************
+.if &E'&B37PULJE1 = 0
+.th .go PENS
+.ar PULJE on
+.bx left 110mm
+.tp 10mm 52mm 45mm
+.sp 2.0mm
+¤  ANFØR % ¤¤
+.sp 2.0mm
+.*br
+.*¤¤¤sæt X (kun 1)
+.hr tynd left 110mm
+.*sp 7mm
+.sp 4.5mm
+ ¤  % i pulje 1 (Obligationer - korte)
+.sp &a
+ ¤  % i pulje 2 (Obligationer - mellemlange)
+.sp &a
+ ¤  % i pulje 3 (Obligationer - lange & indeks)
+.sp &a
+ ¤  % i pulje 4 (Aktier - Danmark)
+.sp &a
+ ¤  % i pulje 5 (Aktier - Global)
+.sp &a
+ ¤  % i pulje 6 (Aktier - Eurolande)
+.sp 5mm
+.in +5mm
+.ir +5mm
+Ovennævnte fordeling svarer til
+&BANKNAVN.s
+.sp 1mm
+nuværende strategi:
+.us &strateg.
+.*sp 5mm
+.sp 3mm
+.bx off
+.ar off
+.****************
+.**************** PENS
+...PENS
+.if .&ty = .børneopsparing
+.th .go BARN
+.if &E'&B37PULJE1 = 0
+.th .go UDTRP
+.if &E'&tilmeld = 1
+.th .go TILMELDP
+.ar PUTXT1 on
+:SWISS8.
+I øvrigt fortsætter pensionsordningen på uændrede vilkår - herunder
+""Vilkår for &BANKNAVN.s pensionspuljer
+"samt folderen "&BANKNAVN.s Puljer". Jeg har tidliger
+emodtaget et eksempla
+raf begge
+..s
+kJeg er indforstået med, at der beregnes et gebyr på p.t. kr. 500,00 fo
+rpuljeskift i perioden 1.5.-1.12
+..ar of
+f.go SLU
+T.*****
+*...TILMELD
+P.ar PUTXT1 o
+n:SWISS8
+.I puljen indskydes indestående på ovennævnte konto samt fremtidig
+eindbetalinger på kontoen
+..s
+pFor puljedeltagelsen gælder endvider
+e"Vilkår for &BANKNAVN.s pensionspuljer
+"samt "&BANKNAVN.s Puljer", hvoraf jeg har modtaget et eksempla
+raf begge
+..s
+pDesuden har jeg modtaget oplysninger om de enkelte puljers procentvis
+eafkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år
+..ar of
+f.go SLU
+T.**********
+*...UDTR
+P.ar PUTXTU o
+n:SWISS8
+.Jeg er indforstået med, at et eventuelt skyldigt afkast fr
+apuljedeltagelsen bliver hævet på ovennævnte konto
+..ar of
+f.go SLU
+T.**************** BØR
+N...BAR
+N.if &E'&B37PULJE1 = 
+0.th .go UDTR
+B.if &E'&tilmeld = 
+1.th .go TILMELD
+B.ar PUTXT1 o
+n:SWISS8
+.I øvrigt fortsætter børneopsparingsordningen på uændrede vilkår - herunde
+r"Vilkår for &BANKNAVN.s pensionspuljer" o
+g"&BANKNAVN.s Puljer", so
+mjeg tidliger
+ehar fået udleveret
+..*sp 3.5m
+m.*Gebyr fo
+r.*puljeskift i løbet af puljeåret skal indbetales af kontoopretter
+..ar of
+f;T.go SLUT
+.******
+...TILMELDB
+.ar PUTXT1 on
+:SWISS8.
+I puljen indskydes indestående på ovennævnte konto samt fremtidige
+indbetalinger på kontoen.
+.sp 3.5mm
+For puljedeltagelsen gælder endvidere
+"Vilkår for &BANKNAVN.s pensionspuljer" samt folderen "&BANKNAVN.s Puljer".
+.br
+Nævnte materiale er modtaget.
+.sp 3.5mm
+Desuden har jeg modtaget oplysninger om de enkelte puljers procentvise
+afkast for de seneste 3 år, samt de forløbne kvartaler i indeværende år.
+.sp 3.5mm
+.ar off
+.ar PUTXT2 on
+:SWISS8.
+.*Gebyr for udtræden eller puljeskift i løbet af puljeåret skal
+.*indbetales af kontoopretter.
+.*sp 3.5mm
+Udtræden eller puljeskift i forbindelse med årsskifte eller ved
+børneopsparingskontoens frigivelse er gebyrfri.
+.ar off
+.go SLUT
+.***********
+...UDTRB
+.ar PUTXTU on
+:SWISS8.
+Jeg er indforstået med, at et eventuelt skyldigt afkast fra
+puljedeltagelsen bliver hævet på ovennævnte &ty.skonto.
+.*sp
+.*Gebyr for udtræden i løbet af puljeåret skal indbetales af kontoopretter.
+.ar off
+...SLUT
+.th Udbetaling i utide
+.ar off
+.***********
+...UNSKR
+.***********
+.ar UNSK on
+&EKSPBY., den &DATO
+.sp 20mm
+.if &E'&NAVNI = 1
+.th .ce &NAVNI
+.el .ce &KTONAVN
+.ar off
+.br
+&REGTYPE &REGTYPELNG
+.br
+.if &E'&FRIDATO = 1 ;.th .se bi '&FRIDATO.' ;.el .se bi ' '
+ ¤&bi
+.br
+¤&SALDO
+.ar off
+.***********
+.ar DATO on
+&B37DATO
+.ar off
+.***********
+.if &E'&B37PULJE1 = 0
+.th .go UDTR
+.ar PUL1 on
+.tp 17mm right 45mm
+ ¤&B37PULJE1. ¤
+.ar off
+.ar PUL2 on
+.tp 17mm right 45mm
+ ¤&B37PULJE2. ¤
+.ar off
+.ar PUL3 on
+.tp 17mm right 45mm
+ ¤&B37PULJE3. ¤
+.ar off
+.ar PUL4 on
+.tp 17mm right 45mm
+ ¤&B37PULJE4. ¤
+.ar off
+.ar PUL5 on
+.tp 17mm right 45mm
+ ¤&B37PULJE5. ¤
+.ar off
+.ar PUL6 on
+.tp 17mm right 45mm
+ ¤&B37PULJE6. ¤
+.ar off
+...UDTR
+.if &E'&MIBJN3 = 0
+.th .go UNSKR
+.ar UDTA on
+.if .&U'&MIBJN3 = .O
+.th Overførsel til andet pengeinstitut
+.if .&U'&MIBJN3 = .K
+.th Kontoen skal stå kontant fremover
+.if .&U'&MIBJN3 = .B
+.th Udbetaling ved udløb
+.if .&U'&MIBJN3 = .U
+.* d. 9.3.99 årsag vedr. pulje udtræden tilføjet
+.* d.10.8.05 puljenr tekst tilføjet
+.* d.30.3.07 Ænring af obl.navn og boksplacering.
+.* d.26.3.12 Ænring af afstand mellem PUL1-6.
+.*if x&RESULTA = x100
+.*th .go PULOK
+.*mg /T/ Pulje % skal være 100, du har &RESULTA
+...PULOK
+.da NAVN  25mm  46mm
+.*da CPR  115mm  46mm
+.da CPR  105mm  46mm
+.da PI    25mm  56mm
+.*da KTOO 127mm  56mm
+.da KTOO 117mm  56mm
+.da DATO  61mm  80mm
+.da UDTA  25mm  99mm
+.da PUL1  55mm 113.30mm
+.*da PUL2  55mm 124.28mm
+.da PUL2  55mm 122.28mm
+.*da PUL3  55mm 135.26mm
+.da PUL3  55mm 131.26mm
+.*da PUL4  55mm 146.24mm
+.da PUL4  55mm 140.24mm
+.*da PUL5  55mm 157.22mm
+.da PUL5  55mm 149.22mm
+.*da PUL6  55mm 168.20mm
+.da PUL6  55mm 158.20mm
+.da UNSK  25mm 234mm WIDTH 170mm
+.ti ¤ 05
+:COUR10.
+.***********
+.ar NAVN on
+&KTONAVN
+.ar off
+.***********
+.ar CPR on
+&KTOKUNDENR
+.ar off
+.***********
+.ar PI on
+&BKNAVN
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.***********
+.ar KTOO on
+.tp 9mm
+&REGNR &KTONR1

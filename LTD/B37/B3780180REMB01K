@@ -1,0 +1,216 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.******************* Evt. ALTERNATIV PRINTER ******
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.**************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.**************************************************
+.ti ^ 05
+:COUR10.
+.**************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.**************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.*ir 25mm
+.* ÆNDRET d. 12/01.2000 jvf. Standard for breve.
+.ir 20mm
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.* parameterafsnit
+.da REMNR 07 17 body width 17
+.da FAVØR 25 17 body
+.da DOKOV 10 18 body
+.da REMAF 16 19 body
+.da BEACC 54 21 body
+.da VXSTO 07 23 body
+.da PRKR  07 23 body ;.* rettet fra 07 23 d. 23.09.96 es tilbage 3.10.96es
+.da KURS  37 24 body
+.da FRIFA 00 25 body
+.da FRIGE 01 29 body
+.da KTONR 31 32 body
+.da DOKVE 00 34 body
+.da TEKST 00 39 body
+.ar REMNR on
+7610/&MIBEM51
+.AR OFF
+.ar FAVØR on
+&MIBEMNE1
+.ar off
+.ar DOKOV on
+&MIBEM551
+.ar off
+.ar REMAF on
+&MIBEM552
+.ar off
+.ar BEACC on
+:HALVLIN.
+.if &U'&MIBJN2 = B
+.th betalt
+.el accepteret
+.br
+:HALVRET.
+.ar off
+.ar KURS  on
+.if .&MIBBEL6 ne .100,00
+.th &MIBBEL6
+.ar off
+.ar FRIFA on
+:GL..IN 1:EGL.
+&MIBEMNE3
+.ar off
+.ar VXSTO on
+&MIBEMNE2
+.if &L'&MIBEMNE2 = 0
+.th .sp
+.el .br
+:GL..IS 3:EGL.
+.if .&MIBBEL1 = .0,00
+.th &MIBEM241
+.el &MIBEM241  &MIBBEL1
+.ar off
+.ar PRKR on
+:GL..TP SET 48:EGL.
+.if &L'&MIBPRDAT > 0
+.th ^&MIBPRDAT
+.th .br
+.el .sp
+:GL..TP SET 65 RIGHT:EGL.
+.if &RESULTA ne 0,00
+.th ^&RESULTA
+.th .br
+.el .sp
+.if &RESULTH ne 0,00
+.th ^&RESULTH
+.th .sk
+.el .sp 2
+.if &RESULTB ne 0,00
+.th ^&RESULTB
+.th .br
+.el .sp
+.if &RESULTC ne 0,00
+.th ^&RESULTC
+.th .br
+.el .sp
+.if &RESULTD ne 0,00
+.th ^&RESULTD
+.th .br
+.el .sp
+.if &RESULTE ne 0,00
+.th ^&RESULTE
+.th .sp
+.el .sp 2
+.if &RESULTF ne 0,00
+.th ^&RESULTF
+.ar off
+.ar FRIGE on
+:GL..IN 0:EGL.
+ &MIBEM281
+.br
+ &MIBEM282
+.ar off
+.ar KTONR on
+&REGNR./&KTONR.
+.ar off
+.ar DOKVE on
+#1B#5B;72 G:HALVRET.
+:GL..TP SET 1 26 31 51 56:EGL.
+.br
+ ^&MIBEM5N1.^&MIBEM5N5.^^&MIBEM5N9.
+.br
+^&MIBEM5N2.^&MIBEM5N6.^^&MIBEM5N10..
+br 
+^&MIBEM5N3.^&MIBEM5N7.^^&MIBEM5N11..
+br 
+^&MIBEM5N4.^&MIBEM5N8.^&MIBEM161.^&MIBEM5N12.^&MIBEM162..
+br:
+HALVLIN..
+ar off.
+ar TEKST on 
+&MIBOBJK1.
+br 
+&MIBOBJK2.
+br 
+&MIBOBJK3.
+br 
+&MIBOBJK4.
+br 
+&MIBOBJK5.
+br 
+&MIBOBJK6.
+br 
+&MIBOBJK7.
+br 
+&MIBOBJK8.
+br 
+&MIBOBJK9.
+ar off
+.da REMBSLUT 0 66 PAGE
+.ar REMBSLUT on
+:GL.//LA!B37U11!!:EGL.
+.ar off

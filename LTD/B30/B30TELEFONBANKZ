@@ -1,0 +1,212 @@
+.oc **Denne linie benyttes ikke
+:GL.:BECFORM.B30730:EGL.
+.fo left
+.*** SÆT SKÆRM7PRINT-FORMAT ***
+.ti > 05
+:GL..PM 6:EGL.
+:GL..LL 75:EGL.
+.sp 4
+:GL..TP 37:EGL.
+.* Areal1 er defineret til kundens navn
+.* Areal2 er defineret til Lægernes Pensionsbank
+.* Areal3 er defineret til indhold
+.* Areal4 er defineret til underskrift
+.*** BREVSTART ***
+.da AREAL1 6 11 width 32
+.ar AREAL1 on
+Mellem (kunden)
+.sp
+.if &L'&B30A gt 0
+.th &B30A
+.th .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.sp 3
+.br
+.su off
+.se bruger = substr &RESULTA 1 2
+.se brugere = substr &RESULTA 4 3
+.se brugeren = substr &RESULTA 8 3
+.se brugerer = substr &RESULTA 12 3
+.su on
+Brugernummer: &bruger.&brugere.&brugeren.&brugerer
+.ar off
+.da AREAL2 43 11 width 23
+.ar AREAL2 on
+og (banken)
+.sp
+Lægernes Pensionsbank
+.br
+Esplanaden 8 A
+.br
+1263  København K
+.ar off
+.da AREAL3 6 26 width 74
+.ar AREAL3 on
+:GL..TP 5 16 43:EGL.
+.if &L'&B30TIL1 eq 0
+.th &BANKREGNR >&B30KTO1 >&BKNAVN
+.th .sp
+.if &L'&B30TIL1 gt 0
+.th &BANKREGNR >&B30KTO1 >&BKNAVN >Kontoen tilhører
+.th .br
+.th > > >&B30TIL1
+.th .br
+.th > > >&B30TIL1A
+.th .sp
+.if &L'&B30REG2 gt 0 .an &L'&B30TIL2 eq 0
+.th &B30REG2 >&B30KTO2 >&B30BANK2
+.th .sp
+.if &L'&B30REG2 gt 0 .an &L'&B30TIL2 gt 0
+.th &B30REG2 >&B30KTO2 >&B30BANK2
+.th > > >&B30TIL2
+.th .br
+.th > > >&B30TIL2A
+.th .sp
+.if &L'&B30REG3 gt 0 .an &L'&B30TIL3 eq 0
+.th &B30REG3 >&B30KTO3 >&B30BANK3
+.th .sp
+.if &L'&B30REG3 gt 0 .an &L'&B30TIL3 gt 0
+.th &B30REG3 >&B30KTO3 >&B30BANK3 >Kontoen tilhører
+.th > > >&B30TIL3
+.th .br
+.th > > >&B30K
+.th .sp
+.if &L'&B30REG4 gt 0 .an &L'&B30TIL4 eq 0
+.th &B30REG4 >&B30KTO4 >&B30BANK4
+.th .sp
+.if &L'&B30REG4 gt 0 .an &L'&B30TIL4 gt 0
+.th &B30REG4 >&B30KTO4 >&B30BANK4 >Kontoen tilhører
+.th > > >&B30TIL4
+.th .br
+.th > > >&B30L
+.ar off
+.da AREAL4 5 56 width 74
+.ar AREAL4 on
+.su off
+.se byen = substr &BY 6
+.su on
+:GL..TP 49:EGL.
+:NY..TP 124MM:ENY.
+.br
+&byen., den >København, den &DATO2
+.sp 3
+ &NAVN >Lægernes Pensionsbank
+.ar off
+.sp &ÅLC
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.fo left
+.*** SÆT SKÆRM/PRINT-FORMAT ***
+.ti > 05
+:GL..PM 7:EGL.
+:GL..LL 62:EGL.
+.sp 19
+:GL..TP 50:EGL.
+.*IM MAKROER
+:GL.&&??#:EGL.
+.*** BREVSTART ***
+.*  Areal1 er defineret til dato
+.da AREAL1 40 10 width 30
+.ar AREAL1 on
+.ri on
+&DATO
+.ri off
+.ar off
+.*  Areal2 er defineret til adresse
+.da AREAL2 7 10 width 62
+.ar AREAL2 on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.ar off
+.us :FED.TelefonService_______________________________________
+:SKRSLUT.
+.br
+.sp
+.if &U'&B302 eq T
+.th Som aftalt telefonisk sendes nye tillægsaftaler om
+.th TelefonService i Lægernes Pensionsbank.
+.th .sp
+.th De bedes underskrive aftalerne og returnere det ene
+.th eksemplar.
+.th .sp
+.if &U'&B302 eq B
+.th I forlængelse af Deres brev sendes nye tillægsaftaler om
+.th TelefonService i Lægernes Pensionsbank.
+.th .sp
+.th De bedes underskrive aftalerne og returnere det ene
+.th eksemplar.
+.th .sp
+.if &L'&B30KTO2 eq 0
+.th Når banken har modtaget tillægsaftalen retur, vil De kunne
+.th overføre til Deres konto &B30KTO1 i &BKNAVN..
+.th .go stop
+.if &L'&B30REG3 gt 0 .go tre
+.if &L'&B30KTO2 gt 0 .an &BANKREGNR eq &B30REG2
+.th Når banken har modtaget tillægsaftalen retur, vil De kunne
+.th overføre til Deres konti i &BKNAVN..
+.th .go stop
+.if &L'&B30KTO2 gt 0 .an &BANKREGNR ne &B30REG2
+.th Når banken har modtaget tillægsaftalen retur, vil De kunne
+.th overføre til Deres konti i Deres banker.
+.th .go stop
+...tre
+.if &BANKREGNR eq &B30REG2 .an &BANKREGNR eq &B30REG3
+.th Når banken har modtaget tillægsaftalen retur, vil De kunne
+.th overføre til Deres konti i &BKNAVN..
+.el Når banken har modtaget tillægsaftalen retur, vil De kunne
+.el overføre til Deres konti i Deres banker.
+...stop
+.if &BANKREGNR eq 1199 .go giro
+.if &L'&B30REG2 eq 0 .go slut
+.if &B30REG2 eq 1199 .go giro
+.if &L'&B30REG3 eq 0 .go slut
+.if &B30REG3 eq 1199 .go giro
+.if &L'&B30REG4 eq 0 .go slut
+.if &B30REG4 eq 1199 .go giro
+.if &BANKREGNR ne 1199 .go slut
+.if &B30REG2 ne 1199 .go slut
+.if &B30REG3 ne 1199 .go slut
+.if &B30REG4 ne 1199 .go slut
+...giro
+...slut
+.sp
+.if &L'&B30O gt 1
+.th &B30O &B30P &B30Q &B30R &B30S &B30T
+.th .sp
+Såfremt De ønsker yderligere oplysninger, er De velkommen
+til at kontakte os.
+.sp 3
+.ri on
+Med venlig hilsen
+.sp 2
+&B30NAVN
+.ri off
+.br
+.pa
+.br

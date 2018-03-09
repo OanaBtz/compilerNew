@@ -1,0 +1,453 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '¤%GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+:ENY.
+.* Parameterafsnit
+.* Parameterafsnit
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.da BOX   20mm 27mm WIDTH 175mm
+.**********************************
+.ar BOX on
+:SWISS10.:FED.
+Undertegnede primær kontohaver
+:SKRSLUT.:SKRSLUT.
+.**********************************
+.bx left right
+.sp 18mm
+.bx off
+.**********************************
+.sp 0,5mm
+.bx left right
+.sp 6mm
+.bx off
+.sp 0,5mm
+:SWISS8.
+Der har oprettet ovennævnte konto og har modtaget, læst og forstået
+Almindelige Forretningsbetingelser i &BANKNAVN., ønsker herved at
+registrere følgende person/er som medkontohaver/e: (op til 10)
+.sp 0,5mm
+.bx left right
+.vr 87mm
+.sp 19mm
+.bx new left right
+.sp 19mm
+.bx new left right
+.sp 19mm
+.bx new left right
+.sp 19mm
+.bx new left right
+.sp 19mm
+.bx can
+.bx can
+.bx can
+.bx can
+.vr off
+.bx off
+.*************************************************
+.sp 1mm
+.bx left right
+.sp 70mm
+.bx off
+.**********************************
+.sp 1mm
+.bx left right
+.sp 25mm
+.bx off
+.ar off
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 20mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us
+Medkontohavererklæring
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.da pri   22mm 33mm
+.da mkto 112mm 33mm
+.da konto 22mm 56mm
+.da navn1 22mm 72mm
+.da navn6 110mm 72mm
+.da navn2 22mm 93mm
+.da navn7 110mm 93mm
+.da navn3 22mm 113mm
+.da navn8 110mm 113mm
+.da navn4 22mm 133mm
+.da navn9 110mm 133mm
+.da navn5 22mm 154mm
+.da navn10 110mm 154mm
+.da TEKST 22mm 176mm width 170mm
+.*******************************
+.ar pri   on
+:SWISS8.
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOKNDNR1
+.ar off
+.*******************************
+.ar konto on
+:SWISS8.
+Kontonr. &REGNR. &KTONR1.
+.br
+(udfyldes af &BANKNAVN ved oprettelse af nærværende aftale)
+.ar off
+.*******************************
+.ar navn1 on
+:SWISS8.
+&B67TEKST1
+.br
+Cpr.nr. &B67TEKST2
+.br
+&B67TEKST3
+.br
+&B67TEKST4
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.*******************************
+.ar navn2 on
+:SWISS8.
+&B67TEKST5
+.br
+Cpr.nr. &B67TEKST6
+.br
+&B67TEKST7
+.br
+&B67TEKST8
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.*******************************
+.ar navn3 on
+:SWISS8.
+&B67TEKST9
+.br
+Cpr.nr. &B67TEKST10
+.br
+&B67TEKST11
+.br
+&B67TEKST12
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.*********************************************************************
+.ar navn4 on
+:SWISS8.
+&B67TEKST13
+.br
+Cpr.nr. &B67TEKST14
+.br
+&B67TEKST15
+.br
+&B67TEKST16
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.*****************************************************************
+.ar navn5 on
+:SWISS8.
+&B67TEKST17
+.br
+Cpr.nr. &B67TEKST18
+.br
+&B67TEKST19
+.br
+&B67TEKST20
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.********************************************************************
+.ar navn6 on
+:SWISS8.
+&B67TEKST21
+.br
+Cpr.nr. &B67TEKST22
+.br
+&B67TEKST23
+.br
+&B67TEKST24
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.************************************************************************
+.ar navn7 on
+:SWISS8.
+&B67TEKST25
+.br
+Cpr.nr. &B67TEKST26
+.br
+&B67TEKST27
+.br
+&B67TEKST28
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.*********************************************************************
+.ar navn8 on
+:SWISS8.
+&B67TEKST29
+.br
+Cpr.nr. &B67TEKST30
+.br
+&B67TEKST31
+.br
+&B67TEKST32
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.******************************************************************
+.ar navn9 on
+:SWISS8.
+&B67TEKST33
+.br
+Cpr.nr. &B67TEKST34
+.br
+&B67TEKST35
+.br
+&B67TEKST36
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.********************************************************************
+.ar navn10 on
+:SWISS8.
+&B67TEKST37
+.br
+Cpr.nr. &B67TEKST38
+.br
+&B67TEKST39
+.br
+&B67TEKST40
+.br
+Underskrift
+.br
+.br
+Den
+.ar off
+.*******************************************************************
+.ar TEKST on
+:SWISS8.
+Ved sin underskrift bekræfter henholdsvis primær kontohaver og
+medkontohaver/ne at have modtaget, læst og forstået såvel Almindelige
+Forretningsbetingelser, samt nedenstående betingelser:
+.sp 1mm
+Kontohaver på kontoen udgøres såvel af primær kontohaver og medkontohavere.
+Betegnelserne "primær kontohaver" og "medkontohaver" anvendes således alene
+af tekniske årsager, og er ikke udtryk for, at den ene kontohaver har bedre
+ret til eller større ejerandel af kontoen end den anden/de andre.
+.sp 1mm
+Alle kontohavere kan disponere over kontoen med fuldt bindende virkning
+og på samme måde, herunder ved hjælp af betalingskort, checks og webbank,
+ligesom alle kontohavere hæfter solidarisk for enhver disposition foretaget
+på kontoen.
+.sp 1mm
+Kontohaver accepterer, at det alene er primær kontohaver, som modtager
+kontoudtog samt årlige oplysninger om saldo, rente, gebyr, m.v. Alle
+kontohavere er selv ansvarlige for at følge kontoens udvikling, og har
+mulighed herfor ved enten at indgå aftale med primær kontohaver om at få
+tilsendt kopi af kontoudtog eller ved, at medkontohaver/ne selv opretter
+en webbank-aftale. Uvidenhed om en given disposition/givne dispositioner
+kan dermed ikke med frigørende virkning af nogen kontohaver påberåbes
+overfor &BANKNAVN..
+.sp 1mm
+Kontohaver accepterer endvidere, at der til eBoks alene kan leveres
+kontoudtog, ind- og udbetalingsmeddelelser og lignende til primær
+kontohaver.
+.sp 1mm
+Kontohaver accepterer følgende i forhold til indberetning af renter til
+SKAT:
+.br
+.in 5mm nobreak
+Såfremt der højst er to kontohavere, sker der indberetning vedørende renter
+med 50% til hver kontohaver.
+.sp 1mm
+Såfremt der er flere end to kontohavere, indberettes der alene på den
+kontohaver, der står anført som primær kontohaver.Kontohaverne regulerer
+fordelingen af rentetilskrivninger og rentefradrag indbyrdes. Dette er
+&BANKNAVN uvedkommende.
+.in 0mm
+.sp 1mm
+Kontohaver accepterer alle vilkår for den pågældende konto, herunder
+eventuelle oprettelses- og årlige gebyrer.
+.sp 6mm
+Primær kontohaver underskrift
+.sp 15mm
+&B67AFDSTED &DATO
+.ar off
+.*********************************************************************

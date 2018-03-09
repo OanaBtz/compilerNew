@@ -1,0 +1,207 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.*******************DEFINITION AF AREALER*************
+.da NAVN         20mm     42mm  width 80mm
+.da REG          87mm     37mm
+.da AFDOPL      129,5mm   37mm
+.da DATO        129,5mm   70mm
+.*******************NAVNEOPLYSNINGER*******************
+:SWISS12.
+.ar NAVN on
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.sp
+.if &L'&B19ATT1 gt 0
+.th Att. &B19ATT1
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:SWISS8.
+&REGNR
+.ar off
+.******************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:SWISS8.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+www.vestjyskbank.dk
+.sp 5mm
+.ti ¤ 05
+.tp 20mm
+Kontaktperson: ¤&GENEKSP ;.br
+¤&GENEMAIL
+.ar off
+.************************DATO*********************************
+.ar DATO on
+:SWISS8.
+&DATO
+.ar off
+.*************************************************************
+.* **soliditetsforesp.
+.ll 168,5mm
+.fo left
+.da OVER0 25mm  80mm
+.da OVER1 25mm  90mm
+.da OVER2 25mm 100mm
+.da OVER3 25mm 110mm
+.da BRØD0 25mm  89mm
+.da BRØD1 25mm  99mm
+.da BRØD2 25mm 111mm
+.da BRØD3 25mm 121mm
+:VERDA10.
+.* I dette afsnit er det valgfrit om, man vil underskrive med en eller to
+.* underskrifter. Standard er 1 underskrift.
+.* Er parameteren B19TEST1A udfyldt med X, så anvendes 2 underskrifter.
+.*************************************************************************
+.ti ¤ 05
+.tp 75mm
+.su on
+:VERDA10.
+.*********************************
+.tp 75mm
+.sp 5mm
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+.br
+:SKRSLUT.
+.go VIDERE
+...VIDERE
+.sp 10mm
+.****************** Underskrift/er tilføjes ********************
+.if &L'&B19TEST1Z gt 0 .if &U'&B19TEST1Z = X
+.th .go TO
+.el .go EEN
+...EEN
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+.go THEEND
+...TO
+&GENMEKSP ¤&GENEKSP
+.br
+:KURSIV.
+&GENMTITEL ¤&GENTITEL
+...THEEND
+.ar off
+...VID1
+.br
+.if &B19BELØB2 gt 0,01
+.th .go ENT
+.el .go VID2
+...ENT
+- entreprise kr. &ÅCONT
+:VS. &B19BELØB2
+...VID2
+.br
+.if &L'&GENANDET gt 0
+.th - &GENANDET
+.th .br
+.if &L'&GENANDET1 gt 0
+.th - &GENANDET1
+.th .br
+.if &L'&GENANDET2 gt 0
+.th - &GENANDET2
+.th .br
+.if &L'&GENANDET3 gt 0
+.th - &GENANDET3
+.th .br
+.if &L'&GENANDET4 gt 0
+.th - &GENANDET4
+.el .go END
+...END
+.sp
+.in 0
+Oplysningerne vil blive benyttet med diskretion.
+.sp
+Vi takker på forhånd for Deres hjælp og står i lignende tilfælde gerne
+til Deres rådighed.
+.ar OVER1 on
+:SWISS14.
+:FED.
+.if &L'&B19TEST1A gt 0 .if &U'&B19TEST1A = X
+.th Soliditetsforespørgsel - HASTER
+.el Soliditetsforespørgsel
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar BRØD1 on
+I fortrolighed og uden ansvar beder vi Dem give os så udførlige
+oplysninger som muligt om:
+.sp
+.in 15mm
+&GENSTILL
+.br
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+.sp
+Cpr/SE.nr. &GENCPR
+.sp
+.in 0
+Eventuelle fejl i omspurgtes titel, navn eller adresse bedes oplyst.
+.sp
+De bedes oplyse om respektabilitet, formueforhold og kreditværdighed
+specielt:
+.in 15mm
+.sp
+.if &L'&GENFORH gt 0
+.th - forhold i almindelighed
+.br
+.if &L'&GENSELVS gt 0
+.th - god for selvskyldnerkaution på kr.
+:VS.&GENSELVS
+.br
+.if &L'&GENVAREK gt 0
+.th - god for varekredit på kr. &ÅCONT
+:VS. &GENVAREK
+.br
+.if &B19BELØB1 gt 0,01
+.th .go DEB
+.el .go VID1
+...DEB
+- debitor kr. &ÅCONT
+:VS. &B19BELØB1

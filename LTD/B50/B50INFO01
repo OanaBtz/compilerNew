@@ -1,0 +1,702 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.**************************************************************************
+.* TEST PÅ, AT DER ER UDFYLDT MINDST ET TLF.NR. ELLER EN EMAIL-ADRESSE ****
+.**************************************************************************
+.if &L'&GENTLF01 > 0
+.or &L'&GENTLF02 > 0
+.or &L'&GENMAIL01 > 0
+.or &L'&GENMAIL02 > 0
+.th .se tael0 = 1
+.el .se tael0 = 0
+.if &L'&GENTLF01A > 0
+.or &L'&GENTLF01B > 0
+.or &L'&GENMAIL01A > 0
+.or &L'&GENMAIL01B > 0
+.th .se tael1 = 1
+.el .se tael1 = 0
+.if &L'&GENTLF02A > 0
+.or &L'&GENTLF02B > 0
+.or &L'&GENMAIL02A > 0
+.or &L'&GENMAIL02B > 0
+.th .se tael2 = 1
+.el .se tael2 = 0
+.if &L'&GENTLF03A > 0
+.or &L'&GENTLF03B > 0
+.or &L'&GENMAIL03A > 0
+.or &L'&GENMAIL03B > 0
+.th .se tael3 = 1
+.el .se tael3 = 0
+.if &L'&GENTLF04A > 0
+.or &L'&GENTLF04B > 0
+.or &L'&GENMAIL04A > 0
+.or &L'&GENMAIL04B > 0
+.th .se tael4 = 1
+.el .se tael4 = 0
+.if &L'&GENTLF05A > 0
+.or &L'&GENTLF05B > 0
+.or &L'&GENMAIL05A > 0
+.or &L'&GENMAIL05B > 0
+.th .se tael5 = 1
+.el .se tael5 = 0
+.if &L'&GENTLF06A > 0
+.or &L'&GENTLF06B > 0
+.or &L'&GENMAIL06A > 0
+.or &L'&GENMAIL06B > 0
+.th .se tael6 = 1
+.el .se tael6 = 0
+.if &L'&GENTLF08A > 0
+.or &L'&GENTLF08B > 0
+.or &L'&GENMAIL08A > 0
+.or &L'&GENMAIL08B > 0
+.th .se tael8 = 1
+.el .se tael8 = 0
+.if &L'&GENTLF10A > 0
+.or &L'&GENTLF10B > 0
+.or &L'&GENMAIL10A > 0
+.or &L'&GENMAIL10B > 0
+.th .se tael10 = 1
+.el .se tael10 = 0
+.if &L'&GENTLF11A > 0
+.or &L'&GENTLF11B > 0
+.or &L'&GENMAIL11A > 0
+.or &L'&GENMAIL11B > 0
+.th .se tael11 = 1
+.el .se tael11 = 0
+.if &L'&GENTLF12A > 0
+.or &L'&GENTLF12B > 0
+.or &L'&GENMAIL12A > 0
+.or &L'&GENMAIL12B > 0
+.th .se tael12 = 1
+.el .se tael12 = 0
+.**************************************************************************
+.se total1 = &tael0 + &tael1 + &tael2 + &tael3 + &tael4 + &tael5 + &tael6
+.se total2 = &tael8 + &tael10 + &tael11 + &tael12
+.se total = &total1 + &total2
+.if &total = 0
+.th .mg /T/Der skal udfyldes mindst et tlf.nr. eller en emailadresse/
+.**************************************************************************
+.*TEST PÅ, AT DER MAX INDTASTES E-MAILADRESSER OG/ELLER TELFONNUMRE *******
+.* UNDER 7 AFTALETYPER. DER KAN TASTES FRA 1-4 NUMRE UNDER HVER TYPE ******
+.se antal1 = &tael1 + &tael2 + &tael3 + &tael4 + &tael5 + &tael6
+.se antal2 = &tael8 + &tael10 + &tael11 + &tael12
+.se antal = &antal1 + &antal2
+.**************************************************************************
+.if &tael0 = 0
+.th .go TEST1
+.el .go TESTSL
+...TEST1
+.if &L'&GENINFTP01 > 0
+.an &tael1 = 0
+.th .go FEJL
+.el .go TEST2
+...TEST2
+.if &L'&GENINFTP02 > 0
+.an &tael2 = 0
+.th .go FEJL
+.el .go TEST3
+...TEST3
+.if &L'&GENINFTP03 > 0
+.an &tael3 = 0
+.th .go FEJL
+.el .go TEST4
+...TEST4
+.if &L'&GENINFTP04 > 0
+.an &tael4 = 0
+.th .go FEJL
+.el .go TEST5
+...TEST5
+.if &L'&GENINFTP05 > 0
+.an &tael5 = 0
+.th .go FEJL
+.el .go TEST6
+...TEST6
+.if &L'&GENINFTP06 > 0
+.an &tael6 = 0
+.th .go FEJL
+.el .go TEST8
+...TEST8
+.if &L'&GENINFTP08 > 0
+.an &tael8 = 0
+.th .go FEJL
+.el .go TEST10
+...TEST10
+.if &L'&GENINFTP10 > 0
+.an &tael10 = 0
+.th .go FEJL
+.el .go TEST11
+...TEST11
+.if &L'&GENINFTP11 > 0
+.an &tael11 = 0
+.th .go FEJL
+.el .go TEST12
+...TEST12
+.if &L'&GENINFTP12 > 0
+.an &tael12 = 0
+.th .go FEJL
+.el .go TESTSL
+...FEJL
+.th .mg /T/Der skal udfyldes mindst et tlf.nr. eller en emailadresse/
+...TESTSL
+.**************************************************************************
+.if &L'&GENINFTP01 = 0
+.an &tael1 > 0
+.th .go FEJLA
+.el .go TEST2A
+...TEST2A
+.if &L'&GENINFTP02 = 0
+.an &tael2 > 0
+.th .go FEJLA
+.el .go TEST3A
+...TEST3A
+.if &L'&GENINFTP03 = 0
+.an &tael3 > 0
+.th .go FEJLA
+.el .go TEST4A
+...TEST4A
+.if &L'&GENINFTP04 = 0
+.an &tael4 > 0
+.th .go FEJLA
+.el .go TEST5A
+...TEST5A
+.if &L'&GENINFTP05 = 0
+.an &tael5 > 0
+.th .go FEJLA
+.el .go TEST6A
+...TEST6A
+.if &L'&GENINFTP06 = 0
+.an &tael6 > 0
+.th .go FEJL
+.el .go TEST8A
+...TEST8A
+.if &L'&GENINFTP08 = 0
+.an &tael8 > 0
+.th .go FEJLA
+.el .go TEST10A
+...TEST10A
+.if &L'&GENINFTP10 = 0
+.an &tael10 > 0
+.th .go FEJLA
+.el .go TEST11A
+...TEST11A
+.if &L'&GENINFTP11 = 0
+.an &tael11 > 0
+.th .go FEJLA
+.el .go TEST12A
+...TEST12A
+.if &L'&GENINFTP12 = 0
+.an &tael12 > 0
+.th .go FEJLA
+.el .go TESTSLA
+...FEJLA
+.th .mg /T/Der mangler valg af aftaletype ud for et tlf.nr. eller e-mail/
+...TESTSLA
+.**************************************************************************
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 150mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Aftale om Info Service
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.da SIDE1 20mm 38mm width 175mm
+.tp 1mm 88.5mm
+.**************************************************************************
+.ar SIDE1 on
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.***** her laves kassen til kunde  *****
+.bx left 87.5mm right
+¤Kunde ¤Pengeinstitut
+.sp 23mm
+¤CPR-nr./CVR-nr.
+.bx off
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 14mm
+.bx new left 135mm right
+:SWISS8.
+.tp 1mm 136mm
+¤E-mail ¤Mobiltlf.nr.
+.sp 7mm
+.bx off
+.bx can
+.*OBS - OBS - OBS *********************************************************
+.*KASSEN TIL AFTALETYPER FORTSÆTTER I K1-AFSNITTET FOR 1-SIDEDE AFTALER ***
+.*KASSEN TIL AFTALETYPER FORTSÆTTER I K2-AFSNITTET FOR 2-SIDEDE AFTALER ***
+.**************************************************************************
+.if &antal > 7
+.th .go SLUTKS
+.el .go LLKS
+...LLKS
+.*FORTSAT FRA BECINFO01K ************************************************
+.*KASSE TIL AFTALETYPER, KORT KASSEAFSNIT, DER BENYTTES, HVIS DER ER ****
+.*BENYTTES FÆRRE END 14 SPECIFIKKE TELEFONNR. ELLER EMAIL-ADRESSER ******
+.*ELLERS BENYTTES BECINFO01K2 ********************************************
+:SWISS10.
+:FED.
+Valgte aftaletyper
+:SKRSLUT.
+.bx left 135mm 175mm
+.sp 92mm
+.bx off
+:FED.
+Vilkår for Info Service
+:SKRSLUT.
+.bx left 175mm
+.sp 42mm
+.bx off
+:FED.
+Underskrift
+:SKRSLUT.
+.bx left 87.5mm 175mm
+:SWISS8.
+.tp 1mm 54mm 88.5mm 142.5mm
+¤Kundens underskrift ¤Dato: ¤Penginstituttts underskrift ¤Dato:
+.sp 15mm
+.bx off
+.ar off
+...SLUTKS
+.if &antal > 7
+.th .go MAXKS
+.el .go MAXSL
+...MAXKS
+.*FORTSAT FRA BECINFO01K ************************************************
+.*KASSE TIL AFTALETYPER, LANGT KASSEAFSNIT, DER BENYTTES, HVIS DER ER ****
+.*BENYTTES MERE END 14 SPECIFIKKE TELEFONNR. ELLER EMAIL-ADRESSER ********
+.*SÅ BLIVER BREVET UDSKREVET PÅ 2 SIDER **********************************
+.*ELLERS BENYTTES BECINFO01K1 ********************************************
+:SWISS10.
+:FED.
+Valgte aftaletyper
+:SKRSLUT.
+.bx left 135mm 175mm
+.sp 167mm
+.bx off
+.ar off
+...MAXSL
+.*******************************************************
+.da KUNDEOPL   25mm 47mm width 84mm
+.da PIOPL      113mm 47mm width 84mm
+.da KUNDENR    44mm 68.5mm width 84mm
+.da GENNR      25mm 97mm width 170mm
+.da UNDERSKRKU1 20mm 273.5mm width 87mm
+.da UNDERSKRPI1 107mm 273.5mm width 87mm
+.*******************************************************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar KUNDENR on
+&KUNDENR
+.ar off
+.**************************************************************************
+.ar GENNR on
+.tp 135mm
+:COUR10.
+&GENMAIL01 ¤&GENTLF01
+.br
+&GENMAIL02 ¤&GENTLF02
+.ar off
+.**************************************************************************
+.if &antal > 7
+.th .go UNDSLUT
+.ar UNDERSKRKU1 on
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDERSKRPI1 on
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+...UNDSLUT
+.da INDHOLD 21mm 80mm width 170mm
+.**************************************************************************
+.ar INDHOLD on
+:SWISS8.
+Ved tilmelding af Info Service modtager jeg de valgte
+informationer enten via SMS på mobiltelefon eller via e-mail
+som anført.
+.sp 3mm
+Følgende e-mail-adresser og mobiltelefonnumre er tilknyttet alle
+aftaler, medmindre andet er anført under de specifikke aftaler.
+.br
+Hvis andet er angivet under de specifikke aftaler, er det kun de nævnte
+e-mail-adresser og mobiltelefonnumre, som er gældende.
+.ar off
+.**************************************************************************
+.da AFTALER 21mm 111mm width 175mm
+.tp 4mm 139mm
+.**************************************************************************
+.ar AFTALER on
+.if &L'&GENINFTP01 > 0
+.th .go TP01
+.el .go TP02
+...TP01
+:SWISS8.
+:FED.Bruger spærret:SKRSLUT.
+.if &L'&GENTLF01A > 0
+.or &L'&GENMAIL01A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL01A ¤&GENTLF01A
+.if &L'&GENTLF01B > 0
+.or &L'&GENMAIL01B > 0
+.th .br
+.th ¤&GENMAIL01B ¤&GENTLF01B
+.sp 3mm
+.**************************************************************************
+...TP02
+.if &L'&GENINFTP02 > 0
+.th .go TP02A
+.el .go TP03
+...TP02A
+:SWISS8.
+:FED.Kort spærret:SKRSLUT.
+.if &L'&GENTLF02A > 0
+.or &L'&GENMAIL02A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL02A ¤&GENTLF02A
+.if &L'&GENTLF02B > 0
+.or &L'&GENMAIL02B > 0
+.th .br
+.th ¤&GENMAIL02B ¤&GENTLF02B
+.sp 3mm
+.**************************************************************************
+...TP03
+.if &L'&GENINFTP03 > 0
+.th .go TP03A
+.el .go TP04
+...TP03A
+:SWISS8.
+:FED.
+Hævet beløb større end kr. &ÅCONT
+:VS.&GENINFTP03.
+:SKRSLUT.
+.if &L'&GENTLF03A > 0
+.or &L'&GENMAIL03A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL03A ¤&GENTLF03A
+.if &L'&GENTLF03B > 0
+.or &L'&GENMAIL03B > 0
+.th .br
+.th ¤&GENMAIL03B ¤&GENTLF03B
+.sp 3mm
+.**************************************************************************
+...TP04
+.if &L'&GENINFTP04 > 0
+.th .go TP04A
+.el .go TP05
+...TP04A
+:SWISS8.
+:FED.
+Indsat beløb større end kr. &ÅCONT
+:VS.&GENINFTP04.
+:SKRSLUT.
+.if &L'&GENTLF04A > 0
+.or &L'&GENMAIL04A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL04A ¤&GENTLF04A
+.if &L'&GENTLF04B > 0
+.or &L'&GENMAIL04B > 0
+.th .br
+.th ¤&GENMAIL04B ¤&GENTLF04B
+.sp 3mm
+.**************************************************************************
+...TP05
+.if &L'&GENINFTP05 > 0
+.th .go TP05A
+.el .go TP06
+...TP05A
+:SWISS8.
+:FED.
+Saldo på konto mindre end kr. &ÅCONT
+:VS.&GENINFTP05.
+:SKRSLUT.
+.if &L'&GENTLF05A > 0
+.or &L'&GENMAIL05A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL05A ¤&GENTLF05A
+.if &L'&GENTLF05B > 0
+.or &L'&GENMAIL05B > 0
+.th .br
+.th ¤&GENMAIL05B ¤&GENTLF05B
+.sp 3mm
+.**************************************************************************
+...TP06
+.if &L'&GENINFTP06 > 0
+.th .go TP06A
+.el .go TP08
+...TP06A
+:SWISS8.
+:FED.
+Overtræk større end kr. &ÅCONT
+:VS.&GENINFTP06.
+:SKRSLUT.
+.if &L'&GENTLF06A > 0
+.or &L'&GENMAIL06A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL06A ¤&GENTLF06A
+.if &L'&GENTLF06B > 0
+.or &L'&GENMAIL06B > 0
+.th .br
+.th ¤&GENMAIL06B ¤&GENTLF06B
+.sp 3mm
+.**************************************************************************
+...TP08
+.if &L'&GENINFTP08 > 0
+.th .go TP08A
+.el .go TP10
+...TP08A
+:SWISS8.
+:FED.Visakort transaktion gennemført:SKRSLUT.
+.if &L'&GENTLF08A > 0
+.or &L'&GENMAIL08A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL08A ¤&GENTLF08A
+.if &L'&GENTLF08B > 0
+.or &L'&GENMAIL08B > 0
+.th .br
+.th ¤&GENMAIL08B ¤&GENTLF08B
+.sp 3mm
+.**************************************************************************
+...TP10
+.if &L'&GENINFTP10 > 0
+.th .go TP10A
+.el .go TP11
+...TP10A
+:SWISS8.
+:FED.
+Fondshandel gennemført (der gives ikke meddelelse om strakshandel)
+:SKRSLUT.
+.if &L'&GENTLF10A > 0
+.or &L'&GENMAIL10A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL10A ¤&GENTLF10A
+.if &L'&GENTLF10B > 0
+.or &L'&GENMAIL10B > 0
+.th .br
+.th ¤&GENMAIL10B ¤&GENTLF10B
+.sp 3mm
+.**************************************************************************
+...TP11
+.if &L'&GENINFTP11 > 0
+.th .go TP11A
+.el .go TP12
+...TP11A
+:SWISS8.
+:FED.Nettoløn på plads i OverførselsService:SKRSLUT.
+.if &L'&GENTLF11A > 0
+.or &L'&GENMAIL11A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL11A ¤&GENTLF11A
+.if &L'&GENTLF11B > 0
+.or &L'&GENMAIL11B > 0
+.th .br
+.th ¤&GENMAIL11B ¤&GENTLF11B
+.sp 3mm
+.**************************************************************************
+...TP12
+.if &L'&GENINFTP12 > 0
+.th .go TP12A
+.el .go TP13
+...TP12A
+:SWISS8.
+:FED.Nettoløn på plads i LønService:SKRSLUT.
+.if &L'&GENTLF12A > 0
+.or &L'&GENMAIL12A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL12A ¤&GENTLF12A
+.if &L'&GENTLF12B > 0
+.or &L'&GENMAIL12B > 0
+.th .br
+.th ¤&GENMAIL12B ¤&GENTLF12B
+.sp 3mm
+.**************************************************************************
+...TP13
+.if &L'&GENINFTP13 > 0
+.th .go TP13A
+.el .go TPSL
+...TP13A
+:SWISS8.
+:FED.Elektronisk indbetalingskort modtaget:SKRSLUT.
+.if &L'&GENTLF13A > 0
+.or &L'&GENMAIL13A > 0
+.th :SKRSLUT.
+.th ¤&GENMAIL13A ¤&GENTLF13A
+.if &L'&GENTLF13B > 0
+.or &L'&GENMAIL13B > 0
+.th .br
+.th ¤&GENMAIL13B ¤&GENTLF13B
+.sp 3mm
+...TPSL
+.ar off
+.**************************************************************************
+.if &antal > 7
+.th .go SI2
+.el .go SI2SL
+...SI2
+.pa
+.da VILKAR 20mm 38mm width 175mm
+.**************************************************************************
+.*KASSE TIL VILKÅR OG UNDERSKRIFT, DER BENYTTES PÅ SIDE 2, HVIS DER *******
+.*BENYTTES MERE END 16 FORSKELLIGE TELEFONNR. ELLER EMAIL-ADRESSER ********
+.**************************************************************************
+.ar VILKAR on
+:SWISS10.
+:FED.
+Vilkår for Info Service
+:SKRSLUT.
+.bx left 175mm
+.sp 42mm
+.bx off
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.bx left 87.5mm 175mm
+:SWISS8.
+.tp 1mm 54mm 88.5mm 142.5mm
+¤Kundens underskrift ¤Dato: ¤Penginstituttets underskrift ¤Dato:
+.sp 15mm
+.bx off
+.ar off
+...SI2SL
+.da K1KORT 21mm 212mm width 85mm
+.da K2KORT 108mm 212mm width 85mm
+.da K1LANG 21mm 45mm width 85mm
+.da K2LANG 108mm 45mm width 85mm
+.**AREALER K1KORT+K2KORT BRUGES TIL UDSKRIVNING PÅ 1 SIDE *****************
+.**AREALER K1LANG+K2LANG BRUGES TIL UDSKRIVNING PÅ 2 SIDER (DER HVOR DER***
+.**BENYTTES MERE END 7 SPECIFIKKE TLF.NR. ELLER MAILADR.) *****************
+.if &antal > 7
+.th .ar K1LANG on
+.el .ar K1KORT on
+:SWISS8.
+1. Jeg er bekendt med, at det er vigtigt, at de angivne
+telefonnumre og e-mail-adresser altid er de gældende, og jeg
+bekræfter, at jeg løbende vil foretage opdatering af disse ved
+henvendelse til &BANKNAVN.. Det er mit ansvar alene, hvorvidt
+&BANKNAVN har modtaget oplysning om det gældende telefonnummer
+eller e-mail-adresse, og om andre end jeg selv har adgang til
+disse.
+.sp 3mm
+2. Info Service muliggør, at information nemmere kommer til min
+kundskab. &BANKNAVN har dog intet ansvar for, at Info Service
+som følge af fejl eller driftsforstyrrelser ikke udsender
+information, som ellers ville være omfattet af Info Service,
+eller at information udsendes med forsinkelse.
+.ar off
+.**************************************************************************
+.if &antal > 7
+.th .ar K2LANG on
+.el .ar K2KORT on
+:SWISS8.
+3. Info Service kan være pålagt gebyr. Evt. gebyr oplyses af &BANKNAVN..
+Gebyrerne kan ændres med 1 måneds varsel, der gives via brev,
+annoncering i dagspressen eller på &BANKNAVN.s forretningssted.
+.sp 3mm
+4. Denne aftale er udfærdiget og underskrevet i to eksemplarer,
+hvoraf det ene er udleveret til mig, og det andet beholdes af
+&BANKNAVN..
+.ar off
+.*******************************************************
+.da UNDSKRKU1 20mm 106mm width 87mm
+.da UNDSKRPI1 107mm 106mm width 87mm
+.*******************************************************
+.if &antal > 7
+.th .go UNDMAX
+.el .go UNDSL
+...UNDMAX
+.ar UNDSKRKU1 on
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDSKRPI1 on
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+...UNDSL
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+.if &antal > 7
+.th &BREVNAVN
+.ar off

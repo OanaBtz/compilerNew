@@ -1,0 +1,277 @@
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+Vi har modtaget det tilsendte materiale vedrørende oprettelse af
+.if &U'&B30VALG2 = M
+.th multikonto med kredit.
+.if &U'&B30VALG2 = S
+.th studiekonto.
+.sp
+Desværre var nedennævnte ikke medsendt eller mangelfuldt/forkert udfyldt:
+.sp
+.tp 5mm
+.************
+.if &U'&B30BETMED eq J
+.th *¤Betalingsanmodning til automatisk træk af de tilskrevne renter.
+.th .br
+.************
+.if &U'&B30BEMY eq J
+.th *¤Bemyndigelse
+.th .in 5mm nobreak
+.th til indhentning af relevante oplysninger til brug
+.th for vor kreditbehandling.
+.th .br
+.th .in 2mm
+.************
+.if &U'&B30MEDSKUN eq J
+.th *¤Kundeoprettelse
+.th .br
+.************
+.if &U'&B30NYKAFT eq J
+.th *¤Kreditdokument
+.th .br
+.************
+.if &U'&KONTOOPR eq J
+.th *¤Kontooprettelse/ændring
+.th .br
+.************
+.if &U'&B30ÅRSOPG eq J
+.th *¤Årsopgørelse fra SKAT
+.th .br
+.************
+.sp
+.in 2mm
+.************
+Ovennævnte bedes udfyldt, underskrevet og returneret til os.
+Beløbet vil herefter være til &DIN disposition. Dog under
+forudsætning af, at de indhentede oplysninger ikke giver
+anledning til bemærkninger.
+.sp
+.************
+.if &U'&B30VALG eq J
+.th På kreditaftalen skal vi bede &DIG indhente underskrift af to
+.th vitterlighedsvidner, der ikke må være i familie/samboende med &DIG..
+.th .sp
+.************
+.if &U'&B30BILLEG eq J
+.th Vi beder &DIG endvidere vedlægge tydelig kopi af billedlegitimation.
+.th .sp
+.************
+.if &L'&GENTEKST1 gt 1
+.th &GENTEKST1. &GENTEKST2. &GENTEKST3.
+.th &GENTEKST4. &GENTEKST5. &GENTEKST6.
+.th .sp
+.************
+.kp on
+Ønsker &DU yderligere oplysninger, er &DU velkommen til at kontakte os.
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.******ROTERET BREVNAVN*****
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if &U'&B30VALG2 = M
+.th MULTIKONTO MED KREDIT NR. &IREGKTO
+.if &U'&B30VALG2 = S
+.th STUDIEKONTO NR. &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.ll 130mm
+.in 2mm
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.*****************************
+.su off
+.se kunr = substr &KTOKNDNR1 1 2
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.*****************************
+.if &U'&GENMEDKTOH = J
+.an &MEDKUNDENR = 000000-0000
+.th .mg/T/Der findes ingen medktohaver og den kan derfor ikke bruges/
+.*****************************
+.if &U'&B30VALG2 gt 0
+.an &U'&B30VALG2 ne XM
+.an &U'&B30VALG2 ne XS
+.th .mg/T/ Skriv M eller S for valg af kontotype/
+.*****************************
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DU
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DE
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert da der ingen medktohaver er/
+.**************************
+.if &U'&B30BETMED = N
+.an &U'&B30BEMY = N
+.an &U'&B30MEDSKUN = N
+.an &U'&B30NYKAFT = N
+.th .mg/T/Der skal være mindst et dokument der mangler/
+.*********************
+.if &U'&B30MEDSKUN = N
+.th .go TSTBEP
+.***************
+.if &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.*********************
+...TSTBEP
+.if &U'&B30BETMED = J
+.or &U'&B30BETMED = N
+.th .go BEANOK
+.el .mg/T/Der skal svares J eller N til betalingsanmodning/
+...BEANOK
+.***********
+.if &U'&B30BETMED = N
+.th .go NOBETP
+.if &L'&B30LÅNKRE3 = 0
+.th .mg/T/Kreditkontonr. skal indtastes ved Ja til betalingsanmodning/
+...NOBETP
+.**************************
+.if &U'&B30BEMY = J
+.or &U'&B30BEMY = N
+.th .go BEMYOK
+.el .mg/T/Der skal svares J eller N til bemyndigelse/
+...BEMYOK
+.***********
+.if &U'&B30MEDSKUN = J
+.or &U'&B30MEDSKUN = N
+.th .go MEDKUOK
+.el .mg/T/Der skal svares J eller N til medsend kundeoprettelse/
+...MEDKUOK
+.***********
+.if &U'&B30NYKAFT = J
+.or &U'&B30NYKAFT = N
+.th .go NYKOK
+.el .mg/T/Der skal svares J eller N til medsend ny kreditaftale/
+...NYKOK
+.***********
+.if &U'&B30BILLEG = J
+.or &U'&B30BILLEG = N
+.th .go bilOK
+.el .mg/T/Der skal svares J eller N til billedlegitimation/
+...bilOK
+.****************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

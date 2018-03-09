@@ -1,0 +1,259 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.*NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.*BR
+.*NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.*BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*. Parameterafsnit 1
+.*. Parameterafsnit
+.* Parameterafsnit
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.*Formularafsnit
+.ti ^ 05
+.da BOX    20mm 24mm WIDTH 184mm
+.da OVSKR 150mm 14mm DEPTH 10mm
+.ll 185mm
+.ar BOX on
+.dr tyn  WEIGHT .1mm
+.dr norm WEIGHT .3mm
+.******************************
+.ar OVSKR on
+:SWISS16.:FED.
+Overtræksbevilling :SKRSLUT.
+.ar off
+.******************************
+.sp 21mm
+.bx left 75mm / 133mm right
+.tp 2mm 135mm
+:SWISS10.
+^Kontoart: ^Kontonr: :SKRSLUT.
+.sp 11mm
+.bx off
+.******************************
+.sp 2mm
+.bx left right
+.il 1mm
+:SWISS10.
+^Debitor: :SKRSLUT.
+.sp 30mm
+.bx off
+.******************************
+.sp 5mm
+.bx left tyn 28mm norm 85mm tyn 132mm norm right
+.tp 2mm 87mm
+:SWISS14.
+^Overtræk ^Bevilges hermed
+^kr. ^indtil :SKRSLUT.
+.bx off
+.******************************
+.sp 5mm
+.bx left tyn 28mm norm 85mm tyn 132mm norm right
+.tp 2mm 87mm
+:SWISS14.
+^Debet eng. ^Blancoelement
+^herefter ^herefter :SKRSLUT.
+.bx off
+.******************************
+.sp 4mm
+.bx left right
+.il 1mm
+:SWISS10.
+^Evt. formål: :SKRSLUT.
+.sp 40mm
+.bx off
+.******************************
+.sp 5mm
+.bx left tyn 23mm norm 69mm tyn 108mm norm right
+.*sp 2mm
+.tp 2mm 71mm 125mm
+:SWISS14.
+^Dato ^Sagsbeh. :SKRSLUT.
+.sp 1mm
+.bx off
+.******************************
+.bx set left tyn 23mm norm 69mm tyn 108mm norm 135mm tyn 158mm norm right
+.tp 2mm 71mm 137mm
+:SWISS14.
+^Tilhørs- ^Afdelingsleders ^Kontrol
+^reg. nr. ^initialer                 :SKRSLUT.
+.bx off
+.******************************
+.sp 5mm
+.bx left tyn 23mm norm right
+.sp 2mm
+.tp 2mm 25mm 43mm 65mm 147mm
+:SWISS14.
+^Regler ^Løbetid ^: ^Højst 3 mdr.
+.sp 2mm
+^       ^Beløb   ^: ^Max. kr. 100.000.
+.sp 2mm
+.hr tyn 23mm right
+.sp 2mm
+^       ^Løbetid ^: ^3 mdr. - 1 år.
+.sp 2mm
+^       ^Beløb   ^: ^Max. kr. 50.000.
+.sp 2mm
+^       ^Gælder ikke private i.h.t. KREDITAFTALELOVEN :SKRSLUT.
+.sp 2mm
+.bx off
+.******************************
+.ar off
+.oc  OVERSKRIFT
+:COUR12.
+.da REGTYNA 35mm  46mm WIDTH 50 DEPTH 7
+.da KONTONR 166mm 53mm WIDTH 15 DEPTH 2
+.da DEBITOR 35mm  71mm WIDTH 60 DEPTH 6
+.da BELOB   40mm 111mm WIDTH 75 DEPTH 9
+.da FORMÅL  35mm 150mm WIDTH 70 DEPTH 10
+.da DATO    45mm 199mm WIDTH 60 DEPTH 4
+.ti ^ 05
+.LL 180mm
+.TP 12mm 52mm RIGHT 82mm 145mm RIGHT
+.FO OFF
+.ar REGTYNA on
+.sp
+Reg.type &REGTYPE
+.br
+&REGTYPEKRT
+.ar off
+ 
+.ar KONTONR on
+&REGNR &KTONR
+.ar off
+ 
+.ar DEBITOR on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+ 
+.ar BELOB on
+^^ &RESULTA ^^ &MIBPRDAT
+.sp 15mm
+^^ &RESULTB ^^ &RESULTC
+.br
+.ar off
+ 
+.ar FORMÅL on
+ &MIBOBJK1
+.br
+ &MIBOBJK2
+.br
+ &MIBOBJK3
+.br
+ &MIBOBJK4
+.br
+ &MIBOBJK5
+.br
+ &MIBOBJK6
+.br
+ &MIBOBJK7
+.br
+ &MIBOBJK8
+.br
+ &MIBOBJK9
+.ar off
+ 
+.ar DATO on
+^&DATO1 ^^  &GENEKSP
+.sp 6mm
+^  &EKSPREGNR &EKSPAFDNR
+.ar off

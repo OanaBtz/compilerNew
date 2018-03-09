@@ -1,0 +1,142 @@
+Denne parameter bestemmer, om det instruktionsskærmbillede, der blev
+vist af den kaldende ATD, skal vises igen, efter man er vendt tilbage
+fra
+ 
+o  En anmodning i Document Writing
+o  Fremvisning af en databaseoversigt
+ 
+ 
+ 
+Følgende værdier er mulige:
+Ikke-udfyldt eller 1:  Instruktionsskærmbilledet vises igen
+0                   :  Det skærmbillede, som ATD'en er kaldt
+                       fra, vises igen.
+ 
+Hvis ATD'en ikke medførte tvungen visning af muligheder, har DXBZPROMPT
+ingen betydning.
+Denne parameter kan anvendes, hvis parameterværdien DXBZREQT er en af
+følgende:  01, 05, 06, 07 eller 17.
+ 
+I hver anmodning på listen er et eller flere emner i dokumentskabet
+valgt til opstilling.
+ 
+Alle værdier for DXBZEWP, undtagen tomme værdier, betyder, at
+parameterbestemmelsesfasen springes over, og ingen af de parametre, der er
+defineret i emnerne i dokumentskabet overføres til DisplayWrite/370.
+Denne parameter kan anvendes, hvis parameterværdien DXBZREQT er en af
+følgende:  11, 12 eller 31.
+ 
+Hver anmodning viser en oversigt over emnerne i dokumentskabet.
+Du kan få et emne til at blive vist som "forvalgt til opstilling", hvis
+du angiver emnets navn som en værdi af parameteren DXBZPNAMxx, hvor "xx"
+er et tal mellem "01" og "99".
+Hvis der er angivet "1" for parameteren DXBZNUMSEL, forudvælges
+de emner, der er defineret af parameteren DXBZPNAMxx, ud fra tallet
+"xx".
+Ellers forudvælges de vha. liniekommandoen til opstilling "O".
+Denne parameter bruges til at kontrollere omdirigeret udskrivning i
+DisplayWrite/370, når der bestilles udskrivning på systemets printere.
+ 
+Følgende værdier er mulige:
+ 
+ 
+1  DisplayWrite/370 afsender ikke et udskrivningsjob, men arkiverer
+   dokumentet i datasæt DDDL3GX til omdirigeret udskrivning.
+   DDDL3GX-nøglen i det arkiverede dokument overføres til programmet
+   DDDMPCAN til opsamling.
+ 
+0  DisplayWrite/370 afsender et udskrivningsjob til online-udskrivning
+   af dokumentet.
+ 
+I tilfælde af anmodninger på online-udskrivning fra en liste over emner
+i dokumentskabet, afbildes værdien DXBSUBPRTJ i et felt i styringsblokken
+i API'en til udskrivning i DisplayWrite/370.
+ 
+Ved udskrivningsanmodninger uden for en session i DisplayWrite/370
+kaldes CLIST FSNSUBM for at
+ 
+o  Kontrollere værdien til parameteren DXBSUBPRTJ
+o  Standse afsendelse af udskrivningsjob med kommandoen "SUBMIT OFF".
+Hvis parametrene til emner i dokumentskabet, der skal opstilles, er
+markeret med "Overført til PDP" eller "Returneret fra PDP", skal der
+til parameterbestemmelsesfasen angives et navn eller en
+transaktionskode på et parameterbestemmelsesprogram (PDP), så
+parameterbestemmelsen kan udføres.
+ 
+Navnet eller transaktionskoden for PDP'et overføres som en værdi af
+parameteren DXBPDPNAME. Hvis du bruger en PDP-transaktionskode
+(<TX code>), skal du angive "<TX code>,1" som en værdi af DXBPDPNAME.
+I begyndelsen af en session i DisplayWrite/370 udføres profil-CLIST.
+Navnet overføres i API-styringsblokken og afhænger af den anmodning,
+DisplayWrite/370 er kaldt til:
+ 
+FSNVIEW     Start en vis-session
+FSNEDIT     Start en redigeringssession
+FSNZREQT05  Behandling uden brugerinteraktion med anmodningstype 05
+FSNZREQT06  Behandling uden brugerinteraktion med anmodningstype 06/07
+FSNPRTSQ    Udskrivning af databaseemner eller databaseoversigter, som
+            viser vinduet "PRINTDOK" i DisplayWrite/370.
+ 
+Hvis du vil udføre din egen CLIST eller udføre en bestemt kommando i
+DisplayWrite/370, inden det første skærmbillede vises i
+DisplayWrite/370, skal du angive CLIST- (kommando) navnet som en værdi
+af parameteren DXBEXIT1.
+Inden de ovennævnte CLIST'er udsteder en "SIDEINDDEL"-kommando,
+kontrollerer de, om parameteren DXBEXIT1 har en værdi, der ikke er tom,
+("<DXBEXIT1-VALUE>") og udsteder kommandoen "X <DXBEXIT1-VALUE>".
+I
+ begyndelsen af en session i DisplayWrite/370 udføres profil-CLIST.N
+avnet overføres i API-styringsblokken og afhænger af den anmodning,D
+isplayWrite/370 er kaldt til: 
+F
+SNEDIT       Start en redigeringssessionF
+SNZREQT05    Behandling uden brugerinteraktion med anmodningstype 05F
+SNZREQT06    Behandling uden brugerinteraktion med 
+             anmodningstype 06 eller 07F
+SNPRTSQ      Udskrivning af databaseemner eller databaseoversigter, 
+             som viser vinduet "PRINTDOK" i DisplayWrite/370. 
+H
+vis du vil udføre din egen CLIST eller udføre en bestemt kommando iD
+isplayWrite/370, inden det første skærmbillede vises,s
+kal du angive navnet som en værdi af parameterenD
+XBEXIT2.I
+nden de nævnte CLIST'er udsteder en "SIDEINDDEL"-kommando,k
+ontrollerer de, om parameteren DXBEXIT2 har en værdi, der ikke ert
+om, ("<DXBEXIT2-VALUE>") og udsteder kommandoen "X <DXBEXIT2-VALUE>". 
+B
+emærk:H
+vis DXBEXIT2 har en værdi, der ikke er tom, vil CLIST 
+o
+  FSNPRTSQ udstede kommandoen "X <DXBEXIT2-VALUE>" i stedet for at 
+  vise vinduet "PRINTDOK" i DisplayWrite/370.o
+  FSNZREQT06 udstede kommandoen "X <DXBEXIT2-VALUE>" i stedet for 
+  at udstede standardkommandoen PRINTDOK.
+N
+år Document Writing kalder DisplayWrite/370 for at behandle ena
+nmodning af typen 05, 06 eller 07, udføres en af følgende to CLIST'ers
+om profil-CLIST: 
+F
+SNZREQT05    Behandling uden brugerinteraktion med anmodningstype 05F
+SNZREQT06    Behandling uden brugerinteraktion med 
+             anmodningstype 06 eller 07 
+N
+ormalt afslutter CLIST FSNREQT05 og FSNREQT06 behandlingen medk
+ommandoen "X FILE", så der ikke vises noget skærmbillede iD
+isplayWrite/370. 
+H
+vis parameteren DXBEXIT3 indeholder en værdi, der ikke er tom"
+<DXBEXIT3-VALUE>", udstedes kommandoen "X <DXBEXIT3-VALUE>" is
+tedet for kommandoen "X FILE".N
+år du har afsluttet DisplayWrite/370, fortsætter den almindeligeb
+ehandling af anmodningerne.
+V
+ed udskrivning af et databaseemne eller en databaseoversigt iD
+isplayWrite/370 kontrollerer CLIST-profilen FSNPRTSQ fremvisningena
+f vinduet "PRINTDOK".D
+er oprettes et dokument i DisplayWrite/370, som indeholder dataene id
+et emne eller den liste, der er udskrevet.D
+okumentet slettes normalt, når DisplayWrite/370 afsluttes. 
+H
+vis du angiver en værdi for parameteren DXBFLAG1, der ikke er tom,g
+emmes dokumentet i dokumentskabet, og skærmbilledet "Profil for emnei
+ dokumentskab" vises.

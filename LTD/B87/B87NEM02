@@ -1,0 +1,521 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.if X&tal3 > X0
+.an X&tal3 < X2
+.th .mg/T/Der mangler indtastning vedr. 3. P-nummer/
+.**************************************************************************
+.se tal4 = 0
+.if &L'&PNUM04 > 0
+.th .se tal4 = &tal4 + 1
+.if &L'&KONTO4 > 0
+.th .se tal4 = &tal4 + 1
+.if X&tal4 > X0
+.an X&tal4 < X2
+.th .mg/T/Der mangler indtastning vedr. 4. P-nummer/
+.**************************************************************************
+.se tal5 = 0
+.if &L'&PNUM05 > 0
+.th .se tal5 = &tal5 + 1
+.if &L'&KONTO5 > 0
+.th .se tal5 = &tal5 + 1
+.if X&tal5 > X0
+.an X&tal5 < X2
+.th .mg/T/Der mangler indtastning vedr. 5. P-nummer/
+.**************************************************************************
+.se tal6 = 0
+.if &L'&PNUM06 > 0
+.th .se tal6 = &tal6 + 1
+.if &L'&KONTO6 > 0
+.th .se tal6 = &tal6 + 1
+.if X&tal6 > X0
+.an X&tal6 < X2
+.th .mg/T/Der mangler indtastning vedr. 6. P-nummer/
+.**************************************************************************
+.se tal7 = 0
+.if &L'&PNUM07 > 0
+.th .se tal7 = &tal7 + 1
+.if &L'&KONTO7 > 0
+.th .se tal7 = &tal7 + 1
+.if X&tal7 > X0
+.an X&tal7 < X2
+.th .mg/T/Der mangler indtastning vedr. 7. P-nummer/
+.**************************************************************************
+.se tal8 = 0
+.if &L'&PNUM08 > 0
+.th .se tal8 = &tal8 + 1
+.if &L'&KONTO8 > 0
+.th .se tal8 = &tal8 + 1
+.if X&tal8 > X0
+.an X&tal8 < X2
+.th .mg/T/Der mangler indtastning vedr. 8. P-nummer/
+.**************************************************************************
+.se tal9 = 0
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if &cprcvr > 31
+.th .mg/T/Der kan ikke oprettes NemKonto til konstruerede kundenumre/
+.**************************************************************************
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.**************************************************************************
+.if &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.an x&MEDKNDNR1 = x0000000000
+.th .mg/T/Ingen medkontohaver - tast K for kontohaver/
+.**************************************************************************
+.*TEST PÅ OM BÅDE P-NUMMER OG KONTONUMMER ER UDFYLDT**********************
+.*GÆLER KUN FOR VIRKSOMHEDER***********************************************
+.if &cprcvr = 00
+.th .go TESTP
+.el .go TESTEND
+...TESTP
+.**************************************************************************
+.se tal1 = 0
+.if &L'&PNUM01 > 0
+.th .se tal1 = &tal1 + 1
+.if &L'&KONTO1 > 0
+.th .se tal1 = &tal1 + 1
+.if X&tal1 > X0
+.an X&tal1 < X2
+.th .mg/T/Der mangler indtastning vedr. 1. P-nummer/
+.**************************************************************************
+.se tal2 = 0
+.if &L'&PNUM02 > 0
+.th .se tal2 = &tal2 + 1
+.if &L'&KONTO2 > 0
+.th .se tal2 = &tal2 + 1
+.if X&tal2 > X0
+.an X&tal2 < X2
+.th .mg/T/Der mangler indtastning vedr. 2. P-nummer/
+.**************************************************************************
+.se tal3 = 0
+.if &L'&PNUM03 > 0
+.th .se tal3 = &tal3 + 1
+.if &L'&KONTO3 > 0
+.th .se tal3 = &tal3 + 1
+.th .se tal20 = &tal20 + 1
+.if &L'&KONTO20 > 0
+.th .se tal20 = &tal20 + 1
+.if X&tal20 > X0
+.an X&tal20 < X2
+.th .mg/T/Der mangler indtastning vedr. 20. P-nummer/
+.**************************************************************************
+.se tot1 = &tal1 + &tal2 + &tal3 + &tal4 + &tal5 + &tal6 + &tal7 + &tal8
+.se tot2 = &tal9 + &tal10 + &tal11 + &tal12 + &tal13 + &tal14 + &tal15
+.se tot3 = &tal16 + &tal17 + &tal18 + &tal19 + &tal20
+.se total = &tot1 + &tot2 + &tot3
+...TESTEND
+.an X&tal14 < X2
+.th .mg/T/Der mangler indtastning vedr. 14. P-nummer/
+.**************************************************************************
+.se tal15 = 0
+.if &L'&PNUM15 > 0
+.th .se tal15 = &tal15 + 1
+.if &L'&KONTO15 > 0
+.th .se tal15 = &tal15 + 1
+.if X&tal15 > X0
+.an X&tal15 < X2
+.th .mg/T/Der mangler indtastning vedr. 15. P-nummer/
+.**************************************************************************
+.se tal16 = 0
+.if &L'&PNUM16 > 0
+.th .se tal16 = &tal16 + 1
+.if &L'&KONTO16 > 0
+.th .se tal16 = &tal16 + 1
+.if X&tal16 > X0
+.an X&tal16 < X2
+.th .mg/T/Der mangler indtastning vedr. 16. P-nummer/
+.**************************************************************************
+.se tal17 = 0
+.if &L'&PNUM17 > 0
+.th .se tal17 = &tal17 + 1
+.if &L'&KONTO17 > 0
+.th .se tal17 = &tal17 + 1
+.if X&tal17 > X0
+.an X&tal17 < X2
+.th .mg/T/Der mangler indtastning vedr. 17. P-nummer/
+.**************************************************************************
+.se tal18 = 0
+.if &L'&PNUM18 > 0
+.th .se tal18 = &tal18 + 1
+.if &L'&KONTO18 > 0
+.th .se tal18 = &tal18 + 1
+.if X&tal18 > X0
+.an X&tal18 < X2
+.th .mg/T/Der mangler indtastning vedr. 18. P-nummer/
+.**************************************************************************
+.se tal19 = 0
+.if &L'&PNUM19 > 0
+.th .se tal19 = &tal19 + 1
+.if &L'&KONTO19 > 0
+.th .se tal19 = &tal19 + 1
+.if X&tal19 > X0
+.an X&tal19 < X2
+.th .mg/T/Der mangler indtastning vedr. 19. P-nummer/
+.**************************************************************************
+.se tal20 = 0
+.if &L'&PNUM20 > 0
+.if &L'&PNUM09 > 0
+.th .se tal9 = &tal9 + 1
+.if &L'&KONTO9 > 0
+.th .se tal9 = &tal9 + 1
+.if X&tal9 > X0
+.an X&tal9 < X2
+.th .mg/T/Der mangler indtastning vedr. 9. P-nummer/
+.**************************************************************************
+.se tal10 = 0
+.if &L'&PNUM10 > 0
+.th .se tal10 = &tal10 + 1
+.if &L'&KONTO10 > 0
+.th .se tal10 = &tal10 + 1
+.if X&tal10 > X0
+.an X&tal10 < X2
+.th .mg/T/Der mangler indtastning vedr. 10. P-nummer/
+.**************************************************************************
+.se tal11 = 0
+.if &L'&PNUM11 > 0
+.th .se tal11 = &tal11 + 1
+.if &L'&KONTO11 > 0
+.th .se tal11 = &tal11 + 1
+.if X&tal11 > X0
+.an X&tal11 < X2
+.th .mg/T/Der mangler indtastning vedr. 11. P-nummer/
+.**************************************************************************
+.se tal12 = 0
+.if &L'&PNUM12 > 0
+.th .se tal12 = &tal12 + 1
+.if &L'&KONTO12 > 0
+.th .se tal12 = &tal12 + 1
+.if X&tal12 > X0
+.an X&tal12 < X2
+.th .mg/T/Der mangler indtastning vedr. 12. P-nummer/
+.**************************************************************************
+.se tal13 = 0
+.if &L'&PNUM13 > 0
+.th .se tal13 = &tal13 + 1
+.if &L'&KONTO13 > 0
+.th .se tal13 = &tal13 + 1
+.if X&tal13 > X0
+.an X&tal13 < X2
+.th .mg/T/Der mangler indtastning vedr. 13. P-nummer/
+.**************************************************************************
+.se tal14 = 0
+.if &L'&PNUM14 > 0
+.th .se tal14 = &tal14 + 1
+.if &L'&KONTO14 > 0
+.th .se tal14 = &tal14 + 1
+.if X&tal14 > X0
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Aftale om NemKonto
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+:SWISS8.
+.**************************************************
+.if &U'X&GENVALG1 = XB
+.th .bx new left 87.5mm right
+.th ¤Kunde ¤¤Medkontohaver
+.th .sp 20mm
+.th ¤CPR-nr./CVR-nr. ¤¤CPR-nr./CVR-nr.
+.**************************************************
+.if &U'X&GENVALG1 = XK
+.th .bx new left right
+.th ¤Kunde
+.th .sp 20mm
+.th ¤CPR-nr./CVR-nr.
+.**************************************************
+.if &U'X&GENVALG1 = XM
+.th .bx new left right
+.th ¤Medkontohaver
+.th .sp 20mm
+.th ¤CPR-nr./CVR-nr.
+.**************************************************
+.bx new left right
+¤NemKontonr.
+.sp 5mm
+.**************************************************************************
+.bx new left right
+.sp 180mm
+.bx off
+.bx can
+.bx can
+.bx can
+.ar off
+.th &KTOKNDNR1
+.el &MEDKNDNR1
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XB
+.th .ar MKTOCPR on
+.th &MEDKNDNR1
+.th .ar off
+.**************************************************************************
+.ar KTONR on
+&regnr.-&ktonr
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da KUNDEOPL        25mm 46mm width 80mm
+.da KNDCPR          45mm 64mm width 80mm
+.da KTONR           25mm 74mm width 80mm
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.**************************************************************************
+.if &U'X&GENVALG1 = XB
+.th .da MKTOOPL      112.5mm 46mm width 80mm
+.th .da MKTOCPR      132.5mm 64mm width 80mm
+.**************************************************************************
+.ar KUNDEOPL on
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XB
+.th &KTONAVN
+.th .br
+.th &KTOCO
+.th .br
+.th &KTOGADE
+.th .br
+.th &KTOBY
+.th .br
+.th &KTOLAND
+.el &MEDNAVN
+.el .br
+.el &MEDCO
+.el .br
+.el &MEDGADE
+.el .br
+.el &MEDBY
+.el .br
+.el &MEDLAND
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XB
+.th .ar MKTOOPL on
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.th .br
+.th &MEDLAND
+.th .ar off
+.**************************************************************************
+.ar KNDCPR on
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XB
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp 5mm
+.*****************************
+:FED.
+Underskrift
+:SKRSLUT.
+.sp
+.if &cprcvr = 00
+.th .go VIRK1
+.if &cprcvr < 32
+.th .go BORGER1
+.*VIRKSOMHEDER******************************************
+...VIRK1
+Undertegnede virksomhed
+ønsker at anvende ovenstående konto som NemKonto.
+.sp 12mm
+.tp 72.5mm center
+.hr left 25mm 30mm 115mm
+.br
+Dato ¤Tegningsberettigedes underskrift
+.go UNDSL1
+.*BORGERE**************************************************************
+...BORGER1
+.if &U'X&GENVALG1 = XB
+.th Vi
+.el Jeg
+ønsker alle fremtidige udbetalinger fra det offentlige indsat på
+ovenstående konto (Nemkonto).
+.sp 12mm
+.**********************************************************************
+.if &U'X&GENVALG1 = XB
+.th .hr left 25mm 30mm 98mm 102mm 165mm
+.el .tp 72.5mm center
+.el .hr left 25mm 30mm 115mm
+.br
+.**********************************************************************
+.if &cprcvr < 32
+.an &U'X&GENVALG1 = XB
+.th .tp 65mm center 135mm center
+.th Dato ¤&KTONAVN ¤&MEDNAVN
+.th .go UNDSL1
+.*****************************
+.if &U'X&GENVALG1 = XK
+.th .tp 72.5mm center
+.th Dato ¤&KTONAVN
+.th .go UNDSL1
+.*****************************
+.if &L'&PNUM12 > 0
+.th &PNUM12 ¤&KONTO12
+.th .br
+.if &L'&PNUM13 > 0
+.th &PNUM13 ¤&KONTO13
+.th .br
+.if &L'&PNUM14 > 0
+.th &PNUM14 ¤&KONTO14
+.th .br
+.if &L'&PNUM15 > 0
+.th &PNUM15 ¤&KONTO15
+.th .br
+.if &L'&PNUM16 > 0
+.th &PNUM16 ¤&KONTO16
+.th .br
+.if &L'&PNUM17 > 0
+.th &PNUM17 ¤&KONTO17
+.th .br
+.if &L'&PNUM18 > 0
+.th &PNUM18 ¤&KONTO18
+.th .br
+.if &L'&PNUM19 > 0
+.th &PNUM19 ¤&KONTO19
+.th .br
+.if &L'&PNUM20 > 0
+.th &PNUM20 ¤&KONTO20
+.sp 5mm
+...UDENOM
+.*****************************
+:FED.
+Indhold
+:SKRSLUT.
+.sp
+Digitaliseringsstyrelsen
+har fastsat, at alle borgere og virksomheder skal anvise
+en NemKonto. Herefter vil alle udbetalinger fra det offentlige blive
+indsat på den valgte konto (NemKonto).
+.if X&total > X0
+.th .sp
+.th Virksomheder, der har flere p-numre, kan indberette en Nemkonto for
+.th hvert enkelt P-nummer.
+.sp 5mm
+.*******************************
+:FED.
+NemKontoen føres i
+:SKRSLUT.
+.sp
+&BANKNAVN
+.br
+&AFDNAVN
+:SWISS8.
+.**************************************************************************
+.da PNUM            25mm 80mm width 170mm
+.**************************************************************************
+.ar PNUM on
+.if &cprcvr = 00
+.an X&total > X0
+.th .go PNUM1
+.el .go UDENOM
+...PNUM1
+.tp 25mm
+:FED.
+Virksomhedens øvrige P-numre med tilhørende konti
+.sp
+:SKRSLUT.
+P-nummer ¤Konto til P-nummer
+.sp
+.if &L'&PNUM01 > 0
+.th &PNUM01 ¤&KONTO1
+.th .br
+.if &L'&PNUM02 > 0
+.th &PNUM02 ¤&KONTO2
+.th .br
+.if &L'&PNUM03 > 0
+.th &PNUM03 ¤&KONTO3
+.th .br
+.if &L'&PNUM04 > 0
+.th &PNUM04 ¤&KONTO4
+.th .br
+.if &L'&PNUM05 > 0
+.th &PNUM05 ¤&KONTO5
+.th .br
+.if &L'&PNUM06 > 0
+.th &PNUM06 ¤&KONTO6
+.th .br
+.if &L'&PNUM07 > 0
+.th &PNUM07 ¤&KONTO7
+.th .br
+.if &L'&PNUM08 > 0
+.th &PNUM08 ¤&KONTO8
+.th .br
+.if &L'&PNUM09 > 0
+.th &PNUM09 ¤&KONTO9
+.th .br
+.if &L'&PNUM10 > 0
+.th &PNUM10 ¤&KONTO10
+.th .br
+.if &L'&PNUM11 > 0
+.th &PNUM11 ¤&KONTO11
+.th .br
+.if &U'X&GENVALG1 = XM
+.th .tp 72.5mm center
+.th Dato ¤&MEDNAVN
+...UNDSL1
+.ar off
+.**************************************************************************

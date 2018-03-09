@@ -1,0 +1,111 @@
+.**************************************************************************
+.da KUNDE 25mm 49mm width 85mm
+.da TEGNING 112.5mm 49mm width 85mm
+.da TAKST 25mm 101mm width 170mm
+.**************************************************************************
+.ar KUNDE on
+.tp 25mm 130mm
+&NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.ar off
+.**************************************************************************
+.ar TEGNING on
+:FED.
+.tp 77.5mm right
+.if x&BECPJN1 eq x3
+.th ¤Nedsættelse
+.*HER TESTES PÅ AT PARAMETERVÆRDIEN ER LIG MED 4 *****
+.if x&BECPJN1 lt x4
+.or x&BECPJN1 gt x4
+.th .go NEJREG
+.if &L'&BECREGNR01 gt 0
+.th ¤Overførsel fra reg.nr. &BECREGNR01
+.el .mg/T/Skriv reg.nr. der overføres fra/
+...NEJREG
+.************************
+:SKRSLUT.
+.br
+¤&a.-&b.
+.************************
+.br
+.if X&GENSUM gt X8
+.or X&GENSUM eq X0
+.th .mg/T/Forsikringssum skriv 1 - 8/
+.************************
+.************************
+.if X&GENSUM eq X1
+.th ¤0227-030
+.th .go SLUTFREK
+.if X&GENSUM eq X2
+.th ¤0227-031
+.th .go SLUTFREK
+.if X&GENSUM eq X3
+.th ¤0227-032
+.th .go SLUTFREK
+.if X&GENSUM eq X4
+.th ¤0227-033
+.th .go SLUTFREK
+.if X&GENSUM eq X5
+.th ¤0227-040
+.th .go SLUTFREK
+.if X&GENSUM eq X6
+.th ¤0227-041
+.th .go SLUTFREK
+.if X&GENSUM eq X7
+.th ¤0227-042
+.th .go SLUTFREK
+.if X&GENSUM eq X8
+.th ¤0227-043
+.th .go SLUTFREK
+...SLUTFREK
+.br
+¤&REGNR
+.br
+.if &L'&BECFIL > 0
+.th ¤&BECFIL
+.th .br
+¤&BECKTO01
+.ar off
+.* AFKRYDSNINGSFELTER TYPE AF TEGNING**************************************
+.if x&BECPJN1 = x3
+.or x&BECPJN1 = x4
+.th
+.el .mg/T/Indtastet tegningstype er forkert/
+.ar off
+.*TAKSTER******************************************************************
+.ar TAKST on
+.tp 57mm center 117mm center
+.if X&GENSUM eq X1
+.th ¤&GENPFA03 kr. ¤&GENPFAT03 kr.
+.th .go SLUTSUM
+.if X&GENSUM eq X2
+.th ¤&GENPFA04 kr. ¤&GENPFAT04 kr.
+.th .go SLUTSUM
+.if X&GENSUM eq X3
+.th ¤&GENPFA05 kr. ¤&GENPFAT05 kr.
+.th .go SLUTSUM
+.if X&GENSUM eq X4
+.th ¤&GENPFA06 kr. ¤&GENPFAT06 kr.
+.th .go SLUTSUM
+.**********************************
+.if X&GENSUM eq X5
+.th ¤&GENPFA05 kr. ¤&GENPFAT03 kr.
+.th .go SLUTSUM
+.if X&GENSUM eq X6
+.th ¤&GENPFA18 kr. ¤&GENPFAT04 kr.
+.th .go SLUTSUM
+.if X&GENSUM eq X7
+.th ¤&GENPFA19 kr. ¤&GENPFAT05 kr.
+.th .go SLUTSUM
+.if X&GENSUM eq X8
+.th ¤&GENPFA20 kr. ¤&GENPFAT06 kr.
+.th .go SLUTSUM
+...SLUTSUM
+.bx off
+.ar off

@@ -1,0 +1,187 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* datoregning
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+:SWISS9.
+&AFDBNKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.TP 20MM
+.br
+.*.if &B65P2U EQ 2
+.*.TH Reference:¤&GENEKSP
+.*.TH .br
+Telefon ¤&GENTLFNR
+.BR
+Telefax ¤&AFDFAX
+.br
+E-mail ¤&GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference:
+.TH .br
+.th  &B65DREF
+.TH .SP6mm
+.EL .SP10mm
+:SWISS11.
+&DATO
+.ar off
+.ar tekst on
+.sp 10mm
+:FED.&SDIN PFA-gruppeforsikring kan ikke betales:SKRSLUT.
+.SP 3MM
+Første præmie på &DIN forsikring kan ikke betales fordi der ikke er dækning
+på &DIN konto nr. &KTONR1..
+.sp 3mm
+Vi gør opmærksom på at forsikringen ophører uden yderligere varsel hvis der
+ikke er dækning på kontoen til betaling af præmien
+:FED.senest &RESULTA.:SKRSLUT., jf. Forsikringsbetingelserne
+præmieberegning og præmiebetaling.
+.sp 3mm
+Kontakt mig derfor hurtigst muligt så vi kan finde en løsning så der til
+enhver tid er dækning til præmien.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+.su off
+.*se a = substr &AFDNAVN 1 4
+.SU ON
+.*IF X'&a = XSTED
+.*th .go STEDET
+.GO HILSEN
+...STEDET
+Vi ses på STEDET
+.GO HILSLUT
+...HILSEN
+Med venlig hilsen
+.sp 15MM
+&GENEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL
+...HILSLUT
+.ar off
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.AR OFF

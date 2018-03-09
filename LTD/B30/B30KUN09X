@@ -1,0 +1,220 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+:CALIB10.
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 20mm 47mm width 150mm
+.da DATO 160mm 85mm width 40mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.ar DATO on
+&DATO
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.**** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.****************
+.ar OVERSKR on
+:FED.
+VEDRØRENDE KONTO NR. &regnr &ktonr
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALEM
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+&SDIN konto er i overtræk med &OVERTRÆK kr., &DU bedes inddække
+overtrækket.
+.********
+.if &U'&B30JANEJP eq J
+.th .sp
+.th Har &DU brug for et midlertidigt bevilget overtræk, bedes &DU
+.th kontakte os.
+.********
+.if &U'&B30JANEJP1 eq J
+.th .sp
+.th Hvis &DU vil have tilknyttet en trækningsret til kontoen, bedes &DU
+.th kontakte os.
+.********
+.if &U'&B30JANEJP2 eq J
+.th .sp
+.th Hvis &DU vil have forhøjet trækningsretten til kontoen, bedes &DU
+.th kontakte os.
+.********
+.if &U'&B30JANEJP3 eq N
+.th .go TESTP4
+.sp
+Gebyret for denne rykker
+:VS.&RYKGEBYR.
+kr. er trukket på kontoen og tillagt
+restancen.
+.********
+...TESTP4
+.if &U'&B30JANEJP4 eq N
+.th .go TESTP5
+.sp
+Har vi ikke modtaget beløbet senest 10 dage fra dato, vil &DU modtage
+endnu en rykkerskrivelse, der vil være gebyrbelagt med
+:VS.&RYKGEBYR.
+kr.
+.********
+...TESTP5
+.if &U'&B30JANEJP5 eq J
+.th .sp
+.th Har vi ikke modtaget beløbet senest 10 dage fra dato, vil engagementet
+.th blive opsagt til fuld indfrielse.
+.********
+.if &U'&B30VISA eq J
+.th .sp
+.th Træk uden dækning foretaget via Visa/Dankort kan medføre
+.th spærring af kort.
+.********
+.if &U'&B30JANEJP6 eq J
+.th .sp
+.th Vedlagte indbetalingskort kan eventuelt anvendes til betaling af
+.th restancen.
+.********
+.if &U'&B30JANEJP7 eq J
+.th .sp
+.th Beløbet kan eventuelt overføres til IBAN nr.
+.th &B30IBAN
+.th SWIFT kode LAPNDKK1 med angivelse af korrespondent SWIFT kode ALBADKKK.
+.********
+.sp
+Skulle &DU allerede have betalt beløbet, beder vi &DIG se bort fra denne
+skrivelse.
+.**********
+.kp on
+.if &L'&RYKTXTL1A gt 0
+.th .sp
+.th &RYKTXTL1A
+.th &RYKTXTL1B
+.th &RYKTXTL2A
+.th &RYKTXTL2B
+.kp off
+.**********
+.kp on
+.if &U'&B30JANEJP8 eq J
+.th .sp
+.th Såfremt &DU har nogle spørgsmål, er &DU velkommen til at kontakte os.
+.**********
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

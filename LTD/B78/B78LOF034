@@ -1,0 +1,467 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***********************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:tiltale &TILTALEF
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da OVERSKR 20mm 100mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+.us Kontrakt nr.: &AFTALENR.
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+:SKRSLUT.
+.ar off
+.sp 96mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+:COUR10.
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.* Påsat adressefelter
+.da LOFADR 23mm 48mm
+.**************************************************************************
+.ar LOFADR on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.***********************************************************************
+.**************************************************************************
+.* ændring af tiltale, så det følger anviste LOF-regler, som er:
+.* 1. Kunder med CPR.NR. skal tiltales efter deres tiltaleform hentet fra
+.*    kunderegisteret.
+.* 2. Alle kunder med CVR.NR (Første 2 cifre er 00) skal tiltales med I.
+.**************************************************************************
+.su off
+.se cpr1 = substr &KUNDENR 1 2
+.su on
+.***TEST om det er CVR-NR eller CPR-NR*************************************
+.if x&cpr1 = x00
+.th .go CVR
+.el .go ENDCVR
+.**************************************************************************
+...CVR
+.se DU = &I
+.se SDU = &I
+.se DIG = &JER
+.se SDIG = &SJER
+.se DIN = &JERES
+.se SDIN = &SJERES
+.se DIT =  &JERES
+.se SDIT = &SJERES
+.se DINE = &JERES
+.se SDINE = &SJERES
+...ENDCVR
+.************** Areal definitioner ****************************************
+.da BUND1  28mm 279mm width 25mm
+.da BUND2  53mm 279mm width 25mm
+.da BUND3  78mm 279mm width 25mm
+.da BUND4 103mm 279mm width 32mm
+.da BUND5 136mm 279mm width 25mm
+.da BUND6 161mm 279mm width 25mm
+.********************* SIDEFODDEFINITION STARTER **************************
+:SWISS6.
+.ar BUND1 on
+:FED.
+Kundeservice
+:SKRSLUT.
+.br
+AL Finans A/S
+.br
+Sluseholmen 2
+.br
+DK-2450 København SV
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND2 on
+Kundeservice tlf.
+.br
+ 
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND3 on
++45 43 24 49 10
+.br
+ 
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND4 on
+kundeservice@al-finans.dk
+.br
+www.alfinans.dk
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND5 on
+CVR 31 43 34 28
+.br
+Bankkonto:
+.br
+5301 0270419
+.br
+IBAN:
+.br
+DK6353010000270419
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND6 on
+Mandag-torsdag
+.br
+9:00-16:00
+.br
+Fredag
+.br
+9:30-16:00
+.ar off
+:SKRSLUT.
+.********************* SLUT ***********************************************
+.se taeller = 0
+I henhold til aftale fremsendes hermed følgende dokument(er) vedrørende:
+.ct  &UNDSNAVN.
+.sp
+.tp 6mm
+.*DET ER AFTALT MED AL-FINANS OG AB-FINANS, AT SELV OM DER KAN VEDLÆGGES
+.*OP TIL 20 FORSKELLIGE DOKUMENTER TIL FREMSENDELSESBREVET, VIL VI KUN
+.*NÆVNE DE 9 FØRSTE, OG TILFØJE M.FL HVIS FLERE END 9 ...GBA/SEPT.2010
+...BILAG1
+.if &U'X&LOFJANEJ01 = XJ
+.th
+.el .go BILAG2
+.se taeller = &taeller + 1
+-¤Leasingaftale
+.br
+...BILAG2
+.if &U'X&LOFJANEJ02 = XJ
+.th
+.el .go BILAG3
+.se taeller = &taeller + 1
+-¤Bilag 1 - Slid og slitage
+.br
+...BILAG3
+.if &U'X&LOFJANEJ03 = XJ
+.th
+.el .go ...BILAG4
+.se taeller = &taeller + 1
+-¤Bilag 2 - Service- og vedligeholdelsesaftale
+.br
+...BILAG4
+.if &U'X&LOFJANEJ04 = XJ
+.th
+.el .go BILAG5
+.se taeller = &taeller + 1
+-¤Bilag 3 - Særlige vilkår
+.br
+...BILAG5
+.if &U'X&LOFJANEJ05 = XJ
+.th
+.el .go BILAG6
+.se taeller = &taeller + 1
+-¤Personoplysninger
+.br
+...BILAG6
+.if &U'X&LOFJANEJ06 = XJ
+.th
+.el .go BILAG7
+.se taeller = &taeller + 1
+-¤Allonge - Service
+.br
+...BILAG7
+.if &U'X&LOFJANEJ07 = XJ
+.th
+.el .go BILAG8
+.se taeller = &taeller + 1
+-¤Allonge - Anvis køber
+.br
+...BILAG8
+.if &U'X&LOFJANEJ08 = XJ
+.th
+.el .go BILAG9
+.se taeller = &taeller + 1
+-¤Allonge - Selvforsikrende
+.br
+...BILAG9
+.if &U'X&LOFJANEJ09 = XJ
+.th
+.el .go BILAG10
+.se taeller = &taeller + 1
+-¤Allonge - Brændstofkort
+.br
+...BILAG10
+.if &U'X&LOFJANEJ10 = XJ
+.th
+.el .go BILAG11
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Allonge - Fleet Management
+.br
+...BILAG11
+.if &U'X&LOFJANEJ11 = XJ
+.th
+.el .go BILAG12
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Allonge - Kørsel kunde
+.br
+...BILAG12
+.if &U'X&LOFJANEJ12 = XJ
+.th
+.el .go BILAG13
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Allonge - Abonnement vejhjælp
+.br
+...BILAG13
+.if &U'X&LOFJANEJ13 = XJ
+.th
+.el .go BILAG14
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Modtagelseserklæring
+.br
+...BILAG14
+.if &U'X&LOFJANEJ14 = XJ
+.th
+.el .go BILAG15
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Forløbstabel
+.br
+...BILAG15
+.if &U'X&LOFJANEJ15 = XJ
+.th
+.el .go BILAG16
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Kautionserklæring
+.br
+...BILAG16
+.if &U'X&LOFJANEJ16 = XJ
+.th
+.el .go BILAG17
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Kautionserklæring
+.br
+...BILAG17
+.if &U'X&LOFJANEJ17 = XJ
+.th
+.el .go BILAG18
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Indkøbsordre
+.br
+...BILAG18
+.if &U'X&LOFJANEJ18 = XJ
+.th
+.el .go BILAG19
+.se &taeller = &taeller + 1
+.if &taeller = x10
+.th .go MAX
+-¤Leverandørerklæring
+.br
+...BILAG19
+.if &U'X&LOFJANEJ19 = XJ
+.th
+.el .go BILAG20
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Tilbagekøbserklæring - Løbende 100%
+.br
+...BILAG20
+.if &U'X&LOFJANEJ20 = XJ
+.th
+.el .go BILAG21
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Tilbagekøbserklæring 3. mand
+.br
+...BILAG21
+.if &U'X&LOFJANEJ21 = XJ
+.th
+.el .go BILAG22
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Allonge - Ændring af afviklingsvilkår
+.br
+...BILAG22
+.if &U'X&LOFJANEJ22 = XJ
+.th
+.el .go BILAG23
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Allonge - Køb af aktiv
+.br
+...BILAG23
+.if &U'X&LOFJANEJ23 = XJ
+.th
+.el .go CONT1
+.se taeller = &taeller + 1
+.if x&taeller = x10
+.th .go MAX
+-¤Allonge - Salg af aktiv
+.br
+.go CONT1
+...MAX
+-¤m.fl.
+...CONT1
+.sp
+Vi beder &DIG. venligst sørge for, at dokument(er) bliver udfyldt og
+underskrevet på de afmærkede steder
+.us i henhold til firmaets tegningsregler.
+Endvidere bedes leasingaftalen og eventuel kautionserklæring påført
+vitterlighedsvidner. Vi gør opmærksom på, at vitterlighedsvidner ikke må
+være i familie med underskriver af leasingaftalen/kautionserklæringen.
+.sp
+.if &U'X&GENVALGA = XJ
+.th .go CONT2
+:KURSIV.
+Endvidere beder vi &DIG. modtage kr. &BEREGN11. + moms fra &UNDSNAVN. til
+dækning af ekstraordinær leasingafgift, evt. ekspeditionsgebyr samt
+evt. depositum, som herefter vil blive modregnet i den endelige afregning
+over for &DIG..
+:SKRSLUT.
+.sp
+...CONT2
+Vi gør opmærksom på, at dokument(er) skal underskrives og returneres til
+os, når udstyret er leveret i kontraktmæssig stand.
+.sp
+Der vil blive afregnet til &DIG., når følgende er modtaget:
+.sp
+-¤Ovennævnte underskrevne dokument(er)
+.br
+-¤Faktura udstedt til leasingselskab på udstyret
+.br
+.of 6mm
+-¤&SDIN. eventuelle anvisningsprovision & ekspeditionsgebyr bedes venligst
+faktureret på særskilt faktura
+.of
+.br
+-¤Kopi af midlertidig reg.attest
+.br
+.if &U'X&LOFJANEJ06 = XJ
+.th -¤Serviceaftale
+.th .br
+.of 6mm
+-¤Oplysning om leasingtagers forsikringsselskab såfremt dette ikke er
+påført leasingaftalen
+.of
+.sp
+:KURSIV.
+Husk, at medsende kopi af billedlegitimation (pas eller kørekort).
+jf. vedlagte indstik.
+Er pas- eller kørekortnummeret utydeligt, bedes det påført med
+maskinskrift/håndskrift.
+:SKRSLUT.
+.sp
+.kp on
+Skulle &DU. have spørgsmål til det fremsendte, er &DU. velkommen til at
+kontakte undertegnede.
+.sp2
+Venlig hilsen
+.br
+&AFDBNKNAVN
+.sp 2
+&GENEKSP
+.br
+.if &L'&GENTITEL > 0
+.th &GENTITEL
+.th .br
+.if &L'&GENTLFNR > 0
+.th Dir. nr.: &GENTLFNR
+.th .br
+.if &L'&GENEMAIL > 0
+.th &GENEMAIL
+.ar off
+.****************************************************************
+.*****************Reg.nr. i sidemargin*************************************
+.da VEND 9mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+9947
+.ar off

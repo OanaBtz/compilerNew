@@ -1,0 +1,215 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.* Rykkertype = 0, defaultværdien, og rykkertype = 1 er den mildeste
+.*  og rykkertype = 4 er den hårdeste.
+.*
+.* Servicebrevet, som er et rykkerbrev med de sidste 10 posteringer
+.*  kan både være et rykkerbrev der skal tælle med og derfor skal
+.*  have en rykkertype fra 1-4, eller det kan være et rykkerbrev
+.*  der ikke skal tælle med og derfor have en rykkertype = 0.
+.*********************************************************************
+.*******************DEFINITION AF AREALER*************
+.da REG 94mm 40mm
+.da ADR 25mm 40mm width 80mm
+.***********************TABULATOR**********************
+.ti ¤ 05
+.tp 12mm
+.**************************************************************************
+:VERDA10.
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA07.
+&REGNR
+.ar off
+.*************** AREAL-DEFINITIONER ***************************************
+.da AFS  138.5mm 40mm
+.*** Bankens afsenderoplysninger ******************************************
+.ar AFS on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte: ¤&GENTLFNR
+.br
+E-mail: ¤&GENEMAIL
+.sp
+&DATO
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+:tiltale &TILTALEM
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 25mm 100mm width 182mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
+:FED.
+.us Overtræk på kontonr. &regnr &ktonr
+:SKRSLUT.
+.sp
+.**************************************************************************
+.**** Her laves 2 midlertidige parametre der enten udfyldes fra
+.**** batch-rykkerfunktionen eller fra 1810felterne.************
+.if &L'&BATCHGEBYR > 0
+.th .se gebyrryk = &BATCHGEBYR
+.el .se gebyrryk = &RYKGEBYR
+.if &L'&BATCHOVT > 0
+.th .se trakover = &BATCHOVT
+.el .se trakover = &OVERTRÆK
+.****** her starter brevteksten ***********************
+.da side 25mm 110mm width 160mm
+.ar side on
+:VERDA10.
+Konto nr. &IREGKTO er dags dato i overtræk med &OVERTRÆK kr.
+.sp
+Beløbet bedes indbetalt hurtigst muligt - senest 15 dage fra dato.
+.sp
+Såfremt overtrækket på kontoen bl.a. skyldes, at der hæves på kontoen med
+kort, skal jeg bede dig om at indlevere kortet til banken, medmindre
+overtrækket inddækkes hurtigst muligt. I modsat fald vil kortet blive
+spærret af banken.
+.sp
+.if x&gebyrryk gt x0,00
+.th Vores omkostninger i forbindelse med denne rykkerskrivelse er et gebyr
+.th på &gebyrryk kr. - gebyret er hævet på kontoen.
+.th .sp
+Hvis ikke overtrækket er inddækket senest 15 dage fra dato, overgiver
+vi sagen til retslig inkasso, hvilket medfører yderligere omkostninger.
+.if &L'&RYKTXTL1A gt 0
+.th .sp
+.th &RYKTXTL1A.&RYKTXTL1B
+.th .br
+.th &RYKTXTL2A.&RYKTXTL2B
+.sp
+.sp
+:VERDA10.
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.ar off

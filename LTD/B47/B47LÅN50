@@ -1,0 +1,733 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+:ENY.
+.*Parametre
+.if &L'&PRIERH = 0
+.th .mg/T/Skriv P for privat eller E for erhverv/
+.*OMTALEPARAMETRE *********************************************************
+.*ERHVERV *****************************************************************
+.if &U'&PRIERH = E
+.th .se debsomt = 'Vi'
+.th .se deblomt = 'vi'
+.th .se migos = 'os'
+.th .se min = 'vores'
+.th .se mine = 'vores'
+.th .go OMTALEND
+.*PRIVAT *************
+.if &DEBANTAL = 1
+.th .se debsomt = 'Jeg'
+.th .se deblomt = 'jeg'
+.th .se migos = 'mig'
+.th .se min = 'min'
+.th .se mine = 'mine'
+.el .se debsomt = 'Vi'
+.el .se deblomt = 'vi'
+.el .se migos = 'os'
+.el .se min = 'vores'
+.el .se mine = 'vores'
+...OMTALEND
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.if &U'&PRIERH = P
+.th .us Låneaftale (gældsbrev) Forbruger
+.if &U'&PRIERH = E
+.th .us Låneaftale (gældsbrev) Erhverv
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
+.sp 6mm
+.bx off
+.sp 4mm
+.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
+.*LÅNTAGER ****************************************************************
+.bx left right
+.tp 1mm 88.5mm 135mm
+.if &DEBANTAL = 1
+.th ¤Låntager
+.if &DEBANTAL = 2
+.th ¤Låntager ¤Låntager
+.if &DEBANTAL > 2
+.th ¤Låntager ¤Låntager ¤Flere låntagere
+.sp 20mm
+.if &DEBANTAL > 1
+.th ¤Kundenummer &KTOKNDNR1 ¤Kundenummer &DEB2KNDNR
+.el ¤Kundenummer &KTOKNDNR1
+.bx off
+.sp 4mm
+.bx left right
+.sp 184mm
+.bx off
+.ar off
+.******************************************************************
+.da BANKSTED      20mm  47mm width 175mm
+.da KUNDEOPL       25mm  61.5mm width 85mm
+.da KUNDEOPL2    112.5mm 61.5mm width 85mm
+.da CPRSENR        42mm  83.5mm width 85mm
+.da CPRSENR2      129.5mm 83.5mm width 85mm
+.******************************************************************
+.ar BANKSTED on
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.*************************************
+.ar KUNDEOPL on
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.ar off
+.*************************************
+.ar KUNDEOPL2 on
+.if &DEBANTAL > 1
+.th &DEB2ADR1
+.th .br
+.th &DEB2ADR2
+.th .br
+.th &DEB2ADR3
+.th .br
+.th &DEB2ADR4
+.th .br
+.th &DEB2ADR5
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+:SWISS9.
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 221.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BANKSTED on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.if &U'&PRIERH = P
+.th .us Låneaftale (gældsbrev) Forbruger
+.if &U'&PRIERH = E
+.th .us Låneaftale (gældsbrev) Erhverv
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 50mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.or &U'&AFDYDL02 = X
+.th .go AFV02AX
+.el .go AFV02YZ
+...AFV02AX
+.if &AFVANT02 > 1
+.th Dette afdrag betales &AFVANT02 gange.
+.el Dette afdrag betales &AFVANT02 gang.
+.go 3AFVIKL
+...AFV02YZ
+.if &AFVANT02 > 1
+.th Denne ydelse betales &AFVANT02 gange.
+.el Denne ydelse betales &AFVANT02 gang.
+.go 3AFVIKL
+.*3. AFVIKLING ***********
+...3AFVIKL
+.*** Er afviklingsrækken overhovedet udfyldt?
+.if &L'&AFDYDL03 = 0
+.th .sp 5mm
+.th .go SLUTAFV
+.br
+.if &U'&AFDYDL03 = F
+.th .go AFDFRI3
+.el .go UDENOM3
+...AFDFRI3
+Lånet henstår afdragsfrit i perioden fra den &AFVFDATO03. til den
+&AFVTDATO03.. I den afdragsfri periode betales
+påløbne renter
+.if &AFVFREK03 = 1
+.th hver måned,
+.if &AFVFREK03 = 3
+.th hvert kvartal,
+.if &AFVFREK03 = 4
+.th hver 2. måned,
+.if &AFVFREK03 = 6
+.th hvert halvår,
+.if &AFVFREK03 = 7
+.th hver uge,
+.if &AFVFREK03 = 9
+.th hvert år,
+.if &AFVFREK03 = 14
+.th hver 14. dag,
+.if &AFVFREK03 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO03..
+.go 4AFVIKL
+...UDENOM3
+.if &U'&AFDYDL03 = A
+.th Lånet afdrages med
+.if &U'&AFDYDL03 = Y
+.th Ydelsen er
+påløbne renter
+.if &AFVFREK02 = 1
+.th hver måned,
+.if &AFVFREK02 = 3
+.th hvert kvartal,
+.if &AFVFREK02 = 4
+.th hver 2. måned,
+.if &AFVFREK02 = 6
+.th hvert halvår,
+.if &AFVFREK02 = 7
+.th hver uge,
+.if &AFVFREK02 = 9
+.th hvert år,
+.if &AFVFREK02 = 14
+.th hver 14. dag,
+.if &AFVFREK02 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO02..
+.go 3AFVIKL
+...UDENOM2
+.if &U'&AFDYDL02 = A
+.th Lånet afdrages med
+.if &U'&AFDYDL02 = Y
+.th Ydelsen er
+.if &U'&AFDYDL02 = X
+.th Ekstraordinært afdrag på
+.if &U'&AFDYDL02 = Z
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL02
+kr., som betales
+.if &AFVFREK02 = 1
+.th hver måned,
+.if &AFVFREK02 = 3
+.th hvert kvartal,
+.if &AFVFREK02 = 4
+.th hver 2. måned,
+.if &AFVFREK02 = 6
+.th hvert halvår,
+.if &AFVFREK02 = 7
+.th hver uge,
+.if &AFVFREK02 = 9
+.th hvert år,
+.if &AFVFREK02 = 14
+.th hver 14. dag,
+.if &AFVFREK02 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO02.. &ÅCONT
+.if x&AFVANT02 = x99
+.th .go 3AFVIKL
+.if &U'&AFDYDL02 = A
+.if &U'&AFDYDL01 = Z
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL01
+kr., som betales
+.if &AFVFREK01 = 1
+.th hver måned,
+.if &AFVFREK01 = 3
+.th hvert kvartal,
+.if &AFVFREK01 = 4
+.th hver 2. måned,
+.if &AFVFREK01 = 6
+.th hvert halvår,
+.if &AFVFREK01 = 7
+.th hver uge,
+.if &AFVFREK01 = 9
+.th hvert år,
+.if &AFVFREK01 = 14
+.th hver 14. dag,
+.if &AFVFREK01 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO01.. &ÅCONT
+.if x&AFVANT01 = x99
+.th .go 2AFVIKL
+.if &U'&AFDYDL01 = A
+.or &U'&AFDYDL01 = X
+.th .go AFV01AX
+.el .go AFV01YZ
+...AFV01AX
+.if &AFVANT01 > 1
+.th Dette afdrag betales &AFVANT01 gange.
+.el Dette afdrag betales &AFVANT01 gang.
+.go 2AFVIKL
+...AFV01YZ
+.if &AFVANT01 > 1
+.th Denne ydelse betales &AFVANT01 gange.
+.el Denne ydelse betales &AFVANT01 gang.
+.go 2AFVIKL
+.*2. AFVIKLING ***********
+...2AFVIKL
+.*** Er afviklingsrækken overhovedet udfyldt?
+.if &L'&AFDYDL02 = 0
+.th .sp 5mm
+.th .go SLUTAFV
+.br
+.if &U'&AFDYDL02 = F
+.th .go AFDFRI2
+.el .go UDENOM2
+...AFDFRI2
+Lånet henstår afdragsfrit i perioden fra den &AFVFDATO02. til den
+&AFVTDATO02.. I den afdragsfri periode betales
+:FED.
+Beløb
+.br
+:SKRSLUT.
+&debsomt bekræfter herved, at &deblomt skylder &BANKNAVN
+&LÅNBEL kr.
+.if &L'&OPFØLGDATO = 0
+.an &L'&AFDYDL01 = 0
+.th .sp 5mm
+.th .go INGDATO
+.sp 5mm
+:FED.
+Afvikling
+:SKRSLUT.
+.br
+.*1. AFVIKLING ***********
+.*** Er afviklingsrækken overhovedet udfyldt?
+.if &L'&AFDYDL01 = 0
+.th .go SLUTAFV
+.if &U'&AFDYDL01 = F
+.th .go AFDFRI1
+.el .go UDENOM1
+...AFDFRI1
+Lånet henstår afdragsfrit til den &AFVTDATO01.. I den afdragsfri
+periode betales påløbne renter
+.if &AFVFREK01 = 1
+.th hver måned,
+.if &AFVFREK01 = 3
+.th hvert kvartal,
+.if &AFVFREK01 = 4
+.th hver 2. måned,
+.if &AFVFREK01 = 6
+.th hvert halvår,
+.if &AFVFREK01 = 7
+.th hver uge,
+.if &AFVFREK01 = 9
+.th hvert år,
+.if &AFVFREK01 = 14
+.th hver 14. dag,
+.if &AFVFREK01 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO01..
+.go 2AFVIKL
+...UDENOM1
+.if &U'&AFDYDL01 = A
+.th Lånet afdrages med
+.if &U'&AFDYDL01 = Y
+.th Ydelsen er
+.if &U'&AFDYDL01 = X
+.th Ekstraordinært afdrag på
+.if &L'&OPFØLGDATO = 0
+.an &L'&OPFØLGFREK = 0
+.th .go INGDATO
+Låneaftalen tages op til vurdering
+.if &OPFØLGFREK = 0
+.th den &OPFØLGDATO. med henblik på aftale om yderligere
+.th afvikling/forlængelse.
+.th .sp 5mm
+.th .go INGDATO
+.if &OPFØLGFREK = 1
+.th månedligt
+.if &OPFØLGFREK = 3
+.th kvartårligt
+.if &OPFØLGFREK = 6
+.th halvårligt
+.if &OPFØLGFREK = 9
+.th årligt
+.if &OPFØLGFREK = 19
+.th hvert andet år
+.if &OPFØLGFREK = 29
+.th hvert tredje år
+.if &OPFØLGFREK = 49
+.th hvert femte år
+med henblik på aftale om yderligere afvikling/forlængelse, første gang
+den &OPFØLGDATO..
+.sp 5mm
+...INGDATO
+.***********************************************************************
+.if &U'&AFDYDL03 = X
+.th Ekstraordinært afdrag på
+.if &U'&AFDYDL03 = Z
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL03
+kr., som betales
+.if &AFVFREK03 = 1
+.th hver måned,
+.if &AFVFREK03 = 3
+.th hvert kvartal,
+.if &AFVFREK03 = 4
+.th hver 2. måned,
+.if &AFVFREK03 = 6
+.th hvert halvår,
+.if &AFVFREK03 = 7
+.th hver uge,
+.if &AFVFREK03 = 9
+.th hvert år,
+.if &AFVFREK03 = 14
+.th hver 14. dag,
+.if &AFVFREK03 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO03.. &ÅCONT
+.if x&AFVANT03 = x99
+.th .go 4AFVIKL
+.if &U'&AFDYDL03 = A
+.OR &U'&AFDYDL03 = X
+.th .go AFV03AX
+.el .go AFV03YZ
+...AFV03AX
+.if &AFVANT03 > 1
+.th Dette afdrag betales &AFVANT03 gange.
+.el Dette afdrag betales &AFVANT03 gang.
+.go 4AFVIKL
+...AFV03YZ
+.if &AFVANT03 > 1
+.th Denne ydelse betales &AFVANT03 gange.
+.el Denne ydelse betales &AFVANT03 gang.
+.go 4AFVIKL
+.*4. AFVIKLING ***********
+...4AFVIKL
+.if &L'&AFDYDL04 = 0
+.th .sp 5mm
+.th .go SLUTAFV
+.br
+.if &U'&AFDYDL04 = T
+.th Se i øvrigt afviklingstabel.
+.sp 5mm
+...SLUTAFV
+.********************
+&BANKNAVN..
+.sp 3mm
+.if &U'&RENTETYP = F
+.th Den årlige rente er fast og udgør &RENTE %.
+.if &U'&RENTETYP = V
+.th .go RTEV
+.el .go RTED
+...RTEV
+Renten er for tiden &RENTE % om året. &ÅCONT
+Renten beregnes og tilskrives
+.if &RTEFREK01 = 1
+.th månedligt
+.if &RTEFREK01 = 3
+.th kvartårligt
+.if &RTEFREK01 = 6
+.th halvårligt
+.if &RTEFREK01 = 9
+.th årligt
+bagud.
+...RTED
+.if &U'&RENTETYP = D
+.th Renten er differentieret og fremgår af kreditoplysningerne.
+.**PROVISION ***
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.el .go PROV
+...PROV
+.sp 3mm
+.if &L'&PROV > 0
+.th Provisionen er for tiden &PROV % om året.
+.th .br
+.if &L'&PROVBEVILG > 0
+.th Provision for bevilget overtræk er for tiden &PROVBEVILG % om året.
+.th .br
+.if &L'&PROVOVERTR > 0
+.an &U'&PRIERH = P
+.th Ved forsinket betaling er &BANKNAVN berettiget til at opkræve en årlig
+.th variabel morarente som p.t. udgør et variabelt tillæg på
+.th &PROVOVERTR % i tillæg til renten. Det svarer til en årlig debitorrente
+.th på pt. &MORARTE.% (årlig rente inklusiv rentes rente).
+.**** VED ERHVERV SKAL DEBITORRENTEN IKKE SKRIVES ************************
+.el Ved forsinket betaling er &BANKNAVN berettiget til at opkræve en årlig
+.el variabel morarente som p.t. udgør et variabelt tillæg på
+.el &PROVOVERTR % i tillæg til renten.
+...PROVSL
+.if &U'&PRIERH = P
+.th .br
+.th Det daglige rentebeløb udgør kr. &FTRRTEDAG ved udnyttelse af
+.***************
+.if &L'&AFTDATO10 = 0
+.an &L'&GENFDATO = 0
+.th .go INDFRI
+:FED.
+Aftaledato
+.br
+:SKRSLUT.
+.if &L'&AFTDATO10 > 0
+.th .go AFTDATO
+.el .go GENFDATO
+...AFTDATO
+&debsomt
+betaler restgælden på lånet, inklusiv rente til
+betalingsdagen, senest den &AFTDATO10..
+...GENFDATO
+.if &L'&GENFDATO > 0
+.th .br
+.th Lånet bliver genforhandlet den
+.th &GENFDATO..
+.sp 5mm
+...INDFRI
+.*******************************
+.if &L'&INDFRIDATO > 0
+.th
+.el .go RENTE
+:FED.
+Indfrielse
+:SKRSLUT.
+.br
+&debsomt. betaler restgælden på lånet, inklusiv rente til
+betalingsdagen, senest den &INDFRIDATO..
+...RENTE
+.*******************************
+.sp 3mm
+Betaling af ydelser samt førtidig tilbagebetaling skal ske ved
+indbetaling til lånekontoen.
+.sp 5mm
+:FED.
+Rente og omkostninger
+.br
+:SKRSLUT.
+Det lånte beløb forrentes fra udbetalingsdagen. Rente og omkostninger er
+.if &U'&RENTETYP = F
+.th faste
+.if &U'&RENTETYP = V
+.th variable
+.if &U'&RENTETYP = D
+.th differentierede
+og fastsættes til enhver tid af
+.th fortrydelsesretten.
+.th .sp 5mm
+.***************
+.if &L'&DEBKONTO = 0
+.th .go MORARTE
+.if &U'&PRIERH = P
+.th
+.el .sp 5mm
+:FED.
+Betaling
+.br
+:SKRSLUT.
+Forfaldne ydelser/ekstraordinære afdrag hæves på
+konto &DEBKONTO..
+.br
+&debsomt får ikke separat meddelelse om beløb, der er
+hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.sp 5mm
+...MORARTE
+.***
+.if &U'&PRIERH = E
+.th .go ENDLAAN
+.**************************************************************************
+.kp on
+:FED.
+Førtidig tilbagebetaling
+:SKRSLUT.
+.br
+.***************** RETTET TIL KUN AT GÆLDE PRIVAT + VARIABEL RENTE
+.if &U'&PRIERH = P
+.an &U'&RENTETYP = V
+.th &debsomt. har til enhver tid ret til helt eller delvis at indfri &mine
+.th forpligtelser i henhold til kreditaftalen, &deblomt. har
+.th herefter ret til en reduktion af de samlede kreditomkostninger, der
+.th består af renter og omkostninger i den resterende del af kreditaftalens
+.th løbetid. Indfrielse skal ske ved indbetaling til kreditkontoen.
+.***************** EGET NYT AFSNIT FOR PRIVAT OG FASTRENTE
+.if &U'&PRIERH = P
+.an &U'&RENTETYP = F
+.th &debsomt har til enhver tid ret til helt eller delvist at
+.th indfri &mine forpligtelser i henhold til kreditaftalen. &debsomt. har
+.th herefter ret til en reduktion af de samlede
+.th kreditomkostninger, der består af renter og omkostninger i
+.th den resterende del af kreditaftalens løbetid. Indfrielse
+.th skal ske ved indbetaling til den angivne konto.
+.th .sp
+.th &BANKNAVN. er berettiget til kompensation for indfrielse
+.th før aftalt tid på 1 % af det kreditbeløb, der tilbagebetales
+.th før tiden, hvis der er mere end et år mellem den førtidige
+.th betaling og kreditaftalens aftalte ophørstidspunkt. Hvis
+.th perioden ikke overstiger et år kan kompensationen ikke
+.th overstige 0,5 % af det kreditbeløb, der tilbagebetales før
+.th tiden.
+.th .sp
+.th Hvis &BANKNAVN. kan dokumentere, at de tab, som
+.th &BANKNAVN. har lidt som følge af den førtidige
+.th tilbagebetaling, overstiger de grænser der her er nævnt,
+.th kan &BANKNAVN. undtagelsesvis kræve en højere
+.th kompensation. Hvis den kompensation, som &BANKNAVN. kan
+.th kræve, overstiger &BANKNAVN.s faktiske tab, kan &deblomt. kræve
+.th en tilsvarende nedsættelse. Ingen kompensation for førtidig
+.th tilbagebetaling kan overstige det rentebeløb, som &deblomt. skulle
+.th have betalt i perioden mellem den førtidige betaling og
+.th kreditaftalens ophørstidspunkt.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Fortrydelsesret
+:SKRSLUT.
+.br
+&debsomt. har ret til at fortryde låneaftalen inden for 14 dage fra lånet
+stilles til disposition. Hvis fortrydelsesfristens sidste dag falder på en
+lørdag, søndag, helligdag, grundlovsdag,
+fredag efter Kristi Himmelfartsdag, juleaftensdag eller
+nytårsaftensdag, udløber fristen den følgende hverdag.
+.sp 3mm
+.kp off
+.kp on
+Ønsker &deblomt. at benytte fortrydelsesretten
+kan det ske ved at ringe eller
+skrive til &min afdeling, inden fristen udløber. Desuden skal det
+modtagne beløb tilbagebetales sammen med
+eventuelle omkostninger, som &BANKNAVN.
+måtte have betalt til offentlige myndigheder og som ikke kan refunderes.
+.sp 3mm
+.kp off
+.kp on
+Derudover skal &deblomt. betale de renter, der er påløbet fra den dag lånet
+blev stillet til disposition, indtil beløbet tilbagebetales. Det angivne
+rentebeløb, der påløber pr. dag, er beregnet på baggrund af renteforholdene
+på aftaletidspunktet, ligesom der ikke er taget højde for renters rente.
+Det rentebeløb, der skal betales ved udnyttelse af fortrydelsesretten, er
+de påløbne renter,
+beregnet på grundlag af den aftalte rente.
+.sp 3mm
+.kp off
+.kp on
+Det samlede beløb skal tilbagebetales uden unødig forsinkelse og senest 30
+dage efter &deblomt. har givet besked om udøvelsen af fortrydelsesretten.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Øvrige bestemmelser
+:SKRSLUT.
+.br
+&debsomt har ret til på anmodning til enhver tid i løbet af låneaftalens
+varighed uden omkostninger at modtage en opgørelse i form af en
+amortiseringsplan med angivelse af skyldige betalinger og tidspunkter og
+betingelser for betaling af sådanne beløb og specifikation af den enkelte
+tilbagebetaling, som viser amortiseringen af kapitalen, renterne beregnet
+på grundlag af debitorrenten og
+eventuelle yderligere omkostninger. Amortiseringsplanen
+er kun gyldig indtil næste ændring af debitorrenten
+eller af de eventuelle yderligere omkostninger i henhold til låneaftalen.
+.kp off
+...ENDLAAN
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

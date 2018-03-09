@@ -1,0 +1,112 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************************
+.if x&GENVALG < x1
+.or x&GENVALG > x3
+.th .mg /T/Korttype skal have værdien 1-3/
+.**************************************************************************
+...TSTFREK
+.*
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 275mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+.us Kredit til dit MasterCard
+.if x&GENVALG = x1
+.th .us Standard - familie
+.if x&GENVALG = x2
+.th .us Guld - familie
+.if x&GENVALG = x3
+.th .us Platinum familie
+.sp
+:SKRSLUT.
+:SKRSLUT.
+.**************************************************************************
+:COUR10.
+.***** HER DELES REGISTRERINGSNUMME
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+:SKRSLUT.
+:SKRSLUT.
+:COUR10.
+Vi bekræfter herved, din bestilling på 1 stk. familiekort tilknyttet dit
+MasterCard, kortkonto &regnr &ktonr..
+.sp
+Det samlede kreditmaksimum for de kort, der er tilknyttet kontoen, udgør
+i alt &MAXIMUM kr. og er bevilget ifølge din oprindelige ansøgning om
+MasterCard
+.if x&GENVALG = x1
+.th Standard familie,
+.if x&GENVALG = x2
+.th Guld familie,
+.if x&GENVALG = x3
+.th Platinum familie,
+som vedlægges i kopi.
+.sp
+Den første hverdag i måneden hæves det aftalte beløb på ovennævnte
+kortkonto. Hvor meget der hæves, og hvorvidt der påløber renter, afhænger
+af hvilken afvikling der er aftalt i hovedaftalen.
+.sp
+Vilkårene for familiekortet fremgår i øvrigt af din ansøgning,
+kortbestemmelserne for MasterCard, &BANKNAVN.s almindelige
+forretningsbetingelser samt almindelige bestemmelser for lån og kreditter.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+&GENEKSP
+.ce off
+.ar off
+.da VEDL 20mm 260mm width 70mm
+.******************************
+.ar VEDL on
+Vedlagt: kopi af ansøgning
+.ar off

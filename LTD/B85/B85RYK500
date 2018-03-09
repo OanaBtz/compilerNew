@@ -1,0 +1,141 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.ti ¤ 05
+.if &U'&B85HBCVR ne J
+.th .go NEJBUND
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.* Brevnavn, roteret i nederste venstre hjørne
+.da HBCVR 6mm 200mm width 180mm rotate -90
+.**********************************************************************
+.ar HBCVR on
+:COUR6.
+Handelsbanken CVR-nr. 24246361 Filial af Svenska Handelsbanken AB
+(publ), Sverige
+.ar off
+.***********************************************************************
+...NEJBUND
+.*
+.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
+.** sidste 1-10 posteringer fra kontoen.
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+:tiltale &TILTALEM
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 182mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN - 27.11.2006
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
+.ar START on
+:FED
+.sk
+Kontonr. &regnr &ktonr
+:SKRSLUT
+.sp
+.**************************************************************************
+.**** Her laves 2 midlertidige parametre der enten udfyldes fra
+.**** batch-rykkerfunktionen eller fra 1810felterne.************
+.if &L'&BATCHGEBYR > 0
+.th .se gebyrryk = &BATCHGEBYR
+.el .se gebyrryk = &RYKGEBYR
+.if &L'&BATCHOVT > 0
+.th .se trakover = &BATCHOVT
+.el .se trakover = &OVERTRÆK
+.***********************************************************************
+.****** her starter brevteksten ***********************
+Kontoen er overtrukket med &trakover kr.
+.sp
+Overtrækket bedes inddækket snarest muligt.
+.sp
+.if x&gebyrryk gt x0,00
+.th Vi har hævet &gebyrryk kr. for denne meddelelse.
+.sp 10mm
+.tp 24mm 92mm 120mm 135mm char , 160mm 173mm char ,
+Dato ¤Tekst ¤Rte. ¤Indsat ¤¤Saldo
+.br
+¤¤Fra ¤- = hævet ¤¤- = debet
+.dr tynd weight 0,1
+.hr tynd left 182mm
+&B11DATO10 ¤&B11TEKST10 ¤&B11VALØR10 ¤¤&B11INDSA10 ¤¤&B11SALDO10
+.br
+&B11DATO11 ¤&B11TEKST11 ¤&B11VALØR11 ¤¤&B11INDSA11 ¤¤&B11SALDO11
+.br
+&B11DATO12 ¤&B11TEKST12 ¤&B11VALØR12 ¤¤&B11INDSA12 ¤¤&B11SALDO12
+.br
+&B11DATO13 ¤&B11TEKST13 ¤&B11VALØR13 ¤¤&B11INDSA13 ¤¤&B11SALDO13
+.br
+&B11DATO14 ¤&B11TEKST14 ¤&B11VALØR14 ¤¤&B11INDSA14 ¤¤&B11SALDO14
+.br
+&B11DATO15 ¤&B11TEKST15 ¤&B11VALØR15 ¤¤&B11INDSA15 ¤¤&B11SALDO15
+.br
+&B11DATO16 ¤&B11TEKST16 ¤&B11VALØR16 ¤¤&B11INDSA16 ¤¤&B11SALDO16
+.br
+&B11DATO17 ¤&B11TEKST17 ¤&B11VALØR17 ¤¤&B11INDSA17 ¤¤&B11SALDO17
+.br
+&B11DATO18 ¤&B11TEKST18 ¤&B11VALØR18 ¤¤&B11INDSA18 ¤¤&B11SALDO18
+.br
+&B11DATO19 ¤&B11TEKST19 ¤&B11VALØR19 ¤¤&B11INDSA19 ¤¤&B11SALDO19
+.sp 5mm
+&RYKTXTL1A.&RYKTXTL1B.&RYKTXTL2A.&RYKTXTL2B
+.sp 2
+Venlig hilsen
+.sp
+:FED.
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ar off

@@ -1,0 +1,827 @@
+.* I dette afsnit er det valgfrit om, man vil underskrive med en eller to
+.* underskrifter. Standard er 1 underskrift.
+.* Er parameteren B19TEST1A udfyldt med X, så anvendes 2 underskrifter.
+.*************************************************************************
+.ti ¤ 05
+.tp 75mm
+.su on
+:VERDA10.
+.*********************************
+.tp 75mm
+.sp 5mm
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+.br
+:SKRSLUT.
+.go VIDERE
+...VIDERE
+.sp 10mm
+.****************** Underskrift/er tilføjes ********************
+.if &L'&B19TEST1Z gt 0 .if &U'&B19TEST1Z = X
+.th .go TO
+.el .go EEN
+...EEN
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+.go THEEND
+...TO
+&GENMEKSP ¤&GENEKSP
+.br
+:KURSIV.
+&GENMTITEL ¤&GENTITEL
+...THEEND
+.ar off
+.th &B19KONTO2 ¤&B19DATO1 ¤kr. ¤&B19BELØB2 ¤&B19DSATS2 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO3 gt 0
+.th &B19KONTO3 ¤&B19DATO2 ¤kr. ¤&B19BELØB3 ¤&B19DSATS3 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO4 gt 0
+.th &B19KONTO4 ¤&B19DATO3 ¤kr. ¤&B19BELØB4 ¤&B19DSATS4 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO5 gt 0
+.th &B19KONTO5 ¤&B19DATO4 ¤kr. ¤&B19BELØB5 ¤&B19DSATS5 %
+.el .go VID3
+...VID3
+.sp 5mm
+I øvrigt beder vi Dem foretage renteberegning fra &B19DATO5.. Rentesatsen
+er anført ovenfor.
+.if &L'&B19L1 gt 0
+.th .sp 5mm
+.th Vi vedlægger endvidere:
+.th .sp 3mm
+.th &B19L1
+.th &B19L2
+.th &B19L3
+.th &B19L4
+.th &B19L5
+.th &B19L6
+.sp 5mm
+Vedlagte genpart bedes returneret i underskrevet stand.
+.sp
+.da BREV 25mm 100mm width 160mm
+.tp 25mm 90mm 115mm
+.*********************************
+.ar BREV on
+:VERDA10.
+:FED.
+Inkasso
+.sp
+:SKRSLUT.
+Vedrørende følgende kunde:
+.br
+.if &L'&B19KUNDENR gt 0
+.th .go 2
+.el .go 1
+...1
+CPR-nr. ¤&KUNDENR
+.br
+Navn ¤&NAVN
+.br
+.if &L'&COADR gt 0
+.th Adresse: ¤&COADR., &GADE.
+.el Adresse: ¤&GADE.
+.br
+By ¤&BY
+.go ...3
+...2
+CPR-nr. ¤&KUNDENR ¤CPR-nr. ¤&B19KUNDENR
+.br
+Navn ¤&NAVN ¤Navn ¤&B19NAVN1
+.br
+.if &L'&COADR gt 0
+.th Adresse: ¤&COADR., &GADE. ¤Adresse ¤&B19GADE1
+.el Adresse: ¤&GADE. ¤Adresse ¤&B19GADE1
+.br
+By ¤&BY ¤By ¤&B19BY1
+.go ...3
+...3
+.sp 5mm
+beder vi Dem inkassere, uden omkostninger for os:
+.sp 5mm
+.****** her defineres tabulatorer *******************
+.tp 40mm 70mm 110mm right 160mm right
+.*****************************************************
+:FED.
+Kontonummer: ¤Oprettet: ¤Beløb: ¤¤Rentesats debet:
+:SKRSLUT.
+.sp
+&B19KONTO1 ¤&B19DATO ¤kr. ¤&B19BELØB1 ¤&B19DSATS1 %
+.br
+.if &L'&B19KONTO2 gt 0
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.da HOVED 25mm 45mm
+.da ADROPL 140mm 42mm
+.***************************************
+.* Her tildeles parametrene still, navn, gade, by og att værdier.
+.* Værdierne tildeles på baggrund af kundens tilhør, eller hvis
+.* der manuelt er indtastet et advokatkontor.
+.***************************************
+.su off
+.se regnr = substr &KUNDETILH 1 4
+.su on
+.***************************************
+.* Hvis der er indtastet alt. adresse
+.if &L'&B19ATT gt 0
+.th .se att = '&B19ATT'
+.if &L'&B19ATT = 0
+.th .se att = ''
+.if &L'&B19NAVN gt 0
+.th .se still = '&B19STILL'
+.th .se navn = '&B19NAVN'
+.th .se gade = '&B19GADE'
+.th .se by = '&B19BY'
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7600 eller 7601
+.if &regnr = 7600
+.or &regnr = 7601
+.th .se still = 'Advokatfirmaet'
+.th .se navn = 'Thomas Jensen & Pernille Bloch'
+.th .se gade = 'Sønderlandsgade 3A, 1'
+.th .se by = '7500  Holstebro'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7602
+.if &regnr = 7602
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Smith Knudsen'
+.th .se gade = 'Torvegade 2, 2.tv.'
+.th .se by = '7600  Struer'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7604
+.if &regnr = 7604
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Dahl, Koch & Boll'
+.th .se gade = 'Møllegade 10-12'
+.th .se by = '7400  Herning'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7605
+.if &regnr = 7605
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Steffensen og Horstmann'
+.th .se gade = 'Sct. Mathiasgade 23'
+.th .se by = '8800  Viborg'
+.th .se att = 'Hr. Lars Kaasgaard'
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7606
+.if &regnr = 7606
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Thuesen & Bødker'
+.th .se gade = 'Kongensgade 58'
+.th .se by = '6701  Esbjerg'
+.th .se att = 'Hr. Peter Boe Christensen'
+.th .go END
+.***************************************
+...END
+.***************************************
+.ar HOVED on
+:VERDA10.
+.if &L'&B19ANB gt 0
+.th .go ANB
+.el .go VID
+...ANB
+:FED.
+Anbefalet
+:SKRSLUT.
+.sp 5mm
+.go VID
+...VID
+&still
+.br
+&navn
+.br
+&gade
+.br
+&by
+.if &L'&att gt 0
+.th .sp 5mm
+.th Att.: &att
+.ar off
+.**********************************
+.ar ADROPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte &GENTLFNR
+.br
+E-mail &GENEMAIL
+.sp
+&DATO
+.ar off
+:VERDA10.
+.** SIDESKIFT
+.pa
+.* Dette afsnit anvendes til afslutning af inkassobrev, hvor modtageren
+.* skal kvittere for det modtagne.
+ 
+.da BUND 25mm 245mm width 150mm
+.ar BUND on
+.tp 75mm
+.*************************************
+.sp
+Modtagelsen af ovennævnte anerkendes.
+.sp2
+_______________________________ den _________________
+.sp2
+_____________________________________________________
+.br
+.* I dette afsnit er det valgfrit om, man vil underskrive med en eller to
+.* underskrifter. Standard er 1 underskrift.
+.* Er parameteren B19TEST1A udfyldt med X, så anvendes 2 underskrifter.
+.*************************************************************************
+.ti ¤ 05
+.tp 75mm
+.su on
+:VERDA10.
+.*********************************
+.tp 75mm
+.sp 5mm
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+.br
+:SKRSLUT.
+.go VIDERE
+...VIDERE
+.sp 10mm
+.****************** Underskrift/er tilføjes ********************
+.if &L'&B19TEST1Z gt 0 .if &U'&B19TEST1Z = X
+.th .go TO
+.el .go EEN
+...EEN
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+.go THEEND
+...TO
+&GENMEKSP ¤&GENEKSP
+.br
+:KURSIV.
+&GENMTITEL ¤&GENTITEL
+...THEEND
+.ar off
+.th &B19KONTO2 ¤&B19DATO1 ¤kr. ¤&B19BELØB2 ¤&B19DSATS2 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO3 gt 0
+.th &B19KONTO3 ¤&B19DATO2 ¤kr. ¤&B19BELØB3 ¤&B19DSATS3 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO4 gt 0
+.th &B19KONTO4 ¤&B19DATO3 ¤kr. ¤&B19BELØB4 ¤&B19DSATS4 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO5 gt 0
+.th &B19KONTO5 ¤&B19DATO4 ¤kr. ¤&B19BELØB5 ¤&B19DSATS5 %
+.el .go VID3
+...VID3
+.sp 5mm
+I øvrigt beder vi Dem foretage renteberegning fra &B19DATO5.. Rentesatsen
+er anført ovenfor.
+.if &L'&B19L1 gt 0
+.th .sp 5mm
+.th Vi vedlægger endvidere:
+.th .sp 3mm
+.th &B19L1
+.th &B19L2
+.th &B19L3
+.th &B19L4
+.th &B19L5
+.th &B19L6
+.sp 5mm
+Vedlagte genpart bedes returneret i underskrevet stand.
+.sp
+.da BREV 25mm 100mm width 160mm
+.tp 25mm 90mm 115mm
+.*********************************
+.ar BREV on
+:VERDA10.
+:FED.
+Inkasso
+.sp
+:SKRSLUT.
+Vedrørende følgende kunde:
+.br
+.if &L'&B19KUNDENR gt 0
+.th .go 2
+.el .go 1
+...1
+CPR-nr. ¤&KUNDENR
+.br
+Navn ¤&NAVN
+.br
+.if &L'&COADR gt 0
+.th Adresse: ¤&COADR., &GADE.
+.el Adresse: ¤&GADE.
+.br
+By ¤&BY
+.go ...3
+...2
+CPR-nr. ¤&KUNDENR ¤CPR-nr. ¤&B19KUNDENR
+.br
+Navn ¤&NAVN ¤Navn ¤&B19NAVN1
+.br
+.if &L'&COADR gt 0
+.th Adresse: ¤&COADR., &GADE. ¤Adresse ¤&B19GADE1
+.el Adresse: ¤&GADE. ¤Adresse ¤&B19GADE1
+.br
+By ¤&BY ¤By ¤&B19BY1
+.go ...3
+...3
+.sp 5mm
+beder vi Dem inkassere, uden omkostninger for os:
+.sp 5mm
+.****** her defineres tabulatorer *******************
+.tp 40mm 70mm 110mm right 160mm right
+.*****************************************************
+:FED.
+Kontonummer: ¤Oprettet: ¤Beløb: ¤¤Rentesats debet:
+:SKRSLUT.
+.sp
+&B19KONTO1 ¤&B19DATO ¤kr. ¤&B19BELØB1 ¤&B19DSATS1 %
+.br
+.if &L'&B19KONTO2 gt 0
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.da HOVED 25mm 45mm
+.da ADROPL 140mm 42mm
+.***************************************
+.* Her tildeles parametrene still, navn, gade, by og att værdier.
+.* Værdierne tildeles på baggrund af kundens tilhør, eller hvis
+.* der manuelt er indtastet et advokatkontor.
+.***************************************
+.su off
+.se regnr = substr &KUNDETILH 1 4
+.su on
+.***************************************
+.* Hvis der er indtastet alt. adresse
+.if &L'&B19ATT gt 0
+.th .se att = '&B19ATT'
+.if &L'&B19ATT = 0
+.th .se att = ''
+.if &L'&B19NAVN gt 0
+.th .se still = '&B19STILL'
+.th .se navn = '&B19NAVN'
+.th .se gade = '&B19GADE'
+.th .se by = '&B19BY'
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7600 eller 7601
+.if &regnr = 7600
+.or &regnr = 7601
+.th .se still = 'Advokatfirmaet'
+.th .se navn = 'Thomas Jensen & Pernille Bloch'
+.th .se gade = 'Sønderlandsgade 3A, 1'
+.th .se by = '7500  Holstebro'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7602
+.if &regnr = 7602
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Smith Knudsen'
+.th .se gade = 'Torvegade 2, 2.tv.'
+.th .se by = '7600  Struer'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7604
+.if &regnr = 7604
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Dahl, Koch & Boll'
+.th .se gade = 'Møllegade 10-12'
+.th .se by = '7400  Herning'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7605
+.if &regnr = 7605
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Steffensen og Horstmann'
+.th .se gade = 'Sct. Mathiasgade 23'
+.th .se by = '8800  Viborg'
+.th .se att = 'Hr. Lars Kaasgaard'
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7606
+.if &regnr = 7606
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Thuesen & Bødker'
+.th .se gade = 'Kongensgade 58'
+.th .se by = '6701  Esbjerg'
+.th .se att = 'Hr. Peter Boe Christensen'
+.th .go END
+.***************************************
+...END
+.***************************************
+.ar HOVED on
+:VERDA10.
+.if &L'&B19ANB gt 0
+.th .go ANB
+.el .go VID
+...ANB
+:FED.
+Anbefalet
+:SKRSLUT.
+.sp 5mm
+.go VID
+...VID
+&still
+.br
+&navn
+.br
+&gade
+.br
+&by
+.if &L'&att gt 0
+.th .sp 5mm
+.th Att.: &att
+.ar off
+.**********************************
+.ar ADROPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte &GENTLFNR
+.br
+E-mail &GENEMAIL
+.sp
+&DATO
+.ar off
+:VERDA10.
+.** SIDESKIFT
+.pa
+.* I dette afsnit er det valgfrit om, man vil underskrive med en eller to
+.* underskrifter. Standard er 1 underskrift.
+.* Er parameteren B19TEST1A udfyldt med X, så anvendes 2 underskrifter.
+.*************************************************************************
+.ti ¤ 05
+.tp 75mm
+.su on
+:VERDA10.
+.*********************************
+.tp 75mm
+.sp 5mm
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+.br
+:SKRSLUT.
+.go VIDERE
+...VIDERE
+.sp 10mm
+.****************** Underskrift/er tilføjes ********************
+.if &L'&B19TEST1Z gt 0 .if &U'&B19TEST1Z = X
+.th .go TO
+.el .go EEN
+...EEN
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+.go THEEND
+...TO
+&GENMEKSP ¤&GENEKSP
+.br
+:KURSIV.
+&GENMTITEL ¤&GENTITEL
+...THEEND
+.ar off
+.th &B19KONTO2 ¤&B19DATO1 ¤kr. ¤&B19BELØB2 ¤&B19DSATS2 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO3 gt 0
+.th &B19KONTO3 ¤&B19DATO2 ¤kr. ¤&B19BELØB3 ¤&B19DSATS3 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO4 gt 0
+.th &B19KONTO4 ¤&B19DATO3 ¤kr. ¤&B19BELØB4 ¤&B19DSATS4 % ;.br
+.el .go VID3
+.*******************************************
+.if &L'&B19KONTO5 gt 0
+.th &B19KONTO5 ¤&B19DATO4 ¤kr. ¤&B19BELØB5 ¤&B19DSATS5 %
+.el .go VID3
+...VID3
+.sp 5mm
+I øvrigt beder vi Dem foretage renteberegning fra &B19DATO5.. Rentesatsen
+er anført ovenfor.
+.if &L'&B19L1 gt 0
+.th .sp 5mm
+.th Vi vedlægger endvidere:
+.th .sp 3mm
+.th &B19L1
+.th &B19L2
+.th &B19L3
+.th &B19L4
+.th &B19L5
+.th &B19L6
+.sp 5mm
+Vedlagte genpart bedes returneret i underskrevet stand.
+.sp
+.da BREV 25mm 100mm width 160mm
+.tp 25mm 90mm 115mm
+.*********************************
+.ar BREV on
+:VERDA10.
+:FED.
+Inkasso
+.sp
+:SKRSLUT.
+Vedrørende følgende kunde:
+.br
+.if &L'&B19KUNDENR gt 0
+.th .go 2
+.el .go 1
+...1
+CPR-nr. ¤&KUNDENR
+.br
+Navn ¤&NAVN
+.br
+.if &L'&COADR gt 0
+.th Adresse: ¤&COADR., &GADE.
+.el Adresse: ¤&GADE.
+.br
+By ¤&BY
+.go ...3
+...2
+CPR-nr. ¤&KUNDENR ¤CPR-nr. ¤&B19KUNDENR
+.br
+Navn ¤&NAVN ¤Navn ¤&B19NAVN1
+.br
+.if &L'&COADR gt 0
+.th Adresse: ¤&COADR., &GADE. ¤Adresse ¤&B19GADE1
+.el Adresse: ¤&GADE. ¤Adresse ¤&B19GADE1
+.br
+By ¤&BY ¤By ¤&B19BY1
+.go ...3
+...3
+.sp 5mm
+beder vi Dem inkassere, uden omkostninger for os:
+.sp 5mm
+.****** her defineres tabulatorer *******************
+.tp 40mm 70mm 110mm right 160mm right
+.*****************************************************
+:FED.
+Kontonummer: ¤Oprettet: ¤Beløb: ¤¤Rentesats debet:
+:SKRSLUT.
+.sp
+&B19KONTO1 ¤&B19DATO ¤kr. ¤&B19BELØB1 ¤&B19DSATS1 %
+.br
+.if &L'&B19KONTO2 gt 0
+.* pfa. Bente Lyng, ændret antal dage fra 10 til 15 pga. nye postregler.
+.* 29.6.2016 / hk
+.*----------------------------------------------------------------------
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.da HOVED 25mm 45mm
+.da ADROPL 140mm 42mm
+.***************************************
+.* Her tildeles parametrene still, navn, gade, by og att værdier.
+.* Værdierne tildeles på baggrund af kundens tilhør, eller hvis
+.* der manuelt er indtastet et advokatkontor.
+.***************************************
+.su off
+.se regnr = substr &KUNDETILH 1 4
+.su on
+.***************************************
+.* Hvis der er indtastet alt. adresse
+.if &L'&B19ATT gt 0
+.th .se att = '&B19ATT'
+.if &L'&B19ATT = 0
+.th .se att = ''
+.if &L'&B19NAVN gt 0
+.th .se still = '&B19STILL'
+.th .se navn = '&B19NAVN'
+.th .se gade = '&B19GADE'
+.th .se by = '&B19BY'
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7600 eller 7601
+.if &regnr = 7600
+.or &regnr = 7601
+.th .se still = 'Advokatfirmaet'
+.th .se navn = 'Thomas Jensen & Pernille Bloch'
+.th .se gade = 'Sønderlandsgade 3A, 1'
+.th .se by = '7500  Holstebro'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7602
+.if &regnr = 7602
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Smith Knudsen'
+.th .se gade = 'Torvegade 2, 2.tv.'
+.th .se by = '7600  Struer'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7604
+.if &regnr = 7604
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Dahl, Koch & Boll'
+.th .se gade = 'Møllegade 10-12'
+.th .se by = '7400  Herning'
+.th .se att = ''
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7605
+.if &regnr = 7605
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Steffensen og Horstmann'
+.th .se gade = 'Sct. Mathiasgade 23'
+.th .se by = '8800  Viborg'
+.th .se att = 'Hr. Lars Kaasgaard'
+.th .go END
+.***************************************
+.* Hvis kunden har tilhør i 7606
+.if &regnr = 7606
+.th .se still = ''
+.th .se navn = 'Advokatfirmaet Thuesen & Bødker'
+.th .se gade = 'Kongensgade 58'
+.th .se by = '6701  Esbjerg'
+.th .se att = 'Hr. Peter Boe Christensen'
+.th .go END
+.***************************************
+...END
+.***************************************
+.ar HOVED on
+:VERDA10.
+.if &L'&B19ANB gt 0
+.th .go ANB
+.el .go VID
+...ANB
+:FED.
+Anbefalet
+:SKRSLUT.
+.sp 5mm
+.go VID
+...VID
+&still
+.br
+&navn
+.br
+&gade
+.br
+&by
+.if &L'&att gt 0
+.th .sp 5mm
+.th Att.: &att
+.ar off
+.**********************************
+.ar ADROPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte &GENTLFNR
+.br
+E-mail &GENEMAIL
+.sp
+&DATO
+.ar off
+:VERDA10.
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Dette afsnit anvendes til afslutning af inkassobrev, hvor modtageren
+.* skal kvittere for det modtagne.
+ 
+.da BUND 25mm 245mm width 150mm
+.ar BUND on
+.tp 75mm
+.*************************************
+.sp
+Modtagelsen af ovennævnte anerkendes.
+.sp2
+_______________________________ den _________________
+.sp2
+_____________________________________________________
+.br

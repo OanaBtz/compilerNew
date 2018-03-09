@@ -1,0 +1,198 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.if &U'&B30UDPULJE = J
+.an &L'&GENIDTOUDB = 0
+.th .mg/T/Ved udmelding af pulje skal dato indtastes xx.xx.xxxx/
+.***************
+.if &U'&B30UDPULJE = J
+.an &U'&B30VALG2 = J
+.th .mg/T/Hvis J til svarkupon for puljeopsigelse, skriv N til ud af pulje/
+.***************
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if &U'&B30VALG1 eq J
+.th PORTEFØLJEPLEJEAFTALER
+.if &U'&B30VALG1 eq N
+.th PORTEFØLJEPLEJE TILKNYTTET KONTO &IREGKTO
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.****************
+.* EN KONTO *********
+.if &U'&B30VALG1 eq N
+.th Som aftalt har vi udarbejdet en aftale om Porteføljepleje med den
+.th ønskede investeringsstrategi. &SDU bedes venligst underskrive
+.th aftalen og returnere den i vedlagte svarkuvert.
+.th .sp
+.th Kopien kan &DU beholde.
+.th .sp
+.****************
+.if &U'&B30UDPULJE eq J .an &U'&B30VALG1 eq N
+.th Kontoen er i dag tilknyttet bankens puljeordning, men opsagt fra den
+.th &RESULTA..
+.th Aftale om Porteføljepleje vil derfor først træde i kraft, når
+.th udtræden af puljeordningen har fundet sted.
+.th .sp
+.****************
+.if &U'&B30VALG2 eq J .an &U'&B30UDPULJE eq N .an &U'&B30VALG1 eq N
+.th &SDIN konto er i dag tilknyttet bankens puljeordning, og for
+.th at &DU kan overgå til Porteføljepleje, skal &DU meldes ud af
+.th pulje. Svarkuponen skal derfor også underskrives og returneres. Vær
+.th opmærksom på, at vi skal have puljeudmeldingen i hænde senest 5
+.th hverdage før den første i måneden. Aftale om Porteføljepleje vil
+.th derfor først træde i kraft, når udtræden af puljeordningen har
+.th fundet sted.
+.th .sp
+.****************
+.* FLERE KONTI ******
+.if &U'&B30VALG1 eq J
+.th Som aftalt har vi udarbejdet aftaler om Porteføljepleje med den
+.th ønskede investeringsstrategi. &SDU bedes venligst underskrive
+.th aftalerne og returnere dem i vedlagte svarkuvert.
+.th .sp
+.th Kopierne kan &DU beholde.
+.th .sp
+.****************
+.if &U'&B30UDPULJE eq J .an &U'&B30VALG1 eq J
+.th &SDINE konti er i dag tilknyttet bankens puljeordning, men
+.th opsagt fra den
+.th &RESULTA..
+.th Aftaler om Porteføljepleje vil derfor først træde i kraft, når
+.th udtræden af puljeordningen har fundet sted.
+.th .sp
+.****************
+.if &U'&B30VALG2 eq J .an &U'&B30UDPULJE eq N .an &U'&B30VALG1 eq J
+.th &SDINE konti er i dag tilknyttet bankens puljeordning, og for
+.th at &DU kan overgå til Porteføljepleje, skal &DU meldes ud af
+.th pulje. Svarkuponen skal derfor også underskrives og returneres. Vær
+.th opmærksom på, at vi skal have puljeudmeldingen i hænde senest 5
+.th hverdage før den første i måneden. Aftale om Porteføljepleje vil
+.th derfor først træde i kraft, når udtræden af puljeordningen har
+.th fundet sted.
+.th .sp
+.***************
+.if &U'&B30VALG1 eq N .an &U'&B30UDDEPOT eq J
+.th &SDIN konto er i dag tilknyttet et individuelt Vp-depot og for at du
+.th kan overgå til Porteføljepleje, skal dine papirer i depotet sælges.
+.th Anmodning om salg af værdipapirer skal derfor underskrives og
+.th returneres.
+.th .sp
+.***************
+.if &U'&B30VALG1 eq J .an &U'&B30UDDEPOT eq J
+.th &SDINE konti er i dag tilknyttet et individuelle Vp-depoter og for at
+.th du kan overgå til Porteføljepleje, skal dine papirer i depoterne sælges
+.th Anmodning om salg af værdipapirer skal derfor underskrives og
+.th returneres.
+.th .sp
+.****************
+.if &L'&GENTEKST1 gt 0
+.th &GENTEKST1 &GENTEKST2 &GENTEKST3 &GENTEKST4 &GENTEKST5
+.th .sp
+.****************
+.kp on
+Har &DU yderligere spørgsmål, er &DU velkommen
+til at kontakte os.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off

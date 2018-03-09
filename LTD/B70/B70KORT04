@@ -1,0 +1,1316 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+...PINOK
+.** test på genbestilling *************************************************
+.if X&GENBESTIL gt X2
+.or X&GENBESTIL lt X1
+.th .mg/T/Genbestilling: Tast 1 eller 2 /
+.**  test på send kort til kunden eller PI ********
+.if &U'X&GENSEND = XK
+.or &U'X&GENSEND = XP
+.th .go SENDOK
+.el .mg/T/Kortet skal sendes til enten K eller P/
+...SENDOK
+.**  test på stamkort/bestillingsnr. *****
+.if &L'&BECBEST01 = 0
+.th .go BESTOK
+.if &BECTEST01 EQ 4
+.an &L'&BECBEST01 > 0
+.th .go BESTOK
+.el .mg/T/Kun bestil.nr på Hævekort m/foto/
+...BESTOK
+.*******************************************************
+.**************************************************************************
+.su off
+.se reg = substr &LANGKTONR 1 4
+.se kto = substr &LANGKTONR 5 10
+.su on
+.**************************************************************************
+.se TYPE = ''
+.if &BECTEST01 EQ 1
+.th .se TYPE = 'Dankort'
+.th .se TYPE1 = '(type 50-54)'
+.th .go TYPEOK
+.if &BECTEST01 EQ 2
+.th .se TYPE = 'Visa/Dankort'
+.th .se TYPE1 = '(type 40-44)'
+.th .go TYPEOK
+.if &BECTEST01 EQ 3
+.th .se TYPE = 'Visa Electron kort'
+.th .se TYPE1 = '(type 1-10)'
+.th .go TYPEOK
+.if &BECTEST01 EQ 4
+.th .se TYPE = 'Hævekort m/foto'
+.th .se TYPE1 = '(type 14,16,18,20 og 22)'
+.th .go TYPEOK
+.if &BECTEST01 EQ 5
+.th .se TYPE = 'Hævekort u/foto'
+.th .se TYPE1 = '(type 13,15,17,19,21 og 23)'
+.th .go TYPEOK
+.mg  /t/  Kortvalg = &BECTEST01 Brug kun 1-5 (&BRUGERNR. til &NAVN.)
+...TYPEOK
+.** test på værge og firma ****
+.if X&U'&GENVÆRGE = XJ
+.an X&U'&GENFIRMA = XJ
+.th .mg/T/Der kan ikke vælges både firmakort og værge underskrift samtidig/
+.** TEST OM KORTBESTILLER = KTOEJER ELLER MEDKONTOHAVER ***
+.if x&KUNDENR. = x&KTOKNDNR1.
+.or x&KUNDENR. = x&MEDKNDNR1.
+.th .se FULDM    = ''
+.el .se FULDM    = 1
+...TESTMEDK
+.** TEST OM MEDKONTOHAVER *************************************************
+.if x&MEDKNDNR1. = x0000000000
+.th .se MEDKNDNR1 = ''
+.*  TEST OM PINKODE ØNSKES **(ellers sættes samme pinkode = N) ************
+.if X&U'&B11KTPIN = XJ
+.th .go PINOK
+.el .se BECTEST02 = &B11KTPIN
+.if &BECTEST01 EQ 4
+.or &BECTEST01 EQ 5
+.th .go PINOK
+.el .mg/T/Kun på hævekort må PIN kode ønskes sættes til Nej/
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+:TILTALE &TILTALE
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Versionsdato 03.02.2010
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*** Definer siden som et areal *******************************************
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if &U'X&GENFIRMA = XJ
+.th .vr tynd1 87mm
+.sp 91mm
+.bx off
+.if &U'X&GENFIRMA = XJ
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if &U'X&GENSEND = XK
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 19mm
+.bx off
+.*** TEST *****************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+.**************************************************************************
+.da undertegn1   21mm 58.5mm width 85mm
+.da undertegnm  108mm 43.5mm width 85mm
+.da undertegn2  108mm 71.5mm width 85mm
+.if &U'X&GENFIRMA = XJ
+.th .da erkl      21mm 126mm width  85mm
+.el .da erkl      21mm 126mm width 173mm
+.da erkl2        108mm 126mm width  85mm
+.da erkl3         21mm 196.5mm width 173mm
+.da erkl4        108mm 208.5mm width  85mm
+.da underskrift1  21mm 223mm width 173mm
+.da banken1       56mm 249mm width 145mm
+.da banken2       21mm 249mm width  57mm
+.**************************************************************************
+:SWISS8.
+.tp 88.5mm
+.**************************************************************************
+.ar undertegnm on
+:SWISS6.
+Evt. medkontohaver
+.sp 21mm
+:SWISS8.
+CPR.nr.:
+.ar off
+.**************************************************************************
+.ar undertegn1 on
+.sp 14mm
+.if &L'&FULDM = 0
+.th CPR.nr.:
+.th .sp 5.4mm
+.*  typenummeret skal ikke med på kundekopien ***********************
+.if x&ÅPN = x1
+.th bestiller herved et &TYPE &TYPE1
+.el bestiller herved et &TYPE
+.sp 0.4mm
+til konto nr.
+.if &L'&FULDM = 0
+.th .go HOP1
+.sp 5mm
+udstedt til fuldmagtshaver (kortholder):
+.sp 15.8mm
+.sp 10.0mm
+CPR.nr.:
+...HOP1
+.ar off
+.**************************************************************************
+.ar undertegn2 on
+.sp 1.3mm
+.if X&GENBESTIL eq X1
+.th Ny bestilling, den
+.if X&GENBESTIL eq X2
+.th Genbestilling, den
+.sp 1.4mm
+Kortet sendes til:
+.sp 4.2mm
+PIN-kode ønskes:
+.sp 1.4mm
+.if X&GENBESTIL eq X1
+.th .sp 6.0mm
+.th .go GENBE
+PIN-koden fra tidligere &TYPE.
+.br
+ønskes videreført:
+...GENBE
+.sp 1.4mm
+Jeg ønsker automatisk genbestilling
+.br
+af mit &TYPE når det udløber:
+.sp 1.4mm
+.if &L'&BECBEST01 > 0
+.th Stamkort/Bestillings nr.:
+.el .sp 1.4mm
+.sp 1.4mm
+.if X&GENBESTIL eq X1
+.th .sp 3.0mm
+.th .go EKSPE
+.if &L'&BECKORTNR > 0
+.th Evt. tidligere kortnr.:
+.el .sp 3.0mm
+...EKSPE
+.sp 1.4mm
+Ekspederet af:
+.ar off
+.**************************************************************************
+.ar erkl ON
+Jeg har modtaget og erklærer mig indforstået med de regler
+.*  test på dankort og Visa/dankort og Visa Elektron
+.if &BECTEST01 = 1
+.or &BECTEST01 = 2
+.or &BECTEST01 = 3
+.th og gode råd
+.ct , der gælder for &TYPE..
+.sp
+Jeg erklærer mig indforstået med at opbevare &TYPE.et på betryggende
+vis samt at godtgøre &BANKNAVN de tab, som denne direkte eller
+indirekte måtte pådrage sig, som følge af at dette ikke overholdes.
+.sp
+Jeg giver hermed samtykke til, at &BANKNAVN., i forbindelse med
+bestilling eller genbestilling af kortet, foretager opslag i
+check- og hævekortmisbrugsregisteret, ligesom jeg er opmærksom på,
+at jeg , i tilfælde af misbrug, vil blive indberettet til samme
+register med angivelse af navn, adresse og cpr.nr samt evt.
+kontooplysninger.
+.sp
+Evt. gebyr for brug af &TYPE hæves på ovennævnte konto.
+.sp
+.* test på visa/dankort
+.if &BECTEST01 = 2
+.th  Kontoudtog udsendes ultimo måned, hvis &TYPE.et har været
+.th  brugt i udlandet.
+.th .sp
+.if &L'&FULDM > 0
+.th  Fuldmagten er gældende sålænge fuldmagtshaverens &TYPE
+.th ikke er tilbageleveret til banken.
+.sp 4mm
+.ar off
+.*****************
+.ar erkl3 on
+.tp 3mm 30mm 87mm 114mm
+.if &L'&FULDM > 0
+.th ¤____________ ¤_________________________________
+.th .br
+.th ¤Dato ¤Fuldmagtshavers underskrift
+.th .sp 6mm
+.el .sp 12mm
+.if &U'X&GENVÆRGE = XJ
+.an &U'X&GENFIRMA = XN
+.th ¤____________ ¤_________________________________
+.th .ct ¤____________ ¤_________________________________
+.th .br
+.th ¤Dato ¤Kontohaver(es) underskrift
+.th .ct ¤Dato ¤Værge/forældre underskrift
+.el ¤____________ ¤_________________________________
+.el .br
+.el ¤Dato ¤Kontohaver(es) underskrift
+.ar off
+.**************************************************************************
+.ar underskrift1 on
+.if &U'X&GENSEND = XK
+.th Kortet sendes direkte til ovennævnte kortholders adresse.
+.th .sp 20mm
+.el For modtagelsen af 1 stk. &TYPE kvitteres herved.
+.el .sp 8mm
+.el .tp 3mm 30mm
+.el ¤____________ ¤_________________________________
+.el .br
+.el  ¤Dato ¤Underskrift
+.ar off
+.**************************************************************************
+.if x&U'&GENFIRMA = xN
+.th .go EJFIRMA
+.ar erkl2 on
+:FED.Udfyldes kun ved firmakort :SKRSLUT.
+.sp
+Undertegnede erklærer sig indforstået med, at der udstedes
+&TYPE. til ovennævnte, og at forbruget debiteres (hæves) på anførte
+konto. Uanset kortet besiddes af ovennævnte, er vi indforstået med at
+hæfte som om vi selv har brugt kortet. Vi hæfter ligeledes for et eventuelt
+3. mands misbrug jf. brugerreglerne og Lov om betalingstjenester kapitel 6.
+.ar off
+.**********
+.ar erkl4 on
+.TP 3mm 30mm
+¤____________ ¤___________________________________
+.br
+¤Dato ¤Underskrift og firmastempel
+.ar off
+...EJFIRMA
+.**************************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.**************************************************************************
+.ar banken1 on
+:SWISS8.
+.tp 40mm 60mm 80mm 100mm 120mm
+Legitimation forevist ¤Kontrol RKI/ ¤Kort ¤Kontrol EDB / &ÅCONT.
+¤Stamkort ¤Kort udlev./
+.br
+¤checkmisbrug ¤bestilt ¤ ¤afsendt ¤autoriseret
+.sp 4mm
+Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato:
+.sp 6mm
+Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.:
+.AR OFF
+.*****
+.ar banken2 on
+:SWISS8.
+VIGTIGT:
+.sp 5mm
+:FED
+Adresse kontrolleret
+.br
+på bestillingstidspunktet
+:SKRSLUT.
+.ar off
+...slut
+:SKRSLUT.
+.***************************************
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if X&FULDM = X1
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR. > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&STILL. eq 0
+.th .sp
+.if &L'&COADR. eq 0
+.th .sp
+.if &L'&LAND. eq 0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+¤&KUNDENR
+.sp 7mm
+.sp 1,6mm
+¤&reg &kto.
+.go AFS1
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if &L'&KTOSTILL. gt 0
+.el .sp
+.if &L'&KTOCO. gt 0
+.el .sp
+.if &L'&KTOLAND. gt 0
+.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DET ER ***
+.**************************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 72.5mm width  85mm
+.**************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+.ar underm on
+.*  Evt. medkontohaver
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if X&FULDM = X1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.el &MEDKNDNR1.
+.ar off
+.th ¤Ja¤
+.el ¤Nej¤
+.sp 1.4mm
+...BEST
+¤&BECBEST01.¤
+.sp 1.0mm
+.* ved ny bestilling udskrives kortnr. ikke
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go EKSP
+.if &L'&BECKORTNR > 0
+.th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤
+.el .sp
+...EKSP
+.sp 1.0mm
+ ¤&BRUGERNAVN.¤
+.ar off
+.**************************************************************************
+...SLUT
+.el .sp
+.sp  7.5mm
+.sp 1.6mm
+¤&reg &kto.
+.sp 10mm
+&NAVN
+.if &L'&COADR. gt 0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if &L'&COADR. gt 0
+.el .sp
+.br
+&LAND
+.if &L'&LAND. gt 0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+¤&KUNDENR
+...AFS1
+.ar off
+.**************************************************************************
+.ar under2 on
+.tp 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.****
+ ¤&DATO1.¤
+.sp 1.0mm
+.if &U'X&GENSEND = XK
+.th ¤Kunden¤
+.el ¤&BANKNAVN.¤
+.sp 3.0mm
+ ¤&PINK.¤
+.****
+.sp 4.0mm
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go GENB
+¤&PIN.¤
+...GENB
+.sp 4.0mm
+.if &U'X&BECTEST03 = XJ
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED1
+.*********************************************************************
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+...EJMED1
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED2
+.*********************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Versionsdato 03.02.2010
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+...EJMED2
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED3
+.*********************************************************************
+.*** Definer siden som et areal *******************************************
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if &U'X&GENFIRMA = XJ
+.th .vr tynd1 87mm
+.sp 91mm
+.bx off
+.if &U'X&GENFIRMA = XJ
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if &U'X&GENSEND = XK
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 19mm
+.bx off
+.*** TEST *****************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+...EJMED3
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ********************
+.if &U'X&KOPI = XN
+.th .go EJMED4
+.*********************************************
+.da undertegn1   21mm 58.5mm width 85mm
+.da undertegnm  108mm 43.5mm width 85mm
+.da undertegn2  108mm 71.5mm width 85mm
+.if &U'X&GENFIRMA = XJ
+.th .da erkl      21mm 126mm width  85mm
+.el .da erkl      21mm 126mm width 173mm
+.da erkl2        108mm 126mm width  85mm
+.da erkl3         21mm 196.5mm width 173mm
+.da erkl4        108mm 208.5mm width  85mm
+.da underskrift1  21mm 223mm width 173mm
+.da banken1       56mm 249mm width 145mm
+.da banken2       21mm 249mm width  57mm
+.**********************************************
+:SWISS8.
+.tp 88.5mm
+.**************************************************************************
+.ar undertegnm on
+:SWISS6.
+Evt. medkontohaver
+.sp 21mm
+:SWISS8.
+CPR.nr.:
+.ar off
+.**************************************************************************
+.ar undertegn1 on
+.sp 14mm
+.if &L'&FULDM = 0
+.th CPR.nr.:
+.th .sp 5.4mm
+.*  typenummeret skal ikke med på kundekopien ***********************
+.if x&ÅPN = x1
+.th bestiller herved et &TYPE &TYPE1
+.el bestiller herved et &TYPE
+.sp 0.4mm
+til konto nr.
+.if &L'&FULDM = 0
+.th .go HOP1
+.sp 5mm
+udstedt til fuldmagtshaver (kortholder):
+.sp 15.8mm
+.sp 10.0mm
+CPR.nr.:
+...HOP1
+.ar off
+.**************************************************************************
+.ar undertegn2 on
+.sp 1.3mm
+.if X&GENBESTIL eq X1
+.th Ny bestilling, den
+.if X&GENBESTIL eq X2
+.th Genbestilling, den
+.sp 1.4mm
+Kortet sendes til:
+.sp 4.2mm
+PIN-kode ønskes:
+.sp 1.4mm
+.if X&GENBESTIL eq X1
+.th .sp 6.0mm
+.th .go GENBE
+PIN-koden fra tidligere &TYPE.
+.br
+ønskes videreført:
+...GENBE
+.sp 1.4mm
+Jeg ønsker automatisk genbestilling
+.br
+af mit &TYPE når det udløber:
+.sp 1.4mm
+.if &L'&BECBEST01 > 0
+.th Stamkort/Bestillings nr.:
+.el .sp 1.4mm
+.sp 1.4mm
+.if X&GENBESTIL eq X1
+.th .sp 3.0mm
+.th .go EKSPE
+.if &L'&BECKORTNR > 0
+.th Evt. tidligere kortnr.:
+.el .sp 3.0mm
+...EKSPE
+.sp 1.4mm
+Ekspederet af:
+.ar off
+.**************************************************************************
+.ar erkl ON
+Jeg har modtaget og erklærer mig indforstået med de regler
+.*  test på dankort og Visa/dankort og Visa Elektron
+.if &BECTEST01 = 1
+.or &BECTEST01 = 2
+.or &BECTEST01 = 3
+.th og gode råd
+.ct , der gælder for &TYPE..
+.sp
+Jeg erklærer mig indforstået med at opbevare &TYPE.et på betryggende
+vis samt at godtgøre &BANKNAVN de tab, som denne direkte eller
+indirekte måtte pådrage sig, som følge af at dette ikke overholdes.
+.sp
+Jeg giver hermed samtykke til, at &BANKNAVN., i forbindelse med
+bestilling eller genbestilling af kortet, foretager opslag i
+check- og hævekortmisbrugsregisteret, ligesom jeg er opmærksom på,
+at jeg , i tilfælde af misbrug, vil blive indberettet til samme
+register med angivelse af navn, adresse og cpr.nr samt evt.
+kontooplysninger.
+.sp
+Evt. gebyr for brug af &TYPE hæves på ovennævnte konto.
+.sp
+.* test på visa/dankort
+.if &BECTEST01 = 2
+.th  Kontoudtog udsendes ultimo måned, hvis &TYPE.et har været
+.th  brugt i udlandet.
+.th .sp
+.if &L'&FULDM > 0
+.th  Fuldmagten er gældende sålænge fuldmagtshaverens &TYPE
+.th ikke er tilbageleveret til banken.
+.sp 4mm
+.ar off
+.*****************
+.ar erkl3 on
+.tp 3mm 30mm 87mm 114mm
+.if &L'&FULDM > 0
+.th ¤____________ ¤_________________________________
+.th .br
+.th ¤Dato ¤Fuldmagtshavers underskrift
+.th .sp 6mm
+.el .sp 12mm
+.if &U'X&GENVÆRGE = XJ
+.an &U'X&GENFIRMA = XN
+.th ¤____________ ¤_________________________________
+.th .ct ¤____________ ¤_________________________________
+.th .br
+.th ¤Dato ¤Kontohaver(es) underskrift
+.th .ct ¤Dato ¤Værge/forældre underskrift
+.el ¤____________ ¤_________________________________
+.el .br
+.el ¤Dato ¤Kontohaver(es) underskrift
+.ar off
+.**************************************************************************
+.ar underskrift1 on
+.if &U'X&GENSEND = XK
+.th Kortet sendes direkte til ovennævnte kortholders adresse.
+.th .sp 20mm
+.el For modtagelsen af 1 stk. &TYPE kvitteres herved.
+.el .sp 8mm
+.el .tp 3mm 30mm
+.el ¤____________ ¤_________________________________
+.el .br
+.el  ¤Dato ¤Underskrift
+.ar off
+.**************************************************************************
+.if x&U'&GENFIRMA = xN
+.th .go EJFIRMA
+.ar erkl2 on
+:FED.Udfyldes kun ved firmakort :SKRSLUT.
+.sp
+Undertegnede erklærer sig indforstået med, at der udstedes
+&TYPE. til ovennævnte, og at forbruget debiteres (hæves) på anførte
+konto. Uanset kortet besiddes af ovennævnte, er vi indforstået med at
+hæfte som om vi selv har brugt kortet. Vi hæfter ligeledes for et eventuelt
+3. mands misbrug jf. brugerreglerne og Lov om betalingstjenester kapitel 6.
+.ar off
+.**********
+.ar erkl4 on
+.TP 3mm 30mm
+¤____________ ¤___________________________________
+.br
+¤Dato ¤Underskrift og firmastempel
+.ar off
+...EJFIRMA
+.**************************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.**************************************************************************
+.ar banken1 on
+:SWISS8.
+.tp 40mm 60mm 80mm 100mm 120mm
+Legitimation forevist ¤Kontrol RKI/ ¤Kort ¤Kontrol EDB / &ÅCONT.
+¤Stamkort ¤Kort udlev./
+.br
+¤checkmisbrug ¤bestilt ¤ ¤afsendt ¤autoriseret
+.sp 4mm
+Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato:
+.sp 6mm
+Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.:
+.AR OFF
+.*****
+.ar banken2 on
+:SWISS8.
+VIGTIGT:
+.sp 5mm
+:FED
+Adresse kontrolleret
+.br
+på bestillingstidspunktet
+:SKRSLUT.
+.ar off
+...slut
+:SKRSLUT.
+.***************************************
+...EJMED4
+.sp 4.0mm
+.if &U'X&BECTEST03 = XJ
+.th ¤Ja¤
+.el ¤Nej¤
+.sp 1.4mm
+...BEST
+¤&BECBEST01.¤
+.sp 1.0mm
+.* ved ny bestilling udskrives kortnr. ikke
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go EKSP
+.if &L'&BECKORTNR > 0
+.th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤
+.el .sp
+...EKSP
+.sp 1.0mm
+ ¤&BRUGERNAVN.¤
+.ar off
+.**************************************************************************
+...SLUTKOPI
+.el .sp
+.if &L'&KTOLAND. gt 0
+.el .sp
+.sp  7.5mm
+.sp 1.6mm
+¤&reg &kto.
+.sp 10mm
+&NAVN
+.if &L'&COADR. gt 0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if &L'&COADR. gt 0
+.el .sp
+.br
+&LAND
+.if &L'&LAND. gt 0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+¤&KUNDENR
+...AFS1
+.ar off
+.**************************************************************************
+.ar under2 on
+.tp 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.****
+ ¤&DATO1.¤
+.sp 1.0mm
+.if &U'X&GENSEND = XK
+.th ¤Kunden¤
+.el ¤&BANKNAVN.¤
+.sp 3.0mm
+ ¤&PINK.¤
+.****
+.sp 4.0mm
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go GENB
+¤&PIN.¤
+...GENB
+.el &MEDKNDNR1.
+.ar off
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if X&FULDM = X1
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR. > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&STILL. eq 0
+.th .sp
+.if &L'&COADR. eq 0
+.th .sp
+.if &L'&LAND. eq 0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+¤&KUNDENR
+.sp 7mm
+.sp 1,6mm
+¤&reg &kto.
+.go AFS1
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if &L'&KTOSTILL. gt 0
+.el .sp
+.if &L'&KTOCO. gt 0
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go SLUTKOPI
+.*********************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 72.5mm width  85mm
+.**************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+.ar underm on
+.*  Evt. medkontohaver
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if X&FULDM = X1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.rh cancel
+.** SIDESKIFT
+.pa
+.****************** BETINGELSE ******************************************
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.if x&BECTEST01 EQ x1
+.or x&BECTEST01 EQ x0
+.th .go L2BB
+.el .go L2BC
+...L2BB
+.da TEKST2 21mm 44mm width 175mm
+.*************************************
+.ar TEKST2 on
+:SWISS10.
+.*************************************
+.tp 120mm right 150mm right 170mm right
+¤Aktionær¤Ung.Com.In ¤Øvrige
+.sp 5mm
+:FED.
+Årligt kortgebyr ¤gratis ¤gratis ¤gratis
+:SKRSLUT.
+:FED.
+.sp 3mm
+Forsendelse af kort uden for Norden ¤150 kr. ¤150 kr. ¤ 150 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+:FED.
+Ved brug i bankens pengeautomater ¤gratis ¤gratis ¤gratis
+.br
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug ved kassen i bankens afdelinger ¤gratis ¤gratis ¤gratis
+:SKRSLUT.
+.sp 3mm
+:FED.
+I pengeautomater hos andre pengeinstitutter ¤6 kr. ¤gratis ¤6 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug ved kassen hos andre pengeinstitutter ¤6 kr. ¤6 kr. ¤6 kr.
+:SKRSLUT.
+.sp 3mm
+.br
+Kopi af nota pr. stk. ¤75 kr. ¤75 kr. ¤75 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Spærring af kort ved misbrug ¤300 kr. ¤300 kr. ¤300 kr.
+:SKRSLUT.
+:SWISS8.
+.in 0mm
+.ar off
+...L2BC
+.****************** BETINGELSE ******************************************
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.if x&BECTEST01 EQ x2
+.or x&BECTEST01 EQ x0
+.th .go L3BB
+.el .go L3BC
+...L3BB
+.da TEKST2 21mm 44mm width 175mm
+.*************************************
+.ar TEKST2 on
+:SWISS10.
+.*************************************
+.tp 120mm right 150mm right 170mm right
+¤Aktionær¤Ung.Com.In ¤Øvrige
+.sp 5mm
+:FED.
+Årligt kortgebyr ¤75 kr. ¤gratis ¤150 kr.
+:SKRSLUT.
+:FED.
+.sp 3mm
+Forsendelse af kort uden for Norden ¤150 kr. ¤150 kr. ¤ 150 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+:FED.
+Ved brug i bankens pengeautomater ¤gratis ¤gratis ¤gratis
+.br
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug ved kassen i bankens afdelinger ¤gratis ¤gratis ¤gratis
+:SKRSLUT.
+.sp 3mm
+:FED.
+I pengeautomater hos andre pengeinstitutter ¤6 kr. ¤gratis ¤6 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug ved kassen hos andre pengeinstitutter ¤6 kr. ¤6 kr. ¤6 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Som betalingskort i udenlandske forretninger
+.br
+som har Visa logoet og er tilsluttet ¤gratis ¤gratis ¤gratis
+.br
+Visa-systemet
+.br
+Den udenlandske forretning kan kræve et
+.br
+gebyr ved køb. Spørg i forretningen før
+.br
+du køber.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug i udenlandske pengeautomater eller
+.br
+banker: 1% af det hævede beløb dog mindst ¤30 kr. ¤30 kr. ¤30 kr.
+.br
+Det udenlandske pengeinstitut kan kræve et
+.br
+gebyr ved udbetalingen. Spørg på stedet.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Kopi af nota pr. stk. ¤75 kr. ¤75 kr. ¤75 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ændring af limit ¤300 kr. ¤300 kr. ¤300 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Spærring af kort ved misbrug ¤300 kr. ¤300 kr. ¤300 kr.
+:SKRSLUT.
+.sp 15mm
+Bruges kortet som betalingskort i udlandet, kan der købes varer og
+serviceydelser for højst 20.000 kr. pr. løbende 30 dage.
+:SKRSLUT.
+.sp 10mm
+:FED.
+Omregningskurs ved brug i udlandet
+.sp 3mm
+:swiss8
+.tp 4mm
+.of 4mm
+1.¤Europæiske valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1 %.
+.of
+.of 4mm
+2.¤Andre valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS
+tillagt 1,5 %. Undtagelser kan forekomme.
+.of
+.of 4mm
+3.¤Øvrige valutaer:
+Omregning til USD, der herefter omregnes til danske kroner som
+ovenfor. Undtagelser kan forekomme.
+.of
+.sp 5mm
+Efter overgang til den nye omregningsmetode (i løbet af 2010):
+.sp 3mm
+.of 4mm
+1.¤Europæiske valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1 %.
+.of
+.of 4mm
+2.¤Øvrige valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1,5 %.
+.of
+...L3BC
+.da TEKST2 21mm 44mm width 175mm
+.*************************************
+.ar TEKST2 on
+:SWISS10.
+.tp 120mm right 150mm right 170mm right
+¤Jackpot ¤Ung.Com.In ¤Øvrige
+.sp 5mm
+:FED.
+Årligt kortgebyr ¤gratis ¤gratis ¤150 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Erstatningskort ¤100 kr. ¤100 kr. ¤100 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Forsendelse af kort uden for Norden ¤150 kr. ¤150 kr. ¤ 150 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved Betaling i forretninger som har Visa
+.br
+Electron logo og er tilsluttet Visa-systemet ¤gratis ¤gratis ¤gratis
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug i bankens pengeautomater ¤gratis ¤gratis ¤gratis
+.br
+- der kan højest hæves 9.900 kr. om dagen
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug ved kassen i bankens afdelinger ¤gratis ¤gratis ¤gratis
+:SKRSLUT.
+.sp 3mm
+:FED.
+I pengeautomater hos andre pengeinstitutter ¤gratis¤gratis ¤6 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug ved kassen hos andre pengeinstitutter ¤gratis¤gratis ¤6 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Som betalingskort i udenlandske forretninger
+.br
+som har Visa Electron logoet og er tilsluttet ¤gratis ¤gratis ¤gratis
+.br
+Visa-systemet
+.br
+Den udenlandske forretning kan kræve et
+.br
+gebyr ved køb. Spørg i forretningen før
+.br
+du køber.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ved brug i udenlandske pengeautomater eller
+.br
+banker: 1% af det hævede beløb dog mindst ¤30 kr. ¤30 kr. ¤30 kr.
+.br
+Det udenlandske pengeinstitut kan kræve et
+.br
+gebyr ved udbetalingen. Spørg på stedet.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Kopi af nota pr. stk. ¤75 kr. ¤75 kr. ¤75 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Ekstra kontoudskrift  ¤15 kr. ¤15 kr. ¤15 kr.
+:SKRSLUT.
+.sp 3mm
+:FED.
+Aktivering af kort i banken ¤50 kr. ¤50 kr. ¤50 kr.
+:SKRSLUT.
+.sp 15mm
+Du kan bruge op til 30.000 kr. pr. dag hvis der er dækning på kontoen. De
+30.000 kr. omfatter køb i forretninger i Danmark og i udlandet.
+.br
+Det beløb du maksimalt kan hæve pr. dag i pengeautomater hos andre
+pengeinstitutter i Danmark og i udlandet, fastsættes af det enkelte
+pengeinstitut.
+:SKRSLUT.
+.sp 10mm
+:FED.
+Omregningskurs ved brug i udlandet
+.sp 3mm
+:SWISS8.
+.tp 4mm
+.of 4mm
+1.¤Europæiske valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1 %.
+.of
+.of 4mm
+2.¤Andre valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS
+tillagt 1,5 %. Undtagelser kan forekomme.
+.of
+.of 4mm
+3.¤Øvrige valutaer:
+Omregning til USD, der herefter omregnes til danske kroner som
+ovenfor. Undtagelser kan forekomme.
+.of
+.sp 5mm
+Efter overgang til den nye omregningsmetode (i løbet af 2010):
+.sp 3mm
+.of 4mm
+1.¤Europæiske valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1 %.
+.of
+.of 4mm
+2.¤Øvrige valutaer offentliggjort på www.pbs.dk/valutakurser:
+Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1,5 %.
+.of
+...L18BT1A

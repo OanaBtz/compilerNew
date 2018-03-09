@@ -1,0 +1,213 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&B11KTKNDNR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* Dette brev er en kopi af SPÆRREMEDDELELSEN 8.4.06
+.* på www.dankortnet.dk
+.*
+.* de få forskelle er: at ordet "Dankort" er erstattet af "betalingskort"
+.* i sætningen der begynder med "Kortet er registreret i".
+.*
+.* For Dankort og Visa/Dankort er det Dankort a/s der er dataansvarlig og
+.* som der kan rettes henvendelse til, men for Debetkort og Mastercard
+.* samt hævekort er det banken der er dataansvarlig og der kan rettes
+.* henvendelse til Pengeinstitutankenævnet.
+.*
+.* Det er kun Dankort og Visa/Dankort, der kan indberettes til check og
+.* kortmisbrugerregisteret.
+.*******************************
+.su off
+.se knr1 = substr &B11KTNR 1 4
+.se knr2 = substr &B11KTNR 6 4
+.se knr3 = substr &B11KTNR 11 4
+.se knr4 = substr &B11KTNR 16 4
+.se hkv1 = substr &B11KTNR 1 4
+.se hkv2 = substr &B11KTNR 5 4
+.se hkv3 = substr &B11KTNR 10 3
+.su on
+.*******************************
+.ti ¤ 05
+.sp 25mm
+:VERDA09
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN
+.br;&AFDNAVN
+.br;&AFDGADE
+.br;&AFDBY
+.br;T: &AFDTLF
+.br;M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.if &L'&B11KTADR1 > 0
+.th &B11KTADR1
+.th .br
+.if &L'&B11KTADR2 > 0
+.th &B11KTADR2
+.th .br
+.if &L'&B11KTADR3 > 0
+.th &B11KTADR3
+.th .br
+.if &L'&B11KTADR4 > 0
+.th &B11KTADR4
+.th .br
+.if &L'&B11KTADR5 > 0
+.th &B11KTADR5
+.th .br
+.*************************************************************
+.ti ¤ 05
+.sp 25mm
+:VERDA09
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN
+.br;Vesterbrogade 5
+.br;1502 København V
+.br;T: 38484848
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.if &L'&B11KTADR1 > 0
+.th &B11KTADR1
+.th .br
+.if &L'&B11KTADR2 > 0
+.th &B11KTADR2
+.th .br
+.if &L'&B11KTADR3 > 0
+.th &B11KTADR3
+.th .br
+.if &L'&B11KTADR4 > 0
+.th &B11KTADR4
+.th .br
+.if &L'&B11KTADR5 > 0
+.th &B11KTADR5
+.th .br
+.*************************************************************
+.fo left
+.ti ¤ 05
+:VERDA09.
+:TILTALE &TILTALEF
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* overskrift på brevet
+.da OVERSKR 20mm 110mm width 170mm
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.ar OVERSKR on
+:VERDA10.
+:FED.
+Meddelelse om spærring af
+&B11KTTYPT
+:SKRSLUT.
+:SKRSLUT.
+.sp
+.***********************************************************************
+.*&SDIT &B11KTTYPT. &B11KTNR..
+&SDIT &B11KTTYPT. &knr1. XXXX XXXX &knr4.
+.sp
+Vi har den &GENDATO1 kl. &GENKL spærret &DIT
+&B11KTTYPT. på grund af &GENÅRSSPR..
+.sp
+.* Hvis korttype 13-39 (Hævekort) skal tekst springes over!!************
+.if X&B11KTTYPE > X10
+.an X&B11KTTYPE < X40
+.th .go HÆVE
+.el Kortnummeret er registreret i pengeinstitutternes fælles register over
+.el spærrede betalingskort.
+.sp
+...HÆVE
+Hvis &DU er utilfreds eller har spørgsmål til spærringen
+beder vi &DIG kontakte os.
+.sp
+Ønsker &DU at klage over spærringen skal du kontakte vores
+klageansvarlige. Hvis du ikke får medhold
+i &DIN klage, har &DU mulighed for at henvende &DIG
+til Datatilsynet, Borgergade 28, 5., 1300 København K.
+.sp
+.if X&U'&FORSIK = XJ
+.th &SDU skal være opmærksom på, at når &DIT &B11KTTYPT spærres, bortfalder
+.th tillægsydelserne, herunder forsikringen.
+.th .sp
+.if X&B11KTTYPE > X39
+.an X&B11KTTYPE < X55
+.th PBS A/S
+.el &BANKNAVN
+er dataansvarlig for registeret over for Datatilsynet. Registeret
+er til rådighed for pengeinstitutter og betalingsmodtagere
+(fx forretninger). I medfør af
+Persondatalovens § 31 om indsigtsret kan &DU henvende &DIG til
+Nets Denmark A/S, Lautrupbjerg 10, DK-2750 Ballerup,
+hvor &DU kan få oplyst, om &DIT kortnummer fortsat er i
+.if X&B11KTTYPE > X39
+.an X&B11KTTYPE < X55
+.th registeret over spærrede Dankort og Visa/Dankort.
+.el registeret.
+.sp
+.* Alle korttyper med undtagelse af VISA-dankort og Dankort kan ikke
+.* indberettes i kortmisbrugerregisteret
+.if X&B11KTTYPE < X39
+.or X&B11KTTYPE > X59
+.th .go NEJREG
+.if &U'X&GENREGISTR = XJ
+.th .go JAREG
+.el .go NEJREG
+...JAREG
+.if &L'&GENDATO2 = 0
+.th .mg/T/Brevdato mangler/
+.el Vi henviser i øvrigt til vort brev af &GENDATO2., hvoraf det fremgår,
+.el at &DU tillige er indberettet til pengeinstitutternes check- og
+.el kortmisbrugerregister.
+...NEJREG
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

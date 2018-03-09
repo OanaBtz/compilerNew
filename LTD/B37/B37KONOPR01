@@ -1,0 +1,672 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.SE B37KUDAL = 1
+.dm KUDAL1 on
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.******************* Evt. ALTERNATIV PRINTER ******
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.**************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.**************************************************
+.ti ^ 05
+:COUR10.
+.**************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.**************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.*ir 25mm
+.* ÆNDRET d. 12/01.2000 jvf. Standard for breve.
+.ir 20mm
+.dm off
+.*****
+.KUDAL1
+.* parameterafsn.
+.* parameterafsn.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&KTOSTILL
+.BR
+&KTONAVN
+.BR
+&KTOCO
+.BR
+&KTOGADE
+.BR
+&KTOBY  &KTOLAND
+.SK
+:EGL.
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.* UDFØRER underskrifts makro
+.*se B37ANTUSK = 1
+.se B37MTIT = N
+.BREV
+.*HILS
+.ar off
+.if x&U'&MIBKVITBY = xNEJ
+.th .go ASLUT
+.panostart
+.** TEKST KOPI hvor KOPI normalt påføres
+.da KUNDKOPI 20mm 71.4mm
+.*dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+.*COUR10.
+.*dm off
+.**********
+.*KUNKOP
+.BREV
+.*HILS
+.sp 5mm
+.ir 25mm
+.hr left right
+.sx \-- HERTIL KOPI --\
+.sp 3mm
+Ovenstående aftale tiltrædes herved:
+.sp 5mm
+&MIBKVITBY., den          /          - 20
+.sk2
+.ce  .............................................................
+.br
+.ce  forpligtende underskrift
+...ASLUT
+.br
+&krkn2.
+.br
+&krkn3.
+.br
+&krkn4.
+.sp 5mm
+&drkn1.
+.br
+&drkn2.
+.sp 5mm
+... EJRNT
+For kontoen gælder &BANKNAVN.s Almindelige forretningsbestemmelser
+for erhvervskunder, som er tilgængelige på Handelsbankens
+hjemmeside www.handelsbanken.dk/vilkår
+.sp 2.5mm
+&SDU. er gjort bekendt med oplysninger og information til indskydere og
+investorer, som findes på &BANKNAVN.s hjemmeside med
+Grundlæggende oplysninger om beskyttelse af indskud.
+.sp 2.5mm
+.if x&U'&MIBJN2. = xJ
+.th Venligst fremsend en kopi af tegningsudskrift fra Erhvervs- og
+.th Selskabsstyrelsen.
+.th .sp 2.5mm
+.if x&U'&MIBJN3. = xJ
+.th &SDU. bedes venligst returnere vedlagte fuldmagt i udfyldt og
+.th underskrevet stand.
+.th .sp 2.5mm
+.if &L'&B37LIN1. = 0
+.th .go EJANDET
+&B37LIN1
+.br
+&B37LIN2
+.br
+&B37LIN3
+.br
+&B37LIN4
+.sp 2.5mm
+... EJANDET
+Har &DU. spørgsmål til ovennævnte, er &DU. velkommen til at kontakte
+undertegnede.
+.sp 5mm
+Venlig hilsen
+.sp 5mm
+&GENEKSP.
+.dm off
+.ar off
+.* AKTIVERER "Med venlig hilsen" i makroen HILS
+.se B37ANTUSK = 1
+.* DEFINER BREVET som en makro med navnet BREV
+.dm BREV on
+.* KOMPRIMERER UNDERSKRIFT
+.se T=1
+.DA BRTXT 20mm 80mm WIDTH 175mm
+.ar BRTXT on
+:DUTCH10.
+:FED.
+Oprettelse af &REGTYPELNG
+:SKRSLUT.
+.sp 1mm
+Vi bekræfter herved, at vi i dag har oprettet en &REGTYPELNG på
+følgende betingelser:
+.sp 2.5mm
+Reg.nr: &REGNR
+.br
+Kontonummer: &KTONR
+.br
+IBAN-kontonummer: &IBANKTONR
+.sp 2.5mm
+IBAN-kontonummeret skal anvendes ved overførsler fra udlandet, hvorfor
+det er vigtigt at &DINE. udenlandske kunder får oplyst dette kontonummer
+tillige med SWIFT-adressen: HANDDKKK.
+.sp 2.5mm
+.if x&U'&MIBJN1. = xJ
+.el .go EJRNT
+.if x&RNTTILFRED = x01 ;.th .se df = 'månedsvis'
+.if x&RNTTILFRED = x03 ;.th .se df = 'kvartalsvis'
+.if x&RNTTILFRED = x09 ;.th .se df = 'årligt'
+.if x&RNTTILFREK = x01 ;.th .se kf = 'månedsvis'
+.if x&RNTTILFREK = x03 ;.th .se kf = 'kvartalsvis'
+.if x&RNTTILFREK = x09 ;.th .se kf = 'årligt'
+.go NRT
+.* &TOTDEB1. % &df i intervallet &DEBTRIN1. &DEBTRIN2..
+* &TOTDEB1. % årligt tilskrevet &df &drint1.
+.sp 2.5mm
+* &TOTDEB2. % årligt tilskrevet &df &drint2.
+.sp 5.5mm
+* &TOTKRE1. % årligt tilskrevet &kf &krint1.
+.sp 2.5mm
+* &TOTKRE2. % årligt tilskrevet &kf &krint2.
+.sp 2.5mm
+* &TOTKRE3. % årligt tilskrevet &kf &krint3.
+.sp 2.5mm
+* &TOTKRE4. % årligt tilskrevet &kf &krint4.
+...NRT
+&krkn1.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.* HVIS parametren B37MVH ikke eksisterer skrives Med venlig hilsen
+.* HVIS parametren B37MVH eksisterer bruges B37MVH
+.* HVIS T = 0 laves der kun en BR før underskriftnavne
+.dm HILS on
+.if &E'&B37MVH = 0
+.th .se B37MVH 'Med venlig hilsen'
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&T = .0
+.th .br
+.th .go EJSKIPA
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+...EJSKIPA
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+^&B37MVH
+.*sk
+.*^M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .br
+.th ^&AFDNAVN
+.if .&T = .0
+.th .br
+.th .go EJSKIP
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+...EJSKIP
+.if .&B37ANTUSK ne .1 .go EJ1
+^&GENEKSP
+.br
+^&GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+^&GENMEKSP ^&GENEKSP
+.br
+^&GENMTITEL ^&GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
+.dm off
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+^Med venlig hilsen
+.*sk
+.*^M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^&AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+^&GENEKSP
+.br
+^&GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+^&GENMEKSP ^&GENEKSP
+.br
+^&GENMTITEL ^&GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
+.** TEKST KOPI hvor KOPI normalt påføres
+.da KUNDKOPI 20mm 71.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.KUNKOP
+.** Stopper et areal
+.ar off
+.* parameterafsnit
+.se krint1 ''
+.se krint2 ''
+.se krint3 ''
+.se krint4 ''
+.se krkn1 ''
+.se krkn2 ''
+.se krkn3 ''
+.se krkn4 ''
+.if x&RNTTILFRED = x01 ;.th .se df = 'månedsvis'
+.if x&RNTTILFRED = x03 ;.th .se df = 'kvartalsvis'
+.if x&RNTTILFRED = x09 ;.th .se df = 'årligt'
+.if x&RNTTILFREK = x01 ;.th .se kf = 'månedsvis'
+.if x&RNTTILFREK = x03 ;.th .se kf = 'kvartalsvis'
+.if x&RNTTILFREK = x09 ;.th .se kf = 'årligt'
+.se krt1 'Kreditrente &TOTKRE1. % årligt tilskrevet &df.
+.se krt2 'Kreditrente &TOTKRE2. % årligt tilskrevet &df.
+.se krt3 'Kreditrente &TOTKRE3. % årligt tilskrevet &df.
+.se krt4 'Kreditrente &TOTKRE4. % årligt tilskrevet &df.
+.se drt1 'Debetrente &TOTDEB1. % årligt tilskrevet &df.
+.se drt2 'Debetrente &TOTDEB2. % årligt tilskrevet &df.
+.* &TOTDEB1. % årligt tilskrevet &df &drint1.
+.if x&KRETRIN1 = x0 .an x&KRETRIN2 = x0
+.th .se krkn1 '&krt1. &krint1.'
+.th .go KRITSL
+.el .se krint1 'i intervallet &KRETRIN1. - &KRETRIN2. kr.'
+.el .se krkn1 '&krt1. &krint1.'
+.if x&KRETRIN2 ne x0 .an x&KRETRIN3 = x0
+.th .se krint2 'i intervallet &KRETRIN2. kr. og derover.'
+.th .se krkn2 '&krt2. &krint2.'
+.th .go KRITSL
+.el .se krint2 'i intervallet &KRETRIN2. - &KRETRIN3. kr.'
+.el .se krkn2 '&krt2. &krint2.'
+.if x&KRETRIN3 ne x0 .an x&KRETRIN4 = x0
+.th .se krint3 'i intervallet &KRETRIN3. kr. og derover.'
+.th .se krkn3 '&krt3. &krint3.'
+.th .go KRITSL
+.el .se krint3 'i intervallet &KRETRIN3. - &KRETRIN4. kr.'
+.el .se krkn3 '&krt3. &krint3.'
+.if x&KRETRIN4 ne x0,00
+.th .se krint4 'i intervallet &KRETRIN4. kr. og derover.'
+.th .se krkn4 '&krt4. &krint4.'
+.th .go KRITSL
+...KRITSL
+.se drint1 ''
+.se drint2 ''
+.se drkn1 ''
+.se drkn2 ''
+.if x&DEBTRIN1 = x0 .an x&DEBTRIN2 = x0
+.th .se drkn1 '&drt1. &drint1.'
+.th .go DRITSL
+.el .se drint1 'i intervallet &DEBTRIN1. - &DEBTRIN2. kr.'
+.el .se drkn1 '&drt1. &drint1.'
+.if x&DEBTRIN2 ne x0 .an x&DEBTRIN3 = x0
+.th .se drint2 'i intervallet &DEBTRIN2. kr. og derover.'
+.th .se drkn2 '&drt2. &drint2.'
+.th .go DRITSL
+.el .se drint2 'i intervallet &DEBTRIN2. - &DRETRIN3. kr.'
+.el .se drkn2 '&drt2. &drint2.'
+.if x&DEBTRIN3 ne x0 .an x&DEBTRIN4 = x0
+.th .se drint3 'i intervallet &DEBTRIN3. kr. og derover.'
+.th .se drkn3 '&drt3. &drint3.'
+.th .go DRITSL
+.el .se drint3 'i intervallet &DRETRIN3. - &DRETRIN4. kr.'
+.el .se drkn3 '&drt3. &drint3.'
+.if x&DRETRIN4 ne x0
+.th .se drint4 'i intervallet &DRETRIN4. kr. og derover.'
+.th .se drkn4 '&drt4. &drint4.'
+.th .go DRITSL
+...DRITSL
+.** TEKST KOPI hvor KOPI normalt påføres
+.da KUNDKOPI 20mm 71.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.KUNKOP
+.sp 10mm
+.ir 25mm
+.hr left right
+.sx \-- HERTIL KOPI --\
+.sp 3mm
+Ovenstående aftale tiltrædes herved:
+.sp 5mm
+&MIBKVITBY., den          /          - 20
+.sk2
+.ce  ...............................
+.br
+.ce  forpligtende underskrift
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.******************* Evt. ALTERNATIV PRINTER ******
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.**************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.**************************************************
+.ti ^ 05
+:COUR10.
+.**************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.**************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.*ir 25mm
+.* ÆNDRET d. 1/12.99 jvf. Standard for breve.
+.ir 20mm
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 1
+.el .sk 2
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+^Med venlig hilsen
+.*sk
+.*^M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^&AFDNAVN
+.if .&T = .1
+.th .sk 1
+.el .sk 2
+.if .&B37ANTUSK ne .1 .go EJ1
+^&GENEKSP
+.br
+^&GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+^&GENMEKSP ^&GENEKSP
+.br
+^&GENMTITEL ^&GENTITEL
+...EJ2
+.tp
+.br
+...EJ9

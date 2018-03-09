@@ -1,0 +1,230 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO ****************
+.* MEDGADE, MEDBY, MEDLAND ************************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOHAVER 25mm 40mm width 155mm
+.da DATO 150mm 85mm width 40mm
+.**************************************************************************
+.ar KTOHAVER on
+.if &U'X&B32VALG1 = XM
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.th .br
+.th &MEDLAND
+.el
+.el &KTONAVN
+.el .br
+.el &KTOCO
+.el .br
+.el &KTOGADE
+.el .br
+.el &KTOBY
+.el .br
+.el &KTOLAND
+.ar off
+.**************************************************************************
+.ar DATO on
+:VERDA09.
+&DATO
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 85mm width 135mm
+.* Fejlmeddelelse
+.da FEJL 25mm 60mm width 170mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA09.
+:FED.
+Meddelelse til arbejdsgiver
+:SKRSLUT.
+.ar off
+.*DIVERSE TEST'S *****************************************************
+.ar FEJL on
+:VERDA10.
+.*********************************************************************
+.if &U'X&B32VALG1 = XK
+.or &U'X&B32VALG1 = XM
+.th .go OK1
+.el .go FEJL1
+...FEJL1
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har foretaget et forkert valg, kun
+K eller M kan vælges.
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK1
+.if &U'X&B32VALG1 = XM
+.an &MEDKUNDENR = 000000-0000
+.th .go FEJL2
+.el .go OK2
+...FEJL2
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke vælge M(edktoh)da der ingen
+medkontohaver findes til denne konto, vælg evt. kontohaver i stedet for.
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK2
+.ar off
+.da SIDE1 25mm 95mm width 175mm
+.**************************************************************************
+.ar SIDE1 on
+Ændring af kontonummer til udbetaling af løn:
+.sp
+Jeg ønsker fremover min løn overført til
+.sp
+Nykredit Bank
+.br
+Kalvebod Brygge 20
+.br
+1780 København V
+.br
+Telefon 70 10 90 00
+.br
+.sp
+.tp 65mm right
+Kontonr.
+.ct ¤&IREGKTO
+.sp
+CPR-nr.
+.if &U'X&B32VALG1 = XM
+.th .ct ¤&MEDKUNDENR
+.el .ct ¤&cpr1.-&cpr2
+.sp
+.tp 41mm _/103mm
+Medarbejdernr./lønnr. ¤¤
+.ar off
+.da UNDER 25mm 180mm width 170mm
+.**************************************************************************
+.ar UNDER on
+:VERDA09.
+:FED.
+Underskrift
+:SKRSLUT.
+.sp 16mm
+.tp _/25mm 30mm _/98mm
+¤¤¤
+.tp 2mm 34mm
+.if &U'X&B32VALG1 = XM
+.th ¤Dato ¤&MEDNAVN
+.el ¤Dato ¤&KTONAVN
+.sp 22mm
+Skemaet skal du aflevere i udfyldt stand til lønningskontoret på din
+arbejdsplads
+.ar off
+.if &U'&B32UDSKRIV ne J
+.th .go NEJBUND
+.************** Areal definitioner ****************************************
+.da BUNDV 25mm 271mm width 50mm
+.da BUNDH 160mm 267mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.**************************************************************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN. A/S
+.****.br
+.****Betjening: &B32NYKDIR
+.br
+&B32ADR
+.br
+&B32POST
+.br
+Tlf. ¤&B32TLFDIR
+.br
+Fax. ¤&B32FAXDIR
+.br
+&B32WWWNYK
+.ar off
+...NEJBUND

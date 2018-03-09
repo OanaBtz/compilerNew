@@ -1,0 +1,1357 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* Parameterlisten
+.su off
+.se cpr1 = substr &KUNDENR 1 6
+.se cpr2 = substr &KUNDENR 7 4
+.su on
+.**************************************************************************
+.*Test på modtager (en Skifteret) **********************************
+.*Der testes ikke på felter, da disse er gjort til kravsfelter******
+.**************************************************************************
+.*Test på første og andet kryds*********************************
+.if X&GENVALG1 ne X1
+.an X&GENVALG1 ne X2
+.th .mg/T/Oplysning om skema: tast 1 eller 2/
+.**************************************************************************
+.*Test på kontotype ********************************************
+.if &L'&GENKTOTP01 > 0
+.an &L'&GENKTONR01 > 0
+.el .mg/T/Felt1:Kontotype: Feltet skal være udfyldt/
+.**************************************************************************
+.*Test på om kontotypefeltet er udfyldt korrekt:**************************
+.if &U'X&GENKTOTP01 ne XK
+.an &U'X&GENKTOTP01 ne XR
+.an &U'X&GENKTOTP01 ne XA
+.th .mg/T/Felt1:Kontotype 1: Gyldige typer: K, R eller A/
+.**************************************************************************
+.*Test på valg, når dette er 2 - altså kryds for flere konti**************
+.if X&GENVALG1 = X2
+.th .go V2
+.el .go V2END
+...V2
+.if &L'&GENKTOTP02 > 0
+.th .go V2V
+.el .mg/T/Felt1:Kontotype 2: Der er valgt flere konti - udfyld feltet/
+...V2V
+.if &U'X&GENKTOTP02 = XK
+.or &U'X&GENKTOTP02 = XR
+.or &U'X&GENKTOTP02 = XA
+.th .go V2K
+.el .mg/T/Felt1:Kontotype 2: Gyldige typer: K, R eller A/
+...V2K
+.if &L'&GENKTONR02 > 0
+.th .go V2END
+.el .mg/T/Felt1:Kontotype 2: Kontonummer skal være udfyldt/
+...V2END
+.**************************************************************************
+.*Test på valg, når dette er 2 - altså kryds for flere konti**************
+.if X&GENVALG1 = X2
+.th .go V3
+.el .go V3END
+...V3
+.if &L'&GENKTOTP03 = 0
+.th .go V3END
+.if &U'X&GENKTOTP03 = XK
+.or &U'X&GENKTOTP03 = XR
+.or &U'X&GENKTOTP03 = XA
+.th .go V3K
+.el .mg/T/Felt1:Kontotype 3: Gyldige typer: K, R eller A/
+...V3K
+.if &L'&GENKTONR03 > 0
+.th .go V3END
+.el .mg/T/Felt1:Kontotype 3: Kontonummer skal være udfyldt/
+...V3END
+.**************************************************************************
+.*Test på valg, når dette er 2 - altså kryds for flere konti**************
+.if X&GENVALG1 = X2
+.th .go V4
+.el .go V4END
+...V4
+.if &L'&GENKTOTP04 = 0
+.th .go V4END
+.if &U'X&GENKTOTP04 = XK
+.or &U'X&GENKTOTP04 = XR
+.or &U'X&GENKTOTP04 = XA
+.th .go V4K
+.el .mg/T/Felt1:Kontotype 4: Gyldige typer: K, R eller A/
+...V4K
+.if &L'&GENKTONR04 > 0
+.th .go V4END
+.el .mg/T/Felt1:Kontotype 4: Kontonummer skal være udfyldt/
+...V4END
+.**************************************************************************
+.*Test på sammenhæng mellem kontotype og genvalg**************
+.if X&GENVALG1 = X1
+.an &L'&GENKTOTP02 > 0
+.th .mg/T/Felt1:Kontotype 2: Feltet må ikke være udfyldt/
+.if X&GENVALG1 = X1
+.an &L'&GENKTOTP03 > 0
+.th .mg/T/Felt1:Kontotype 3: Feltet må ikke være udfyldt/
+.if X&GENVALG1 = X1
+.an &L'&GENKTOTP04 > 0
+.th .mg/T/Felt1:Kontotype 4: Feltet må ikke være udfyldt/
+.if X&GENVALG1 = X2
+.an &L'&GENKTOTP01 > 0
+.an &L'&GENKTOTP02 = 0
+.th .mg/T/Felt1:Kontotype 2: Der er valgt flere konti - udfyld feltet/
+.if X&GENVALG1 = X2
+.an &L'&GENKTOTP01 > 0
+.an &L'&GENKTOTP02 > 0
+.an &L'&GENKTOTP04 > 0
+.an &L'&GENKTOTP03 = 0
+.th .mg/T/Felt1:Kontotype 3: Der er valgt flere konti - udfyld feltet/
+.*************************************************************************
+.if &L'&GENBEGUNS > 0
+.th .go BE1
+.el .mg/T/Felt2:Begunstigelse: Feltet skal være udfyldt/
+...BE1
+.if X&GENBEGUNS  = X1
+.or X&GENBEGUNS  = X2
+.or X&GENBEGUNS  = X3
+.or X&GENBEGUNS  = X4
+.or X&GENBEGUNS  = X5
+.th .go BE2END
+.el .mg/T/Felt2:Begunstigelse: Indtast 1,2,3,4 eller 5 i feltet/
+...BE2END
+.* Parameterlisten *******************
+.su off
+.se postnr1 = substr &BY 1 4
+.se bynavn = substr &BY 7 28
+.su on
+.**************************************************************************
+.*Test på felt om begunstigelse********************************
+.*Der testes ikke på feltet, da feltet er gjort til et kravsfelt******
+.*men derimod testes sammenhæng mellem pkt. 2 og pkt. 3
+.if X&GENBEGUNS = X3
+.an &L'&GENNAVNBD1 = 0
+.th .mg/T/Begunstigelse: Der skal være indtastet mindst én begunstiget/
+.if X&GENBEGUNS = X5
+.an &L'&GENNAVNBD1 = 0
+.th .mg/T/Begunstigelse: Der skal være indtastet mindst én begunstiget/
+.********************Test på første begunstigede**
+.if &L'&GENNAVNBD1 > 0
+.an &L'&GENCPRBD1 = 0
+.th .mg/T/Modtager af udbetaling(1): CPR-nr. skal være udfyldt/
+.if &L'&GENNAVNBD1 > 0
+.an &L'&GENRELABD1 = 0
+.th .mg/T/Modtager af udbetaling(1): Relation skal være udfyldt/
+.********************
+.if &L'&GENNAVNBD1 = 0
+.an &L'&GENRELABD1 > 0
+.th .mg/T/Modtager af udbetaling(1): Navn skal være udfyldt/
+.if &L'&GENNAVNBD1 = 0
+.an &L'&GENCPRBD1 > 0
+.th .mg/T/Modtager af udbetaling(1): Navn skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD1 = 0
+.an &L'&GENRELABD1 = 0
+.an &L'&GENCPRBD1 > 0
+.th .mg/T/Modtager af udbetaling(1): Navn og relation skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD1 = 0
+.an &L'&GENRELABD1 > 0
+.an &L'&GENCPRBD1 = 0
+.th .mg/T/Modtager af udbetaling(1): Navn og CPRnr. skal være udfyldt/
+.********************Test på anden begunstigede**
+.if &L'&GENNAVNBD2 > 0
+.an &L'&GENCPRBD2 = 0
+.th .mg/T/Modtager af udbetaling(2): CPR-nr. skal være udfyldt/
+.if &L'&GENNAVNBD2 > 0
+.an &L'&GENRELABD2 = 0
+.th .mg/T/Modtager af udbetaling(2): Relation skal være udfyldt/
+.********************
+.if &L'&GENNAVNBD2 = 0
+.an &L'&GENRELABD2 > 0
+.th .mg/T/Modtager af udbetaling(2): Navn skal være udfyldt/
+.if &L'&GENNAVNBD2 = 0
+.an &L'&GENCPRBD2 > 0
+.th .mg/T/Modtager af udbetaling(2): Navn skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD2 = 0
+.an &L'&GENRELABD2 = 0
+.an &L'&GENCPRBD2 > 0
+.th .mg/T/Modtager af udbetaling(2): Navn og relation skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD2 = 0
+.an &L'&GENRELABD2 > 0
+.an &L'&GENCPRBD2 = 0
+.th .mg/T/Modtager af udbetaling(2): Navn og CPRnr. skal være udfyldt/
+.********************Test på tredje begunstigede**
+.if &L'&GENNAVNBD3 > 0
+.an &L'&GENCPRBD3 = 0
+.th .mg/T/Modtager af udbetaling(3): CPR-nr. skal være udfyldt/
+.if &L'&GENNAVNBD3 > 0
+.an &L'&GENRELABD3 = 0
+.th .mg/T/Modtager af udbetaling(3): Relation skal være udfyldt/
+.********************
+.if &L'&GENNAVNBD3 = 0
+.an &L'&GENRELABD3 > 0
+.th .mg/T/Modtager af udbetaling(3): Navn skal være udfyldt/
+.if &L'&GENNAVNBD3 = 0
+.an &L'&GENCPRBD3 > 0
+.th .mg/T/Modtager af udbetaling(3): Navn skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD3 = 0
+.an &L'&GENRELABD3 = 0
+.an &L'&GENCPRBD3 > 0
+.th .mg/T/Modtager af udbetaling(3): Navn og relation skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD3 = 0
+.an &L'&GENRELABD3 > 0
+.an &L'&GENCPRBD3 = 0
+.th .mg/T/Modtager af udbetaling(3): Navn og CPRnr. skal være udfyldt/
+.********************Test på fjerde begunstigede**
+.if &L'&GENNAVNBD4 > 0
+.an &L'&GENCPRBD4 = 0
+.th .mg/T/Modtager af udbetaling(4): CPR-nr. skal være udfyldt/
+.if &L'&GENNAVNBD4 > 0
+.an &L'&GENRELABD4 = 0
+.th .mg/T/Modtager af udbetaling(4): Relation skal være udfyldt/
+.********************
+.if &L'&GENNAVNBD4 = 0
+.an &L'&GENRELABD4 > 0
+.th .mg/T/Modtager af udbetaling(4): Navn skal være udfyldt/
+.if &L'&GENNAVNBD4 = 0
+.an &L'&GENCPRBD4 > 0
+.th .mg/T/Modtager af udbetaling(4): Navn skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD4 = 0
+.an &L'&GENRELABD4 = 0
+.an &L'&GENCPRBD4 > 0
+.th .mg/T/Modtager af udbetaling(4): Navn og relation skal være udfyldt/
+.*********************
+.if &L'&GENNAVNBD4 = 0
+.an &L'&GENRELABD4 > 0
+.an &L'&GENCPRBD4 = 0
+.th .mg/T/Modtager af udbetaling(4): Navn og CPRnr. skal være udfyldt/
+.*******************************************************************
+.* Hvis ikke der er indtastet nogen i begunstigede så må der ikke
+.* testes på nedenstående procenter:
+.if &L'&GENNAVNBD1 = 0
+.an &L'&GENNAVNBD2 = 0
+.an &L'&GENNAVNBD3 = 0
+.an &L'&GENNAVNBD4 = 0
+.th .go ANDELOK
+.**Test af resulta**********************************************
+.if &L'&RESULTA gt 6
+.th .mg /T/Summen af de begunstigedes andel% > 100,00/
+.if &L'&RESULTA lt 6
+.th .mg /T/Summen af de begunstigedes andel% < 100,00/
+.if X&RESULTA eq X100,00
+.th .go ANDELOK
+.el .mg /T/Summen af de begunstigedes andel% > 100,00/
+...ANDELOK
+.* Parameterlisten *******************
+.if &L'&GENNAVNBD1 > 0
+.th .go BEG1
+.el .go BEG1END
+...BEG1
+.if &L'&GENJANEJ1 = 0
+.th .mg/T/Punkt. 3 - navn(1) er udfyldt: tast J eller N i punkt 5 (1)/
+.if &U'X&GENJANEJ1 = XJ
+.or &U'X&GENJANEJ1 = XN
+.th .go BEG1END
+.el .mg/T/Punkt. 5 (1) - Udbetaling har fundet sted: Tast J eller N/
+...BEG1END
+.if &L'&GENJANEJ1 > 0
+.an &L'&GENNAVNBD1 = 0
+.th .mg/T/Punkt. 3 - navn(1) er ikke udfyldt: fjern værdien i punkt 5 (1)/
+.*************************************************************************
+.if &L'&GENNAVNBD2 > 0
+.th .go BEG2
+.el .go BEG2END
+...BEG2
+.if &L'&GENJANEJ2 = 0
+.th .mg/T/Punkt. 3 - navn(2) er udfyldt: tast J eller N i punkt 5 (2)/
+.if &U'X&GENJANEJ2 = XJ
+.or &U'X&GENJANEJ2 = XN
+.th .go BEG2END
+.el .mg/T/Punkt. 5 - Udbetaling har fundet sted: Tast J eller N/
+...BEG2END
+.if &L'&GENJANEJ2 > 0
+.an &L'&GENNAVNBD2 = 0
+.th .mg/T/Punkt. 3 - navn(2) er ikke udfyldt: fjern værdien i punkt 5 (2)/
+.*************************************************************************
+.if &L'&GENNAVNBD3 > 0
+.th .go BEG3
+.el .go BEG3END
+...BEG3
+.if &L'&GENJANEJ3 = 0
+.th .mg/T/Punkt. 3 - navn(3) er udfyldt: tast J eller N i punkt 5 (3)/
+.if &U'X&GENJANEJ3 = XJ
+.or &U'X&GENJANEJ3 = XN
+.th .go BEG3END
+.el .mg/T/Punkt. 5 - Udbetaling har fundet sted: Tast J eller N/
+...BEG3END
+.if &L'&GENJANEJ3 > 0
+.an &L'&GENNAVNBD3 = 0
+.th .mg/T/Punkt. 3 - navn(3) er ikke udfyldt: fjern værdien i punkt 5 (3)/
+.*************************************************************************
+.if &L'&GENNAVNBD4 > 0
+.th .go BEG4
+.el .go BEG4END
+...BEG4
+.if &L'&GENJANEJ4 = 0
+.th .mg/T/Punkt. 3 - navn(4) er udfyldt: tast J eller N i punkt 5 (4)/
+.if &U'X&GENJANEJ4 = XJ
+.or &U'X&GENJANEJ4 = XN
+.th .go BEG4END
+.el .mg/T/Punkt. 5 - Udbetaling har fundet sted: Tast J eller N/
+...BEG4END
+.if &L'&GENJANEJ4 > 0
+.an &L'&GENNAVNBD4 = 0
+.th .mg/T/Punkt. 3 - navn(4) er ikke udfyldt: fjern værdien i punkt 5 (4)/
+.*************************************************************************
+.if &L'&GENBELØB11 > 0
+.an &L'&GENKTONR01 = 0
+.th .mg/T/Felt 6 - statsafgift: Konto(1) i felt 1 skal være udfyldt/
+.*************************************************************************
+.if &L'&GENBELØB12 > 0
+.an &L'&GENKTONR02 = 0
+.th .mg/T/Felt 6 - statsafgift: Konto(2) i felt 1 skal være udfyldt/
+.*************************************************************************
+.if &L'&GENBELØB13 > 0
+.an &L'&GENKTONR03 = 0
+.th .mg/T/Felt 6 - statsafgift: Konto(3) i felt 1 skal være udfyldt/
+.*************************************************************************
+.if &L'&GENBELØB14 > 0
+.an &L'&GENKTONR04 = 0
+.th .mg/T/Felt 6 - statsafgift: Konto(4) i felt 1 skal være udfyldt/
+.*************************************************************************
+.*Test på felt 7 ligger i BECBEGUN01P4***********************************
+.*************************************************************************
+.if &L'&GENBELØB1A = 0
+.th .go F7ENDA1
+.if &L'&GENBELØB1A > 0
+.an &L'&GENKTONR01 = 0
+.th .mg/T/Felt 7: Konto 1) Person 1): 1. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB1A > 0
+.an &L'&GENKTONR01 > 0
+.th .go FELT7A1
+.el .mg/T/Felt 7: Konto 1) Person 1): 1. kto. i felt 1 skal være udfyldt/
+...FELT7A1
+.if &L'&GENNAVNBD1 > 0
+.th
+.el .mg/T/Felt 7: Konto 1) Person 1): 1. begunstigede skal være udfyldt/
+...F7ENDA1
+.*************************************************************************
+.if &L'&GENBELØB1B = 0
+.th .go F7ENDA2
+.if &L'&GENBELØB1B > 0
+.an &L'&GENKTONR01 = 0
+.th .mg/T/Felt 7: Konto 1) Person 2): 1. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB1B > 0
+.an &L'&GENKTONR01 > 0
+.th .go FELT7A2
+.el .mg/T/Felt 7: Konto 1) Person 2): 1. kto. i felt 1 skal være udfyldt/
+...FELT7A2
+.if &L'&GENNAVNBD2 > 0
+.th
+.el .mg/T/Felt 7: Konto 1) Person 2): 2. begunstigede skal være udfyldt/
+...F7ENDA2
+.*************************************************************************
+.if &L'&GENBELØB1C = 0
+.th .go F7ENDA3
+.if &L'&GENBELØB1C > 0
+.an &L'&GENKTONR01 = 0
+.th .mg/T/Felt 7: Konto 1) Person 3): 1. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB1C > 0
+.an &L'&GENKTONR01 > 0
+.th .go FELT7A3
+.el .mg/T/Felt 7: Konto 1) Person 3): 1. kto. i felt 1 skal være udfyldt/
+...FELT7A3
+.if &L'&GENNAVNBD3 > 0
+.th
+.el .mg/T/Felt 7: Konto 1) Person 3): 3. begunstigede skal være udfyldt/
+...F7ENDA3
+.*************************************************************************
+.if &L'&GENBELØB1D = 0
+.th .go F7ENDA4
+.if &L'&GENBELØB1D > 0
+.an &L'&GENKTONR01 = 0
+.th .mg/T/Felt 7: Konto 1) Person 4): 1. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB1D > 0
+.an &L'&GENKTONR01 > 0
+.th .go FELT7A4
+.el .mg/T/Felt 7: Konto 1) Person 4): 1. kto. i felt 1 skal være udfyldt/
+...FELT7A4
+.if &L'&GENNAVNBD4 > 0
+.th
+.el .mg/T/Felt 7: Konto 1) Person 4): 4. begunstigede skal være udfyldt/
+...F7ENDA4
+.*************************************************************************
+.if &L'&GENBELØB2A = 0
+.th .go F7ENDB1
+.if &L'&GENBELØB2A > 0
+.an &L'&GENKTONR02 = 0
+.th .mg/T/Felt 7: Konto 2) Person 1): 2. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB2A > 0
+.an &L'&GENKTONR02 > 0
+.th .go FELT7B1
+.el .mg/T/Felt 7: Konto 2) Person 1): 2. kto. i felt 1 skal være udfyldt/
+...FELT7B1
+.if &L'&GENNAVNBD1 > 0
+.th
+.el .mg/T/Felt 7: Konto 2) Person 1): 1. begunstigede skal være udfyldt/
+...F7ENDB1
+.*************************************************************************
+.if &L'&GENBELØB2B = 0
+.th .go F7ENDB2
+.if &L'&GENBELØB2B > 0
+.an &L'&GENKTONR02 = 0
+.th .mg/T/Felt 7: Konto 2) Person 2): 2. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB2B > 0
+.an &L'&GENKTONR02 > 0
+.th .go FELT7B2
+.el .mg/T/Felt 7: Konto 2) Person 2): 2. kto. i felt 1 skal være udfyldt/
+...FELT7B2
+.if &L'&GENNAVNBD2 > 0
+.th
+.el .mg/T/Felt 7: Konto 2) Person 2): 2. begunstigede skal være udfyldt/
+...F7ENDB2
+.*************************************************************************
+.if &L'&GENBELØB2C = 0
+.th .go F7ENDB3
+.if &L'&GENBELØB2C > 0
+.an &L'&GENKTONR02 = 0
+.th .mg/T/Felt 7: Konto 2) Person 3): 2. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB2C > 0
+.an &L'&GENKTONR02 > 0
+.th .go FELT7B3
+.el .mg/T/Felt 7: Konto 2) Person 3): 2. kto. i felt 1 skal være udfyldt/
+...FELT7B3
+.if &L'&GENNAVNBD3 > 0
+.th
+.el .mg/T/Felt 7: Konto 2) Person 3): 3. begunstigede skal være udfyldt/
+...F7ENDB3
+.*************************************************************************
+.if &L'&GENBELØB2D = 0
+.th .go F7ENDB4
+.if &L'&GENBELØB2D > 0
+.an &L'&GENKTONR02 = 0
+.th .mg/T/Felt 7: Konto 2) Person 4): 2. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB2D > 0
+.an &L'&GENKTONR02 > 0
+.th .go FELT7B4
+.el .mg/T/Felt 7: Konto 2) Person 4): 2. kto. i felt 1 skal være udfyldt/
+...FELT7B4
+.if &L'&GENNAVNBD4 > 0
+.th
+.el .mg/T/Felt 7: Konto 2) Person 4): 4. begunstigede skal være udfyldt/
+...F7ENDB4
+.*************************************************************************
+.if &L'&GENBELØB3A = 0
+.th .go F7ENDC1
+.if &L'&GENBELØB3A > 0
+.an &L'&GENKTONR03 = 0
+.th .mg/T/Felt 7: Konto 3) Person 1): 3. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB3A > 0
+.an &L'&GENKTONR03 > 0
+.th .go FELT7C1
+.el .mg/T/Felt 7: Konto 3) Person 1): 3. kto. i felt 1 skal være udfyldt/
+...FELT7C1
+.if &L'&GENNAVNBD1 > 0
+.th
+.el .mg/T/Felt 7: Konto 3) Person 1): 1. begunstigede skal være udfyldt/
+...F7ENDC1
+.*************************************************************************
+.if &L'&GENBELØB3B = 0
+.th .go F7ENDC2
+.if &L'&GENBELØB3B > 0
+.an &L'&GENKTONR03 = 0
+.th .mg/T/Felt 7: Konto 3) Person 2): 3. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB3B > 0
+.an &L'&GENKTONR03 > 0
+.th .go FELT7C2
+.el .mg/T/Felt 7: Konto 3) Person 2): 3. kto. i felt 1 skal være udfyldt/
+...FELT7C2
+.if &L'&GENNAVNBD2 > 0
+.th
+.el .mg/T/Felt 7: Konto 3) Person 2): 2. begunstigede skal være udfyldt/
+...F7ENDC2
+.*************************************************************************
+.if &L'&GENBELØB3C = 0
+.th .go F7ENDC3
+.if &L'&GENBELØB3C > 0
+.an &L'&GENKTONR03 = 0
+.th .mg/T/Felt 7: Konto 3) Person 3): 3. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB3C > 0
+.an &L'&GENKTONR03 > 0
+.th .go FELT7C3
+.el .mg/T/Felt 7: Konto 3) Person 3): 3. kto. i felt 1 skal være udfyldt/
+...FELT7C3
+.if &L'&GENNAVNBD3 > 0
+.th
+.el .mg/T/Felt 7: Konto 3) Person 3): 3. begunstigede skal være udfyldt/
+...F7ENDC3
+.*************************************************************************
+.if &L'&GENBELØB3D = 0
+.th .go F7ENDC4
+.if &L'&GENBELØB3D > 0
+.an &L'&GENKTONR03 = 0
+.th .mg/T/Felt 7: Konto 3) Person 4): 3. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB3D > 0
+.an &L'&GENKTONR03 > 0
+.th .go FELT7C4
+.el .mg/T/Felt 7: Konto 3) Person 4): 3. kto. i felt 1 skal være udfyldt/
+...FELT7C4
+.if &L'&GENNAVNBD4 > 0
+.th
+.el .mg/T/Felt 7: Konto 3) Person 4): 4. begunstigede skal være udfyldt/
+...F7ENDC4
+.*************************************************************************
+.if &L'&GENBELØB4A = 0
+.th .go F7ENDD1
+.if &L'&GENBELØB4A > 0
+.an &L'&GENKTONR04 = 0
+.th .mg/T/Felt 7: Konto 4) Person 1): 4. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB4A > 0
+.an &L'&GENKTONR04 > 0
+.th .go FELT7D1
+.el .mg/T/Felt 7: Konto 4) Person 1): 4. kto. i felt 1 skal være udfyldt/
+...FELT7D1
+.if &L'&GENNAVNBD1 > 0
+.th
+.el .mg/T/Felt 7: Konto 4) Person 1): 1. begunstigede skal være udfyldt/
+...F7ENDD1
+.*************************************************************************
+.if &L'&GENBELØB4B = 0
+.th .go F7ENDD2
+.if &L'&GENBELØB4B > 0
+.an &L'&GENKTONR04 = 0
+.th .mg/T/Felt 7: Konto 4) Person 2): 4. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB4B > 0
+.an &L'&GENKTONR04 > 0
+.th .go FELT7D2
+.el .mg/T/Felt 7: Konto 4) Person 2): 4. kto. i felt 1 skal være udfyldt/
+...FELT7D2
+.if &L'&GENNAVNBD2 > 0
+.th
+.el .mg/T/Felt 7: Konto 4) Person 2): 2. begunstigede skal være udfyldt/
+...F7ENDD2
+.*************************************************************************
+.if &L'&GENBELØB4C = 0
+.th .go F7ENDD3
+.if &L'&GENBELØB4C > 0
+.an &L'&GENKTONR04 = 0
+.th .mg/T/Felt 7: Konto 4) Person 3): 4. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB4C > 0
+.an &L'&GENKTONR04 > 0
+.th .go FELT7D3
+.el .mg/T/Felt 7: Konto 4) Person 3): 4. kto. i felt 1 skal være udfyldt/
+...FELT7D3
+.if &L'&GENNAVNBD3 > 0
+.th
+.el .mg/T/Felt 7: Konto 4) Person 3): 3. begunstigede skal være udfyldt/
+...F7ENDD3
+.*************************************************************************
+.if &L'&GENBELØB4D = 0
+.th .go F7ENDD4
+.if &L'&GENBELØB4D > 0
+.an &L'&GENKTONR04 = 0
+.th .mg/T/Felt 7: Konto 4) Person 4): 4. kto. ej udfyldt - fjern værdi/
+.if &L'&GENBELØB4D > 0
+.an &L'&GENKTONR04 > 0
+.th .go FELT7D4
+.el .mg/T/Felt 7: Konto 4) Person 4): 4. kto. i felt 1 skal være udfyldt/
+...FELT7D4
+.if &L'&GENNAVNBD4 > 0
+.th
+.el .mg/T/Felt 7: Konto 4) Person 4): 4. begunstigede skal være udfyldt/
+...F7ENDD4
+.*************************************************************************
+.if &U'X&GENJANEJ5 = XJ
+.or &U'X&GENJANEJ5 = XN
+.th
+.el .mg/T/Felt 8 - Begrundelse: Tast J eller N/
+.*******************slut**********************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ****************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Indberetning til skifteretterne
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**************************************************************************
+.ar KONTO4 on
+.tp 25mm 49mm 87mm
+.if &U'X&GENKTOTP04 eq XK
+.th X ¤¤¤&GENKTONR04.
+.if &U'X&GENKTOTP04 eq XR
+.th ¤X ¤¤&GENKTONR04.
+.if &U'X&GENKTOTP04 eq XA
+.th ¤¤X ¤&GENKTONR04.
+.ar off
+.**************************************************************************
+.ar KRYDS3 on
+.if X&GENBEGUNS eq X1
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS4 on
+.if X&GENBEGUNS eq X2
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS5 on
+.if X&GENBEGUNS eq X3
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS6 on
+.if X&GENBEGUNS eq X4
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS7 on
+.if X&GENBEGUNS eq X5
+.th X
+.ar off
+.**************************************************************************
+.ar BEGUN1 on
+.tp 88mm
+&GENNAVNBD1. ¤&GENCPRBD1
+.ar off
+.**************************************************************************
+.ar RELA1 on
+&GENRELABD1.
+.ar off
+.**************************************************************************
+.ar ANDEL1 on
+.if &GENPCT1 > 0,00
+.th &GENPCT1 %
+.ar off
+.**************************************************************************
+.if X&RESULTA eq X0,00
+.th .go ANDELOK
+.el .mg /T/Summen af de begunstigedes andel% < 100,00/
+...ANDELOK
+.*SLUT PÅ SIDE 1***********************************************************
+.ar BEGUN2 on
+.tp 88mm
+&GENNAVNBD2. ¤&GENCPRBD2
+.ar off
+.**************************************************************************
+.ar RELA2 on
+&GENRELABD2
+.ar off
+.**************************************************************************
+.ar ANDEL2 on
+.if &GENPCT2 > 0,00
+.th &GENPCT2 %
+.ar off
+.**************************************************************************
+.ar BEGUN3 on
+.tp 88mm
+&GENNAVNBD3. ¤&GENCPRBD3
+.ar off
+.**************************************************************************
+.ar RELA3 on
+&GENRELABD3
+.ar off
+.**************************************************************************
+.ar ANDEL3 on
+.if &GENPCT3 > 0,00
+.th &GENPCT3 %
+.ar off
+.**************************************************************************
+.ar BEGUN4 on
+.tp 88mm
+&GENNAVNBD4. ¤&GENCPRBD4
+.ar off
+.**************************************************************************
+.ar RELA4 on
+&GENRELABD4
+.ar off
+.*************************************************************************
+.ar ANDEL4 on
+.if &GENPCT4 > 0,00
+.th &GENPCT4 %
+.ar off
+.**************************************************************************
+.if &L'&RESULTA gt 6
+.th .mg /T/Summen af de begunstigedes andel% > 100,00/
+.if &L'&RESULTA lt 6
+.th .go ANDEL
+.if X&RESULTA eq X100,00
+.th .go ANDELOK
+.el .mg /T/Summen af de begunstigedes andel% > 100,00/
+...ANDEL
+.*************** definer siden som et areal *******************************
+.da MODTAGER  25mm 45mm width 87mm
+.da AFDØDE   112mm 45mm width 87mm
+.da CPRNR    112mm 70mm width 87mm
+.da DØDSDATO 112mm 79mm width 87mm
+.da KRYDS1   25.5mm 102.5mm width 3mm
+.da KRYDS2   25.5mm 108.5mm width 3mm
+.da KONTO1   37mm 121mm width 170mm
+.da KONTO2   37mm 127.1mm width 170mm
+.da KONTO3   37mm 133mm width 170mm
+.da KONTO4   37mm 139mm width 170mm
+.da KRYDS3   25.5mm 154mm width 3mm
+.da KRYDS4   25.5mm 159.2mm width 3mm
+.da KRYDS5   25.5mm 164.5mm width 3mm
+.da KRYDS6   25.5mm 170mm width 3mm
+.da KRYDS7   25.5mm 175mm width 3mm
+.da BEGUN1   30mm 201mm width 170mm
+.da RELA1    30mm 211mm width 110mm
+.da ANDEL1   118mm 211mm width 45mm
+.da BEGUN2   30mm 220mm width 170mm
+.da RELA2    30mm 230.3mm width 110mm
+.da ANDEL2   118mm 230.3mm width 45mm
+.da BEGUN3   30mm 239.5mm width 170mm
+.da RELA3    30mm 249.5mm width 110mm
+.da ANDEL3   118mm 249.5mm width 45mm
+.da BEGUN4   30mm 258.7mm width 170mm
+.da RELA4    30mm 268.7mm width 110mm
+.da ANDEL4   118mm 268.7mm width 45mm
+.**************************************************************************
+.ar MODTAGER on
+&GENNAVN.
+.br
+&GENCOADR.
+.br
+&GENGADE.
+.br
+&POSTNRBY.
+.br
+&GENLAND.
+.ar off
+.**************************************************************************
+.ar AFDØDE on
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.ar off
+.**************************************************************************
+.ar CPRNR on
+&KUNDENR.
+.ar off
+.**************************************************************************
+.ar DØDSDATO on
+&GENDATO.
+.ar off
+.**************************************************************************
+.ar KRYDS1 on
+.if X&GENVALG1 eq X1
+.th X
+.ar off
+.**************************************************************************
+.ar KRYDS2 on
+.if X&GENVALG1 eq X2
+.th X
+.ar off
+.**************************************************************************
+.ar KONTO1 on
+.tp 25mm 49mm 87mm
+.if &U'X&GENKTOTP01 eq XK
+.th X ¤¤¤&GENKTONR01.
+.if &U'X&GENKTOTP01 eq XR
+.th ¤X ¤¤&GENKTONR01.
+.if &U'X&GENKTOTP01 eq XA
+.th ¤¤X ¤&GENKTONR01.
+.ar off
+.**************************************************************************
+.ar KONTO2 on
+.tp 25mm 49mm 87mm
+.if &U'X&GENKTOTP02 eq XK
+.th X ¤¤¤&GENKTONR02.
+.if &U'X&GENKTOTP02 eq XR
+.th ¤X ¤¤&GENKTONR02.
+.if &U'X&GENKTOTP02 eq XA
+.th ¤¤X ¤&GENKTONR02.
+.ar off
+.**************************************************************************
+.ar KONTO3 on
+.tp 25mm 49mm 87mm
+.if &U'X&GENKTOTP03 eq XK
+.th X ¤¤¤&GENKTONR03.
+.if &U'X&GENKTOTP03 eq XR
+.th ¤X ¤¤&GENKTONR03.
+.if &U'X&GENKTOTP03 eq XA
+.th ¤¤X ¤&GENKTONR03.
+.ar off
+:SWISS8.
+.*************** definer siden som et areal *******************************
+.da TXTS1 20mm 91mm width 175mm
+.**************************************************************************
+.ar TXTS1 on
+.in 1mm
+.ir 1mm
+I overensstemmelse med lov om visse civilretlige forhold mv. ved
+pensionsopsparing i pengeinstitutter § 2, stk. 3 har &B34MORBANK
+registreret følgende begunstigelsesindsættelser for ovenstående afdøde:
+.tp 5mm
+.sp 5mm
+.****1 ks. ***
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.****2 ks.
+.sp 2mm
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 3mm
+:FED.
+1.¤Kontotype
+:SKRSLUT.
+.sp 3mm
+.tp 5mm 16mm _/20mm 52mm _/56mm 77mm _/135mm
+¤Konto:¤¤ kapitalpension ¤¤ ratepension ¤nr.: ¤
+.sp 3mm
+¤Konto:¤¤ kapitalpension ¤¤ ratepension ¤nr.: ¤
+.sp 3mm
+¤Konto:¤¤ kapitalpension ¤¤ ratepension ¤nr.: ¤
+.sp 3mm
+¤Konto:¤¤ kapitalpension ¤¤ ratepension ¤nr.: ¤
+.sp 5mm
+:FED.
+.tp 5mm
+2.¤Begunstigelse (sæt kun ét kryds):
+:SKRSLUT.
+.sp 3mm
+.****1 ks. ***
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.****2 ks.
+.sp 1mm
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.****3 ks.
+.sp 1mm
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.****4 ks.
+.sp 1mm
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.****5 ks.
+.sp 1mm
+.bx 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 5mm
+&B34MORBANK gør opmærksom på, at vi ikke er vidende om, hvorvidt en evt.
+begunstiget jævnfør rækkefølgen "nærmeste pårørende" har opnået sin status
+som begunstiget før eller efter 1.1.2008.
+.sp 3mm
+:FED.
+3. Følgende person(er) anses for berettigede til at modtage udbetalingen:
+:SKRSLUT.
+.sp 5mm
+.**PKT. 1******************************************************************
+.tp 5mm 10mm _/93mm 97mm _/135mm
+¤1)¤¤¤¤
+.br
+.tp 5mm 10mm 98mm
+¤¤Navn ¤CPR-nr.
+.sp 4mm
+.tp 10mm _/93mm 97mm _/135mm
+¤¤¤¤
+.br
+.tp 10mm 98mm
+¤Relation ¤Andel
+.sp 3mm
+.**PKT. 2******************************************************************
+.tp 5mm 10mm _/93mm 97mm _/135mm
+¤2)¤¤¤¤
+.br
+.tp 5mm 10mm 98mm
+¤¤Navn ¤CPR-nr.
+.sp 4mm
+.tp 10mm _/93mm 97mm _/135mm
+¤¤¤¤
+.br
+.tp 10mm 98mm
+¤Relation ¤Andel
+.sp 3mm
+.**PKT. 3******************************************************************
+.tp 5mm 10mm _/93mm 97mm _/135mm
+¤3)¤¤¤¤
+.br
+.tp 5mm 10mm 98mm
+¤¤Navn ¤CPR-nr.
+.sp 4mm
+.tp 10mm _/93mm 97mm _/135mm
+¤¤¤¤
+.br
+.tp 10mm 98mm
+¤Relation ¤Andel
+.sp 3mm
+.**PKT. 4******************************************************************
+.tp 5mm 10mm _/93mm 97mm _/135mm
+¤4)¤¤¤¤
+.br
+.tp 5mm 10mm 98mm
+¤¤Navn ¤CPR-nr.
+.sp 4mm
+.tp 10mm _/93mm 97mm _/135mm
+¤¤¤¤
+.br
+.tp 10mm 98mm
+¤Relation ¤Andel
+.sp 3mm
+.sp 2mm
+.bx off
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.da BXINDTXT 29mm 103mm width 160mm
+.da BXINDTX2 29mm 155mm width 160mm
+.************ PARTER ******************************************************
+.ar SIDE on
+:SWISS8.
+.bx left 87.5mm right
+.tp 1mm 88.5mm
+¤Modtager (skifteret) ¤Afdøde
+.sp 20mm
+.hr 87.5mm right
+¤¤CPR-nr.
+.sp 5mm
+.hr 87.5mm right
+¤¤Dødsdato
+.sp 5mm
+.bx off
+.************ INDHOLD *****************************************************
+:SWISS10.:FED.
+Indhold
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 186mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BXINDTXT on
+:SWISS8.
+Skemaet er udfyldt pr. konto
+.sp 3.2mm
+Skemaet er udfyldt for flere konti, da de skal udbetales til den/de
+samme begunstigede
+.ar off
+.**************************************************************************
+.ar BXINDTX2 on
+:SWISS8.
+Ægtefælle, livsarvinger, boet (standardbegunstigelsen før 07.96)
+.sp 2mm
+"nærmeste pårørende" indsat FØR 1.1.2008
+.sp 2mm
+navngivet begunstiget indsat FØR 1.1.2008
+.sp 2mm
+"nærmeste pårørende" indsat EFTER 1.1.2008
+.sp 2mm
+navngivet begunstiget indsat EFTER 1.1.2008
+.ar off
+.*************************************************************************
+.** SIDESKIFT
+.pa
+.*************** definer siden som et areal *******************************
+.da PENSOPS  53mm   49.5mm width 80mm
+.da UDBBEG1  32.5mm 65mm width 170mm
+.da UDBBEG2  72.5mm 65mm width 170mm
+.da UDBBEG3  112.5mm 65mm width 170mm
+.da UDBBEG4  152.5mm 65mm width 170mm
+.da AFGIFT1  53mm  81.5mm width 80mm
+.da AFGIFT2  120mm 81.5mm width 80mm
+.da AFGIFT3  53mm 89.5mm width  80mm
+.da AFGIFT4  120mm 89.5mm width  80mm
+.da K1AFGA   53mm  105mm width  80mm
+.da K1AFGB   120mm 105mm width  80mm
+.da K1AFGC   53mm  112mm width  80mm
+.da K1AFGD   120mm 112mm width  80mm
+.da K2AFGA   53mm  119mm width  80mm
+.da K2AFGB   120mm 119mm width  80mm
+.da K2AFGC   53mm  126mm width  80mm
+.da K2AFGD   120mm 126mm width  80mm
+.da K3AFGA   53mm  133mm width  80mm
+.da K3AFGB   120mm 133mm width  80mm
+.da K3AFGC   53mm  140mm width  80mm
+.da K3AFGD   120mm 140mm width  80mm
+.da K4AFGA   53mm  147mm width  80mm
+.da K4AFGB   120mm 147mm width  80mm
+.da K4AFGC   53mm  154mm width  80mm
+.da K4AFGD   120mm 154mm width  80mm
+.da BEGRUJA  112.5mm 163.2mm width 87mm
+.da BEGRNEJ  124.5mm 163.2mm width 87mm
+.da DATO     25mm 199mm width  170mm
+.da AFSEND   25mm  208.5mm width 170mm
+.da KPERS    25mm  232mm width 170mm
+.da KTLF     26mm  238mm width 170mm
+.**************************************************************************
+.ar PENSOPS on
+.tp 38mm char ,
+¤&GENBELØB10.
+.ar off
+.**************************************************************************
+.ar UDBBEG1 on
+.tp 12mm
+.if &U'X&GENJANEJ1 eq XJ
+.th X
+.if &U'X&GENJANEJ1 eq XN
+.th ¤X
+.ar off
+.**************************************************************************
+.ar UDBBEG2 on
+.tp 12mm
+.if &U'X&GENJANEJ2 eq XJ
+.th X
+.if &U'X&GENJANEJ2 eq XN
+.th ¤X
+.ar off
+.**************************************************************************
+.ar UDBBEG3 on
+.tp 12mm
+.if &U'X&GENJANEJ3 eq XJ
+.th X
+.if &U'X&GENJANEJ3 eq XN
+.th ¤X
+.ar off
+.**************************************************************************
+.ar UDBBEG4 on
+.tp 12mm
+.if &U'X&GENJANEJ4 eq XJ
+.th X
+.if &U'X&GENJANEJ4 eq XN
+.th ¤X
+.ar off
+.**************************************************************************
+.ar AFGIFT1 on
+.tp 38mm char ,
+¤&GENBELØB11.
+.ar off
+.**************************************************************************
+.ar AFGIFT2 on
+.tp 51mm char ,
+¤&GENBELØB12.
+.ar off
+.**************************************************************************
+.ar AFGIFT3 on
+.tp 38mm char ,
+¤&GENBELØB13.
+.ar off
+.**************************************************************************
+.ar AFGIFT4 on
+.tp 51mm char ,
+¤&GENBELØB14.
+.ar off
+.**************************************************************************
+.ar K1AFGA on
+.tp 38mm char ,
+¤&GENBELØB1A.
+.ar off
+.**************************************************************************
+.ar K1AFGB on
+.tp 51mm char ,
+¤&GENBELØB1B.
+.ar off
+.**************************************************************************
+.ar K1AFGC on
+.tp 38mm char ,
+¤&GENBELØB1C.
+.ar off
+.**************************************************************************
+.ar K1AFGD on
+.tp 51mm char ,
+¤&GENBELØB1D.
+.ar off
+.**************************************************************************
+.ar K2AFGA on
+.tp 38mm char ,
+¤&GENBELØB2A.
+.ar off
+.**************************************************************************
+.ar K2AFGB on
+.tp 51mm char ,
+¤&GENBELØB2B.
+.ar off
+.**************************************************************************
+.ar K2AFGC on
+.tp 38mm char ,
+¤&GENBELØB2C.
+.ar off
+.**************************************************************************
+.ar K2AFGD on
+.tp 51mm char ,
+¤&GENBELØB2D.
+.ar off
+.**************************************************************************
+.ar K3AFGA on
+.tp 38mm char ,
+¤&GENBELØB3A.
+.ar off
+.**************************************************************************
+.ar K3AFGB on
+.tp 51mm char ,
+¤&GENBELØB3B.
+.ar off
+.**************************************************************************
+.ar K3AFGC on
+.tp 38mm char ,
+¤&GENBELØB3C.
+.ar off
+.**************************************************************************
+.ar K3AFGD on
+.tp 51mm char ,
+¤&GENBELØB3D.
+.ar off
+.**************************************************************************
+.ar K4AFGA on
+.tp 38mm char ,
+¤&GENBELØB4A.
+.ar off
+.**************************************************************************
+.ar K4AFGB on
+.tp 51mm char ,
+¤&GENBELØB4B.
+.ar off
+.**************************************************************************
+.ar K4AFGC on
+.tp 38mm char ,
+¤&GENBELØB4C.
+.ar off
+.**************************************************************************
+.ar K4AFGD on
+.tp 51mm char ,
+¤&GENBELØB4D.
+.ar off
+.**************************************************************************
+.ar BEGRUJA on
+.if &U'X&GENJANEJ5 eq XJ
+.th X
+.ar off
+.**************************************************************************
+.ar BEGRNEJ on
+.if &U'X&GENJANEJ5 eq XN
+.th X
+.ar off
+.**************************************************************************
+.ar DATO on
+.tp 87.5mm center
+¤&B34MORBANK
+.ar off
+.**************************************************************************
+.ar AFSEND on
+&B34MORBANK.
+.br
+&AFDNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+.ar off
+.**************************************************************************
+.ar KPERS on
+&GENEKSP.
+.ar off
+.**************************************************************************
+.ar KTLF on
+&GENTLFNR.
+.ar off
+.**************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.bx left right
+:SWISS8.
+.tp 5mm
+.in 1mm
+.ir 1mm
+:FED.
+4.¤Pensionsopsparingens størrelse (Før skat (inklusiv PAL) og afgifter):
+.sp 5mm
+.tp 18mm _/80mm
+¤¤ kr.
+.sp 5mm
+5.¤Udbetaling har fundet sted til følgende begunstigede jf. pkt. 3:
+.sp 13mm
+6.¤Statsafgift (angives hvis beregnet):
+:SKRSLUT.
+.sp 5mm
+.tp 5mm _/80mm 85mm _/160mm
+¤Konto 1): ¤ kr. ¤Konto 2): ¤ kr.
+.sp 5mm
+¤Konto 3): ¤ kr. ¤Konto 4): ¤ kr.
+.sp 5mm
+:FED.
+7.¤Boafgift/tillægsboafgift (angives hvis beregnet):
+:SKRSLUT.
+.sp 4mm
+.tp 5mm 18mm _/80mm 85mm _/160mm
+¤Konto 1): ¤Person 1) ¤ kr. ¤Person 2) ¤ kr.
+.sp 4mm
+¤¤Person 3) ¤ kr. ¤Person 4) ¤ kr.
+.sp 4mm
+¤Konto 2): ¤Person 1) ¤ kr. ¤Person 2) ¤ kr.
+.sp 4mm
+¤¤Person 3) ¤ kr. ¤Person 4) ¤ kr.
+.sp 4mm
+¤Konto 3): ¤Person 1) ¤ kr. ¤Person 2) ¤ kr.
+.sp 4mm
+¤¤Person 3) ¤ kr. ¤Person 4) ¤ kr.
+.sp 4mm
+¤Konto 4): ¤Person 1) ¤ kr. ¤Person 2) ¤ kr.
+.sp 4mm
+¤¤Person 3) ¤ kr. ¤Person 4) ¤ kr.
+.sp 5mm
+:FED.
+8.¤Kontohaver har begrundet begunstigelsen:
+:SKRSLUT.
+.br
+Hvis der er svaret ja, skal begrundelsen vedlægges.
+.sp 3mm
+Hvis skifteretten er bekendt med, at andre end de ovenfor angivne personer
+er berettigede til at modtage udbetalingen fra afdødes pensionskonti,
+bedes skifteretten underrette &BANKNAVN..
+.in
+.ir
+.bx off
+:SWISS10.
+:FED.
+Pengeinstituttets underskrift
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.tp 1mm
+¤Dato
+.sp 15mm
+.tp 131mm center
+.bx new left right
+.tp 1mm
+¤Afsender (Pengeinstituttet):
+.sp 20mm
+.bx new left right
+¤Kontaktperson
+.sp 7mm
+¤Tlf.
+.sp 1mm
+.bx off
+.bx can
+.bx can
+.ar off
+:SWISS8.
+.tp 7mm right 18mm right
+.*PKT. 5 SMÅ KASSER OG TEKSTER ********************************************
+.da BOX1 24mm 65mm width 40mm
+.da TXTBOX1 25mm 66mm width 40mm
+.da BOX2 64mm 65mm width 40mm
+.da TXTBOX2 65mm 66mm width 40mm
+.da BOX3 104mm 65mm width 40mm
+.da TXTBOX3 105mm 66mm width 40mm
+.da BOX4 144mm 65mm width 40mm
+.da TXTBOX4 145mm 66mm width 40mm
+.*PKT. 8 SMÅ KASSER OG TEKSTER ********************************************
+.da BOX8 104mm 163mm width 40mm
+.da TXTBOX8 105mm 164mm width 40mm
+.*SMÅ KASSER TIL PKT. 5 ***************************************************
+.ar BOX1 on
+.bx 8mm 11mm / 20mm 23mm
+.sp 1.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BOX2 on
+.bx 8mm 11mm / 20mm 23mm
+.sp 1.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BOX3 on
+.bx 8mm 11mm / 20mm 23mm
+.sp 1.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BOX4 on
+.bx 8mm 11mm / 20mm 23mm
+.sp 1.5mm
+.bx off
+.ar off
+.*TEKST PKT. 5 ************************************************************
+.ar TXTBOX1 on
+1) ¤Ja ¤Nej
+.ar off
+.**************************************************************************
+.ar TXTBOX2 on
+2) ¤Ja ¤Nej
+.ar off
+.**************************************************************************
+.ar TXTBOX3 on
+3) ¤Ja ¤Nej
+.ar off
+.**************************************************************************
+.ar TXTBOX4 on
+4) ¤Ja ¤Nej
+.ar off
+.*SMÅ KASSER TIL PKT. 8 ***************************************************
+.ar BOX8 on
+.bx 8mm 11mm / 20mm 23mm
+.sp 1.5mm
+.bx off
+.ar off
+.*TEKST PKT. 8 ************************************************************
+.ar TXTBOX8 on
+:FED.
+¤Ja ¤Nej
+.ar off
+:SKRSLUT.
+.**************************************************************************

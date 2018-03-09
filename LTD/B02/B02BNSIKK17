@@ -1,0 +1,850 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 20mm 41.5mm width 95mm
+.*************Garantimodtager****************
+:SWISS11.
+.fo left
+.ar NAVN on
+:SWISS11.
+Udlændingeservice
+.br
+Ryesgade 53
+.br
+2100 København Ø
+.ar off
+.*.if &U'&B02VÆLG eq J
+.*.th &KTOSTILL
+.*.br
+.*&KTONAVN.
+.*.br
+.*.if &U'&B02VÆLG eq J
+.*.th &MEDSTILL
+.*.th .br
+.*.if &L'MEDNAVN gt 0
+.*.th &MEDNAVN.
+.*.th .br
+.*&KTOCO.
+.*.br
+.*&KTOGADE.
+.*.br
+.*&KTOBY
+.*.br
+.*&KTOLAND
+.*.br
+.*.ar off
+.*.******************DATO**********************
+.*.ar DATO on
+.*&DATO.
+.*.ar off
+.*****************SLUT***********************
+.*
+.****test på at udløbsdato er udfyldt ********
+.if &L'&GARUDLDATO eq 0
+.th .mg /T/UDLØBSDATO ER IKKE UDFYLDT - BRUG F10/
+.*******
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 190mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.******************** OVERSKRIFT ****************************************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Garanti :SKRSLUT. Visum
+:SWISS11.
+.sp
+Garanti nr. &REGNR &KTONR
+.ri off
+.ar off
+.**************************************************************************
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.********************** adr.tekst forneden *****************
+.da AMBK 10mm 287mm width 195mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD.,
+.******** 5201 BN *****************
+.if &B02BKST eq 520100
+.or &B02BKST gt 520100
+.th .ct  &AFDGADE., &AFDBY., tlf. &telefon., CVR.nr. 32049664
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 = 4521
+.or &KONTROL1 = 4522
+.or &KONTROL1 = 4523
+.or &KONTROL1 = 4524
+.or &KONTROL1 = 4525
+.or &KONTROL1 = 4526
+.th .ct  Åboulevarden 49, 8000 Aarhus C, tlf. 46 34 80 90, CVR.nr. 32321577
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 ne 4521
+.or &KONTROL1 ne 4522
+.or &KONTROL1 ne 4523
+.or &KONTROL1 ne 4524
+.or &KONTROL1 ne 4525
+.or &KONTROL1 ne 4526
+.th .ct  Uplandsgade 2, 2300 København S, tlf.,
+.th .ct  46 34 80 00, CVR.nr. 32321577
+.th .go slut
+.ce off
+...slut
+.ar off
+.**************************************************************************
+.****************Areal definition**********************
+.da TEKST1 20mm 30mm width 175mm
+.da NAVN 20mm 40mm width 175mm
+.da BELOB 20mm 79mm width 175mm
+.da SIKK 20mm 99mm width 175mm
+.da GYLD 20mm 146,5mm width 175mm
+.da UDBET 20mm 180,5mm width 175mm
+.da DATO 20mm 283mm
+.tp 100mm
+.******************Tekst*****************************
+.ar TEKST1 on
+:SWISS10.
+Garantibegunstigede
+.sp 10
+På foranledning af (garantirekvirenten)
+.*&KTONAVN., &KTOCO. &KTOGADE., &KTOBY.,
+.if &L'&MEDNAVN gt 0
+.th &KTONAVN og &MEDNAVN.,
+.el &KTONAVN.,
+.if &L'&KTOCO gt 0
+.th &KTOCO.,
+&KTOGADE., &KTOBY.,
+vedr. visum til &B02TEXT3., født den &B02DATO11.,
+indestår underskrevne &BANKNAVN med et beløb af indtil
+.sp
+:FED.
+.ce kr. &B02BELØB.
+:SKRSLUT.
+.sp 2mm
+skriver: &B02BELØBT1.&B02BELØBT2.,
+.sp
+over for Dem (garantibegunstigede) til sikkerhed for:
+.br
+At hele eller halvdelen af beløbet på kr. &B02BELØB udbetales til
+Udlændingeservice, såfremt Udlændingeservice
+i tilfælde af, at hele beløbet
+forfalder til betaling efter udlændingelovens § 4, stk. 3 eller 4, jf. dog
+stk. 5 eller såfremt Udlændingeservice i tilfælde af, at halvdelen
+af beløbet
+forfalder til betaling efter udlændingelovens § 4, stk. 3,2 pkt., retter
+henvendelse til pengeinstituttet og anmoder om udbetaling af beløbet.
+.sp
+Garantirekvirenten bekræfter at, udgifter til gebyrer m.v. vedrørende
+anfordringsgarantien, herunder udgifter forbundet med oprettelse og
+udbetaling, jf. § 11 i bekendtgørelsen om sikkerhedsstillelse efter
+udlændigelovens §4, stk. 2, i forbindelse med udstedelse af visum og om
+betaling af et beløb, der er forfaldent efter udlændigelovens § 4, stk. 3
+og 4, afholdes uden omkostninger til Udlændingeservice.
+.sp
+Garantien er gyldig fra i dag og til: :FED. &GARUDLDATO..
+:SKRSLUT.
+.br
+Anfordringsgarantien er uopsigelig i gyldighedsperioden.
+Udlændingeservice kan
+meddele samtykke til, at garantirekvirenten opsiger anfordringsgarantien
+og stiller økonomisk sikkerhed i form af en ny anfordringsgaranti stillet
+af et andet pengeinstitut jf. bekendtgørelsen § 8.
+:FED.
+.sp
+Udbetaling:
+:SKRSLUT.
+.br
+På anfordring uden rettergang og uden forudgående henvendelse
+til garantierekvirenten.
+:FED.
+.sp
+Almindelige betingelser
+:SWISS10.
+.br
+Garantien er gyldig i ovennævnte tidsrum, inden for hvilket et eventuelt
+krav i henhold til garantien må være fremsat skriftligt over for
+banken. I modsat fald er garantien bortfaldet.
+.sp
+Hvis garantien vedrører entrepriseforhold, hvor "Almindelige betingelser
+for arbejder og leverancer" (AB 72 eller AB 92) gælder, afgøres tvister
+mellem parterne af en voldgiftsret nedsat efter AB 72 § 31/AB 92 § 45.
+.sp
+:SWISS10.
+.br
+Såfremt banken må indfri garantien, har banken ret til dividende af det
+betalte beløb i debitors (garantirekvirentens) bo, selvom debitors
+forpligtelser ikke er fuldt dækket, og selvom banken har betalt efter
+bobehandlingens begyndelse.
+.sp
+Eventuelle krav, som garantibegunstigede uberettiget måtte have fået
+udbetalt under garantien, er tiltransporteret banken.
+.sp
+:SWISS10.
+Såfremt garantien er en anfordringsgaranti, er den underkastet "Ensartede
+Regler for Anfordringsgarantier", jfr. Det Internationale Handelskammers
+publikation nr. 458.
+.sp
+Efter garantiens ophør skal denne garantierklæring returneres til banken.
+.sp 10mm
+&B02TOM2., den &B02TOM1
+:SWISS11.
+.sp
+.ce &BANKNAVN
+.sp
+.ar off
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 190mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.******************** OVERSKRIFT ****************************************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Garanti :SKRSLUT. Visum
+.br
+:SWISS11.
+Rekvirentens kopi
+.sp
+Garanti nr. &REGNR &KTONR
+.ri off
+.ar off
+.**************************************************************************
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.********************** adr.tekst forneden *****************
+.da AMBK 10mm 287mm width 195mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD.,
+.******** 5201 BN *****************
+.if &B02BKST eq 520100
+.or &B02BKST gt 520100
+.th .ct  &AFDGADE., &AFDBY., tlf. &telefon., CVR.nr. 32049664
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 = 4521
+.or &KONTROL1 = 4522
+.or &KONTROL1 = 4523
+.or &KONTROL1 = 4524
+.or &KONTROL1 = 4525
+.or &KONTROL1 = 4526
+.th .ct  Åboulevarden 49, 8000 Aarhus C, tlf. 46 34 80 90, CVR.nr. 32321577
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 ne 4521
+.or &KONTROL1 ne 4522
+.or &KONTROL1 ne 4523
+.or &KONTROL1 ne 4524
+.or &KONTROL1 ne 4525
+.or &KONTROL1 ne 4526
+.th .ct  Uplandsgade 2, 2300 København S, tlf.,
+.th .ct  46 34 80 00, CVR.nr. 32321577
+.th .go slut
+.ce off
+...slut
+.ar off
+.**************************************************************************
+.****************Areal definition**********************
+.da TEKST1 20mm 30mm width 175mm
+.da NAVN 20mm 40mm width 175mm
+.da BELOB 20mm 79mm width 175mm
+.da SIKK 20mm 99mm width 175mm
+.da GYLD 20mm 146,5mm width 175mm
+.da UDBET 20mm 180,5mm width 175mm
+.da DATO 20mm 283mm
+.tp 100mm
+.******************Tekst*****************************
+.****** NB! Pas på dette afsnit skal med på de øvrige sider ************
+.ar NAVN on
+:SWISS10.
+Udlændingeservice
+.br
+Ryesgade 53
+.br
+2100 København Ø
+.********************
+.ar TEKST1 on
+:SWISS10.
+Garantibegunstigede
+.sp 10
+På foranledning af (garantirekvirenten)
+.*&KTONAVN., &KTOCO. &KTOGADE., &KTOBY.,
+.if &L'&MEDNAVN gt 0
+.th &KTONAVN og &MEDNAVN.,
+.el &KTONAVN.,
+.if &L'&KTOCO gt 0
+.th &KTOCO.,
+&KTOGADE., &KTOBY.,
+vedr. visum til &B02TEXT3., født den &B02DATO11.,
+indestår underskrevne &BANKNAVN med et beløb af indtil
+:FED.
+.sp
+.ce kr. &B02BELØB.
+:SKRSLUT.
+.sp 2mm
+skriver: &B02BELØBT1.&B02BELØBT2.,
+.sp
+over for Dem (garantibegunstigede) til sikkerhed for:
+.sp
+At hele eller halvdelen af beløbet på kr. &B02BELØB udbetales til
+Udlændingeservice, såfremt Udlændingeservice
+i tilfælde af, at hele beløbet
+forfalder til betaling efter udlændingelovens § 4, stk. 3 eller 4, jf. dog
+stk. 5 eller såfremt Udlændingeservice i tilfælde af, at halvdelen
+af beløbet
+forfalder til betaling efter udlændingelovens § 4, stk. 3,2 pkt., retter
+henvendelse til pengeinstituttet og anmoder om udbetaling af beløbet.
+.sp
+Garantirekvirenten bekræfter at, udgifter til gebyrer m.v. vedrørende
+anfordringsgarantien, herunder udgifter forbundet med oprettelse og
+udbetaling, jf. § 11 i bekendtgørelsen om sikkerhedsstillelse efter
+udlændigelovens §4, stk. 2, i forbindelse med udstedelse af visum og om
+betaling af et beløb, der er forfaldent efter udlændigelovens § 4, stk. 3
+og 4, afholdes uden omkostninger til Udlændingeservice.
+.sp
+Garantien er gyldig fra i dag og til: :FED. &GARUDLDATO..
+:SKRSLUT.
+.br
+Anfordringsgarantien er uopsigelig i gyldighedsperioden.
+Udlændingeservice kan
+meddele samtykke til, at garantirekvirenten opsiger anfordringsgarantien
+og stiller økonomisk sikkerhed i form af en ny anfordringsgaranti stillet
+af et andet pengeinstitut jf. bekendtgørelsen § 8.
+:FED.
+.sp
+Udbetaling:
+:SKRSLUT.
+.br
+På anfordring uden rettergang og uden forudgående henvendelse
+til garantierekvirenten.
+:FED.
+.sp
+Almindelige betingelser
+:SKRSLUT.
+.br
+Garantien er gyldig i ovennævnte tidsrum, inden for hvilket et eventuelt
+krav i henhold til garantien må være fremsat skriftligt over for
+banken. I modsat fald er garantien bortfaldet.
+.sp
+Hvis garantien vedrører entrepriseforhold, hvor "Almindelige betingelser
+for arbejder og leverancer" (AB 72 eller AB 92) gælder, afgøres tvister
+mellem parterne af en voldgiftsret nedsat efter AB 72 § 31/AB 92 § 45.
+.sp
+Såfremt banken må indfri garantien, har banken ret til dividende af det
+betalte beløb i debitors (garantirekvirentens) bo, selvom debitors
+forpligtelser ikke er fuldt dækket, og selvom banken har betalt efter
+bobehandlingens begyndelse.
+.sp
+Eventuelle krav, som garantibegunstigede uberettiget måtte have fået
+udbetalt under garantien, er tiltransporteret banken.
+.sp
+Såfremt garantien er en anfordringsgaranti, er den underkastet "Ensartede
+Regler for Anfordringsgarantier", jfr. Det Internationale Handelskammers
+publikation nr. 458.
+.sp
+Efter garantiens ophør skal denne garantierklæring returneres til banken.
+.sp
+&B02TOM2., den &B02TOM1
+.SP
+:SWISS11.
+.ce &BANKNAVN
+.sp
+.ar off
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 190mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.******************** OVERSKRIFT ****************************************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Garanti :SKRSLUT. Visum
+.br
+:SWISS11.
+Bankens kopi
+.sp
+Garanti nr. &REGNR &KTONR
+.ri off
+.ar off
+.**************************************************************************
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.********************** adr.tekst forneden *****************
+.da AMBK 10mm 287mm width 195mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD.,
+.******** 5201 BN *****************
+.if &B02BKST eq 520100
+.or &B02BKST gt 520100
+.th .ct  &AFDGADE., &AFDBY., tlf. &telefon., CVR.nr. 32049664
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 = 4521
+.or &KONTROL1 = 4522
+.or &KONTROL1 = 4523
+.or &KONTROL1 = 4524
+.or &KONTROL1 = 4525
+.or &KONTROL1 = 4526
+.th .ct  Åboulevarden 49, 8000 Aarhus C, tlf. 46 34 80 90, CVR.nr. 32321577
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 ne 4521
+.or &KONTROL1 ne 4522
+.or &KONTROL1 ne 4523
+.or &KONTROL1 ne 4524
+.or &KONTROL1 ne 4525
+.or &KONTROL1 ne 4526
+.th .ct  Uplandsgade 2, 2300 København S, tlf.,
+.th .ct  46 34 80 00, CVR.nr. 32321577
+.th .go slut
+.ce off
+...slut
+.ar off
+.**************************************************************************
+.****************Areal definition**********************
+.da TEKST1 20mm 30mm width 175mm
+.da NAVN 20mm 40mm width 175mm
+.da BELOB 20mm 79mm width 175mm
+.da SIKK 20mm 99mm width 175mm
+.da GYLD 20mm 146,5mm width 175mm
+.da UDBET 20mm 180,5mm width 175mm
+.da DATO 20mm 283mm
+.tp 100mm
+.******************Tekst*****************************
+.****** NB! Pas på dette afsnit skal med på de øvrige sider ************
+.ar NAVN on
+:SWISS10.
+Udlændingeservice
+.br
+Ryesgade 53
+.br
+2100 København Ø
+.********************
+.ar TEKST1 on
+:SWISS10.
+Garantibegunstigede
+.sp 10
+På foranledning af (garantirekvirenten)
+.*&KTONAVN., &KTOCO. &KTOGADE., &KTOBY.,
+.if &L'&MEDNAVN gt 0
+.th &KTONAVN og &MEDNAVN.,
+.el &KTONAVN.,
+.if &L'&KTOCO gt 0
+.th &KTOCO.,
+&KTOGADE., &KTOBY.,
+vedr. visum til &B02TEXT3., født den &B02DATO11.,
+indestår underskrevne &BANKNAVN med et beløb af indtil
+:FED.
+.sp
+.ce kr. &B02BELØB.
+:SKRSLUT.
+.sp 2mm
+skriver: &B02BELØBT1.&B02BELØBT2.,
+.sp
+over for Dem (garantibegunstigede) til sikkerhed for:
+.sp
+At hele eller halvdelen af beløbet på kr. &B02BELØB udbetales til
+Udlændingeservice, såfremt Udlændingeservice
+i tilfælde af, at hele beløbet
+forfalder til betaling efter udlændingelovens § 4, stk. 3 eller 4, jf. dog
+stk. 5 eller såfremt Udlændingeservice i tilfælde af, at halvdelen
+af beløbet
+forfalder til betaling efter udlændingelovens § 4, stk. 3,2 pkt., retter
+henvendelse til pengeinstituttet og anmoder om udbetaling af beløbet.
+.sp
+Garantirekvirenten bekræfter at, udgifter til gebyrer m.v. vedrørende
+anfordringsgarantien, herunder udgifter forbundet med oprettelse og
+udbetaling, jf. § 11 i bekendtgørelsen om sikkerhedsstillelse efter
+udlændigelovens §4, stk. 2, i forbindelse med udstedelse af visum og om
+betaling af et beløb, der er forfaldent efter udlændigelovens § 4, stk. 3
+og 4, afholdes uden omkostninger til Udlændingeservice.
+.sp
+Garantien er gyldig fra i dag og til: :FED. &GARUDLDATO..
+:SKRSLUT.
+.br
+Anfordringsgarantien er uopsigelig i gyldighedsperioden.
+Udlændingeservice kan
+meddele samtykke til, at garantirekvirenten opsiger anfordringsgarantien
+og stiller økonomisk sikkerhed i form af en ny anfordringsgaranti stillet
+af et andet pengeinstitut jf. bekendtgørelsen § 8.
+:FED.
+.sp
+Udbetaling:
+:SKRSLUT.
+.br
+På anfordring uden rettergang og uden forudgående henvendelse
+til garantierekvirenten.
+:FED.
+.sp
+Almindelige betingelser
+:SKRSLUT.
+.br
+Garantien er gyldig i ovennævnte tidsrum, inden for hvilket et eventuelt
+krav i henhold til garantien må være fremsat skriftligt over for
+banken. I modsat fald er garantien bortfaldet.
+.sp
+Hvis garantien vedrører entrepriseforhold, hvor "Almindelige betingelser
+for arbejder og leverancer" (AB 72 eller AB 92) gælder, afgøres tvister
+mellem parterne af en voldgiftsret nedsat efter AB 72 § 31/AB 92 § 45.
+.sp
+Såfremt banken må indfri garantien, har banken ret til dividende af det
+betalte beløb i debitors (garantirekvirentens) bo, selvom debitors
+forpligtelser ikke er fuldt dækket, og selvom banken har betalt efter
+bobehandlingens begyndelse.
+.sp
+Eventuelle krav, som garantibegunstigede uberettiget måtte have fået
+udbetalt under garantien, er tiltransporteret banken.
+.sp
+Såfremt garantien er en anfordringsgaranti, er den underkastet "Ensartede
+Regler for Anfordringsgarantier", jfr. Det Internationale Handelskammers
+publikation nr. 458.
+.sp
+Efter garantiens ophør skal denne garantierklæring returneres til banken.
+.sp
+&B02TOM2., den &B02TOM1
+.SP
+:SWISS11.
+.ce &BANKNAVN
+.sp
+.ar off
+.pa
+.*
+.*******NB*NB*NB* Denne bruges i alle vore garantier *************
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+B02gark5
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+:SKRSLUT.
+:SWISS10.
+.sp
+Garanti nr. &REGNR &KTONR
+.sp
+Garantibeløb: kr. &B02BELØB
+.ri off
+.ar off
+.**************************************************************************
+.*****************************************
+.* NB*NB*NB********  Denne bruges i alle vore garantier ****************
+.* Box/teskt (MODGARANTI)
+.tp 1mm
+.ll 180mm
+.da MODGA 20mm 40mm WIDTH 175mm
+.da MODK1 21mm 45mm WIDTH 85mm
+.da MODK2 108mm 45mm WIDTH 85mm
+.da PROVISION 20mm 127mm width 175mm
+.*.da VITTV 108mm 125.5mm WIDTH 85mm
+.da SIKK 20mm 143mm width 175mm
+.da PANT 108mm 193.5mm WIDTH 85mm
+.da SELV 20mm 193.5mm WIDTH 85mm
+.da VITTV 108mm 238.5mm WIDTH 85mm
+.da KUND 20mm 238.5mm WIDTH 85mm
+.**********************************
+.ar MODGA on
+:SWISS10.:FED.
+¤Kundeerklæring
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 78mm
+.bx off
+.**********************************
+.ar MODK1 on
+:SWISS8.
+.sp 3mm
+Undertegnede anmoder herved banken om for min/vor regning
+at udfærdige en garanti af ovenstående ordlyd, og jeg/vi dækker på
+anfordring banken for ethvert beløb, som banken
+måtte komme til at udrede som følge af denne garanti. Så længe
+garantien er i kraft, debiterer banken mig/os provision
+efter bankens til
+enhver tid gældende
+betingelser. Beløb udbetalt under garantien forrentes i
+forhold til bankens gældende betingelser.
+.br
+Yderligere tiltransporterer undertegnede hermed banken alle
+eventuelle tilbagebetalingskrav.
+.sp 3mm
+.**** her har AB sat et afsnit ind - iflg jurist George Winning *10.2006
+Banken kan når som helst forlange garantibeløbet deponeret som sikkerhed,
+selvom garantien på det pågældende tidspunkt ikke er gjort gældende
+overfor banken. Til opfyldelse af et sådant krav  skal banken kunne
+foretage debitering og modregning på enhver konto debitor har i banken.
+.sp 3mm
+I øvrigt er bankens almindelige forretningsbetingelser gældende.
+.sp
+Banken er erstatningsansvarlig, hvis den på grund af fejl eller
+forsømmelser opfylder aftalte forpligtelser for sent eller mangelfuldt.
+Selv på de områder, hvor der gælder et strengere ansvar, er banken
+.in 0mm
+.ar off
+.******************************
+.ar MODK2 on
+:SWISS8.
+.*.in 5mm
+.sp 3mm
+ikke ansvarlig for tab, som skyldes:
+.sp 3mm
+.tp 5mm
+*¤nedbrud i/manglende
+.in 5mm nobreak
+adgang til it-systemer eller beskadigelse af data i disse systemer, der
+kan henføres til nedennævnte
+.br
+begivenheder, uanset om det er
+banken selv eller en ekstern leverandør, der står for driften
+af systemerne
+.br
+.in 0mm
+.tp 5mm
+*¤svigt
+.in 5mm nobreak
+i bankens strømforsyning eller telekommunikation, lovindgreb
+eller forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige
+uroligheder, sabotage, terror eller hærværk (herunder computervirus og
+hacking)
+.br
+.in 0mm
+.tp 5mm
+.*** *** ***
+*¤strejke, lockout, boykot
+.in 5mm nobreak
+eller blokade, uanset om konflikten er rettet mod eller iværksat af
+banken selv eller dens organisation, og uanset konfliktens
+årsag. Det gælder også, når konflikten kun rammer en del af
+banken
+.br
+.in 0mm
+*¤andre
+.in 5mm nobreak
+omstændigheder, som er uden for bankens kontrol.
+.sp
+.in 0mm
+Bankens ansvarsfrihed gælder ikke hvis:
+.sp 3mm
+*¤banken
+.in 5mm nobreak
+burde have forudset det forhold, som er årsag til tabet, da aftalen blev
+indgået eller burde have undgået eller overvundet årsagen til tabet
+.br
+.in 0mm
+*¤lovgivningen
+.in 5mm nobreak
+under alle omstændigheder gør banken ansvarlig for det
+forhold, som er årsag til tabet.
+.ar off
+.**********************************
+.ar PROVISION on
+:SWISS10.
+Garantiprovisionen beregnes efter bankens til enhver tid gældende regler
+og debiteres konto nr. &B02REGKTO..
+.******************* AB HAR INDSAT FRI TEKST 10.06.2010 ******************
+.br
+&B02TEXT410
+.*******
+.sp 3mm
+Fra indfrielse af garantien betales bankens højeste udlånsrente.
+.*******************************
+.ar off
+.if &L'&B02SIKKER1 gt 0
+.th .go sikker
+.el .go pant
+...sikker
+.ar SIKK on
+:SWISS10. :FED.
+.br
+Eventuel sikkerhed:
+:SKRSLUT.
+.sp
+&B02GARK5T1
+&B02GARK5T2
+&B02GARK5T3
+&B02GARK5T4
+&B02GARK5T5
+&B02GARK5T6
+&B02GARK5T7
+&B02GARK5T8
+&B02GARK5T9
+.sp
+.hr 75mm 105mm
+.ar off
+...pant
+.ar PANT on
+:SWISS8.
+.br
+Som pantsætter(er):
+.sp 5mm
+.tp _/83mm
+¤
+.sp 5mm
+¤
+.sp 5mm
+¤
+.sp 5mm
+¤
+.sp 5mm
+.ar off
+.********
+.ar SELV on
+:SWISS8.
+.br
+Som selvskyldnerkautionist(er):
+.tp _/83mm
+.sp 5mm
+¤
+.sp 5mm
+¤
+.sp 5mm
+¤
+.sp 5mm
+¤
+.sp 5mm
+.ar off
+.*****************************
+.ar KUND on
+:SWISS8.
+Dato
+.tp _/83mm
+.br
+¤
+.sp 13mm
+.******************** her har AB sat medkontohaver på **************
+¤
+&KTONAVN
+.sp 15mm
+¤
+&MEDNAVN
+.ar off
+.********* AB har * if v/vitterlighed i den ene side *****************
+.*.if &U'&GENJANEJ = J
+.*.th .go SKRIV
+.*.el .go slut
+.*...SKRIV
+.ar VITTV on
+.tp _/83mm
+:SWISS8.
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed.
+.sp 5mm
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+.**********************************
+...slut
+:COUR10.

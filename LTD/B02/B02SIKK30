@@ -1,0 +1,192 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Garantierklæring
+:SKRSLUT.
+.br
+(Andelsboliglån)
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.*********************GENEREL OPSÆTNING************************************
+:SWISS11.
+.fo left
+.ti ¤ 05
+.********************** adr.tekst forneden *****************
+.da AMBK 10mm 287mm width 195mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD.,
+.******** 5201 BN *****************
+.if &B02BKST eq 520100
+.or &B02BKST gt 520100
+.th .ct  &AFDGADE., &AFDBY., tlf. &telefon., CVR.nr. 32049664
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 = 4521
+.or &KONTROL1 = 4522
+.or &KONTROL1 = 4523
+.or &KONTROL1 = 4524
+.or &KONTROL1 = 4525
+.or &KONTROL1 = 4526
+.th .ct  Åboulevarden 49, 8000 Aarhus C, tlf. 46 34 80 90, CVR.nr. 32321577
+.th .go slut
+.if &B02BKST eq 519100
+.an &KONTROL1 ne 4521
+.or &KONTROL1 ne 4522
+.or &KONTROL1 ne 4523
+.or &KONTROL1 ne 4524
+.or &KONTROL1 ne 4525
+.or &KONTROL1 ne 4526
+.th .ct  Uplandsgade 2, 2300 København S, tlf.,
+.th .ct  46 34 80 00, CVR.nr. 32321577
+.th .go slut
+.ce off
+...slut
+.ar off
+.**************************************************************************
+.da AREAL01 25mm 35mm width 165mm
+.ar AREAL01 on
+:SWISS11.
+.tp 30mm
+Undertegnede:
+.sp
+Andelsboligforeningen
+&B02NAVN2
+.br
+&B02TEKST
+.sp
+garanterer herved i henhold til § 5, stk. 12, i Lov om
+andelsboligforeninger og andre boligselskaber for betaling
+af ethvert beløb, som andelshaveren (i det følgende benævnt debitor)
+&NAVN
+måtte være eller blive skyldig i henhold til vedhæftede kopi af
+låneaftale/gældsbrev nr. &IREGKTO.,
+udstedt af &BANKNAVN.,
+&B02AFD.,
+herunder renter, provision og gebyrer og omkostninger af enhver
+art i anledning af eventuel misligholdelse.
+.sp
+Garantien er ydet i forbindelse med debitors køb af
+andelsbolig  nr. &B02NR.,  beliggende: &B02GADE..
+.sp
+For garantien gælder følgende:
+.sp
+1. Lånet ydes over max. 15 år med månedlige ydelser.
+.sp
+.in 1,5 after 1
+2. Udeblivelse af betaling af renter og afdrag på lånet betragtes som
+misligholdelse med betaling af boligafgift og kan medføre eksklusion og
+ophævelse af brugsretten til boligen, jf. § 5, stk. 12 i Lov om
+andelsboligforeninger og andre
+boligfællesskaber. Meddelelse om misligholdelse skal tilgå andels-
+boligforeningen snarest.
+.sp
+Berigtiges restancen senest 14 dage efter, at andelsboligforeningen har
+modtaget underretning om misligholdelsen, er långiver forpligtet til at
+lade lånet løbe videre i overensstemmelse med låneaftalens ordlyd.
+.in 0
+.sp
+3. Lånet forfalder i sin helhed ved videresalg af andelen.
+.in 0
+.sp
+.in 1,5 after 1
+4. Långiver kan først kræve betaling af foreningen, når overdragelsessummen
+på salg af andelen er erlagt, men dog senest 6 måneder efter at skriftlig
+underretning om restancen er givet. Garantien kan kun gøres gældende for
+det beløb, som restgælden udgjorde, da underretning om restancen blev
+givet, med tillæg af 3 månedsydelser og med tillæg af rente af de nævnte
+beløb.
+.sp
+Ved videresalg af andelen skal andelsboligforeningens bestyrelse straks
+give meddelelse herom til långiver.
+.in 0
+.sp 3
+___________________________________, den ____________________________
+.sp 2
+For Andelsboligforeningen &B02NAVN2
+.hr 85mm 165mm
+:SWISS8.
+.in 85mm
+Underskrift(er)
+.in 0
+.tp 85mm
+:SWISS10.
+.sp 2
+Til vitterlighed om underskriftens ægthed, dateringens rigtighed og
+underskriverens myndighed:
+.sp 2
+Navn: ¤Navn:
+.sp 5mm
+Adresse: ¤Adresse:
+.sp 5mm
+By: ¤By:
+.sp 3
+.hr 0mm 75mm 85mm 165mm
+:SWISS8.
+Underskrift: ¤Underskrift:
+.in 0
+.ar off

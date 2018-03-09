@@ -1,0 +1,301 @@
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.tm 30mm
+.ll 175mm
+:verda10.
+.da modtager 20mm 40mm width 60mm depth 50mm
+.ar modtager on
+.if &l'&KTOSTILL. > 0 .AN &l'&MEDNAVN. = 0
+.th &KTOSTILL.
+.th .br
+&KTONAVN.
+.br
+.if &l'&MEDNAVN. > 0
+.th &MEDNAVN.
+.th .br
+.if &l'&KTOCO. > 0
+.th &KTOCO.
+.th .br
+&KTOGADE.
+.br
+&KTOBY.
+.ar modtager off
+.sp 65mm
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+:COUR10.
+.**********************************************************************
+.ti ¤ 05
+:TILTALE &TILTALEM.
+.**********************************************************************
+.fo left
+.**************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN. &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.***********************************************************************
+:verda08.
+.da afsender 160mm 40mm width 40mm depth 50mm
+.ar afsender on
+:FED.&REGTYPELNG.:SKRSLUT.
+.sp
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.ar afsender off
+:VERDA10.
+har i dag indgået aftale med &BANKNAVN. om oprettelse af en "&REGTYPELNG."
+på følgende vilkår:
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN.
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1. p.a.
+.br
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.if &REGTYPE. = 2002
+.th .sp
+.th Der opkræves et månedligt gebyr på 15,00 kr. ultimo måneden.
+.sp
+:FED.Disponeringsgrundlag :SKRSLUT.
+.br
+På kontoen kan disponeres af kontohaver med følgende:
+.br
+.if &L'&GENKRYDS1 > 0
+.th Hævekort uden foto
+.th .br
+.if &L'&GENKRYDS2 > 0
+.th Dankort
+.th .br
+.if &L'&GENKRYDS3 > 0
+.th VISA/Dankort
+.th .br
+.if &L'&GENKRYDS4 > 0
+.th MasterCard Debit
+.th .br
+.if &L'&GENKRYDS5 > 0
+.th MasterCard
+.th .br
+.if &L'&GENBRNAVN1 > 0
+.th &GENBRNAVN1.
+.th .br
+.sp
+.if &GENKRYDS6. = 1
+.th
+.el .go KRESLUT
+:FED.Kreditorbeskyttelse :SKRSLUT.
+.br
+Nærværende indlånskontonummer &LANGKTONR. er oprettet den &KOPRETDATO..
+.sp
+Indeståendet hidrører fra en erstatning for invaliditet eller tab af
+forsørger eller i godtgørelse hermed. Beløbet tilkommer skadeslidte eller
+den, som har mistet en forsørger.
+.sp
+Indeståendet er kreditorbeskyttet i henhold til retsplejelovens § 513,
+hvilket medfører, at der ikke kan foretages udlæg i beløbet.
+.sp
+En forudsætning for denne kreditorbeskyttelse er, at beløbet holdes klart
+adskilt fra kontohavers øvrige formue, tilsvarende gælder om renter af
+kapitalen.
+.sp
+Dette medfører, at der ikke må indbetales andre beløb på kontoen end det
+pågældende erstatningsbeløb samt renter heraf, såfremt kreditorbeskyttelsen
+skal opretholdes.
+.sp
+Udbetalte beløb fra kontoen, f.eks. hvis der sker overførsel til en anden
+af kontohavers konti, er ikke kreditorbeskyttet.
+.sp
+Kontohaver: &KTONAVN. erklærer at være gjort bekendt med ovenstående regler
+og have ønsket denne påtegning på kontoen.
+.sp
+...KRESLUT
+Jeg har derudover gjort mig bekendt med &BANKNAVN.s almindelige
+forretningsbetingelser, som også gælder for aftalen. De gældende
+Almindelige forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
+hjemmeside www.djs.dk.
+.**HUSK AT STARTE AFSNIT TIL UNDERSKRIFT i MODUL PLACERET LIGE FØR********
+.sp 2
+.tp 10mm 40mm 70mm
+.dr tynd weight 0.1mm
+Dato:
+.sp 7mm
+.if &l'&MEDNAVN. > 0
+.th .hr tynd 0mm 140mm
+.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.el .hr tynd 0mm 70mm
+.el ¤&KTONAVN
+.sp 3
+.hr tynd 0mm 70mm
+¤&BANKNAVN
+.br
+.ar off
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

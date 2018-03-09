@@ -1,0 +1,152 @@
+.ti > 05
+.**********************Test af indtastning*********************************
+.if &U'&GENMORT ne M
+.an &U'&GENMORT ne E
+.th .mg /T/Enten M = Mortifikation eller E = Erklæring skal indtastes.
+.if &U'&GENKONT ne K
+.an &U'&GENKONT ne C
+.an &U'&GENKONT ne I
+.th .mg /I/Enten K = Udbetalt kontant
+.th .mg /I/eller C = Sendt i check
+.th .mg /T/eller I = Indsat på ovenstående konto skal indtastes
+.if &U'&GENKONT = I
+.an &L'&GENKTNR1 = 0
+.th .mg /I/Hvis I = Indsat på ovenstående konto indtastes,
+.th .mg /T/ skal der også indtastes et kontonummer
+.************************** Def. af arealer *******************************
+.da MORT          6 23 width 3
+.da KTOOPL1      47 24 width 33
+.da KONTANT1      6 28 width 26
+.da BORTKOM       6 30 width 3
+.da KONTANT2      6 35 width 26
+.da KTOOPL2      47 31 width 33
+.da TEKST         9 42 width 60
+.************************** Opstilling af afsnit - mortif. ****************
+.ar MORT on
+.if &U'&GENMORT = M
+.th X
+.if &U'&GENMORT = E
+.th .go VIDERE
+.ar off
+.************************** Mortifikation - kontant ***********************
+.ar KONTANT1 on
+.tp 11 21
+.if &U'&GENKONT = K
+.th X
+.if &U'&GENKONT = C
+.th >X
+.if &U'&GENKONT = I
+.th >>X
+.ar off
+.************************** Mortifikation - ktoopl. ***********************
+.ar KTOOPL1 on
+.tp 15
+.if &U'&GENMORT = M
+.th &REGNR  >&KTONR
+.th .sp
+.th &SALDO
+.th .sp
+.if &U'&GENKONT = I
+.th &REGNR >&GENKTNR1
+.go SLUT
+.ar off
+.************************** Opstilling af afsnit - bortkom. ***************
+...VIDERE
+.ar BORTKOM on
+.if &U'&GENMORT = E
+.th X
+.ar off
+.************************** Opstilling af afsnit - kontant? ***************
+.ar KONTANT2 on
+.tp 11 21
+.if &U'&GENKONT = K
+.th X
+.if &U'&GENKONT = C
+.th >X
+.if &U'&GENKONT = I
+.th >>X
+.ar off
+.************************** Opstilling af afsnit - ktoopl.  ***************
+.ar KTOOPL2 on
+.tp 15
+&REGNR  >&KTONR
+.sp
+&SALDO
+.sp
+.if &U'&GENKONT = I
+.th &REGNR >&GENKTNR1
+.ar off
+.************************** Opstilling af afsnit - tekst ******************
+...SLUT
+.ar TEKST on
+&GENTEKST1
+.br
+&GENTEKST2
+.br
+&GENTEKST3
+.br
+&GENTEKST4
+.br
+&GENTEKST5
+.br
+&GENTEKST6
+.br
+&GENTEKST7
+.br
+.ar off
+.ti > 05
+.************************** Def. af arealer *******************************
+.da BANKOPL       8 12 width 36
+.da KUNDEOPL     43 12 width 36
+.da REGNROPL      8 19 width 36
+.da CPRNR        43 19 width 36
+.************************** Opstilling af afsnit - bankopl. ***************
+.ar BANKOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.************************** Opstilling af afsnit - kundeopl. **************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+.th &GADE
+.th .br
+.th &BY
+.el &GADE
+.el .br
+.el &BY
+.ar off
+.************************** Opstilling af afsnit - regnropl. **************
+.ar REGNROPL on
+&REGNR
+.ar off
+.************************** Opstilling af afsnit - cprnropl. **************
+.ar CPRNR on
+.tp 19
+&KTOKUNDENR >&DATO8
+.ar off
+.************************** definition af arealer *************************
+.da EKSP         25 52 width 35
+.************************** Opstilling af afsnit - bynavn *****************
+.ar EKSP on
+.tp 21
+&EKSPBY >&DATO1
+.sp 2
+.ce
+&NAVN
+.ar off
+.************************** Formularkald **********************************
+.oc  Bortkomne bankbøger
+.se antal = &ÅLC - 1
+.sp &antal
+:becform.B00120

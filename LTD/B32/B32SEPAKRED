@@ -1,0 +1,299 @@
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.*Initier switch til kontakt-tlfnr i B32sepa01O2
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 14
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL      21mm 60mm width 170mm
+.da KTOOPL1   21mm 80mm width 170mm
+.da KTOOPL2   21mm 75mm width 170mm
+.da KTOHAVOV  21mm 30mm width 155mm
+.da KTOHAVER  21mm 35mm width 155mm
+.da KUNDENR   21mm 70mm width 155mm
+.dr tynd weight 0.1mm
+.**************************************************************************
+.ar KTOOPL1 on
+:FED.
+Tilslutningsaftale til SEPA Direct Debit - Kreditoraftale
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOOPL2 on
+.tp 169mm right
+¤Dato: &DATO.
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+Kontohaver
+:SKRSLUT.
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.if &kunnr. = CPR-nr.
+.th &kunnr.: &cpr1.-&cpr2.
+.el &kunnr.: &KTOKNDNR1.
+.ar off
+.**************************************************************************
+Gennemførte transaktioner må, opgjort som beløbssummen af de seneste
+løbende 8 ugers opkrævninger (privatbetalinger) og de seneste løbende 2
+dages opkrævninger (erhvervsbetalinger), ikke overstige opkrævningsrammen.
+.sp 5mm
+.kp off
+.kp on
+Når debitors returneringsmulighed er udløbet på tidligere udstedte
+transaktioner, kan kreditor iværksætte nye betalinger inden for
+opkrævningsrammen.
+.sp 5mm
+.kp off
+.kp on
+Overskrides den aftalte opkrævningsramme, vil efterfølgende
+betalingsanmodninger ikke blive gennemført.
+.sp 5mm
+.kp off
+.pa
+.kp on
+Beløbsgrænse pr. transaktion: &B32MAXTRN. euro.
+.sp 5mm
+Overskrides den aftalte beløbsgrænse pr. transaktion, vil transaktionen
+ikke blive gennemført.
+.sp 5mm
+.kp off
+.kp on
+6. Reglerne om tilbageførsel og afvisning fremgår af &BANKNAVN.s
+'Generelle regler for kreditorer i SEPA Direct Debit'. Hvis der bliver
+fremsat krav om tilbageførsel, forbeholder &BANKNAVN. sig ret til at
+debitere det fulde beløb inkl. evt. rentekrav på kreditorkontoen.
+.sp 5mm
+.kp off
+.kp on
+7. Kreditor er forpligtet til, til enhver tid, at holde &BANKNAVN.
+skadesløs for returneringer foretaget af debitor eller debitors
+pengeinstitut.
+.sp 5mm
+.kp off
+.kp on
+8. &BANKNAVN. forbeholder sig ret til at kræve sikkerhed for betalinger,
+der kan returneres af debitor eller debitors pengeinstitut. &BANKNAVN.
+hæver returnerede beløb på kontoen, også selvom opkrævningsrammen kan være
+bortfaldet. Dette gælder også i tilfælde af et eventuelt skift af
+pengeinstitut. &BANKNAVN. kan kræve den stillede sikkerhed opretholdt i
+en periode efter et eventuelt skift til et andet pengeinstitut.
+.sp 5mm
+.kp off
+.kp on
+9. &BANKNAVN. kan i forbindelse med leveringen af SEPA Direct Debit
+ydelser videregive kreditoroplysninger til &NETS..
+.sp 5mm
+.sp 55mm
+.in 1mm
+.hy of
+:VERDA09.
+.**************************************************************************
+.da TEXT1 21mm 88mm width 170mm
+.**************************************************************************
+.kp on
+1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
+tilslutning til og brug af SEPA Direct Debit til
+at iværksætte betalinger fra debitorer i euro. 'Almindelige
+forretningsbetingelser for erhvervskunder i &BANKNAVN.', 'Generelle
+regler for kreditorer i SEPA Direct Debit' og tilhørende vejledninger
+gælder sammen med denne kreditoraftale for de betalinger, der gennemføres
+i henhold til denne aftale.
+.sp 5mm
+2. For at kunne benytte SEPA Direct Debit til at iværksætte betalinger i
+euro skal følgende supplerende aftaler indgås:
+.sp 5mm
+-   Aftale om brug af &B32NYKNET. Erhverv
+.br
+-   Dataleverandøraftale med &NETS.
+.sp 5mm
+Når ovenstående aftaler er indgået, kan SEPA betalingsaftaler indgås med
+debitorer.
+.sp 5mm
+3. Aftalen omfatter følgende konto, som kan anvendes til posteringer
+relateret til SEPA Direct Debit betalinger:
+.sp 5mm
+.tp 50mm 110mm
+Kontonummer ¤IBAN-nummer ¤BIC-nummer
+.br
+&reg.-&kto.¤&IBANKTONR.¤NYKBDKKK
+.sp 5mm
+4. &BANKNAVN. påtager sig alene at være formidler af dataoplysninger og
+gennemførelse af betalinger under forudsætning af, at der er indgået en
+gyldig SEPA betalingsaftale med debitor.
+.sp 5mm
+.kp off
+.kp on
+5. Beløbsgrænser er angivet nedenfor i euro. Beløbsgrænserne er de beløb,
+som kreditor kan iværksætte betaling af fra debitorers konti. Det er
+kreditors pligt at holde sig inden for de aftalte beløbsgrænser. Der er
+aftalt henholdsvis en samlet opkrævningsramme og en beløbsgrænse
+pr. transaktion.
+.sp 5mm
+Følgende opkrævningsramme er gældende indtil videre: &B32MAXOPKR. euro.
+.sp 5mm
+.kp off
+.kp on
+.kp off
+.kp on
+10. Gentagen eller betydelig overskridelse af de aftalte beløbsgrænser,
+jf. aftalens punkt 5, eller manglende sikkerhedsstillelse, jf. aftalens
+punkt 8, anses for væsentlig misligholdelse, der kan bevirke, at
+&BANKNAVN. ophæver aftalen.
+.sp 5mm
+.kp off
+.kp on
+11. Gebyrer for at benytte SEPA Direct Debit som kreditor fastsættes af
+&BANKNAVN.. Gebyrer oplyses på forespørgsel.
+.sp 5mm
+.kp off
+.kp on
+12. Nærværende kreditoraftale kan ændres til ugunst for kreditor med
+2 måneders varsel. Ændringer til gunst for kreditor kan ske uden varsel.
+.sp 17mm
+.tp 1mm 25mm
+.hr tynd 1mm 20mm 25mm 165mm
+.br
+¤Dato ¤&KTONAVN.
+.sp 9mm
+Jeg beder herved &BANKNAVN. om tilslutning som kreditor i
+SEPA Direct Debit. Samtidig erklærer jeg mig indforstået med
+vilkårene i denne kreditoraftale, 'Almindelige forretningsbetingelser for
+erhvervskunder i &BANKNAVN.' og 'Generelle regler for kreditorer i SEPA
+Direct Debit', som er vedlagt.

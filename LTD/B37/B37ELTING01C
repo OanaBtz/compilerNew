@@ -1,0 +1,263 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*
+.**************************************************************************
+.* SÆTTER CVRBUNDTEKST I SAMMENHÆNG MED .HKLOGO (B37HKLOGOCVR)
+.se B37HYCVR = J
+.***
+.* MAKROEN hklogo defineres - tom eller med logo eller cvrtekst
+.* HVIS x&U'&B37HYCVR ne xJ dannes en TOM makro
+.* HVIS x&U'&B37HYLOG ne xJ dannes LOGOET i TOPPEN ikke kun CVRtekst
+.************** LOGO * TEKST STARTER **************************
+.dm hklogo on
+.**** HVIS VÆRDIEN IKKE ER SAT TIL J dannes makroen uden indhold **********
+.if x&U'&B37HYCVR ne xJ
+.th .go TOM
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.*da HKLOG 80mm 11.7mm width 110mm
+.da HKLOG 20mm 11.7mm width 110mm
+.da HKCVR 18.5mm 276.8mm width 177mm
+.************** LOGO * TEKST STARTER **************************
+.if x&U'&B37HYLOG ne xJ
+.th .go HKCVR
+.ar HKLOG on
+:SWISS20.:FED.
+Handelsbanken Kredit
+.ar off
+.**************** CVR* TEKST STARTER **************************
+...HKCVR
+.ar HKCVR on
+.sp 11mm
+:SWISS6.
+.se hk1 'Handelsbanken Kredit CVR-nr. 32476759 Filial af'
+.se hk2 'Stadshypotek AB, Sverige * Org.nr. SE556459-6715'
+.ce on
+&hk1 &hk2
+.ce off
+.ar off
+...TOM
+.dm off
+.**************************************************************************
+.* Aktiverer hklogo makro i SAMMENHÆNG MED .HKLOGO (B37HKLOGOCVR)
+.* AFSNITTET kan bruges når der ikke er RUNNING HEADER (.rh) i O eller O1
+.hklogo
+.***
+.*********************GENEREL OPSÆTNING************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift
+.da OVERSKR 20mm 32mm width 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.da FORTSÆT 148mm  269mm width  45mm
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar OVERSKR on
+:SWISS10.
+:FED.
+.if X&U'&PANTTYPE = XE
+.th Pantsatte ejendomme (fortsat)
+.if X&U'&PANTTYPE = XA
+.th Pantsatte andele (fortsat)
+:SKRSLUT.
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+KL. &TID
+.ar off
+.*********************FORSÆTTES********************************************
+.ar FORTSÆT on
+:SWISS9.
+.ri on
+.if &L'&FORTSÆTTES > 0
+.th &FORTSÆTTES
+.ri off
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da BOX 20mm 40mm width 175mm
+.******************* Kasse til ID *****************************************
+.ar BOX on
+.tp 1mm 140mm
+.bx left right
+¤Kundenr. ¤Udskrevet
+.sp 2mm
+¤&KUNDENR ¤&DATO
+.sp 0.5mm
+.bx off
+.***
+.sp 4mm
+.******************** Kasse til øvrige debitorer **************************
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.da SIDE 25mm  60mm width 170mm
+.**************************************************************************
+.ar SIDE on
+:SKRSLUT.
+:COUR10.
+&PANTSAT01A.&PANTSAT01B
+.br
+&PANTSAT02A.&PANTSAT02B
+.br
+&PANTSAT03A.&PANTSAT03B
+.br
+&PANTSAT04A.&PANTSAT04B
+.br
+&PANTSAT05A.&PANTSAT05B
+.br
+&PANTSAT06A.&PANTSAT06B
+.br
+&PANTSAT07A.&PANTSAT07B
+.br
+&PANTSAT08A.&PANTSAT08B
+.br
+&PANTSAT09A.&PANTSAT09B
+.br
+&PANTSAT10A.&PANTSAT10B
+.br
+&PANTSAT11A.&PANTSAT11B
+.br
+&PANTSAT12A.&PANTSAT12B
+.br
+&PANTSAT13A.&PANTSAT13B
+.br
+&PANTSAT14A.&PANTSAT14B
+.br
+&PANTSAT15A.&PANTSAT15B
+.br
+&PANTSAT16A.&PANTSAT16B
+.br
+&PANTSAT17A.&PANTSAT17B
+.br
+&PANTSAT18A.&PANTSAT18B
+.br
+&PANTSAT19A.&PANTSAT19B
+.br
+&PANTSAT20A.&PANTSAT20B
+.br
+&PANTSAT21A.&PANTSAT21B
+.br
+&PANTSAT22A.&PANTSAT22B
+.br
+&PANTSAT23A.&PANTSAT23B
+.br
+&PANTSAT24A.&PANTSAT24B
+.br
+&PANTSAT25A.&PANTSAT25B
+.br
+&PANTSAT26A.&PANTSAT26B
+.br
+&PANTSAT27A.&PANTSAT27B
+.br
+&PANTSAT28A.&PANTSAT28B
+.br
+&PANTSAT29A.&PANTSAT29B
+.br
+&PANTSAT30A.&PANTSAT30B
+.br
+&PANTSAT31A.&PANTSAT31B
+.br
+&PANTSAT32A.&PANTSAT32B
+.br
+&PANTSAT33A.&PANTSAT33B
+.br
+&PANTSAT34A.&PANTSAT34B
+.br
+&PANTSAT35A.&PANTSAT35B
+.br
+&PANTSAT36A.&PANTSAT36B
+.br
+&PANTSAT37A.&PANTSAT37B
+.br
+&PANTSAT38A.&PANTSAT38B
+.br
+&PANTSAT39A.&PANTSAT39B
+.br
+&PANTSAT40A.&PANTSAT40B
+.br
+&PANTSAT41A.&PANTSAT41B
+.br
+&PANTSAT42A.&PANTSAT42B
+.br
+&PANTSAT43A.&PANTSAT43B
+.br
+&PANTSAT44A.&PANTSAT44B
+.br
+&PANTSAT45A.&PANTSAT45B
+.br
+&PANTSAT46A.&PANTSAT46B
+.br
+&PANTSAT47A.&PANTSAT47B
+.br
+&PANTSAT48A.&PANTSAT48B
+.br
+&PANTSAT49A.&PANTSAT49B
+.br
+&PANTSAT50A.&PANTSAT50B
+.br
+&PANTSAT51A.&PANTSAT51B
+.br
+&PANTSAT52A.&PANTSAT52B
+.br
+&PANTSAT53A.&PANTSAT53B
+.br
+&PANTSAT54A.&PANTSAT54B
+.br
+&PANTSAT55A.&PANTSAT55B
+.br
+&PANTSAT56A.&PANTSAT56B
+.br
+&PANTSAT57A.&PANTSAT57B
+.br
+&PANTSAT58A.&PANTSAT58B
+.ar off
+.***********************************************************************
+
+
+
+
+
+
+

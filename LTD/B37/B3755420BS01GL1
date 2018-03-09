@@ -1,0 +1,746 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.oc  ** BetalingsService
+.* MB Fastlåst for både HB og MB d. 15/5-02 indtil juni 02
+.* MB ændring Timestamp, brevnavn og tekstændring - se afs. t2
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 80mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Aftale om &PRODNAVN
+:SKRSLUT.
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+B37BS01
+.br
+&DATO
+.ar off
+.***********************************************************************
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 84mm
+.da PIOPL      25mm 76.6mm width 84mm
+.da KUNDENR    118mm 78mm width 84mm
+.da KTONR      118mm 88mm width 76mm
+.da BUDGET     25mm  93.5mm width 76mm
+.da ANDET      25mm 231mm width 165mm
+.da UNDERSKRKU 20mm 241mm width 87mm
+.da UNDERSKRPI 107mm 250mm width 87mm
+.da UNDSUPPLKU 20mm 268mm width 87mm
+.da UNDSUPPLPI 107mm 277mm width 87mm
+.*******************************************************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar KUNDENR on
+&KUNDENR
+.ar off
+.*******************************************************
+.ar KTONR on
+.***** HER DELES KONTONUMMER  OP I TO PARAMETRE *******
+.se regnr = substr &GENKTO 1 4
+.se ktonr = substr &GENKTO 5 7
+&regnr &ktonr
+.ar off
+.*******************************************************
+.ar BUDGET on
+.if &U'&GENBUDGET = J
+.th Med budgetskema
+.el Uden budgetskema
+.ar off
+.*******************************************************
+.ar ANDET on
+.if &L'&GENANDET gt 0
+.th .br
+.th &GENANDET
+.if &L'&GENANDET1 gt 0
+.th .br
+.th &GENANDET1
+.if &L'&GENANDET2 gt 0
+.th .br
+.th &GENANDET2
+.if &L'&GENANDET3 gt 0
+.th .br
+.th &GENANDET3
+.if &L'&GENANDET4 gt 0
+.th .br
+.th &GENANDET4
+.ar off
+.*******************************************************
+.if &L'&GENANDET gt 0
+.th .ar UNDSUPPLKU on
+.th .ce on
+.th &NAVN
+.th .ce off
+.th .ar off
+.el .ar UNDERSKRKU on
+.el .ce on
+.el &NAVN
+.el .ce off
+.el .ar off
+.*******************************************************
+.if &L'&GENANDET gt 0
+.th .ar UNDSUPPLPI on
+.th .ce on
+.th &BANKNAVN
+.th .ce off
+.th .ar off
+.el .ar UNDERSKRPI on
+.el .ce on
+.el &BANKNAVN
+.el .ce off
+.el .ar off
+.*******************************************************
+.da SIDE1 20mm 38mm width 175mm
+.ar SIDE1 on
+:SWISS10.
+.in 1mm
+:FED.
+Parter
+:SKRSLUT.
+.***** her laves kassen til kunde  *****
+.bx new left right
+.sp 28mm
+.***** her laves kassen til pengeinstitut og cpr-nr ****
+.bx new left 87.5mm right
+.sp 8.5mm
+.***** her laves kassen til kontonr *****
+.hr 87.5mm right
+.sp 8.5mm
+.***** her laves kassen til kunde  *****
+.bx new left right
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Betingelser
+:SKRSLUT.
+.***** her laves kassen til betingelser *******
+.bx new left right
+.sp 121mm
+.bx off
+.if &L'&GENANDET gt 0
+.th :SWISS10.
+.th :FED.
+.th Supplerende oplysninger
+.th :SKRSLUT.
+.th .***** her laves kassen til fritekst *******
+.th .bx new left right
+.th .sp 20mm
+.th .bx off
+.el .go UNDER
+...UNDER
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi underskrift ******
+.bx new left 87.5mm right
+.sp 22mm
+.bx off
+.bx can
+.ar off
+.* MB: Afsn. 3 registreringsnr. tilføjet 31.5.99
+.* MB: Afsn. 6 tekst i årlig budgetskema tilretning er ændret 31.5.99
+.* MB: Afsn. 8 P&T ændret til Post Danmark 31.5.99
+:SWISS8.
+.*******************************************************
+.da KUNDE      21mm     43mm width 150mm
+.da PI         21mm     72.5mm width 85mm
+.da KUNDENR    108.5mm  72.5mm width 85mm
+.da KTONR      108.5mm  82.5mm width 85mm
+.da KOLONNE1   21mm    105mm width 78mm
+.da KOLONNE2  108mm    105mm width 78mm
+.da UNDERSKRKU 21mm    231.5mm width 85mm
+.da UNDERSKRPI 108.5mm 231.5mm width 85mm
+.*******************************************************
+.ar KUNDE on
+Kunde
+.ar off
+.*******************************************************
+.ar PI on
+Pengeinstitut
+.ar off
+.*******************************************************
+.ar KUNDENR on
+CPR-nr./SE-nr.
+.ar off
+.*******************************************************
+.ar KTONR on
+Debiteringskontonr. for evt. gebyr
+.ar off
+.*******************************************************
+.ar KOLONNE1 on
+:SWISS8.
+1.
+.br
+Pengeinstituttet må, om ønsket, gennemføre betalinger via PBS
+(Pengeinstitutternes Betalingssystemer) - BetalingsService.
+.sp 3mm
+"Generelle regler for debitorer i PBS' BetalingsService" er anført på
+side 2 og 3.
+.sp 3mm
+2.
+.br
+Pengeinstituttet har kun pligt til at udføre betalinger, hvis der er
+dækning for det fulde beløb på kontoen - eller betalinger, der er truffet
+særskilt aftale om.
+.sp 3mm
+3.
+.br
+Pengeinstituttet må omadressere betalingsopkrævninger, så de sendes
+direkte til pengeinstituttet.
+.sp 3mm
+Indbetalingskort o.l., som jeg modtager personligt, forsynes med
+.* reg.nr. tilføjet af MB
+reg.nr. og
+kontonummer og indleveres straks til pengeinstituttet. Hvis opkrævningerne
+ikke er indleveret senest tre bankdage før forfald, er pengeinstituttet
+ikke ansvarlig for manglende eller for sen betaling.
+.sp 3mm
+4.
+.br
+Pengeinstituttet skal straks underrettes, hvis der sker ændringer i de
+aftalte betalingsordrer. Og pengeinstituttet er uden ansvar, hvis jeg
+ikke har givet besked om sletning/ændring senest to bankdage før betaling
+skal ske. For PBS-indbetalinger gælder særlige regler, som er anført på
+side 2 og 3.
+.sp 3mm
+5.
+.br
+I begyndelsen af hver måned modtager jeg en oversigt over betalinger via
+PBS, som finder sted i løbet af måneden.
+.sp 3mm
+For øvrige betalinger fremsendes kun meddelelse efter forudgående aftale.
+Giroindbetalingskort i sæt, ratebilletter osv.  fremsendes, når sidste
+betaling er sket. Kontoudskrifter fremsendes ved fuld side eller efter
+særlig aftale.
+.ar off
+.*******************************************************
+.ar KOLONNE2 on
+:SWISS8.
+6.
+.br
+Specielt for betalingsservice med budgetskema:
+.sp 3mm
+-
+.in 2mm nobreak
+Budgetskemaet skal medbringes i pengeinstituttet, når der skal ske
+ændringer med betalingsservice.
+.in 0mm
+.sp 3mm
+-
+.in 2mm nobreak
+Hvis beløbene på budgetskemaet ændres væsentligt, skal jeg personligt
+meddele pengeinstituttet dette.
+.in 0mm
+.sp 3mm
+-
+.in 2mm nobreak
+.* MB tekstændring
+.* Én gang om året gennemgår pengeinstituttet budgettet, og et nyt skema
+Én gang om året skal budgetskema tilrettes, og et nyt skema
+sendes til mig.
+.in 0mm
+.sp 3mm
+7.
+.br
+Oplysninger om gebyrer, porto m.v. gives på forlangende.
+.sp 3mm
+8.
+.br
+Pengeinstituttet er ikke ansvarlig for følger af forsinkelser hos andre
+pengeinstitutter og Post Danmark
+eller for ikke-rettidige betalinger, hvis dette
+skyldes, at kunden ikke har overholdt betingelserne i denne aftale.
+.sp 3mm
+Pengeinstituttet er ikke ansvarlig for eventuelle følger af, at
+pengeinstituttet  ikke har fået meddelelse om ændringer i kundens retlige
+forhold, såsom konkurs, død, umyndiggørelse m.v..
+.sp 3mm
+Hvis indbetalingskortet er fejlagtigt fremsendt eller ikke er korrekt
+udfyldt, påtager pengeinstituttet sig intet ansvar for rettidig
+indbetaling.
+.sp 3mm
+I øvrigt gælder pengeinstituttets almindelige forretningsbetingelser, som
+kunden har modtaget et eksemplar af.
+.sp 3mm
+9.
+.br
+Begge parter kan til enhver tid opsige aftalen.
+.ar off
+.*******************************************************
+.ar UNDERSKRKU on
+.if &L'&GENANDET gt 0
+.th .sp 27mm
+.th .tp 57mm
+.th Kundens underskrift ¤Dato:
+.th .sp 10mm
+.th Jeg beder herved pengeinstituttet yde betalingsservice, som anført
+.th i mit budgetskema eller ifølge afgivne betalingsordre. Samtidig
+.th .hw erklæ-rer
+.th jeg mig indforstået med ovenstående regler og bestemmelser.
+.el .tp 57mm
+.el Kundens underskrift ¤Dato:
+.el .sp 10mm
+.el Jeg beder herved pengeinstituttet yde betalingsservice, som anført
+.el i mit budgetskema eller ifølge afgivne betalingsordre. Samtidig
+.el .hw erklæ-rer
+.el jeg mig indforstået med ovenstående regler og bestemmelser.
+.ar off
+.*******************************************************
+.ar UNDERSKRPI on
+.if &L'&GENANDET gt 0
+.th .sp 27mm
+.th .tp 56.5mm
+.th Pengeinstituttets underskrift ¤Dato:
+.el .tp 56.5mm
+.el Pengeinstituttets underskrift ¤Dato:
+.ar off
+.*******************************************************
+.pa
+.* MB Fastlåst for både HB og MB d. 15/5-02 indtil juni 02
+.* MB ændring Timestamp, brevnavn og tekstændring - se afs. t2
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 80mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Aftale om &PRODNAVN
+:SKRSLUT.
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+B37BS01
+.br
+&DATO
+.ar off
+.***********************************************************************
+.da side2 20mm 38mm width 175mm
+.da kol2v 21mm 43mm width 85mm
+.ar side2 on
+.in 1mm
+:SWISS10.
+:FED.
+.br
+Generelle regler for debitorer i BetalingsService
+:SKRSLUT.
+.in 0mm
+.bx left right
+.sp 228mm
+.bx off
+.bx can
+.ar off
+.ar kol2v on
+.in 0mm
+:SWISS10.
+§ 1 Definitioner
+:SWISS8.
+.sp 3mm
+BetalingsService:
+.br
+Et betalingssystem, der automatisk gennemfører betalinger mellem Deres
+konto og Deres kreditors konto. Der vil normalt være tale om hævninger på
+Deres konto, men der kan også ske indbetalinger på Deres konto.
+.sp 3mm
+Tilslutningsaftale:
+.br
+En skriftlig aftale mellem Dem og &BANKNAVN om, at De kan
+benytte BetalingsService.
+.sp 3mm
+Betalingsaftale:
+.br
+En aftale mellem Deres kreditor og Dem om, at BetalingsService benyttes til
+betalinger vedrørende det/de i aftalen anførte skyldforhold. De kan indgå
+en betalingsaftale med &BANKNAVN på kreditors vegne eller direkte
+med kreditor.
+.sp 3mm
+Betalingsdag:
+.br
+Den dag beløbet hæves på Deres konto.
+.sp 3mm
+Ekspeditionsdag:
+.br
+Alle dage undtagen lørdage, søn- og helligdage, juleaftensdag og
+Grundlovsdag.
+.sp 3mm
+PBS:
+.br
+Pengeinstitutternes BetalingsSystemer A/S selskabet, der administrerer
+BetalingsService og indgår aftale med kreditor om dennes tilslutning til
+BetalingsService.
+.sp 5mm
+:SWISS10.
+§ 2 Tilslutning til BetalingsService
+.sp 3mm
+:SWISS8.
+BetalingsService kan benyttes til betaling af regninger fra de kreditorer,
+der er tilmeldt systemet.
+.sp 3mm
+Hvis De ønsker at benytte BetalingsService, skal De rette henvendelse til
+&BANKNAVN.. &BANKNAVN afgør efter en individuel vurdering,
+om en tilslutningsaftale kan indgås.
+.sp 3mm
+Når De indgår en tilslutningsaftale, forpligter De Dem til at overholde de
+til enhver tid gældende "Generelle regler for debitorer i
+BetalingsService".
+.sp 3mm
+Når De har indgået en tilslutningsaftale med &BANKNAVN., kan De
+indgå betalingsaftaler. Betalingsaftalen kan knyttes til den konto eller
+de konti, som De har aftalt med &BANKNAVN..
+.sp 3mm
+Når De indgår en betalingsaftale, giver De &BANKNAVN tilladelse
+til at overføre beløb mellem den af Dem anviste konto, og kreditors konto.
+Beløbet bliver overført efter anmodning fra kreditor og dækker betalinger
+i det/de pågældende skyldforhold til kreditor. Beløb hæves på kontoen på
+den dag, som i skyldforholdet til kreditor er defineret som sidste
+rettidige betalingsdag, med mindre andet er aftalt med eller meddelt af
+kreditor.
+.sp 3mm
+Når De ønsker at ændre den konto, som en betalingsaftale er tilknyttet,
+skal De meddele dette til &BANKNAVN..
+.sp 5mm
+:SWISS10.
+§ 3 Dækning på kontoen
+.sp 3mm
+:SWISS8.
+Der skal være dækning på Deres konto på den dag, som i skyldforholdet til
+kreditor er defineret som betalingsdagen. Er der ikke dækning på kontoen
+for samtlige dagens betalinger, er Deres pengeinstitut ikke forpligtet til
+at gennemføre nogen af dagens betalinger.
+.ar off
+.da kol2h 109mm 43mm width 85mm
+.ar kol2h on
+:SWISS10.
+§ 4 Betalingsoversigten
+.sp 3mm
+:SWISS8.
+Hvis der skal gennemføres betalinger i den kommende måned, vil der blive
+afsendt en eller flere betalingsoversigter, således at den/de ved normal
+postgang vil være fremme hos Dem inden månedsskiftet.
+Af betalingsoversigten fremgår beløbet, betalingsdagen, kreditors navn og
+diverse oplysninger om betalingen. Betalingsoversigten kan erstatte en
+faktura.
+.sp 3mm
+Det vil fremgå af Deres betalingsoversigt, at De har oprettet en ny
+betalingsaftale. Hvis der i samme måned, som betalingsaftalen er anført
+på betalingsoversigten, skal ske en betaling vedrørende dette forhold, og
+betalingen ikke står på betalingsoversigten, skal De betale på anden vis.
+Efterfølgende betalinger vil ske via BetalingsService.
+.sp 3mm
+De kan i &BANKNAVN bestille kopi af betalingsoversigten for
+indeværende og de 2 foregående kalendermåneder. De kan få oplyst prisen
+for en kopi af betalingsoversigten ved henvendelse til &BANKNAVN..
+.sp 5mm
+:SWISS10.
+§ 5 Gennemførelse af en betaling
+:SWISS8.
+.sp 3mm
+Overførsel af beløb mellem Deres konto og kreditors konto sker på grundlag
+af oplysninger fra kreditor.
+.sp 5mm
+:SWISS10.
+§ 6 Kvittering
+.sp 3mm
+:SWISS8.
+Hvis en betaling, der fremgår af betalingsoversigten, også står på Deres
+kontoudskrift, betragtes kontoudskriften i forhold til kreditor som en
+kvittering for betalingen, idet der dog tages forbehold for, at beløbet
+jævnfør § 11, kan være tilbageført.
+.sp 3mm
+Ønsker De særskilt kvittering for en betaling, som er gennemført i løbet af
+de foregående 15 måneder, kan De bestille den i &BANKNAVN. De kan
+få oplyst prisen for en kvittering ved henvendelse til &BANKNAVN..
+.sp 5mm
+:SWISS10.
+§ 7 Deres afvisning af en betaling
+.sp 3mm
+:SWISS8.
+Ønsker De, at en betaling ikke skal gennemføres, eller at en betaling skal
+tilbageføres, kan De få betalingen afvist, såfremt Deres meddelelse herom
+er kommet frem til &BANKNAVN senest den 7. i betalingsmåneden.
+Hvis denne dag ikke er en ekspeditionsdag, er fristen den første
+ekspeditionsdag derefter.
+.sp 3mm
+Hvis betalingen allerede er gennemført, vil beløbet blive tilbageført fra
+kreditors konto til Deres konto, jævnfør § 11.
+.sp 3mm
+Afvisningen gælder kun for den konkrete betaling. Ønsker De at standse
+fremtidige betalinger generelt, skal De afmelde Deres betalingsaftale, se
+§ 8.
+.sp 5mm
+:SWISS10.
+§ 8 Deres afmelding af en betalingsaftale
+.sp 3mm
+:SWISS8.
+Ønsker De at afmelde en betalingsaftale, skal De meddele dette til
+&BANKNAVN.. Afmeldingen får virkning hurtigst muligt, dog senest for
+betalinger, der skal finde sted på 3. ekspeditionsdag efter, at afmeldingen
+er modtaget i &BANKNAVN..
+.sp 5mm
+:SWISS10.
+§ 9 Ophør
+.sp 3mm
+:SWISS8.
+Såfremt kontoforholdet med &BANKNAVN ophører, anses
+tilslutningsaftalen for bortfaldet.
+.ar off
+.pa
+
+
+.* MB Fastlåst for både HB og MB d. 15/5-02 indtil juni 02
+.* MB ændring Timestamp, brevnavn og tekstændring - se afs. t2
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 80mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Aftale om &PRODNAVN
+:SKRSLUT.
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+B37BS01
+.br
+&DATO
+.ar off
+.***********************************************************************
+.da side3 20mm 38mm width 175mm
+.da kol3v 21mm 43mm width 85mm
+.ar side3 on
+.in 1mm
+:SWISS10.
+:FED.
+.br
+Generelle regler for debitorer i BetalingsService
+:SKRSLUT.
+.in 0mm
+.bx left right
+.sp 228mm
+.bx off
+.bx can
+.ar off
+.ar kol3v on
+:SWISS8.
+En betalingsaftale kan bortfalde, såfremt betalingsaftalen ikke har været
+benyttet inden for en periode på 15 måneder. De vil få meddelelse herom
+på den førstkommende betalingsoversigt.
+.sp 3mm
+Såfremt kreditor ophører med at være tilmeldt BetalingsService, anses
+Deres betalingsaftale med kreditor automatisk for bortfaldet.
+.sp 5mm
+:SWISS10.
+§ 10 Opsigelse/ophævelse af tilslutningsaftalen
+:SWISS8.
+.sp 3mm
+De kan til enhver tid opsige tilslutningsaftalen skriftligt over for
+&BANKNAVN..
+.sp 3mm
+&BANKNAVN kan opsige tilslutningsaftalen skriftligt med 1 måneds
+varsel. I tilfælde af væsentlig misligholdelse, herunder at De gentagne
+gange ikke har haft dækning på Deres konto, jævnfør § 3, kan &BANKNAVN
+hæve aftalen uden varsel. De vil modtage en skriftlig og
+begrundet meddelelse fra &BANKNAVN herom.
+.sp 3mm
+En opsigelse får virkning hurtigst muligt, dog senest for betalinger,
+der skal finde sted 3 eller flere ekspeditionsdage efter, at
+&BANKNAVN har modtaget Deres opsigelse, eller når &BANKNAVN
+opsigelse er trådt i kraft.
+.sp 3mm
+Opsigelse/ophævelse af tilslutningsaftalen medfører bortfald af samtlige
+Deres betalingsaftaler.
+.sp 5mm
+:SWISS10.
+§ 11 Tilbageførsel af en betaling
+.sp 3mm
+:SWISS8.
+&BANKNAVN skal tilbageføre en betaling til Deres konto, hvis:
+.sp 5mm
+1.1
+.in 5mm nobreak
+En gennemført betaling er afvist af Dem, se § 7. Beløbet vil blive
+tilbageført til Deres konto senest 2 ekspeditionsdage efter, at De har
+givet &BANKNAVN meddelelse om afvisningen.
+.in 0mm
+.sp 3mm
+1.2
+.in 5mm nobreak
+De har fremsat indsigelse mod gyldigheden af en betalingsaftale over for
+&BANKNAVN uden unødigt ophold, og kreditor ikke kan dokumentere,
+at der foreligger en gyldig betalingsaftale.
+.in 0mm
+.sp 3mm
+Indsigelser vedrørende skyldforholdet, herunder vedrørende beløbets
+størrelse, skal De rette direkte til kreditor.
+.sp 3mm
+&BANKNAVN kan foretage tilbageførsel, hvis:
+.sp 5mm
+2.1
+.in 5mm nobreak
+Der ikke er dækning på Deres konto på betalingsdagen, og betalingen
+overstiger kr. 1.000,-.
+.sp 3mm
+.in 0
+2.2
+.in 5mm nobreak
+Der er fejl ved kreditors oplysninger til brug for opkrævningen eller
+fejl ved behandlingen af oplysningerne.
+.sp 3mm
+.in 0
+2.3
+.in 5mm nobreak
+&BANKNAVN har hævet tilslutningsaftalen før betalingsdagen.
+.sp 3mm
+.in 0
+2.4
+.in 5mm nobreak
+Betalingsaftalen er faldet bort, fordi Deres kontoforhold med
+&BANKNAVN er ophørt før betalingsdagen, se § 9.
+.in 0mm
+.sp 3mm
+De vil modtage meddelelse om tilbageførslen, enten umiddelbart efter
+tilbageførslen eller på førstkommende kontoudskrift.
+.sp 3mm
+De vil få dækket Deres rentetab, hvis der foretages tilbageførsel i henhold
+til punkt 1.2 eller 2.2.
+.ar off
+.da kol3h 109mm 43mm width 85mm
+.ar kol3h on
+:SWISS8.
+Hvis rentetabet er mindst kr. 25,00 vil De automatisk få dækket Deres
+rentetab. Rentetabet beregnes på grundlag af den i "lov om renter ved
+forsinket betaling m.v." fastsatte rente.
+.sp 3mm
+Hvis rentetabet er under kr. 25,00, eller De kan dokumentere et større
+rentetab end det, som De automatisk har fået godtgjort, vil De få
+dækket rentetabet ved at rette henvendelse til &BANKNAVN med
+Deres dokumenterede rentetab.
+.sp 5mm
+:SWISS10.
+§ 12 Force majeure
+:SWISS8.
+.sp 3mm
+Pengeinstitutterne og PBS er ikke ansvarlig for tab, der skyldes force
+majeure, herunder lovforskrifter, myndighedsforanstaltninger eller
+lignende, svigtende strømforsyninger, svigtende telekommunikation, brand,
+røgskade, eksplosion, vandskade, hærværk, indbrud, naturkatastrofer,
+indtruffet eller truende krig, oprør, borgerlige uroligheder, terror eller
+sabotage, strejke, lockout, boykot eller blokade. Dette gælder, selv om
+pengeinstitutterne eller PBS er part i konflikten, og selv om konflikten
+kun rammer dele af pengeinstitutternes eller PBS' funktioner.
+.sp 5mm
+:SWISS10.
+§ 13 Fejl, forsinkelse m.v.
+.sp 3mm
+:SWISS8.
+Hvis der er fejl eller forsinkelse ved en betaling eller en advisering, og
+dette skyldes de involverede pengeinstitutter eller PBS, skal disse
+afhjælpe fejlen eller levere på ny, hvis dette er praktisk muligt og kan
+ske uden økonomiske konsekvenser, som står i misforhold til den aftalte
+ydelse.
+.sp 3mm
+&BANKNAVN er ansvarlig for direkte tab, som påføres Dem, og som
+skyldes, at de involverede pengeinstitutter eller PBS har handlet uagtsomt.
+Dette gælder dog ikke i det omfang, tabet skyldes Deres egne forhold.
+.sp 3mm
+De involverede pengeinstitutter og PBS er ikke ansvarlige for indirekte
+tab.
+.sp 3mm
+Kreditor bærer risikoen i forhold til Dem, hvis der er forsinkelse, fejl
+eller mangler ved en betaling. Kreditor kan derfor ikke  gøre
+misligholdelsesvirkninger gældende over for Dem i denne anledning.
+.sp 3mm
+Såfremt den automatiske betaling ikke gennemføres på grund af, at
+&BANKNAVN standser sine betalinger eller går konkurs, kan kreditor på
+anden vis opkræve beløbet hos dem, med mindre andet følger af lovgivningen.
+Kreditor kan i denne situation ikke gøre misligholdelsesvirkninger
+gældende over for Dem som følge af, at betalingen ikke er blevet gennemført
+via BetalingsService, såfremt De betaler inden for den af kreditor
+fastsatte nye frist.
+.sp 5mm
+:SWISS10.
+§ 14 Priser
+.sp 3mm
+:SWISS8.
+De kan ved henvendelse til &BANKNAVN få oplyst eventuelle priser,
+herunder prisen for den kontoform, betalingsaftalen er tilknyttet, prisen
+for kopi af betalingsoversigten m.v.
+.sp 5mm
+:SWISS10.
+§ 15 Ændring af reglerne
+.sp 3mm
+:SWISS8.
+Disse regler kan ændres med 1 måneds skriftligt varsel. Væsentlige
+ændringer vil ske med 3 måneders skriftligt varsel. Ændringerne kan
+f.eks. meddeles på betalingsoversigten.
+.ar off

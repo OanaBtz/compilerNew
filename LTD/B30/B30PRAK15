@@ -1,0 +1,192 @@
+.rh cancel
+.*********************
+.if &U'&B30BEMY eq N
+.th .go BEMYSLT2
+.*************************
+.if &U'&GENMEDKTOH = J
+.an &MEDKUNDENR > 000000-0000
+.th .go MEDKTO
+.* Kun kundens Underskrift og kundenr**************************
+.sp3
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato    ¤&KTONAVN
+.br
+¤&KTOKNDNR1
+.go UNDSLUT
+.***********************************************************
+.* kunden og medkundens Underskrift og deres kundenr *******
+...MEDKTO
+.sp3
+.tp _/130mm
+¤
+.br
+.tp 20mm 80mm
+Dato ¤&KTONAVN ¤&MEDNAVN
+.br
+¤&KTOKNDNR1 ¤&mktoh1.&mktoh2
+...UNDSLUT
+.kp off
+...BEMYSLT2
+.********* SLUT   ******************************************
+.if &U'&B30BEMY eq N
+.th .go BEMYSLT
+.**********************************
+.tp 24mm 87mm
+.if &kunr = 00
+.th Navn: ¤&KTONAVN  ¤CVR-nr.: &KTOKNDNR1
+.th .go VIDERE
+.**********
+.if &kunr gt 31
+.th Navn: ¤&KTONAVN  ¤Kundnr: &KTOKNDNR1
+.th .go VIDERE
+.**********
+Navn: ¤&KTONAVN  ¤CPR-nr.: &KTOKNDNR1
+...VIDERE
+.if &U'&GENMEDKTOH = J
+.an &L'&MEDNAVN gt 0
+.th .br
+.th Medktohaver: ¤&MEDNAVN ¤CPR-nr.: &mktoh1.&mktoh2
+.**********
+.if &L'&KTOCO gt 0
+.th .br
+.th C/o adr: ¤&KTOCO
+.**********
+.br
+Adresse: ¤&KTOGADE
+.br
+Postnr.: ¤&KTOBY
+.br
+.if &L'&KTOLAND gt 0
+.th Land: ¤&KTOLAND
+.************************
+.sp
+.if &L'&MEDNAVN gt 0
+.th Vi
+.el Jeg
+bemyndiger &BANKNAVN til at indhente oplysninger
+fra Lægernes Pensionskasse, den elektroniske tingbog
+samt til at undersøge eventuelle oplysninger i
+RKI Kredit Information og check- og hævekortmisbrugerkartoteket.
+...BEMYSLT
+.if &U'&B30BEMY eq N
+.th .go BEMYSLO2
+.*********************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.*************
+.ar VEND on
+:CALIB8.
+B30PRAK15
+.ar off
+.*************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...BEMYSLO2
+.*************
+.if &U'&B30BEMY eq N
+.th .go BEMYSLO1
+.*********************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.da DATO 160mm 83,5mm width 42,5mm
+.********************ROTERET BREVNAVN**************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************R
+.ar VEND on
+:CALIB8.
+B30PRAK15
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+BEMYNDIGELSE
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 56,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+...BEMYSLO1
+.********************
+.*****************************
+.su off
+.se kunr = substr &KTOKNDNR1 1 2
+.su on
+.*******************'
+.su off
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.*****************************
+.if &U'&GENMEDKTOH = J
+.an &MEDKUNDENR = 000000-0000
+.th .mg/T/Der findes ingen medktohaver og den kan derfor ikke bruges/
+.*****************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

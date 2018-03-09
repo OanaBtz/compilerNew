@@ -1,0 +1,146 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+.if &E'&GENLAND = 0
+.th .se GENLAND ''
+.if &E'&GENSTILL = 0
+.th .se GENSTILL ''
+:GL.
+&GENSTILL
+.BR
+&GENNAVN
+.BR
+&GENCOADR
+.BR
+&GENGADE
+.BR
+&GENBY  &GENLAND
+.SK
+:EGL.
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.* param
+.if &L'&AFDTLF gt 4
+.th .se tlf1 = SUBSTR '&AFDTLF.' 1 4
+.th .se tlf2 = SUBSTR '&AFDTLF.' 5
+.th .se tlf2 = &tlf2
+.th .se tlfn '&tlf1. &tlf2.'
+.el .se tlfn ''
+.if &L'&AFDFAX gt 4
+.th .se fax1 = SUBSTR '&AFDFAX.' 1 4
+.th .se fax2 = SUBSTR '&AFDFAX.' 5
+.th .se fax2 = &fax2
+.th .se faxn '&fax1. &fax2.'
+.el .se faxn ''
+.dr tynd weight 0.2mm
+.fo off
+.ti ^ 05
+.tp 40mm 75mm 120mm 140mm
+.da AFSADR  20mm 70mm WIDTH 110mm
+.da AFSTLF 140mm 70mm WIDTH  55mm
+.da FAX 20mm 50mm WIDTH 175mm
+.if .&U'&MIBJN1 = .J
+.th .se GENEKSP '___________________'
+.th .se GENNAVN '________________________________________________________'
+.th .se GENATT  '________________________________________________________'
+.th .se GENCO   '________________________________________________________'
+.th .se MIBSTK  '________________________________________________________'
+.ar AFSADR on
+:DUTCH12.
+Afsenderadresse:
+.if &L'&AFDNAVN ne 0 ;.th ^&AFDNAVN
+ ^&AFDGADE
+ ^&AFDBY
+.ar off
+.ar AFSTLF on
+.tp 20mm
+:DUTCH12.
+Telefon: ^&tlfn
+Fax:^&faxn
+.ar off
+.ar FAX on
+:DUTCH20.:FED.
+Telefax
+.sp 5mm
+:DUTCH12.
+.hr tynd left right
+.sp 35mm
+.hr tynd left right
+.sp 10mm
+Dato: ^^Vor reference: ^&GENEKSP
+.sp 10mm
+.hr tynd left right
+.sp 10mm
+Modtager: ^&GENNAVN
+.sp 10mm
+Att.: ^&GENATT
+.sp 10mm
+Telefax nr.: ^&GENFAX
+.sp 10mm
+Antal sider: ^&MIBSTK
+(inkl. denne)
+.sp 10mm
+.hr tynd left right
+.sp 10mm
+Evt. uddybning
+.sp 10mm
+:DUTCH10.
+:COUR10.
+.*ar off
+.* LINIERNE NEDENFOR HAR FORSKELLIG EFFEKT
+.fo off            ;.* (Tekst skrives som i MEMO)
+.* Nedenfor kan du begynde din tekst

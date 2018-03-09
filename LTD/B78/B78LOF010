@@ -1,0 +1,381 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Allonge - abonnement vejhjælp
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+.bx left right
+:SWISS8.
+¤Allonge til kontrakt nr.:
+.sp 4mm
+.bx left right
+¤Undertegnede leasingtager
+.sp 20mm
+.bx new
+¤Kundenummer
+.sp 5mm
+.bx off
+.bx can
+.**************************************************************************
+:SWISS10.:FED.
+Aktiv
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+.sp 16.5mm
+.bx new left 87.5mm right
+¤Stel/serienr. ¤Evt. reg.nr.
+.sp 5mm
+.bx off
+.bx can
+.**************************************************************************
+:SWISS10.:FED.
+Levering
+:SKRSLUT.
+:SKRSLUT.
+.tp 1mm 88.5mm 130mm
+.bx left 87.5mm right
+¤Leveringsadresse  ¤Anbringelsested / Bruger
+.sp 20mm
+.bx off
+.*KASSE MED "VILKÅR"*******************************************************
+.sp
+.bx new left right
+.sp 65mm
+.bx off
+.bx can
+.************ UNDERSKRIFT *************************************************
+.if &U'X&FORTSÆT = XJ
+.th .go FORTEND
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SKRSLUT.
+.bx left 87.5mm right
+.tp 1mm 58mm 88.5mm 145.5mm
+¤For leasinggiver ¤Dato: ¤(Påfør med blokbogstaver navn og titel på
+tegningsberettigede
+.br
+¤¤¤underskrivere)
+.br
+¤¤¤Leasingtagers stempel og underskrift ¤Dato:
+.sp 15mm
+.bx off
+...FORTEND
+.ar off
+.**************************************************************************
+.da AFTALE        25mm  45.5mm width   80mm
+.da KUNDEOPL      25mm    54mm width   80mm
+.da KUNCPRCVR     25mm  78.5mm width   80mm
+.da UDSTYR1       25mm  93.5mm width  165mm
+.da LEVDØR        25mm 102.2mm width  165mm
+.da FORTSÆT       25mm   103mm width  169mm
+.da STEL          25mm 110.5mm width  120mm
+.da REGNR      112.5mm 110.5mm width   35mm
+.da LEVADR        25mm   125mm width   80mm
+.da BRUGER     112.5mm   125mm width   80mm
+.da UNDUDLEJ    20mm   242.5mm width 87.5mm
+.da UNDLEJER   107.5mm 242.5mm width 87.5mm
+.**************************************************************************
+.ar AFTALE on
+&AFTALENR.
+.ar off
+.**************************************************************************
+.ar KUNDEOPL on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.**************************************************************************
+.ar KUNCPRCVR on
+&KUNDENR.
+.ar off
+.**************************************************************************
+.ar UDSTYR1 on
+.tp 35mm 68mm
+&BESKRIV01.,:SWISS8. årgang:SKRSLUT. &ÅRG01.
+.ar off
+.**************************************************************************
+.ar LEVDØR on
+.tp 12mm
+¤&LEVDCVR01.:SWISS8.,:SKRSLUT. &LEVDNAVN01.
+.ar off
+.**************************************************************************
+.ar FORTSÆT on
+:SWISS8.
+.fo right
+.if &U'X&FORTSÆT = XJ
+.th Fortsættes
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar STEL on
+&STELNR01.
+.ar off
+.**************************************************************************
+.ar REGNR on
+&REGISNR01.
+.ar off
+.**************************************************************************
+.ar LEVADR on
+&LEVERADR1.
+.br
+&LEVERADR2.
+.br
+&LEVERADR3.
+.br
+&LEVERADR4.
+.br
+&LEVERADR5.
+.ar off
+.**************************************************************************
+.ar BRUGER on
+.if &L'&LOFBRUGER > 0
+.th &LOFBRUGER.
+.ar off
+.**************************************************************************
+.* HVIS DER SKAL SKRIVES FLERE AKTIVER, SÅ SKAL UNDERSKRIFTSFELTET FLYTTES*
+.if &U'X&FORTSÆT = XJ
+.th .go FOREND1
+.**LEASINGGIVERS UNDERSKRIFT***********************************************
+.ar UNDUDLEJ on
+.ce &AFDBNKNAVN.
+.ar off
+.**LEASINGTAGERS UNDERSKRIFT***********************************************
+.ar UNDLEJER on
+.ce &UNDSNAVN.
+.ar off
+.**************************************************************************
+...FOREND1
+.**************************************************************************
+.da UDSTYRT  21mm  88.5mm width 171mm
+.da LEVDØR   21mm 102.5mm width 173mm
+.da VILKAR1  21mm   150mm width 171mm
+.da VILKAR2 108mm 155.5mm width  85mm
+.**************************************************************************
+:SWISS8.
+.**************************************************************************
+.ar UDSTYRT on
+der har indgået leasingaftale i perioden fra den
+:SKRSLUT.
+.ct  &FFDATO.
+:SWISS8.
+.ct  til den
+:SKRSLUT.
+.ct  &UDATO.
+:SWISS8.
+.ct , på følgende udstyr:
+.ar off
+.**************************************************************************
+.ar LEVDØR on
+Leverandør:
+.ar off
+.**************************************************************************
+.ar VILKAR1 on
+tiltræder ved nærværende allonge følgende supplerende forpligtelser til
+leasingaftalen (alle beløb er opgivet excl. moms):
+.sp
+.ir 87mm
+.tp 3mm
+.of 3mm
+1.¤Leasingtager opnår mulighed for rabatfordele på bilabonnement hos
+vejhjælpen. Leasinggiver er alene formidler og bærer ikke noget ansvar i
+forbindelse hermed.
+.*******Test på om det er en åben eller lukket kalkulation*********
+.if &L'&FALCKGEB. > 0
+.th .go to ÅBKALK
+.el .go to LUKKALK
+.****************************************************************
+...ÅBKALK
+Vejhjælpsabonnementet afregnes pt. til
+kr. :SKRSLUT.
+&FALCKGEB.
+:SWISS8.
++ moms pr. måned.
+.go to KALKEND
+.****************************************************************
+...LUKKALK
+Vejhjælpsabonnementet er indeholdt i leasingydelsen.
+...KALKEND
+.****************************************************************
+.of
+.of 3mm
+2.¤Leasingtager modtager efter underskrift af nærværende allonge et
+vejhjælpskort f.s.v. angår ovennævnte indreg.nr.
+.of
+.of 3mm
+3.¤Betaling for abonnementet opkræves månedligt eller årligt forud
+efter aftale. Abonnementet tegnes for minimum 1 år, og evt. opsigelse af
+vejhjælpsabonnement
+før udløb af den i leasingaftalen anførte leasingperiode
+skal ske med 3 måneders varsel til et hovedforfald. Beløbet vil blive
+opkrævet af leasinggiver via PBS eller ved giroindbetalingskort.
+.of
+.of 3mm
+4.¤Forfaldstid fremgår af fremsendt opkrævning. Såfremt leasingtager
+misligholder sine betalinger, vil dette være at betragte som
+misligholdelse af den underliggende leasingaftale samt nærværende tillæg
+til aftale.
+.of
+.sp
+.ir 1mm
+Leasingtager anerkender med sin underskrift at have modtaget en kopi af
+nærværende aftale, samt at have gennemlæst og at være bekendt med aftalens
+bestemmelser. Aftalen er bindende for leasinggiver, når den er underskrevet
+af tegningsberettiget for samme.
+.ar off
+.**************************************************************************
+.ar VILKAR2 on
+.tp 3mm
+.of 3mm
+5.¤Misligholdelse af den underliggende leasingaftale vil blive betragtet
+som såvel misligholdelse af den underliggende leasingaftale samt nærværende
+aftale.
+.of
+.of 3mm
+6.¤Såvel leasingtager som leasinggiver kan til enhver tid opsige nærværende
+aftale dog jf. pkt. 3. I forbindelse hermed skal det udstedte kort
+returneres i overklippet stand.
+.of
+.of 3mm
+7.¤Ved enhver misligholdelse fra leasingtagers side forbeholder
+leasinggiver sig ret til, uden forudgående varsel at ophæve nærværende
+aftale samt at spærre abonnementet for fremtidigt brug. Endvidere
+forbeholder leasinggiver sig ret til at ophæve nærværende aftale,
+såfremt samarbejdet mellem leasinggiver og vejhjælpen ophører.
+.of
+.of 3mm
+8.¤Nærværende aftale er kun gældende i den tidsperiode, hvor leasingtager
+har et leasingforhold med leasinggiver.
+.of
+.ar off
+.**************************************************************************
+.************** Areal definitioner ****************************************
+.da BUND1  28mm 279mm width 25mm
+.da BUND2  53mm 279mm width 25mm
+.da BUND3  78mm 279mm width 25mm
+.da BUND4 103mm 279mm width 32mm
+.da BUND5 136mm 279mm width 25mm
+.da BUND6 161mm 279mm width 25mm
+.********************* SIDEFODDEFINITION STARTER **************************
+:SWISS6.
+.ar BUND1 on
+:FED.
+Kundeservice
+:SKRSLUT.
+.br
+AL Finans A/S
+.br
+Sluseholmen 2
+.br
+DK-2450 København SV
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND2 on
+Kundeservice tlf.
+.br
+ 
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND3 on
++45 43 24 49 10
+.br
+ 
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND4 on
+kundeservice@al-finans.dk
+.br
+www.alfinans.dk
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND5 on
+CVR 31 43 34 28
+.br
+Bankkonto:
+.br
+5301 0270419
+.br
+IBAN:
+.br
+DK6353010000270419
+.ar off
+.********************* SIDEFODDEFINITION fortsætter ***********************
+.ar BUND6 on
+Mandag-torsdag
+.br
+9:00-16:00
+.br
+Fredag
+.br
+9:30-16:00
+.ar off
+:SKRSLUT.
+.********************* SLUT ***********************************************
+.*****************Reg.nr. i sidemargin*************************************
+.da VEND 9mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+9947
+.ar off

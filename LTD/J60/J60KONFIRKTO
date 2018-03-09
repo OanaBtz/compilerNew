@@ -1,0 +1,170 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS10.
+.fo left
+.ll 170mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da KUNDE 24mm 40mm width 70mm
+.da REF 115mm 40mm width 70mm
+.da OVERSKR 24mm 80mm width 175mm
+.da TEKST 24mm 90mm width 160mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar KUNDE on
+:FED
+Kontohaver
+:SKRSLUT.
+.sp
+&NAVN
+.br
+&GADE
+.br
+&BY
+.if &L'&MEDNAVN GT 0
+.th .sp
+.th :FED
+.th Medkontohaver
+.th :SKRSLUT
+.th .br
+.th &MEDNAVN
+.ar off
+.*************************************************************************
+.ar REF on
+.tp 20mm
+:SWISS10.:FED
+KONTOBEVIS
+:SKRSLUT.
+.sp
+Dato: ¤&DATO
+.br
+Kontonr.: ¤&IREGKTO
+.br
+Kontoart: ¤&REGTYPELNG
+.ar off
+.*************************************************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+&REGTYPELNG
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.ar TEKST on
+Ifølge aftale har vi oprettet en &REGTYPELNG &IREGKTO i DKK til
+.if &L'&MEDNAVN GT 0
+.th jer.
+.el dig.
+.sp
+:FED
+Produktbeskrivelse
+:SKRSLUT
+.br
+Kontoen har rentegaranti til &B50DAT2., med &TOTKRE1. % p.a. Herefter
+alm. Eazyrentevilkår. Beløbet kan frit hæves. Der kan indskydes op til
+25.000 kr. Der kan kun oprettes en konto pr. konfirmand/nonfirmand.
+.sp
+:FED
+Rente
+:SKRSLUT
+.br
+Renten tilskrives
+.if &RNTTILFREK = 1
+.th hver måned,
+.if &RNTTILFREK = 3
+.th hvert kvartal,
+.if &RNTTILFREK = 6
+.th hvert halvår,
+.if &RNTTILFREK = 9
+.th hvert år,
+næste gang den &RNTTILDTOK.. Tilskrevne
+renter kan frit hæves.
+.sp
+:FED
+Debitorrente
+:SKRSLUT
+.br
+Ved overtræk forrentes kontoen med følgende renter:
+.sp
+Udlånsrente:
+.br
+Kontoen forrentes med en variabel rente, som for tiden udgør
+&TOTDEB1. % p.a., svarende til en debitorrente på &DEBRTE01. %.
+.sp
+Renten beregnes og tilskrives
+.if &RNTTILFRED = 1
+.th hver måned.
+.if &RNTTILFRED = 3
+.th hvert kvartal.
+.if &RNTTILFRED = 6
+.th hvert halvår.
+.if &RNTTILFRED = 9
+.th hvert år.
+Den angivne sats er den for tiden gældende for lån af denne art, og
+&BANKNAVN forbeholder sig ret til at ændre satsen.
+.sp2
+:FED
+Underskrift
+:SKRSLUT
+.br
+Undertegnede kontohaver, der har oprettet ovennævnte konto,
+bekræfter herved at have modtaget et eksemplar af:
+.sp
+- "Bankens almindelige forretningsbetingelser"
+.sp
+og er indforstået med, at disse regler gælder for kontoforholdet.
+.sp
+Underskriften på checks kontrolleres ikke af banken.
+.sp5
+.tp 35mm 90mm
+.hr 0mm 25mm 35mm 80mm 90mm 135mm
+.br
+Dato ¤&NAVN ¤&BANKNAVN
+.if &L'&MEDNAVN GT 0
+.th .br
+.th ¤&MEDNAVN
+.ar off

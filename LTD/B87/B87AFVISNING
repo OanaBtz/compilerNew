@@ -1,0 +1,220 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*******TEST PÅ OM 3. BETALINGSMODTAGER MANGLER AT BLIVE UDFYLDT***********
+.if &BECTEST01 = 1
+.an &L'&B11TEKST15 = 0
+.an &B11BEL5 > 0,00
+.th .mg/T/3. betalingsmodtager skal være udfyldt./
+.**************************************************************************
+.*******TEST PÅ OM 4. BELØB MANGLER AT BLIVE UDFYLDT***********************
+.if &BECTEST01 = 1
+.an &L'&B11TEKST16 > 0
+.an &B11BEL6 = 0,00
+.th .mg/T/4. beløb skal være udfyldt./
+.*******TEST PÅ OM 4. BETALINGSMODTAGER MANGLER AT BLIVE UDFYLDT***********
+.if &BECTEST01 = 1
+.an &L'&B11TEKST16 = 0
+.an &B11BEL6 > 0,00
+.th .mg/T/4. betalingsmodtager skal være udfyldt./
+.**************************************************************************
+.*******TEST PÅ OM 5. BELØB MANGLER AT BLIVE UDFYLDT***********************
+.if &BECTEST01 = 1
+.an &L'&B11TEKST17 > 0
+.an &B11BEL7 = 0,00
+.th .mg/T/5. beløb skal være udfyldt./
+.*******TEST PÅ OM 5. BETALINGSMODTAGER MANGLER AT BLIVE UDFYLDT***********
+.if &BECTEST01 = 1
+.an &L'&B11TEKST17 = 0
+.an &B11BEL7 > 0,00
+.th .mg/T/5. betalingsmodtager skal være udfyldt./
+.**************************************************************************
+.*SUBSTRING PÅ LANGKTONR *************************************************
+.su off
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.su on
+.*******TEST PÅ VALG AF BETALINGSAFVISNINGSTYPE***************************
+.if &BECTEST01 = 0
+.or &BECTEST01 > 3
+.th .mg/T/Valg af betalingsafvisningstype skal være 1, 2 eller 3./
+.*******VED VALG AF NETS, SKAL BETALINGSMODTAGER VÆRE UDFYLDT *************
+.if &BECTEST01 = 1
+.an &L'&B11TEKST13 = 0
+.an &L'&B11TEKST14 = 0
+.an &L'&B11TEKST15 = 0
+.an &L'&B11TEKST16 = 0
+.an &L'&B11TEKST17 = 0
+.th .mg/T/Ved valg af PBS, skal mindst en betalingsmodtager være udfyldt./
+.*******VED VALG AF A-SKAT SKAL 1. BELØB VÆRE UDFYLDT *********************
+.if &BECTEST01 = 3
+.an &B11BEL3 = 0,00
+.th .mg/T/Ved valg af A-SKAT, skal 1. beløb være udfyldt./
+.***VED VALG AF NETS SKAL BÅDE BELØB OG BETALINGSMODTAGER VÆRE UDFYLDT ****
+.**************************************************************************
+.*******TEST PÅ OM 1. BELØB MANGLER AT BLIVE UDFYLDT***********************
+.if &BECTEST01 = 1
+.an &L'&B11TEKST13 > 0
+.an &B11BEL3 = 0,00
+.th .mg/T/1. beløb skal være udfyldt./
+.*******TEST PÅ OM 1. BETALINGSMODTAGER MANGLER AT BLIVE UDFYLDT***********
+.if &BECTEST01 = 1
+.an &L'&B11TEKST13 = 0
+.an &B11BEL3 > 0,00
+.th .mg/T/1. betalingsmodtager skal være udfyldt./
+.**************************************************************************
+.*******TEST PÅ OM 2. BELØB MANGLER AT BLIVE UDFYLDT***********************
+.if &BECTEST01 = 1
+.an &L'&B11TEKST14 > 0
+.an &B11BEL4 = 0,00
+.th .mg/T/2. beløb skal være udfyldt./
+.*******TEST PÅ OM 2. BETALINGSMODTAGER MANGLER AT BLIVE UDFYLDT***********
+.if &BECTEST01 = 1
+.an &L'&B11TEKST14 = 0
+.an &B11BEL4 > 0,00
+.th .mg/T/2. betalingsmodtager skal være udfyldt./
+.**************************************************************************
+.*******TEST PÅ OM 3. BELØB MANGLER AT BLIVE UDFYLDT***********************
+.if &BECTEST01 = 1
+.an &L'&B11TEKST15 > 0
+.an &B11BEL5 = 0,00
+.th .mg/T/3. beløb skal være udfyldt./
+.*************GENEREL OPSÆTNING********************************************
+:TILTALE &TILTALEF
+:COUR10.
+.fo left
+.ti ¤ 05
+.*************AREAL-DEFINITIONER*******************************************
+.da START 20mm 110mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************ROTERET BREVNAVN*********************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*************STARTPOSITION AF BREVET, INCL. OVERSKRIFT********************
+.ar START on
+.us Afvisning af betalinger
+.sp
+.***********************************************************************
+.if &BECTEST01 eq 1
+.an &L'&BECTEKST30 eq 0
+.th .go hop1
+.if &BECTEST01 eq 1
+.an &L'&BECTEKST30 gt 0
+.th .go hop2
+.if &BECTEST01 eq 2
+.th .go hop3
+.if &BECTEST01 eq 3
+.th .go hop4
+...hop1
+Der er foretaget en betaling til &BECTEKST31. på kr. &BECBELOB4 gennem
+BetalingsService, hvilket har medført, at &DIN konto nr. &REGNR &KTONR1.
+er gået i overtræk. Vi har derfor afvist betalingen på grund af manglende
+dækning.
+.go hop5
+...hop2
+Der er foretaget følgende betalinger:
+.sp
+.if &L'&BECTEKST31 eq 0
+.th .go skip1
+&BECTEKST31.¤kr.¤&BECBELOB4
+...skip1
+.if &L'&BECTEKST30 eq 0
+.th .go skip2
+.br
+&BECTEKST30.¤kr.¤&BECBELOB5
+...skip2
+.if &L'&BECTEKST32 eq 0
+.th .go skip3
+.br
+&BECTEKST32.¤kr.¤&BECBELOB6
+...skip3
+.if &L'&BECTEKST33 eq 0
+.th .go skip4
+.br
+&BECTEKST33.¤kr.¤&BECBELOB7
+...skip4
+.if &L'&BECTEKST34 eq 0
+.th .go skip5
+.br
+&BECTEKST34.¤kr.¤&BECBELOB8
+...skip5
+.sp
+gennem BetalingsService, hvilket har medført, at &DIN konto nr. &REGNR
+&KTONR1 er gået i overtræk. Vi har derfor afvist betalingerne på grund af
+manglende dækning.
+.go hop5
+...hop3
+Vi har tilbageført det indsendte indbetalingskort på grund af manglende
+dækning på konto nr. &REGNR &KTONR1..
+.go hop5
+...hop4
+Herved skal vi meddele &DIG., at vi har tilbageført betaling af
+.br
+A-skat på grund af manglende dækning.
+...hop5
+.if &L'&BECBELOB9 eq 0
+.th .go hop6
+.sp
+Vort gebyr for
+.if &BECTEST01 eq 1
+.or &BECTEST01 eq 2
+.th afvisning af betalingen
+.if &BECTEST01 eq 3
+.th tilbageførslen
+udgør kr. &BECBELOB9., som er hævet på &DIN konto.
+...hop6
+.sp
+Der er ved afvisningen af beløbet beregnet et gebyr på 100,00 kr.
+.sp
+&BECTEKST1.
+&BECTEKST2.
+.************************************************************************
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

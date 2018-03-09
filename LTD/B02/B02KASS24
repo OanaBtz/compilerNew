@@ -1,0 +1,173 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*************AREALDEFINITION****************
+.da NAVN 25mm 55mm width 165mm
+.da ADR 105mm 40mm width 38mm
+.da AFD 130mm 40mm width 38mm
+.da DIV 160mm 40mm width 42mm
+.da DATO 25mm 83mm width 70mm
+.da TEXT 25mm 105mm width 165mm
+.*************NAVN OG ADRESSE****************
+.fo left
+.ar NAVN on
+:SWISS10.
+.*&STILL.
+.*.br
+.TI ¤ 05
+.TP 90mm
+&NAVN. ¤&MEDNAVN
+.br
+&COADR. ¤&MEDCO
+.br
+&GADE. ¤&MEDGADE
+.br
+&BY. ¤&MEDBY
+.br
+&LAND ¤&MEDLAND
+.ar off
+.******************DATO**********************
+.*****************SLUT***********************
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************** adr.tekst forneden *****************
+.da AMBK 20mm 287mm
+.ar AMBK on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS8.
+.in 0
+.ce on
+&BANKNAVN., &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Særskilt ejendomsvurdering
+.br
+.if &B02VALG3 eq 1
+.th BoligKredit
+.if &B02VALG3 eq 2
+.th BoligKreditPlus
+:SKRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.da TEKST1 25mm 45mm width 165mm
+.ar TEKST1 on
+.*.ti ¤ 05
+.tp 90mm
+:SWISS10.
+.if &L'&MEDNAVN gt 0
+.th Undertegnede ¤Evt. medkontohaver
+.if &L'&MEDNAVN eq 0
+.th Undertegnede
+.sp 30mm
+ønsker herved, at &BANKNAVN foretager ejendomsvurdering på
+.if &L'&MEDNAVN eq 0
+.th min
+.el vor
+ejendom, beliggende
+.sp 2
+&B02TOM3
+.br
+&B02TOM4
+.sp 2
+.if &L'&MEDNAVN eq 0
+.th Jeg
+.el Vi
+erklærer herved, at være informeret om, at værdiansættelsen efter denne
+vurdering, vil danne grundlag for den tillagte belåningsværdi og dermed
+det tilbudte maksimum på
+.if &L'&MEDNAVN eq 0
+.th min
+.el vor
+.if X&B02VALG3 eq X1
+.th BoligKredit. Dette
+.th gælder uanset, om
+.th vurderingen medfører en lavere eller højere værdiansættelse end det
+.th eksisterende grundlag.
+.if X&B02VALG3 eq X2
+.th BoligKreditPlus.
+.if &L'&B02BELØB47 eq 0
+.th .go med
+.el .go vur
+...vur
+.sp
+Vurderingen koster kr. &B02BELØB47., og beløbet vil blive debiteret på
+konto nr. &B02KONTO..
+.go med
+...med
+.sp 6
+.if &L'&MEDNAVN eq 0
+.th Jeg
+.el Vi
+accepterer ovenstående
+.sp 4
+___________________________ den, ____________________________
+.sp 2
+.if &L'&MEDNAVN eq 0
+.th Som rekvirent
+.el Som rekvirenter
+af særskilt ejendomsvurdering:
+.sp 7
+.hr 0mm 120mm
+.tp 60mm
+:SWISS8.
+.br
+&NAVN ¤&MEDNAVN
+.ar off

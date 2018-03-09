@@ -1,0 +1,332 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.*.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.*.BR
+.*.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.*.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.if &U'&GENVALGA <> N
+.an &U'&GENVALGA <> A
+.th .mg/T/Ny eller Annullering skal vælges/
+.if &U'&GENVALGB <> A
+.an &U'&GENVALGB <> N
+.th .mg/T/Alle beviser aller Nogle beviser skal vælges/
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+:omtale &OMTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da TITEL 100mm 20mm width 90mm
+.da OVERSKR 100mm 40mm width 90mm
+.da START 20mm 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.*********************ROTERET BREVNAVN*************************************
+.*.ar VEND on
+.*:COUR6.
+.*&BREVNAVN
+.*.ar off
+.ar KUNDEOPL on
+&STILL.
+.br
+&NAVN.
+.br
+.if &L'&COADR > 0
+.th &COADR.
+.th .br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.ar off
+.****HER STARTER HØJRE****
+.*.ar TITEL on
+.*:VERDA10.
+.*:FED.
+.*.fo right
+.*Serviceaftale
+.*:SKRSLUT.
+.*.ar off
+.ar OVERSKR on
+.*:FED.
+.fo right
+.*Kontaktsamtykke
+.*:SKRSLUT.
+.*.br
+Cpr/Cvr-nummer: &KUNDENR.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.*.ar START on
+.*.us Kontaktsamtykke
+.*.sp
+.**************************************************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.sp 76mm
+.**************************************************************************
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 10mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*************************************************************************
+.dr tynd weight 0.2mm
+:FED.
+.if &U'&GENVALGA = N
+.th Aftale om stock dividend (udbyttebeviser)  -  automatisk
+.th geninvestering
+.el Annullering af aftale om stock dividend (udbyttebeviser)  -
+.el automatisk geninvestering
+:SKRSLUT.
+.sp
+Ovennævnte bekræfter herved, at &JEG på depot nr. &DEPOTNR  fremover
+.if &U'&GENVALGA = N
+.th ønsker at modtage &MIT udbytte fra danske
+.th investeringsforeninger som udbyttebeviser efter nedennævnte model.
+.el ikke ønsker at modtage &MIT udbytte fra danske
+.el investeringsforeninger som udbyttebeviser. I stedet modtager
+.el &JEG. kontant udbytte på &MIN afkastkonto.
+.sp
+.tp 1mm 8mm
+Afkryds venligst &DIT valg
+.sp
+.if &U'&GENVALGB = A
+.th ¤X ¤&SJEG. ønsker
+.el ¤  ¤&SJEG. ønsker
+.if &U'&GENVALGA = A
+.th at afmelde
+udbyttebeviser for alle investeringsforeningsbeviser i
+&MIT depot
+.hr tynd 0mm 4mm
+.sp
+.if &U'&GENVALGB <> A
+.th ¤X ¤&SJEG ønsker
+.el ¤  ¤&SJEG ønsker
+.if &U'&GENVALGA = A
+.th at afmelde
+udbyttebeviser for følgende investeringsforeningsbeviser i
+&MIT depot:
+.hr tynd 0mm 4mm
+.sp
+.if &U'&GENVALGB = A
+.th .go ALLEBEV
+Papirnavn
+.sp
+.if &L'&GENTEKST1 > 0
+.th &GENTEKST1.
+.th .hr tynd 0mm 125mm
+.th .br
+.if &L'&GENTEKST2 > 0
+.th &GENTEKST2.
+.th .hr tynd 0mm 125mm
+.th .br
+.if &L'&GENTEKST3 > 0
+.th &GENTEKST3.
+.th .hr tynd 0mm 125mm
+.th .br
+.if &L'&GENTEKST4 > 0
+.th &GENTEKST4.
+.th .hr tynd 0mm 125mm
+.th .br
+.if &L'&GENTEKST5 > 0
+.th &GENTEKST5.
+.th .hr tynd 0mm 125mm
+.th .br
+.if &L'&GENTEKST6 > 0
+.th &GENTEKST6.
+.th .hr tynd 0mm 125mm
+.th .br
+...ALLEBEV
+.sp
+.if &U'&GENVALGA <> N
+.th .go IKKENY
+Eventuelt restudbytte, hvor beløbet er for lille til at blive
+udbetalt som et investeringsbevis eller en eventuel del af
+udbyttet, som ikke kan geninvesteres, vil blive indsat på
+afkastkonto.
+.sp
+&SJEG har modtaget orientering om pris og vilkår for modtagelse af
+udbyttebeviser, herunder skattemæssige konsekvenser.
+.sp
+...IKKENY
+Information om risikomærkning af investeringsprodukter findes på
+www.sparnord.dk/investeringsinfo, eller kan fås på papir ved
+henvendelse til Spar Nord.
+.sp
+.if &U'&GENVALGA = N
+.th Denne aftale er gældende, indtil den skriftligt tilbagekaldes.
+.**************************************************************************
+.dr tynd weight 0.2mm
+.tp 02mm 72mm
+.***************************
+.* .tp 2mm
+.* .in 0mm
+.********kontohaver og medunderskriver/medkontohaver
+.if &L'&MEDNAVN > 0
+.th .go MEDNV1
+.el .go MEDNV0
+...MEDNV0
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm
+¤&NAVN.
+.kp off
+.go SNBUND
+...MEDNV1
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&NAVN ¤&MEDNAVN
+.kp off
+.********2. og/eller 3. medunderskriver/medkontohaver
+.if &L'&MEDNAVN2 > 0
+.an &L'&MEDNAVN3 > 0
+.th .go MEDNV3
+.el .go MEDNV2
+...MEDNV2
+.if &L'&MEDNAVN2 > 0
+.th .kp on
+.th .sp 25mm
+.th .hr tynd 0mm 65mm
+.th ¤&MEDNAVN2
+.th .kp off
+.go SNBUND
+...MEDNV3
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&MEDNAVN2. ¤&MEDNAVN3.
+.kp off
+.********4. og/eller 5. medunderskriver/medkontohaver
+.if &L'&MEDNAVN4 > 0
+.an &L'&MEDNAVN5 > 0
+.th .go MEDNV5
+.el .go MEDNV4
+...MEDNV4
+.if &L'&MEDNAVN4 > 0
+.th .kp on
+.th .sp 25mm
+.th .hr tynd 0mm 65mm
+.th ¤&MEDNAVN4
+.th .kp off
+.go SNBUND
+...MEDNV5
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&MEDNAVN4. ¤&MEDNAVN5.
+.kp off
+.********6. og/eller 7. medunderskriver/medkontohaver
+.if &L'&MEDNAVN6 > 0
+.an &L'&MEDNAVN7 > 0
+.th .go MEDNV7
+.el .go MEDNV6
+...MEDNV6
+.if &L'&MEDNAVN6 > 0
+.th .kp on
+.th .sp 25mm
+.th .hr tynd 0mm 65mm
+.th ¤&MEDNAVN6.
+.th .kp off
+.go SNBUND
+...MEDNV7
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&MEDNAVN6. ¤&MEDNAVN7.
+.kp off
+.********8. og/eller 9. medunderskriver/medkontohaver
+.if &L'&MEDNAVN8 > 0
+.an &L'&MEDNAVN9 > 0
+.th .go MEDNV9
+.el .go MEDNV8
+...MEDNV8
+.if &L'&MEDNAVN8 > 0
+.th .kp on
+.th .sp 25mm
+.th .hr tynd 0mm 65mm
+.th ¤&MEDNAVN8
+.th .kp off
+.go SNBUND
+...MEDNV9
+.kp on
+.sp 25mm
+.hr tynd 0mm 65mm 70mm 135mm
+¤&MEDNAVN8. ¤&MEDNAVN9.
+.kp off
+.********10. medunderskriver/medkontohaver
+.if &L'&MEDNAVN10 > 0
+.th .kp on
+.th .sp 25mm
+.th .hr tynd 0mm 65mm
+.th ¤&MEDNAVN10
+.th .kp off
+... SNBUND
+.*.kp on
+.*.sp 25mm
+.*.hr tynd 0mm 65mm
+.*:FED.
+.*¤Spar Nord Bank A/S
+.*.kp off
+.*:SKRSLUT.
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm

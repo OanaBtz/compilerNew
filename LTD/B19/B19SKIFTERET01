@@ -1,0 +1,187 @@
+.*-------------------------------------------------------------------
+.* Ændret 9.3.2015 9910/hk - pfa. Søs TL, Back Office
+.* Mulighed for afkrydsning af fremsendte oversigter/opgørelser
+.* Indtastning af krav og valgfrit felt om krav på renter.
+.*-------------------------------------------------------------------
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.******************************************************
+.ti ¤ 05
+.tp 13mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+Skifteretten i &B19NAVN
+.sp 1mm
+&B19GADE
+.sp 1mm
+&B19BY
+.sp
+.if &L'&B19TX30A gt 0
+.th Att. &B19TX30A
+.ar off
+.******************REGISTRERINGSNR*********************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.******************AFD.OPLYSNINGER*********************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte: ¤&GENTLFNR
+.br
+E-mail: ¤&GENEMAIL
+.sp
+&DATO
+.ar off
+.*******************************************SLUT***************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp
+:VERDA10.
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.ar off
+.da SIDE 25mm 100mm width 150mm
+.tp 4mm 8mm
+.******* INDLEDENDE TEKST *************************************************
+.ar SIDE on
+:VERDA10.
+:FED.
+Boet efter &NAVN., cpr.nr. &KUNDENR., død &B19DATO..
+:SKRSLUT
+:VERDA10.
+.sp
+I forbindelse med ovennævnte bo sender vi vedlagt:
+.sp
+¤*¤Engagementsoversigt og proformaopgørelse
+.if &L'&B19TX1B gt 0
+.th .br
+.th ¤*¤Posteringsoversigt
+.th .br
+.if &L'&B19TX1A gt 0
+.th .br
+.th ¤*¤Beholdningsoversigt, herunder
+.th .in 8mm nobreak
+.th evt. sikkerheder. Depottype fremgår af beholdningsoversigten.
+.th .in -8mm
+.th .sp
+.el .sp
+.******* OPLYSNING OM HVAD BANKENS KRAV I BOET ANDRAGER *******************
+.if &L'&B19BELØB gt 0
+.th .br
+.th Vores krav i boet anmeldes med
+.th :VS. &B19BELØB.
+.th kroner.
+.th .sp
+.******* FORBEHOLD FOR KRAV PÅ RENTER *************************************
+Vi forbeholder os desuden krav på renter m.v. fra dødsdagen til betaling
+sker.
+.sp
+.******* OPLYSNING OM KAUTIONSFORPLIGTELSE ********************************
+.if &L'&B19BELØB2 gt 0
+.an &L'&B19BELØB3 lt 1
+.th .go KAUTION
+.el .go KAUGAR
+...KAUTION
+Herudover anmeldes kautionsforpligtelse
+:VS. &B19BELØB2.
+kroner af typen &B19TX50A..
+.sp
+...KAUGAR
+.******* OPLYSNING OM GARANTISTILLELSE ************************************
+.if &L'&B19BELØB2 gt 0
+.an &L'&B19BELØB3 gt 0
+.th .go KAUGAR1
+.el .go KAUGAR2
+...KAUGAR1
+Herudover anmeldes kautionsforpligtelse
+:VS. &B19BELØB2.
+kroner, af typen &B19TX50A. og garantiforpligtelse
+:VS. &B19BELØB3.
+kroner, stillet i forbindelse med lån i realkreditinstitut.
+.sp
+...KAUGAR2
+.if &L'&B19BELØB3 gt 0
+.an &L'&B19BELØB2 lt 1
+.th .go KAUGAR3
+.el .go SLUT
+...KAUGAR3
+Herudover anmeldes garantiforpligtelse
+:VS. &B19BELØB3.
+kroner, stillet i forbindelse med lån i realkreditinstitut.
+.sp
+...SLUT

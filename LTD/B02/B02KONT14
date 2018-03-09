@@ -1,0 +1,184 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*********************GENEREL OPSÆTNING************************************
+.*:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på formularen i ø.h. hjørne **************
+.da START 130mm 15mm width 70mm
+.* navn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.********************* ADRESSE FORNEDEN PÅ BREVET **********************
+.da AB 20mm 285mm width 170mm
+.ar AB on
+.su off
+.se telefon = substr &AFDTLF 6 11
+.su on
+:SWISS9.
+.in 0
+.ce on
+.if &B02BKST eq 520760
+.th Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.el Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.ce off
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS12.:FED.
+.ri on
+Transport :SKRSLUT.(kontantsalg)
+.*:KRSLUT.
+.ri off
+.ar off
+.**************************************************************************
+.***************Areal definition**********************
+.da NAVN 20mm 40mm width 175mm
+.da DATO 20mm 240mm width 175mm
+.******************HER STARTER TEKST*******************
+.ar NAVN on
+Undertegnede
+.sp 2
+.tp 80mm
+.if &U'&B02VÆLG eq J
+.th &KTOSTILL ¤&MEDSTILL
+.th .br
+&KTONAVN ¤&MEDNAVN
+.br
+.if &L'&KTOCO gt 0
+.th &KTOCO ¤&MEDCO
+.th .br
+&KTOGADE ¤&MEDGADE
+.br
+&KTOBY ¤&MEDBY
+.in 0
+.tp 37mm 52mm 57mm 100mm
+.sp 2
+giver herved Amagerbanken
+transport i det mig/os tilkommende provenu i forbindelse med salget af den
+mig/os tilhørende ejendom:
+.sp
+matr nr.:¤ &B02MATRNR.
+.br
+beliggende:¤ &B02MATR
+.sp
+Transporten omfatter såvel mit/vort krav mod køber som samtlige mine/vore
+rettigheder i henhold til
+.tp 37mm 52mm 57mm 80mm 100mm
+.sp
+garanti nr.:¤ &B02TEXT111 ¤¤¤
+.us stor kr. &BECDEBET10
+.sp
+udstedt af:¤ &B02TEXT17
+.sp
+Der er ikke givet nogen bedre eller sideordnet prioriteret transport.
+.sp
+Som følge af denne transport er Amagerbanken eneberettiget til at modtage
+og kvittere for alle betalinger i henhold til transporten.
+.sp
+Transporten anmeldes over for:
+.sp
+.if &L'&B02TEXT12 gt 0
+.th Køber:   &B02TEXT12
+.if &L'&B02TEXT23 gt 0
+.th .sp
+.th Købers advokat:   &B02TEXT23
+.sp
+Garantistillende bank:   &B02TEXT17
+.sp 4
+.************** -debitor(er) *******************
+Dato:
+.hr 51mm 150mm
+.br
+:SWISS8.
+¤¤ &KTONAVN               ¤¤¤ &MEDNAVN
+.*************** - køber ************
+.if &L'&B02TEXT12 gt 0
+.th :SWISS11.
+.th .sp
+.th Noteret:
+.th .br
+.th Dato:
+.th .sp
+.th .hr 51mm 150mm
+.th :SWISS8.
+.th ¤¤ &B02TEXT12
+.if &L'&B02TEXT23 gt 0
+.th :SWISS11.
+.th .sp 2
+.th Noteret:
+.th .br
+.th Dato:
+.th .hr 51mm 150mm
+.th.br
+.th :SWISS8.
+.th ¤¤ &B02TEXT23
+.th :SWISS11.
+.th .sp 2
+.if &L'&B02TEXT23 gt 0
+.th Noteret:
+.th .br
+.th Dato:
+.th.hr 51mm 150mm
+.th .br
+.th :SWISS8.
+.th ¤¤ &B02TEXT17
+.ar off
+.*.da AB 20mm 285mm width 170mm
+.*.ar AB on
+.*.su off
+.*.se telefon = substr &AFDTLF 6 11
+.*.su on
+.*:SWISS9.
+.*.in 0
+.*.ce on
+.*.*Amagerbanken, &B02AFD., &AFDGADE., &AFDBY., tlf. &telefon
+.*.ce off
+.*.ar off

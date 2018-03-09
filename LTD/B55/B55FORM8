@@ -1,0 +1,968 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.if &L'&GENCPR1 > 0
+.an &L'&GENNAVN1 = 0
+.th .mg/T/1. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR2 > 0
+.an &L'&GENNAVN2 = 0
+.th .mg/T/2. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR3 > 0
+.an &L'&GENNAVN3 = 0
+.th .mg/T/3. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR4 > 0
+.an &L'&GENNAVN4 = 0
+.th .mg/T/4. fuldmagtshavers navn mangler/
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:VERDA12.
+:FED.
+Aftale om Aktiekonto &B55ÅR. - &B55FRI20A.
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:VERDA10.
+:FED.
+Parter
+:SKRSLUT.
+:VERDA08.
+.if &L'&MEDNAVN = 0
+.th .bx left right
+.th ¤Kontohaver
+.el .bx left 87.5mm right
+.el ¤Kontohaver ¤Medkontohaver
+.sp 23mm
+.if &L'&MEDNAVN = 0
+.th ¤&kunnr
+.el ¤&kunnr ¤&mkunnr
+.bx new left right
+¤Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:VERDA10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+:VERDA08.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 72.5mm width 80mm
+.da MCPR   121.5mm 72.5mm width 80mm
+.da PI        25mm 84mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.**************************************************************************
+.ar MKUNDE on
+.if &L'&MEDNAVN > 0
+.th &MEDSTILL
+.th .br
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.ar off
+.**************************************************************************
+.ar CPR on
+&KTOKNDNR1
+.ar off
+.**************************************************************************
+.ar MCPR on
+.if &L'&MEDNAVN > 0
+.th &MEDKNDNR1
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+:VERDA08.
+.in 5mm
+.tp 55mm 80mm
+.kp on
+.sp
+:FED.
+Konto
+:SKRSLUT.
+.br
+Kontonr. ¤Regtype/betegnelse
+.br
+&IREGKTO ¤&REGTYPELNG
+.sp 3mm
+Bindingsperioden:
+.br
+&B55DATO1. - &B55DATO2.
+.sp 5mm
+.kp off
+.kp on
+Hver kontohaver er berettiget til at disponere alene over
+den anførte konto, medmindre andet er aftalt.
+.sp 3mm
+.kp off
+.kp on
+.tp 8mm
+*¤For kontoforholdet gælder vedlagte Indlånsvilkår for Aktiekonto &B55ÅR.
+.br
+.of 3mm
+*¤&BANKNAVN.s Almindelige forretningsbetingelser
+.of
+.sp 3mm
+.kp off
+.kp on
+Jeg/vi har modtaget og gjort mig/os bekendt med de anførte regler forud for
+underskrivelsen af denne aftale.
+.sp 5mm
+.kp off
+.tp _/50mm 55mm 72mm  _/155mm
+.kp on
+:FED.
+Underskrifter
+:SKRSLUT.
+.sp 3mm
+Som kontohaver:
+.sp 8mm
+Dato: ¤ ¤Underskrift: ___________________________________________
+.tp 121mm center
+.br
+¤&KTONAVN
+.sp 5mm
+...MEDKTO
+.kp off
+.****
+.if &L'&MEDNAVN = 0
+.th .go MEDSLUT
+.**************************************************************************
+.kp on
+.tp _/50mm 55mm 72mm  _/155mm
+Som medkontohaver:
+.sp 8mm
+Dato: ¤ ¤Underskrift: ___________________________________________
+.tp 121mm center
+.br
+¤&MEDNAVN
+.sp 5mm
+...MEDSLUT
+.**************************************************************************
+.in 5mm
+.ir 5mm
+.**********************
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:VERDA12.
+:FED.
+Indlånsvilkår - Aktiekonto &B55ÅR. - &B55FRI20A.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.in 5mm
+.ir 1mm
+.pa
+:VERDA08.
+.in 1mm
+.sp 6mm
+.*KOLONNEDEFINITION********************************************************
+.pm 20mm
+.tm 18mm
+.bm 18mm
+.cd 2 1mm 88mm
+.cl 85mm
+.**************************************************************************
+.kp on
+:VERDA09.:FED.
+1. Aktiekonto
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Kunden bør indgå aftale om indskud på kontoen "Aktiekonto &B55ÅR. -
+&B55FRI20A." (herefter kaldet "Aktiekontoen") efter en grundig
+gennemgang af samtlige vilkår for Aktiekontoen, og kunden erklærer
+ved sin underskrift af oprettelsesblanketten, at det er sket.
+.sp
+.kp off
+.kp on
+Det beløb, som kunden indsætter på Aktiekontoen, er indsat som et
+:FED.
+struktureret indlån.
+:SKRSLUT.
+Beløbet kaldes herefter "det indsatte beløb".
+.sp
+.kp off
+.kp on
+Struktureret indlån er et komplekst indlånsprodukt, der er
+risikomærket gult i henhold til bekendrsgørelse nr. 345 af
+15. april 2011 om risikomærkning. Risikomærket gult betyder, at
+der er risiko for, at det investerede beløb kan tabes helt eller
+delvist, og produkttypen ikke er vanskelig at gennemskue. Kunden
+kan læse mere om risikomærkning i faktaarket "Strukturerede indlån"
+samt på www.moensbank.dk/risikomærkning.
+.sp
+.kp off
+.kp on
+Aktiekontoen anses skattemæssigt for at være en finansiel kontrakt,
+jf. pkt. 10. Finansielle kontrakter beskattes efter lagermetoden, jf.
+reglerne i kursgevinstlovens kapitel 6.
+.sp
+.kp off
+.kp on
+Det indsatte beløb er bundet fra den &B55DATO1. til den &B55DATO2.
+(herefter kaldet "bindingsperioden"). Det indsatte beløb kan alene
+hæves i bindingsperioden, hvis kunden opsiger denne aftale på de
+betingelser, der fremgår af pkt. 6, eller &BANKNAVN. meddeler, at
+det ikke er muligt at opnå de forudsatte indlånsvilkår, jf. pkt. 12.
+.sp
+.kp off
+.kp on
+Et struktureret indlån består af to elementer: Almindeligt indlån
+i &BANKNAVN. sant optioner. Disse optioner er afledte finansielle
+instrumenter på kursudviklingen af en ligevægtet "kurv" (vægt 1/15) af
+15 &B55FRI20A. (herefter kaldet "den underliggende aktiekurv"). De
+15 aktier er: WalMart Stores Inc., McDonald's Corp, Nestlé S.A.,
+PepsiCo Inc., Hennes & Mauritx AB, Carlsberg A/S, Tesco plc, Unilever
+NV, Beiersdorf AG, CVS Caremark Corp., Danone, Kraft Foods Inc.,
+Vivendi, Adidas AG og Philips Electronics.
+.sp
+.kp off
+.kp on
+Ved bindingsperiodens udløb udbetales et variabelt
+afkast, jf. pkt. 7. Det variable
+afkast afhænger af udviklingen i den underliggende
+aktiekurv. Hvis værdien af den underliggende aktiekurv udvikler sig
+positivt, modtager kunden et afkast svarende til det indsatte beløb
+ganget med den procentvise stigning i værdien af den samlede
+underliggende aktiekurv. De 15 aktier er dog alle underlagt en
+individuel maksimumgrænse for, hvor meget de hver især kan bidrage
+med til det samlede afkast ved udløb, jf. pkt. 7 og 9. Denne
+individuelle maksimumgrænse er indikativt 30 %, jf. afsnit 7.
+.sp
+.kp off
+.kp on
+Hvis kunden ikke opsiger aftalen i bindingsperioden, jf. pkt. 6, får
+kunden som minimum det indsatte beløb tilbage, når bindingsperioden
+udløber. Kunden har dog risikoen på &BANKNAVN.s tilbagebetalingsevne,
+jf. pkt. 8.
+.sp
+.kp off
+.kp on
+Kunden modtager ingen rente af det indsatte beløb på Aktiekontoen,
+jf. pkt. 3.
+.sp
+.kp off
+.kp on
+For Aktiekontoen gælder endvidere &BANKNAVN.s almindelige
+forretningsbetingelser forbrugere eller &BANKNAVN.s almindelige
+forretningsbetingelser erhverv (afhængig af kundeforholdets
+karakter) i det omfang, disse ikke er fraveget i denne aftale.
+.sp
+Den fortrydelsesret, der fremgår af ovenstående almindelige
+forretningsbetingelser, gælder ikke for indskud
+på Aktiekontoen. Aftalen kan
+således ikke fortrydes af kunden efter den &B55DATO5.
+.sp
+.kp off
+.kp on
+Som opgjort pr. primo &B55FRI61. &B55ÅR1. udgjorde delelementernes
+værdi (indlån, optioner og omkostninger) følgende:
+.sp
+Indlånsværdi:  &B55PCT2.
+.br
+Optionsværdi:  &B55PCT3.
+.sp
+De samlede årlige omkostninger udgør således ca 1,00 % p.a. (100 %
+- (&B55PCT2. + &B55PCT3.)/3) og dækker provision til &BANKNAVN.,
+herunder markedsføringsomkostninger til bl.a. annoncering. De årlige
+omkostninger i procent (ÅOP) er således ca. 1,00 %. Beregningen af
+indlånsværdien er baseret på en rente på &B55PCT1. % p.a.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+2.  Indbetaling og indbetalingsperioden
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Der skal mindst indbetales kr. 25.000,00 på Aktiekontoen.
+.sp
+Frie midler kan indbetales på Aktiekontoen fra den &B55DATO6. til
+den &B55DATO5., begge dage inkl. (herefter kaldet
+"indbetalingsperioden"). Herefter kan der ikke indsættes beløb
+på Aktiekontoen.
+.sp
+.kp off
+.kp on
+For pensionsmidler bemyndiger kunden uigenkaldeligt - ved underskrift
+af denne aftale om Aktiekonto - &BANKNAVN. til den &B55DATO5. at
+overføre det aftalte indsatte beløb fra kundens hovedkonto i
+pensionsordningen til Aktiekontoen. Aktiekontoen vil herefter blive
+tilknyttet kundens kapital- eller ratepensionskonto, der er
+hovedkonto i kundens pensionsordning.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+3. Rente
+.sp 2mm
+:SKRSLUT.
+:SKRSLUT.
+Der tilskrives ingen rente på Aktiekontoen.
+.sp
+Dog tilskrives der for frie midler rente af det indsatte beløb i
+indbetalingsperioden fra indbetaling til den &B55DATO5.. Rentesatsen
+er fastsat til &B55PCT4. % p.a., og denne rentesats er fast i
+indbetalingsperioden. Renten tilskrives Aktiekontoen den &B55DATO5. og
+rentebeløbet indgår herefter i det indsatte beløb.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+4. Gebyrer og kontoudskrifter
+.sp 2mm
+:SKRSLUT.
+:SKRSLUT.
+Der opkræves ingen gebyrer ved oprettelse og udløb af Aktiekontoen.
+.sp
+Hvis det indsatte beløb hæves i bindingsperioden
+ved opsigelse, jf. pkt. 6, skal kunden
+påregne, at markedsværdiopgørelsen inkl. dekort
+jf. pkt. 6-9, kan medføre, at kunden ikke får det fulde indsatte
+beløb tilbagebetalt.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+5. Udløb
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Det indsatte beløb er bundet fra og med den &B55DATO1. til den
+&B55DATO2. (herefter kaldet "udløbsdato") og kan alene hæves i
+bindingsperioden, såfremt aftalen opsiges efter pkt. 6.
+.sp
+.kp off
+.kp on
+Det indsatte beløb og eventuelt afkast frigives fra Aktiekontoen, når
+Aktiekontoen udløber den &B55DATO2.. Vilkårene for Aktiekontoen
+(frie midler) ændres ved udløb automatisk fra en Aktiekonto til en
+Formuekonto i &BANKNAVN. eller en tilsværende konto, hvis kontoformen
+Formuekonto ikke findes på udløbsdatoen.
+.sp
+For pensionsmidler tilbageføres beløbet ved udløb automatisk af
+&BANKNAVN. til hovedkontoen for kundens kapital- eller ratepension.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+6. Opsigelse i bindingsperioden
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+:FED.
+Frie midler:
+:SKRSLUT.
+.br
+Kunden kan i bindingsperioden opsige hele denne aftale om Aktiekonto
+for det fulde indsatte beløb med tre bankdages skriftligt varsel, hvis
+markedsforholdene tillader det. Aftalen kan ikke opsiges delvist for
+et mindre beløb.
+.sp
+.kp off
+.kp on
+Ved opsigelse af Aktiekontoen i bindingsperioden vil det indsatte
+beløb blive udbetalt fratrukket dekort. Dekorten beregnes på
+opsigelsestidspunktet ved en sædvanlig tilbagediskontering af det
+indsatte beløb, således at kunden modtager nutidsværdien af det
+indsatte beløb. Dekorten kan dog ikke overstige 12 %, hvis kontoen
+ønskes opsagt i løbet af de første tolv måneder, 9 % i de følgende tolv
+måneder, 6 % i de følgende seks måneder og 3 % i de resterende syv måneder
+af bindingsperioden. Endvidere vil markedsværdien af den option, der
+knytter sig til det indsatte beløb, jf. pkt. 1, blive udbetalt ved
+opsigelse af Aktiekontoen. Værdien af optionen vil aldrig kunne
+medføre yderligere fradrag i det udbetalte beløb.
+.sp
+.kp off
+.kp on
+Kunden risikerer således ved opsigelse i bindingsperioden ikke
+ikke at få det fulde indsatte beløb tilbagebetalt. Kunden vil
+alene få udbetalt det indsatte beløb fratrukket ovennævnte dekort
+og tillagt den på opsigelsestidspunktet aktuelle mærkedsværdi af
+optionen, der knytter sig til det indsatte beløb.
+.sp
+.kp off
+.kp on
+Optionens markedsværdi vil bl.a. være afhængig af aktiekurvens
+udvikling, aktiekurs-volatiliteten og den tilbageværende løbetid
+på opsigelsestidspunktet. Denne markedsværdi varierer ikke
+nødvendigvis lige så meget som udsvingene på de underliggende
+aktier. Derfor kan en opsigelse af aftalen i bindingsperioden
+påvirke opgørelsen af optionens markedsværdi negativt i forhold
+til en tilsvarende opgørelse foretaget på udløbsdagen den &B55DATO2.
+.sp
+.kp off
+.kp on
+:FED.
+Pensionsmidler:
+:SKRSLUT.
+.br
+denne aftale om Aktiekonto kan ikke opsiges, før udløbsdagen den
+&B55DATO2.. Det indsatte beløb kan derfor ikke hæves i
+bindingsperioden.
+.sp
+.kp off
+.kp on
+Aktiekontoen kan heller ikke flyttes til anden finansiel virksomhed
+eller i den anledning opsiges og opgøres
+i bindingsperioden. Aktiekontoen er
+tilknyttet kundens hovedkonto for kapital- eller
+ratepension, og dette kan medføre begrænsninger i kundens muligheder
+for at flytte sådanne pensionsordninger til anden finansiel
+virksomhed blandt andet på grund af afregning af PAL.
+.sp
+.kp off
+.kp on
+I tilfælde af kontohavers bodeling ved død eller skilsmisse i
+bindingsperioden,
+.us
+men ikke i andre situationer,
+.us off
+kan kontoen dog opgøres samlet, og beløbet udbetales, hvis
+markedsforholdene tillader det. I så fald vil det indsatte beløb
+blive udbetalt fratrukket en dekort. Dekorten beregnes på
+opsigelsestidspunktet ved en sædvanlig tilbagediskontering af det
+indsatte beløb, således at kunden modtager nutidsværdien af det
+indsatte beløb. Dekorten kan dog ikke overstige 12 %, hvis kontoen
+ønskes opsagt i løbet af de første tolv måneder, 9 % i de følgende tolv
+måneder, 6 % i de følgende seks måneder og 3 % i de resterende syv måneder
+af bindingsperioden. Endvidere vil markedsværdien af den option, der
+knytter sig til det indsatte beløb, jf. pkt. 1, blive udbetalt ved
+opsigelse af Aktiekontoen. Værdien af optionen vil aldrig kunne
+medføre yderligere fradrag i det udbetalte beløb.
+.sp
+.kp off
+.kp on
+Uanset den ovenstående opgørelse vil &BANKNAVN. dog sikre, at
+kunden samlet set som minimum får det indsatte beløb udbetalt.
+.sp
+.kp off
+.kp on
+Optionens markedsværdi vil bl.a. være afhængig af aktiekurvens
+udvikling, aktiekurs-volatiliteten og den tilbageværende løbetid
+på opsigelsestidspunktet. Denne markedsværdi varierer ikke
+nødvendigvis lige så meget som udsvingene på de underliggende
+aktier. Derfor kan en opsigelse af aftalen i bindingsperioden
+påvirke opgørelsen af optionens markedsværdi negativt i forhold
+til en tilsvarende opgørelse foretaget på udløbsdagen den &B55DATO2.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+7. Afkastpotentiale
+:SKRSLUT
+:SKRSLUT
+.sp 2mm
+Aktiekontoen løber til den &B55DATO2., og kunden får som minimum
+det indsatte beløb tilbage ved udløb. Herudover kan kunden evt.
+modtage et variabelt afkast.
+.sp
+.kp off
+.kp on
+Hvis værdien af den underliggende aktiekurv udvikler sig
+positivt, modtager kunden et afkast ved udløb svarende til det
+indsatte beløb ganget med den procentvise stigning i værdien af den
+samlede underliggende aktiekurv.
+.sp
+.kp off
+.kp on
+De 15 aktier i den underliggende aktiekurv er dog alle underlagt en
+individuel maksimumgrænse for, hvor meget de hver især kan bidrage
+med til det samlede afkast ved udløb. Den individuelle
+maksimumgrænse er indikativ 30 %, og det samlede afkast ved udløb kan
+derfor maksimalt blive 30 % (
+:KURSIV.
+Med aktiernes vægtning og den individuelle maksimumgrænse på 30 %
+beregnes det maksimale afkast på følgende måde: 1/15 x 30 % x 15
+(aktier) = 30 %, jf. også pkt. 9.
+:SKRSLUT.)
+svarende til en maksimal forrentning på 9 % p.a. Maksimumgrænsen
+fastlægges ud fra markedsforholdene op til
+Startobservationsdatoen. Kan der ikke opnås en maksimumgrænse på
+minimum 25 %, vil Aktiekontoen blive annulleret.
+.sp
+.kp off
+.kp on
+Maksimumgrænsen betyder eksempelvis, at hvis Adidasaktien er steget med
+50 % ved udløb, vil denne aktie alene bidrage med 1/15 af 30 % til
+afkastet ved udløb.
+.sp
+.kp off
+.kp on
+De 15 aktier er
+.us ikke
+.us off
+underlagt nogen minimumgrænse for deres eventuelle negative
+afkastbidrag til den underliggende aktiekurv. Et eventuelt kursfald
+vil derfor slå fuldt igennem. Afkast ved udløb kan dog ikke blive
+negativt.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+8. Hovedrisici
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Kurser på aktiemarkedet kan væe volatile og ændre sig drastisk i
+løbet af kort tid som følge af den almindelige markedsudvikling
+eller ændrede forhold i selskabet, f.eks. konkurs. Der kan derfor
+ikke gives nogen garanti for, at kursen på aktierne i den underliggende
+aktiekurv ikke vil ændre sig væsentligt, hvilket vil have stor
+betydning for afkastet ved udløb. Kunden har derfor en risiko for, at
+afkastet bliver 0 %, hvorved kunden er gået glip af
+alternativforrentningen.
+.sp
+.kp off
+.kp on
+Kunden vil eksempelvis med et indskud på en 3-årig konto med binding
+kunne opnå en effektiv rente på omkring 3,0 % p.a. (opgjort primo
+&B55FRI61. &B55ÅR1.) svarende til ca. 9,3 % over 3 år.
+.sp
+.kp off
+.kp on
+Hvis kunden (frie midler) opsiger aftalen i bindingsperioden, jf. pkt. 6,
+kan kunden - som følge af at der fratrækkes en dekort fra det
+indsatte beløb, jf. pkt. 6 - risikere ikke at få det fulde indsatte
+beløb tilbage.
+.sp
+.kp off
+.kp on
+Kunden har endvidere risikoen på &BANKNAVN.s
+tilbagebetalingsevne. Tilbagebetaling af det
+indsatte beløb forudsætter, at &BANKNAVN.
+eksempelvis ikke erklæres konkurs.
+.sp
+.kp off
+.kp on
+Midler indskudt på Aktiekontoen er dækket af Garantifonden for
+indskydere og indlånskunder. Det betyder, at almindelige indlån
+i tilfælde af &BANKNAVN.s konkurs mv. er dækket med indtil
+100.000 euro (ca. 750.000 kr.) pr. indskyder, og at indskud for
+pensionsmidler eller andre særlige indlån er dækket fuldt
+ud, jf. § 9 i bekendtgørelse af lov om en garantifond for
+indskydere og indlånskunder.
+.sp
+.kp off
+.kp on
+Inden for ovennævnte dækningsgrænse vil Garantifonden dække en
+eventuel positiv forrentning af det strukturerede indlån med op
+til 20 % af indskuddet. Forrentning ud over denne grænse vil ikke
+blive anset for at være omfattet af Garantifondens dækning. Denne
+20 % grænse er gældende for det enkelte indskud og beregnes altså ikke
+pro anno. Garantifonden forbeholder sig ret til at ændre denne procentsats,
+hvis forholdene efter Garantifondens opfattelse giver anledning
+hertil.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+9. Beregningmetode for udviklingen i den underliggende aktiekurv.
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Beregningen af det variable afkast, der udbetales ved bindingsperiodens
+udløb, er baseret på udviklingen i den underliggende aktiekurv og
+foretages på baggrund af henholdsvis et stratniveau og et slutniveau
+for kursen på de enkelte aktier, der indgår i den underliggende
+aktiekurv:
+.sp
+.kp off
+.kp on
+:FED
+Aktie(i)
+:SKRSLUT.:VERDA06.START:
+:SKRSLUT.
+.br
+det simple gennemsnit af det offentliggjorte lukkeniveau for den
+enkelte aktie på startobservationsdatoen og de efterfølgende to
+børsdage.
+.sp
+:FED
+Aktie(i)
+:SKRSLUT.:VERDA06.SLUT:
+:SKRSLUT
+.br
+det simple gennemsnit af det offentliggjorte lukkeniveau for den
+enkelte aktie på slutobservationsdatoen og de efterfølgende to
+børsdage.
+.sp
+:FED
+Aktie(i)
+:SKRSLUT.:VERDA06.START:
+:SKRSLUT.henholdsvis
+:FED
+Aktie(i)
+:SKRSLUT.:VERDA06.SLUT:
+:SKRSLUT
+.br
+fastsættes således af beregningsagenten baseret på følgende datoer
+samt de efterfølgende to
+børsdage:
+.sp
+Startobservationsdato:  &B55DATO7
+.br
+Slutobservationsdato:    &B55DATO8
+.sp
+Udviklingen i hver af de 15 aktiers kurs beregnes på følgende måde:
+.sp
+Udvikling: (:FED.Aktie(i):SKRSLUT.:VERDA06.SLUT::SKRSLUT. -
+:FED.Aktie(i):SKRSLUT.:VERDA06.START::SKRSLUT.) /
+:FED.Aktie(i):SKRSLUT.:VERDA06.START:SKRSLUT.
+.sp
+Udviklingen i den underliggende aktiekurv beregnes som udviklingen i
+hver af de 15 aktiers kurs ganget med vægten på 1/15. Hver aktie kan
+maksimalt bidrage med indikativt 30 % (før vægtning) til udviklingen
+i den underliggende aktiekurv (herefter kalder "maksimumgrænsen for
+aktiernes bidrag til afkast").
+.sp
+.kp off
+.kp on
+Afkast ved udløb beregnes som:
+Det indsatte beløb ganget med den
+procentvise udvikling i den underliggende aktiekurv (som beregnet overfor
+og samlet set maksimalt 30 % for hele løbetiden som følge af
+maksimumgrænsen for aktiernes bidrag til afkast).
+Afkast ved udløb kan dog ikke blive negativt.
+.sp
+.kp off
+.kp on
+Udviklingen i den underliggende aktiekurv beregnes alene på baggrund
+af aktiernes kursudvikling, og der tages således ikke højde for
+eventuelle udbyttebetalinger på aktierne.
+.sp
+.kp off
+.kp on
+&BANKNAVN. foretager en afdækning af afkastet, der tilskrives
+Aktiekontoen. Denne afdækning foretages ved indgåelse af derivatkontrakter
+(herefter kaldet "derivatkontrakten") hos finansielle modparter. Den
+finansielle modpart, hvorigennem &BANKNAVN. har afdækket afkastet, er
+beregningsagent på derivatkontrakten, mens &BANKNAVN. er
+beregningsagent på Aktiekontoen.
+.sp
+.kp off
+.kp on
+Derivatkontakten specificerer reglerne for beregningen af
+afdækningen, der ligger til grund for udbetalingen
+af afkastet. Beregningen er Aktiekontoens
+afkast er underlagt de samme betingelser
+som gælder for derivatkontrakten.
+.sp
+.kp off
+.kp on
+I derivatkontrakten fastsættes blandt andet de betingelser, der giver
+mulighed for, at beregningsagenten kan foretage rimelige justeringer
+som følge af visse markeds- og afviklingsforstyrrelser
+("ekstraordinære begivenheder") i relation til de 15 aktier, der
+indgår i den underliggende aktiekurv, og i øvrigt i relation til de
+tidspunkter, hvorpå der skal foretages beregninger.
+.sp
+.kp off
+.kp on
+Eksempler på ekstraordinære begivenheder kan være, men er ikke
+begrænset til, fusion, fission, konkurs eller afnotering i relation
+til de enkelte aktier. Enhver justering vil i givet fald have til
+formål at neutralisere effekten af en eventuel ekstraordinær
+begivenhed mv. bedst muligt.
+Endvidere fastsættes det i derivatkontrakten, hvorledes der kan ske
+justering af de tidspunkter, hvorpå der skal foretages beregninger, det
+vil sige start- og slutobservationsdatoen og de efterfølgende 2
+børsdage. Beregningsagenten vil således udskyde et beregningstidspunkt,
+hvis det ikke falder på en børsdag, eller hvis der indtræder
+markedsforstyrrelser, eksempelvis hvis en relevant børs ikke åbner
+for handel i sin normale åbningstid.
+.sp
+.kp off
+.kp on
+Som beregningsagent på aktiekontoen vil &BANKNAVN. foretage tilsvarende
+jysteringer i relation til de 15 aktier, der indgår i den underliggende
+aktiekurv, og i relation til de tidspunkter, hvor der skal foretages
+beregninger. Hvis der indtræder morkedsforstyrrelser eller
+ekstraordinære begivenheder mv., der har betydning for beregningen
+af afkastet, vil der således blive korrigeret i overensstemmelse med
+derivatkontrakten. Hvis beregningsagenten på derivatkontrakten foretager
+en sådan korrektion, vil &BANKNAVN. meddele kunden dette via brev,
+e-mail eller via hjemmesiden www.moensbank.dk
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+10. Skat
+:SKRSLUT
+:SKRSLUT
+.sp 2mm
+Aktiekontoen anses skattemæssigt for at være en finansiel kontrakt og
+beskattes efter lagerprincippet. Det betyder som udgangspunkt, at
+beskatningsgrundlaget opgøres som forskellen mellem det indsatte beløb
+og det samlede udbetalte beløb ved bindingsperiodens ophør. Som
+følge af lagerbeskatningen beskattes afkastet imidlertid løbende
+gennem indlånets løbetid. Beskatningen finder sted på den måde, at
+kunden ultimo hvert indkomstår beskattes af ændringen i
+markedsværdien af indlånet i det pågældende indkomstår. Årets
+markedsværdistigning/-tab opgøres i indskudsåret som forskellen
+mellem det indsatte beløb og markedsværdien ved årets udløb. I de
+efterfølgende år som forskellen mellem primo- og
+ultimomarkedsværdien. Skatten forfalder
+til betaling, selvom der ikke udbetales afkast på
+indlånet i løbet af de pågældende indkomstår. Ved udløb er
+beskatningsgrundlaget forskellen mellem det udbetalte beløb (det
+indsatte beløb tillagt et eventuelt afkast) og den senest opgjorte
+ultimomarkedsværdi.
+.sp
+.kp off
+.kp on
+Kunden skal påregne en likviditetsbelastning i tilfælde af en gunstig
+udvikling i markedsværdien som følge af den løbende beskatning,
+lagerprincippet medfører.
+.sp
+.kp off
+.kp on
+Markedsværdiændringer beskattes som kursgevinster/-tab efter reglerne
+i kursgevinstloven. For personer omfattet af personskatteloven vil
+markedsværdistigninger (kursgevinster) blive beskattet løbende som
+kapitalindkomst. Tilsvarende kan eventuelle markedsværditab (kurstab)
+efter særlige regler fradrages i gevinster fra andre finansielle
+kontrakter, eller hvis det ikke er muligt, i nettogevinster på aktier
+optaget til handel på et reguleret marked, der realiseres i samme år.
+.sp
+.kp off
+.kp on
+Indskud på Aktiekontoen kan foretages med pensionsmidler. Ved indskud
+på aktiekontoen skal afkast medregens i grundlaget
+for pensionsafkast. Opgørelsen og
+beskatningen sker efter lagerprincippet, hvilket
+indebærer, at urealiserede gevinster og tab løbende skal
+medregnes. Pensionsafkast beskattes med 15 %.
+.sp
+.kp off
+.kp on
+Det er &BANKNAVN.s vurdering, at midler, der indgår i
+virksomhedsordningen, kan indskydes på aktiekontoen.
+.sp
+.kp off
+.kp on
+Indlånskunder (frie midler) skal selv opgøre og selvangive årets
+ændring i markedsværdi, idet dette beløb ikke bliver endeligt
+opgjort og udbetalt fra Aktiekontoen før bindingsperiodens udløb.
+.sp
+.kp off
+.kp on
+Hvis kunden opsiger Aktiekontoen før udløb (I bindingsperioden), opgøres
+optionens markedsværdi på opsigelsestidspunktet. Kunden vil på
+opsigelsestidspunktet være skattepligtig af det beløb, der svarer til
+forskellen mellem det oprindeligt indskudte beløb eller den senest
+opgjorte ultimomarkedsværdi og det oprindeligt indskudte beløb tillagt
+optionens markedsværdi på opsigelsestidspunktet. Et eventuelt tab
+er fradrageberettiget, jf. ovenstående.
+.sp
+.kp off
+.kp on
+Ovenstående gennemgang af beskatningen af Aktiekontoen er alene af
+generel karakter. De konkrete skattemæssige konsekvenser ved
+indbetaling på kontoen afhænger i høj grad af individuelle forhold, og
+kunder, der vil indsætte beløb på Aktiekontoen, bør således søge
+individuel skatterådgivning.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+11. Flere kontohavere - fuldmagt
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Hvis der er mere end én kontohaver på Aktiekontoen, giver
+kontohaverne herved hvert enkelt kontohaver fuldmagt til at
+disponere alene på Aktiekontoen. Dør en af kontohaverne, er
+&BANKNAVN. berettiget til at spærre Aktiekontoen, indtil
+skifteretten har taget stilling til, hvorledes afdødes bo skal
+behandles. Hvis en kontohaver tilbagekalder sin fuldmagt til øvrige
+kontohavere, forbeholder &BANKNAVN. sig ret til at spærre
+Aktiekontoen, indtil der foreligger klarhed med hensyn til
+kontohorholdene.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+12. Forbehold - annullering af Aktiekonto
+:SKRSLUT.
+:SKRSLUT.
+.sp 2mm
+Ovenstående vilkår for Aktiekontoen er fastsat med udgangspunkt i
+markedsforholdene. Er det som følge af ændringer i markedsforholdene
+op til startobservationsdatoen ikke muligt at opnå ovenstående
+vilkår, herunder en individuel maksimumgrænse på minimum 25 %, vil
+aktiekontoen blive annulleret.
+.sp
+.kp off
+.kp on
+:VERDA09.:FED.
+13. Disclaimer
+:SKRSLUT
+:SKRSLUT
+.sp 2mm
+Oplysninger i denne aftale om tidligere afkast og kursudvikling eller
+simulerede tidligere afkast kan ikke anvendes som en pålidelig indikator
+for fremtidige afkast og kursudvikling, ligesom oplysninger i denne
+aftale om fremtidige afkast og kursudvikling ikke kan anvendes
+som en pålidelig indikator for fremtidige
+afkast og kursudvikling. Såfremt materialet
+indeholder oplysninger om en særlig
+skattebehandling, skal kunden være opmærksom på, at
+skattebehandlingen afhænger af kundens individuelle situation og
+kan ændre sig fremover. Såfremt materialet indeholder oplysninger
+baseret på bruttoafkast og kursudvikling, kan gebyrer, provisioner
+og andre omkostninger påvirke afkastet i nedadgående retning.
+.sp
+.kp off

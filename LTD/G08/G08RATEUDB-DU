@@ -1,0 +1,383 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+:COUR10.
+.**********************************************************************
+.ti ¤ 05
+:TILTALE &TILTALEM.
+.**********************************************************************
+.fo left
+.**************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN. &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.***********************************************************************
+:verda08.
+.da afsender 160mm 40mm width 40mm depth 50mm
+.ar afsender on
+:FED.&REGTYPELNG.:SKRSLUT.
+.sp
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.ar afsender off
+:VERDA10.
+.dr tyk weight 0.5mm
+:FED.Udbetalingsstart: :SKRSLUT.
+.sp
+.tp 10mm left 40mm left 70mm
+.if &L'X&GENDATO = X0
+.an &L'X&G08UDBAAR = X0
+.th ________________ ¤¤__________________
+.el :USENKEL.&GENDATO. :SKRSLUT. ¤¤ :USENKEL.    &G08UDBAAR.    :SKRSLUT.
+.br
+Dato¤¤Antal år (10-25 år)
+.sp
+:FED.Udbetalingsfrekvens: :SKRSLUT.
+.sp
+.tp 6.8mm 15mm 35mm 65mm 95mm
+.hr tyk 5mm 10,5mm
+.vr tyk 5mm 10mm
+.if &G08VALGT1 = 1
+.th ¤x ¤Månedlig (udbetaling finder sted den 1. hver måned)
+.el ¤ ¤Månedlig (udbetaling finder sted den 1. hver måned)
+.br
+.hr tyk 5mm 10mm
+.vr off
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08VALGT1 = 2
+.th ¤x ¤Kvartalsvis (udbetaling finder sted den 1. i jan/apr/jul/okt)
+.el ¤ ¤Kvartalsvis (udbetaling finder sted den 1. i jan/apr/jul/okt)
+.br
+.hr tyk 5mm 10mm
+.vr off
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08VALGT1 = 3
+.th ¤x ¤Halvårlig (udbetaling finder sted den 1. januar og 1. juli)
+.el ¤ ¤Halvårlig (udbetaling finder sted den 1. januar og 1. juli)
+.br
+.hr tyk 5mm 10mm
+.vr off
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08VALGT1 = 4
+.th ¤x ¤Helårlig (udbetaling finder sted 1. i måneden - dog ikke 1. januar)
+.el ¤ ¤Helårlig (udbetaling finder sted 1. i måneden - dog ikke 1. januar)
+.br
+.hr tyk 5mm 10mm
+.vr off
+.sp
+Udbetalingsstart kan tidligst finde sted 20 dage fra d.d. Sidste udbetaling
+skal senest finde sted i det kalenderår, hvor kontohaver fylder 85 år.
+.sp
+Udbetalingsfrekvensen kan ændres i december måned hvert år, men kun til
+månedlig eller kvartårlig udbetaling, jf. lov af 17-12-2010.
+.sp
+NB! Det er ikke muligt at ændre frekvensen til halvårlig eller årlig
+udbetaling eller skifte udbetalingsmåned ved årlig udbetaling.
+.sp
+:FED.Første års udbetaling :SKRSLUT.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08UDBAAR1 = 1
+.th¤x ¤A) Et helt års udbetaling
+.el¤ ¤A) Et helt års udbetaling
+.br
+.hr tyk 5mm 10mm
+.vr off
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08UDBAAR1 = 2
+.th¤x ¤B) Forholdsmæssigt i forhold til antal resterende måneder i året
+.el¤ ¤B) Forholdsmæssigt i forhold til antal resterende måneder i året
+.br
+.hr tyk 5mm 10mm
+.vr off
+.sp
+Når udbetaling er påbegyndt, kan første års udbetaling ikke ændres.
+.sp
+:FED.Udbetalingsmetode :SKRSLUT.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08UDBMET = 1
+.th ¤x ¤A) Annuitet (lige store udbetalinger)
+.el ¤ ¤A) Annuitet (lige store udbetalinger)
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤Alt andet lige vil de årlige rater være lige store i udbetalingsperioden.
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08UDBMET = 2
+.th ¤x ¤B) 1/n-del (stigende udbetaling)
+.el ¤ ¤B) 1/n-del (stigende udbetaling)
+.br
+.hr tyk 5mm 10mm
+.vr off
+¤¤Alt andet lige vil de årlige rater være stigende i udbetalingsperioden.
+¤¤Eksempel: Saldo kr. 10.000 - rente 4% - udbetalingsperiode 10 år.
+.br
+¤¤¤Annuitet ¤1/n-del
+¤¤År 1 ¤kr. 1.185,00 ¤1.000,00
+¤¤År 10 ¤kr. 1.185,00 ¤1.423,00
+.sp
+Når udbetaling er påbegyndt, kan udbetalingsperioden ikke forkortes.
+.sp
+:FED.Referencekonto :SKRSLUT.
+.sp
+Jeg ønsker Ratepension-udbetalingen indsat på:
+.sp
+.if &L'X&G08KONTO = X0
+.th ________________
+.el :USENKEL.&G08KONTO :SKRSLUT.
+.br
+Kontonummer
+.sp
+:FED.Skatteforhold :SKRSLUT.
+.sp
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08SKAT = 1
+.th ¤x ¤Hovedkort
+.el ¤ ¤Hovedkort
+.br
+.hr tyk 5mm 10mm
+.vr off
+.hr tyk 5mm 10.5mm
+.vr tyk 5mm 10mm
+.if &G08SKAT = 2
+.th ¤x ¤Bikort
+.el ¤ ¤Bikort
+.br
+.hr tyk 5mm 10mm
+.vr off
+.sp
+Skattekort skal ikke vedlægges, da &BANKNAVN. automatisk får overført
+oplysninger om trækprocent fra SKAT.
+.sp
+:FED.
+Udbetaling ved varig nedsat erhvervsevne - tilkendelse af førtidspension
+:SKRSLUT.
+.br
+Ratepensionen kan udbetales løbende før opnået pensionsudbetalingsalder,
+hvis kontohaveren rammes af varigt nedsat arbejdsevne, som efter reglerne
+i lov om social pension berettiger kontohaveren til at oppebære
+førtidspension.
+.sp
+:FED.Sociale ydelser :SKRSLUT.
+.br
+Kontohaver skal være opmærksom på, at udbetaling fra ratepensionen vil
+kunne indgå i et eventueltmodregningsgrundlag for udbetaling af sociale
+ydelser - eksempelvis førtidspension.
+.sp
+Bemærk at blanketten skal være indsendt til Filialservice inden den 10. i
+måneden.
+.sp
+.**HUSK AT STARTE AFSNIT TIL UNDERSKRIFT i MODUL PLACERET LIGE FØR********
+.sp 2
+.tp 10mm 40mm 70mm
+.dr tynd weight 0.1mm
+Dato:
+.sp 7mm
+.if &l'&MEDNAVN. > 0
+.th .hr tynd 0mm 140mm
+.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.el .hr tynd 0mm 70mm
+.el ¤&KTONAVN
+.sp 3
+.hr tynd 0mm 70mm
+¤&BANKNAVN
+.br
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.tm 30mm
+.ll 175mm
+:verda10.
+.da modtager 20mm 40mm width 60mm depth 50mm
+.ar modtager on
+.if &l'&KTOSTILL. > 0 .AN &l'&MEDNAVN. = 0
+.th &KTOSTILL.
+.th .br
+&KTONAVN.
+.br
+.if &l'&MEDNAVN. > 0
+.th &MEDNAVN.
+.th .br
+.if &l'&KTOCO. > 0
+.th &KTOCO.
+.th .br
+&KTOGADE.
+.br
+&KTOBY.
+.ar modtager off
+.sp 65mm

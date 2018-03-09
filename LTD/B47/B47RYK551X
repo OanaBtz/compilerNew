@@ -1,0 +1,161 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.*
+.* SIDEINDSTILLINGER
+.ti > 05
+.* Definition af arealer til brevhoved.
+.DA hoved 20mm 42mm width 170mm
+.DA dato 20mm 85mm width 170mm
+.FO LEFT
+.* Sætter standardskriften til DUTCH 12 punkt.
+:DUTCH12.
+.AR hoved on
+.* Check om der skal udskrives begge
+.if &MEDKUNDENR NE 000000-0000
+.TH &KTONAVN
+.th .br
+.th &MEDNAVN
+.EL &KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.AR off
+.*
+.AR dato on
+.RI ON
+&DATO.
+.RI OFF
+.AR off
+.DA TEKST 20mm 120mm width 170mm
+.* .DA TLFNR 67mm 24mm width 50mm
+.* .*  Skrives pga. fejl i telefonnummer og faxnr. ----------------
+.* .ar TLFNR on
+.* :SWISS8.
+.* =========  70 224 418
+.* .br
+.* =========  70 224 419
+.* .ar off
+.* ------------------------------------------------------------
+.AR TEKST ON
+.if &MEDKUNDENR eq 000000-0000
+.th .GO KTOH
+.* --------- Skriver til både KONTO og MEDKONTOHAVER ------------
+:FED.
+.br
+Jeres lån nr. 6610 &KTONR1. er i restance med &OVERTRÆK. kr.:SKRSLUT.
+.sp
+Hvis I ikke har mulighed for at indbetale beløbet nu, så ring
+til mig, så vi sammen kan finde en løsning.
+.sp
+Det er nemlig dyrt for jer, at jeres lån er i restance, for
+ud over den almindelige rente på lånet, skal I også betale en
+morarente på 10% p.a. af restancen, indtil betalingen sker.
+Endvidere har vi trukket &RYKGEBYR kr. til dækning af vores
+omkostninger for denne påmindelse.
+.sp
+For at undgå flere påmindelser og udgifter, skal det skyldige
+beløb være indbetalt inden 8 dage fra dato.
+.sp
+Såfremt I har indbetalt beløbet inden for de seneste par dage,
+kan I se bort fra denne skrivelse.
+.sp
+Næste påmindelse om restancen koster 100,00 kr.
+.br
+.GO SLUT
+.* --------- Skriver til KONTOHAVER ------------
+...KTOH
+:FED.
+.br
+Dit lån nr. 6610 &KTONR1. er i restance med &OVERTRÆK. kr.:SKRSLUT.
+.sp
+Hvis du ikke har mulighed for at indbetale beløbet nu, så ring
+til mig, så vi sammen kan finde en løsning.
+.sp
+Det er nemlig dyrt for dig, at dit lån er i restance, for
+ud over den almindelige rente på lånet, skal du også betale en
+morarente på 10% p.a. af restancen, indtil betalingen sker.
+Endvidere har vi trukket &RYKGEBYR kr. til dækning af vores
+omkostninger for denne påmindelse.
+.sp
+For at undgå flere påmindelser og udgifter, skal det skyldige
+beløb være indbetalt inden 8 dage fra dato.
+.sp
+Såfremt du har indbetalt beløbet inden for de seneste par dage,
+kan du se bort fra denne skrivelse.
+.sp
+Næste påmindelse om restancen koster 100,00 kr.
+.br
+...SLUT
+.tp 80mm
+.sp 1
+Med venlig hilsen
+.br
+:FED.&BANKNAVN.:SKRSLUT.
+.br
+.sp 2
+&B47NAVN.
+.sp 1mm
+:SWISS8.
+Telefon: &B47LOKALNR.
+.br
+E-mail:  &GENEMAIL.
+.br
+.AR off

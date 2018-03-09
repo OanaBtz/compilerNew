@@ -1,0 +1,230 @@
+:COUR10
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 20mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.* Rykkertype = 0, defaultværdien, og rykkertype = 1 er den mildeste
+.*  og rykkertype = 4 er den hårdeste.
+.*
+.* Servicebrevet, som er et rykkerbrev med de sidste 10 posteringer
+.*  kan både være et rykkerbrev der skal tælle med og derfor skal
+.*  have en rykkertype fra 1-4, eller det kan være et rykkerbrev
+.*  der ikke skal tælle med og derfor have en rykkertype = 0.
+.*********************************************************************
+.***************************
+.* Parameteren anvendes til at beregne summen af overtræk og rykkergebyr
+.*****************************************
+.***************************
+.* Parameteren anvendes til at beregne summen af overtræk og rykkergebyr
+.*****************************************
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 182mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************START-POSITION*************************************
+.ar START on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***********************************************************************
+.**TESTER OM KONTOEN ER I VALUTA
+.if &REGTYPE. = 0600
+.or &REGTYPE. = 0601
+.or &REGTYPE. = 0602
+.or &REGTYPE. = 0603
+.or &REGTYPE. = 0620
+.or &REGTYPE. = 0625
+.or &REGTYPE. = 0626
+.or &REGTYPE. = 0627
+.or &REGTYPE. = 0630
+.or &REGTYPE. = 0650
+.or &REGTYPE. = 0651
+.or &REGTYPE. = 0652
+.or &REGTYPE. = 0653
+.or &REGTYPE. = 0660
+.or &REGTYPE. = 0661
+.or &REGTYPE. = 0662
+.or &REGTYPE. = 0664
+.or &REGTYPE. = 0670
+.th .se ltpe = v
+.el .se ltpe = a
+.******
+.if &U'&ltpe = V
+.th :SWISS14.
+.th OBS OBS OBS
+.th :SKRSLUT.
+.th .sp
+.th Dette er et valutalån, rykkerbrevet skal laves manuelt !
+.th .qu
+.*************** AREAL-DEFINITIONER ***************************************
+.da AFS  116.5mm 34.5mm width 150mm
+.da DATO 116.5mm 58mm width 150mm
+.*** Bankens afsenderoplysninger ******************************************
+.ar AFS on
+:COUR8.
+&BANKNAVN.
+.br
+&AFDNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.if &L'&EKSPNAVN > 0
+.th .br
+.th Kundeansvarlig &EKSPNAVN.
+.ar off
+.*** Dato *****************************************************************
+.ar DATO on
+:COUR8.
+&DATO.
+.ar off
+:FED.
+Påkravsskrivelse vedrørende overtræk på Deres konto nr. &regnr &ktonr
+:SKRSLUT.
+.sp
+.**************************************************************************
+.ir 13mm
+.****** her starter brevteksten ***********************
+Idet vi desværre må konstatere, at Deres konto nr. &regnr..&ktonr. er
+i overtræk skal vi hermed opfordre Dem til snarest muligt
+og senest 10 dage fra dato at udligne overtrækket på kontoen ved at
+indbetale det skyldige og hermed opgjorte beløb til
+FIHs konto hos Danske Bank, reg.nr. 3100 konto nr. 3100324474.
+Angiv venligst Deres ovennævnte konto nr. som reference, så vi kan
+placere beløbet på den rigtige konto.
+.sp
+.tp 130mm 162mm char ,
+Overtræk inklusiv rykkergebyr¤DKK¤&OVERTRÆK
+.hr 130mm 168mm
+.sp
+Hertil kommer skyldig ej opgjort overtræksrenter frem til
+indbetalingsdagen. &BANKNAVN.' rentesats
+ved overtræk udgør p.t. &OVTRTE01.%.
+.sp
+Er det skyldige beløb ikke indbetalt inden ovennævnte frist, vil der blive
+iværksat foranstaltninger, der vil påføre Dem yderligere
+omkostninger, ligesom engagementet vil kunne blive opsagt til
+fuld og omgående indfrielse.
+.sp
+Hvis dette brev har krydset Deres indbetaling, bedes De se bort fra denne
+henvendelse.
+.sp 2
+Med venlig hilsen
+.sp 3
+&BANKNAVN.
+.ir 0mm
+.in 0mm
+
+
+
+
+
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

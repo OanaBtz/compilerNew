@@ -1,0 +1,169 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **B20BOLIG18
+.ti ¤ 05
+.sp 25mm
+:COUR10.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:COUR8.
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th Telefon &AFDTLF &AFDFAX
+.th .br
+.th E-mail &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el Telefon &BKTLF
+.el .br
+.el E-mail &GENEMAIL
+.sp2
+.br;&DATO
+.if &L'&B20KONTO03 > 0
+.th .sp2
+.th Reference &B20KONTO03
+.sp
+.ar off
+.*************************************************************
+&B20NAVN
+.br
+&B20GADE
+.br
+&B20BY
+.br
+.if &L'&B20TEKST03 > 0
+.th Att: &B20TEKST03
+.*************************************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.* brevnavn roteret
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.* overskrift
+.da START 20mm 115mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+&BRUGERNR
+.br
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+.us on
+Pantnr. &B20KONTO02 - rykningspåtegning
+.us off
+.sp
+.******** Fejl hvis der ikke er valgt et produktionscenter ****************
+.if &L'&B20TEST01 = 0 .an &L'&B20TEST02 = 0 .an &L'&B20TEST03 = 0
+.th .mg/T/Du mangler at vælge ét produktionscenter./
+.**************************************************************************
+.if &L'&B20KRED02 > 0
+.th Vi accepterer fremover at respektere:
+.th .sp
+.th * kr.
+.th :VS. &B20KRED02
+.th &B20TEKST05
+.if &L'&B20KRED03 > 0
+.th .br
+.th * kr.
+.th :VS. &B20KRED03
+.th &B20TEKST06
+.if &L'&B20KRED04 > 0
+.th .br
+.th * kr.
+.th :VS. &B20KRED04
+.th &B20TEKST07
+.if &L'&B20TEKST61 > 0
+.th .sp
+&B20TEKST61
+&B20TEKST62
+&B20TEKST63
+.if &L'&B20KRED02 > 0
+.th .sp
+Vi meddeler samtidig, at sagen ekspederes af:
+.sp
+Arbejdernes Landsbank
+.br
+.if &L'&B20TEST01 > 0
+.th Filialsupport Glostrup
+.th .br
+.th Banegårdsvej 9B
+.th .br
+.th 2600  Glostrup
+.if &L'&B20TEST02 > 0
+.th Filialsupport Odense
+.th .br
+.th  Fisketorvet 3, 3.
+.th .br
+.th 5100  Odense C
+.if &L'&B20TEST03 > 0
+.th Filialsupport Århus
+.th .br
+.th M. P. Bruuns Gade 22 - 24
+.th .br
+.th 8000  Århus C
+.sp
+Ekspeditionsomkostninger, incl. kr. 1.400,00 i tinglysningsafgift,
+udgør kr. 3.275,00, som bedes indsat på reg. nr. &BANKREGNR konto nr.
+9066586 med reference &B20KONTO03..
+.sp
+Vi beder Dem meddele os via mail, når det nye pantebrev er tinglyst.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.el &GENEMAIL
+.ce off
+.ar off

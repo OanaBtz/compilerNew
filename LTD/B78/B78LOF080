@@ -1,0 +1,400 @@
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 76mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 180mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.******************* START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us on
+.if &U'&GENVALGA = F
+.th Faktura nr.: &FAKTNR.
+.if &U'&GENVALGA = K
+.th Kreditnota nr.: &FAKTNR.
+.us off
+.sp
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.da LOFADR   23mm 48mm
+.da FORFALD 126.5mm 64.51mm
+.**************************************************************************
+.**** Adressefelter *******************************************************
+.ar LOFADR on
+&EAN.
+.br
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.**** Forfaldsdato ********************************************************
+.ar FORFALD on
+:COUR8.
+Forfaldsdato: &RESULTA.
+.ar off
+.***********************************************************************
+.** Dette P-afsnit skal anvende når der påtrykkes FI-kort
+.**
+.** Indhold: Parametre til betalingsID og kreditorID samt
+.**          rubrikkerne 'Tilmelding til BetalingsService'
+.**          Desuden parametre til OCR-linien, som er den
+.**          maskinlæsbare linie nederst på FI-Kortet. (Font = OCRB10)
+.**
+.** Flg. param. skal have bankens egne std.værdier: FIKREDNR
+.**                                                 PBSNR
+.**                                                 PBSDEBGRP
+.**                                                 GENOCRNR1
+.**                                                 GENOCRNR3
+.** Flg. param. skal leveres af kald. system (LOF): BETALID
+.**                                                 PBSKUNDENR
+.**                                                 GENOCRNR2
+.*
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.********************AREAL-DEFINITIONER************************************
+.*FI-kort skabelon
+.da FIKORT 0mm 0mm
+.*Generelle data til FI-kort
+.da BETID1  12mm 212mm
+.da KRED1   92mm 212mm
+.da KRED2  150mm 212mm
+.da BETD2  150mm 212mm
+.da TILM1   19mm 248.5mm
+.da TILM2  157mm 274mm
+.da OCR    9.5mm 277mm width 100mm
+.*** Påsæt overlay med FI-kort ********************
+.ar FIKORT on
+.oi O1B11FIK
+.ar off
+.*** BetalingsID
+.ar BETID1 on
+&BETALID.
+.ar off
+.*** Kreditornr og beløbsmodtager på FI-korts indbetalingsdel
+.ar KRED1 on
+:COUR8.
+&FIKREDNR.
+.br
+&AFDBNKNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDFAX.
+.ar off
+.*** Kreditornr og beløbsmodtager på FI-korts kvitteringsdel
+.ar KRED2 on
+:COUR8.
+&FIKREDNR
+.br
+&AFDBNKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDFAX.
+.sp 2mm
+&BETALID.
+.ar off
+.*** Tilmelding til BetalingsService på FI-korts indbetalingsdel ***
+.ar TILM1 on
+.tp 2mm 30mm
+&PBSNR.¤¤&PBSDEBGRP.
+.sp 2.5mm
+¤&PBSKUNDENR.
+.ar off
+.*** Tilmelding til BetalingsService på FI-korts kvitteringsdel ***
+.ar TILM2 on
+.tp 2mm 30mm
+&PBSNR.¤¤&PBSDEBGRP.
+.sp 2.5mm
+¤&PBSKUNDENR.
+.ar off
+.*** Påsæt OCR-linjen
+.ar OCR on
+:OCRB10.
++&GENOCRNR1.<&GENOCRNR2.+&GENOCRNR3.<
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.da INDB  12mm 216mm
+.da BELOB 10mm 263mm width 200mm
+.**************************************************************************
+.**** Betalings-ID og Indbetaler ******************************************
+.ar INDB on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.**** Beløb og betalingsdato ***********************************
+.ar BELOB on
+.tp 40mm right 100mm right 179mm right
+.if &U'&GENVALGA = F
+.th ¤&FIBELØB.¤&FORFDATO1.¤&FIBELØB.
+.if &U'&GENVALGA = K
+.th ¤***.***.*** **¤**.**.****¤***.***.*** **
+.ar off
+.sp1
+ 
+Venlig hilsen
+.br
+&AFDBNKNAVN - CVR-nr. 31433428
+ 
+.ar off
+.****************************************************************
+.el .se mark15 = ' '
+.if &U'X&LOFJANEJ16 = XJ
+.th .se mark16 = '*'
+.el .se mark16 = ' '
+.if &U'X&LOFJANEJ17 = XJ
+.th .se mark17 = '*'
+.el .se mark17 = ' '
+.if &U'X&LOFJANEJ18 = XJ
+.th .se mark18 = '*'
+.el .se mark18 = ' '
+.if &U'X&LOFJANEJ19 = XJ
+.th .se mark19 = '*'
+.el .se mark19 = ' '
+.ar FAKT on
+Kontraktnr. &AFTALENR.
+.if &L'&REGISNR01 > 0
+.th .ct , &REGISNR01
+.if &L'&LOFBRUGER > 0
+.th .ct , &LOFBRUGER.
+.sp
+.tp 107mm 157mm right
+.*** LEASING: GENVALGB = J, LÅN: GENVALGB = N
+.if &U'&GENVALGB = N
+.th .go LÅN
+.if &U'&GENVALGC = J
+.th Ydelse pr. &YDELSEDATO.¤kr.¤&YDELSE01.
+.go FORTS1
+...LÅN
+Afdrag¤kr.¤&AFDRAGLÅN.
+.br
+Forfaldne renter for &RNTDATOFRA. - &RNTDATOTIL.¤kr.¤&RNTTILSKR.
+...FORTS1
+.br
+.if &L'&KTOGEB > 0
+.th Kontogebyr¤kr. &mark16.¤&KTOGEB.
+.th .br
+.if &L'&MORABLB > 0
+.th Morarente¤kr. &mark17.¤&MORABLB.
+.th .br
+.if &L'&YDLRYK1 > 0
+.th Rykkergebyr¤kr. &mark18.¤&YDLRYK1.
+.th .br
+.if &L'&BIYDTXT01 > 0
+.an &L'&BIYDBEL01 > 0
+.th &BIYDTXT01.¤kr. &mark01.¤&BIYDBEL01.
+.th .br
+.if &L'&BIYDTXT02 > 0
+.an &L'&BIYDBEL02 > 0
+.th &BIYDTXT02.¤kr. &mark02.¤&BIYDBEL02.
+.th .br
+.********************AREAL-DEFINITIONER************************************
+.*Faktura
+.da FAKT 20mm 82mm width 160mm
+.dr thin weight 0.1mm
+.********** Faktura/Kreditnota for aftale ********************************
+.*** Find momsfrie beløb
+.if &U'X&LOFJANEJ01 = XJ
+.th .se mark01 = '*'
+.el .se mark01 = ' '
+.if &U'X&LOFJANEJ02 = XJ
+.th .se mark02 = '*'
+.el .se mark02 = ' '
+.if &U'X&LOFJANEJ03 = XJ
+.th .se mark03 = '*'
+.el .se mark03 = ' '
+.if &U'X&LOFJANEJ04 = XJ
+.th .se mark04 = '*'
+.el .se mark04 = ' '
+.if &U'X&LOFJANEJ05 = XJ
+.th .se mark05 = '*'
+.el .se mark05 = ' '
+.if &U'X&LOFJANEJ06 = XJ
+.th .se mark06 = '*'
+.el .se mark06 = ' '
+.if &U'X&LOFJANEJ07 = XJ
+.th .se mark07 = '*'
+.el .se mark07 = ' '
+.if &U'X&LOFJANEJ08 = XJ
+.th .se mark08 = '*'
+.el .se mark08 = ' '
+.if &U'X&LOFJANEJ09 = XJ
+.th .se mark09 = '*'
+.el .se mark09 = ' '
+.if &U'X&LOFJANEJ10 = XJ
+.th .se mark10 = '*'
+.el .se mark10 = ' '
+.if &U'X&LOFJANEJ11 = XJ
+.th .se mark11 = '*'
+.el .se mark11 = ' '
+.if &U'X&LOFJANEJ12 = XJ
+.th .se mark12 = '*'
+.el .se mark12 = ' '
+.if &U'X&LOFJANEJ13 = XJ
+.th .se mark13 = '*'
+.el .se mark13 = ' '
+.if &U'X&LOFJANEJ14 = XJ
+.th .se mark14 = '*'
+.el .se mark14 = ' '
+.if &U'X&LOFJANEJ15 = XJ
+.th .se mark15 = '*'
+.if &L'&BIYDTXT03 > 0
+.an &L'&BIYDBEL03 > 0
+.th &BIYDTXT03.¤kr. &mark03.¤&BIYDBEL03.
+.th .br
+.if &L'&BIYDTXT04 > 0
+.an &L'&BIYDBEL04 > 0
+.th &BIYDTXT04.¤kr. &mark04.¤&BIYDBEL04.
+.th .br
+.if &L'&BIYDTXT05 > 0
+.an &L'&BIYDBEL05 > 0
+.th &BIYDTXT05.¤kr. &mark05.¤&BIYDBEL05.
+.th .br
+.if &L'&BIYDTXT06 > 0
+.an &L'&BIYDBEL06 > 0
+.th &BIYDTXT06.¤kr. &mark06.¤&BIYDBEL06.
+.th .br
+.if &L'&BIYDTXT07 > 0
+.an &L'&BIYDBEL07 > 0
+.th &BIYDTXT07.¤kr. &mark07.¤&BIYDBEL07
+.th .br
+.if &L'&BIYDTXT08 > 0
+.an &L'&BIYDBEL08 > 0
+.th &BIYDTXT08.¤kr. &mark08.¤&BIYDBEL08.
+.th .br
+.if &L'&BIYDTXT09 > 0
+.an &L'&BIYDBEL09 > 0
+.th &BIYDTXT09.¤kr. &mark09.¤&BIYDBEL09.
+.th .br
+.if &L'&BIYDTXT10 > 0
+.an &L'&BIYDBEL10 > 0
+.th &BIYDTXT10.¤kr. &mark10.¤&BIYDBEL10.
+.th .br
+.if &L'&BIYDTXT11 > 0
+.an &L'&BIYDBEL11 > 0
+.th &BIYDTXT11.¤kr. &mark11.¤&BIYDBEL11.
+.th .br
+.if &L'&BIYDTXT12 > 0
+.an &L'&BIYDBEL12 > 0
+.th &BIYDTXT12.¤kr. &mark12.¤&BIYDBEL12.
+.th .br
+.if &L'&BIYDTXT13 > 0
+.an &L'&BIYDBEL13 > 0
+.th &BIYDTXT13.¤kr. &mark13.¤&BIYDBEL13.
+.th .br
+.if &L'&BIYDTXT14 > 0
+.an &L'&BIYDBEL14 > 0
+.th &BIYDTXT14.¤kr. &mark14.¤&BIYDBEL14.
+.th .br
+.if &L'&BIYDTXT15 > 0
+.an &L'&BIYDBEL15 > 0
+.th &BIYDTXT15.¤kr. &mark15.¤&BIYDBEL15.
+.th .br
+.**** Ved lån skal momslinje ikke udskrives.
+.if &U'&GENVALGB = N
+.th .go FORTS2
+.if &U'&GENVALGD = N
+.th .go FORTS2
+.if &L'&MOMS > 0
+.th Total moms &MOMSPCT.%¤kr.¤&MOMS.
+.th .br
+...FORTS2
+.if &L'&BETAFTALE > 0
+.th Betalingsaftale¤kr.¤&BETAFTALE.
+.th .br
+.if &L'&ACONTOBLB > 0
+.th Heraf betalt aconto¤kr.¤&ACONTOBLB.
+.th .br
+.hr thin 107mm 157mm
+.br
+.if &U'&GENVALGA = F
+.th I alt faktura¤kr.¤&FAKTSUM.
+.if &U'&GENVALGA = K
+.th I alt kreditnota¤kr.¤&FAKTSUM.
+.br
+.hr thin 107mm 157mm
+.sp
+.if &L'&MOMSFRA > 0
+.th Momsfradrag jf. ML P42¤kr.¤&MOMSFRA.
+.th .sp
+.if &L'&PÅRENTE1 > 0
+.th Rentesats pr. dags dato¤%¤&PÅRENTE1.
+.th .sp
+.if &U'&GENVALGB = J
+.th De med * markerede beløb er momsfri.
+.th .sp
+.if &U'&GENVALGA = F
+.th Ved betaling efter forfald opkræves morarenter jf. kontrakten.
+.sp
+Alle beløb er i DKK.
+.th .sp
+.th .go SLUT
+.*********************************
+.* Her var et teksteafsnit tidligere - .go SLUT beholdt,
+.* hvis der senere skal tilføjet nyt tekstafsnit
+.*********************************
+...SLUT
+.*****************Reg.nr. i sidemargin*************************************
+.da VEND 9mm 180mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+9947
+.ar off

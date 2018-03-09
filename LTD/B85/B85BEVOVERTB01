@@ -1,0 +1,547 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.******** BREVHOVED - afsenderadresse *****
+.da DATO  28mm  70mm width 156mm
+.da AFS  156.8mm 260mm width  50mm
+.ar DATO on
+.fo right
+:SWISS12.
+&DATO
+.ar off
+.ar AFS on
+:SWISS8.
+.fo right
+&AFDGADE
+.br
+&AFDBY
+.br
+Tlf.: &AFDTLF
+.sp
+&GENEMAIL
+.br
+www.lokalbanken.dk
+.ar off
+.if &U'&B85HBCVR ne J
+.th .go NEJBUND
+.el .go TAGMED
+...TAGMED
+.************** Areal definitioner ****************************************
+.da HBCVR 25mm 275mm width 110mm
+.********************* TEKST STARTER **************************
+.ar HBCVR on
+:SWISS8.
+Handelsbanken CVR-nr. 24246361 Filial af Svenska Handelsbanken AB (publ),
+Sverige
+.ar off
+...NEJBUND
+.******** BREVHOVED via kontonr. evt. incl. medktohaver*****
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 25mm 36mm width 170mm
+.ar ADRESSE on
+:SWISS12.
+.if &U'&B85REC = J
+.th :FED.
+.th REKOMMANDERET :SKRSLUT.
+.th .sp
+.el .sp 2
+.if &U'&MEDKUNDENR = 000000-0000
+.th .go TEST1
+.el .go TEST2
+.**************KONTOHAVER OG MEDKONTOHAVER
+...TEST2
+&KTONAVN og
+.br
+&MEDNAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+.go VIDERE
+.***********KONTOHAVER
+...TEST1
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.br
+...VIDERE
+.ar off
+.********* B85hovedkto er slut**********************
+.* Parameterafsnit
+.oc **
+:tiltale &TILTALE
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN - 13.11.2008
+.ar off
+.***********************************************************************
+.ll 170mm
+.ti ¤ 05
+.da TEKST 25mm 100mm width 160mm
+.ar TEKST on
+.fo on
+:SWISS12.
+:FED.
+&SDU. har fået bevilget et betinget overtræk
+:SKRSLUT.
+.sp
+Vi bekræfter hermed, at banken har bevilget &DIG. et overtræk på
+.sp
+:FED.
+.in 60mm
+:VS.&B85KR
+kr.
+:SKRSLUT.
+.in -60mm
+.sp
+på konto nr. &IREGKTO.. Overtrækket gælder indtil den &B85DATO01..
+.sp
+:FED.
+Betingelser :SKRSLUT.
+.br
+Bevillingen er betinget af, at
+.if &L'&B85NAVNS1 gt 0
+.an &L'&B85DEPONN gt 0
+.th .go DEP3KAU
+.if &L'&B85NAVNS1 gt 0
+.an &L'&B85NAVNS3 gt 0
+.th .go DEPKAU
+.if &L'&B85NAVNS1 gt 0
+.an &L'&B85DEPONN = 0
+.an &L'&B85NAVNS3 = 0
+.th .go DEPKAU1
+.if &U'X&B85DEPON2 = XJ
+.an &U'X&B85DEPON1 = XN
+.an &U'X&B85NAVNS2 = XN
+.th .go KUNKAU
+.if &U'X&B85DEBDEP = XJ
+.an &U'X&B85DEPON1 = XN
+.an &U'X&B85DEPON2 = XN
+.an &U'X&B85NAVNS2 = XN
+.th .go KUNDEB
+.el .qu
+.**SELVSKYLDNER 1 + 3. MAND**********************
+...DEP3KAU
+&B85NAVNS1 som
+.if &U'X&B85DEPON1 = XJ
+.th selvskyldnerkautionist og deponent og
+.el selvskyldnerkautionist og
+&B85DEPONN som deponent
+.if &L'&B85NAVNS3 gt 0
+.th samt &B85NAVNS3 som selvskyldnerkautionist
+på den vedlagte kopi af dette brev bekræfter, at kautionen og deponerede
+effekter i sikkerhedsdepot
+.if &L'&B85DEPOT2 gt 0
+.an &L'&B85DEPOT3 gt 0
+.th nr. &B85DEPOT2 og nr. &B85DEPOT3.
+.el nr. &B85DEPOT2
+.if &L'&B85DEPOT4 gt 0
+.an &L'&B85DEPOT5 gt 0
+.th nr. &B85DEPOT4 og nr. &B85DEPOT5.
+.el nr. &B85DEPOT4
+også ligger til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.**********Kautionist 1 og kautionist 2************
+...DEPKAU
+&B85NAVNS1 som
+.if &U'X&B85DEPON1 = XJ
+.th selvskyldnerkautionist og deponent og
+.el selvskyldnerkautionist og
+&B85NAVNS3 som selvskyldnerkautionist på
+den vedlagte kopi af dette brev bekræfter, at kautionen
+.if &L'&B85DEPOT2 gt 0
+.th og deponerede effekter i sikkerhedsdepot
+.if &L'&B85DEPOT2 gt 0
+.an &L'&B85DEPOT3 gt 0
+.th nr. &B85DEPOT2 og nr. &B85DEPOT3.
+.if &L'&B85DEPOT2 gt 0
+.an &L'&B85DEPOT3 eq 0
+.th nr. &B85DEPOT2
+også står til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.******** KAUTIONIST1 ****************************
+...DEPKAU1
+&B85NAVNS1 som
+.if &U'X&B85DEPON1 = XJ
+.th selvskyldnerkautionist og deponent på den vedlagte
+.el selvskyldnerkautionist på den vedlagte
+kopi af dette brev bekræfter, at kautionen
+.if &L'&B85DEPOT2 gt 0
+.th og deponerede effekter i sikkerhedsdepot nr. &B85DEPOT2
+.if &L'&B85DEPOT3 gt 0
+.th og nr. &B85DEPOT3.
+også ligger til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.******3. MAND************************************************************
+...KUNKAU
+&B85DEPONN som deponent på den vedlagte kopi af dette brev bekræfter, at
+sikkerhedsdepot
+.if &L'&B85DEPOT4 gt 0
+.an &L'&B85DEPOT5 gt 0
+.th nr. &B85DEPOT4 og nr. &B85DEPOT5.
+.el nr. &B85DEPOT4
+også ligger til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.****DEBITOR OGSÅ DEPONENT*************************
+...MEDDEB
+Vi beder &DIG. samtidig bekræfte, at sikkerhedsdepot
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 gt 0
+.th nr. &B85DEPOT og nr. &B85DEPOT1
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 = 0
+.th nr. &B85DEPOT
+også ligger til sikkerhed for overtrækket.
+.go SLUT
+.*****************************
+...KUNDEB
+debitor bekræfter, at sikkerhedsdepot
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 gt 0
+.th nr. &B85DEPOT og nr. &B85DEPOT1
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 = 0
+.th nr. &B85DEPOT
+også ligger til sikkerhed for overtrækket.
+...SLUT
+.sp
+Når kopien er blevet underskrevet, beder vi &DIG. sende den tilbage til os.
+.sp
+.if &L'&B85BELOB = 0
+.th Bankens omkostninger på
+.th &B85BELØB
+.th kr. er trukket på kontoen.
+.if &L'&B85BELOB > 0
+.th Bankens omkostninger på
+.th &B85BELØB
+.th kr. - rabat på
+.th :VS.&B85BELOB
+.th kr. =
+.th :VS.&B85BELOB1
+.th kr. er trukket på kontoen.
+.sp
+.sp2
+Venlig hilsen
+:FED.
+.sk
+&AFDBNKNAVN
+:SKRSLUT.
+.br
+.if &L'&AFDNAVN = 0
+.th
+.el &AFDNAVN
+.sp 4
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.el &GENEKSP      &GENMEKSP
+.ar off
+.** SIDESKIFT
+.pa
+.da GENPART 160mm 30mm width 25mm
+.ar GENPART on
+:FED.
+BANKENS KOPI:SKRSLUT.
+.ar off
+.sp
+.***********BREVHOVED via kontonummer med èn kontohaver*********
+.ll 170mm
+.ti ¤ 05
+.tp 105mm
+.fo left
+.da ADRESSE 25mm 36mm width 170mm
+.ar ADRESSE on
+:SWISS12.
+.if &U'&B85REC = J
+.th :FED.
+.th REKOMMANDERET :SKRSLUT.
+.th .sp
+.el .sp 2
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...VIDERE
+.ar off
+.ll 170mm
+.ti ¤ 05
+.da TEKST 25mm 100mm width 160mm
+.ar TEKST on
+.fo on
+:SWISS12.
+:FED.
+&SDU. har fået bevilget et betinget overtræk
+:SKRSLUT.
+.sp
+Vi bekræfter hermed, at banken har bevilget &DIG. et overtræk på
+.sp
+:FED.
+.in 60mm
+:VS.&B85KR
+kr.
+:SKRSLUT.
+.in -60mm
+.sp
+på konto nr. &IREGKTO.. Overtrækket gælder indtil den &B85DATO01..
+.sp
+:FED.
+Betingelser :SKRSLUT.
+.br
+Bevillingen er betinget af, at
+.if &L'&B85NAVNS1 gt 0
+.an &L'&B85DEPONN gt 0
+.th .go DEP3KAU
+.if &L'&B85NAVNS1 gt 0
+.an &L'&B85NAVNS3 gt 0
+.th .go DEPKAU
+.if &L'&B85NAVNS1 gt 0
+.an &L'&B85DEPONN = 0
+.an &L'&B85NAVNS3 = 0
+.th .go DEPKAU1
+.if &U'X&B85DEPON2 = XJ
+.an &U'X&B85DEPON1 = XN
+.an &U'X&B85NAVNS2 = XN
+.th .go KUNKAU
+.if &U'X&B85DEBDEP = XJ
+.an &U'X&B85DEPON1 = XN
+.an &U'X&B85DEPON2 = XN
+.an &U'X&B85NAVNS2 = XN
+.th .go KUNDEB
+.el .qu
+.**SELVSKYLDNER 1 + 3. MAND**********************
+...DEP3KAU
+&B85NAVNS1 som
+.if &U'X&B85DEPON1 = XJ
+.th selvskyldnerkautionist og deponent og
+.el selvskyldnerkautionist og
+&B85DEPONN som deponent
+.if &L'&B85NAVNS3 gt 0
+.th samt &B85NAVNS3 som selvskyldnerkautionist
+på den vedlagte kopi af dette brev bekræfter, at kautionen og deponerede
+effekter i sikkerhedsdepot
+.if &L'&B85DEPOT2 gt 0
+.an &L'&B85DEPOT3 gt 0
+.th nr. &B85DEPOT2 og nr. &B85DEPOT3.
+.el nr. &B85DEPOT2
+.if &L'&B85DEPOT4 gt 0
+.an &L'&B85DEPOT5 gt 0
+.th nr. &B85DEPOT4 og nr. &B85DEPOT5.
+.el nr. &B85DEPOT4
+også ligger til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.**********Kautionist 1 og kautionist 2************
+...DEPKAU
+&B85NAVNS1 som
+.if &U'X&B85DEPON1 = XJ
+.th selvskyldnerkautionist og deponent og
+.el selvskyldnerkautionist og
+&B85NAVNS3 som selvskyldnerkautionist på
+den vedlagte kopi af dette brev bekræfter, at kautionen
+.if &L'&B85DEPOT2 gt 0
+.th og deponerede effekter i sikkerhedsdepot
+.if &L'&B85DEPOT2 gt 0
+.an &L'&B85DEPOT3 gt 0
+.th nr. &B85DEPOT2 og nr. &B85DEPOT3.
+.if &L'&B85DEPOT2 gt 0
+.an &L'&B85DEPOT3 eq 0
+.th nr. &B85DEPOT2
+også står til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.******** KAUTIONIST1 ****************************
+...DEPKAU1
+&B85NAVNS1 som
+.if &U'X&B85DEPON1 = XJ
+.th selvskyldnerkautionist og deponent på den vedlagte
+.el selvskyldnerkautionist på den vedlagte
+kopi af dette brev bekræfter, at kautionen
+.if &L'&B85DEPOT2 gt 0
+.th og deponerede effekter i sikkerhedsdepot nr. &B85DEPOT2
+.if &L'&B85DEPOT3 gt 0
+.th og nr. &B85DEPOT3.
+også ligger til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.******3. MAND************************************************************
+...KUNKAU
+&B85DEPONN som deponent på den vedlagte kopi af dette brev bekræfter, at
+sikkerhedsdepot
+.if &L'&B85DEPOT4 gt 0
+.an &L'&B85DEPOT5 gt 0
+.th nr. &B85DEPOT4 og nr. &B85DEPOT5.
+.el nr. &B85DEPOT4
+også ligger til sikkerhed for overtrækket.
+.if &U'X&B85DEBDEP = XJ
+.th .sp
+.th .go MEDDEB
+.el .go SLUT
+.****DEBITOR OGSÅ DEPONENT*************************
+...MEDDEB
+Vi beder &DIG. samtidig bekræfte, at sikkerhedsdepot
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 gt 0
+.th nr. &B85DEPOT og nr. &B85DEPOT1
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 = 0
+.th nr. &B85DEPOT
+også ligger til sikkerhed for overtrækket.
+.go SLUT
+.*****************************
+...KUNDEB
+debitor bekræfter, at sikkerhedsdepot
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 gt 0
+.th nr. &B85DEPOT og nr. &B85DEPOT1
+.if &L'&B85DEPOT gt 0
+.an &L'&B85DEPOT1 = 0
+.th nr. &B85DEPOT
+også ligger til sikkerhed for overtrækket.
+...SLUT
+.sp
+.**** bevilling af overtræk, brev til kunde, afsnit med underskrifter
+.*.fo off
+.ti ¤ 05
+.da USKR 25mm 180mm width 170mm
+.da DEB  25mm 210mm width  85mm
+.da DEP 25mm 245mm width 100mm
+.da KAU1 100mm 210mm width 100mm
+.da KAU2 100mm 245mm width  85mm
+.********************************************
+.ar USKR on
+.hr left right
+:SWISS12.
+.br
+Denne kopi sendes til banken :SKRSLUT.
+.sp
+:SWISS12.
+Jeg/vi accepterer de ovenstående betingelser.
+.sp2
+&B85BYUNDER., den      /
+.ar off
+.********************************************
+.ar DEB on
+:SWISS12.
+.if &U'X&B85DEBDEP = XJ
+.th Som debitor og deponent:
+.el Som debitor:
+.sp 12mm
+.hr left 60mm
+.br
+&KTONAVN
+.ar off
+.********************************************
+.ar DEP on
+:SWISS12.
+.if &U'X&B85DEPON2 = XJ
+.th Som deponent (3. mand):
+.th .sp 12mm
+.th .hr left 60mm
+.th .br
+.th &B85DEPONN
+.ar off
+.********************************************
+.ar KAU1 on
+:SWISS12.
+.if &U'X&B85DEPON1 = XJ
+.an &L'&B85NAVNS1 gt 0
+.th Som selvskyldnerkautionist og deponent:
+.th .sp 12mm
+.th .hr left 60mm
+.th .br
+.th &B85NAVNS1
+.if &U'X&B85DEPON1 = XN
+.an &L'&B85NAVNS1 gt 0
+.th Som selvskyldnerkautionist:
+.th .sp 12mm
+.th .hr left 60mm
+.th .br
+.th &B85NAVNS1
+.ar off
+.********************************************
+.ar KAU2 on
+:SWISS12.
+.if &L'&B85NAVNS3 gt 0
+.th Som selvskyldnerkautionist:
+.th .sp 12mm
+.th .hr left 60mm
+.th .br
+.th &B85NAVNS3
+.ar off
+.********************************************

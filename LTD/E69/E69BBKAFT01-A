@@ -1,0 +1,336 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.su off
+.se year = substr &DATO 7 4
+.su on
+.**************************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.*.NV PAGE KTOOPRET '%&KTOOPRET.'
+.*.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+.* ændring af banknavn til at følge banksteds-banknavn
+.* .if &L'&BANKNAVN GT 0
+.* .th .se BANKNAVN = '&AFDBNKNAVN.'
+.* ændring af banknavn til Spar Nord Bank A/S
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = 'Spar Nord Bank A/S'
+.se e69bank = 'Spar Nord Bank'
+.se e69sbank = 'Spar Nord'
+.********************GENEREL OPSÆTNING*************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+Børnebørnskonto
+.sp
+.* &REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 76mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+:FED.Renter og omkostninger:SKRSLUT.
+.br
+Rente og omkostninger for kontoen fastsættes til enhver tid af &BANKNAVN.
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1. % p.a.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den 31-12-&year..
+.sp
+Renter af indestående i bindingsperioden er skattepligtige og skal
+medregnes i kontohavers skattepligtige indkomst.
+.sp
+I øvrigt gælder "&BANKNAVN.'s almindelige forretningsbetingelser", der
+sammen med kopi af denne aftale er udleveret til opretter.
+.sp
+Som opretter:
+.sp 6mm
+.tp 2mm 100mm
+Dato:¤¤Dato:
+.sp
+:FED.¤¤&BANKNAVN.:SKRSLUT.
+.sp 12mm
+.hr tynd 0mm 65mm 100mm 165mm
+¤&E69NAVN.
+.sp
+Som værge:
+.sp
+Dato
+.sp 15mm
+.hr tynd 0mm 65mm
+¤&E69NAVN1.
+.**************************************************************************
+.fo left
+.dr tynd weight 0.2mm
+.ti ¤ 05
+.**************************************************************************
+:FED.Opretter:SKRSLUT.
+.br
+Cpr-nr.: &E69CPR. - &E69NAVN., &E69ADR., &E69POSTBY.
+.sp
+har i dag indgået aftale med &BANKNAVN. om oprettelse af en Børnebørnskonto
+følgende vilkår:
+.sp
+:FED.Regler for indskud:SKRSLUT.
+.br
+Der kan højst indskydes 60.000,00 kroner årligt, og det samlede indskud på
+kontoen må ikke overstige 500.000,00 kroner. Der er intet minimumskrav til
+indskud på kontoen.
+.sp
+Indskuddet sker på en Børnebørnskonto lydende på barnets navn, og
+indeståendet tilhører barnet.
+.sp
+Adgangen til at disponere over kontoens indestående er indtil barnets
+myndighedsalder reguleret af værgemålsloven.
+.sp
+Det betyder, at retten til at disponere over kontoens indestående efter
+udløbet af en eventuel bindingsperiode tilfalder barnet og/eller
+forældrene/værgen.
+.sp
+Såfremt der er forhold som ikke er dækket af kontoaftalen vil de være
+undergivet værgens kompetence.
+.sp
+:FED.Bindingsperiode:SKRSLUT.
+.br
+Indestående på kontoen er bundet til og med den &E69DATO1..
+Bindingsperioden kan ikke forlænges.
+.sp
+:FED.Indbetaling og udbetaling:SKRSLUT.
+.br
+Indbetaling på kontoen sker ved kontant indskud eller overførsel fra anden
+konto.
+.sp
+Indestående kan frigives helt eller delvist til kontohaver ved opretters
+samtykke. Ved opretters død kan værgen give tilladelse til frigivelse.
+.sp
+Børnebørnskontoen kan flyttes til et andet pengeinstitut ved samtykke fra
+opretter.
+.sp
+Der skal ved overførsel af kontoen til andet pengeinstitut træffes aftale
+med dette om videreførsel af eventuel binding mv.
+.sp
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 8
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "BØRN01"**************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XBØRN01DU
+.th .go BØR01
+.el .go DUEXIT
+...BØR01
+.* VÆRGEOPLYSNINGEN KAN UNDVÆRES, DA DER IKKE ER UNDERSKRIFTSFELT TIL
+.* VÆRGEN PÅ DOKUMENTET!!!! Eva Brandt, d. 3-6-2014
+.*.if &L'&GENNAVN > 0
+.*.an &L'&DUROLLE2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast VAE i DUROLLE2/
+.*.if &L'&GENCPR > 0
+.*.an &L'&DUCPRNR2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
+.*************************************************************
+...DUEXIT

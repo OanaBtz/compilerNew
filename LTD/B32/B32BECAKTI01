@@ -1,0 +1,124 @@
+.****************DEFINIITON AF TYKKELSEN PÅ STREGERNE I BOKSENE************
+.dr thin weight .01mm
+.**************************************************************************
+.da DATO 155mm 40mm width 30mm
+.da SIDE1 20mm 90mm width 175mm
+.**************************************************************************
+.ar DATO on
+Dato       :
+.br
+Tidspunkt  :
+.br
+Kortløbenr.:
+.**************************************************************************
+.ar SIDE1 on
+:FED.
+.if X&GENKORT3 = Xdankort
+.th Dankort
+.el VISA/Dankort
+og aktiveringsnummer
+:SKRSLUT.
+.sp2
+Nykredit har netop bestilt et
+.if X&GENKORT3 = Xdankort
+.th Dankort til dig. Kortet vil inden for to uger blive sendt direkte
+.th til din adresse.
+.* .th adresse.
+.el VISA/Dankort til dig. Kortet vil inden for to uger blive
+.el sendt direkte til din adresse.
+.sp
+:FED.
+Vigtigt: Kortet skal aktiveres før brug!
+:SKRSLUT.
+.br
+Når du modtager kortet, er det af sikkerhedsmæssige
+årsager ikke aktivt. Du kan ikke anvende kortet,
+før det er blevet aktiveret.
+.sp
+Du aktiverer kortet ved hjælp af en trykknaptelefon, hvor du skal
+indtaste et aktiveringsnummer.
+.sp
+.*******DEF. PÅ KASSE TIL KASSETEKST***************************************
+.bx thin 50mm 126mm
+.**************************************************************************
+.ce Dit aktiveringsnummer er: &GENAKTIVNR
+.bx off
+.sp
+:FED.
+Gem dette brev, til du har modtaget dit
+.if X&GENKORT3 = Xdankort
+.th Dankort.
+.el VISA/Dankort.
+:SKRSLUT.
+.br
+Aktiveringsnummeret er personligt og skal opbevares forsvarligt, indtil
+du skal anvende det.
+.sp
+Når du modtager dit kort, vil du samtidig modtage en nærmere beskrivelse
+af, hvordan kortet aktiveres.
+.sp
+Når kortet er aktiveret, skal aktiveringsnummeret
+ikke anvendes mere, og du kan smide dette brev væk.
+.sp
+Hvis du mister dit aktiveringsnummer, før kortet er modtaget og
+aktiveret, beder vi dig rette henvendelse til Nykredit på
+.if &L'&EKSPBNKST = 6
+.th .go TEST1
+.el .mg /T/Eksp. banksted i signon er ikke korrekt/
+...TEST1
+.if X&EKSPBNKST > X811699
+.an X&EKSPBNKST < X811800
+.th 33 42 12 01.
+.th .go VIDERE
+.if X&EKSPBNKST > X547899
+.an X&EKSPBNKST < X548000
+.th 70 10 90 00.
+...VIDERE
+.sp 4
+.ce Med venlig hilsen
+.sp 2
+.ce Nykredit
+.ar off
+.da DATO 181mm 40mm width 25mm
+.da NAVN 20mm 40mm width 130mm
+.**************************************************************************
+.ar DATO on
+&DATO1
+.br
+&KLOKKESLET
+.br
+&BECLBNR
+.ar off
+.**************************************************************************
+.ar NAVN on
+&NAVN
+.br
+&GADE
+.br
+&BY
+.ar off
+.*
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'

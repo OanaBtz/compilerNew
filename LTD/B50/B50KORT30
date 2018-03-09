@@ -1,0 +1,204 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE ID-OPL_01 '%'
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+:COUR10.
+.da MODTAGER 20mm 50mm
+.*************************************************************
+.ar MODTAGER on
+&GENNAVN
+.br
+&GENCO
+.br
+&GENGADE
+.br
+&GENBY
+.sp
+&GENATT
+.ar off
+.*************************************************************
+.fo left
+.ti ¤ 05
+:COUR10.
+.***********************************************************************
+.* brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* uddata-overskrift
+.da OVERSKR 20mm 110mm width 170mm
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.ar OVERSKR on
+.us Internationalt kort inddraget i ATM
+.sp
+.***********************************************************************
+Vedlagte kort
+.sp
+.tp 16mm
+.se kort1 = substr &GENKTNR3 1 4
+.se kort2 = substr &GENKTNR3 5 4
+.se kort3 = substr &GENKTNR3 9 4
+.se kort4 = substr &GENKTNR3 13 4
+¤Kortnr. : &kort1 &kort2 &kort3 &kort4
+.sp
+.if &L'&GENIND gt 0
+.an &L'&GENINDKL1 gt 0
+.th er inddraget den &GENIND kl. &GENINDKL1 i pengeautomaten i
+.if &L'&GENIND eq 0
+.an &L'&GENINDKL1 eq 0
+.th er inddraget i pengeautomaten i
+.if &L'&GENIND gt 0
+.an &L'&GENINDKL1 eq 0
+.th er inddraget den &GENIND i pengeautomaten i
+.if &L'&GENIND eq 0
+.an &L'&GENINDKL1 gt 0
+.th er inddraget kl. &GENINDKL1 i pengeautomaten i
+.sp
+.if &L'&BANKREGNR gt 0
+.th ¤&BKNAVN
+.th .br
+.th ¤&BKAFD
+.th .br
+.th ¤&BKADR
+.th .br
+.th ¤&BKBY
+.el ¤&BANKNAVN
+.el .br
+.el ¤&AFDNAVN
+.el .br
+.el ¤&AFDGADE
+.el .br
+.el ¤&AFDBY
+.sp
+.su off
+.se indr = 'Kortet er inddraget som følge af'
+.se spr = 'at kortet er spærret'
+.se tekfejl = 'at der har været teknisk fejl i automaten'
+.se ejtaget = 'at kortet ikke er taget af kunden efter præsentation'
+.se defekt = 'at kortet er defekt og bør udskiftes'
+.se glf = 'at kortet er glemt/fundet i automaten'
+.su on
+.************************** Hvis kun et modul ***************************
+.******************************* Spærret ********************************
+.*.da GRUND 20mm 136mm width 175mm
+.*.ar GRUND on
+.if &L'&GENKORTSP gt 0
+.an &L'&GENTEKFEJL eq 0
+.an &L'&GENEJTAGT1 eq 0
+.an &L'&GENKORTDEF eq 0
+.an &L'&GENKORTFUN eq 0
+.an &L'&GENANDEN eq 0
+.th &indr., &spr..
+.th .go SLUT
+.**************************** Teknisk fejl *****************************
+.if &L'&GENKORTSP eq 0
+.an &L'&GENTEKFEJL gt 0
+.an &L'&GENEJTAGT1 eq 0
+.an &L'&GENKORTDEF eq 0
+.an &L'&GENKORTFUN eq 0
+.an &L'&GENANDEN eq 0
+.th &indr., &tekfejl..
+.th .go SLUT
+.**************************** Ikke taget *******************************
+.if &L'&GENKORTSP eq 0
+.an &L'&GENTEKFEJL eq 0
+.an &L'&GENEJTAGT1 gt 0
+.an &L'&GENKORTDEF eq 0
+.an &L'&GENKORTFUN eq 0
+.an &L'&GENANDEN eq 0
+.th &indr., &ejtaget..
+.th .go SLUT
+.**************************** Kort defekt ******************************
+.if &L'&GENKORTSP eq 0
+.an &L'&GENTEKFEJL eq 0
+.an &L'&GENEJTAGT1 eq 0
+.an &L'&GENKORTDEF gt 0
+.an &L'&GENKORTFUN eq 0
+.an &L'&GENANDEN eq 0
+.th &indr., &defekt..
+.th .go SLUT
+.*************************** Kort glemt/fundet *************************
+.if &L'&GENKORTSP eq 0
+.an &L'&GENTEKFEJL eq 0
+.an &L'&GENEJTAGT1 eq 0
+.an &L'&GENKORTDEF eq 0
+.an &L'&GENKORTFUN gt 0
+.an &L'&GENANDEN eq 0
+.th &indr., &glf..
+.th .go SLUT
+.*************************** Anden årsag *******************************
+.if &L'&GENKORTSP eq 0
+.an &L'&GENTEKFEJL eq 0
+.an &L'&GENEJTAGT1 eq 0
+.an &L'&GENKORTDEF eq 0
+.an &L'&GENKORTFUN eq 0
+.an &L'&GENANDEN gt 0
+.th &indr., &GENANDEN..
+.th .go SLUT
+.*************************** Intet angivet *****************************
+.if &L'&GENKORTSP eq 0
+.an &L'&GENTEKFEJL eq 0
+.an &L'&GENEJTAGT1 eq 0
+.an &L'&GENKORTDEF eq 0
+.an &L'&GENKORTFUN eq 0
+.an &L'&GENANDEN eq 0
+.th .go SLUT
+.*************************** Hvis flere valg ***************************
+&indr.:
+.sp
+.if &L'&GENKORTSP gt 0
+.th ¤&spr
+.th .br
+.if &L'&GENTEKFEJL gt 0
+.th ¤&tekfejl
+.th .br
+.if &L'&GENEJTAGT1 gt 0
+.th ¤&ejtaget
+.th .br
+.if &L'&GENKORTDEF gt 0
+.th ¤&defekt
+.th .br
+.if &L'&GENKORTFUN gt 0
+.th ¤&glf
+.th .br
+.if &L'&GENANDEN gt 0
+.th ¤&GENANDEN
+.*.go SLUT
+.************************************************************************
+...SLUT

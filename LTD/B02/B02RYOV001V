@@ -1,0 +1,224 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+.**
+.* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
+.*  til kriteriebehandling, og af system Kreditmodul.
+.*
+.* Hver bank skal give hver sit rykkerbrev en rykkertype fra 0 - 4
+.*  hvori der angives graden/typen af rykkeren.
+.*
+.* Det gøres ved at indsætte det af følgende tekstmoduler med den
+.*  standardværdi som jeres rykkerbrev skal have:
+.*
+.*  BEC1810P4-0, indeholder BECRYKTYP med standardværdien = 0
+.*  BEC1810P4-1, indeholder BECRYKTYP med standardværdien = 1
+.*  BEC1810P4-2, indeholder BECRYKTYP med standardværdien = 2
+.*  BEC1810P4-3, indeholder BECRYKTYP med standardværdien = 3
+.*  BEC1810P4-4, indeholder BECRYKTYP med standardværdien = 4
+.*
+.* Rykkertype = 0, defaultværdien, og rykkertype = 1 er den mildeste
+.*  og rykkertype = 4 er den hårdeste.
+.*
+.* Servicebrevet, som er et rykkerbrev med de sidste 10 posteringer
+.*  kan både være et rykkerbrev der skal tælle med og derfor skal
+.*  have en rykkertype fra 1-4, eller det kan være et rykkerbrev
+.*  der ikke skal tælle med og derfor have en rykkertype = 0.
+.*********************************************************************
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.*************** AREAL-DEFINITIONER ***************************************
+.da AFS  126.5mm 34.5mm width 150mm
+.da DATO 126.5mm 58mm width 150mm
+.*** Bankens afsenderoplysninger ******************************************
+.ar AFS on
+:COUR8.
+&BANKNAVN.
+.br
+&AFDNAVN.
+.br
+&AFDGADE.
+.br
+&AFDBY.
+.br
+&AFDTLF.
+.if &L'&EKSPNAVN > 0
+.th .br
+.th Kundeansvarlig &EKSPNAVN.
+.ar off
+.*** Dato *****************************************************************
+.ar DATO on
+:COUR8.
+&DATO.
+.ar off
+:SWISS11.
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 25mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
+:SWISS11.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Overskrift på brev
+.da TEXT 25mm 95mm width 165mm
+.**************************************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar TEXT on
+:FED.
+.*.if &L'&MEDNAVN = 0
+.th Din
+.*.if &L'&MEDNAVN > 0
+.*.th Jeres
+konto &REGNR &KTONR er i overtræk
+:SKRSLUT.
+.sp
+.**************************************************************************
+.**** Her laves 2 midlertidige parametre der enten udfyldes fra
+.**** batch-rykkerfunktionen eller fra 1810felterne.************
+.*********** AB har *'net måling af parameterne nedenfor *****************
+.*.if &L'&BATCHGEBYR > 0
+.*.th .se gebyrryk = &BATCHGEBYR
+.*.el .se gebyrryk = &RYKGEBYR
+.*.if &L'&BATCHOVT > 0
+.*.th .se trakover = &BATCHOVT
+.*.el .se trakover = &OVERTRÆK
+.***********************************************************************
+.** her starter brevteksten ***AB har ændret teksten i forhold til BEC ***
+Jeg gør
+.*.if &L'&MEDNAVN = 0
+dig
+.*.if &L'&MEDNAVN > 0
+.*.th Jer
+opmærksom på, at ovennævnte konto er overtrukket
+med
+.sp
+.ce :FED. &OVERTRÆK kr. :SKRSLUT.
+.sp
+Beløbet bedes indbetalt omgående.
+.sp
+Indbetaler
+.*.if &L'&MEDNAVN = 0
+du
+.*.if &L'&MEDNAVN > 0
+.*.th I
+ikke beløbet omgående, vil jeg spærre
+.*.if &L'&MEDNAVN = 0
+dit
+.*.if &L'&MEDNAVN > 0
+.*.th Jeres
+Visa/Dankort og
+.*.if &L'&MEDNAVN = 0
+du
+.*.if &L'&MEDNAVN > 0
+.*.th I
+bedes i så fald indlevere kortet til &AFDBNKNAVN..
+.sp
+&RYKTXTL1A
+.ct &RYKTXTL1B
+&RYKTXTL2A
+.ct &RYKTXTL2B
+.br
+Vort gebyr for denne påmindelse kr. &RYKGEBYR er hævet på kontoen.
+.sp 10mm
+.ce on
+Med venlig hilsen
+.br
+.sp
+&AFDBNKNAVN
+.br
+.sp 10mm
+&GENEKSP.
+.ce off
+.br
+.ar off

@@ -1,0 +1,66 @@
+When migrating from from one of the program products
+ 
+o  IPDT R1 or R2
+o  Application Support Facility V1 or V2
+o  OfficeVision/MVS R1 or R2
+ 
+to Application Support Facility V3, the SLL database MUST be migrated with
+the program FSNMSLL for the following reasons:
+ 
+o  SP/SPG record names stored in code page 500
+o  Extension of date fields to include the century
+o  Allow later introduction of an alternate index
+When migrating from from one of the program products
+ 
+o  IPDT R1 or R2
+o  Application Support Facility V1 or V2
+o  OfficeVision/MVS R1 or R2
+ 
+to Application Support Facility V3, the document cab needs to be migrated
+with the program FSNMCAB for the following reasons:
+ 
+o  Extension of key to support 44 character document names
+o  New record fields for support of the workstation feature
+o  Extension of date fields to include the century
+o  Record key stored in code page 500
+o  Provide reserved space of future program enhancements
+The panel "Function Selection" has been removed from the product, since
+it can be built by the menu definitions facilities of the product. The
+menu ENUIFS is delivered with the product and has the same functionality.
+ 
+Users being used to work with the "Function Selection" panel can get
+releaf through definition of ENUIFS as main menu name in their user
+profiles.
+There is only one CLIST serving program, FSNZFS2, which is invoked from
+the application CLIST document for
+ 
+o  Display of the DOCLIST window
+   .
+   EXT %DDDIWAREA, %DDDWAREA
+   .
+   %DDDIWAREA = %DDDWAREA
+   INVOKE FSNZFS2 %?GENNAM %?STATUS %?OWNER
+   %DDDIWAREA = ' '
+   .
+   .
+ 
+o  Invocation of fast path commands out of a DisplayWrite/370 session
+ 
+   EXT %DDDIWAREA, %DDDWAREA
+   .
+   %DDDIWAREA = %DDDWAREA
+   X XCTL FSNZFS2 %CMDN %DXBFNCT
+   %DDDIWAREA = ' '
+   .
+   .
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
+Definition of environment name in   !DXBDDNE exit to support different
+the user profile allows for online  !datasets on user ID basis
+assignment of different datasets.   !
+DXBDDNE is no longer available.     !
+                                    !
+FSNZDPRC synchronously invoked in   !DXBZDPE exit to invoke a DDDL3GX
+case of deferred print with DW/370  !key collection program for later
+is a DDDL3GX key collection program !deferred print with DW/370

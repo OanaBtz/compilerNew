@@ -1,0 +1,201 @@
+.DA HOVED 24MM 38MM WIDTH 90MM
+.DA REF 124MM 48MM WIDTH 75MM
+.***************************************
+:VERDA10.
+:ENY.
+.*** BREVSTART advokatens adr **********
+.AR HOVED ON
+&GENNAVN
+.br
+&GENNAVNBD3
+.br
+&GENGADE
+.br
+&GENBY
+.AR OFF
+.***********************
+.AR REF ON
+&EKSPBY., den &DATO
+.br
+Reference: &GENEKSP
+.br
+Direkte tlf.: &GENTLFNR
+.br
+E-mail: &GENEMAIL
+.AR OFF
+.*********************GENEREL OPSÆTNING************************************
+:VERDA10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 24mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+.if &L'&GENNR2 > 0
+.th .us J. nr. &GENNR2 - &B93LÅNENAV.'s salg
+.el .us &B93LÅNENAV.'s salg
+.us af ejendommen &B93PBELIG., til &NAVN
+.if &L'&MEDNAVN > 0
+.th .us og &MEDNAVN
+:SKRSLUT.
+:SKRSLUT.
+.sp
+.**************************************************************************
+.***TEST OM DER ER FLERE END ET PANTEBREV*********
+.se ptb = 0
+.if &L'&GENBL5 gt 0
+.th .se ptb = &ptb + 1
+.el .se ptb = &ptb
+.if &L'&GENBL3 gt 0
+.th .se ptb = &ptb + 1
+.el .se ptb = &ptb
+.if &L'&GENBELØB3A gt 0
+.th .se ptb = &ptb + 1
+.el .se ptb = &ptb
+.if &ptb gt 1
+.th .se pbreve = 'disse pantebreve'
+.th .se brev = 'pantebreve'
+.el .se pbreve = 'pantebrevet'
+.el .se brev = 'pantebrev'
+.se kptb = 0
+.if &L'&GENBELØB3A gt 0
+.th .se kptb = &kptb + 1
+.el .se kptb = &kptb
+.if &kptb = 1
+.th .se kpbrev = 'kreditforeningspantebreve'
+.el .se kpbrev = 'kreditforeningspantebrev'
+.****SLUT PÅ TEST AF PANTEBREVE******************************************
+:VERDA10.
+Til orientering fremsendes kopi af garanti for restkøbesum nr. &IREGKTO.,
+.br
+kr. &ÅCONT
+:VS. &B93BEL.
+.ct , som vi i dag har sendt til &GENNAVNBD1., &GENGADEBD1., &GENBYBD1..
+.if &U'X&GENJANEJ eq XN
+.an &U'X&GENJANEJ1 eq XN
+.th .go NEJTXT
+.if &U'X&GENJANEJ eq XJ
+.an &U'X&GENJANEJ1 eq XJ
+.th .sp
+.th .go MED
+.if &U'X&GENJANEJ eq XJ
+.an &U'X&GENJANEJ1 eq XN
+.th .sp
+.th .go EJER
+.if &U'X&GENJANEJ eq XN
+.an &U'X&GENJANEJ1 eq XJ
+.th .sp
+.th .go KRED
+...MED
+Samtidig vedlægges ejerpantebrev kr. &ÅCONT
+:VS. &GENBL5
+samt
+&kpbrev.
+kr. &ÅCONT
+:VS. &GENBL3.
+.if X&kptb = X1
+.th .go 2PTB
+.el .go 2PTBEND
+...2PTB
+og kr. &ÅCONT
+:VS. &GENBELØB3A.
+...2PTBEND
+.ct , udstedt af &NAVN
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN
+med pant i ovennævnte ejendom. Vi
+beder &DIG være behjælpelig med tinglysning af
+disse pantebreve sammen med lysning af skødet, idet det bemærkes
+at der ikke må rettes i anmelder.
+.sp
+.go UDEN
+...EJER
+Samtidig vedlægges ejerpantebrev kr. &ÅCONT
+:VS. &GENBL5.,
+.ct  udstedt af &NAVN
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN
+med pant i ovennævnte ejendom. Vi
+beder &DIG være behjælpelig med tinglysning af
+pantebrevet sammen med lysning af skødet, idet det bemærkes
+at der ikke må rettes i anmelder.
+.sp
+.go UDEN
+...KRED
+Samtidig vedlægges
+&kpbrev.
+kr. &ÅCONT
+:VS. &GENBL3.
+.if X&kptb = X1
+.th .go 2PT
+.el .go 2PTEND
+...2PT
+og kr. &ÅCONT
+:VS. &GENBELØB3A.
+...2PTEND
+.ct , udstedt af &NAVN
+.if &L'&MEDNAVN > 0
+.th og &MEDNAVN
+med pant i ovennævnte ejendom. Vi
+beder &DIG være behjælpelig med tinglysning af
+&pbreve.
+sammen med lysning af skødet, idet det bemærkes
+at der ikke må rettes i anmelder.
+.sp
+...UDEN
+.if &L'&GENBL4 > 0
+.th .go VIDERQ
+.el .go VIDERSL
+...VIDERQ
+Til dækning af tinglysningsafgift
+.if &L'&B93KTO6 > 0
+.th overføres til konto nr. &B93KTO6
+.el vedlægges check
+kr. &ÅCONT
+:VS. &GENBL4..
+.sp
+...VIDERSL
+Da den kontante udbetaling er betalt og der er stillet garanti for
+restkøbesummen, skal vi anmode &DIG om at fremsende skøde samt ovennævnte
+&brev.
+til tinglysning snarest med iagttagelse af købsaftalens frister
+herom, således at vi har ovennævnte
+&brev.
+retur i tinglyst stand senest 8 dage før overtagelsen.
+.if &U'X&GENJANEJ eq XJ
+.or &U'X&GENJANEJ1 eq XJ
+.th .go KVITTXT
+.el .go NEJTXT
+...KVITTXT
+.sp
+Vi beder &DIG venligst kvittere for modtagelsen af ovennævnte
+&brev.
+på vedlagte kopi af dette brev.
+...NEJTXT
+.sp
+&GENTEKST10
+&GENTEKST11
+&GENTEKST12.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+:VERDA12.
+&BANKNAVN
+:SKRSLUT.
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

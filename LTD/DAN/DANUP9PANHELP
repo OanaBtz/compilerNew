@@ -1,0 +1,125 @@
+""Bruger-ID" viser den ID, du har valgt at vedligeholde
+."Brugernavn" viser navnet på brugeren
+."Sidst opdateret af/d." viser bruger-ID for den bruger, som sidst ha
+rvedligeholdt brugerprofilen, samt datoen for den seneste opdatering
+.
+ Man kan ikke skrive i felterne
+.;TDCF-profilen ("FSN-PROF") bliver gemt i GIL. Den ejes ikke af et bestemt
+projekt eller en bestemt bruger, men kan vedligeholdes af alle de
+brugere, der har valgt ("/") det aktuelle felt i deres brugerprofiler.
+ 
+Den bliver brugt af systemet i forbindelse med anmodning om
+o  at få vist resultat
+o  at få udskrevet online, baseret på formatering til linieprinter.
+En offentlig LTD kan anvendes af
+ 
+o  de brugere, der er tilknyttet det projekt, som ejer LTD'en.
+o  brugere uden for "ejerprojektet", hvis LTD'ens adgangskode er mellem
+   1 og 2048, og den er defineret i brugerens oversigt over adgangskoder.
+o  alle brugere, hvis LTD'ens adgangskode er 0.
+ 
+I LTD-definitionen er der tre felter, som definerer, hvilke funktioner
+brugerne har lov at anvende, når de arbejder med LTD'en:
+ 
+o  valg af indgange - omfang
+o  tilføjelse af individuel tekst
+o  online-udskrivning
+ 
+De tre brugerprofilfelter, der er beskrevet her, svarer nøjagtigt til
+disse tre felter i LTD'en. Formålet med disse felter i brugerprofilen
+er at begrænse de autorisationer, der er defineret i LTD'en.
+Autorisationerne kan ikke udvides med angivelser i brugerprofilen.
+ 
+F.eks. "valg af indgange":
+Som eksempel er en LTD defineret med et niveau for valg af indgange
+på "3", som tillader, at indgange fra alle projekter medtages.
+Hvis der er defineret "1" som niveau for denne bruger, begrænses
+valget af indgange til selve LTD'en, når den bruges til
+dokumentopstilling.
+ 
+For eksempel "individuel tekst":
+Hvis LTD'en ikke tillader, at man tilføjer individuel tekst, har det
+ingen betydning for brugeren, om du har valgt ("/") dette felt.
+Valget af tekstmoduler kan ændres og afsluttes ved hjælp af
+underkommandoer eller ved hjælp af F-taster.
+ 
+Hvis brugeren skal anvende
+ 
+o  Underkommandoer, skal der stå '1'
+ 
+o  F-taster, skal der stå '2'
+ 
+Bemærk:
+Hvis der ikke angives nogen værdi, anvendes den standardværdi, der
+angives af basistilpasningsparameteren LCFEXT.
+Hvis brugeren anmoder om online-udskrivning af et dokument, der er
+oprettet med Document Composition, kan udskrivningen enten ske på
+ 
+o  En lokalprinter (defineret i CICS eller IMS)
+ 
+   eller på en
+ 
+o  Ekstern printer (defineret til VTAM, anvendt via MVS og PSF)
+ 
+Skriv "1" eller "2" i dette felt for at bestemme, om en kommando vedr.
+online-udskrivning uden angivelse af et printernavn skal udføres på
+en lokalprinter eller en ekstern printer.
+ 
+Hvis du vælger "1", bestemmes navnet på lokalprinteren i følgende
+rækkefølge:
+o  Værdien i feltet "Navn på lokalprinter", der er defineret på
+   skærmbilledet til vedligeholdelse af brugerprofil
+   "Tekstopstilling med DCF".
+o  Terminalprinter (i systemets terminaldefinitioner:
+   se tilpasningsmakroen FSNTTRMC i CICS eller FSNTTRMI i IMS,
+   tilpasningsparameter DCPRT)
+o  Standardprinter, der er defineret af tilpasningsparameteren LPRTID
+ 
+Hvis du vælger "2", bestemmes navnet på den eksterne printer i
+følgende rækkefølge:
+o  Værdien i feltet "Navn på ekstern printer", der er defineret på
+   skærmbilledet til vedligeholdelse af brugerprofil
+   "Tekstopstilling med DCF".
+o  Terminalprinter (i systemets terminaldefinitioner:
+   se tilpasningsmakroen FSNTTRMC i CICS eller FSNTTRMI i IMS,
+   tilpasningsparameter RMPRT)
+Hvis brugeren anmoder om online-udskrivning af et dokument, der er
+oprettet med Document Composition, og udskrivningen skal ske på en
+lokalprinter (ikke via MVS og PSF), anvendes printernavnet, der er
+angivet her, som standardværdi, hvis ingen anden værdi er angivet.
+ 
+Hvis du i skærmbilledet "Autorisation til private emner" under vedlige-
+holdelse af brugerprofil har autoriseret brugeren til at "definere egen
+standardprinter", må brugeren opdatere feltet med printernavn i sin
+egen brugerprofil.
+ 
+Bemærk:
+Valg af online-udskrivning via en lokal printer sker med
+o  valgmuligheden "1" i feltet "Standard for online-udskrivning",
+   der er defineret på skærmbilledet til vedligeholdelse af
+   brugerprofil "Tekstopstilling med DCF"
+o  exit-programmet FSNLCME
+o  underkommandoen %C7, der er angivet på skærmbilledet "Valg af
+   tekstmoduler"
+o  underkommandoen %R7, der er angivet i den SIB-styreblok, der
+   bruges til at aktivere funktionen Document Composition.
+Hvis brugeren anmoder om online-udskrivning af et dokument, der er
+oprettet med Document Composition, og udskrivningen skal ske på en
+ekstern printer (via MVS og PSF), anvendes printernavnet, der er
+angivet her, som standardværdi, hvis ingen anden værdi er angivet.
+ 
+Hvis du i skærmbilledet "Autorisation til private emner" under vedlige-
+holdelse af brugerprofil har autoriseret brugeren til at "definere egen
+standardprinter", må brugeren opdatere feltet med printernavn i sin
+egen brugerprofil.
+ 
+Bemærk:
+Valg af online-udskrivningen via en ekstern printer sker med
+o  valgmuligheden "2" i feltet "Standard for online-udskrivning",
+   der er defineret på skærmbilledet til vedligeholdelse af
+   brugerprofil "Tekstopstilling med DCF"
+o  exit-programmet FSNLCME
+o  underkommandoen %CA, der er angivet på skærmbilledet "Valg af
+   tekstmoduler"
+o  underkommandoen %RA, der er angivet i den SIB-styreblok, der
+   bruges til at aktivere funktionen Document Composition.

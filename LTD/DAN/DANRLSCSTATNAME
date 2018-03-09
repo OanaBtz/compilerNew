@@ -1,0 +1,40 @@
+Et emne med frigivelsesstatus '1' hører til test-GIL'en og er klar
+til vedligeholdelse. Status tilknyttes ved
+o  oprettelse
+   Frigivelsesstatus for et modelemne, der bruges til oprettelse, har
+   ingen indflydelse på statusen for det nye emne.
+o  valg af vedligeholdelse i produktions-GIL'en
+   Emnet i produktionen er kopieret.
+o  ændring af status for frigivelse
+   Emner med frigivelsesstatus '2' eller '8' kan overføres fra
+   en teststatus tilbage til vedligeholdelsesstatus.
+ 
+Autoriserede brugere kan ændre eller endda slette emnet i test-GIL'en.
+Afslutning af vedligeholdelsen skal angives ved at ændre frigivelsesstatus
+til '2'.
+Et emne med frigivelsesstatus '2' hører til test-GIL'en og er
+klar til test. Emnet kan ikke vedligeholdes, medmindre frigivelsesstatus
+er blevet ændret til '1'. Test uden fejl af et emne med frigivelsesstatus
+'2' skal angives ved at ændre frigivelsesstatus til '8'.
+Et emne med frigivelsesstatus '8' hører til test-GIL'en. Testfasen for
+dette emne er blevet udført uden fejl. Emnet kan ikke vedligeholdes,
+medmindre frigivelsesstatus er blevet ændret til '1'. Via en
+"systemintegration" ændres status for frigivelse fra '8' til '9'.
+Et emne med frigivelsesstatus '9' hører til test-GIL'en.
+Systemintegrationen af dette emne er blevet udført uden fejl. Emnet
+er klar til frigivelse til produktions-GIL'en. Emnet kan ikke
+vedligeholdes. Alle emner med frigivelsesstatus '9' frigives til
+produktion ved at udføre funktionen
+ 
+o  FSNBRULC/I med valgmuligheden RLSGIL.
+o  FSNBRRLC/I med valgmuligheden RELEASE.
+ 
+Hvis der opdages en "fejl" efter systemintegration, kan der udføres
+rollback af emnet. Alle emner med frigivelsesstatus '9' føres
+tilbage til frigivelsesstatus '8'.
+Frigivelsesnavnet anvendes til at gruppere GIL-emner til senere
+frigivelse til produktion. Det tilknyttes eller ændres under
+vedligeholdelse af et GIL-emne. Ændring af status for frigivelse har
+ingen indflydelse på frigivelsesnavnet. Under systemintegration kan
+frigivelsesnavnet kun anvendes til at udføre integration af emner
+med et bestemt frigivelsesnavn.

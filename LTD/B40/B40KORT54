@@ -1,0 +1,1126 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+:TILTALE &TILTALE
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Versionsdato 03.02.2010
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*** Definer siden som et areal *******************************************
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if &U'X&GENFIRMA = XJ
+.th .vr tynd1 87mm
+.sp 91mm
+.bx off
+.if &U'X&GENFIRMA = XJ
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if &U'X&GENSEND = XK
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 19mm
+.bx off
+.*** TEST *****************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if X&FULDM = X1
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR. > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&STILL. eq 0
+.th .sp
+.if &L'&COADR. eq 0
+.th .sp
+.if &L'&LAND. eq 0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+¤&KUNDENR
+.sp 7mm
+.sp 1,6mm
+¤&reg &kto.
+.go AFS1
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if &L'&KTOSTILL. gt 0
+.el .sp
+.if &L'&KTOCO. gt 0
+.el .sp
+.if &L'&KTOLAND. gt 0
+.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DET ER ***
+.**************************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 72.5mm width  85mm
+.**************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+.ar underm on
+.*  Evt. medkontohaver
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if X&FULDM = X1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.el &MEDKNDNR1.
+.ar off
+.th ¤Ja¤
+.el ¤Nej¤
+.sp 1.4mm
+...BEST
+¤&BECBEST01.¤
+.sp 1.0mm
+.* ved ny bestilling udskrives kortnr. ikke
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go EKSP
+.if &L'&BECKORTNR > 0
+.th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤
+.el .sp
+...EKSP
+.sp 1.0mm
+ ¤&BRUGERNAVN.¤
+.ar off
+.**************************************************************************
+...SLUT
+.el .sp
+.sp  7.5mm
+.sp 1.6mm
+¤&reg &kto.
+.sp 10mm
+&NAVN
+.if &L'&COADR. gt 0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if &L'&COADR. gt 0
+.el .sp
+.br
+&LAND
+.if &L'&LAND. gt 0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+¤&KUNDENR
+...AFS1
+.ar off
+.**************************************************************************
+.ar under2 on
+.tp 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.****
+ ¤&DATO1.¤
+.sp 1.0mm
+.if &U'X&GENSEND = XK
+.th ¤Kunden¤
+.el ¤&BANKNAVN.¤
+.sp 3.0mm
+ ¤&PINK.¤
+.****
+.sp 4.0mm
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go GENB
+¤&PIN.¤
+...GENB
+.sp 4.0mm
+.if &U'X&BECTEST03 = XJ
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED1
+.*********************************************************************
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+...EJMED1
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED2
+.*********************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+Versionsdato 03.02.2010
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+...EJMED2
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go EJMED3
+.*********************************************************************
+.*** Definer siden som et areal *******************************************
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if &U'X&GENFIRMA = XJ
+.th .vr tynd1 87mm
+.sp 91mm
+.bx off
+.if &U'X&GENFIRMA = XJ
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if &U'X&GENSEND = XK
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 19mm
+.bx off
+.*** TEST *****************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+...EJMED3
+.sp 4.0mm
+.if &U'X&BECTEST03 = XJ
+.th ¤Ja¤
+.el ¤Nej¤
+.sp 1.4mm
+...BEST
+¤&BECBEST01.¤
+.sp 1.0mm
+.* ved ny bestilling udskrives kortnr. ikke
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go EKSP
+.if &L'&BECKORTNR > 0
+.th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤
+.el .sp
+...EKSP
+.sp 1.0mm
+ ¤&BRUGERNAVN.¤
+.ar off
+.**************************************************************************
+...SLUTKOPI
+.el .sp
+.if &L'&KTOLAND. gt 0
+.el .sp
+.sp  7.5mm
+.sp 1.6mm
+¤&reg &kto.
+.sp 10mm
+&NAVN
+.if &L'&COADR. gt 0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if &L'&COADR. gt 0
+.el .sp
+.br
+&LAND
+.if &L'&LAND. gt 0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+¤&KUNDENR
+...AFS1
+.ar off
+.**************************************************************************
+.ar under2 on
+.tp 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.****
+ ¤&DATO1.¤
+.sp 1.0mm
+.if &U'X&GENSEND = XK
+.th ¤Kunden¤
+.el ¤&BANKNAVN.¤
+.sp 3.0mm
+ ¤&PINK.¤
+.****
+.sp 4.0mm
+.if X&GENBESTIL eq X1
+.th .sp
+.th .go GENB
+¤&PIN.¤
+...GENB
+.el &MEDKNDNR1.
+.ar off
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if X&FULDM = X1
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if &L'&COADR. > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if &L'&STILL. eq 0
+.th .sp
+.if &L'&COADR. eq 0
+.th .sp
+.if &L'&LAND. eq 0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+¤&KUNDENR
+.sp 7mm
+.sp 1,6mm
+¤&reg &kto.
+.go AFS1
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if &L'&KTOSTILL. gt 0
+.el .sp
+.if &L'&KTOCO. gt 0
+.***** TEST PÅ OM KOPISIDEN SKAL UDSKRIVES ***************************
+.if &U'X&KOPI = XN
+.th .go SLUTKOPI
+.*********************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 72.5mm width  85mm
+.**************************************************************************
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+.ar underm on
+.*  Evt. medkontohaver
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if X&FULDM = X1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.rh cancel
+.** SIDESKIFT
+.pa
+.********TEST PÅ OM DANKORT UDSKRIVES ELLERS HOPPES UDENOM **************
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.************************************************************************
+.if x&BECTEST01 EQ x1
+.or x&BECTEST01 EQ x0
+.th .go L2B
+.el .go L2BA
+...L2B
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Priser mv. for Dankort
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+...L2BA
+.******** TEST PÅ OM DET ER DANKORT DER UDSKRIVES ELLER HOPPES UDENOM ***
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT
+.************************************************************************
+.if x&BECTEST01 EQ x1
+.or x&BECTEST01 EQ x0
+.th .go L2BB
+.el .go L2BC
+...L2BB
+.************ OPDELING I 2 KOLONNER *********************************
+.************ INGEN AREALER *******************************************
+.tp 2mm 89.5mm
+.cd 2 0mm 87.5mm
+.cl 85mm
+.ll 175mm
+.sp 33mm
+:SWISS10.
+.sc
+.hr left right
+.vr 0mm 87.5mm 175mm
+.*******************************************
+.mc
+¤Årligt kortgebyr
+.cb
+¤0 kr.
+.sc
+.hr left right
+.**********************************************
+.mc
+¤Hastebestilling
+.cb
+¤150 kr.
+.sc
+.hr left right
+.**********************************************
+.mc
+.of 2mm
+¤Udbetaling i andre pengeinstitutter (kasse og pengeautomat)
+.of
+.cb
+¤5 kr./stk.
+.sc
+.hr left right
+.**********************************************
+.mc
+.of 2mm
+¤Brug af kort til kontanthævning i FB's egne pengeautomater
+.of
+.cb
+¤Åbningstid: 0 kr.
+.br
+¤Øvrige tider: 3 kr.
+.sc
+.hr left right
+.**********************************************
+.mc
+¤Almindelig spærring
+.cb
+¤0 kr.
+.sc
+.hr left right
+.**********************************************
+.mc
+¤Spærring p.g.a. misbrug
+.cb
+¤200 kr.
+.sc
+.hr left right
+.**********************************************
+.mc
+¤Fremfinding af "nota"
+.cb
+¤200 kr. ved fejl dog 0 kr.
+.sc
+.hr left right
+.vr off
+.**************** TEKST UNDER KOLONNER BEGYNDER HER ********************
+.sp 3mm
+I &BANKNAVN.s pengeautomater kan der i bankens åbningstid hæves op til
+9.900 kroner pr. døgn og uden for åbningstiden kan der hæves op til
+6.000 kroner pr. døgn. I andre bankers pengeautomater kan der gælde andre
+regler for udbetaling.
+.**************** SLUT HER ********************************************
+...L2BC
+.**************************************************************
+.*** TEST PÅ OM DET ER VISA/DANKORT DER UDSKRIVES ELLERS HOPPS UDENOM ***
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.**************************************************************
+.if x&BECTEST01 EQ x2
+.or x&BECTEST01 EQ x0
+.th .go L3B
+.el .go L3BA
+...L3B
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Priser mv. for Visa/Dankort
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+...L3BA
+.*** TEST PÅ OM DET ER Visa/DankorT DER UDSKRIVES ELLER HOPPES UDENOM ***
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT
+.************************************************************************
+.if x&BECTEST01 EQ x2
+.or x&BECTEST01 EQ x0
+.th .go L3BB
+.el .go L3BC
+...L3BB
+.************ OPDELING I 2 KOLONNER *********************************
+.************ INGEN AREALER *******************************************
+.tp 2mm 89.5mm
+.cd 2 0mm 87.5mm
+.cl 85mm
+.ll 175mm
+.sp 33mm
+:SWISS10.
+.sc
+.hr left right
+.vr 0mm 87.5mm 175mm
+.********************************
+.mc
+¤Årligt kortgebyr
+.cb
+¤150 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Hastebestilling
+.cb
+¤150 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Udbetaling i andre pengeinstitutter (kasse og pengeautomat)
+.of
+.cb
+¤5 kr./stk.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Brug af kort til kontanthævning i FB's egne pengeautomater
+.of
+.cb
+¤Åbningstid: 0 kr.
+.br
+¤Øvrige tider: 3 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Almindelig spærring
+.cb
+¤0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Spærring p.g.a. misbrug
+.cb
+¤200 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤"Notakopi" af VISA (opkræves kun såfremt nota stemmer med det opkrævede)
+.of
+.cb
+¤75 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Fremfinding af "nota"
+.cb
+¤200 kr. ved fejl dog 0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Hævning i udenlandsk pengeinstitut
+.cb
+¤1% af beløb, min. 30 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Som betalingskort i forretning, der er tilsluttet Visa-systemet
+.of
+.cb
+¤0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Kontoudskrift som følge af brug i udlandet som hæve- eller betalingskort
+.of
+.cb
+¤10 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Omregningskurs ved brug af Visa/Dankort i Udlandet
+.of
+.cb
+.of 2mm
+¤Europæiske valutaer offentliggjort på www.pbs.dk/valutakurser:
+.br
+.of 2mm
+¤Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1
+%.
+.of
+.br
+.of 2mm
+¤Andre valutaer offentliggjort på www.pbs.dk/valutakurser:
+.br
+.of 2mm
+¤Valutakurs på bankdagen før transaktionen cleares i PBS tillagt 1,5 %.
+Undtagelser kan forekomme.
+.of
+.br
+¤Øvrige valutaer:
+.br
+.of 2mm
+¤Omregning til USD, der herefter omregnes til danske kroner som ovenfor.
+Undtagelser kan forekomme.
+.of
+.sc
+.hr left right
+.***************** her slutter kolonner *******************************
+.vr off
+.**************** TEKST UNDER KOLONNER BEGYNDER HER ********************
+.sp 3mm
+I &BANKNAVN.s pengeautomater kan der i bankens åbningstid hæves op til
+15.000 kroner pr. døgn og uden for åbningstiden kan der hæves op til
+6.000 kroner pr. døgn. I andre bankers pengeautomater kan der gælde andre
+regler for udbetaling.
+.sp 3mm
+Udenlandsk for brug via pengeautomater:
+.br
+Der kan hæves op til 2.000 kroner pr. døgn i lokal valuta i
+pengeinstitutter og pengeautomater, dog max. 20.000 kr. pr. løbende
+30 dage. I visse tilfælde kan lokale regler begrænse dette beløb.
+.**************** SLUT HER ********************************************
+...L3BC
+.**************************************************************
+.*** TEST PÅ OM DET ER HÆVEKORT DER UDSKRIVES ELLERS HOPPES UDENOM ***
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.**************************************************************
+.if x&BECTEST01 EQ x4
+.or x&BECTEST01 EQ x5
+.or x&BECTEST01 EQ x0
+.th .go L4B
+.el .go L4BA
+...L4B
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Priser mv. for FB hævekort
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+...L4BA
+.*** TEST PÅ OM DET ER FB hævekort DER UDSKRIVES ELLER HOPPES UDENOM ***
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT
+.************************************************************************
+.if x&BECTEST01 EQ x4
+.or x&BECTEST01 EQ x5
+.or x&BECTEST01 EQ x0
+.th .go L4BB
+.el .go L4BC
+...L4BB
+.************ OPDELING I 2 KOLONNER *********************************
+.************ INGEN AREALER *******************************************
+.tp 2mm 89.5mm
+.cd 2 0mm 87.5mm
+.cl 85mm
+.ll 175mm
+.sp 33mm
+:SWISS10.
+.sc
+.hr left right
+.vr 0mm 87.5mm 175mm
+.******************************************
+.mc
+¤Årligt kortgebyr
+.cb
+¤0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Udbetaling i andre pengeinstitutter (kasse og pengeautomat)
+.of
+.cb
+¤5 kr./stk.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Brug af kort til kontanthævning i FB's egne pengeautomater
+.of
+.cb
+¤Åbningstid: 0 kr.
+.br
+¤Øvrige tider: 3 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Almindelig spærring
+.cb
+¤0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Spærring p.g.a. misbrug
+.cb
+¤200 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Fremfinding af "nota"
+.cb
+¤200 kr. ved fejl dog 0 kr.
+.sc
+.hr left right
+.***************** her slutter kolonner *******************************
+.vr off
+.**************** SLUT HER ********************************************
+...L4BC
+.****************** BETINGELSE ****************************************** *
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.if x&BECTEST01 EQ x3
+.or x&BECTEST01 EQ x0
+.th .go L18BO
+.el .go L18BOA
+...L18BO
+.************************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 38mm width 175mm
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Priser mv. for &DEBKORTNAV
+:SKRSLUT.
+.ar off
+.**************************************************************************
+...L18BOA
+.****************** BETINGELSE ******************************************
+.*** BECTEST01 UDFYLDES MED 0=BREV UDSKREVET ALENE, 1=DANKORT, 2=VISA/DANK
+.*** 3=DEBETKORT, 4&5=HÆVEKORT ******************************************
+.if x&BECTEST01 EQ x3
+.or x&BECTEST01 EQ x0
+.th .go L18BT1
+.el .go L18BT1A
+...L18BT1
+.************ OPDELING I 2 KOLONNER *********************************
+.************ INGEN AREALER *******************************************
+.tp 2mm 89.5mm
+.sp 33mm
+.cd 2 0mm 87.5mm
+.cl 85mm
+.ll 175mm
+:SWISS10.
+.sc
+.hr left right
+.vr 0mm 87.5mm 175mm
+.***********************************************************
+.mc
+¤Årligt kortgebyr
+.cb
+¤150 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Hastebestilling
+.cb
+¤150 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Udbetaling i andre pengeinstitutter (kasse og pengeautomat)
+.of
+.cb
+¤5 kr./stk.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Brug af kort til kontanthævning i FB's egne pengeautomater
+.of
+.cb
+¤Åbningstid: 0 kr.
+.br
+¤Øvrige tider: 3 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Almindelig spærring
+.cb
+¤0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+¤Spærring p.g.a. misbrug
+.cb
+¤200 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Fremfinding af "nota"
+.cb
+¤200 kr. ved fejl dog 0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Hævning i udenlandsk pengeinstitut
+.cb
+¤1% af beløb, min. 30 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Som betalingskort i forretning, der er tilsluttet Visa-systemet
+.of
+.cb
+¤0 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Kontoudskrift som følge af brug i udlandet som hæve- eller betalingskort
+.of
+.cb
+¤10 kr.
+.sc
+.hr left right
+.****************************************
+.mc
+.of 2mm
+¤Omregningskurs ved brug af Visa Electron i Udlandet
+.of
+.cb
+¤Dagligt noterede europæiske valutaer:
+.br
+.of 2mm
+¤Nationalbankens opgivne middelkurs på eksp.dagen i PBS + 1%
+.of
+.br
+¤Andre noterede valutaer:
+.br
+.of 2mm
+¤Nationalbankens opgivne middelkurs på eksp.dagen i PBS + 1,5%
+.of
+.br
+¤Ikke noterede valutaer:
+.br
+.of 2mm
+¤Der omregnes til USD og derefter til DKK som for "andre noterede valutaer"
+.of
+.sc
+.hr left right
+.****************************************
+.mc
+¤Dusør ved inddragelse
+.cb
+.of 2mm
+¤500,00 kr. hvis inddragelse sker personligt ved ekspedient
+.of
+.br
+.of 2mm
+¤50,00 kr. hvis inddragelse sker i betalingsautomat.
+.of
+.sc
+.hr left right
+.vr off
+.**************** TEKST UNDER KOLONNER BEGYNDER HER ********************
+.sp 3mm
+I &BANKNAVN.s pengeautomater kan der i bankens åbningstid hæves op til
+9.900 kroner pr. døgn og uden for åbningstiden kan der hæves op til
+6.000 kroner pr. døgn. I andre bankers pengeautomater kan der gælde andre
+regler for udbetaling.
+.sp 3mm
+Udenlandsk forbrug via pengeautomater:
+.br
+Der kan hæves svarende til 20.000 kroner pr. døgn i lokal valuta i
+pengeinstitutter og pengeautomater. I visse tilfælde
+kan lokale regler begrænse dette beløb.
+.**************** SLUT HER ********************************************
+...L18BT1A

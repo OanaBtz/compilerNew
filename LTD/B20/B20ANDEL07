@@ -1,0 +1,153 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **B20ANDEL07
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.el .br
+.el M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp2
+Ref.: &B20REF.
+.ar off
+.*************************************************************
+&B20NAVN
+.if &L'&B20NAVN1 > 0
+.th .br
+.th &B20NAVN1
+.br
+&B20GADE
+.br
+&B20BY
+.if &L'&B20ATT > 0
+.th .br
+.th Att: &B20ATT
+.*************************************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.* brevnavn roteret
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.* overskrift
+.da START 20mm 115mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+:VERDA10.
+:FED.
+.************ AB nr. og 1 person ******************************
+.if &L'&B20TEKST04 > 0
+.an &L'&B20TEKST64 = 0
+.th Vedr. &NAVN.s salg af andelsbolig nr. &B20TEKST04 beliggende
+.th &B20TEKST03..
+.************ Ingen AB nr. og 1 person ************************
+.if &L'&B20TEKST04 = 0 .an &L'&B20TEKST64 = 0
+.th Vedr. &NAVN.s salg af andelsbolig beliggende &B20TEKST03..
+.************ AB nr. og 2 personer ****************************
+.if &L'&B20TEKST04 > 0 .an &L'&B20TEKST64 > 0
+.th Vedr. &NAVN. og &B20TEKST64.s salg af andelsbolig nr. &B20TEKST04
+.th beliggende &B20TEKST03..
+.************ Ingen AB nr. og 2 personer **********************
+.if &L'&B20TEKST04 = 0 .an &L'&B20TEKST64 > 0
+.th Vedr. &NAVN. og &B20TEKST64.s salg af andelsbolig beliggende
+.th &B20TEKST03..
+:SKRSLUT.
+:SKRSLUT.
+.sp
+.if &L'&B20TEKST64 > 0
+.th &NAVN og &B20TEKST64 har sat ovennævnte andelsbolig til salg.
+.el &NAVN har sat ovennævnte andelsbolig til salg.
+.sp
+Vi har modtaget transport i et hvilket som helst provenu, som
+måtte fremkomme ved overdragelse af andel i Andelsboligforeningen
+&B20NAVN med brugsretten til
+.if &L'&B20TEKST04 > 0
+.th andelsbolig nr. &B20TEKST04 beliggende &B20TEKST03..
+.el andelsbolig beliggende &B20TEKST03..
+.sp
+Andelsboligforeningen &B20NAVN er givet uigenkaldelig fuldmagt til
+at udbetale nettoprovenuet af overdragelsessummen til &BANKNAVN..
+.sp
+I bedes venligst bekræfte/notere vores rettigheder ved at besvare denne
+mail.
+.sp
+.if &L'&B20TEKST61 > 0
+.th .sp
+&B20TEKST61
+&B20TEKST62
+&B20TEKST63
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off

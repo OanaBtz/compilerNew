@@ -1,0 +1,145 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*****************************************
+.da KUNDEOPL       25mm  48mm   width  84mm
+.da PIOPL          25mm  76.6mm width  84mm
+.da KTOOPL        118mm  78mm   width  76mm
+.da DATO          137mm  93.5mm width  20mm
+.**** test frekvens **************
+.if &GENKR eq 0,00
+.th .go EJFREKV
+.if &L'&GENLØNINDB = 0
+.th .go TESTBEL
+.if x&GENLØNINDB < x1
+.or x&GENLØNINDB > x6
+.th .mg /T/Frekvens skal have værdien 1-6/
+.if x&GENLØNINDB ne x1
+.th .go AAR1SL
+...TESTBEL
+.if &L'&RESULTA gt 9
+.th .mg /T/BELØB STØRRE END 0.00/
+.if &L'&RESULTA lt 9
+.th .go EJFREKV
+.if X&RESULTA gt X36.500,00
+.th .mg /T/BELØB STØRRE END 0.00/
+.el .go EJFREKV
+...AAR1SL
+.if x&GENLØNINDB ne x2
+.th .go HALV1SL
+.if &L'&RESULTH gt 9
+.th .mg /T/BELØB STØRRE END 0.00/
+.if &L'&RESULTH lt 9
+.th .go EJFREKV
+.if X&RESULTH gt X36.500,00
+.th .mg /T/BELØB STØRRE END 0.00/
+.el .go EJFREKV
+...HALV1SL
+.if x&GENLØNINDB ne x3
+.th .go KVART1SL
+.if &L'&RESULTB gt 9
+.th .mg /T/BELØB STØRRE END 0.00/
+.if &L'&RESULTB lt 9
+.th .go EJFREKV
+.if X&RESULTB gt X36.500,00
+.th .mg /T/BELØB STØRRE END 0.00/
+.el .go EJFREKV
+...KVART1SL
+.if x&GENLØNINDB ne x4
+.th .go MDR7SL
+.if &L'&RESULTC gt 9
+.th .mg /T/BELØB STØRRE END 0.00/
+.if &L'&RESULTC lt 9
+.th .go EJFREKV
+.if X&RESULTC gt X36.500,00
+.th .mg /T/BELØB STØRRE END 0.00/
+...MDR7SL
+.if x&GENLØNINDB ne x5
+.th .go 14DAGSL
+.if &L'&RESULTD gt 9
+.th .mg /T/BELØB STØRRE END 0.00/
+.if &L'&RESULTD lt 9
+.th .go EJFREKV
+.if X&RESULTD gt X36.500,00
+.th .mg /T/BELØB STØRRE END 0.00/
+.el .go EJFREKV
+...14DAGSL
+.if x&GENLØNINDB ne x6
+.th .go EJFREKV
+.if &L'&RESULTI gt 9
+.th .mg /T/BELØB STØRRE END 0.00/
+.if &L'&RESULTI lt 9
+.th .go EJFREKV
+.if X&RESULTI gt X36.500,00
+.th .mg /T/BELØB STØRRE END 0.00/
+...EJFREKV
+.*******************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*******************
+.ar PIOPL on
+&B34MORBANK
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.tp 43mm
+&KUNDENR
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE ****
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+¤&dregnr &depnr
+.ar off
+.*******************
+.ar DATO on
+&DATO3
+.ar off
+.*******fortsætter i t2 *********

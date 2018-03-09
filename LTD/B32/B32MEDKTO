@@ -1,0 +1,347 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*SUBSTRINGS**************************************************************
+.su off
+.se kcprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.se ncprcvr = substr &KUNDENR 1 2
+.su on
+.*************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&kcprcvr > x31
+.th .se ktekst = 'Kundenr.'
+.*************************************************************************
+.if x&mcprcvr > x31
+.th .se mtekst = 'Kundenr.'
+.**************************************************************************
+.if x&ncprcvr > x31
+.th .se ntekst = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&kcprcvr = x00
+.th .se ktekst = 'CVR-nr.'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mtekst = 'CVR-nr.'
+.**************************************************************************
+.if x&ncprcvr = x00
+.th .se ntekst = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&kcprcvr > x00
+.an x&kcprcvr < x32
+.th .se ktekst = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mtekst = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&ncprcvr > x00
+.an x&ncprcvr < x32
+.th .se ntekst = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ VALG - TILFØJELSE ELLER SLETNING
+.if &U'X&GENVALG1. = XT
+.or &U'X&GENVALG1. = XF
+.th
+.el .mg/T/Indtast enten T for tilføjelse eller F for fjern/
+.ar off
+.ar SMKTONR
+.if &mtekst. = CPR-nr.
+.th .ct &mtekst. &mcpr1.-&mcpr2.
+.el .ct &mtekst. &MEDKNDNR1.
+.ar off
+.ar SMKTOHAVER on
+.sp 6mm
+&MEDNAVN.
+.br
+&MEDCO.
+.br
+&MEDGADE.
+.br
+&MEDBY.
+.br
+&MEDLAND.
+.br
+.ar off
+...T1SLUT
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da TKTOHAVER   25mm 30mm width 155mm
+.da TKTONR      25mm 62mm width 155mm
+.da TMKTOHAVER 115mm 30mm width 155mm
+.da TMKTONR    115mm 62mm width 155mm
+.da SKTOHAVER   25mm  30mm width 155mm
+.da SKTONR      25mm  62mm width 155mm
+.da SMKTOHAVER 115mm  30mm width 155mm
+.da SMKTONR    115mm  62mm width 155mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se kcpr1 = substr &KTOKNDNR1 1 6
+.se kcpr2 = substr &KTOKNDNR1 7 4
+.se mcpr1 = substr &MEDKNDNR1 1 6
+.se mcpr2 = substr &MEDKNDNR1 7 4
+.se ncpr1 = substr &KUNDENR 1 6
+.se ncpr2 = substr &KUNDENR 7 4
+.su on
+.**************************************************************************
+.tp 90mm
+.*************************************************
+.*Afgør hvilke og hvordan kundeopl. skal udskrives
+.*************************************************
+.if &U'&GENVALG1 = T
+.th
+.el .go SLETNING
+.ar TKTOHAVER on
+:FED.
+Nuværende kontohaver
+:SKRSLUT.
+.sp 5mm
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.*************************************
+.ar off
+.ar TMKTOHAVER on
+:FED.
+Ny medkontohaver
+:SKRSLUT.
+.sp 5mm
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.*************************************
+.ar off
+.ar TKTONR on
+.if &ktekst. = CPR-nr.
+.th &ktekst. &kcpr1.-&kcpr2.
+.el &ktekst. &KTOKNDNR1.
+.ar off
+.ar TMKTONR on
+.if &ntekst. = CPR-nr.
+.th .ct &ntekst. &ncpr1.-&ncpr2.
+.el .ct &ntekst. &KUNDENR.
+.ar off
+.go T1SLUT
+...SLETNING
+.ar SKTOHAVER on
+:FED.
+.if &L'&MEDNAVN > 0
+.th Nuværende kontohavere
+.el Nuværende kontohaver
+:SKRSLUT.
+.sp 3mm
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOCO.
+.br
+&KTOBY
+.br
+&KTOLAND.
+.ar off
+.ar SKTONR
+.if &ktekst. = CPR-nr.
+.th &ktekst. &kcpr1.-&kcpr2.
+.el &ktekst. &KTOKNDNR1.
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+afdødes bo. Såfremt en kontohaver tilbagekalder sin fuldmagt til øvrige
+kontohavere forbeholder banken sig ligeledes ret til at spærre kontoen,
+indtil der foreligger klarhed mht. kontoforholdet.
+.if &REGTYPE. = 5901
+.or &REGTYPE. = 5902
+.or &REGTYPE. = 5903
+.or &REGTYPE. = 5911
+.or &REGTYPE. = 5912
+.or &REGTYPE. = 5920
+.or &REGTYPE. = 6410
+.or &REGTYPE. = 6411
+.or &REGTYPE. = 6412
+.or &REGTYPE. = 6413
+.or &REGTYPE. = 6414
+.th
+.el .go UNDSKR
+.sp
+Jeg accepterer, at medkontohaver på denne konto løbende kan få information
+om mit kundetilbud i &B32NYK. BoligBank.
+...UNDSKR
+.sp
+:FED.Underskrift :SKRSLUT.
+.br
+Undertegnede bekræfter hermed ændringen i kontoens ejerskab.
+.sp 10mm
+.dr tynd weight 0.1mm
+.tp 30mm 90mm 115mm
+.hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
+.if &U'&GENVALG1. = T
+.th Dato¤&KTONAVN.¤Dato¤&NAVN.
+.el Dato¤&KTONAVN.¤Dato¤&MEDNAVN.
+.hy of
+.sp 37mm
+.if &U'&GENVALG1. = T
+.th .go FORTS01
+:FED.Ny kontohaver :SKRSLUT.
+.sp 3mm
+&NAVN.
+.br
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+.br
+&LAND.
+.sp 2mm
+.if &ntekst. = CPR-nummer
+.th &ntekst. &ncpr1.-&ncpr2.
+.el &ntekst. &KUNDENR.
+.sp 5mm
+...FORTS01
+.kp on
+.tp 50mm right 165mm right
+Reg.nr.¤&regnr.¤Dato: &DATO.
+.br
+Kontonr. ¤&ktonr.
+.sp 5mm
+:FED.
+.if &U'&GENVALG1 = T
+.th Tilføjelse af medkontohaver
+.el Sletning af medkontohaver
+:SKRSLUT.
+.br
+For kontoen gælder &BANKNAVN.s 'Almindelige forretningsbetingelser for
+privatkunder' i det omfang, disse betingelser ikke er fraveget i nærværende
+aftale.
+.sp
+Kontoen fortsætter på uændrede vilkår med
+.if &U'&GENVALG1 = T
+.th 2 kontohavere.
+.el én kontohaver.
+.el .go UNDSKR
+.sp
+:FED.Opmærksomheden henledes særligt på betydning af flere kontohavere
+:SKRSLUT.
+.br
+Når der er mere end en kontohaver på kontoen, giver kontohaverne herved
+hver enkelt kontohaver fuldmagt til at disponere alene på kontoen. Dør
+en af kontohaverne, er banken berettiget til at spærre kontoen, indtil
+Skifteretten har taget stilling til, hvorledes der skal forholdes til

@@ -1,0 +1,187 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.fo left
+.sp 40mm
+...START
+.if &MIBANTAL > 400
+.th .se MIBANTAL = 400
+.se nn = 1000000 - &MIBKTONR - &MIBANTAL
+.if &nn < 0
+.th .se MIBANTAL = 1000000 - &MIBKTONR
+.ce on
+M O D U L U S L I S T E
+=======================
+.sk
+Registreringsnr. &KTOREGNR
+.ce off
+.se LOOPEXIT = 0
+.se TLR = 1
+ 
+ 
+...BEREGN
+.se LOOPEXIT = 0
+...NUL
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 20
+.th .QQ
+.if &L'&MIBKTONR < 6
+.th .se MIBKTONR = 0&MIBKTONR
+.th .go NUL
+.se NR = &KTOREGNR.&MIBKTONR
+.se F1 = 0
+.se F2 = 0
+.se KNR = 1
+...LOOPUD
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 20
+.th .QQ
+.se TEST = substr &NR &KNR 1
+.if .&TEST = .
+.th .go SLUTUD
+.se F1 = &F1.&TEST
+.se KNR = &KNR + 1
+.se TEST = substr &NR &KNR 1
+.if .&TEST = .
+.th .go SLUTUD
+.se F2 = &F2.&TEST
+.se KNR = &KNR + 1
+.go LOOPUD
+ 
+...SLUTUD
+.se F2 = &F2 * 2
+...TVAERSUM
+.se SUMF1 = 0
+.se KNR = 1
+.se LOOPEXIT = 0
+...LOOPTV1
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 20
+.th .QQ
+.se TEST = substr &F1 &KNR 1
+.if .&TEST = .
+.th .go TVF2
+.se SUMF1 = &SUMF1 + &TEST
+.se KNR = &KNR + 1
+.go LOOPTV1
+...TVF2
+.se SUMF2 = 0
+.se KNR = 1
+.se LOOPEXIT = 0
+...LOOPTV2
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 20
+.th .QQ
+.se TEST = substr &F2 &KNR 1
+.if .&TEST = .
+.th .go SLUTTV
+.se SUMF2 = &SUMF2 + &TEST
+.se KNR = &KNR + 1
+.go LOOPTV2
+...SLUTTV
+.se TVSUM = &SUMF1 + &SUMF2
+.se TVSUM = substr &TVSUM 2 1
+.if &TVSUM = 0
+.th .se KONTROL = 0
+.el .se KONTROL = 10 - &TVSUM
+&MIBKTONR.-&KONTROL
+.se MIBKTONR = &MIBKTONR + 1
+.se TLR = &TLR + 1
+.if &TLR > &MIBANTAL
+.th .go SLUT
+.el .go BEREGN
+ 
+...SLUT
+.br
+Liste slut
+...SLUT2

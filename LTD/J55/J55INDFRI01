@@ -1,0 +1,277 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE ID-OPL_01 '% '
+.BR
+.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.***********************************************************************
+.if  &L'&BECTEKST02. = 0
+.th .se l2 = "tom"
+.if &L'&BECTEKST02. > 0
+.th .su off
+.th .se l2 = SUBSTR &BECTEKST02. 1 1
+.th .su on
+.*
+.if &L'&BECTEKST03. = 0
+.th .se l3 = tom
+.if &L'&BECTEKST03. > 0
+.th .su off
+.th .se l3 = SUBSTR &BECTEKST03. 1 1
+.th .su on
+.*
+.if &L'&BECTEKST04. = 0
+.th .se l4 = tom
+.if &L'&BECTEKST04. > 0
+.th .su off
+.th .se l4 = SUBSTR &BECTEKST04. 1 1
+.th .su on
+.*
+.if &L'&BECTEKST05. = 0
+.th .se l5 = tom
+.if &L'&BECTEKST05. > 0
+.th .su off
+.th .se l5 = SUBSTR &BECTEKST05. 1 1
+.th .su on
+.*
+.if &L'&BECTEKST06. = 0
+.th .se l6 = tom
+.if &L'&BECTEKST06. > 0
+.th .su off
+.th .se l6 = SUBSTR &BECTEKST06. 1 1
+.th .su on
+.*
+.if  &L'&BECTEKST2. = 0
+.th .se s2 = "tom"
+.if &L'&BECTEKST2. > 0
+.th .su off
+.th .se s2 = SUBSTR &BECTEKST2. 1 1
+.th .su on
+.*
+.if  &L'&BECTEKST3. = 0
+.th .se s3 = "tom"
+.if &L'&BECTEKST3. > 0
+.th .su off
+.th .se s3 = SUBSTR &BECTEKST3. 1 1
+.th .su on
+.*
+.if  &L'&BECTEKST4. = 0
+.th .se s4 = "tom"
+.if &L'&BECTEKST4. > 0
+.th .su off
+.th .se s4 = SUBSTR &BECTEKST4. 1 1
+.th .su on
+.*
+.fo left
+.ti ¤ 05
+.*** Definerer tekst til afsnit vedr. aflysning af underpant **************
+.if &L'&J55TAL2. = 0
+.th .go SKBREV
+.if &J55TAL2. > 1
+.th .se pb1 = Ejerpantebrevene
+.th .se pb = ejerpantebrevene
+.th .se dpb = 'digitale pantebreve'
+.th .se de = de
+.el .se pb1 = Ejerpantebrevet
+.el .se pb = ejerpantebrevet
+.el .se dpb = 'digitalt pantebrev'
+.el .se de = det
+.*** Definerer tekst til afsnit vedr. aflysning/kreditorskifte ************
+...SKBREV
+.if &L'&J55TAL3. = 0
+.th .go START
+.if &J55TAL3. > 1
+.th .se sk = Skadesløsbrevene
+.el .se sk = Skadesløsbrevet
+.**** Definition af areal til overskrift *******************************
+...START
+.da OVERSKR 20mm 110mm width 170mm
+.* Brevnavn roteret i nederste, venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.***********************************************************************
+.* Overskrift
+:COUR10.
+.ar OVERSKR on
+.us
+Lån nr. &J55TEKST4.
+.us off
+.sp
+.***********************************************************************
+.*******************************************
+.if &J55TAL1. > 1
+.th Lånene
+.el Lånet
+er indfriet, og vi har
+.if &L'&J55TEKST1. > 0
+.sp
+.th -
+.th .in 2mm nobreak
+.th Kvitteret panthaverdeklaration over for &J55TEKST1..
+.th .in 0mm
+.th .sp
+.if &L'&J55TEKST2. = 0
+.an &L'&BECTEKST02. = 0
+.th .go KRSKIFT
+-
+.in 2mm nobreak
+Aflyst &BANKNAVN.' underpant i:
+.sp 3mm
+.in 7mm nobreak
+&J55TEKST2.
+.***
+.if &l2 <> tom
+.an &l2 <> *
+.th .br
+.th &BECTEKST02.
+.if &l2 <> tom
+.an &l2 = *
+.th .sp
+.***
+.if &l3 <> tom
+.an &l3 <> *
+.th .br
+.th &BECTEKST03.
+.if &l3 <> tom
+.an &l3 = *
+.th .sp
+.***
+.if &l4 <> tom
+.an &l4 <> *
+.th .br
+.th &BECTEKST04.
+.if &l4 <> tom
+.an &l4 = *
+.th .sp
+.***
+.if &l5 <> tom
+.an &l5 <> *
+.th .br
+.th &BECTEKST05.
+.if &l5 <> tom
+.an &l5 = *
+.th .sp
+.***
+.if &l6 <> tom
+.an &l6 <> *
+.th .br
+.th &BECTEKST06.
+.if &l6 <> tom
+.an &l6 = *
+.th .sp
+.***
+.sp
+.***
+Vi gør opmærksom på, at &pb
+.if &L'&J55VALG1. = 0
+.th .go SLET
+.if &J55VALG1. = 1
+.th (LØSØRE)
+.if &J55VALG1. = 2
+.th (BIL)
+.if &J55VALG1. = 3
+.th (LØSØRE OG BIL)
+...SLET
+vil blive slettet af
+.if &J55VALG1. = 1
+.th personbogen,
+.if &J55VALG1. = 2
+.th bilbogen,
+.if &J55VALG1. = 3
+.th person- og bilbogen,
+såfremt der ikke inden &J55TEKST3. sker ny tinglysning. Såfremt De ønsker
+at opretholde &pb efter ovennævnte dato, skal de selv sørge for fornyet
+tinglysning.
+.in 0mm
+.sp
+...KRSKIFT
+.if &L'&J55VALG2. = 0
+.th .go FRI
+.if &J55VALG2. <> 1
+.an &J55VALG2. <> 2
+.th .go FRI
+-
+.in 2mm nobreak
+.if &J55VALG2. = 1
+.th Efter aftale aflyst
+.el Efter aftale kreditorskiftet
+.sp 3mm
+.in 7mm nobreak
+&BECTEKST1.
+.if &s2 <> tom
+.an &s2 <> *
+.th .br
+.th &BECTEKST2.
+.if &s2 <> tom
+.an &s2 = *
+.th .sp
+.if &s3 <> tom
+.an &s3 <> *
+.th .br
+.th &BECTEKST3.
+.if &s3 <> tom
+.an &s3 = *
+.th .sp
+.if &s4 <> tom
+.an &s4 <> *
+.th .br
+.th &BECTEKST4.
+.if &s4 <> tom
+.an &s4 = *
+.th .sp
+.if &J55VALG2. = 2
+.th .in 4mm nobreak
+.th .sp
+.th &sk er kreditorskiftet til &J55TEKST5..
+.in 0mm
+.sp
+.**
+...FRI
+.if &L'&J55TEKST6. = 0
+.th .go HILSEN
+-
+.in 2mm nobreak
+Frigivet selvskyldnerkaution over for &J55TEKST6.
+.in 0mm
+...HILSEN
+.sp 3
+Med venlig hilsen
+.sp 3
+&BANKNAVN.
