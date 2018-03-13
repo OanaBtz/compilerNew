@@ -13,6 +13,7 @@
 extern int yylex();
 void yyerror(char *msg);
 std:: vector <Node*> list;
+std::vector<Node*>::iterator it;
 Node docNode(DOCUMENT, "");
 bool silent = false;
 
@@ -26,8 +27,10 @@ bool silent = false;
 	char tokens[1000];
 }
 
-%token <tokens> SUBSTR_T NEW_T SET_T UNKNOWN_T IL_T TA_T MF_T LS_T TU_T QU_T IE_T HW_T BC_T TD_T CB_T SC_T MC_T UP_T IS_T OC_T OI_T RI_T NOTEQUAL_T OF_T CL_T CD_T TM_T DEPTH_T HY_T HR_T MG_T DR_T WEIGHT_T UPPERCASE_T LENGTH_T IN_T PA_T NS_T IR_T IF_T EL_T TH_T OR_T AN_T CT_T EQUAL_T GTHANE_T LTHANE_T GTHAN_T LTHAN_T CANCEL_T RH_T KP_T LL_T GOTO_T EXECUTE_T LABEL_T SE_T PM_T BR_T NV_T NY_T PAGE_T ENY_T COMMENT_T TI_T DA_T FO_T ON_T OFF_T AR_T BX_T SP_T US_T SIZE_T STYLE_T IDENT_T VAR_UP_T VAR_T DIRECTION_T NUM_T WIDTH_T TP_T TAB_T ROTATE_T NEW_LINE_T BM_T SU_T DM_T GS_T SK_T CE_T TB_T MATHEX_T VR_T
-%type  <tokens> TOKEN NEW SET DA BR NV NY PAGE ENY COMMENT GTHANE LTHANE TI IN IR FO DIRECTION ON GOTO LL RH CT PA DR WEIGHT KP EXECUTE IF RI OI CB SC MC QU HW IL OC BC IS UP LS TU EL TH OR CD TD SU DM GS TB SK CE CL AN OF HR VR HY NOTEQUAL EQUAL GTHAN LTHAN OFF UPPERCASE LENGTH AR BX SP SE US TM BM PM WIDTH TP TA ROTATE DEPTH SUBSTR MF UNKNOWN MG SIZE STYLE VAR_UP VAR NUM IDENT LABEL MATHEX NEW_LINE
+%token <tokens> AM_T SB_T HM_T MS_T DH_T HS_T FE_T SL_T CS_T OG_T PW_T SUBSTR_T DU_T VS_T IM_T DC_T SX_T PL_T CO_T SD_T UC_T VI_T RF_T DS_T LI_T PN_T NEW_T SET_T UNKNOWN_T IL_T TA_T MF_T LS_T TU_T QU_T IE_T HW_T BC_T TD_T CB_T TR_T AF_T UD_T TL_T SS_T ON_T IN_T CC_T QQ_T RC_T NR_T BF_T IT_T UN_T JU_T ME_T OV_T DOTNY_T AT_T UL_T  SC_T MC_T UP_T IS_T OC_T OI_T RI_T NOTEQUAL_T OF_T CL_T CD_T TM_T DEPTH_T HY_T HR_T MG_T DR_T WEIGHT_T UPPERCASE_T LENGTH_T PA_T NS_T IR_T IF_T EL_T TH_T OR_T AN_T CT_T EQUAL_T GTHANE_T LTHANE_T GTHAN_T LTHAN_T CANCEL_T RH_T KP_T LL_T GOTO_T EXECUTE_T LABEL_T SE_T PM_T BR_T NV_T NY_T PAGE_T ENY_T COMMENT_T TI_T DA_T FO_T OFF_T AR_T BX_T SP_T US_T SIZE_T STYLE_T IDENT_T VAR_UP_T VAR_T DIRECTION_T NUM_T WIDTH_T TP_T TAB_T ROTATE_T NEW_LINE_T BM_T SU_T DM_T GS_T SK_T CE_T TB_T MATHEX_T VR_T
+
+%type  <tokens> TOKEN SB MS DH HM HS FE SL CS OG PA TR PW AF UD TL SS ON CC QQ RC NR BF IT UN AM JU ME OV DOTNY AT UL DR WEIGHT KP EXECUTE IF RI OI CB SC MC QU HW IL OC BC IS UP LS TU EL TH OR CD TD SU DM GS TB SK CE CL AN OF HR VR HY NOTEQUAL EQUAL GTHAN LTHAN UPPERCASE LENGTH AR BX SP SE US TM BM PM WIDTH TP TA ROTATE DEPTH SUBSTR MF UNKNOWN MG SIZE STYLE VAR_UP VAR NUM IDENT LABEL MATHEX NEW_LINE NEW DU VS IM DC SX PL CO SD UC VI RF DS LI PN SET DA BR NV NY PAGE ENY COMMENT GTHANE LTHANE TI IN IR FO DIRECTION GOTO LL RH CT 
+
  
 
 
@@ -43,7 +46,6 @@ TOKEN		:	TOKEN DA
             |   TOKEN IN
             |   TOKEN IR
             |   TOKEN FO
-            |   TOKEN ON
             |   TOKEN GOTO
             |   TOKEN LL
 			|	TOKEN RH
@@ -89,7 +91,6 @@ TOKEN		:	TOKEN DA
             |   TOKEN EQUAL
             |   TOKEN GTHAN
             |   TOKEN LTHAN
-            |   TOKEN OFF
             |   TOKEN UPPERCASE
             |   TOKEN LENGTH
             |   TOKEN AR
@@ -121,6 +122,50 @@ TOKEN		:	TOKEN DA
             |   TOKEN LTHANE
             |   TOKEN NEW
             |   TOKEN SET
+            |   TOKEN IM
+            |   TOKEN DC
+            |   TOKEN SX
+            |   TOKEN PL
+            |   TOKEN CO
+            |   TOKEN SD
+            |   TOKEN UC
+            |   TOKEN VI
+            |   TOKEN RF
+            |   TOKEN DS
+            |   TOKEN LI
+            |   TOKEN PN
+            |   TOKEN DU
+            |   TOKEN VS
+            |   TOKEN TR
+            |   TOKEN PW
+            |   TOKEN AF
+            |   TOKEN UD
+            |   TOKEN TL
+            |   TOKEN SS
+            |   TOKEN ON
+            |   TOKEN CC
+            |   TOKEN QQ
+            |   TOKEN RC
+            |   TOKEN NR
+            |   TOKEN BF
+            |   TOKEN IT
+            |   TOKEN UN
+            |   TOKEN AM
+            |   TOKEN JU
+            |   TOKEN ME
+            |   TOKEN OV
+            |   TOKEN DOTNY
+            |   TOKEN AT
+            |   TOKEN UL
+            |   TOKEN OG
+            |   TOKEN SB
+            |   TOKEN MS
+            |   TOKEN DH
+            |   TOKEN HS
+            |   TOKEN FE
+            |   TOKEN SL
+            |   TOKEN CS
+            |   TOKEN HM
             |   TOKEN NEW_LINE
             |   DA
 			|	BR
@@ -133,7 +178,6 @@ TOKEN		:	TOKEN DA
             |   IN
             |   IR
             |   FO
-            |   ON
             |   GOTO
             |   LL
 			|	RH
@@ -179,7 +223,6 @@ TOKEN		:	TOKEN DA
             |   EQUAL
             |   GTHAN
             |   LTHAN
-            |   OFF
             |   UPPERCASE
             |   LENGTH
             |   AR
@@ -211,6 +254,49 @@ TOKEN		:	TOKEN DA
             |   LTHANE
             |   NEW
             |   SET
+            |   IM
+            |   DC
+            |   SX
+            |   PL
+            |   CO
+            |   SD
+            |   UC
+            |   VI
+            |   RF
+            |   DS
+            |   LI
+            |   PN
+            |   DU
+            |   VS
+            |   PW
+            |   AF
+            |   UD
+            |   TL
+            |   SS
+            |   ON
+            |   CC
+            |   QQ
+            |   RC
+            |   NR
+            |   BF
+            |   IT
+            |   UN
+            |   AM
+            |   JU
+            |   ME
+            |   OV
+            |   DOTNY
+            |   AT
+            |   UL
+            |   OG
+            |   SB
+            |   MS
+            |   DH
+            |   HS
+            |   FE
+            |   SL
+            |   CS
+            |   HM
             |   NEW_LINE
             ;            
 DA          :   DA_T                                    {
@@ -279,11 +365,6 @@ FO          :   FO_T                                    {
                                                             list.push_back(foNode);
                                                         }
             ;
-ON          :   ON_T                                    {
-                                                            if(!silent)cout<< "ON ";  
-                                                            Node* onNode = new Node(ON, "");
-                                                            list.push_back(onNode);                                                              
-                                                        }
             ;
 GOTO        :   GOTO_T                                  {
                                                             if(!silent)cout<< "GOTO ";      
@@ -507,12 +588,6 @@ AN          :   AN_T                                    {
                                                             list.push_back(anNode);                                                                  
                                                         }
             ;
-OF          :   OF_T                                    {
-                                                            if(!silent)cout<< "OF ";
-                                                            Node* ofNode = new Node(OF, "");
-                                                            list.push_back(ofNode);                                                                  
-                                                        }
-            ;
 HR          :   HR_T                                    {
                                                             if(!silent)cout<< "HR ";     
                                                             Node* hrNode = new Node(HR, "");
@@ -567,10 +642,10 @@ LTHANE      :   LTHANE_T                                {
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
-OFF         :   OFF_T                                   {
-                                                            if(!silent)cout<< "OFF ";  
-                                                            Node* offNode = new Node(OFF, "");
-                                                            list.push_back(offNode);                                                                 
+OF         :   OF_T                                   {
+                                                            if(!silent)cout<< "OF ";  
+                                                            Node* ofNode = new Node(OF, "");
+                                                            list.push_back(ofNode);                                                                 
                                                         }  
             ;
 UPPERCASE   :   UPPERCASE_T                             {
@@ -747,6 +822,270 @@ SET         :   SET_T                                   {
                                                             if(!silent)cout<<"SET"<<" ";       
                                                             Node* setNode = new Node(SET, "");
                                                             list.push_back(setNode);                                                          
+                                                        }
+            ;
+IM          :   IM_T                                    {
+                                                            if(!silent)cout<< "IM "; 
+                                                            Node* imNode = new Node(IM, "");
+                                                            list.push_back(imNode);                                                                
+                                                        }
+            ;
+DC          :   DC_T                                    {
+                                                            if(!silent)cout<< "DC "; 
+                                                            Node* dcNode = new Node(DC, "");
+                                                            list.push_back(dcNode);                                                                
+                                                        }
+            ;
+SX          :   SX_T                                    {
+                                                            if(!silent)cout<< "SX "; 
+                                                            Node* sxNode = new Node(SX, "");
+                                                            list.push_back(sxNode);                                                                
+                                                        }
+            ;
+PL          :   PL_T                                    {
+                                                            if(!silent)cout<< "PL "; 
+                                                            Node* plNode = new Node(PL, "");
+                                                            list.push_back(plNode);                                                                
+                                                        }
+            ;
+CO          :   CO_T                                    {
+                                                            if(!silent)cout<< "CO "; 
+                                                            Node* coNode = new Node(CO, "");
+                                                            list.push_back(coNode);                                                                
+                                                        }
+            ;
+SD          :   SD_T                                    {
+                                                            if(!silent)cout<< "SD "; 
+                                                            Node* sdNode = new Node(SD, "");
+                                                            list.push_back(sdNode);                                                                
+                                                        }
+            ;
+UC          :   UC_T                                    {
+                                                            if(!silent)cout<< "UC "; 
+                                                            Node* ucNode = new Node(UC, "");
+                                                            list.push_back(ucNode);                                                                
+                                                        }
+            ;
+VI          :   VI_T                                    {
+                                                            if(!silent)cout<< "VI "; 
+                                                            Node* viNode = new Node(VI, "");
+                                                            list.push_back(viNode);                                                                
+                                                        }
+            ;
+RF          :   RF_T                                    {
+                                                            if(!silent)cout<< "RF "; 
+                                                            Node* rfNode = new Node(RF, "");
+                                                            list.push_back(rfNode);                                                                
+                                                        }
+            ;
+DS          :   DS_T                                    {
+                                                            if(!silent)cout<< "DS "; 
+                                                            Node* dsNode = new Node(DS, "");
+                                                            list.push_back(dsNode);                                                                
+                                                        }
+            ;
+LI          :   LI_T                                    {
+                                                            if(!silent)cout<< "LI "; 
+                                                            Node* liNode = new Node(LI, "");
+                                                            list.push_back(liNode);                                                                
+                                                        }
+            ;
+PN          :   PN_T                                    {
+                                                            if(!silent)cout<< "PN "; 
+                                                            Node* pnNode = new Node(PN, "");
+                                                            list.push_back(pnNode);                                                                
+                                                        }
+            ;
+DU          :   DU_T                                    {
+                                                            if(!silent)cout<< "DU ";  
+                                                            Node* duNode = new Node(DU, "");
+                                                            list.push_back(duNode);                                                              
+                                                        }
+            ;
+VS          :   VS_T                                    {
+                                                            if(!silent)cout<< "VS ";  
+                                                            Node* vsNode = new Node(VS, "");
+                                                            list.push_back(vsNode);                                                              
+                                                        }
+            ;
+TR          :   TR_T                                    {
+                                                            if(!silent)cout<< "TR ";  
+                                                            Node* trNode = new Node(TR, "");
+                                                            list.push_back(trNode);                                                              
+                                                        }
+            ;
+PW          :   PW_T                                    {
+                                                            if(!silent)cout<< "PW ";  
+                                                            Node* pwNode = new Node(PW, "");
+                                                            list.push_back(pwNode);                                                              
+                                                        }
+            ;
+AF          :   AF_T                                    {
+                                                            if(!silent)cout<< "AF ";  
+                                                            Node* afNode = new Node(AF, "");
+                                                            list.push_back(afNode);                                                              
+                                                        }
+            ;
+UD          :   UD_T                                    {
+                                                            if(!silent)cout<< "UD ";  
+                                                            Node* udNode = new Node(UD, "");
+                                                            list.push_back(udNode);                                                              
+                                                        }
+            ;
+TL          :   TL_T                                    {
+                                                            if(!silent)cout<< "TL ";  
+                                                            Node* tlNode = new Node(TL, "");
+                                                            list.push_back(tlNode);                                                              
+                                                        }
+            ;
+SS          :   SS_T                                    {
+                                                            if(!silent)cout<< "SS ";  
+                                                            Node* ssNode = new Node(SS, "");
+                                                            list.push_back(ssNode);                                                              
+                                                        }
+            ;
+ON          :   ON_T                                    {
+                                                            if(!silent)cout<< "ON ";  
+                                                            Node* onNode = new Node(ON, "");
+                                                            list.push_back(onNode);                                                              
+                                                        }
+            ;
+CC          :   CC_T                                    {
+                                                            if(!silent)cout<< "CC ";  
+                                                            Node* ccNode = new Node(CC, "");
+                                                            list.push_back(ccNode);                                                              
+                                                        }
+            ;
+QQ          :   QQ_T                                    {
+                                                            if(!silent)cout<< "QQ ";  
+                                                            Node* qqNode = new Node(QQ, "");
+                                                            list.push_back(qqNode);                                                              
+                                                        }
+            ;
+RC          :   RC_T                                    {
+                                                            if(!silent)cout<< "RC ";  
+                                                            Node* rcNode = new Node(RC, "");
+                                                            list.push_back(rcNode);                                                              
+                                                        }
+            ;
+NR          :   NR_T                                    {
+                                                            if(!silent)cout<< "NR ";  
+                                                            Node* nrNode = new Node(NR, "");
+                                                            list.push_back(nrNode);                                                              
+                                                        }
+            ;
+BF          :   BF_T                                    {
+                                                            if(!silent)cout<< "BF ";  
+                                                            Node* bfNode = new Node(BF, "");
+                                                            list.push_back(bfNode);                                                              
+                                                        }
+            ;
+IT          :   IT_T                                    {
+                                                            if(!silent)cout<< "IT ";  
+                                                            Node* itNode = new Node(IT, "");
+                                                            list.push_back(itNode);                                                              
+                                                        }
+            ;
+UN          :   UN_T                                    {
+                                                            if(!silent)cout<< "UN ";  
+                                                            Node* unNode = new Node(UN, "");
+                                                            list.push_back(unNode);                                                              
+                                                        }
+            ;
+AM          :   AM_T                                    {
+                                                            if(!silent)cout<< "AM ";  
+                                                            Node* amNode = new Node(AM, "");
+                                                            list.push_back(amNode);                                                              
+                                                        }
+            ;
+JU          :   JU_T                                    {
+                                                            if(!silent)cout<< "JU ";  
+                                                            Node* juNode = new Node(JU, "");
+                                                            list.push_back(juNode);                                                              
+                                                        }
+            ;
+ME          :   ME_T                                    {
+                                                            if(!silent)cout<< "ME ";  
+                                                            Node* meNode = new Node(ME, "");
+                                                            list.push_back(meNode);                                                              
+                                                        }
+            ;
+OV          :   OV_T                                    {
+                                                            if(!silent)cout<< "OV ";  
+                                                            Node* ovNode = new Node(OV, "");
+                                                            list.push_back(ovNode);                                                              
+                                                        }
+            ;
+DOTNY       :  DOTNY_T                                  {
+                                                            if(!silent)cout<< ".NY ";  
+                                                            Node* nyNode = new Node(DOTNY, "");
+                                                            list.push_back(nyNode);                                                              
+                                                        }
+            ;
+AT          :   AT_T                                    {
+                                                            if(!silent)cout<< "AT ";  
+                                                            Node* atNode = new Node(AT, "");
+                                                            list.push_back(atNode);                                                              
+                                                        }
+            ;
+UL          :   UL_T                                    {
+                                                            if(!silent)cout<< "UL ";  
+                                                            Node* ulNode = new Node(UL, "");
+                                                            list.push_back(ulNode);                                                              
+                                                        }
+            ;
+OG          :   OG_T                                    {
+                                                            if(!silent)cout<< "OG ";  
+                                                            Node* ogNode = new Node(OG, "");
+                                                            list.push_back(ogNode);                                                              
+                                                        }
+            ;
+SB          :   SB_T                                    {
+                                                            if(!silent)cout<< "SB ";  
+                                                            Node* sbNode = new Node(SB, "");
+                                                            list.push_back(sbNode);                                                              
+                                                        }
+            ;
+MS          :   MS_T                                    {
+                                                            if(!silent)cout<< "MS ";  
+                                                            Node* msNode = new Node(MS, "");
+                                                            list.push_back(msNode);                                                              
+                                                        }
+            ;
+DH          :   DH_T                                    {
+                                                            if(!silent)cout<< "DH ";  
+                                                            Node* dhNode = new Node(DH, "");
+                                                            list.push_back(dhNode);                                                              
+                                                        }
+            ;
+HS          :   HS_T                                    {
+                                                            if(!silent)cout<< "HS ";  
+                                                            Node* hsNode = new Node(HS, "");
+                                                            list.push_back(hsNode);                                                              
+                                                        }
+            ;
+FE          :   FE_T                                    {
+                                                            if(!silent)cout<< "FE ";  
+                                                            Node* feNode = new Node(FE, "");
+                                                            list.push_back(feNode);                                                              
+                                                        }
+            ;
+SL          :   SL_T                                    {
+                                                            if(!silent)cout<< "SL ";  
+                                                            Node* slNode = new Node(SL, "");
+                                                            list.push_back(slNode);                                                              
+                                                        }
+            ;
+CS          :   CS_T                                    {
+                                                            if(!silent)cout<< "CS ";  
+                                                            Node* csNode = new Node(CS, "");
+                                                            list.push_back(csNode);                                                              
+                                                        }
+            ;
+HM          :   HM_T                                    {
+                                                            if(!silent)cout<< "HM ";
+                                                            Node* hmNode = new Node(HM, "");
+                                                            list.push_back(hmNode);
                                                         }
             ;
 NEW_LINE    :   NEW_LINE_T                              {
