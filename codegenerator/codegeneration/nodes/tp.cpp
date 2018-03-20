@@ -1,10 +1,12 @@
-//
-// Created by dennis on 1/2/18.
-//
 
+#include <queue>
 #include "tp.h"
 
-string generateTP(Node* currentNode, string result)
+queue<string> generateTP(Node* currentNode)
 {
-    return result;
+    queue<string> tp;
+    for(int i=0; i<currentNode->getNodes().size()-1; i++)
+        tp.push(currentNode->getNodes().at(i)->getData());
+        
+    return tp;
 }

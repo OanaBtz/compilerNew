@@ -2,7 +2,6 @@ char name[1000] = "";
 char size[1000] = "";
 char var[1000] = "";
 char number[1000] = "";
-
 void styleName(char style[1000]){
 	strcpy(name, "");
 	int j=0;
@@ -61,3 +60,7 @@ void varName(char variable[1000]){
 	strcpy(var, returned);
 	// printf("%s\n", name);
 }
+
+
+
+

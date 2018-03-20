@@ -7,6 +7,6 @@
 
 #include "../../model/Node.h"
 
-string generateAreadefinition(Node* currentNode, string result);
+string generateAreadefinition(Node* currentNode, string result, int tabs);
 
-#endif //AFPCG_AREADEFINITION_H
+#endif 

@@ -143,6 +143,7 @@
 "set"|"SET"                                             { strcpy(yylval.tokens, yytext); return SET_T;}
 \n                                                      { strcpy(yylval.tokens, yytext); return NEW_LINE_T; }
 \:([A-Z]+)([0-9]*)\.                                    { strcpy(yylval.tokens, yytext); return STYLE_T;}
+\:([A-Z]+)([0-9]*)\.\:([A-Z]+)([0-9]*)\.                { strcpy(yylval.tokens, yytext); return STYLE_T;}
 \'\%.*\'                                                { strcpy(yylval.tokens, yytext); return VAR_UP_T;}
 \&[A-Za-z\-\.ØÆÅ0-9]+                                   { strcpy(yylval.tokens, yytext); return VAR_T;}
 X\&[A-Za-z\-\.ØÆÅ0-9]+                                  { strcpy(yylval.tokens, yytext); return VAR_T;}

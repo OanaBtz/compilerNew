@@ -1,6 +1,6 @@
 #include "./printing.cpp"
 #include <stack> 
-
+Node* pNode;
 int connectNextNodesUntilNewLine(int addToIndex, int fromIndex)
 {
 	list[addToIndex]->addNode(list[fromIndex]);
@@ -11,6 +11,19 @@ int connectNextNodesUntilNewLine(int addToIndex, int fromIndex)
 	}
 	list[fromIndex]->addNode(list[fromIndex + i]);
 	return fromIndex + i;
+}
+
+int connectNextNodestoP(int parent, Node* p, int fromIndex)
+{
+	list[parent]->addNode(p);
+	int i=0;
+	while( fromIndex+i<list.size() && (list[fromIndex+i]->getType() == NEWLINE || list[fromIndex+i]->getType() == NUMBER || list[fromIndex+i]->getType() == SIZE || list[fromIndex+i]->getType() == STRING || list[fromIndex+i]->getType() == VARIABLE || list[fromIndex+i]->getType() == LINEBREAK)){
+		if(list[fromIndex+i]->getType() != NEWLINE)
+			p->addNode(list[fromIndex + i]);
+		i++;
+	}
+	p->addNode(list[fromIndex + i -1]);
+	return fromIndex + i -1;
 }
 
 int connectThisNode(int addToIndex, int fromIndex)
@@ -24,7 +37,7 @@ void startTreeBuilding(std::vector<Node*> list)
 	stack<int> parents;
 	parents.push(0);
 	int index;
-	int parent = parents.top();;
+	int parent = parents.top();
 
 	for(int i = 1; i < list.size(); i++){
 		switch(list[i]->getType()){
@@ -203,17 +216,36 @@ void startTreeBuilding(std::vector<Node*> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
+			case PA:				cout<<"PA"<<endl;
+									if(list[parents.top()]->getType()==KP ){
+										parents.pop();
+										parent = parents.top();
+										
+									}else if(list[parents.top()]->getType()==AREA){
+										parents.pop();
+										parent = parents.top();
+
+									}
+									i = connectNextNodesUntilNewLine(parent, i);
+									break;
 			case NEWLINE:			cout<<"NEWLINE"<<endl;
 									i = connectThisNode(parent, i);
 									break;
-			case STRING:			cout<<"STRING "<<list[i]->getData()<<endl;
-									i = connectThisNode(parent, i);
-									break;
 			case NUMBER:			cout<<"NUMBER "<<list[i]->getData()<<endl;
-									i = connectThisNode(parent, i);
+									pNode = new Node(PARAGRAPH, "");
+									i=connectNextNodestoP(parent, pNode, i);
 									break;
-			case VARIABLE:			cout<<"VARIABLE "<<list[i]->getData()<<endl<<parent<<endl;
-									i = connectNextNodesUntilNewLine(parent, i);
+			case VARIABLE:			cout<<"VARIABLE "<<list[i]->getData()<<endl;
+									pNode = new Node(PARAGRAPH, "");
+									i=connectNextNodestoP(parent, pNode, i);
+									break;
+			case CHARACTER:			cout<<"CHARACTER "<<list[i]->getData()<<endl;
+									pNode = new Node(PARAGRAPH, "");
+									i=connectNextNodestoP(parent, pNode, i);
+									break;
+			case STRING:			cout<<"STRING "<<list[i]->getData()<<endl;
+									pNode = new Node(PARAGRAPH, "");
+									i=connectNextNodestoP(parent, pNode, i);
 									break;
 			default:				cout<<types[list[i]->getType()]<<endl;
 									if(list[i]->getData() != ""){

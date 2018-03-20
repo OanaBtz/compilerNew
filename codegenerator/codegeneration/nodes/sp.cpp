@@ -2,9 +2,25 @@
 // Created by dennis on 1/2/18.
 //
 
-#include "linebreak.h"
+#include "sp.h"
 
-string generateSP(Node* currentNode, string result)
+string generateSp(Node* currentNode, string result, int tabs)
 {
-    return result;
+   
+    string sp = "";
+    for(int i=0;i<tabs;i++){
+        sp += "\t";
+    }
+    sp += "<paragraph name=\"Gap\"";
+    if(currentNode->getNodes().size() > 1 ){
+        sp += " size=\""+currentNode->getNodes().at(0)->getData() +"\">\n";
+    }else{
+        sp += " size=\"1mm\">\n";
+    }
+
+    for(int i=0;i<tabs;i++){
+        sp += "\t";
+    }
+    sp+= "</paragraph>\n";
+    return sp;
 }

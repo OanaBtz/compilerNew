@@ -7,6 +7,6 @@
 
 #include "../../model/Node.h"
 
-string generateFont(Node* currentNode, string result);
+string generateFont(Node* currentNode, string result, string fontSize);
 
 #endif //AFPCG_FONT_H

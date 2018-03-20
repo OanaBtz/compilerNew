@@ -1,10 +1,26 @@
-//
-// Created by dennis on 1/2/18.
-//
 
 #include "us.h"
 
-string generateUS(Node* currentNode, string result)
+string generateUs(Node* currentNode, string result, int tabs)
 {
-    return result;
+    string us = "";
+    if(currentNode->getNodes().size()>1){
+        if(currentNode->getNodes().at(0)->getType()!=NUMBER){
+            
+            for(int i=0;i<tabs;i++){
+                us +="\t"; 
+            }
+            us +="<underline>\n" + result;
+
+
+            for(int i=0;i<tabs;i++){
+                us +="\t"; 
+            }
+            
+            us += "</underline>\n";
+                
+        }
+    }
+    return us;
+
 }

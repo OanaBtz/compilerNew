@@ -9,7 +9,7 @@
 #include "./codegenerator/codegeneration/codegeneration.cpp"
 #include <iostream>
 #include <fstream>
-
+#include "./codegenerator/codegenerator.cpp"
 extern int yylex();
 void yyerror(char *msg);
 std:: vector <Node*> list;
@@ -404,7 +404,7 @@ DR          :   DR_T                                    {
             ;
 WEIGHT      :   WEIGHT_T                                {
                                                             if(!silent)cout<< "WEIGHT ";       
-                                                            Node* weightNode = new Node(WEIGHT, "");
+                                                            Node* weightNode = new Node(WEIGHT, $1);
                                                             list.push_back(weightNode);                                                          
                                                         }
             ;
@@ -416,7 +416,7 @@ KP          :   KP_T                                    {
             ;
 EXECUTE     :   EXECUTE_T                               {
                                                             if(!silent)cout<< "EXECUTE ";
-                                                            Node* executeNode = new Node(EXECUTE, "");
+                                                            Node* executeNode = new Node(EXECUTE, $1);
                                                             list.push_back(executeNode);                                                                 
                                                         }
             ;
@@ -608,37 +608,37 @@ HY          :   HY_T                                    {
             ;
 NOTEQUAL    :   NOTEQUAL_T                              {
                                                             if(!silent)cout<< "NOTEQUAL ";
-                                                            Node* comparisonNode = new Node(COMPARISON, "");
+                                                            Node* comparisonNode = new Node(COMPARISON, $1);
                                                             list.push_back(comparisonNode);                                                                  
                                                         }
             ;
 EQUAL       :   EQUAL_T                                 {
                                                             if(!silent)cout<< "EQUAL ";      
-                                                            Node* comparisonNode = new Node(COMPARISON, "");
+                                                            Node* comparisonNode = new Node(COMPARISON, $1);
                                                             list.push_back(comparisonNode);                                                               
                                                         }
             ;
 GTHAN       :   GTHAN_T                                 {
                                                             if(!silent)cout<< "GTHAN ";  
-                                                            Node* comparisonNode = new Node(COMPARISON, "");
+                                                            Node* comparisonNode = new Node(COMPARISON, $1);
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 LTHAN       :   LTHAN_T                                 {
                                                             if(!silent)cout<< "LTHAN ";  
-                                                            Node* comparisonNode = new Node(COMPARISON, "");
+                                                            Node* comparisonNode = new Node(COMPARISON, $1);
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 GTHANE      :   GTHANE_T                                {
                                                             if(!silent)cout<< "GTHANE ";  
-                                                            Node* comparisonNode = new Node(COMPARISON, "");
+                                                            Node* comparisonNode = new Node(COMPARISON, $1);
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
 LTHANE      :   LTHANE_T                                {
                                                             if(!silent)cout<< "LTHANE ";  
-                                                            Node* comparisonNode = new Node(COMPARISON, "");
+                                                            Node* comparisonNode = new Node(COMPARISON, $1);
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
             ;
@@ -710,7 +710,7 @@ PM          :   PM_T                                    {
             ;
 WIDTH       :   WIDTH_T                                 {
                                                             if(!silent)cout<< "WIDTH "; 
-                                                            Node* widthNode = new Node(WIDTH, "");
+                                                            Node* widthNode = new Node(WIDTH, $1);
                                                             list.push_back(widthNode);                                                                
                                                         }
             ;
@@ -795,9 +795,14 @@ NUM         :   NUM_T                                   {
                                                         }
             ;
 IDENT       :   IDENT_T                                 {
-                                                            if(!silent)cout<<$1<<" "; 
-                                                            Node* stringNode = new Node(STRING, $1);
-                                                            list.push_back(stringNode);                                                                
+                                                            if(!silent)cout<<$1<<" ";
+                                                            if(strcmp($1,":TILTALE")==0){
+                                                                Node* varNode = new Node(VARIABLE, $1);
+                                                                list.push_back(varNode);
+                                                            }else{
+                                                                Node* stringNode = new Node(STRING, $1);
+                                                                list.push_back(stringNode);                                                                
+                                                            } 
                                                         }
             ;
 LABEL       :   LABEL_T                                 {
@@ -1129,5 +1134,9 @@ int main(int argc, char* argv[]){
     if(!silent)cout<< endl << endl <<"****************TREE*******************"<<endl;
     if(!silent)printTree(list[0], 0);
 
+    codegenerator(&docNode);
+
     cout<<"Template generated successfully!"<<endl<<endl;
+
+
 }

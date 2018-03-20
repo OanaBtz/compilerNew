@@ -7,6 +7,4 @@
 
 #include "../../model/Node.h"
 
-string generateUS(Node* currentNode, string result);
-
 #endif //AFPCG_US_H

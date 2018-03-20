@@ -1,10 +1,9 @@
-//
-// Created by dennis on 1/2/18.
-//
+
 
 #include "ti.h"
 
-string generateTI(Node* currentNode, string result)
+string generateTI(Node* currentNode, string &hexCode)
 {
-    return result;
+    hexCode = currentNode->getNodes().at(1)->getData();
+    return currentNode->getNodes().at(0)->getData();
 }

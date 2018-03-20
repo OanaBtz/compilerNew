@@ -7,6 +7,6 @@
 
 #include "../../model/Node.h"
 
-string generateTP(Node* currentNode, string result);
+queue<string> generateTP(Node* currentNode);
 
 #endif //AFPCG_TP_H

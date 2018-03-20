@@ -7,6 +7,6 @@
 
 #include "../../model/Node.h"
 
-string generateFO(Node* currentNode, string result);
+string generateFo(Node* currentNode, string result, int tabs);
 
 #endif //AFPCG_FO_H
