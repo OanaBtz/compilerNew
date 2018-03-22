@@ -13,17 +13,71 @@ int connectNextNodesUntilNewLine(int addToIndex, int fromIndex)
 	return fromIndex + i;
 }
 
-int connectNextNodestoP(int parent, Node* p, int fromIndex)
+int connectNextNodesFromLines(int addToIndex, int fromIndex){
+	list[addToIndex]->addNode(list[fromIndex]);
+	int Nr = stoi(list[fromIndex+1]->getData());
+	int i=3;
+	int j=0;
+	while(j != Nr){
+		list[fromIndex]->addNode(list[fromIndex + i]);
+		i++;
+		if(list[fromIndex + i]->getType()==NEWLINE)
+			j++;
+	}
+	return fromIndex + i;
+}
+
+int connectNextNodestoP(int &parent, Node* p, int fromIndex, int &ceNr, int &newLineNr, stack<int> &parents)
 {
 	list[parent]->addNode(p);
 	int i=0;
-	while( fromIndex+i<list.size() && (list[fromIndex+i]->getType() == NEWLINE || list[fromIndex+i]->getType() == NUMBER || list[fromIndex+i]->getType() == SIZE || list[fromIndex+i]->getType() == STRING || list[fromIndex+i]->getType() == VARIABLE || list[fromIndex+i]->getType() == LINEBREAK)){
-		if(list[fromIndex+i]->getType() != NEWLINE)
-			p->addNode(list[fromIndex + i]);
-		i++;
+
+	while( fromIndex<list.size() && (list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)){
+		
+		if(list[fromIndex]->getType() != NEWLINE){
+			p->addNode(list[fromIndex]);
+		}
+		else{
+			newLineNr++;
+		}
+		if(ceNr == newLineNr){
+			parents.pop();
+			parent = parents.top();
+			p->addNode(list[fromIndex]);
+			
+			fromIndex++;
+			if(fromIndex<list.size()) 
+				if(list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)
+				{
+					
+					pNode = new Node(PARAGRAPH, "");
+					ceNr = -1;
+					i=connectNextNodestoP(parent, pNode, fromIndex, ceNr, newLineNr, parents);
+					return i;
+				}
+			return fromIndex;
+		}
+		fromIndex++;
 	}
-	p->addNode(list[fromIndex + i -1]);
-	return fromIndex + i -1;
+	p->addNode(list[fromIndex -1]);
+	
+	newLineNr++;
+	if(ceNr == newLineNr){
+			parents.pop();
+			parent = parents.top();
+			p->addNode(list[fromIndex]);
+			fromIndex++;	
+			if(fromIndex<list.size()) 
+				if(list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)
+				{
+					pNode = new Node(PARAGRAPH, "");
+					ceNr = -1;
+					i=connectNextNodestoP(parent, pNode, fromIndex, ceNr, newLineNr, parents);
+					return i;
+				}
+			return fromIndex;
+		}
+	return fromIndex -1;
 }
 
 int connectThisNode(int addToIndex, int fromIndex)
@@ -38,10 +92,17 @@ void startTreeBuilding(std::vector<Node*> list)
 	parents.push(0);
 	int index;
 	int parent = parents.top();
+	int newLineNr = 0;
+	int ceNr = -1;
 
 	for(int i = 1; i < list.size(); i++){
 		switch(list[i]->getType()){
 			case KP:				index=i;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									cout<<"KP"<<endl;	
 									cout<<types[list[parents.top()]->getType()]<<endl<<endl;								
 									if(list[i+1]->getData() == "ON" || list[i+1]->getData() == "on"){
@@ -81,6 +142,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									cout<<" parent is: "<<parent<<endl;
 									break;
 			case BOX:				index=i;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									cout<<"BOX"<<endl;									
 									if((list[i+1]->getData() != "OFF" && list[i+1]->getData() != "off") && (list[i+1]->getData() != "can" && list[i+1]->getData() != "CAN")){
 										if(list[parents.top()]->getType()==BOX && list[i+1]->getType() != NEW && list[i+1]->getType() != SET){
@@ -98,6 +164,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									parent = parents.top();
 									break;
 			case RH:				/*cout<<"RH"<<endl;*/
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[i+1]->getData() == "ON" || list[i+1]->getData() == "on"){
 										parents.push(i);
 									}else if((list[i+1]->getData() == "OFF" || list[i+1]->getData() == "off") && list[parents.top()]->getType()==RH){
@@ -107,6 +178,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									parent = parents.top();	
 									break;
 			case TA:				cout<<"TA"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if((list[i+1]->getData() == "OFF" || list[i+1]->getData() == "off") && list[parents.top()]->getType()==TA){
 										parents.pop();
 									}else{
@@ -116,6 +192,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									parent = parents.top();	
 									break;
 			case AREA:				index=i;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									cout<<"AREA"<<endl;	
 									cout<<"the area parent is: "<<types[list[parents.top()]->getType()]<<endl<<endl;								
 									if(list[i+2]->getData() == "ON" || list[i+2]->getData() == "on"){
@@ -153,6 +234,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									cout<<" 	parent is: "<<parent<<endl;
 									break;
 			case CB:				cout<<"CB"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[parents.top()]->getType()==KP ){
 										parents.pop();
 										parent = parents.top();
@@ -169,6 +255,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
 			case LL:				cout<<"LL"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[parents.top()]->getType()==KP ){
 										parents.pop();
 										parent = parents.top();
@@ -184,7 +275,48 @@ void startTreeBuilding(std::vector<Node*> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
+			case CE:				index=i;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									cout<<"CE"<<endl;	
+									cout<<"the CE parent is: "<<types[list[parents.top()]->getType()]<<endl<<endl;								
+									if((list[i+1]->getData() == "ON" || list[i+1]->getData() == "on") && list[i+2]->getType() == NEWLINE){
+									
+										if(list[parents.top()]->getType()==CE ){
+											parents.pop();
+											parent = parents.top();
+										}
+										parents.push(index);
+										cout<<parents.top()<<endl<<endl;
+										i = connectNextNodesUntilNewLine(parent, i);
+										parent = parents.top();
+
+									}else if((list[i+1]->getData() == "OFF" || list[i+1]->getData() == "off") && list[parents.top()]->getType()==CE && list[i+2]->getType()==NEWLINE ){
+										parents.pop();
+										i = connectNextNodesUntilNewLine(parent, i);
+										parent = parents.top();
+									}else if(list[i+1]->getType()==NUMBER && list[i+2]->getType() == NEWLINE){
+										//i = connectNextNodesFromLines(parent,i);
+										ceNr = stoi(list[i+1]->getData());
+										newLineNr = 0;
+										parents.push(index);
+										cout<<parents.top()<<endl<<endl;
+										i = connectNextNodesUntilNewLine(parent, i);
+										parent = parents.top();
+
+									}else
+										i = connectNextNodesUntilNewLine(parent, i);
+									
+									break;
 			case SC:				cout<<"SC"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[parents.top()]->getType()==KP ){
 										parents.pop();
 										parent = parents.top();
@@ -201,6 +333,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
 			case MC:				cout<<"MC"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[parents.top()]->getType()==KP ){
 										parents.pop();
 										parent = parents.top();
@@ -217,6 +354,11 @@ void startTreeBuilding(std::vector<Node*> list)
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
 			case PA:				cout<<"PA"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[parents.top()]->getType()==KP ){
 										parents.pop();
 										parent = parents.top();
@@ -228,26 +370,68 @@ void startTreeBuilding(std::vector<Node*> list)
 									}
 									i = connectNextNodesUntilNewLine(parent, i);
 									break;
+			case PL:				cout<<"PL"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(list[parents.top()]->getType()==KP ){
+										parents.pop();
+										parent = parents.top();
+										
+									}else if(list[parents.top()]->getType()==AREA){
+										parents.pop();
+										parent = parents.top();
+
+									}else if(list[parents.top()]->getType()==TA ){
+										parents.pop();
+										parent = parents.top();
+
+									}
+									i = connectNextNodesUntilNewLine(parent, i);
+									break;
 			case NEWLINE:			cout<<"NEWLINE"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									i = connectThisNode(parent, i);
 									break;
 			case NUMBER:			cout<<"NUMBER "<<list[i]->getData()<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									pNode = new Node(PARAGRAPH, "");
-									i=connectNextNodestoP(parent, pNode, i);
+									i=connectNextNodestoP(parent, pNode, i, ceNr, newLineNr, parents);
 									break;
 			case VARIABLE:			cout<<"VARIABLE "<<list[i]->getData()<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									pNode = new Node(PARAGRAPH, "");
-									i=connectNextNodestoP(parent, pNode, i);
-									break;
-			case CHARACTER:			cout<<"CHARACTER "<<list[i]->getData()<<endl;
-									pNode = new Node(PARAGRAPH, "");
-									i=connectNextNodestoP(parent, pNode, i);
+									i=connectNextNodestoP(parent, pNode, i, ceNr, newLineNr, parents);
 									break;
 			case STRING:			cout<<"STRING "<<list[i]->getData()<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									pNode = new Node(PARAGRAPH, "");
-									i=connectNextNodestoP(parent, pNode, i);
+									i=connectNextNodestoP(parent, pNode, i, ceNr, newLineNr, parents);
 									break;
 			default:				cout<<types[list[i]->getType()]<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
 									if(list[i]->getData() != ""){
 										cout<<list[i]->getData()<<endl;
 									}

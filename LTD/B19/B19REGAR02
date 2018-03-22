@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
 .* i kundens netbank - afsnittet indsættes efter KUNDEUD1
 .**************************************************************************
@@ -15,19 +28,6 @@
 .*               : finder det i stedet i I*net under "Ubehandl. aftaler
 .*               : til underskrift" - her lægger du brevet i kuvert og
 
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -56,6 +56,9 @@
 .NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
 .BR
 :ENY.
+.* Ændret så dokumentet nu kan sendes til Underskriftsrum
+.* 8.2.2017 / hk
+.*------------------------------------------------------------
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -106,31 +109,6 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -181,9 +159,31 @@
 .an &L'&DUROLLE4 = 0
 .th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
 .el .go TEST05
-.* Ændret så dokumentet nu kan sendes til Underskriftsrum
-.* 8.2.2017 / hk
-.*------------------------------------------------------------
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .fo left
 .***********************************************************************
 .ti ¤ 05
@@ -199,6 +199,129 @@
 .ar off
 .***********************************************************************
 :VERDA10.
+.da box 20mm 34mm width 175mm
+.ar box on
+.tp 2mm 89mm
+:SWISS14.
+:FED.
+ ¤ Regaranti
+.sp 1.5mm
+:SKRSLUT.
+:SWISS8.
+.bx left 87mm right
+ ¤ Kunden ¤ Banken
+.sp 20mm
+ ¤ Kundenr:
+.sp
+.bx off
+.sp
+.bx left right
+.sp
+ ¤ Garantinummer:
+.sp
+ ¤ Garantibeløb:
+.sp
+ ¤ Overfor:
+.sp
+.bx off
+.sp
+:SWISS10. :FED.
+Bemærkninger:
+:SKRSLUT.
+.bx left right
+.sp 17mm
+.bx off
+.ar off
+.da KUNDE      22mm  47mm
+.da PI        110mm  47mm
+.da GARBELØB   22mm  80mm
+.da tekst 22mm 110mm width 170mm
+.tp 22mm 90mm
+:COUR10.
+.ar KUNDE on
+&STILL ;.br
+&NAVN ;.br
+&GADE ;.br
+&BY ;.sp
+ ¤ &KUNDENR
+.ar off
+.ar PI on
+&BANKNAVN ;.br
+&AFDNAVN ;.br
+&AFDGADE ;.br
+&AFDBY
+.ar off
+.ar GARBELØB on
+ ¤ &B19TX15A
+.sp 1.5mm
+.if &L'&B19TX1A gt 0
+.th ¤ kr. &B19BELØB
+.if &L'&B19TX1B gt 0
+.th ¤ EUR &B19BELØB
+.if &L'&B19TX3A gt 0
+.th ¤ &B19TX3A &B19BELØB
+.sp 1.5mm
+ ¤ &B19TX60E
+.ar off
+.ar tekst on
+&B19TX60A
+.br
+&B19TX60B
+.br
+&B19TX60C
+.br
+&B19TX60D
+.ar off
+.**************************************************************************
+.*****DETTE TEKSTAFSNIT BENYTTES OGSÅ I BECGAR12***************************
+.**************************************************************************
+.* Box/teskt (MODGARANTI)
+.tp 1mm
+.ll 180mm
+.da MODGA 20mm 130mm WIDTH 175mm
+.da MODK1 21mm 136mm WIDTH 85mm
+.da MODK2 108mm 136mm WIDTH 85mm
+.da VITTV 108mm 184mm WIDTH 85mm
+.**********************************
+.ar MODGA on
+:SWISS10.:FED.
+ ¤ Kundeerklæring
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 40mm
+.bx off
+.bx set left 87mm right
+.tp 1mm 88mm
+ ¤ For modtagelsen af ovennævnte garanti kvitteres. ¤ Til vitterlighed om ægte
+underskrift/underskrifter, dateringens rigtig-
+.br
+ ¤ (Dato og kundens underskrift) ¤ hed og udstederens/udstedernes myndighed.
+.sp 20mm
+.bx off
+.ar off
+.**********************************
+.ar MODK1 on
+:SWISS8.
+Undertegnede anmoder herved pengeinstituttet om for min/vor regning
+at udfærdige ovenstående garanti, og jeg/vi dækker på
+anfordring pengeinstituttet for ethvert beløb, som pengeinstituttet
+måtte komme til at udrede som følge af denne garanti. Så længe
+garantien er i kraft, debiterer pengeinstituttet mig/os provision
+efter pengeinstituttets til
+enhver tid gældende
+betingelser. Beløb udbetalt under garantien forrentes i
+forhold til pengeinstituttets gældende betingelser.
+.br
+Yderligere tiltransporterer undertegnede hermed pengeinstituttet alle
+eventuelle tilbagebetalingskrav.
+Selv på de områder, hvor der gælder et strengere ansvar, er
+pengeinstituttet ikke ansvarlig for tab, som skyldes nedbrud i/manglende
+adgang til IT-systemer eller beskadi-
+.ar off
+.******************************
+.ar MODK2 on
+:SWISS8.
 gelse af data i disse systemer, der kan henføres til nedennævnte
 begivenheder, uanset om det er
 pengeinstituttet selv eller en ekstern leverandør, der står for driften
@@ -228,126 +351,4 @@ Underskrift ¤
 .**********************************
 ...slut
 :COUR10.
-.**************************************************************************
-.*****DETTE TEKSTAFSNIT BENYTTES OGSÅ I BECGAR12***************************
-.**************************************************************************
-.* Box/teskt (MODGARANTI)
-.tp 1mm
-.ll 180mm
-.da MODGA 20mm 130mm WIDTH 175mm
-.da MODK1 21mm 136mm WIDTH 85mm
-.da MODK2 108mm 136mm WIDTH 85mm
-.da VITTV 108mm 184mm WIDTH 85mm
-.**********************************
-.ar MODGA on
-:SWISS10.:FED.
-¤Kundeerklæring
-:SKRSLUT.
-:SWISS8.
-.bx left right
-.sp 40mm
-.bx off
-.bx set left 87mm right
-.tp 1mm 88mm
-¤For modtagelsen af ovennævnte garanti kvitteres. ¤Til vitterlighed om ægte
-underskrift/underskrifter, dateringens rigtig-
-.br
-¤(Dato og kundens underskrift) ¤hed og udstederens/udstedernes myndighed.
-.sp 20mm
-.bx off
-.ar off
-.**********************************
-.ar MODK1 on
-:SWISS8.
-Undertegnede anmoder herved pengeinstituttet om for min/vor regning
-at udfærdige ovenstående garanti, og jeg/vi dækker på
-anfordring pengeinstituttet for ethvert beløb, som pengeinstituttet
-måtte komme til at udrede som følge af denne garanti. Så længe
-garantien er i kraft, debiterer pengeinstituttet mig/os provision
-efter pengeinstituttets til
-enhver tid gældende
-betingelser. Beløb udbetalt under garantien forrentes i
-forhold til pengeinstituttets gældende betingelser.
-.br
-Yderligere tiltransporterer undertegnede hermed pengeinstituttet alle
-eventuelle tilbagebetalingskrav.
-Selv på de områder, hvor der gælder et strengere ansvar, er
-pengeinstituttet ikke ansvarlig for tab, som skyldes nedbrud i/manglende
-adgang til IT-systemer eller beskadi-
-.ar off
-.******************************
-.ar MODK2 on
-:SWISS8.
-.da KUNDE      22mm  47mm
-.da PI        110mm  47mm
-.da GARBELØB   22mm  80mm
-.da tekst 22mm 110mm width 170mm
-.tp 22mm 90mm
-:COUR10.
-.ar KUNDE on
-&STILL ;.br
-&NAVN ;.br
-&GADE ;.br
-&BY ;.sp
-¤&KUNDENR
-.ar off
-.ar PI on
-&BANKNAVN ;.br
-&AFDNAVN ;.br
-&AFDGADE ;.br
-&AFDBY
-.ar off
-.ar GARBELØB on
-¤&B19TX15A
-.sp 1.5mm
-.if &L'&B19TX1A gt 0
-.th ¤kr. &B19BELØB
-.if &L'&B19TX1B gt 0
-.th ¤EUR &B19BELØB
-.if &L'&B19TX3A gt 0
-.th ¤&B19TX3A &B19BELØB
-.sp 1.5mm
-¤&B19TX60E
-.ar off
-.ar tekst on
-&B19TX60A
-.br
-&B19TX60B
-.br
-&B19TX60C
-.br
-&B19TX60D
-.ar off
-.da box 20mm 34mm width 175mm
-.ar box on
-.tp 2mm 89mm
-:SWISS14.
-:FED.
-¤Regaranti
-.sp 1.5mm
-:SKRSLUT.
-:SWISS8.
-.bx left 87mm right
-¤Kunden ¤Banken
-.sp 20mm
-¤Kundenr:
-.sp
-.bx off
-.sp
-.bx left right
-.sp
-¤Garantinummer:
-.sp
-¤Garantibeløb:
-.sp
-¤Overfor:
-.sp
-.bx off
-.sp
-:SWISS10. :FED.
-Bemærkninger:
-:SKRSLUT.
-.bx left right
-.sp 17mm
-.bx off
-.ar off
+

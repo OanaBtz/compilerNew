@@ -10,6 +10,96 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.tp _/50mm 55mm 72mm  _/170mm
+.kp on
+:FED.
+Underskrifter
+:SKRSLUT.
+.sp 3mm
+.if &L'&DUVAERGE > 0
+.th Som værge/kontohaver:
+.el Som kontohaver:
+.sp 4mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+.if &L'&DUVAERGE > 0
+.th .go VAERGE
+.el .go ALMTXT
+...ALMTXT
+¤&KTONAVN.
+.sp 5mm
+.go VID1
+...VAERGE
+¤&VAERGENAVN. som værge for &KTONAVN.
+...VID1
+.***************************
+.if &U'&GENVITT = N
+.th .go MEDKTO
+.***************************
+:FED.Vitterlighedspåtegninger:SKRSLUT.
+.sp 3mm
+Til vitterlighed om ægte underskrift, dateringens rigtighed
+og udstederens myndighed.
+.sp 5mm
+.tp _/80mm 90mm _/170mm
+Navn ¤ ¤Navn ¤
+.sp 4mm
+Stilling ¤ ¤Stilling ¤
+.sp 4mm
+Adresse ¤ ¤Adresse ¤
+.sp 4mm
+Postnr./by ¤ ¤Postnr./by ¤
+.sp 4mm
+Underskrift ¤ ¤Underskrift ¤
+.sp 5mm
+.hr left right
+.sp 3mm
+.***************************
+...MEDKTO
+.kp off
+.****
+.if &L'&MEDNAVN = 0
+.th .go MEDSLUT
+.**************************************************************************
+.kp on
+.tp _/50mm 55mm 72mm  _/170mm
+Som medkontohaver:
+.sp 4mm
+Dato: ¤ ¤Underskrift: ¤¤
+.tp 121mm center
+.br
+¤&MEDNAVN
+.sp 5mm
+.***********************
+.if &U'&GENVITT = N
+.th .go MEDSLUT
+:FED.Vitterlighedspåtegninger:SKRSLUT.
+.sp 3mm
+Til vitterlighed om ægte underskrift, dateringens rigtighed
+og udstederens myndighed.
+.sp 5mm
+.tp _/80mm 90mm _/170mm
+Navn ¤ ¤Navn ¤
+.sp 4mm
+Stilling ¤ ¤Stilling ¤
+.sp 4mm
+Adresse ¤ ¤Adresse ¤
+.sp 4mm
+Postnr./by ¤ ¤Postnr./by ¤
+.sp 4mm
+Underskrift ¤ ¤Underskrift ¤
+.sp 5mm
+.kp off
+.**************************************************************************
+.kp off
+...MEDSLUT
+.**************************************************************************
+.in 5mm
+.ir 5mm
+.**********************
+.** SIDESKIFT
+.pa
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -90,81 +180,6 @@
 .an &L'&GENNAVN4 = 0
 .th .mg/T/4. fuldmagtshavers navn mangler/
 .**************************************************************************
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -215,6 +230,81 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -249,15 +339,15 @@ Parter
 :SWISS8.
 .if &L'&MEDNAVN = 0
 .th .bx left right
-.th ¤Kontohaver
+.th ¤ Kontohaver
 .el .bx left 87.5mm right
-.el ¤Kontohaver ¤Medkontohaver
+.el ¤ Kontohaver ¤ Medkontohaver
 .sp 23mm
 .if &L'&MEDNAVN = 0
-.th ¤&kunnr
-.el ¤&kunnr ¤&mkunnr
+.th ¤ &kunnr
+.el ¤ &kunnr ¤ &mkunnr
 .bx new left right
-¤Pengeinstitut
+ ¤ Pengeinstitut
 .sp 20mm
 .bx off
 .bx can
@@ -322,96 +412,19 @@ Indhold
 .ar off
 .**************************************************************************
 :SKRSLUT.
-.** SIDESKIFT
-.pa
-.th .go MEDSLUT
-.**************************************************************************
-.kp on
-.tp _/50mm 55mm 72mm  _/170mm
-Som medkontohaver:
-.sp 4mm
-Dato: ¤ ¤Underskrift: ¤¤
-.tp 121mm center
-.br
-¤&MEDNAVN
-.sp 5mm
-.***********************
-.if &U'&GENVITT = N
-.th .go MEDSLUT
-:FED.Vitterlighedspåtegninger:SKRSLUT.
-.sp 3mm
-Til vitterlighed om ægte underskrift, dateringens rigtighed
-og udstederens myndighed.
-.sp 5mm
-.tp _/80mm 90mm _/170mm
-Navn ¤ ¤Navn ¤
-.sp 4mm
-Stilling ¤ ¤Stilling ¤
-.sp 4mm
-Adresse ¤ ¤Adresse ¤
-.sp 4mm
-Postnr./by ¤ ¤Postnr./by ¤
-.sp 4mm
-Underskrift ¤ ¤Underskrift ¤
-.sp 5mm
-.kp off
-.**************************************************************************
-.kp off
-...MEDSLUT
-.**************************************************************************
-.in 5mm
-.ir 5mm
-.**********************
-.tp _/50mm 55mm 72mm  _/170mm
-.kp on
-:FED.
-Underskrifter
-:SKRSLUT.
-.sp 3mm
-.if &L'&DUVAERGE > 0
-.th Som værge/kontohaver:
-.el Som kontohaver:
-.sp 4mm
-Dato: ¤ ¤Underskrift: ¤¤
-.tp 121mm center
-.br
-.if &L'&DUVAERGE > 0
-.th .go VAERGE
-.el .go ALMTXT
-...ALMTXT
-¤&KTONAVN.
-.sp 5mm
-.go VID1
-...VAERGE
-¤&VAERGENAVN. som værge for &KTONAVN.
-...VID1
-.***************************
-.if &U'&GENVITT = N
-.th .go MEDKTO
-.***************************
-:FED.Vitterlighedspåtegninger:SKRSLUT.
-.sp 3mm
-Til vitterlighed om ægte underskrift, dateringens rigtighed
-og udstederens myndighed.
-.sp 5mm
-.tp _/80mm 90mm _/170mm
-Navn ¤ ¤Navn ¤
-.sp 4mm
-Stilling ¤ ¤Stilling ¤
-.sp 4mm
-Adresse ¤ ¤Adresse ¤
-.sp 4mm
-Postnr./by ¤ ¤Postnr./by ¤
-.sp 4mm
-Underskrift ¤ ¤Underskrift ¤
-.sp 5mm
-.hr left right
-.sp 3mm
-.***************************
-...MEDKTO
-.kp off
-.****
-.if &L'&MEDNAVN = 0
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
 :SWISS9.
 .in 1mm
 .*************************************************************************
@@ -428,11 +441,11 @@ Underskrift ¤ ¤Underskrift ¤
 Konto
 :SKRSLUT.
 .br
-Kontonr. ¤Regtype/betegnelse
+Kontonr. ¤ Regtype/betegnelse
 .br
-&LANGKTONR ¤&REGTYPELNG
+&LANGKTONR ¤ &REGTYPELNG
 .sp 3mm
-Evt. mærke ¤Frigivelsesdato ¤Fristdato
+Evt. mærke ¤ Frigivelsesdato ¤ Fristdato
 .br
 .if &L'&GENMÆRKE > 0
 .*an &L'&FRIDATO > 0
@@ -443,7 +456,7 @@ Evt. mærke ¤Frigivelsesdato ¤Fristdato
 .th .go MRK
 .el .go IMRK
 ...MRK
-&GENMÆRKE ¤&frid ¤&fristd
+&GENMÆRKE ¤ &frid ¤ &fristd
 .sp 5mm
 ...IMRK
 .kp off
@@ -461,19 +474,19 @@ Fuldmagtshaver(e):
 .br
 .*****
 .tp 28mm 88mm _/173mm
-CPR-nr ¤Navn ¤Underskrift
+CPR-nr ¤ Navn ¤ Underskrift
 .sp 5mm
 .if &L'&GENNAVN1 > 0
-.th &GENCPR1 ¤&GENNAVN1 ¤¤
+.th &GENCPR1 ¤ &GENNAVN1 ¤ ¤
 .th .sp 5mm
 .if &L'&GENNAVN2 > 0
-.th &GENCPR2 ¤&GENNAVN2 ¤¤
+.th &GENCPR2 ¤ &GENNAVN2 ¤ ¤
 .th .sp 5mm
 .if &L'&GENNAVN3 > 0
-.th &GENCPR3 ¤&GENNAVN3 ¤¤
+.th &GENCPR3 ¤ &GENNAVN3 ¤ ¤
 .th .sp 5mm
 .if &L'&GENNAVN4 > 0
-.th &GENCPR4 ¤&GENNAVN4 ¤¤
+.th &GENCPR4 ¤ &GENNAVN4 ¤ ¤
 .th .sp 3mm
 :SKRSLUT.
 ...FULDEND
@@ -543,7 +556,7 @@ ikke er udtrykkeligt fraveget ved skriftlig aftale:
 .tp 8mm
 .br
 .of 3mm
-*¤&BANKNAVN.s Almindelige forretningsbetingelser og særlige bestemmelser
+* ¤ &BANKNAVN.s Almindelige forretningsbetingelser og særlige bestemmelser
 for lån og kreditter
 .of
 .sp 3mm
@@ -556,16 +569,4 @@ modtagelse af oplysningsskema, som beskriver grundlæggende oplysninger
 om beskyttelse af indskud.
 .sp 5mm
 .kp off
-.********************GENEREL OPSÆTNING*************************************
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 95mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
+

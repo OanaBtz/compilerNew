@@ -1,71 +1,52 @@
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.*.da BOX 20mm 40mm width 175mm
-.*.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-:SWISS9.
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
-.**************************************************************************
-.sp 27mm
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.*.in 5mm
-.*.ir 5mm
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 73mm
-.*.sp 83mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
 .pm 20mm
-.*******************HER STARTER HØJRE****************************
-.ar OVERSKR on
-:FED.
-.fo right
-&REGTYPELNG.
-.br
-.* Fuldmagt
-:SKRSLUT.
-.sp
-.if &L'&LANGKTONR > 0
-.th Kontonummer: &regnr. &ktonr.
-.* Kontonummer: &E69GENLKTO.
-.br
-Cpr/Cvr-nummer: &KTOKNDNR1.
-.ir 0mm
-.ar off
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************
+.su off
+.se year = substr &DATO 7 4
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.su on
+.**************************************
+.if &L'MEDNAVN = 0
+.th .se min = 'min'
+.th .se mine = 'mine'
+.th .se jeg = 'Jeg'
+.el .se min = 'vores'
+.el .se mine = 'vores'
+.el .se jeg = 'Vi'
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :SWISS9.
@@ -116,67 +97,74 @@ Cpr/Cvr-nummer: &KTOKNDNR1.
 &MEDBY.
 &MEDLAND
 .ar off
-.**************************************
-.su off
-.se year = substr &DATO 7 4
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-.su on
-.**************************************
-.if &L'MEDNAVN = 0
-.th .se min = 'min'
-.th .se mine = 'mine'
-.th .se jeg = 'Jeg'
-.el .se min = 'vores'
-.el .se mine = 'vores'
-.el .se jeg = 'Vi'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:SKRSLUT.
+.*******************HER STARTER HØJRE****************************
+.ar OVERSKR on
+:FED.
+.fo right
+&REGTYPELNG.
 .br
-at fuldmagten er gyldig, indtil &BANKNAVN.
-har modtaget skriftlig tilbagekaldelse,
-hvilket kun kan ske mod samtidig tilbagelevering af de befuldmægtigedes
-eventuelle udleverede betalingskort/kreditkort. Ved udstedelse af ny
-konto- og depot-fuldmagt tilbagekaldes samtidig alle tidligere afgivne
-konto-/konti- og depotfuldmagter til ovennævnte konto/konti og depot.
-Prokura kan kun tilbagekaldes ved udtrykkelig skriftlig meddelelse herom.
-.sp 3mm
-I øvrigt gælder "&BANKNAVN.'s almindelige forretningsbetingelser".
-.sp 5mm
+.* Fuldmagt
+:SKRSLUT.
+.sp
+.if &L'&LANGKTONR > 0
+.th Kontonummer: &regnr. &ktonr.
+.* Kontonummer: &E69GENLKTO.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.ir 0mm
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 73mm
+.*.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.pm 20mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.*.da BOX 20mm 40mm width 175mm
+.*.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+:SWISS9.
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 27mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.*.in 5mm
+.*.ir 5mm
 .*************************************************************************
 .tp 85mm
 :FED.
@@ -277,6 +265,68 @@ Yderligere betingelser
 ...VID3A
 :FED.
 Herved anerkendes
+:SKRSLUT.
+.br
+at fuldmagten er gyldig, indtil &BANKNAVN.
+har modtaget skriftlig tilbagekaldelse,
+hvilket kun kan ske mod samtidig tilbagelevering af de befuldmægtigedes
+eventuelle udleverede betalingskort/kreditkort. Ved udstedelse af ny
+konto- og depot-fuldmagt tilbagekaldes samtidig alle tidligere afgivne
+konto-/konti- og depotfuldmagter til ovennævnte konto/konti og depot.
+Prokura kan kun tilbagekaldes ved udtrykkelig skriftlig meddelelse herom.
+.sp 3mm
+I øvrigt gælder "&BANKNAVN.'s almindelige forretningsbetingelser".
+.sp 5mm
+.*UNDERSKRIFT *************************************************************
+.tp 40mm
+:FED.
+Underskrifter
+:SKRSLUT.
+.sp 5mm
+:FED.
+Som fuldmagtshaver
+:SKRSLUT.
+.kp on
+.sp 14mm
+.hr tynd 0mm 30mm 40mm 120mm
+.br
+Dato ¤ &GENTEKST10.
+.*****
+.sp 5mm
+.kp off
+.if &L'&GENTEKST11 > 0
+.th .kp on
+.th .sp 14mm
+.th .hr tynd 0mm 30mm 40mm 120mm
+.th .br
+.th Dato ¤ &GENTEKST11.
+.*****
+.th .sp 5mm
+.th .kp off
+.if &L'&GENTEKST12 > 0
+.th .kp on
+.th .sp 14mm
+.th .hr tynd 0mm 30mm 40mm 120mm
+.th .br
+.th Dato ¤ &GENTEKST12.
+.*****
+.th .sp 5mm
+.th .kp off
+.if &L'&GENTEKST13 > 0
+.th .kp on
+.th .sp 14mm
+.th .hr tynd 0mm 30mm 40mm 120mm
+.th .br
+.th Dato ¤ &GENTEKST13.
+.*****
+.th .sp 5mm
+.th .kp off
+.if &L'&GENTEKST14 > 0
+.th .kp on
+.th .sp 14mm
+.th .hr tynd 0mm 30mm 40mm 120mm
+.th .br
+.th Dato ¤ &GENTEKST14.
 .*****
 .th .sp 5mm
 .th .kp off
@@ -285,7 +335,7 @@ Herved anerkendes
 .th .sp 14mm
 .th .hr tynd 0mm 30mm 40mm 120mm
 .th .br
-.th Dato ¤&GENTEKST15.
+.th Dato ¤ &GENTEKST15.
 .*****
 .th .sp 5mm
 .th .kp off
@@ -294,7 +344,7 @@ Herved anerkendes
 .th .sp 14mm
 .th .hr tynd 0mm 30mm 40mm 120mm
 .th .br
-.th Dato ¤&GENTEKST16.
+.th Dato ¤ &GENTEKST16.
 .*****
 .th .sp 5mm
 .th .kp off
@@ -303,7 +353,7 @@ Herved anerkendes
 .th .sp 14mm
 .th .hr tynd 0mm 30mm 40mm 120mm
 .th .br
-.th Dato ¤&GENTEKST17.
+.th Dato ¤ &GENTEKST17.
 .*****
 .th .sp 5mm
 .th .kp off
@@ -312,7 +362,7 @@ Herved anerkendes
 .th .sp 14mm
 .th .hr tynd 0mm 30mm 40mm 120mm
 .th .br
-.th Dato ¤&GENTEKST18.
+.th Dato ¤ &GENTEKST18.
 .*****
 .th .sp 5mm
 .th .kp off
@@ -321,7 +371,7 @@ Herved anerkendes
 .th .sp 14mm
 .th .hr tynd 0mm 30mm 40mm 120mm
 .th .br
-.th Dato ¤&GENTEKST19.
+.th Dato ¤ &GENTEKST19.
 .*****
 .th .sp 5mm
 .th .kp off
@@ -339,7 +389,7 @@ underskrift.
 .th .sp 14mm
 .th .hr tynd 0mm 30mm 40mm 120mm
 .th .br
-.th Dato ¤&NAVN.
+.th Dato ¤ &NAVN.
 .th .kp off
 .*el .hr tynd 0mm 80mm
 .*el .hr tynd 100mm 180mm
@@ -348,59 +398,10 @@ underskrift.
 .el .kp on
 .el .hr tynd 0mm 30mm 40mm 120mm
 .el .br
-.el Dato ¤&NAVN.
+.el Dato ¤ &NAVN.
 .el .sp 14mm
 .el .hr tynd 0mm 30mm 40mm 120mm
 .el .br
-.el Dato ¤&MEDNAVN.
+.el Dato ¤ &MEDNAVN.
 .el .kp off
-.*UNDERSKRIFT *************************************************************
-.tp 40mm
-:FED.
-Underskrifter
-:SKRSLUT.
-.sp 5mm
-:FED.
-Som fuldmagtshaver
-:SKRSLUT.
-.kp on
-.sp 14mm
-.hr tynd 0mm 30mm 40mm 120mm
-.br
-Dato ¤&GENTEKST10.
-.*****
-.sp 5mm
-.kp off
-.if &L'&GENTEKST11 > 0
-.th .kp on
-.th .sp 14mm
-.th .hr tynd 0mm 30mm 40mm 120mm
-.th .br
-.th Dato ¤&GENTEKST11.
-.*****
-.th .sp 5mm
-.th .kp off
-.if &L'&GENTEKST12 > 0
-.th .kp on
-.th .sp 14mm
-.th .hr tynd 0mm 30mm 40mm 120mm
-.th .br
-.th Dato ¤&GENTEKST12.
-.*****
-.th .sp 5mm
-.th .kp off
-.if &L'&GENTEKST13 > 0
-.th .kp on
-.th .sp 14mm
-.th .hr tynd 0mm 30mm 40mm 120mm
-.th .br
-.th Dato ¤&GENTEKST13.
-.*****
-.th .sp 5mm
-.th .kp off
-.if &L'&GENTEKST14 > 0
-.th .kp on
-.th .sp 14mm
-.th .hr tynd 0mm 30mm 40mm 120mm
-.th .br
-.th Dato ¤&GENTEKST14.
+

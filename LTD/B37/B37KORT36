@@ -11,260 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.**************************************************************************
-.if x&GENVALG < x1
-.or x&GENVALG > x3
-.th .mg /T/Korttype skal have værdien 1,2 eller 3/
-.**************************************************************************
-.if x&GENVAL < x1
-.or x&GENVAL > x2
-.th .mg /T/Betalingsbetingelser skal have værdien 1 eller 2/
-.**************************************************************************
-.if x&GENVAL = x1
-.th .go val1
-.el .go val2
-...val1
-.if &L'&GENBELØB20 = 0
-.th .mg /T/Hvis betalingsbet. er fast beløb, skal fast beløb udfyldes/
-.go TSTFREK
-.**************************************************************************
-.**resulta indeholder genpctpa * 1, da man ikke kan teste på genpctpa **
-.**************************************************************************
-...val2
-.if &L'&RESULTA > 6
-.th .mg /T/Result større end 6/
-.if &L'&RESULTA < 6
-.th .go PCT4
-.if &RESULTA = 100,00
-.th .go TSTBEL
-.el .mg /T/Procent skal være max 100,00/
-.******************************
-...PCT4
-.if &L'&RESULTA < 4
-.th .mg /T/result mindre end 4/
-.if &L'&RESULTA > 4
-.th .go TSTFREK
-.if &RESULTA > 0,00
-.th .go TSTFREK
-.el .mg /T/Procent skal være større end 0,00/
-.**************************************************************************
-...TSTBEL
-.if &GENBELØB21 = 0,00
-.th .go yyy
-.el .mg /T/Hvis % er lig 100,00 skal der ikke være minimumsbeløb/
-...yyy
-.**************************************************************************
-...TSTFREK
-.*
-.*********************GENEREL OPSÆTNING************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.da START 20mm 100mm width 175mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:FED.
-.us Kredit til dit MasterCard
-.if x&GENVALG = x0
-.th .us Classic uden forsikring
-.if x&GENVALG = x1
-.th .us Classic med forsikring
-.if x&GENVALG = x2
-.th .us Guld
-.if x&GENVALG = x3
-.th .us Platin
-.sp
-:SKRSLUT.
-:SKRSLUT.
-.**************************************************************************
-.ti ^ 05
-:COUR10.
-.***** HER DELES REGISTRERINGSNUMME
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-:SKRSLUT.
-:SKRSLUT.
-:COUR10.
-Vi bekræfter herved, at der er etableret et kreditmaksimum på
-MasterCard kortkonto &regnr &ktonr
-som gælder indtil videre.
-.sp
-Kreditmaksimum er på &MAXIMUM kr. og er bevilget ifølge ansøgning af
-&GENDATO7.. Ansøgningen
-vedlægges som kopi.
-.sp
-Følgende betalingsbetingelser er aftalt:
-.sp
-.if x&GENVAL > x1
-.th .go valval2
-Hver måned betales et fast beløb på
-:VS. &GENBELØB20
-kr.
-.go www
-...valval2
-.if x&GENVAL = x2
-.th Hver måned betales en fast procentdel på &GENPCTPA.%
-.th af kortkontoens træk
-.if &GENBELØB21 = 0,00
-.th .go www
-minimum
-:VS. &GENBELØB21
-kr.
-...www
-.ct , dog højest det aktuelle træk på kortkontoen.
-.sp
-Beløbet hæves på konto &DEBREGNR &DEBKTONR1..
-.sp
-Rente af saldoen i &BANKNAVN.s favør beregnes ifølge
-kortbestemmelserne med for tiden
-.* VALG INAKTIVERET AF B37 es d. 17.6.2011 da BEC har slettet moduler
-.* BECMCP2 til 6
-.*if x&GENVALG = x1
-.*th .go STAND1
-.*el .go TSTGULD
-...STAND1
-.ct  &GENPSRTEMD.%
-.if x&GENPSFREKV = x1
-.th hvert år.
-.if x&GENPSFREKV = x2
-.th hvert halvår.
-.if x&GENPSFREKV = x3
-.th hvert kvartal.
-.if x&GENPSFREKV = x4
-.th hver måned.
-.ct  Dette svarer til en årlig nominel rente på &GENPSEFRTE.%. Renten
-tilskrives
-.if x&GENPSFREKV = x1
-.th hvert år.
-.if x&GENPSFREKV = x2
-.th hvert halvår.
-.if x&GENPSFREKV = x3
-.th hvert kvartal.
-.if x&GENPSFREKV = x4
-.th hver måned.
-.go TXTS
-...TSTGULD
-.if x&GENVALG = x2
-.th .go GULD1
-.el .go TSTPLAT
-...GULD1
-.ct  &GENPGRTEMD.%
-.if x&GENPGFREKV = x1
-.th hvert år.
-.if x&GENPGFREKV = x2
-.th hvert halvår.
-.if x&GENPGFREKV = x3
-.th hvert kvartal.
-.if x&GENPGFREKV = x4
-.th hver måned.
-.ct  Dette svarer til en årlig nominel rente på &GENPGEFRTE.%. Renten
-tilskrives
-.if x&GENPGFREKV = x1
-.th hvert år.
-.if x&GENPGFREKV = x2
-.th hvert halvår.
-.if x&GENPGFREKV = x3
-.th hvert kvartal.
-.if x&GENPGFREKV = x4
-.th hver måned.
-.go TXTS
-.***********
-...TSTPLAT
-.if x&GENVALG = x3
-.th .go PLATI1
-.el .go TXTS
-...PLATI1
-.ct  &GENPPRTEMD.%
-.if x&GENPPFREKV = x1
-.th hvert år.
-.if x&GENPPFREKV = x2
-.th hvert halvår.
-.if x&GENPPFREKV = x3
-.th hvert kvartal.
-.if x&GENPPFREKV = x4
-.th hver måned.
-.ct  Dette svarer til en årlig nominel rente på &GENPPEFRTE.%. Renten
-tilskrives
-.if x&GENPPFREKV = x1
-.th hvert år.
-.if x&GENPPFREKV = x2
-.th hvert halvår.
-.if x&GENPPFREKV = x3
-.th hvert kvartal.
-.if x&GENPPFREKV = x4
-.th hver måned.
-.go TXTS
-.**************************
-...TXTS
-:COUR10.
-.sp
-:FED.
-Oplysninger ifølge Lov om Kreditaftaler
-.br
-:SKRSLUT.
-Kreditaftaleloven kræver, at &BANKNAVN giver dig en række
-oplysninger om din kortkonto. Du
-skal have oplysning om det samlede beløb,
-der skal betales ved forskellige udnyttelser af kreditten på din
-kortkonto. Det samlede beløb opgøres som summen af lånebeløbet og
-kreditomkostningerne. Ved beregning af kreditomkostningerne er der
-anvendt de rentesatser og omkostninger, der gælder i dag.
-.sp
-Beregningerne, som du kan se i vedlagte Kreditaftaleoplysninger
-er med forbehold for, at rente
-og gebyrer ikke ændres, at der ikke pålægges andre omkostninger i
-løbetiden, at der ikke indgås nye aftaler eller sker ændringer i
-aftalens varighed. Hvis der sker ændringer, vil beregningerne blive
-påvirket. De kan derfor ikke tages som det endelige udtryk for, hvilke
-kreditomkostninger, der skal betales, herunder de årlige omkostninger
-i procent.
-.ar off
-.** SIDESKIFT
-.pa
-.*********************GENEREL OPSÆTNING************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
 .** side 2 **
 .da SIDE2 20mm 50mm width 175mm
 .************
@@ -519,3 +265,258 @@ Vedlagt: ^Kopi af ansøgning
 .br
 ^Kreditaftaleoplysninger
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.**************************************************************************
+.if x&GENVALG < x1
+.or x&GENVALG > x3
+.th .mg /T/Korttype skal have værdien 1,2 eller 3/
+.**************************************************************************
+.if x&GENVAL < x1
+.or x&GENVAL > x2
+.th .mg /T/Betalingsbetingelser skal have værdien 1 eller 2/
+.**************************************************************************
+.if x&GENVAL = x1
+.th .go val1
+.el .go val2
+...val1
+.if &L'&GENBELØB20 = 0
+.th .mg /T/Hvis betalingsbet. er fast beløb, skal fast beløb udfyldes/
+.go TSTFREK
+.**************************************************************************
+.**resulta indeholder genpctpa * 1, da man ikke kan teste på genpctpa **
+.**************************************************************************
+...val2
+.if &L'&RESULTA > 6
+.th .mg /T/Result større end 6/
+.if &L'&RESULTA < 6
+.th .go PCT4
+.if &RESULTA = 100,00
+.th .go TSTBEL
+.el .mg /T/Procent skal være max 100,00/
+.******************************
+...PCT4
+.if &L'&RESULTA < 4
+.th .mg /T/result mindre end 4/
+.if &L'&RESULTA > 4
+.th .go TSTFREK
+.if &RESULTA > 0,00
+.th .go TSTFREK
+.el .mg /T/Procent skal være større end 0,00/
+.**************************************************************************
+...TSTBEL
+.if &GENBELØB21 = 0,00
+.th .go yyy
+.el .mg /T/Hvis % er lig 100,00 skal der ikke være minimumsbeløb/
+...yyy
+.**************************************************************************
+...TSTFREK
+.*
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 175mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+.us Kredit til dit MasterCard
+.if x&GENVALG = x0
+.th .us Classic uden forsikring
+.if x&GENVALG = x1
+.th .us Classic med forsikring
+.if x&GENVALG = x2
+.th .us Guld
+.if x&GENVALG = x3
+.th .us Platin
+.sp
+:SKRSLUT.
+:SKRSLUT.
+.**************************************************************************
+.ti ^ 05
+:COUR10.
+.***** HER DELES REGISTRERINGSNUMME
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+:SKRSLUT.
+:SKRSLUT.
+:COUR10.
+Vi bekræfter herved, at der er etableret et kreditmaksimum på
+MasterCard kortkonto &regnr &ktonr
+som gælder indtil videre.
+.sp
+Kreditmaksimum er på &MAXIMUM kr. og er bevilget ifølge ansøgning af
+&GENDATO7.. Ansøgningen
+vedlægges som kopi.
+.sp
+Følgende betalingsbetingelser er aftalt:
+.sp
+.if x&GENVAL > x1
+.th .go valval2
+Hver måned betales et fast beløb på
+:VS. &GENBELØB20
+kr.
+.go www
+...valval2
+.if x&GENVAL = x2
+.th Hver måned betales en fast procentdel på &GENPCTPA.%
+.th af kortkontoens træk
+.if &GENBELØB21 = 0,00
+.th .go www
+minimum
+:VS. &GENBELØB21
+kr.
+...www
+.ct , dog højest det aktuelle træk på kortkontoen.
+.sp
+Beløbet hæves på konto &DEBREGNR &DEBKTONR1..
+.sp
+Rente af saldoen i &BANKNAVN.s favør beregnes ifølge
+kortbestemmelserne med for tiden
+.* VALG INAKTIVERET AF B37 es d. 17.6.2011 da BEC har slettet moduler
+.* BECMCP2 til 6
+.*if x&GENVALG = x1
+.*th .go STAND1
+.*el .go TSTGULD
+...STAND1
+.ct  &GENPSRTEMD.%
+.if x&GENPSFREKV = x1
+.th hvert år.
+.if x&GENPSFREKV = x2
+.th hvert halvår.
+.if x&GENPSFREKV = x3
+.th hvert kvartal.
+.if x&GENPSFREKV = x4
+.th hver måned.
+.ct  Dette svarer til en årlig nominel rente på &GENPSEFRTE.%. Renten
+tilskrives
+.if x&GENPSFREKV = x1
+.th hvert år.
+.if x&GENPSFREKV = x2
+.th hvert halvår.
+.if x&GENPSFREKV = x3
+.th hvert kvartal.
+.if x&GENPSFREKV = x4
+.th hver måned.
+.go TXTS
+...TSTGULD
+.if x&GENVALG = x2
+.th .go GULD1
+.el .go TSTPLAT
+...GULD1
+.ct  &GENPGRTEMD.%
+.if x&GENPGFREKV = x1
+.th hvert år.
+.if x&GENPGFREKV = x2
+.th hvert halvår.
+.if x&GENPGFREKV = x3
+.th hvert kvartal.
+.if x&GENPGFREKV = x4
+.th hver måned.
+.ct  Dette svarer til en årlig nominel rente på &GENPGEFRTE.%. Renten
+tilskrives
+.if x&GENPGFREKV = x1
+.th hvert år.
+.if x&GENPGFREKV = x2
+.th hvert halvår.
+.if x&GENPGFREKV = x3
+.th hvert kvartal.
+.if x&GENPGFREKV = x4
+.th hver måned.
+.go TXTS
+.***********
+...TSTPLAT
+.if x&GENVALG = x3
+.th .go PLATI1
+.el .go TXTS
+...PLATI1
+.ct  &GENPPRTEMD.%
+.if x&GENPPFREKV = x1
+.th hvert år.
+.if x&GENPPFREKV = x2
+.th hvert halvår.
+.if x&GENPPFREKV = x3
+.th hvert kvartal.
+.if x&GENPPFREKV = x4
+.th hver måned.
+.ct  Dette svarer til en årlig nominel rente på &GENPPEFRTE.%. Renten
+tilskrives
+.if x&GENPPFREKV = x1
+.th hvert år.
+.if x&GENPPFREKV = x2
+.th hvert halvår.
+.if x&GENPPFREKV = x3
+.th hvert kvartal.
+.if x&GENPPFREKV = x4
+.th hver måned.
+.go TXTS
+.**************************
+...TXTS
+:COUR10.
+.sp
+:FED.
+Oplysninger ifølge Lov om Kreditaftaler
+.br
+:SKRSLUT.
+Kreditaftaleloven kræver, at &BANKNAVN giver dig en række
+oplysninger om din kortkonto. Du
+skal have oplysning om det samlede beløb,
+der skal betales ved forskellige udnyttelser af kreditten på din
+kortkonto. Det samlede beløb opgøres som summen af lånebeløbet og
+kreditomkostningerne. Ved beregning af kreditomkostningerne er der
+anvendt de rentesatser og omkostninger, der gælder i dag.
+.sp
+Beregningerne, som du kan se i vedlagte Kreditaftaleoplysninger
+er med forbehold for, at rente
+og gebyrer ikke ændres, at der ikke pålægges andre omkostninger i
+løbetiden, at der ikke indgås nye aftaler eller sker ændringer i
+aftalens varighed. Hvis der sker ændringer, vil beregningerne blive
+påvirket. De kan derfor ikke tages som det endelige udtryk for, hvilke
+kreditomkostninger, der skal betales, herunder de årlige omkostninger
+i procent.
+.ar off
+.** SIDESKIFT
+.pa
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+

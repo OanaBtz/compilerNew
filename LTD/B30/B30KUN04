@@ -1,26 +1,132 @@
-.rh cancel
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
+.su off
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.if &U'&B30MEDSKUN ne J
+.th .go SLUTO1
+.*************************
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 162mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30KUN04
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+KUNDEOPRETTELSE
+:SKRSLUT.
+.ar off
+.***************************************
+.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 41,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+.**************
+...SLUTO1
+.if &U'&B30MEDSKUN ne J
+.th .go SLUTO2
+.*************************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.****************
+.ar VEND on
+:CALIB8.
+B30KUN04
+.ar off
+.****************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...SLUTO2
+.***********
 .if &U'&B30MEDSKUN ne J
 .th .go SLUTT
 .*********************************
 .tp 24mm 87mm
 .if &cprcvr = 43
-.th Navn: ¤&INDNAVN  ¤KND-nr.: &INDKUNDENR
-.el Navn: ¤&INDNAVN  ¤CPR-nr.: &INDKUNDENR
+.th Navn: ¤ &INDNAVN  ¤ KND-nr.: &INDKUNDENR
+.el Navn: ¤ &INDNAVN  ¤ CPR-nr.: &INDKUNDENR
 .*****
 .if &L'&INDCO > 0
 .th .br
-.th Coadr: ¤&INDCO
+.th Coadr: ¤ &INDCO
 .*****
 .br
-Adresse: ¤&INDGADE
+Adresse: ¤ &INDGADE
 .br
-Postnr.: ¤&INDBY
+Postnr.: ¤ &INDBY
 .if &L'&INDLAND > 0
 .th .br
-.th Land: ¤&INDLAND
+.th Land: ¤ &INDLAND
 .***********KONTONUMMER*********************
 .sp
-Konto-nr: ¤&IREGKTO
+Konto-nr: ¤ &IREGKTO
 .************** ekstra space ved ny kundeopret og CVRnr samt 43 nr.***
 .sp
 For kundeforholdet gælder bankens almindelige
@@ -144,7 +250,7 @@ Sammen med kundeoprettelsen i fotokopi
 ¤
 .br
 .tp 20mm
-Dato ¤&INDNAVN
+Dato ¤ &INDNAVN
 .***********
 .if &U'&GENMRK = J
 .th .sp
@@ -154,114 +260,9 @@ Dato ¤&INDNAVN
 .th evt. mærke
 .********************
 ...SLUTT
-.if &U'&B30MEDSKUN ne J
-.th .go SLUTO2
-.*************************
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.****************
-.ar VEND on
-:CALIB8.
-B30KUN04
-.ar off
-.****************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-...SLUTO2
-.***********
-.if &U'&B30MEDSKUN ne J
-.th .go SLUTO1
-.*************************
-.fo left
-.ti ¤ 05
-:CALIB10.
-.ls by 1.25
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 39,5mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da DATO 162mm 83,5mm width 42,5mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-B30KUN04
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-KUNDEOPRETTELSE
-:SKRSLUT.
-.ar off
-.***************************************
-.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 41,5mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 130mm
-.in 2mm
-.**************
-...SLUTO1
-.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
-.su off
-.se ktocif2 = substr &IREGKTO 5 2
-.se cprcvr = substr &KTOKNDNR1 1 2
-.su on
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.rh cancel
 .** SIDESKIFT
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+

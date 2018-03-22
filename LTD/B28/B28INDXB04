@@ -1,19 +1,77 @@
-:SWISS8.
-.da INDHOLD 21mm 93mm width 170mm
-.******************************************
-.ar INDHOLD on
-Jeg anmoder Udbetaling Danmark om at bekræfte overfor &BANKNAVN., at jeg
-fra mit &GENALDER. år er berettiget til at modtage folkepension. Jeg giver
-hermed samtykke til, at oplysningerne kan vidergives til &BANKNAVN..
-.sp 6mm
-Da &KTONAVN., &KTOKNDNR1. snart skal begynde udbetaling fra sin
-indeksopsparing, bedes Udbetaling Danmark derfor bekræfte, at &koen fra sit
-67. år er eller vil være berettiget til at modtage folkepension.
-.sp 3mm
-.sp 30mm
-Jeg ønsker den månedlige udbetaling indsat på
-min konto nr. ________________________________________
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre, substrings og tests ******************************************
+.su off
+.se fdag = substr &KTOKNDNR1 1 2
+.se fmd = substr &KTOKNDNR1 3 2
+.se faar = substr &KTOKNDNR1 5 2
+.se cprx = substr &KTOKNDNR1 10 1
+.** SUBSTRING PÅ KONTO ***************************************************
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.*TEST PÅ KUNDENS KØN*
+.if x&cprx = x1
+.or x&cprx = x3
+.or x&cprx = x5
+.or x&cprx = x7
+.or x&cprx = x9
+.th .se koen = han
+.el .se koen = hun
+.**************************************************************************
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
 .ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Erklæring om ret til folkepension
+:SKRSLUT.
+.ar off
+.*************************************************************************
 .tp 87.5mm
 .******************************************************************
 .da NAVN          25mm  47mm width 85mm
@@ -46,11 +104,11 @@ min konto nr. ________________________________________
 .ar off
 .******************************************************************
 .ar CPR on
-&KTOKNDNR1 ¤&GENEKSP
+&KTOKNDNR1 ¤ &GENEKSP
 .ar off
 .******************************************************************
 .ar KTONR on
-&regnr &ktonr ¤&AFDTLF
+&regnr &ktonr ¤ &AFDTLF
 .ar off
 .*************************************
 .ar UNDER on
@@ -59,26 +117,22 @@ min konto nr. ________________________________________
 .ce off
 .ar off
 .*************************************
-.pa
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
+:SWISS8.
+.da INDHOLD 21mm 93mm width 170mm
+.******************************************
+.ar INDHOLD on
+Jeg anmoder Udbetaling Danmark om at bekræfte overfor &BANKNAVN., at jeg
+fra mit &GENALDER. år er berettiget til at modtage folkepension. Jeg giver
+hermed samtykke til, at oplysningerne kan vidergives til &BANKNAVN..
+.sp 6mm
+Da &KTONAVN., &KTOKNDNR1. snart skal begynde udbetaling fra sin
+indeksopsparing, bedes Udbetaling Danmark derfor bekræfte, at &koen fra sit
+67. år er eller vil være berettiget til at modtage folkepension.
+.sp 3mm
+.sp 30mm
+Jeg ønsker den månedlige udbetaling indsat på
+min konto nr. ________________________________________
 .ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Erklæring om ret til folkepension
-:SKRSLUT.
-.ar off
-.*************************************************************************
 .*************** definer siden som et areal *******************************
 .da SIDE 20mm 40mm width 175mm
 .************ PARTER ******************************************************
@@ -87,13 +141,13 @@ min konto nr. ________________________________________
 .bx left 87.5mm right
 :SWISS8.
 .tp 1mm 88.5mm
-¤Kontohaver ¤Pengeinstitut
+ ¤ Kontohaver ¤ Pengeinstitut
 .sp 23mm
 .bx left 87.5mm right
-¤CPR-/SE-nr. ¤Kontaktperson
+ ¤ CPR-/SE-nr. ¤ Kontaktperson
 .sp 5mm
 .bx left 87.5mm right
-¤Kontonummer ¤Telefonnummer
+ ¤ Kontonummer ¤ Telefonnummer
 .sp 5mm
 .bx off
 .bx can
@@ -116,7 +170,7 @@ Kontohavers underskrift
 :SWISS8.
 .sp 7mm
 .bx left 87.5mm right
-¤Dato: ¤Kontohavers underskrift
+ ¤ Dato: ¤ Kontohavers underskrift
 .sp 11mm
 .bx off
 .*.*KASSE TIL KOMMUNENS UNDERSKRIFT *************************************
@@ -126,61 +180,8 @@ Kontohavers underskrift
 .*:SWISS8.
 .*.tp 88.5mm 154mm
 .*.bx left 87.5mm right
-.*¤Udbetaling Danmarks stempel og underskrift¤Dato:
+.* ¤ Udbetaling Danmarks stempel og underskrift ¤ Dato:
 .*.sp 18mm
 .*.bx off
 .ar off
-.*Parametre, substrings og tests ******************************************
-.su off
-.se fdag = substr &KTOKNDNR1 1 2
-.se fmd = substr &KTOKNDNR1 3 2
-.se faar = substr &KTOKNDNR1 5 2
-.se cprx = substr &KTOKNDNR1 10 1
-.** SUBSTRING PÅ KONTO ***************************************************
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.su on
-.*TEST PÅ KUNDENS KØN*
-.if x&cprx = x1
-.or x&cprx = x3
-.or x&cprx = x5
-.or x&cprx = x7
-.or x&cprx = x9
-.th .se koen = han
-.el .se koen = hun
-.**************************************************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

@@ -1,27 +1,131 @@
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-:TILTALE &TILTALE
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 100mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.*DUTCH12.
-:FED.
-.us Udbetaling af &DIN. indekskonto &regnr. &ktonr. skal til at begynde
-:SKRSLUT.
-.sp
-.*DUTCH10.
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .br
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
 .**************************************************************************
+.* Deres reference øverst til højre
+.da DERES 126.45mm 61.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.tp 33.6mm
+.if &L'&GENDERREF gt 0
+.th DERES REFERENCE ¤&GENDERREF
+:SKRSLUT.
+.ar off
+.***********************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.*.NV PAGE ID-OPL_01 '% '
+.*.BR
+.*.NV PAGE ID-OPL_02 '%&GENEKSP.'
+.*.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .*Parametre, substrings og tests ******************************************
 .su off
 .** SUBSTRING PÅ KONTO ***************************************************
@@ -70,105 +174,30 @@
 .if x&faar < x50
 .th .se faar1 = &faar + 2000
 .el .se faar1 = &faar + 1900
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.*.NV PAGE ID-OPL_01 '% '
-.*.BR
-.*.NV PAGE ID-OPL_02 '%&GENEKSP.'
-.*.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.NV PAGE BANKSTED '%&KNDTILH.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.da SIDE2 20mm 100mm
-.**********************
-.ar SIDE2 on
-.**********************
-.* Fortsat fra T1
-Med udgangspunkt i disse rentesatser udgør startudbetalingen:
-.sp 3mm
-.tp 2mm 29mm 62mm char , 82mm 135mm char ,
-.bx left 27mm 80mm right
-¤Grundrente ¤Udbetaling pr. måned ¤¤Heraf indekstillæg fra Staten
-.bx left 27mm 80mm right
-¤Fast ¤¤&GENFUDBMIX. kr. ¤¤&GENFSTAMIX. kr.
-.bx left 27mm 80mm right
-¤Variabel ¤¤&GENVUDBMIX. kr. ¤¤&GENVSTAMIX. kr.
-.bx off
-.bx can
-.bx can
-.sp 3mm
-Udbetalingsperiodens længde vil afhænge af den rente, &DU. rent faktisk får
-på &DIN. indekskonto.
-.sp 5mm
-:FED.
-Forkortet udbetalingsperiode
-:SKRSLUT.
-.br
-&SDU. skal være opmærksom på, at opsparingen på &DIN. indekskonto er for
-lille til at &DU. kan få udbetalt minimumsudbetalingen i den fulde periode
-på &GENVALG14. år. Det gælder uanset om &DU. vælger den faste eller den
-variable grundrente. Udbetalingsperioden vil derfor blive kortere.
-.sp 5mm
-:FED.
-Vi bruger &DIT. bikort
-:SKRSLUT.
-.br
-Med mindre &DU. giver os besked om andet, anvender vi &DIT. bikort, når vi
-tilbageholder skat.
-.sp 5mm
-:FED.
-Spørgsmål
-:SKRSLUT.
-.br
-Hvis &DU. har spørgsmål til &DIN. indekskonto, er &DU. naturligvis
-velkommen til at kontakte
-.if &L'&GENDERREF > 0
-.th &GENDERREF..
-.el &BANKNAVN..
-
-.** SIDESKIFT
-.pa
-.**************************************************************************
-.* Deres reference øverst til højre
-.da DERES 126.45mm 61.9mm
-.**************************************************************************
-.ar DERES on
-:COUR8.
-.tp 33.6mm
-.if &L'&GENDERREF gt 0
-.th DERES REFERENCE ¤&GENDERREF
-:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+:TILTALE &TILTALE
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
 .ar off
-.***********************************************************************
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.*DUTCH12.
+:FED.
+.us Udbetaling af &DIN. indekskonto &regnr. &ktonr. skal til at begynde
+:SKRSLUT.
+.sp
+.*DUTCH10.
+.**************************************************************************
 .*************************************************************************
 .*Den 01. &mdr. &daar. begynder
 .*udbetalingen af &DIN. indeksopsparing. Inden
@@ -238,84 +267,6 @@ den faste grundrente. &SDU. kan i hele udbetalingsperioden fremadrettet
 .ar off
 .*FORTSÆTTES I T2
 
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .br
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
 .**************************************************************************
 .* Deres reference øverst til højre
 .da DERES 126.45mm 61.9mm
@@ -324,10 +275,59 @@ den faste grundrente. &SDU. kan i hele udbetalingsperioden fremadrettet
 :COUR8.
 .tp 33.6mm
 .if &L'&GENDERREF gt 0
-.th DERES REFERENCE ¤&GENDERREF
+.th DERES REFERENCE ¤ &GENDERREF
 :SKRSLUT.
 .ar off
 .***********************************************************************
+.** SIDESKIFT
+.pa
+.da SIDE2 20mm 100mm
+.**********************
+.ar SIDE2 on
+.**********************
+.* Fortsat fra T1
+Med udgangspunkt i disse rentesatser udgør startudbetalingen:
+.sp 3mm
+.tp 2mm 29mm 62mm char , 82mm 135mm char ,
+.bx left 27mm 80mm right
+ ¤ Grundrente ¤ Udbetaling pr. måned ¤ ¤ Heraf indekstillæg fra Staten
+.bx left 27mm 80mm right
+ ¤ Fast ¤ ¤ &GENFUDBMIX. kr. ¤ ¤ &GENFSTAMIX. kr.
+.bx left 27mm 80mm right
+ ¤ Variabel ¤ ¤ &GENVUDBMIX. kr. ¤ ¤ &GENVSTAMIX. kr.
+.bx off
+.bx can
+.bx can
+.sp 3mm
+Udbetalingsperiodens længde vil afhænge af den rente, &DU. rent faktisk får
+på &DIN. indekskonto.
+.sp 5mm
+:FED.
+Forkortet udbetalingsperiode
+:SKRSLUT.
+.br
+&SDU. skal være opmærksom på, at opsparingen på &DIN. indekskonto er for
+lille til at &DU. kan få udbetalt minimumsudbetalingen i den fulde periode
+på &GENVALG14. år. Det gælder uanset om &DU. vælger den faste eller den
+variable grundrente. Udbetalingsperioden vil derfor blive kortere.
+.sp 5mm
+:FED.
+Vi bruger &DIT. bikort
+:SKRSLUT.
+.br
+Med mindre &DU. giver os besked om andet, anvender vi &DIT. bikort, når vi
+tilbageholder skat.
+.sp 5mm
+:FED.
+Spørgsmål
+:SKRSLUT.
+.br
+Hvis &DU. har spørgsmål til &DIN. indekskonto, er &DU. naturligvis
+velkommen til at kontakte
+.if &L'&GENDERREF > 0
+.th &GENDERREF..
+.el &BANKNAVN..
+
 .sp 2
 .ce on
 Med venlig hilsen
@@ -339,3 +339,4 @@ Med venlig hilsen
 .el &GENEKSP
 .ce off
 .ar off
+

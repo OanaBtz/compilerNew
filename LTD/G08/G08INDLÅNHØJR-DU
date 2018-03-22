@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -96,31 +109,6 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -171,6 +159,31 @@
 .an &L'&DUROLLE4 = 0
 .th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
 .el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 :COUR10.
 .**********************************************************************
 .ti ¤ 05
@@ -197,93 +210,6 @@ Kontonummer: &LANGKTONR.
 Cpr/Cvr-nummer: &KTOKNDNR1.
 .ar afsender off
 :VERDA10.
-Renten beregnes bagud og tilskrives hvert år den 31.12.
-.br
-Kontoens rente fastsættes til enhver tid af &BANKNAVN., og kan ses på
-Sparekassens hjemmeside eller i Netbank.
-.if x&G08VALGJN eq xJ
-.th .sp
-.th :FED.
-.th Kreditorbeskyttelse
-.th :SKRSLUT.
-.th .br
-.th Nærværende indlånskontonummer &LANGKTONR. er oprettet den &KOPRETDATO..
-.th .sp
-.th Indeståendet hidrører fra en erstatning for invaliditet eller tab af
-.th forsørger eller i godtgørelse hermed. Beløbet tilkommer skadeslidte
-.th eller den, som har mistet en forsørger.
-.th .sp
-.th Indeståendet er kreditorbeskyttet i henhold til retsplejelovens § 513,
-.th hvilket medfører, at der ikke kan foretages udlæg i beløbet.
-.th .sp
-.th En forudsætning for denne kreditorbeskyttelse er, at beløbet holdes
-.th klart adskilt fra kontohavers øvrige formue, tilsvarende gælder om
-.th renter af kapitalen.
-.th .sp
-.th Dette medfører, at der ikke må indbetales andre beløb på kontoen end
-.th det pågældende erstatningsbeløb samt renter heraf, såfremt
-.th kreditorbeskyttelsen skal opretholdes.
-.th .sp
-.th Udbetalte beløb fra kontoen, f.eks. hvis der sker overførsel til en
-.th anden af kontohavers konti, er ikke kreditorbeskyttet.
-.th .sp
-.th Kontohaver: &KTONAVN. erklærer at være gjort bekendt med ovenstående
-.th regler og have ønsket denne påtegning på kontoen.
-.sp
-Jeg har derudover gjort mig bekendt med &BANKNAVN.s almindelige
-forretningsbetingelser, som også gælder for aftalen. De gældende
-Almindelige forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
-hjemmeside www.djs.dk.
-Beløb, der ikke er opsagt kan
-.if &REGTYPE = 3021
-.or &REGTYPE = 3022
-.th hæves
-.el tilbageføres til hovedkontoen
-med en dekort på
-.if &REGTYPE = 3021
-.or &REGTYPE = 8441
-.or &REGTYPE = 8442
-.or &REGTYPE = 8443
-.or &REGTYPE = 8444
-.or &REGTYPE = 8445
-.or &REGTYPE = 8446
-.or &REGTYPE = 8447
-.th 0,500%
-.if &REGTYPE = 3022
-.or &REGTYPE = 8451
-.or &REGTYPE = 8452
-.or &REGTYPE = 8453
-.or &REGTYPE = 8454
-.or &REGTYPE = 8455
-.or &REGTYPE = 8456
-.or &REGTYPE = 8457
-.or &REGTYPE = 8458
-.th 1,000%
-af det hævede beløb, beregnet for hele bindingsperioden på
-.if &REGTYPE = 3021
-.or &REGTYPE = 8441
-.or &REGTYPE = 8442
-.or &REGTYPE = 8443
-.or &REGTYPE = 8444
-.or &REGTYPE = 8445
-.or &REGTYPE = 8446
-.or &REGTYPE = 8447
-.th 18 måneder.
-.if &REGTYPE = 3022
-.or &REGTYPE = 8451
-.or &REGTYPE = 8452
-.or &REGTYPE = 8453
-.or &REGTYPE = 8454
-.or &REGTYPE = 8455
-.or &REGTYPE = 8456
-.or &REGTYPE = 8457
-.or &REGTYPE = 8458
-.th 36 måneder.
-.sp
-:FED.Rente :SKRSLUT.
-.br
-Kontoen forrentes med en variabel rente på p.t. &TOTKRE1.%.
-.br
 har i dag indgået aftale med &BANKNAVN. om oprettelse af en "&REGTYPELNG."
 på følgende vilkår:
 .sp
@@ -334,6 +260,93 @@ automatisk bundet igen.
 .sp
 :FED.Dekort :SKRSLUT.
 .br
+Beløb, der ikke er opsagt kan
+.if &REGTYPE = 3021
+.or &REGTYPE = 3022
+.th hæves
+.el tilbageføres til hovedkontoen
+med en dekort på
+.if &REGTYPE = 3021
+.or &REGTYPE = 8441
+.or &REGTYPE = 8442
+.or &REGTYPE = 8443
+.or &REGTYPE = 8444
+.or &REGTYPE = 8445
+.or &REGTYPE = 8446
+.or &REGTYPE = 8447
+.th 0,500%
+.if &REGTYPE = 3022
+.or &REGTYPE = 8451
+.or &REGTYPE = 8452
+.or &REGTYPE = 8453
+.or &REGTYPE = 8454
+.or &REGTYPE = 8455
+.or &REGTYPE = 8456
+.or &REGTYPE = 8457
+.or &REGTYPE = 8458
+.th 1,000%
+af det hævede beløb, beregnet for hele bindingsperioden på
+.if &REGTYPE = 3021
+.or &REGTYPE = 8441
+.or &REGTYPE = 8442
+.or &REGTYPE = 8443
+.or &REGTYPE = 8444
+.or &REGTYPE = 8445
+.or &REGTYPE = 8446
+.or &REGTYPE = 8447
+.th 18 måneder.
+.if &REGTYPE = 3022
+.or &REGTYPE = 8451
+.or &REGTYPE = 8452
+.or &REGTYPE = 8453
+.or &REGTYPE = 8454
+.or &REGTYPE = 8455
+.or &REGTYPE = 8456
+.or &REGTYPE = 8457
+.or &REGTYPE = 8458
+.th 36 måneder.
+.sp
+:FED.Rente :SKRSLUT.
+.br
+Kontoen forrentes med en variabel rente på p.t. &TOTKRE1.%.
+.br
+Renten beregnes bagud og tilskrives hvert år den 31.12.
+.br
+Kontoens rente fastsættes til enhver tid af &BANKNAVN., og kan ses på
+Sparekassens hjemmeside eller i Netbank.
+.if x&G08VALGJN eq xJ
+.th .sp
+.th :FED.
+.th Kreditorbeskyttelse
+.th :SKRSLUT.
+.th .br
+.th Nærværende indlånskontonummer &LANGKTONR. er oprettet den &KOPRETDATO..
+.th .sp
+.th Indeståendet hidrører fra en erstatning for invaliditet eller tab af
+.th forsørger eller i godtgørelse hermed. Beløbet tilkommer skadeslidte
+.th eller den, som har mistet en forsørger.
+.th .sp
+.th Indeståendet er kreditorbeskyttet i henhold til retsplejelovens § 513,
+.th hvilket medfører, at der ikke kan foretages udlæg i beløbet.
+.th .sp
+.th En forudsætning for denne kreditorbeskyttelse er, at beløbet holdes
+.th klart adskilt fra kontohavers øvrige formue, tilsvarende gælder om
+.th renter af kapitalen.
+.th .sp
+.th Dette medfører, at der ikke må indbetales andre beløb på kontoen end
+.th det pågældende erstatningsbeløb samt renter heraf, såfremt
+.th kreditorbeskyttelsen skal opretholdes.
+.th .sp
+.th Udbetalte beløb fra kontoen, f.eks. hvis der sker overførsel til en
+.th anden af kontohavers konti, er ikke kreditorbeskyttet.
+.th .sp
+.th Kontohaver: &KTONAVN. erklærer at være gjort bekendt med ovenstående
+.th regler og have ønsket denne påtegning på kontoen.
+.sp
+Jeg har derudover gjort mig bekendt med &BANKNAVN.s almindelige
+forretningsbetingelser, som også gælder for aftalen. De gældende
+Almindelige forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
+hjemmeside www.djs.dk.
 .**HUSK AT STARTE AFSNIT TIL UNDERSKRIFT i MODUL PLACERET LIGE FØR********
 .sp 2
 .tp 10mm 40mm 70mm
@@ -342,24 +355,12 @@ Dato:
 .sp 7mm
 .if &l'&MEDNAVN. > 0
 .th .hr tynd 0mm 140mm
-.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.th ¤ &KTONAVN. ¤ ¤ &MEDNAVN.
 .el .hr tynd 0mm 70mm
-.el ¤&KTONAVN
+.el ¤ &KTONAVN
 .sp 3
 .hr tynd 0mm 70mm
-¤&BANKNAVN
+ ¤ &BANKNAVN
 .br
 .ar off
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

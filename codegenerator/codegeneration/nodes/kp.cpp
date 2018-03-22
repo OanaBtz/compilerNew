@@ -1,7 +1,7 @@
 
 #include "kp.h"
 
-string generateKp(Node* currentNode, string result, int tabs, string fontAlign, string font, string fontSize)
+string generateKp(Node* currentNode, string result, int tabs)
 {
     string kp = "";
 
@@ -9,8 +9,14 @@ string generateKp(Node* currentNode, string result, int tabs, string fontAlign, 
     for(int i=0;i<tabs;i++){
         kp+="\t";
     }
-    kp+="<paragraph name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+font+"\" size=\""+fontSize+"\">\n";
-    result = result+kp;
+    kp+="<paragraph name=\"Default\">\n"; 
+    
+    kp = kp+ result;
+
+    for(int i=0;i<tabs;i++){
+        kp+="\t";
+    }
+    kp+="</paragraph>\n";
 
     return result;
 }

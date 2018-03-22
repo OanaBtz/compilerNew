@@ -11,464 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.***************
-.su off
-.se ktocif2 = substr &IREGKTO 5 2
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKUNDENR 1 2
-.se mktoh1 = substr &MEDKUNDENR 1 6
-.se mktoh2 = substr &MEDKUNDENR 8 4
-.se kunr = substr &KUNDENR 1 2
-.su on
-.****************************
-.if &cprcvr = 43
-.an &L'&B30INDCPR = 0
-.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
-.********************''
-.if &L'&MEDNAVN = 0
-.an &U'&GENMEDKTOH = J
-.th .mg/T/Der findes ingen medktohaver/
-.******************************
-.if &U'&GENMEDKTOH = J
-.an &U'&TILTALE = DU
-.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
-.if &U'&GENMEDKTOH = J
-.an &U'&TILTALE = DE
-.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
-.if &L'&MEDNAVN = 0
-.an &U'&TILTALE = I
-.th .mg/T/Tiltale forkert da der ingen medktohaver er/
-.*******************************
-.if &U'&GENMEDKTOH = N
-.an &U'&TILTALE = I
-.th .mg/T/Tiltale forkert, da der ingen medktohaver er/
-.*PARAMETRE OG TESTS ******************************************************
-.if &GENRNT = 0
-.or &GENRNT > 4
-.th .mg/T/Valg af rente skriv 1 - 4/
-.**************************************************************************
-.if &GENRNT > 1
-.an &GENRNT < 5
-.an &L'&GENRENTE = 0
-.th .mg/T/Skriv rente i alt ved rentevalg 2-4/
-.***************************************
-.if &U'X&B30VALG7 = XF
-.or &U'X&B30VALG7 = XA
-.th .go GODNOK99
-.el .mg/T/Skriv F eller A til valg af finansiering/
-...GODNOK99
-.***************************************
-.if &U'&B30REPANT eq P
-.or &U'&B30REPANT eq E
-.th .go FORTSÆT
-.el .mg/T/Skriv P eller E til valg af pantebrev/
-...FORTSÆT
-.***************************************
-.if &U'X&B30VALG7 = XF
-.an &L'&B30REMATR = 0
-.th .mg/T/Der er valgt Fast ejendom, udfyld matr. nr./
-.***************************************
-.if &U'&B30REALSTÅ eq J
-.or &U'&B30REALSTÅ eq N
-.th .go CHECK
-.el .mg/T/Skriv J eller N i valg af lånetype/
-.***************************************
-.if &U'&B30REALLÅN eq J
-.an &U'&B30REALLÅN eq N
-.th .go CHECK
-.el .mg/T/Skriv J eller N i valg af lånetype/
-...CHECK
-.**************************************
-.if &U'&B30REALSTÅ eq N
-.an &U'&B30REALLÅN eq N
-.th .mg/T/Der skal vælges en lånetype/
-.**************************************
-.if &U'&B30REALSTÅ eq J
-.an &U'&B30REALLÅN eq J
-.th .mg/T/Der skal vælges en lånetype/
-.**************************************
-.if &U'X&B30FINANS = XJ
-.or &U'X&B30FINANS = XN
-.th .go GODNOK
-.el .mg/T/Skriv J eller N til restfinansiering/
-...GODNOK
-.***************************************
-.if &U'X&B30FINANS = XJ
-.th .go TESTXX
-.el .go NOTEST
-...TESTXX
-.if &L'&B30VALG1 = 0
-.or &L'&B30HOVEDS = 0
-.or &L'&B30TEKST = 0
-.or &L'&B30VALG = 0
-.th .mg/T/Der er valgt restfinansiering. Udfyld relevante felter/
-...NOTEST
-.***************************************
-.if &L'&B30VALG1 > 0
-.th .go TESTV1
-.el .go GODNOK1
-...TESTV1
-.if &U'X&B30VALG1 = XL
-.or &U'X&B30VALG1 = XK
-.th .go GODNOK1
-.el .mg/T/Skriv L eller K lån eller kredit/
-...GODNOK1
-.***************************************
-.if &L'&B30VALG > 0
-.th .go TESTV
-.el .go GODNOK2
-...TESTV
-.if &U'X&B30VALG = XV
-.or &U'X&B30VALG = XF
-.th .go GODNOK2
-.el .mg/T/Skriv V eller F for variabel eller fast rente/
-...GODNOK2
-
-
-.se cprcvr = substr &KTOKNDNR1 1 2
-.su on
-.***********************
-.if &cprcvr eq 43
-.an &L'&B30INDCPR eq 0
-.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
-.****************************
-...GODNOK3
-.******************************
-.if &U'&B30REALSKØ eq J
-.an &U'&B30VALG9 eq J
-.th .mg/T/Der kan ikke siges ja til både skøde og skøde samt brandpolice/
-
-.*********************GENEREL OPSÆTNING************************************
-:CALIB10.
-.fo left
-.ti ¤ 05
-.ls by 1.25
-.************ arealer *****************************************************
-.da KUNDE 22mm 38.5mm width 85mm
-.da DATO 160mm 83.5mm width 42.5mm
-.**************************************************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.*******************************
-.ar KUNDE on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-.if &U'&GENMEDKTOH = J
-.th &MEDNAVN
-.th .br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.fo left
-.ti ¤ 05
-:CALIB10.
-.ls by 1.25
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 105mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-.if &U'X&B30VALG7 = XF
-.th TILBUD OM FINANSIERING
-.if &U'X&B30VALG7 = XA
-.th TILBUD OM FINANSIERING AF ANDELSBOLIG
-.sp
-REALBOLIGKREDIT
-:SKRSLUT.
-.ar off
-.**************************'
-.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 103mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-:tiltale &TILTALE
-.in 2mm
-.ll 130mm
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.**************************************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.br
-Årlige omkostninger i procent: &B30REÅOP pct.
-.kp off
-.kp on
-.sp
-:FED.
-Indfrielsesomkostninger:
-:SKRSLUT.
-.br
-.********
-.if &GENRNT = 2
-.or &GENRNT = 3
-.or &GENRNT = 4
-.th I perioden 15/12 - 31/12 i det sidste år af rentetilpasningsperioden
-.th er der intet indfrielsesgebyr. Udenfor denne periode betales et gebyr
-.th på 0,50 pct. af maksimum pr. år, der er tilbage til fastrenteperiodens
-.th udløb.
-.el Har &DU en konto med lønindgang hos os, kan &DU indfri
-realboligkreditten uden omkostninger, ellers koster det 3.000 kr.
-.kp off
-.********
-.sp
-.**********
-.kp on
-.if &U'&B30REALSTÅ eq J
-.an &U'&B30VALG7 eq A
-.th :FED.
-.th Ydelse:
-.th :SKRSLUT.
-.th .br
-.th I den afdragsfrie periode betaler &DU kun renter. Når den
-.th afdragsfrie periode ophører, består ydelsen af både renter
-.th og afdrag.
-.th .sp
-.th .go UDENOM
-.**********
-.if &U'&B30REALSTÅ eq J
-.th :FED.
-.th Terminsydelse:
-.th :SKRSLUT.
-.th .br
-.th I den afdragsfrie periode betaler &DU kun renter. Når den
-.th afdragsfrie periode ophører, består terminsydelsen af både renter
-.th og afdrag.
-.th .sp
-.**********
-.kp off
-...UDENOM
-.kp on
-:FED.
-Afregningskurs:
-:SKRSLUT.
-.br
-100
-.kp off
-.kp on
-.sp
-:FED.
-Indfrielseskurs:
-:SKRSLUT.
-.br
-100
-.kp off
-.kp on
-.sp
-:FED.
-Etableringsomkostninger:
-:SKRSLUT.
-.br
-Tinglysningsomkostninger:
-:VS.&B30REOMK
-kr.
-.**********
-.if &GENRNT = 4
-.th .go RENTE4
-.**********
-...RENTE1
-Udlånsrenten er variabel
-og svarer til Danmarks Nationalbanks
-til enhver tid fastsatte rente
-på indskudsbeviser, der p.t. er på -0,65 pct. om året, plus et
-rentetillæg, der er fastsat af banken. Rentetillægget er på 2,95
-procentpoint. Det giver i alt en rente på p.t. 2,30 pct. p.a. Hvis
-Danmarks Nationalbank ikke længere
-fastsætter rente på indskudsbeviser er Lægernes Pensionsbank berettiget til
-at vælge en anden tilsvarende referencerente.
-.kp off
-.sp
-.kp on
-Rentetillægget kan
-sættes op eller ned jf. bankens
-ret til at ændre rente, dog jf. bankens "Almindelige
-forretningsbetingelser".
-.go RENTESL
-...RENTE2
-Udlånsrenten er 1-årig rentetilpasning og svarer til
-.br
-12 måneders CIBOR rente + 2,95 pct. i perioden 17.09 - 31.03.
-.br
-9 måneders CIBOR rente + 2,95 pct. i perioden 01.04 - 30.06.
-.br
-6 måneders CIBOR rente + 2,95 pct. i perioden 01.07 - 30.09.
-.br
-Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
-.go RENTESL
-...RENTE3
-Udlånsrenten er 3-årig rentetilpasning og svarer til den effektive
-rente + 2,95 pct. på den Realkredit Danmark obligation, der ligger nærmest
-mindsterenten med en fastrenteperiode på 3 år.
-.br
-Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
-.go RENTESL
-...RENTE4
-Udlånsrenten er 5-årig rentetilpasning og svarer til
-den effektive rente + 2,95 pct. på den Realkredit Danmark
-obligation, der ligger nærmest mindsterenten med en fastrenteperiode på 5
-år.
-.br
-Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
-...RENTESL
-.sp
-.kp off
-.br
-&B30REPRIO1
-.br
-.**********
-.if &L'&B30REPRIO2 gt 0
-.th &B30REPRIO2
-.th .br
-.**********
-.if &L'&B30REPRIO3 gt 0
-.th &B30REPRIO3
-.th .br
-.**********
-.if &L'&B30REPRIO4 gt 0
-.th &B30REPRIO4
-.th .br
-.**********
-.if &L'&B30REPRIO5 gt 0
-.th &B30REPRIO5
-.th .br
-.kp off
-.**********
-.kp on
-.sp
-:FED.
-Lånetype:
-:SKRSLUT.
-.br
-.**********
-.if &U'&B30REALSTÅ eq J
-.th Stående lån (Afdragsfrit)
-.**********
-.if &U'&B30REALLÅN eq J
-.th Annuitetslån med afvikling
-.**********
-.kp off
-.kp on
-.sp
-:FED.
-Rente:
-:SKRSLUT.
-.br
-.**********
-.if &GENRNT = 1
-.th .go RENTE1
-.**********
-.if &GENRNT = 2
-.th .go RENTE2
-.**********
-.if &GENRNT = 3
-.th .go RENTE3
-.if &U'X&B30VALG7 = XF
-.th .go PANT
-.el .go NOPANT
-.********
-...PANT
-.sp
-.kp on
-Jeg kan hermed tilbyde &DIG et pantebrevslån mod at &DU udsteder et
-.**********
-.if &U'&B30REPANT eq P
-.th pantebrev
-.if &U'&B30REPANT eq E
-.th ejerpantebrev
-.**********
-til &BANKNAVN med pant i &DIN faste ejendom med
-matrikelnummer &B30REMATR., der ligger på &B30READR på
-nedenstående vilkår. Dette tilbud giver samtidig forbedrede
-vilkår på indestående i banken. Se venligst nedenfor.&ÅCONT
-.kp off
-...NOPANT
-.**********
-.if &U'X&B30VALG7 = XA
-.th .go ANDEL
-.el .go NOANDEL
-.**********
-...ANDEL
-.kp on
-.sp
-Jeg kan hermed tilbyde &DIG en realboligkredit mod at &DU udsteder et
-ejerpantebrev
-til &BANKNAVN med pant i &DIN andelsbolig,
-der ligger på &B30READR på
-nedenstående vilkår. Dette tilbud giver samtidig forbedrede
-vilkår på indestående i banken. Se venligst nedenfor.&ÅCONT
-.kp off
-...NOANDEL
-.kp on
-.sp
-:FED.
-Lånets hovedstol:
-:SKRSLUT
-.br
-:VS.&B30RESTOL
-kr.
-.kp off
-.kp on
-.sp
-:FED.
-Prioritet efter:
-:SKRSLUT
 .kp on
 :FED.
 Særlige bestemmelser:
@@ -1105,6 +647,32 @@ Venlig hilsen
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .rh cancel
 .** SIDESKIFT
 .pa nostart
@@ -1115,3 +683,436 @@ Venlig hilsen
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+.***************
+.su off
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.se kunr = substr &KUNDENR 1 2
+.su on
+.****************************
+.if &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.********************''
+.if &L'&MEDNAVN = 0
+.an &U'&GENMEDKTOH = J
+.th .mg/T/Der findes ingen medktohaver/
+.******************************
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DU
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &U'&GENMEDKTOH = J
+.an &U'&TILTALE = DE
+.th .mg/T/Tiltale forkert da der også skrives til medktohaver/
+.if &L'&MEDNAVN = 0
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert da der ingen medktohaver er/
+.*******************************
+.if &U'&GENMEDKTOH = N
+.an &U'&TILTALE = I
+.th .mg/T/Tiltale forkert, da der ingen medktohaver er/
+.*PARAMETRE OG TESTS ******************************************************
+.if &GENRNT = 0
+.or &GENRNT > 4
+.th .mg/T/Valg af rente skriv 1 - 4/
+.**************************************************************************
+.if &GENRNT > 1
+.an &GENRNT < 5
+.an &L'&GENRENTE = 0
+.th .mg/T/Skriv rente i alt ved rentevalg 2-4/
+.***************************************
+.if &U'X&B30VALG7 = XF
+.or &U'X&B30VALG7 = XA
+.th .go GODNOK99
+.el .mg/T/Skriv F eller A til valg af finansiering/
+...GODNOK99
+.***************************************
+.if &U'&B30REPANT eq P
+.or &U'&B30REPANT eq E
+.th .go FORTSÆT
+.el .mg/T/Skriv P eller E til valg af pantebrev/
+...FORTSÆT
+.***************************************
+.if &U'X&B30VALG7 = XF
+.an &L'&B30REMATR = 0
+.th .mg/T/Der er valgt Fast ejendom, udfyld matr. nr./
+.***************************************
+.if &U'&B30REALSTÅ eq J
+.or &U'&B30REALSTÅ eq N
+.th .go CHECK
+.el .mg/T/Skriv J eller N i valg af lånetype/
+.***************************************
+.if &U'&B30REALLÅN eq J
+.an &U'&B30REALLÅN eq N
+.th .go CHECK
+.el .mg/T/Skriv J eller N i valg af lånetype/
+...CHECK
+.**************************************
+.if &U'&B30REALSTÅ eq N
+.an &U'&B30REALLÅN eq N
+.th .mg/T/Der skal vælges en lånetype/
+.**************************************
+.if &U'&B30REALSTÅ eq J
+.an &U'&B30REALLÅN eq J
+.th .mg/T/Der skal vælges en lånetype/
+.**************************************
+.if &U'X&B30FINANS = XJ
+.or &U'X&B30FINANS = XN
+.th .go GODNOK
+.el .mg/T/Skriv J eller N til restfinansiering/
+...GODNOK
+.***************************************
+.if &U'X&B30FINANS = XJ
+.th .go TESTXX
+.el .go NOTEST
+...TESTXX
+.if &L'&B30VALG1 = 0
+.or &L'&B30HOVEDS = 0
+.or &L'&B30TEKST = 0
+.or &L'&B30VALG = 0
+.th .mg/T/Der er valgt restfinansiering. Udfyld relevante felter/
+...NOTEST
+.***************************************
+.if &L'&B30VALG1 > 0
+.th .go TESTV1
+.el .go GODNOK1
+...TESTV1
+.if &U'X&B30VALG1 = XL
+.or &U'X&B30VALG1 = XK
+.th .go GODNOK1
+.el .mg/T/Skriv L eller K lån eller kredit/
+...GODNOK1
+.***************************************
+.if &L'&B30VALG > 0
+.th .go TESTV
+.el .go GODNOK2
+...TESTV
+.if &U'X&B30VALG = XV
+.or &U'X&B30VALG = XF
+.th .go GODNOK2
+.el .mg/T/Skriv V eller F for variabel eller fast rente/
+...GODNOK2
+
+
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.***********************
+.if &cprcvr eq 43
+.an &L'&B30INDCPR eq 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.****************************
+...GODNOK3
+.******************************
+.if &U'&B30REALSKØ eq J
+.an &U'&B30VALG9 eq J
+.th .mg/T/Der kan ikke siges ja til både skøde og skøde samt brandpolice/
+
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &U'&GENMEDKTOH = J
+.th &MEDNAVN
+.th .br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if &U'X&B30VALG7 = XF
+.th TILBUD OM FINANSIERING
+.if &U'X&B30VALG7 = XA
+.th TILBUD OM FINANSIERING AF ANDELSBOLIG
+.sp
+REALBOLIGKREDIT
+:SKRSLUT.
+.ar off
+.**************************'
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.if &U'X&B30VALG7 = XF
+.th .go PANT
+.el .go NOPANT
+.********
+...PANT
+.sp
+.kp on
+Jeg kan hermed tilbyde &DIG et pantebrevslån mod at &DU udsteder et
+.**********
+.if &U'&B30REPANT eq P
+.th pantebrev
+.if &U'&B30REPANT eq E
+.th ejerpantebrev
+.**********
+til &BANKNAVN med pant i &DIN faste ejendom med
+matrikelnummer &B30REMATR., der ligger på &B30READR på
+nedenstående vilkår. Dette tilbud giver samtidig forbedrede
+vilkår på indestående i banken. Se venligst nedenfor.&ÅCONT
+.kp off
+...NOPANT
+.**********
+.if &U'X&B30VALG7 = XA
+.th .go ANDEL
+.el .go NOANDEL
+.**********
+...ANDEL
+.kp on
+.sp
+Jeg kan hermed tilbyde &DIG en realboligkredit mod at &DU udsteder et
+ejerpantebrev
+til &BANKNAVN med pant i &DIN andelsbolig,
+der ligger på &B30READR på
+nedenstående vilkår. Dette tilbud giver samtidig forbedrede
+vilkår på indestående i banken. Se venligst nedenfor.&ÅCONT
+.kp off
+...NOANDEL
+.kp on
+.sp
+:FED.
+Lånets hovedstol:
+:SKRSLUT
+.br
+:VS.&B30RESTOL
+kr.
+.kp off
+.kp on
+.sp
+:FED.
+Prioritet efter:
+:SKRSLUT
+.br
+&B30REPRIO1
+.br
+.**********
+.if &L'&B30REPRIO2 gt 0
+.th &B30REPRIO2
+.th .br
+.**********
+.if &L'&B30REPRIO3 gt 0
+.th &B30REPRIO3
+.th .br
+.**********
+.if &L'&B30REPRIO4 gt 0
+.th &B30REPRIO4
+.th .br
+.**********
+.if &L'&B30REPRIO5 gt 0
+.th &B30REPRIO5
+.th .br
+.kp off
+.**********
+.kp on
+.sp
+:FED.
+Lånetype:
+:SKRSLUT.
+.br
+.**********
+.if &U'&B30REALSTÅ eq J
+.th Stående lån (Afdragsfrit)
+.**********
+.if &U'&B30REALLÅN eq J
+.th Annuitetslån med afvikling
+.**********
+.kp off
+.kp on
+.sp
+:FED.
+Rente:
+:SKRSLUT.
+.br
+.**********
+.if &GENRNT = 1
+.th .go RENTE1
+.**********
+.if &GENRNT = 2
+.th .go RENTE2
+.**********
+.if &GENRNT = 3
+.th .go RENTE3
+.**********
+.if &GENRNT = 4
+.th .go RENTE4
+.**********
+...RENTE1
+Udlånsrenten er variabel
+og svarer til Danmarks Nationalbanks
+til enhver tid fastsatte rente
+på indskudsbeviser, der p.t. er på -0,65 pct. om året, plus et
+rentetillæg, der er fastsat af banken. Rentetillægget er på 2,95
+procentpoint. Det giver i alt en rente på p.t. 2,30 pct. p.a. Hvis
+Danmarks Nationalbank ikke længere
+fastsætter rente på indskudsbeviser er Lægernes Pensionsbank berettiget til
+at vælge en anden tilsvarende referencerente.
+.kp off
+.sp
+.kp on
+Rentetillægget kan
+sættes op eller ned jf. bankens
+ret til at ændre rente, dog jf. bankens "Almindelige
+forretningsbetingelser".
+.go RENTESL
+...RENTE2
+Udlånsrenten er 1-årig rentetilpasning og svarer til
+.br
+12 måneders CIBOR rente + 2,95 pct. i perioden 17.09 - 31.03.
+.br
+9 måneders CIBOR rente + 2,95 pct. i perioden 01.04 - 30.06.
+.br
+6 måneders CIBOR rente + 2,95 pct. i perioden 01.07 - 30.09.
+.br
+Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
+.go RENTESL
+...RENTE3
+Udlånsrenten er 3-årig rentetilpasning og svarer til den effektive
+rente + 2,95 pct. på den Realkredit Danmark obligation, der ligger nærmest
+mindsterenten med en fastrenteperiode på 3 år.
+.br
+Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
+.go RENTESL
+...RENTE4
+Udlånsrenten er 5-årig rentetilpasning og svarer til
+den effektive rente + 2,95 pct. på den Realkredit Danmark
+obligation, der ligger nærmest mindsterenten med en fastrenteperiode på 5
+år.
+.br
+Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
+...RENTESL
+.sp
+.kp off
+.**********
+.kp on
+.if &U'&B30REALSTÅ eq J
+.an &U'&B30VALG7 eq A
+.th :FED.
+.th Ydelse:
+.th :SKRSLUT.
+.th .br
+.th I den afdragsfrie periode betaler &DU kun renter. Når den
+.th afdragsfrie periode ophører, består ydelsen af både renter
+.th og afdrag.
+.th .sp
+.th .go UDENOM
+.**********
+.if &U'&B30REALSTÅ eq J
+.th :FED.
+.th Terminsydelse:
+.th :SKRSLUT.
+.th .br
+.th I den afdragsfrie periode betaler &DU kun renter. Når den
+.th afdragsfrie periode ophører, består terminsydelsen af både renter
+.th og afdrag.
+.th .sp
+.**********
+.kp off
+...UDENOM
+.kp on
+:FED.
+Afregningskurs:
+:SKRSLUT.
+.br
+100
+.kp off
+.kp on
+.sp
+:FED.
+Indfrielseskurs:
+:SKRSLUT.
+.br
+100
+.kp off
+.kp on
+.sp
+:FED.
+Etableringsomkostninger:
+:SKRSLUT.
+.br
+Tinglysningsomkostninger:
+:VS.&B30REOMK
+kr.
+.br
+Årlige omkostninger i procent: &B30REÅOP pct.
+.kp off
+.kp on
+.sp
+:FED.
+Indfrielsesomkostninger:
+:SKRSLUT.
+.br
+.********
+.if &GENRNT = 2
+.or &GENRNT = 3
+.or &GENRNT = 4
+.th I perioden 15/12 - 31/12 i det sidste år af rentetilpasningsperioden
+.th er der intet indfrielsesgebyr. Udenfor denne periode betales et gebyr
+.th på 0,50 pct. af maksimum pr. år, der er tilbage til fastrenteperiodens
+.th udløb.
+.el Har &DU en konto med lønindgang hos os, kan &DU indfri
+realboligkreditten uden omkostninger, ellers koster det 3.000 kr.
+.kp off
+.********
+.sp
+

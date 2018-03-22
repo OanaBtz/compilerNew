@@ -11,6 +11,407 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.fo left
+.***********************************************************************
+.ti ¤ 05
+:TILTALE &TILTALEM
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:COUR10.
+.da oversk 20mm 30mm width 175mm
+.da side1 20mm 42mm width 175mm
+.**********************************
+.ar oversk on
+:SWISS16.
+:FED.
+Tillæg til børneopsparing - Forlængelse af bindingsperioden
+:SKRSLUT.
+.ar off
+.**********************************
+.ar side1 on
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+.**** Her laves kassen til kontohaver og opretter ********
+.bx left 87,5mm right
+.sp 28mm
+.**** Her laves kassen til pengeinstitut og regnr ********
+.bx new left 87,5mm right
+.sp 10mm
+.**** Her laves kassen til kontonummer *******************
+.hr 87,5mm right
+.sp 10mm
+.**** Her laves kassen til periodeudløb ******************
+.bx new left right
+.sp 5mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Forlængelse af bindingsperioden
+:SKRSLUT.
+.**** Her laves KASSE1 ***************
+.bx left right
+.sp 31mm
+.bx off
+.sp
+.**** Her laves KASSE2 ***************
+.bx left right
+.sp 31mm
+.bx off
+.sp
+.*******************************
+.ar off
+.*
+.*** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
+.su off
+.se faar = substr &KTOKNDNR1 5 2
+.se fmdr = substr &KTOKNDNR1 3 2
+.se fdag = substr &KTOKNDNR1 1 2
+.su on
+.if x&faar < x50
+.th .se faar1 = &faar + 2021
+.el .se faar1 = &faar + 1921
+.da KONTOHAV 25mm 51mm width 80mm
+.da KONTOCPR 32mm 71,5mm width 80mm
+.da OPRETTER 113mm 51mm width 70mm
+.da CPRNR 120mm 71,5mm width 70mm
+.da PENGEINS 25mm 83mm width 80mm
+.da OPRDATO 113mm 83mm width 70mm
+.da KONTONR 113mm 94.5mm width 70mm
+.da BINDPER 58mm 100,5mm width 90mm
+.da KASSE1 25mm 138mm width 170mm
+.da KASSE2 25mm 176mm width 170mm
+.**************************************
+:SWISS10.
+.ar KONTOHAV on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.************************************************
+.ar KONTOCPR on
+&KTOKNDNR1
+.ar off
+.************************************************
+.ar OPRETTER on
+&INDSTIL
+.br
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.ar off
+.*************************************************
+.ar CPRNR on
+&INDKUNDENR
+.ar off
+.*************************************************
+.ar PENGEINS on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************************
+.ar OPRDATO on
+&KOPRETDATO
+.ar off
+.*************************************************
+.ar KONTONR on
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+&regnr &ktonr.
+.ar off
+.*************************************************
+.ar BINDPER on
+&FRIDATO
+.ar off
+.*************************************************
+.ar KASSE1 on
+.if &L'B19L1 gt 0
+.th
+.ce &INDNAVN
+.el
+.br
+.ar off
+.*************************************************
+.ar KASSE2 on
+.if &L'B19L2 gt 0
+.th
+.ce &INDNAVN
+.el
+.br
+.ar off
+.*************************************************
+:SWISS8.
+.da KONTOHAV 21mm 47mm width 80mm
+.da KONTOCPR 21mm 72mm width 80mm
+.da OPRETTER 109mm 47mm width 70mm
+.da CPRNR 109mm 72mm width 70mm
+.da PENGEINS 21mm 77mm width 80mm
+.da OPRDATO 109mm 77mm width 70mm
+.da KONTONR 109mm 87,5mm width 70mm
+.da BINDPER 21mm 101mm width 90mm
+.da VED21AAR 21mm 111mm width 120mm
+.da OPDATO2 151mm 111mm width 20mm
+.da UND21AAR 21mm 133mm width 120mm
+.da UDG21AAR 21mm 149mm width 120mm
+.da OPDATO3 151mm 149mm width 20mm
+.da UNDUDG21AAR 21mm 171mm width 120mm
+.**********************************************
+.ar KONTOHAV on
+Kontohaver
+.ar off
+.*************************************************
+.ar KONTOCPR on
+CPR.nr
+.ar off
+.*************************************************
+.ar OPRETTER on
+Opretter
+.ar off
+.*************************************************
+.ar CPRNR on
+CPR.nr.
+.ar off
+.*************************************************
+.ar PENGEINS on
+Pengeinstitut
+.ar off
+.*************************************************
+.ar KONTONR on
+Kontonr.
+.ar off
+.*************************************************
+.ar OPRDATO on
+Oprettelsestidspunkt
+.ar off
+.*************************************************
+.ar BINDPER on
+Bindingsperiodens udløb:
+.ar off
+.**************************************************
+.ar VED21AAR on
+.sp 8mm
+:SWISS10.
+Jeg ønsker forlængelse af bindingsperioden, så
+børneopsparingskontoen frigives ved 21 år, den &fdag..&fmdr..&faar1..
+:SKRSLUT.
+.ar off
+.**************************************************
+.ar OPDATO2 on
+Dato:
+.ar off
+.**************************************************
+.ar UND21AAR on
+:SWISS10.
+Underskrift
+:SKRSLUT.
+.ar off
+.**************************************************
+.ar UDG21AAR on
+.sp 8mm
+:SWISS10.
+Jeg ønsker forlængelse af bindingsperioden, så
+børneopsparingskontoen frigives ved udgangen af 21. år, den 31.12.&faar1..
+:SKRSLUT.
+.ar off
+.**************************************************
+.ar OPDATO3 on
+Dato:
+.ar off
+.**************************************************
+.ar UNDUDG21AAR on
+:SWISS10.
+Underskrift
+:SKRSLUT.
+.ar off
+.**************************************************
+.** SIDESKIFT
+.pa
+.da KOPI 182mm 5mm width 30mm
+.***********************************************************
+.ar KOPI on
+:COUR14.
+:FED.
+KOPI
+:SKRSLUT.
+.ar off
+.***********************************************************
+.fo left
+.***********************************************************************
+.ti ¤ 05
+:TILTALE &TILTALEM
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:COUR10.
+.da oversk 20mm 30mm width 175mm
+.da side1 20mm 42mm width 175mm
+.**********************************
+.ar oversk on
+:SWISS16.
+:FED.
+Tillæg til børneopsparing - Forlængelse af bindingsperioden
+:SKRSLUT.
+.ar off
+.**********************************
+.ar side1 on
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+.**** Her laves kassen til kontohaver og opretter ********
+.bx left 87,5mm right
+.sp 28mm
+.**** Her laves kassen til pengeinstitut og regnr ********
+.bx new left 87,5mm right
+.sp 10mm
+.**** Her laves kassen til kontonummer *******************
+.hr 87,5mm right
+.sp 10mm
+.**** Her laves kassen til periodeudløb ******************
+.bx new left right
+.sp 5mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Forlængelse af bindingsperioden
+:SKRSLUT.
+.**** Her laves KASSE1 ***************
+.bx left right
+.sp 31mm
+.bx off
+.sp
+.**** Her laves KASSE2 ***************
+.bx left right
+.sp 31mm
+.bx off
+.sp
+.*******************************
+.ar off
+.da KONTOHAV 25mm 51mm width 80mm
+.da KONTOCPR 32mm 71,5mm width 80mm
+.da OPRETTER 113mm 51mm width 70mm
+.da CPRNR 120mm 71,5mm width 70mm
+.da PENGEINS 25mm 83mm width 80mm
+.da OPRDATO 113mm 83mm width 70mm
+.da KONTONR 113mm 94.5mm width 70mm
+.da BINDPER 58mm 100,5mm width 90mm
+.da KASSE1 25mm 138mm width 170mm
+.da KASSE2 25mm 176mm width 170mm
+.**************************************
+:SWISS10.
+.ar KONTOHAV on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.************************************************
+.ar KONTOCPR on
+&KTOKNDNR1
+.ar off
+.************************************************
+.ar OPRETTER on
+&INDSTIL
+.br
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.ar off
+.*************************************************
+.ar CPRNR on
+&INDKUNDENR
+.ar off
+.*************************************************
+.ar PENGEINS on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************************
+.ar OPRDATO on
+&KOPRETDATO
+.ar off
+.*************************************************
+.ar KONTONR on
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+&regnr &ktonr.
+.ar off
+.*************************************************
+.ar BINDPER on
+&FRIDATO
+.ar off
+.*************************************************
+.ar KASSE1 on
+.if &L'B19L1 gt 0
+.th
+.ce &INDNAVN
+.el
+.br
+.ar off
+.*************************************************
+.ar KASSE2 on
+.if &L'B19L2 gt 0
+.th
+.ce &INDNAVN
+.el
+.br
+.ar off
+.*************************************************
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -37,6 +438,90 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
+:SWISS8.
+.da KONTOHAV 21mm 47mm width 80mm
+.da KONTOCPR 21mm 72mm width 80mm
+.da OPRETTER 109mm 47mm width 70mm
+.da CPRNR 109mm 72mm width 70mm
+.da PENGEINS 21mm 77mm width 80mm
+.da OPRDATO 109mm 77mm width 70mm
+.da KONTONR 109mm 87,5mm width 70mm
+.da BINDPER 21mm 101mm width 90mm
+.da VED21AAR 21mm 111mm width 120mm
+.da OPDATO2 151mm 111mm width 20mm
+.da UND21AAR 21mm 133mm width 120mm
+.da UDG21AAR 21mm 149mm width 120mm
+.da OPDATO3 151mm 149mm width 20mm
+.da UNDUDG21AAR 21mm 171mm width 120mm
+.**********************************************
+.ar KONTOHAV on
+Kontohaver
+.ar off
+.*************************************************
+.ar KONTOCPR on
+CPR.nr
+.ar off
+.*************************************************
+.ar OPRETTER on
+Opretter
+.ar off
+.*************************************************
+.ar CPRNR on
+CPR.nr.
+.ar off
+.*************************************************
+.ar PENGEINS on
+Pengeinstitut
+.ar off
+.*************************************************
+.ar KONTONR on
+Kontonr.
+.ar off
+.*************************************************
+.ar OPRDATO on
+Oprettelsestidspunkt
+.ar off
+.*************************************************
+.ar BINDPER on
+Bindingsperiodens udløb:
+.ar off
+.**************************************************
+.ar VED21AAR on
+.sp 8mm
+:SWISS10.
+Jeg ønsker forlængelse af bindingsperioden, så
+børneopsparingskontoen frigives ved 21 år, den &fdag..&fmdr..&faar1..
+:SKRSLUT.
+.ar off
+.**************************************************
+.ar OPDATO2 on
+Dato:
+.ar off
+.**************************************************
+.ar UND21AAR on
+:SWISS10.
+Underskrift
+:SKRSLUT.
+.ar off
+.**************************************************
+.ar UDG21AAR on
+.sp 8mm
+:SWISS10.
+Jeg ønsker forlængelse af bindingsperioden, så
+børneopsparingskontoen frigives ved udgangen af 21. år, den 31.12.&faar1..
+:SKRSLUT.
+.ar off
+.**************************************************
+.ar OPDATO3 on
+Dato:
+.ar off
+.**************************************************
+.ar UNDUDG21AAR on
+:SWISS10.
+Underskrift
+:SKRSLUT.
+.ar off
+.**************************************************
 .********************DEFINITION AF AREALER*************
 .da NAVN         25mm     40mm  width 80mm
 .da REG          94mm     40mm
@@ -248,10 +733,10 @@ hvor barnet fylder 21 år.
 .sp
 Lad os fremhæve følgende fordele ved børneopsparing:
 .sp
-* ¤Der kan indskydes op til kr. 3.000,- pr. år og op til kr. 36.000,-
+* ¤ Der kan indskydes op til kr. 3.000,- pr. år og op til kr. 36.000,-
 i alt.
 .sp
-* ¤Renten er skattefri.
+* ¤ Renten er skattefri.
 .sk
 Ønsker &DU at benytte &DIG af dette tilbud, beder vi &DIG
 underskrive vedlagte tillæg i feltet ved den ønskede udbetalingsdato
@@ -279,488 +764,4 @@ vestjyskBANK
 .ar off
 .** SIDESKIFT
 .pa
-.fo left
-.***********************************************************************
-.ti ¤ 05
-:TILTALE &TILTALEM
-.***********************************************************************
-.* navn på brev, anført i nederste venstre hjørne
-.da VEND 7mm 280mm width 180mm rotate -90
-.***********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-&KONTROL1
-.ar off
-.***********************************************************************
-:COUR10.
-.da oversk 20mm 30mm width 175mm
-.da side1 20mm 42mm width 175mm
-.**********************************
-.ar oversk on
-:SWISS16.
-:FED.
-Tillæg til børneopsparing - Forlængelse af bindingsperioden
-:SKRSLUT.
-.ar off
-.**********************************
-.ar side1 on
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-.**** Her laves kassen til kontohaver og opretter ********
-.bx left 87,5mm right
-.sp 28mm
-.**** Her laves kassen til pengeinstitut og regnr ********
-.bx new left 87,5mm right
-.sp 10mm
-.**** Her laves kassen til kontonummer *******************
-.hr 87,5mm right
-.sp 10mm
-.**** Her laves kassen til periodeudløb ******************
-.bx new left right
-.sp 5mm
-.bx off
-.bx can
-.bx can
-:SWISS10.
-:FED.
-Forlængelse af bindingsperioden
-:SKRSLUT.
-.**** Her laves KASSE1 ***************
-.bx left right
-.sp 31mm
-.bx off
-.sp
-.**** Her laves KASSE2 ***************
-.bx left right
-.sp 31mm
-.bx off
-.sp
-.*******************************
-.ar off
-.*
-.*** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
-.su off
-.se faar = substr &KTOKNDNR1 5 2
-.se fmdr = substr &KTOKNDNR1 3 2
-.se fdag = substr &KTOKNDNR1 1 2
-.su on
-.if x&faar < x50
-.th .se faar1 = &faar + 2021
-.el .se faar1 = &faar + 1921
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*************************************************
-.ar OPRDATO on
-&KOPRETDATO
-.ar off
-.*************************************************
-.ar KONTONR on
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-&regnr &ktonr.
-.ar off
-.*************************************************
-.ar BINDPER on
-&FRIDATO
-.ar off
-.*************************************************
-.ar KASSE1 on
-.if &L'B19L1 gt 0
-.th
-.ce &INDNAVN
-.el
-.br
-.ar off
-.*************************************************
-.ar KASSE2 on
-.if &L'B19L2 gt 0
-.th
-.ce &INDNAVN
-.el
-.br
-.ar off
-.*************************************************
-.da KONTOHAV 25mm 51mm width 80mm
-.da KONTOCPR 32mm 71,5mm width 80mm
-.da OPRETTER 113mm 51mm width 70mm
-.da CPRNR 120mm 71,5mm width 70mm
-.da PENGEINS 25mm 83mm width 80mm
-.da OPRDATO 113mm 83mm width 70mm
-.da KONTONR 113mm 94.5mm width 70mm
-.da BINDPER 58mm 100,5mm width 90mm
-.da KASSE1 25mm 138mm width 170mm
-.da KASSE2 25mm 176mm width 170mm
-.**************************************
-:SWISS10.
-.ar KONTOHAV on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.************************************************
-.ar KONTOCPR on
-&KTOKNDNR1
-.ar off
-.************************************************
-.ar OPRETTER on
-&INDSTIL
-.br
-&INDNAVN
-.br
-&INDCO
-.br
-&INDGADE
-.br
-&INDBY
-.br
-&INDLAND
-.ar off
-.*************************************************
-.ar CPRNR on
-&INDKUNDENR
-.ar off
-.*************************************************
-.ar PENGEINS on
-&BANKNAVN
-.br
-&AFDNAVN
-:SWISS10.
-Jeg ønsker forlængelse af bindingsperioden, så
-børneopsparingskontoen frigives ved 21 år, den &fdag..&fmdr..&faar1..
-:SKRSLUT.
-.ar off
-.**************************************************
-.ar OPDATO2 on
-Dato:
-.ar off
-.**************************************************
-.ar UND21AAR on
-:SWISS10.
-Underskrift
-:SKRSLUT.
-.ar off
-.**************************************************
-.ar UDG21AAR on
-.sp 8mm
-:SWISS10.
-Jeg ønsker forlængelse af bindingsperioden, så
-børneopsparingskontoen frigives ved udgangen af 21. år, den 31.12.&faar1..
-:SKRSLUT.
-.ar off
-.**************************************************
-.ar OPDATO3 on
-Dato:
-.ar off
-.**************************************************
-.ar UNDUDG21AAR on
-:SWISS10.
-Underskrift
-:SKRSLUT.
-.ar off
-.**************************************************
-:SWISS8.
-.da KONTOHAV 21mm 47mm width 80mm
-.da KONTOCPR 21mm 72mm width 80mm
-.da OPRETTER 109mm 47mm width 70mm
-.da CPRNR 109mm 72mm width 70mm
-.da PENGEINS 21mm 77mm width 80mm
-.da OPRDATO 109mm 77mm width 70mm
-.da KONTONR 109mm 87,5mm width 70mm
-.da BINDPER 21mm 101mm width 90mm
-.da VED21AAR 21mm 111mm width 120mm
-.da OPDATO2 151mm 111mm width 20mm
-.da UND21AAR 21mm 133mm width 120mm
-.da UDG21AAR 21mm 149mm width 120mm
-.da OPDATO3 151mm 149mm width 20mm
-.da UNDUDG21AAR 21mm 171mm width 120mm
-.**********************************************
-.ar KONTOHAV on
-Kontohaver
-.ar off
-.*************************************************
-.ar KONTOCPR on
-CPR.nr
-.ar off
-.*************************************************
-.ar OPRETTER on
-Opretter
-.ar off
-.*************************************************
-.ar CPRNR on
-CPR.nr.
-.ar off
-.*************************************************
-.ar PENGEINS on
-Pengeinstitut
-.ar off
-.*************************************************
-.ar KONTONR on
-Kontonr.
-.ar off
-.*************************************************
-.ar OPRDATO on
-Oprettelsestidspunkt
-.ar off
-.*************************************************
-.ar BINDPER on
-Bindingsperiodens udløb:
-.ar off
-.**************************************************
-.ar VED21AAR on
-.sp 8mm
-.** SIDESKIFT
-.pa
-.da KOPI 182mm 5mm width 30mm
-.***********************************************************
-.ar KOPI on
-:COUR14.
-:FED.
-KOPI
-:SKRSLUT.
-.ar off
-.***********************************************************
-.da oversk 20mm 30mm width 175mm
-.da side1 20mm 42mm width 175mm
-.**********************************
-.ar oversk on
-:SWISS16.
-:FED.
-Tillæg til børneopsparing - Forlængelse af bindingsperioden
-:SKRSLUT.
-.ar off
-.**********************************
-.ar side1 on
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-.**** Her laves kassen til kontohaver og opretter ********
-.bx left 87,5mm right
-.sp 28mm
-.**** Her laves kassen til pengeinstitut og regnr ********
-.bx new left 87,5mm right
-.sp 10mm
-.**** Her laves kassen til kontonummer *******************
-.hr 87,5mm right
-.sp 10mm
-.**** Her laves kassen til periodeudløb ******************
-.bx new left right
-.sp 5mm
-.bx off
-.bx can
-.bx can
-:SWISS10.
-:FED.
-Forlængelse af bindingsperioden
-:SKRSLUT.
-.**** Her laves KASSE1 ***************
-.bx left right
-.sp 31mm
-.bx off
-.sp
-.**** Her laves KASSE2 ***************
-.bx left right
-.sp 31mm
-.bx off
-.sp
-.*******************************
-.ar off
-.fo left
-.***********************************************************************
-.ti ¤ 05
-:TILTALE &TILTALEM
-.***********************************************************************
-.* navn på brev, anført i nederste venstre hjørne
-.da VEND 7mm 280mm width 180mm rotate -90
-.***********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-&KONTROL1
-.ar off
-.***********************************************************************
-:COUR10.
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*************************************************
-.ar OPRDATO on
-&KOPRETDATO
-.ar off
-.*************************************************
-.ar KONTONR on
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-&regnr &ktonr.
-.ar off
-.*************************************************
-.ar BINDPER on
-&FRIDATO
-.ar off
-.*************************************************
-.ar KASSE1 on
-.if &L'B19L1 gt 0
-.th
-.ce &INDNAVN
-.el
-.br
-.ar off
-.*************************************************
-.ar KASSE2 on
-.if &L'B19L2 gt 0
-.th
-.ce &INDNAVN
-.el
-.br
-.ar off
-.*************************************************
-.da KONTOHAV 25mm 51mm width 80mm
-.da KONTOCPR 32mm 71,5mm width 80mm
-.da OPRETTER 113mm 51mm width 70mm
-.da CPRNR 120mm 71,5mm width 70mm
-.da PENGEINS 25mm 83mm width 80mm
-.da OPRDATO 113mm 83mm width 70mm
-.da KONTONR 113mm 94.5mm width 70mm
-.da BINDPER 58mm 100,5mm width 90mm
-.da KASSE1 25mm 138mm width 170mm
-.da KASSE2 25mm 176mm width 170mm
-.**************************************
-:SWISS10.
-.ar KONTOHAV on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.************************************************
-.ar KONTOCPR on
-&KTOKNDNR1
-.ar off
-.************************************************
-.ar OPRETTER on
-&INDSTIL
-.br
-&INDNAVN
-.br
-&INDCO
-.br
-&INDGADE
-.br
-&INDBY
-.br
-&INDLAND
-.ar off
-.*************************************************
-.ar CPRNR on
-&INDKUNDENR
-.ar off
-.*************************************************
-.ar PENGEINS on
-&BANKNAVN
-.br
-&AFDNAVN
-:SWISS10.
-Jeg ønsker forlængelse af bindingsperioden, så
-børneopsparingskontoen frigives ved 21 år, den &fdag..&fmdr..&faar1..
-:SKRSLUT.
-.ar off
-.**************************************************
-.ar OPDATO2 on
-Dato:
-.ar off
-.**************************************************
-.ar UND21AAR on
-:SWISS10.
-Underskrift
-:SKRSLUT.
-.ar off
-.**************************************************
-.ar UDG21AAR on
-.sp 8mm
-:SWISS10.
-Jeg ønsker forlængelse af bindingsperioden, så
-børneopsparingskontoen frigives ved udgangen af 21. år, den 31.12.&faar1..
-:SKRSLUT.
-.ar off
-.**************************************************
-.ar OPDATO3 on
-Dato:
-.ar off
-.**************************************************
-.ar UNDUDG21AAR on
-:SWISS10.
-Underskrift
-:SKRSLUT.
-.ar off
-.**************************************************
-:SWISS8.
-.da KONTOHAV 21mm 47mm width 80mm
-.da KONTOCPR 21mm 72mm width 80mm
-.da OPRETTER 109mm 47mm width 70mm
-.da CPRNR 109mm 72mm width 70mm
-.da PENGEINS 21mm 77mm width 80mm
-.da OPRDATO 109mm 77mm width 70mm
-.da KONTONR 109mm 87,5mm width 70mm
-.da BINDPER 21mm 101mm width 90mm
-.da VED21AAR 21mm 111mm width 120mm
-.da OPDATO2 151mm 111mm width 20mm
-.da UND21AAR 21mm 133mm width 120mm
-.da UDG21AAR 21mm 149mm width 120mm
-.da OPDATO3 151mm 149mm width 20mm
-.da UNDUDG21AAR 21mm 171mm width 120mm
-.**********************************************
-.ar KONTOHAV on
-Kontohaver
-.ar off
-.*************************************************
-.ar KONTOCPR on
-CPR.nr
-.ar off
-.*************************************************
-.ar OPRETTER on
-Opretter
-.ar off
-.*************************************************
-.ar CPRNR on
-CPR.nr.
-.ar off
-.*************************************************
-.ar PENGEINS on
-Pengeinstitut
-.ar off
-.*************************************************
-.ar KONTONR on
-Kontonr.
-.ar off
-.*************************************************
-.ar OPRDATO on
-Oprettelsestidspunkt
-.ar off
-.*************************************************
-.ar BINDPER on
-Bindingsperiodens udløb:
-.ar off
-.**************************************************
-.ar VED21AAR on
-.sp 8mm
+

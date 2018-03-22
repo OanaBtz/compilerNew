@@ -1,93 +1,240 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se medcvr = substr &MEDKUNDENR 1 2
+.su on
 .**************************************************************************
-.da INDHOLD        21mm  93mm width 165mm
-.da UNDER         21mm  139mm width  80mm
-.da MEDUND      108,5mm 139mm width  80mm
-.da KUNEEN        21mm  139mm width 165mm
-.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da FEJL 25mm 60mm width 170mm
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Aftale om NemKonto
+:SKRSLUT.
+.ar off
+.* DIVERSE TEST's ****************************************************
+.ar FEJL on
+:VERDA10.
+.*********************************************************************
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th .go OK1
+.el .go FEJL1
+...FEJL1
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har foretaget et forkert valg, kun
+K, M eller B kan vælges.
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK1
+.if &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.an &MEDKUNDENR = 000000-0000
+.th .go FEJL2
+.el .go OK2
+...FEJL2
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke vælge B(egge) eller M(edktoh)
+da der ingen medkontohaver findes til denne konto,
+vælg evt. kontohaver i stedet for
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK2
+.if &U'X&GENVALG1 = XK
+.an &cprcvr > 31
+.th .go FEJL3
+.el .go OK3
+...FEJL3
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke oprette NemKonto til
+konstruerede kontohavere
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK3
+.if &U'X&GENVALG1 = XM
+.an &medcvr > 31
+.th .go FEJL4
+.el .go OK4
+...FEJL4
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke oprette NemKonto til
+konstruerede Medkontohavere
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK4
+.if &U'X&GENVALG1 = XB
+.an &cprcvr > 31 .or &medcvr > 31
+.th .go FEJL5
+.el .go OK5
+...FEJL5
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke oprette NemKonto til
+konstruerede kunder
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+.**********************************************************************
+...OK5
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 88,5mm
 :SWISS8.
-.ar INDHOLD on
-Økonomistyrelsen har fastsat, at alle borgere og virksomheder skal anvise
-en NemKonto. Herefter vil alle udbetalinger fra det offentlige blive
-indsat på den valgte konto (NemKonto).
-.ar off
-.** HVIS DET IKKE ER BEGGE SÅ HOP TIL TESTEEN *****************************
-.if &U'X&GENVALG1 ne XB
-.th .go TESTEEN
-.* ELLERS UDSKRIVES BEGGE, FØRST KONTOHAVER *******************************
-.ar UNDER on
-Undertegnede
-.if &cprcvr = 00
-.th virksomhed
-ønsker at anvende ovenstående konto som NemKonto.
-.sp
-Dato:
+.if &U'X&GENVALG1 = XK
+.th .go KASKTOH
+.if &U'X&GENVALG1 = XM
+.th .go KASMKTOH
+.***********************************************************************
+.* KASBEGGE*************************************************************
+.bx left 87,5mm right
+ ¤ Kontohaver ¤ Medkontohaver
 .sp 23mm
-.tp 82mm center
-.ce on
-.if &cprcvr = 00
-.th .sp 3mm
-.th ¤Tegningsberettigedes underskrift
-.ce off
-.ar off
-.***** DERNÆST MEDKONTOHAVER, VED BEGGE ********************
-.ar MEDUND on
-Undertegnede
-.if &medcvr = 00
-.th virksomhed
-ønsker at anvende ovenstående konto som NemKonto.
-.sp
-Dato:
+.bx new left 87,5mm right
+ ¤ CPR-nr./CVR-nr. ¤ Medkontohavers CPR-nr.
+.go UDENOM
+.** KUN TIL KONTOHAVER *************************************
+...KASKTOH
+.bx left right
+ ¤ Kontohaver
 .sp 23mm
-.tp 82mm center
-.ce on
-.if &medcvr = 00
-.th .sp 3mm
-.th ¤Tegningsberettigedes underskrift
-.ce off
-.ar off
-.go UNDSL1
-.************************************************************************
-...TESTEEN
-.************************************************************************
-.if &U'X&GENVALG1 eq XM
-.th .go TESTMED
-.* KONTOHAVER UDSKRIVES ALENE *********************************************
-.ar KUNEEN on
-Undertegnede
-.if &cprcvr = 00
-.th virksomhed
-ønsker at anvende ovenstående konto som NemKonto.
-.sp
-Dato:
+.bx new left right
+ ¤ CPR-nr./CVR-nr.
+.go UDENOM
+.*** KUN TIL MEDKTOHAVER *****************************
+...KASMKTOH
+.bx left right
+ ¤ Medkontohaver
 .sp 23mm
+.bx new left right
+ ¤ CPR-nr./CVR-nr.
+.*******************************************
+...UDENOM
+.sp 5mm
+.bx new left right
+ ¤ NemKontonr.
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.************ INDHOLD *****************************************************
+:SWISS10.:FED.
+Indhold
 .br
-.ce on
-.if &cprcvr = 00
-.th .sp 3mm
-.th ¤Tegningsberettigedes underskrift
-.ce off
-.ar off
-.go UNDSL1
-.**************************************************************************
-...TESTMED
-.ar KUNEEN on
-Undertegnede
-.if &medcvr = 00
-.th virksomhed
-ønsker at anvende ovenstående konto som NemKonto.
-.sp
-Dato:
-.sp 23mm
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 7mm
+.bx off
+.************ PENGEINSTITUTTET ********************************************
+:SWISS10.:FED.
+NemKontoen føres i
 .br
-.ce on
-.if &medcvr = 00
-.th .sp 3mm
-.th ¤Tegningsberettigedes underskrift
-.ce off
+:SKRSLUT.
+:SWISS8.
+.bx left right
+ ¤ Pengeinstitut
+.sp 23mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Underskrift
+:SKRSLUT.
+:SWISS8.
+.if &U'X&GENVALG1 = XB
+.th .bx left 87,5mm right
+.el .bx left right
+.sp 40mm
+.bx off
 .ar off
-.**************************************************************************
-...UNDSL1
-.**************************************************************************
 .**************************************************************************
 .da KUNDEOPL       25mm  46mm width 80mm
 .da MEDKUNDE      113mm  46mm width 80mm
@@ -210,243 +357,96 @@ Dato:
 .**************************************************************************
 ...SLUTA
 .ar off
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.************ PARTER ******************************************************
-.ar SIDE on
-.tp 1mm 88,5mm
-:SWISS8.
-.if &U'X&GENVALG1 = XK
-.th .go KASKTOH
-.if &U'X&GENVALG1 = XM
-.th .go KASMKTOH
-.***********************************************************************
-.* KASBEGGE*************************************************************
-.bx left 87,5mm right
-¤Kontohaver ¤Medkontohaver
-.sp 23mm
-.bx new left 87,5mm right
-¤CPR-nr./CVR-nr. ¤ Medkontohavers CPR-nr.
-.go UDENOM
-.** KUN TIL KONTOHAVER *************************************
-...KASKTOH
-.bx left right
-¤Kontohaver
-.sp 23mm
-.bx new left right
-¤CPR-nr./CVR-nr.
-.go UDENOM
-.*** KUN TIL MEDKTOHAVER *****************************
-...KASMKTOH
-.bx left right
-¤Medkontohaver
-.sp 23mm
-.bx new left right
-¤CPR-nr./CVR-nr.
-.*******************************************
-...UDENOM
-.sp 5mm
-.bx new left right
-¤NemKontonr.
-.sp 5mm
-.bx off
-.bx can
-.bx can
-.************ INDHOLD *****************************************************
-:SWISS10.:FED.
-Indhold
-.br
-:SKRSLUT.
-:SWISS8.
-.bx left right
-.sp 7mm
-.bx off
-.************ PENGEINSTITUTTET ********************************************
-:SWISS10.:FED.
-NemKontoen føres i
-.br
-:SKRSLUT.
-:SWISS8.
-.bx left right
-¤Pengeinstitut
-.sp 23mm
-.bx off
-.************ UNDERSKRIFT *************************************************
-:SWISS10.:FED.
-Underskrift
-:SKRSLUT.
-:SWISS8.
-.if &U'X&GENVALG1 = XB
-.th .bx left 87,5mm right
-.el .bx left right
-.sp 40mm
-.bx off
-.ar off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da FEJL 25mm 60mm width 170mm
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-&BRUGERNR
-KL. &KLOKKESLET
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Aftale om NemKonto
-:SKRSLUT.
-.ar off
-.* DIVERSE TEST's ****************************************************
-.ar FEJL on
-:VERDA10.
-.*********************************************************************
-.if &U'X&GENVALG1 = XK
-.or &U'X&GENVALG1 = XM
-.or &U'X&GENVALG1 = XB
-.th .go OK1
-.el .go FEJL1
-...FEJL1
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., har foretaget et forkert valg, kun
-K, M eller B kan vælges.
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-...OK1
-.if &U'X&GENVALG1 = XM
-.or &U'X&GENVALG1 = XB
-.an &MEDKUNDENR = 000000-0000
-.th .go FEJL2
-.el .go OK2
-...FEJL2
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan ikke vælge B(egge) eller M(edktoh)
-da der ingen medkontohaver findes til denne konto,
-vælg evt. kontohaver i stedet for
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-...OK2
-.if &U'X&GENVALG1 = XK
-.an &cprcvr > 31
-.th .go FEJL3
-.el .go OK3
-...FEJL3
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan ikke oprette NemKonto til
-konstruerede kontohavere
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-...OK3
-.if &U'X&GENVALG1 = XM
-.an &medcvr > 31
-.th .go FEJL4
-.el .go OK4
-...FEJL4
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan ikke oprette NemKonto til
-konstruerede Medkontohavere
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-...OK4
-.if &U'X&GENVALG1 = XB
-.an &cprcvr > 31 .or &medcvr > 31
-.th .go FEJL5
-.el .go OK5
-...FEJL5
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan ikke oprette NemKonto til
-konstruerede kunder
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-.**********************************************************************
-...OK5
-.ar off
-.*SUBSTRINGS***************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se medcvr = substr &MEDKUNDENR 1 2
-.su on
 .**************************************************************************
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.da INDHOLD        21mm  93mm width 165mm
+.da UNDER         21mm  139mm width  80mm
+.da MEDUND      108,5mm 139mm width  80mm
+.da KUNEEN        21mm  139mm width 165mm
+.**************************************************************************
+:SWISS8.
+.ar INDHOLD on
+Økonomistyrelsen har fastsat, at alle borgere og virksomheder skal anvise
+en NemKonto. Herefter vil alle udbetalinger fra det offentlige blive
+indsat på den valgte konto (NemKonto).
+.ar off
+.** HVIS DET IKKE ER BEGGE SÅ HOP TIL TESTEEN *****************************
+.if &U'X&GENVALG1 ne XB
+.th .go TESTEEN
+.* ELLERS UDSKRIVES BEGGE, FØRST KONTOHAVER *******************************
+.ar UNDER on
+Undertegnede
+.if &cprcvr = 00
+.th virksomhed
+ønsker at anvende ovenstående konto som NemKonto.
+.sp
+Dato:
+.sp 23mm
+.tp 82mm center
+.ce on
+.if &cprcvr = 00
+.th .sp 3mm
+.th ¤ Tegningsberettigedes underskrift
+.ce off
+.ar off
+.***** DERNÆST MEDKONTOHAVER, VED BEGGE ********************
+.ar MEDUND on
+Undertegnede
+.if &medcvr = 00
+.th virksomhed
+ønsker at anvende ovenstående konto som NemKonto.
+.sp
+Dato:
+.sp 23mm
+.tp 82mm center
+.ce on
+.if &medcvr = 00
+.th .sp 3mm
+.th ¤ Tegningsberettigedes underskrift
+.ce off
+.ar off
+.go UNDSL1
+.************************************************************************
+...TESTEEN
+.************************************************************************
+.if &U'X&GENVALG1 eq XM
+.th .go TESTMED
+.* KONTOHAVER UDSKRIVES ALENE *********************************************
+.ar KUNEEN on
+Undertegnede
+.if &cprcvr = 00
+.th virksomhed
+ønsker at anvende ovenstående konto som NemKonto.
+.sp
+Dato:
+.sp 23mm
+.br
+.ce on
+.if &cprcvr = 00
+.th .sp 3mm
+.th ¤ Tegningsberettigedes underskrift
+.ce off
+.ar off
+.go UNDSL1
+.**************************************************************************
+...TESTMED
+.ar KUNEEN on
+Undertegnede
+.if &medcvr = 00
+.th virksomhed
+ønsker at anvende ovenstående konto som NemKonto.
+.sp
+Dato:
+.sp 23mm
+.br
+.ce on
+.if &medcvr = 00
+.th .sp 3mm
+.th ¤ Tegningsberettigedes underskrift
+.ce off
+.ar off
+.**************************************************************************
+...UNDSL1
+.**************************************************************************
 .if &U'&B32UDSKRIV ne J
 .th .go NEJBUND
 .************** Areal definitioner ****************************************
@@ -477,10 +477,11 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .br
 &B32POST
 .br
-Tlf. ¤&B32TLFDIR
+Tlf. ¤ &B32TLFDIR
 .br
-Fax. ¤&B32FAXDIR
+Fax. ¤ &B32FAXDIR
 .br
 &B32WWWNYK
 .ar off
 ...NEJBUND
+

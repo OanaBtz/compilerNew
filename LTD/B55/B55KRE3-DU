@@ -11,111 +11,44 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*** Areal til brevnavn i nederste venstre hjørne **********
+.da VEND 6,5mm 275mm width 180mm rotate -90
+.*****
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
 .*
-:VERDA10.
-&DATO
-.ar off
-.**********************************
-.sp 55mm
-.fo left
-.ti ¤ 05
-:VERDA10.
-.da AFS   150mm 23mm width 50mm
-.da AREAL1 25mm 40mm width 70mm
-.da DATO   25mm 75mm width 70mm
-.**************************************************
-.ar AFS on
-:VERDA09.
-.tp 15mm
-&AFDGADE
-.br
-&AFDBY
-.sp
-Telefon: ¤&B55TLF1
-.br
-Telefax: ¤&BXXBMTLF
-.sp
-Reg.nr.: ¤6140
-.br
-Swift: ¤MONSDK21
-.br
-CVR-nr.: ¤0065746018
-.sp
-E-post: ¤post@moensbank.dk
-.br
-Web: ¤www.moensbank.dk
-.ar off
-.************************************
-.ar AREAL1 on
-:VERDA10.
-.if &L'&B55NAVN3 GT 0
-.TH .BR
-.TH &B55NAVN3
-.TH .BR
-.EL .BR
-.IF &L'&B55COADR gt 0
-.TH &B55COADR
-.TH .BR
-.TH &B55GADE
-.TH .BR
-.TH &B55BY
-.TH .BR
-.EL &B55GADE
-.EL .BR
-.EL &B55BY
-.sp &BLANKLIN
-.ar off
-.SP
-.**********************************
-.ar DATO on
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -166,96 +99,112 @@ Web: ¤www.moensbank.dk
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T.*
-.*** Areal til brevnavn i nederste venstre hjørne **********
-.da VEND 6,5mm 275mm width 180mm rotate -90
-.*****
-.ar VEND on
-:VERDA06.
-&BREVNAVN
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.ti ¤ 05
+:VERDA10.
+.da AFS   150mm 23mm width 50mm
+.da AREAL1 25mm 40mm width 70mm
+.da DATO   25mm 75mm width 70mm
+.**************************************************
+.ar AFS on
+:VERDA09.
+.tp 15mm
+&AFDGADE
+.br
+&AFDBY
+.sp
+Telefon: ¤ &B55TLF1
+.br
+Telefax: ¤ &BXXBMTLF
+.sp
+Reg.nr.: ¤ 6140
+.br
+Swift: ¤ MONSDK21
+.br
+CVR-nr.: ¤ 0065746018
+.sp
+E-post: ¤ post@moensbank.dk
+.br
+Web: ¤ www.moensbank.dk
 .ar off
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
+.************************************
+.ar AREAL1 on
+:VERDA10.
+.if &L'&B55NAVN3 GT 0
+.TH .BR
+.TH &B55NAVN3
+.TH .BR
+.EL .BR
+.IF &L'&B55COADR gt 0
+.TH &B55COADR
+.TH .BR
+.TH &B55GADE
+.TH .BR
+.TH &B55BY
+.TH .BR
+.EL &B55GADE
+.EL .BR
+.EL &B55BY
+.sp &BLANKLIN
 .ar off
-.pa
-.th ¤Kreditforening ¤Obligationsbeløb ¤Fondskode ¤Kurs ¤% ¤Udløbsår
-.th .US OFF
-.th .sp
-.th ¤&B55FRI61 ¤&B55PANTEBR ¤&B55FOND1 ¤&B55KURS ¤&B55RT2 ¤&B55SERSER
-.th .br
-.th ¤&B55FRI62 ¤&B55PANTEB2 ¤&B55FOND2 ¤&B55KURT ¤&B55RT3 ¤&B55SERSES
-.th .sp
-.th Lånet indestår i ejendommen:
-.el indgås herved aftale om salg med valør pr.
-.el .us on
-.el .vs
-.el &B55DATO
-.el .us off
-.el af følgende obligationer
-.el .sp
-.el .TP 5mm 35mm 70mm 105mm 125mm 145mm
-.el .us on
-.el ¤Kreditforening ¤Obligationsbeløb ¤Fondskode ¤Kurs ¤% ¤Udløbsår
-.el .US OFF
-.el .sp
-.el ¤&B55FRI61 ¤&B55PANTEBR ¤&B55FOND1 ¤&B55KURS ¤&B55RT2 ¤&B55SERSER
-.el .br
-.el ¤&B55FRI62 ¤&B55PANTEB2 ¤&B55FOND2 ¤&B55KURT ¤&B55RT3 ¤&B55SERSES
-.el .sp
-.el Lånet er tilbudt i ejendommen:
-.sp
-Matr.nr.: ¤¤&B55MATR
-.br
-Beliggenhed: ¤¤&B55FRI1
-.sp
-Hvis terminshandlen ikke gennemføres pr. aftalte afviklingsdato på
-grund af forhold, som Møns Bank er uden indflydelse på, er
-terminsrekvirenten forpligtet til at erstatte alle tab, som følge
-heraf.
-.sp
-:FED.
-Aftalen indgås iøvrigt på de på vedlagte side nævnte forhold.
-:SKRSLUT.
-.sp
-Lånet afregnes over konto nr. &IREGKTO.
-.sp
-.sp 8mm
-¤Den ¤¤¤Den
-.sp 2
-¤¤¤¤       Møns Bank
-.br
-.br
-¤_________________________
-.br
-¤Rekvirenten/låntager
+.SP
+.**********************************
+.ar DATO on
+:VERDA10.
+&DATO
+.ar off
+.**********************************
+.sp 55mm
+.fo left
+.*
 .da BOX 20mm 95mm width 10mm
 .***************2 stk afkrydningsbokse i margen **********
 .ar BOX on
@@ -277,23 +226,23 @@ Mellem
 .sp
 .ti ¤ 05
 .TP 66mm 125mm
-Rekvirent/låntager: ¤&NAVN. ¤Cpr. &KTOKNDNR1.
+Rekvirent/låntager: ¤ &NAVN. ¤ Cpr. &KTOKNDNR1.
 .if &L'&MEDNAVN. GT 0
 .th .br
-.th ¤&MEDNAVN. ¤Cpr. &MEDKUNDENR.
+.th ¤ &MEDNAVN. ¤ Cpr. &MEDKUNDENR.
 .th .br
 .el .br
-¤&GADE.
+ ¤ &GADE.
 .br
-¤&BY.
+ ¤ &BY.
 .br
 og
 .br
-¤Møns Bank
+ ¤ Møns Bank
 .br
-¤Storegade 29
+ ¤ Storegade 29
 .br
-¤4780  Stege
+ ¤ 4780  Stege
 .TP 5mm 35mm 70mm 105mm 125mm 145mm
 .sp
 .LL 175mm
@@ -306,6 +255,58 @@ og
 .th af følgende obligationer
 .th .sp
 .th .us on
+.th ¤ Kreditforening ¤ Obligationsbeløb ¤ Fondskode ¤ Kurs ¤ % ¤ Udløbsår
+.th .US OFF
+.th .sp
+.th ¤ &B55FRI61 ¤ &B55PANTEBR ¤ &B55FOND1 ¤ &B55KURS ¤ &B55RT2 ¤ &B55SERSER
+.th .br
+.th ¤ &B55FRI62 ¤ &B55PANTEB2 ¤ &B55FOND2 ¤ &B55KURT ¤ &B55RT3 ¤ &B55SERSES
+.th .sp
+.th Lånet indestår i ejendommen:
+.el indgås herved aftale om salg med valør pr.
+.el .us on
+.el .vs
+.el &B55DATO
+.el .us off
+.el af følgende obligationer
+.el .sp
+.el .TP 5mm 35mm 70mm 105mm 125mm 145mm
+.el .us on
+.el ¤ Kreditforening ¤ Obligationsbeløb ¤ Fondskode ¤ Kurs ¤ % ¤ Udløbsår
+.el .US OFF
+.el .sp
+.el ¤ &B55FRI61 ¤ &B55PANTEBR ¤ &B55FOND1 ¤ &B55KURS ¤ &B55RT2 ¤ &B55SERSER
+.el .br
+.el ¤ &B55FRI62 ¤ &B55PANTEB2 ¤ &B55FOND2 ¤ &B55KURT ¤ &B55RT3 ¤ &B55SERSES
+.el .sp
+.el Lånet er tilbudt i ejendommen:
+.sp
+Matr.nr.: ¤ ¤ &B55MATR
+.br
+Beliggenhed: ¤ ¤ &B55FRI1
+.sp
+Hvis terminshandlen ikke gennemføres pr. aftalte afviklingsdato på
+grund af forhold, som Møns Bank er uden indflydelse på, er
+terminsrekvirenten forpligtet til at erstatte alle tab, som følge
+heraf.
+.sp
+:FED.
+Aftalen indgås iøvrigt på de på vedlagte side nævnte forhold.
+:SKRSLUT.
+.sp
+Lånet afregnes over konto nr. &IREGKTO.
+.sp
+.sp 8mm
+ ¤ Den ¤ ¤ ¤ Den
+.sp 2
+ ¤ ¤ ¤ ¤       Møns Bank
+.br
+.br
+ ¤ _________________________
+.br
+ ¤ Rekvirenten/låntager
+.ar off
+.pa
 .ll 170mm
 :FED.
 .ce on
@@ -420,3 +421,4 @@ blive indregnet i kursen i forbindelse med indgåelse af den nye kontrakt.
 .IN 10mm NOBREAK
 Der tages forbehold for ændringer af vilkår og gebyr.
 .pa
+

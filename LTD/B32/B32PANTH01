@@ -11,422 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*Parametre
-.*********************GENEREL OPSÆTNING************************************
-:VERDA09.
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.da START 25mm 40mm
-.da FEJL 25mm 60mm width 170mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN
-&BRUGERNR
-KL. &KLOKKESLET
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:VERDA12.
-:FED.
-Panthaverdeklaration /
-.br
-Finansieringsdeklaration - F
-:SKRSLUT.
-.br
-:VERDA09.
-:FED.(Motorkøretøjsforsikring):SKRSLUT.
-:SKRSLUT.
-.ar off
-.*TEST PÅ KORREKT FORSIKRINGSTYPE ***************************************
-.ar FEJL on
-:VERDA10.
-.if X&GENTYP = X0
-.or X&GENTYP > X3
-.th .go FEJL1
-.el .go OK1
-...FEJL1
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan kun vælge dækningstype 1 - 3.
-.sp 3mm
-.hr left right
-.qu
-...OK1
-.**TEST PÅ KORREKT PANTTYPE ***********************************************
-.if X&GENPANTTYP = X0
-.or X&GENPANTTYP > X4
-.th .go FEJL2
-.el .go OK2
-.th .mg/T/Vælg Panttype 1-4/
-.*****************************
-...FEJL2
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan kun vælge Panttype 1-4/
-.sp 3mm
-.hr left right
-.qu
-.**************************************************************************
-...OK2
-.if &U'X&GENVALG1 = XK
-.or &U'X&GENVALG1 = XM
-.or &U'X&GENVALG1 = XB
-.th .go OK3
-.el .go FEJL3
-...FEJL3
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., har foretaget et forkert valg, kun
-K, M eller B kan vælges.
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-...OK3
-.if &U'X&GENVALG1 = XM
-.or &U'X&GENVALG1 = XB
-.th .go TESTMED
-.el .go OK4
-...TESTMED
-.if &MEDKUNDENR = 000000-0000
-.th .go FEJL4
-.el .go OK4
-...FEJL4
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., kan ikke vælge B(egge) eller M(edktoh)
-da der ingen medkontohaver findes til denne konto,
-vælg evt. kontohaver i stedet for
-.sp 3mm
-.hr left right
-.qu
-.*********************************************************************
-...OK4
-.ar off
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-:VERDA09.
-.**************************************************************************
-.da KTOOPLYS 115mm 40mm width 50mm
-.da KTOHAVOV 25mm 68mm width 155mm
-.da KTOHAVER 25mm 72mm width 155mm
-.da MKTOHAVR 115mm 72mm width 85mm
-.da KUNDEOV 25mm 96mm width 155mm
-.da KUNDENR 25mm 100mm width 155mm
-.da MEDKNDCPR 115mm 100mm width 155mm
-.da DATO 160mm 110mm width 40mm
-.**************************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.se cpr1 = substr &KTOKNDNR1 1 6
-.se cpr2 = substr &KTOKNDNR1 7 4
-.su on
-.**************************************************************************
-.ar KTOOPLYS on
-.tp 47mm right
-:FED.Reg.nr.:SKRSLUT. ¤&regnr
-.br
-:FED.Kontonr.:SKRSLUT. ¤&ktonr
-.br
-:FED.Reg.type:SKRSLUT. ¤&REGTYPE
-.ar off
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-.if &U'X&GENVALG1 = XB
-.th Debitorer/pantsættere
-.el Debitor/pantsætter
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KUNDEOV on
-.tp 90mm
-:FED.
-Kundenr.
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.if &U'X&GENVALG1 = XM
-.th .go TXTMKTOH
-.*** BÅDE FOR KONTOHAVER OG BEGGE SKRIVES KTOHAVER ************************
-.ar KTOHAVER on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-&cpr1.-&cpr2
-.ar off
-.**************************************************************************
-.if &U'X&GENVALG1 = XK
-.th .go DATOTXT
-.*** HVIS BEGGE UDSKRIVES *************************************************
-.ar MKTOHAVR on
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-.ar off
-.**************************************************************************
-.ar MEDKNDCPR on
-&MEDKUNDENR
-.ar off
-.go DATOTXT
-.**************************************************************************
-...TXTMKTOH
-.**************************************************************************
-.ar KTOHAVER on
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-&MEDKUNDENR
-.ar off
-.**************************************************************************
-...DATOTXT
-.ar DATO on
-&DATO
-.ar off
-.**************************************************************************
-.da SIDE1 25mm 117mm width 135mm
-.**INDHOLD ****************************************************************
-.ar SIDE1
-:FED.
-Indhold
-:SKRSLUT.
-.br
-Når &BANKNAVN har pant i et motorkøretøj eller transport i motorkøretøjets
-forsikringssum har &BANKNAVN automatisk visse rettigheder i forhold til
-den forsikring, der er tegnet for motorkøretøjet i forhold til gældens
-størrelse i &BANKNAVN.. Samtidig har &BANKNAVN mulighed for at tegne en
-tillægsforsikring til den til enhver tid værende kaskoforsikring,
-hvor &BANKNAVN i visse situationer bliver stillet bedre
-end forsikringstageren. Prisen for tillægsforsikringen fastsættes efter
-de til enhver tid gældende satser hos Forsikring og Pension. Der
-henvises til vedhæftede vilkår. Denne
-tillægsforsikring tegnes ved, at &BANKNAVN beder om at få en såkaldt
-panthaverdeklaration/finansieringsdeklaration noteret i
-forsikringsselskabet.
-.sp 5mm
-.**FORSIKRINGSFORHOLD *****************************************************
-:FED.
-Forsikringsforhold
-:SKRSLUT.
-.sp 3mm
-Forsikringsselskab:
-.sp 3mm
-&B11FORSNV
-.br
-&B11FORSAD1
-.br
-&B11FORSAD2
-.br
-&B11FORSAD3
-.br
-&B11FORSAD4
-.sp 3mm
-Police nr.:
-.sp 3mm
-&GENPOLNR1
-.sp 3mm
-Policen omfatter:
-.sp 3mm
-.if X&GENTYP = X1
-.th Fuld kasko
-.if X&GENTYP = X2
-.th Kasko uden brand
-.if X&GENTYP = X3
-.th Brand
-.sp 5mm
-.**PANT *******************************************************************
-:FED.
-Pant
-:SKRSLUT.
-.br
-.if X&GENPANTTYP = X1
-.th Salg med ejendomsforbehold
-.if X&GENPANTTYP = X2
-.th Pantsætning
-.if X&GENPANTTYP = X3
-.th Transport i forsikringssummen
-.if X&GENPANTTYP = X4
-.th Leasing
-.sp 3mm
-Kontraktsdato/stiftelsesdato:
-.sp 3mm
-&DATO
-.ar off
-.**************************************************************************
-.if &U'&B32UDSKRIV ne J
-.th .go NEJBUND
-.************** Areal definitioner ****************************************
-.da BUNDV 25mm 271mm width 50mm
-.da BUNDH 160mm 267mm width 175mm
-.********************* SIDEFODDEFINITION STARTER **************************
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.**************************************************************************
-.ar BUNDH on
-.tp 6mm
-:VERDA07.
-&BANKNAVN. A/S
-.****.br
-.****Betjening: &B32NYKDIR
-.br
-&B32ADR
-.br
-&B32POST
-.br
-Tlf. ¤&B32TLFDIR
-.br
-Fax. ¤&B32FAXDIR
-.br
-&B32WWWNYK
-.ar off
-...NEJBUND
-.** SIDESKIFT
-.pa
-.da SIDE2 25mm 40mm width 170mm
-.**MOTORKØRETØJSBESKRIVELSE ***********************************************
-.ar SIDE2 on
-.ir 35mm
-:FED.
-Motorkøretøjsbeskrivelse
-:SKRSLUT.
-.sp 3mm
-Køretøjets fabrikat og model:
-.sp 3mm
-&GENFABRIK &GENMODEL
-.sp 3mm
-Registreringsnr.:
-.sp 3mm
-&GENREGNR3
-.sp 3mm
-Første registreringsdato/år:
-.sp 3mm
-&GENIDTO
-.sp 3mm
-Stel nr.:
-.sp 3mm
-&GENSTEL
-.sp 5mm
-.*ERKLÆRING ***************************************************************
-:FED.
-Erklæring
-:SKRSLUT.
-.br
-Når der kræves forsikring af pantsatte effekter og anmeldelse af
-panthaverdeklaration til forsikringsselskabet, tiltræder jeg ved min
-underskrift, at vedlagte pantehaverdeklaration noteres hos
-forsikringsselskabet, og at der mellem &BANKNAVN., det til enhver tid
-værende forsikringsselskab og Forsikring og Pension udveksles enhver
-oplysning om forsikringstager og forsikringsforholdet, der er
-nødvendigt for notering af og håndtering af panthaverdeklarationen,
-herunder men ikke begrænset til mit cpr.nr./cvr.nr., oplysninger om
-forsikringsforholdet og om præmierestancer.
-.sp 3mm
-Oplysningerne registreres og formidles elektronisk via et system, der
-administreres af Forsikring og Pension.
-.ir 0mm
-.sp 16mm
-.tp _/25mm 30mm _/98mm 103mm _/170mm
-.if &U'&GENVALG1 = B
-.th .go BEGGEUND
-.el .go EENUND
-...BEGGEUND
-¤¤¤¤¤
-.tp 2mm 34mm 105mm
-¤Dato¤&KTONAVN.¤&MEDNAVN
-.go UNDSLUT
-...EENUND
-.tp _/25mm 30mm _/98mm 103mm _/170mm
-¤¤¤
-.tp 2mm 34mm 105mm
-.if &U'&GENVALG1 = K
-.th ¤Dato ¤&KTONAVN
-.if &U'&GENVALG1 = M
-.th ¤Dato ¤&MEDNAVN
-...UNDSLUT
-.ar off
 .tp 5mm
 .**************************************************************************
 .da KOLON1O 25mm 183mm width 175mm
@@ -821,3 +405,420 @@ KL. &KLOKKESLET
 .th Side 3/3
 .ar off
 .**************************************************************************
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 40mm
+.da FEJL 25mm 60mm width 170mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA12.
+:FED.
+Panthaverdeklaration /
+.br
+Finansieringsdeklaration - F
+:SKRSLUT.
+.br
+:VERDA09.
+:FED.(Motorkøretøjsforsikring):SKRSLUT.
+:SKRSLUT.
+.ar off
+.*TEST PÅ KORREKT FORSIKRINGSTYPE ***************************************
+.ar FEJL on
+:VERDA10.
+.if X&GENTYP = X0
+.or X&GENTYP > X3
+.th .go FEJL1
+.el .go OK1
+...FEJL1
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan kun vælge dækningstype 1 - 3.
+.sp 3mm
+.hr left right
+.qu
+...OK1
+.**TEST PÅ KORREKT PANTTYPE ***********************************************
+.if X&GENPANTTYP = X0
+.or X&GENPANTTYP > X4
+.th .go FEJL2
+.el .go OK2
+.th .mg/T/Vælg Panttype 1-4/
+.*****************************
+...FEJL2
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan kun vælge Panttype 1-4/
+.sp 3mm
+.hr left right
+.qu
+.**************************************************************************
+...OK2
+.if &U'X&GENVALG1 = XK
+.or &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th .go OK3
+.el .go FEJL3
+...FEJL3
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har foretaget et forkert valg, kun
+K, M eller B kan vælges.
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK3
+.if &U'X&GENVALG1 = XM
+.or &U'X&GENVALG1 = XB
+.th .go TESTMED
+.el .go OK4
+...TESTMED
+.if &MEDKUNDENR = 000000-0000
+.th .go FEJL4
+.el .go OK4
+...FEJL4
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) *****
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., kan ikke vælge B(egge) eller M(edktoh)
+da der ingen medkontohaver findes til denne konto,
+vælg evt. kontohaver i stedet for
+.sp 3mm
+.hr left right
+.qu
+.*********************************************************************
+...OK4
+.ar off
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da KTOOPLYS 115mm 40mm width 50mm
+.da KTOHAVOV 25mm 68mm width 155mm
+.da KTOHAVER 25mm 72mm width 155mm
+.da MKTOHAVR 115mm 72mm width 85mm
+.da KUNDEOV 25mm 96mm width 155mm
+.da KUNDENR 25mm 100mm width 155mm
+.da MEDKNDCPR 115mm 100mm width 155mm
+.da DATO 160mm 110mm width 40mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.ar KTOOPLYS on
+.tp 47mm right
+:FED.Reg.nr.:SKRSLUT. ¤ &regnr
+.br
+:FED.Kontonr.:SKRSLUT. ¤ &ktonr
+.br
+:FED.Reg.type:SKRSLUT. ¤ &REGTYPE
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+.if &U'X&GENVALG1 = XB
+.th Debitorer/pantsættere
+.el Debitor/pantsætter
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KUNDEOV on
+.tp 90mm
+:FED.
+Kundenr.
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XM
+.th .go TXTMKTOH
+.*** BÅDE FOR KONTOHAVER OG BEGGE SKRIVES KTOHAVER ************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+&cpr1.-&cpr2
+.ar off
+.**************************************************************************
+.if &U'X&GENVALG1 = XK
+.th .go DATOTXT
+.*** HVIS BEGGE UDSKRIVES *************************************************
+.ar MKTOHAVR on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar MEDKNDCPR on
+&MEDKUNDENR
+.ar off
+.go DATOTXT
+.**************************************************************************
+...TXTMKTOH
+.**************************************************************************
+.ar KTOHAVER on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+&MEDKUNDENR
+.ar off
+.**************************************************************************
+...DATOTXT
+.ar DATO on
+&DATO
+.ar off
+.**************************************************************************
+.da SIDE1 25mm 117mm width 135mm
+.**INDHOLD ****************************************************************
+.ar SIDE1
+:FED.
+Indhold
+:SKRSLUT.
+.br
+Når &BANKNAVN har pant i et motorkøretøj eller transport i motorkøretøjets
+forsikringssum har &BANKNAVN automatisk visse rettigheder i forhold til
+den forsikring, der er tegnet for motorkøretøjet i forhold til gældens
+størrelse i &BANKNAVN.. Samtidig har &BANKNAVN mulighed for at tegne en
+tillægsforsikring til den til enhver tid værende kaskoforsikring,
+hvor &BANKNAVN i visse situationer bliver stillet bedre
+end forsikringstageren. Prisen for tillægsforsikringen fastsættes efter
+de til enhver tid gældende satser hos Forsikring og Pension. Der
+henvises til vedhæftede vilkår. Denne
+tillægsforsikring tegnes ved, at &BANKNAVN beder om at få en såkaldt
+panthaverdeklaration/finansieringsdeklaration noteret i
+forsikringsselskabet.
+.sp 5mm
+.**FORSIKRINGSFORHOLD *****************************************************
+:FED.
+Forsikringsforhold
+:SKRSLUT.
+.sp 3mm
+Forsikringsselskab:
+.sp 3mm
+&B11FORSNV
+.br
+&B11FORSAD1
+.br
+&B11FORSAD2
+.br
+&B11FORSAD3
+.br
+&B11FORSAD4
+.sp 3mm
+Police nr.:
+.sp 3mm
+&GENPOLNR1
+.sp 3mm
+Policen omfatter:
+.sp 3mm
+.if X&GENTYP = X1
+.th Fuld kasko
+.if X&GENTYP = X2
+.th Kasko uden brand
+.if X&GENTYP = X3
+.th Brand
+.sp 5mm
+.**PANT *******************************************************************
+:FED.
+Pant
+:SKRSLUT.
+.br
+.if X&GENPANTTYP = X1
+.th Salg med ejendomsforbehold
+.if X&GENPANTTYP = X2
+.th Pantsætning
+.if X&GENPANTTYP = X3
+.th Transport i forsikringssummen
+.if X&GENPANTTYP = X4
+.th Leasing
+.sp 3mm
+Kontraktsdato/stiftelsesdato:
+.sp 3mm
+&DATO
+.ar off
+.**************************************************************************
+.if &U'&B32UDSKRIV ne J
+.th .go NEJBUND
+.************** Areal definitioner ****************************************
+.da BUNDV 25mm 271mm width 50mm
+.da BUNDH 160mm 267mm width 175mm
+.********************* SIDEFODDEFINITION STARTER **************************
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.**************************************************************************
+.ar BUNDH on
+.tp 6mm
+:VERDA07.
+&BANKNAVN. A/S
+.****.br
+.****Betjening: &B32NYKDIR
+.br
+&B32ADR
+.br
+&B32POST
+.br
+Tlf. ¤ &B32TLFDIR
+.br
+Fax. ¤ &B32FAXDIR
+.br
+&B32WWWNYK
+.ar off
+...NEJBUND
+.** SIDESKIFT
+.pa
+.da SIDE2 25mm 40mm width 170mm
+.**MOTORKØRETØJSBESKRIVELSE ***********************************************
+.ar SIDE2 on
+.ir 35mm
+:FED.
+Motorkøretøjsbeskrivelse
+:SKRSLUT.
+.sp 3mm
+Køretøjets fabrikat og model:
+.sp 3mm
+&GENFABRIK &GENMODEL
+.sp 3mm
+Registreringsnr.:
+.sp 3mm
+&GENREGNR3
+.sp 3mm
+Første registreringsdato/år:
+.sp 3mm
+&GENIDTO
+.sp 3mm
+Stel nr.:
+.sp 3mm
+&GENSTEL
+.sp 5mm
+.*ERKLÆRING ***************************************************************
+:FED.
+Erklæring
+:SKRSLUT.
+.br
+Når der kræves forsikring af pantsatte effekter og anmeldelse af
+panthaverdeklaration til forsikringsselskabet, tiltræder jeg ved min
+underskrift, at vedlagte pantehaverdeklaration noteres hos
+forsikringsselskabet, og at der mellem &BANKNAVN., det til enhver tid
+værende forsikringsselskab og Forsikring og Pension udveksles enhver
+oplysning om forsikringstager og forsikringsforholdet, der er
+nødvendigt for notering af og håndtering af panthaverdeklarationen,
+herunder men ikke begrænset til mit cpr.nr./cvr.nr., oplysninger om
+forsikringsforholdet og om præmierestancer.
+.sp 3mm
+Oplysningerne registreres og formidles elektronisk via et system, der
+administreres af Forsikring og Pension.
+.ir 0mm
+.sp 16mm
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+.if &U'&GENVALG1 = B
+.th .go BEGGEUND
+.el .go EENUND
+...BEGGEUND
+¤ ¤ ¤ ¤ ¤
+.tp 2mm 34mm 105mm
+ ¤ Dato ¤ &KTONAVN. ¤ &MEDNAVN
+.go UNDSLUT
+...EENUND
+.tp _/25mm 30mm _/98mm 103mm _/170mm
+¤ ¤ ¤
+.tp 2mm 34mm 105mm
+.if &U'&GENVALG1 = K
+.th ¤ Dato ¤ &KTONAVN
+.if &U'&GENVALG1 = M
+.th ¤ Dato ¤ &MEDNAVN
+...UNDSLUT
+.ar off
+

@@ -68,54 +68,6 @@ A/S &BANKNAVN.
 .ar off
 .*************************************************************
 .oc **B20Flex06
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -166,7 +118,56 @@ A/S &BANKNAVN.
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T:VERDA09.
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:VERDA09.
 .fo left
 .ti ¤ 05
 :TILTALE &TILTALEF
@@ -208,3 +209,4 @@ med bankens almindelige forretningsbetingelser.
 .sp
 Rentesatsen er dags dato 0,05% p.a.
 For indskud over 25.000,00 kr. er renten 0,15% p.a.
+

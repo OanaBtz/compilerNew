@@ -11,147 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.*************** GENEREL OPSÆTNING ***************************************
-.fo left
-.da OVERSKR 20mm 10mm width 175mm
-.rh on
-:verda12.:FED.
-.ar OVERSKR on
-Rammeaftale
-.ar off
-:SKRSLUT.:SKRSLUT.
-.sp 10mm
-.rh off
-.rh execute
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-.*
-.th &MEDNAVN.
-.ar modtager off
-.sp 65mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -202,6 +61,147 @@ Cpr/Cvr-nummer: &KTOKUNDENR.
 .sp
 .th Cpr/Cvr-nummer: &MEDKUNDENR.
 .th .br
+.th &MEDNAVN.
+.ar modtager off
+.sp 65mm
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+.*************** GENEREL OPSÆTNING ***************************************
+.fo left
+.da OVERSKR 20mm 10mm width 175mm
+.rh on
+:verda12.:FED.
+.ar OVERSKR on
+Rammeaftale
+.ar off
+:SKRSLUT.:SKRSLUT.
+.sp 10mm
+.rh off
+.rh execute
 :COUR10.
 .**********************************************************************
 .ti ¤ 05
@@ -218,56 +218,6 @@ Cpr/Cvr-nummer: &KTOKUNDENR.
 &DATO kl. &KLOKKESLET
 .ar off
 .***********************************************************************
-.sp
-Samtlige forretninger under rammeaftalen og under enhver indgået særskilt
-aftale eller rammeaftale, som f.eks. ISDA, ISMA og/eller andre udgør ét
-retsforhold.
-.sp
-Forretninger under rammeaftalen skal til enhver tid indgås i
-overensstemmelse med gældende valutalovgivning, herunder Nationalbankens
-valutabestemmelser. Kunden er selv ansvarlig herfor.
-.sp
-:FED.2. Indgåelse af forretninger :SKRSLUT.
-.br
-Indgåelse og afvikling af forretninger sker kun efter aftale med kunden,
-medmindre andet fremgår af nærværende rammeaftale eller er særskilt aftalt.
-.sp
-En aftale om en forretning er gyldig og bindende for parterne, når den er
-indgået mundtligt herunder telefonisk, skriftligt eller ved elektronisk
-dataoverførsel (hvis &BANKNAVN. har godkendt dette).
-.sp
-Forretninger bekræftes skriftligt/elektronisk af &BANKNAVN.. &BANKNAVN. kan
-til enhver tid afvise at indgå forretninger med kunden uden nærmere
-begrundelse.
-.sp
-&BANKNAVN. er berettiget, men ikke forpligtet, til at optage
-telefonsamtaler med kunden på bånd. I tilfælde af uenighed om en aftale, er
-båndoptagelsen tilstrækkeligt bevis for indholdet af aftalen om
-forretningen. Er aftalen indgået ved elektronisk dataoverførsel, er
-udskrift af &BANKNAVN.s edb-log bevis for indholdet af det aftalte.
-.sp
-I tilfælde af uoverensstemmelse mellem bestemmelserne i rammeaftalen og en
-bekræftelse, gælder bestemmelserne i &BANKNAVN.s bekræftelse.
-.sp
-Kunden er forpligtet til straks - efter at have modtaget de enkelte
-bekræftelser - at kontrollere disse samt returnere en kopi af
-bekræftelserne i behørigt underskrevet stand. Mener kunden, at der er
-uoverensstemmelse mellem det aftalte og en bekræftelse, er kunden
-forpligtet til straks at kontakte &BANKNAVN.. Kunden forpligter sig
-endvidere til straks at kontakte &BANKNAVN., hvis bekræftelsen på en
-forretning ikke er modtaget 2 bankdage efter, at forretningen er indgået.
-.sp
-Kunden afholder samtlige omkostninger ved etablering af rammeaftalen, ved
-etablering/afvikling af forretninger, herunder de til enhver tid gældende
-gebyrer til &BANKNAVN. og/eller eventuelt udenlandske
-banker/børser/clearingshuse, samt de til enhver tid gældende skatter og
-afgifter til det offentlige som følge af dispositioner i henhold til en
-aftale, ændringer i lovgivningen m.v.
-.sp
-Forlængelse af indgåede forretninger vil kun kunne foretages til
-markedskurs, medmindre andet skriftligt aftales.
-.sp
-:FED.3. Markedsværdiopgørelse :SKRSLUT.
 Mellem ovennævnte kunde(r) og &BANKNAVN. indgås følgende rammeaftale om
 køb og salg af valuta og værdipapirer herunder indgåelse af finansielle
 kontrakter om rente-, kurs-, valuta-, og værdipapirforretninger, jfr.
@@ -318,6 +268,56 @@ enkelte forretninger henvises til rammeaftalen.
 Rammeaftalen medfører ingen ret eller pligt for parterne til at indgå
 forretninger. Det gælder, selv om &BANKNAVN. har meddelt kunden en line for
 forretningsomfanget under rammeaftalen.
+.sp
+Samtlige forretninger under rammeaftalen og under enhver indgået særskilt
+aftale eller rammeaftale, som f.eks. ISDA, ISMA og/eller andre udgør ét
+retsforhold.
+.sp
+Forretninger under rammeaftalen skal til enhver tid indgås i
+overensstemmelse med gældende valutalovgivning, herunder Nationalbankens
+valutabestemmelser. Kunden er selv ansvarlig herfor.
+.sp
+:FED.2. Indgåelse af forretninger :SKRSLUT.
+.br
+Indgåelse og afvikling af forretninger sker kun efter aftale med kunden,
+medmindre andet fremgår af nærværende rammeaftale eller er særskilt aftalt.
+.sp
+En aftale om en forretning er gyldig og bindende for parterne, når den er
+indgået mundtligt herunder telefonisk, skriftligt eller ved elektronisk
+dataoverførsel (hvis &BANKNAVN. har godkendt dette).
+.sp
+Forretninger bekræftes skriftligt/elektronisk af &BANKNAVN.. &BANKNAVN. kan
+til enhver tid afvise at indgå forretninger med kunden uden nærmere
+begrundelse.
+.sp
+&BANKNAVN. er berettiget, men ikke forpligtet, til at optage
+telefonsamtaler med kunden på bånd. I tilfælde af uenighed om en aftale, er
+båndoptagelsen tilstrækkeligt bevis for indholdet af aftalen om
+forretningen. Er aftalen indgået ved elektronisk dataoverførsel, er
+udskrift af &BANKNAVN.s edb-log bevis for indholdet af det aftalte.
+.sp
+I tilfælde af uoverensstemmelse mellem bestemmelserne i rammeaftalen og en
+bekræftelse, gælder bestemmelserne i &BANKNAVN.s bekræftelse.
+.sp
+Kunden er forpligtet til straks - efter at have modtaget de enkelte
+bekræftelser - at kontrollere disse samt returnere en kopi af
+bekræftelserne i behørigt underskrevet stand. Mener kunden, at der er
+uoverensstemmelse mellem det aftalte og en bekræftelse, er kunden
+forpligtet til straks at kontakte &BANKNAVN.. Kunden forpligter sig
+endvidere til straks at kontakte &BANKNAVN., hvis bekræftelsen på en
+forretning ikke er modtaget 2 bankdage efter, at forretningen er indgået.
+.sp
+Kunden afholder samtlige omkostninger ved etablering af rammeaftalen, ved
+etablering/afvikling af forretninger, herunder de til enhver tid gældende
+gebyrer til &BANKNAVN. og/eller eventuelt udenlandske
+banker/børser/clearingshuse, samt de til enhver tid gældende skatter og
+afgifter til det offentlige som følge af dispositioner i henhold til en
+aftale, ændringer i lovgivningen m.v.
+.sp
+Forlængelse af indgåede forretninger vil kun kunne foretages til
+markedskurs, medmindre andet skriftligt aftales.
+.sp
+:FED.3. Markedsværdiopgørelse :SKRSLUT.
 .br
 Da indgåelse og afvikling af valuta- og værdipapirforretninger finder sted
 på grundlag af en vurdering af nettomellemværendet i bestående forretninger
@@ -346,12 +346,12 @@ drøftelse med kunden forlange, at den beregnede markedsværdi udlignes eller
 nedbringes under det aftalte maksimum ved:
 .br
 .tp 8mm 12mm
-¤-¤at
+ ¤ - ¤ at
 .in 12mm nobreak
 kunden tilbagekøber/sælger forretninger efter aftale med &BANKNAVN.,
 .in 0mm
 .br
-¤-¤at
+ ¤ - ¤ at
 .in 12mm nobreak
 kunden indgår andre risikoreducerende forretninger efter nærmere aftale,
 at kunden stiller sikkerhed efter nærmere aftale.
@@ -418,56 +418,6 @@ forpligtelser, der skal opfyldes samme dag, men ikke i samme ydelse, kan
 hver af parterne med et varsel på mindst fem bankdage kræve:
 .sp
 a. at parternes forpligtelser i henhold til hver enkelt af de forretninger,
-omstændigheder, som er uden for &BANKNAVN.s kontrol.
-.in 0mm
-.sp
-&BANKNAVN.s ansvarsfrihed gælder ikke hvis:
-.br
-¤-¤&BANKNAVN.
-.in 12mm nobreak
-burde have forudset det forhold, som er årsag til tabet, da
-rammeaftalen blev indgået eller burde have undgået eller overvundet årsagen
-til tabet
-.in 0mm
-.br
-¤-¤lovgivningen
-.in 12mm nobreak
-under alle omstændigheder gør &BANKNAVN. ansvarlig for dette forhold, som
-er årsag til tabet.
-.in 0mm
-.sp
-:FED.17. Lovvalg og værneting :SKRSLUT.
-.br
-Dansk ret finder anvendelse på såvel rammeaftalen som på forretninger, der
-indgås herunder.
-.br
-Eventuelle retssager skal anlægges ved Sø- og Handelsretten i København.
-.sp
-:FED.18. Legitimation og gyldighed :SKRSLUT.
-.sp
-I forbindelse med denne rammeaftales indgåelse er kunden forpligtet til at
-fremsende nedennævnte materiale til &BANKNAVN.:
-.br
-¤-¤vedtægter
-.in 12mm nobreak
-for kunden
-.in 0mm
-.br
-¤-¤dokumentation
-.in 12mm nobreak
-underskrivers bemyndigelse til at binde kunden i forbindelse med
-transaktionstyper
-.in 0mm
-.br
-¤-¤omhandlet
-.in 12mm nobreak
-af denne rammeaftale og
-.in 0mm
-.br
-¤-¤kopi
-.in 12mm nobreak
-af nødvendige selskabsretlige beslutninger i forbindelse med denne
-rammeaftale.
 der skal opfyldes den pågældende dag, konverteres til en
 betalingsforpligtelse i DKK eller eventuel anden aftalt afregningsvaluta,
 og
@@ -554,27 +504,27 @@ kan finde sted, uanset om kravene er i forskellige valutaer.
 .br
 Kunden forpligter sig til straks at give &BANKNAVN. meddelelse, såfremt
 .sp
-¤-¤der
+ ¤ - ¤ der
 .in 12mm nobreak
 foretages udlæg eller arrest hos kunden,
 .in 0mm
 .br
-¤-¤kunden
+ ¤ - ¤ kunden
 .in 12mm nobreak
 anmelder betalingsstandsning,
 .in 0mm
 .br
-¤-¤kunden
+ ¤ - ¤ kunden
 .in 12mm nobreak
 søger gældssanering eller forhandling om tvangsakkord,
 .in 0mm
 .br
-¤-¤der
+ ¤ - ¤ der
 .in 12mm nobreak
 indgives begæring om konkursbehandling af kundens bo, eller
 .in 0mm
 .br
-¤-¤såfremt
+ ¤ - ¤ såfremt
 .in 12mm nobreak
 én af misligholdelsesgrundene anført under punkt 12 er indtruffet
 .in 0mm
@@ -608,19 +558,19 @@ meddelelse om opsigelse for misligholdelsesdagen.
 Rammeaftalen med tilhørende forretninger er misligholdt uden opsigelse pr.
 den dato, hvor en af parterne
 .br
-¤-¤anmelder
+ ¤ - ¤ anmelder
 .in 12mm nobreak
 betalingsstandsning,
 .in 0mm
 .br
-¤-¤erklæres konkurs,
+ ¤ - ¤ erklæres konkurs,
 .br
-¤-¤får
+ ¤ - ¤ får
 .in 12mm nobreak
 åbnet forhandling om tvangsakkord, eller
 .in 0mm
 .br
-¤-¤afgår ved døden.
+ ¤ - ¤ afgår ved døden.
 .sp
 Såfremt der sker ændringer i kundens engagement med &BANKNAVN., herunder
 men ikke begrænset til opsigelse/flytning af lån i &BANKNAVN., er
@@ -734,7 +684,7 @@ forsømmelser opfylder aftalte forpligtelser for sent eller mangelfuldt.
 Selv på de områder, hvor der gælder et strengere ansvar, er &BANKNAVN. ikke
 ansvarlig for tab, som skyldes:
 .br
-¤-¤nedbrud
+ ¤ - ¤ nedbrud
 .in 12mm nobreak
 i/manglende adgang til IT-systemer eller beskadigelser af data i disse
 systemer, der kan henføres til nedennævnte begivenheder, uanset om det er
@@ -742,38 +692,72 @@ systemer, der kan henføres til nedennævnte begivenheder, uanset om det er
 systemerne
 .in 0mm
 .br
-¤-¤svigt
+ ¤ - ¤ svigt
 .in 12mm nobreak
 i &BANKNAVN.s strømforsyning eller telekommunikation, lovindgreb eller
 forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige uroligheder,
 sabotage, terror eller hærværk (herunder computervirus og -hacking)
 .in 0mm
 .br
-¤-¤strejke,
+ ¤ - ¤ strejke,
 .in 12mm nobreak
 lockout, boykot eller blokade, uanset om konflikten er rettet mod eller
 iværksat af &BANKNAVN. selv eller dens organisation, og uanset konfliktens
 årsag. Det gælder også, når konflikten kun rammer dele af &BANKNAVN..
 .in 0mm
 .br
-¤-¤andre
+ ¤ - ¤ andre
 .in 12mm nobreak
+omstændigheder, som er uden for &BANKNAVN.s kontrol.
+.in 0mm
 .sp
-:FED.Underskrifter :SKRSLUT.
+&BANKNAVN.s ansvarsfrihed gælder ikke hvis:
 .br
-Ved sin underskrift på denne rammeaftale indestår kunden &BANKNAVN. for, at
-de af rammeaftalen omfattede transaktioner ligger indenfor selskabets
-vedtægtsmæssige formål.
+ ¤ - ¤ &BANKNAVN.
+.in 12mm nobreak
+burde have forudset det forhold, som er årsag til tabet, da
+rammeaftalen blev indgået eller burde have undgået eller overvundet årsagen
+til tabet
+.in 0mm
+.br
+ ¤ - ¤ lovgivningen
+.in 12mm nobreak
+under alle omstændigheder gør &BANKNAVN. ansvarlig for dette forhold, som
+er årsag til tabet.
+.in 0mm
 .sp
-Som en del af aftalen gælder Almindelige forretningsbetingelser for
-&BANKNAVN., i det omfang de ikke er fraveget samt Basisaftale med
-tilhørende bilag.
+:FED.17. Lovvalg og værneting :SKRSLUT.
+.br
+Dansk ret finder anvendelse på såvel rammeaftalen som på forretninger, der
+indgås herunder.
+.br
+Eventuelle retssager skal anlægges ved Sø- og Handelsretten i København.
 .sp
-Kunden bekræfter ved sin underskrift på nærværende rammeaftale at have
-modtaget en kopi af rammeaftalen, Almindelige forretningsbetingelser for
-&BANKNAVN. samt Basisaftale med tilhørende bilag, folderen Særlige
-finansielle aftaler/derivater og at have gjort sig bekendt med indholdet,
-som i det hele tiltrædes.
+:FED.18. Legitimation og gyldighed :SKRSLUT.
+.sp
+I forbindelse med denne rammeaftales indgåelse er kunden forpligtet til at
+fremsende nedennævnte materiale til &BANKNAVN.:
+.br
+ ¤ - ¤ vedtægter
+.in 12mm nobreak
+for kunden
+.in 0mm
+.br
+ ¤ - ¤ dokumentation
+.in 12mm nobreak
+underskrivers bemyndigelse til at binde kunden i forbindelse med
+transaktionstyper
+.in 0mm
+.br
+ ¤ - ¤ omhandlet
+.in 12mm nobreak
+af denne rammeaftale og
+.in 0mm
+.br
+ ¤ - ¤ kopi
+.in 12mm nobreak
+af nødvendige selskabsretlige beslutninger i forbindelse med denne
+rammeaftale.
 .in 0mm
 .sp
 :FED.Stop loss / Take profit ordre i valutamarkedet :SKRSLUT.
@@ -824,6 +808,22 @@ valutaordren gennemført til ordrekursen (med de ovennævnte forbehold).
 Valutaordrens formål er, at ordregiver bliver forsøgt kontaktet, når
 markedskursen når et givent niveau. Der er således ikke aftalt en specifik
 handel, men alene at banken forsøger at kontakte dig.
+.sp
+:FED.Underskrifter :SKRSLUT.
+.br
+Ved sin underskrift på denne rammeaftale indestår kunden &BANKNAVN. for, at
+de af rammeaftalen omfattede transaktioner ligger indenfor selskabets
+vedtægtsmæssige formål.
+.sp
+Som en del af aftalen gælder Almindelige forretningsbetingelser for
+&BANKNAVN., i det omfang de ikke er fraveget samt Basisaftale med
+tilhørende bilag.
+.sp
+Kunden bekræfter ved sin underskrift på nærværende rammeaftale at have
+modtaget en kopi af rammeaftalen, Almindelige forretningsbetingelser for
+&BANKNAVN. samt Basisaftale med tilhørende bilag, folderen Særlige
+finansielle aftaler/derivater og at have gjort sig bekendt med indholdet,
+som i det hele tiltrædes.
 .**HUSK AT STARTE AFSNIT TIL UNDERSKRIFT i MODUL PLACERET LIGE FØR********
 .sp 2
 .tp 10mm 40mm 70mm
@@ -832,11 +832,12 @@ Dato:
 .sp 7mm
 .if &l'&MEDNAVN. > 0
 .th .hr tynd 0mm 140mm
-.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.th ¤ &KTONAVN. ¤ ¤ &MEDNAVN.
 .el .hr tynd 0mm 70mm
-.el ¤&KTONAVN
+.el ¤ &KTONAVN
 .sp 3
 .hr tynd 0mm 70mm
-¤&BANKNAVN
+ ¤ &BANKNAVN
 .br
 .ar off
+

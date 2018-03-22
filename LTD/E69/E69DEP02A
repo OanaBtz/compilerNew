@@ -11,334 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa
-.**************************************************************************
-.**************************************************************************
-Hermed fremsendes bla. bla. bla.
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 25mm 42mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.*************************************************************************
-.sp 70mm
-.* ændring af banknavn til at følge banksteds-banknavn
-.* .if &L'&BANKNAVN GT 0
-.* .th .se BANKNAVN = '&AFDBNKNAVN.'
-.* ændring af banknavn til Spar Nord Bank A/S
-.if &L'&BANKNAVN GT 0
-.th .se BANKNAVN = 'Spar Nord Bank A/S'
-.se e69bank = 'Spar Nord Bank'
-.se e69sbank = 'Spar Nord'
-.* Parametre og substrings ************************************************
-.***** her deles kontonummer for obligationsrenter ************************
-.su off
-.se oblregnr = substr &GENOBLKTO 1 4
-.se oblktonr = substr &GENOBLKTO 5 10
-.***** her deles kontonummer for udtrukne obligationer ********************
-.se uoblregnr = substr &GENUOBLKTO 1 4
-.se uoblktonr = substr &GENUOBLKTO 5 10
-.***** her deles kontonummer for aktieudbytte *****************************
-.se aktregnr = substr &GENAKTKTO 1 4
-.se aktktonr = substr &GENAKTKTO 5 10
-.***** her deles kontonummer for pantebrevsafkast *************************
-.se panregnr = substr &GENPANKTO 1 4
-.se panktonr = substr &GENPANKTO 5 10
-.***** her deles kontonummer for depotgebyr  ******************************
-.se depgregnr = substr &GENDEPGKTO 1 4
-.se depgktonr = substr &GENDEPGKTO 5 10
-.***** her deles kontonummer for sikkerhedsdepot **************************
-.se sikregnr = substr &GENSIKDEP 1 4
-.se sikktonr = substr &GENSIKDEP 5 10
-.su on
-.**************************************************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&DEPKUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Aftale om handel med finansielle instrumenter og depotoprettelse
-:SKRSLUT.
-.ar off
-.*************************************************************************
-.ar KUNDEKAT on
-.if &U'X&KUNDEKAT = XD
-.th Detail
-.if &U'X&KUNDEKAT = XP
-.th Professionel
-.if &U'X&KUNDEKAT = XO
-.th Oprykket professionel
-.if &U'X&KUNDEKAT = XG
-.th Godkendt modpart
-.if &U'X&KUNDEKAT = X
-.th Ikke kategoriseret
-.ar off
-.**************************************************************************
-.ar DEPTYPE on
-&DEPOTTYPE
-.ar off
-.**************************************************************************
-.ar OBLRENTE on
-.if &U'X&OBLKTOMF = XJ
-.th &oblregnr &oblktonr m.fl.*
-.el &oblregnr &oblktonr
-.ar off
-.**************************************************************************
-.ar UDTOBL on
-.if &U'X&UOBLKTOMF = XJ
-.th &uoblregnr &uoblktonr m.fl.*
-.el &uoblregnr &uoblktonr
-.ar off
-.**************************************************************************
-.ar AKTIUDB on
-.if &U'X&AKTKTOMF = XJ
-.th &aktregnr &aktktonr m.fl.*
-.el &aktregnr &aktktonr
-.ar off
-.**************************************************************************
-.ar DEPGEB on
-&depgregnr &depgktonr
-.ar off
-.**************************************************************************
-.ar PTBAFK on
-&panregnr &panktonr
-.ar off
-.**************************************************************************
-.ar SIKDEP on
-&sikregnr &sikktonr
-.ar off
-.**************************************************************************
-.ar FRAVALG on
-.if &L'&GENKRYDS1 gt 0
-.th Ja
-.da AKTIECPR   45mm 272,3mm width 80mm
-.go ARE8
-.**************
-...ARE6
-.**************
-.if &ja = 0
-.an &U'&AKTTXT = J
-.th .go ARE7
-.el .go ARE8
-...ARE7
-.da FRAVALG   176mm   154mm width 5mm
-.da AKTIEADR   25mm   253mm width 80mm
-.da AKTIECPR   45mm 268,6mm width 80mm
-.**************
-...ARE8
-.**************************************************************************
-.ar DEPINDEH on
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.**************************************************************************
-.ar DEPCPR on
-&DEPKUNDENR
-.ar off
-.**************************************************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-.ar DEPNR on
-&DEPREGNR &DEPDEPNR
-.ar off
-.**************************************************************************
-.ar VPNR on
-&VPKTONR
-.ar off
-.**************************************************************************
-.da DEPINDEH   25mm    48mm width 89mm
-.da DEPCPR     45mm    65mm width 89mm
-.da PI      112.5mm    48mm width 89mm
-.da DEPNR      25mm  74.5mm width 85mm
-.da VPNR    112.5mm  74.5mm width 85mm
-.da KUNDEKAT   25mm  83.5mm width 85mm
-.da DEPTYPE 112.5mm  83.5mm width 89mm
-.da OBLRENTE   25mm    93mm width 80mm
-.da UDTOBL  112.5mm    93mm width 80mm
-.da AKTIUDB    25mm 102.5mm width 80mm
-.da DEPGEB  112.5mm 102.5mm width 80mm
-.da PTBAFK     25mm   112mm width 80mm
-.da SIKDEP  112.5mm   112mm width 80mm
-.if &U'X&OBLKTOMF = XJ
-.or &U'X&UOBLKTOM = XJ
-.or &U'X&AKTKTOMF = XJ
-.th .se ja = 1
-.el .se ja = 0
-.**************Hvor begge er N *************************************
-.if &ja = 0
-.an &U'&AKTTXT = N
-.th .go ARE1
-.el .go ARE2
-...ARE1
-.da FRAVALG   176mm   147mm width 5mm
-.da AKTIEADR   25mm   246mm width 80mm
-.da AKTIECPR   45mm 261,6mm width 80mm
-.go ARE8
-.**************
-...ARE2
-.*************
-.if &ja = 1
-.an &U'&AKTTXT = N
-.th .go ARE3
-.el .go ARE4
-...ARE3
-.da FRAVALG   176mm 150,7mm width 5mm
-.da AKTIEADR   25mm 250,3mm width 80mm
-.da AKTIECPR   45mm 265,4mm width 80mm
-.go ARE8
-.**************
-...ARE4
-.**************
-.if &ja = 1
-.an &U'&AKTTXT = J
-.th .go ARE5
-.el .go ARE6
-...ARE5
-.da FRAVALG   176mm 157,9mm width 5mm
-.da AKTIEADR   25mm 257,1mm width 80mm
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS2 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS3 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS4 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS5 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS6 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS7 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS8 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS9 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS10 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS11 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS12 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS13 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS14 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.if &L'&GENKRYDS15 gt 0
-.th Ja
-.el &ÅRB
-.sp 0.7mm
-.ar off
-.**************************************************************************
-.if &L'&GENCPR3 = 0
-.th .go AKTEND
-.ar AKTIEADR on
-&GENSTILL3
-.br
-&GENNAVN3
-.br
-&GENGADE3
-.br
-&GENBY3
-.ar off
-.**************************************************************************
-.ar AKTIECPR on
-&GENCPR3
-.ar off
-.**************************************************************************
-...AKTEND
 .*************** definer siden som et areal *******************************
 .da SIDE 20mm 40mm width 175mm
 .**********************************
@@ -556,3 +228,332 @@ Depotet er omfattet af dansk skattepligt. Såfremt dette ændres, skal det
 straks meddeles skriftligt til &BANKNAVN..
 .ar off
 .**************************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* Parametre og substrings ************************************************
+.***** her deles kontonummer for obligationsrenter ************************
+.su off
+.se oblregnr = substr &GENOBLKTO 1 4
+.se oblktonr = substr &GENOBLKTO 5 10
+.***** her deles kontonummer for udtrukne obligationer ********************
+.se uoblregnr = substr &GENUOBLKTO 1 4
+.se uoblktonr = substr &GENUOBLKTO 5 10
+.***** her deles kontonummer for aktieudbytte *****************************
+.se aktregnr = substr &GENAKTKTO 1 4
+.se aktktonr = substr &GENAKTKTO 5 10
+.***** her deles kontonummer for pantebrevsafkast *************************
+.se panregnr = substr &GENPANKTO 1 4
+.se panktonr = substr &GENPANKTO 5 10
+.***** her deles kontonummer for depotgebyr  ******************************
+.se depgregnr = substr &GENDEPGKTO 1 4
+.se depgktonr = substr &GENDEPGKTO 5 10
+.***** her deles kontonummer for sikkerhedsdepot **************************
+.se sikregnr = substr &GENSIKDEP 1 4
+.se sikktonr = substr &GENSIKDEP 5 10
+.su on
+.**************************************************************************
+.* ændring af banknavn til at følge banksteds-banknavn
+.* .if &L'&BANKNAVN GT 0
+.* .th .se BANKNAVN = '&AFDBNKNAVN.'
+.* ændring af banknavn til Spar Nord Bank A/S
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = 'Spar Nord Bank A/S'
+.se e69bank = 'Spar Nord Bank'
+.se e69sbank = 'Spar Nord'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 25mm 42mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************************************
+.sp 70mm
+.**************************************************************************
+.**************************************************************************
+Hermed fremsendes bla. bla. bla.
+.** SIDESKIFT
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Aftale om handel med finansielle instrumenter og depotoprettelse
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.da DEPINDEH   25mm    48mm width 89mm
+.da DEPCPR     45mm    65mm width 89mm
+.da PI      112.5mm    48mm width 89mm
+.da DEPNR      25mm  74.5mm width 85mm
+.da VPNR    112.5mm  74.5mm width 85mm
+.da KUNDEKAT   25mm  83.5mm width 85mm
+.da DEPTYPE 112.5mm  83.5mm width 89mm
+.da OBLRENTE   25mm    93mm width 80mm
+.da UDTOBL  112.5mm    93mm width 80mm
+.da AKTIUDB    25mm 102.5mm width 80mm
+.da DEPGEB  112.5mm 102.5mm width 80mm
+.da PTBAFK     25mm   112mm width 80mm
+.da SIKDEP  112.5mm   112mm width 80mm
+.if &U'X&OBLKTOMF = XJ
+.or &U'X&UOBLKTOM = XJ
+.or &U'X&AKTKTOMF = XJ
+.th .se ja = 1
+.el .se ja = 0
+.**************Hvor begge er N *************************************
+.if &ja = 0
+.an &U'&AKTTXT = N
+.th .go ARE1
+.el .go ARE2
+...ARE1
+.da FRAVALG   176mm   147mm width 5mm
+.da AKTIEADR   25mm   246mm width 80mm
+.da AKTIECPR   45mm 261,6mm width 80mm
+.go ARE8
+.**************
+...ARE2
+.*************
+.if &ja = 1
+.an &U'&AKTTXT = N
+.th .go ARE3
+.el .go ARE4
+...ARE3
+.da FRAVALG   176mm 150,7mm width 5mm
+.da AKTIEADR   25mm 250,3mm width 80mm
+.da AKTIECPR   45mm 265,4mm width 80mm
+.go ARE8
+.**************
+...ARE4
+.**************
+.if &ja = 1
+.an &U'&AKTTXT = J
+.th .go ARE5
+.el .go ARE6
+...ARE5
+.da FRAVALG   176mm 157,9mm width 5mm
+.da AKTIEADR   25mm 257,1mm width 80mm
+.da AKTIECPR   45mm 272,3mm width 80mm
+.go ARE8
+.**************
+...ARE6
+.**************
+.if &ja = 0
+.an &U'&AKTTXT = J
+.th .go ARE7
+.el .go ARE8
+...ARE7
+.da FRAVALG   176mm   154mm width 5mm
+.da AKTIEADR   25mm   253mm width 80mm
+.da AKTIECPR   45mm 268,6mm width 80mm
+.**************
+...ARE8
+.**************************************************************************
+.ar DEPINDEH on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.**************************************************************************
+.ar DEPCPR on
+&DEPKUNDENR
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar DEPNR on
+&DEPREGNR &DEPDEPNR
+.ar off
+.**************************************************************************
+.ar VPNR on
+&VPKTONR
+.ar off
+.**************************************************************************
+.ar KUNDEKAT on
+.if &U'X&KUNDEKAT = XD
+.th Detail
+.if &U'X&KUNDEKAT = XP
+.th Professionel
+.if &U'X&KUNDEKAT = XO
+.th Oprykket professionel
+.if &U'X&KUNDEKAT = XG
+.th Godkendt modpart
+.if &U'X&KUNDEKAT = X
+.th Ikke kategoriseret
+.ar off
+.**************************************************************************
+.ar DEPTYPE on
+&DEPOTTYPE
+.ar off
+.**************************************************************************
+.ar OBLRENTE on
+.if &U'X&OBLKTOMF = XJ
+.th &oblregnr &oblktonr m.fl.*
+.el &oblregnr &oblktonr
+.ar off
+.**************************************************************************
+.ar UDTOBL on
+.if &U'X&UOBLKTOMF = XJ
+.th &uoblregnr &uoblktonr m.fl.*
+.el &uoblregnr &uoblktonr
+.ar off
+.**************************************************************************
+.ar AKTIUDB on
+.if &U'X&AKTKTOMF = XJ
+.th &aktregnr &aktktonr m.fl.*
+.el &aktregnr &aktktonr
+.ar off
+.**************************************************************************
+.ar DEPGEB on
+&depgregnr &depgktonr
+.ar off
+.**************************************************************************
+.ar PTBAFK on
+&panregnr &panktonr
+.ar off
+.**************************************************************************
+.ar SIKDEP on
+&sikregnr &sikktonr
+.ar off
+.**************************************************************************
+.ar FRAVALG on
+.if &L'&GENKRYDS1 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS2 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS3 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS4 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS5 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS6 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS7 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS8 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS9 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS10 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS11 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS12 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS13 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS14 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.if &L'&GENKRYDS15 gt 0
+.th Ja
+.el &ÅRB
+.sp 0.7mm
+.ar off
+.**************************************************************************
+.if &L'&GENCPR3 = 0
+.th .go AKTEND
+.ar AKTIEADR on
+&GENSTILL3
+.br
+&GENNAVN3
+.br
+&GENGADE3
+.br
+&GENBY3
+.ar off
+.**************************************************************************
+.ar AKTIECPR on
+&GENCPR3
+.ar off
+.**************************************************************************
+...AKTEND
+

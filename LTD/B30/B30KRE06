@@ -1,9 +1,133 @@
-.rh cancel
-.sp2
-Venlig hilsen
-.sp2
-&GENEKSP
-.kp off
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.if &U'&B30ÅRSOPG eq N
+.an &U'&B30ANPART eq N
+.an &U'&B30INDKOM eq N
+.th .mg/T/Brevet kan ikke udskrives, når der intet mangler/
+.************************
+.if &U'&B30ÅRSOPG eq J
+.or &U'&B30ÅRSOPG eq N
+.th .go ÅRSOKP
+.el .mg/T/Der skal indtastes J eller N i mangler årsopgør./
+...ÅRSOKP
+.********************
+.if &U'&B30ANPART eq J
+.or &U'&B30ANPART eq N
+.th .go ANPOKP
+.el .mg/T/Der skal indtastes J eller N i mangler x i anparter./
+...ANPOKP
+.******************
+.if &U'&B30INDKOM eq J
+.or &U'&B30INDKOM eq N
+.th .go INDOKP
+.el .mg/T/Der skal indtastes J eller N i mangler x i indkomstforhold/
+...INDOKP
+.**********************
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38,5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+.if X&GENVALG1 eq X1
+.th STUDIEKONTO MED KREDIT
+.if X&GENVALG1 eq X2
+.th MULTIKONTO MED KREDIT
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.ll 130mm
+.in 2mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
 Vi har modtaget &DIN ansøgning om
 .if X&GENVALG1 eq X1
 .th studiekonto med kredit.
@@ -76,133 +200,10 @@ Vi har modtaget &DIN ansøgning om
 .sp
 Såfremt &DU ønsker yderligere oplysninger, er &DU velkommen til at
 kontakte os.
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 105mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-.if X&GENVALG1 eq X1
-.th STUDIEKONTO MED KREDIT
-.if X&GENVALG1 eq X2
-.th MULTIKONTO MED KREDIT
-:SKRSLUT.
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 103mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-:tiltale &TILTALE
-.ll 130mm
-.in 2mm
-.*********************GENEREL OPSÆTNING************************************
-:CALIB10.
-.fo left
-.ti ¤ 05
-.ls by 1.25
-.************ arealer *****************************************************
-.da KUNDE 22mm 38,5mm width 85mm
-.da DATO 160mm 83.5mm width 42.5mm
-.**************************************************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.*******************************
-.ar KUNDE on
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.br
-&LAND
-.ar off
-.*
-.if &U'&B30ÅRSOPG eq N
-.an &U'&B30ANPART eq N
-.an &U'&B30INDKOM eq N
-.th .mg/T/Brevet kan ikke udskrives, når der intet mangler/
-.************************
-.if &U'&B30ÅRSOPG eq J
-.or &U'&B30ÅRSOPG eq N
-.th .go ÅRSOKP
-.el .mg/T/Der skal indtastes J eller N i mangler årsopgør./
-...ÅRSOKP
-.********************
-.if &U'&B30ANPART eq J
-.or &U'&B30ANPART eq N
-.th .go ANPOKP
-.el .mg/T/Der skal indtastes J eller N i mangler x i anparter./
-...ANPOKP
-.******************
-.if &U'&B30INDKOM eq J
-.or &U'&B30INDKOM eq N
-.th .go INDOKP
-.el .mg/T/Der skal indtastes J eller N i mangler x i indkomstforhold/
-...INDOKP
-.**********************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+

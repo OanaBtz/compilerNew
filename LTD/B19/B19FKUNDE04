@@ -1,3 +1,157 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.***********************************************************************
+:VERDA10.
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.***********************TABULATOR**********************
+.ti ¤ 05
+.tp 13mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+&STILL
+.sp 1mm
+&NAVN
+.if &L'&COADR gt 0
+.th .sp 1mm
+.th &COADR
+.th .sp 1mm
+.el .sp 1mm
+&GADE
+.sp 1mm
+&BY
+.sp 1mm
+&LAND
+.sp
+.if &L'&B19TX30A gt 0
+.th Att. &B19TX30A
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.*****************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte: ¤ &GENTLFNR
+.br
+E-mail: ¤ &GENEMAIL
+.sp
+&DATO
+.ar off
+:VERDA10.
+.da SIDE 25mm 90mm width 150mm
+.ar SIDE on
+.****************************************
+.if &B19TX1F = 1
+.th .se KONTO = 'den aftalte konto'
+.if &B19TX1F = 2
+.th .se KONTO = 'de aftalte konti'
+.****************************************
+:VERDA10.
+:FED.
+Etablering af kundeforhold
+.sp
+:SKRSLUT.
+Du er nu oprettet som privatkunde i &BANKNAVN., og i den
+forbindelse beder vi dig om at underskrive en kundeaftale, og du
+skal fremsende gyldig legitimation.
+.*************************************
+.if &U'&B19TX1I = J
+.th .go NETBANK
+.el .go SKRIV
+...NETBANK
+.sp
+Du underskriver kundeaftalen ved at logge på Netbank. Sammen med
+kundeaftalen finder du vores
+"Almindelige forretningsbetingelser og særlige bestemmelser for lån og
+kreditter - forbruger". Priser m.v. finder du på vores
+hjemmeside www.vestjyskbank.dk.
+.go RETUR
+...SKRIV
+.sp
+Sammen med kundeaftalen fremsender vi vores "Almindelige
+forretningsbetingelser og særlige bestemmelser for lån og
+kreditter - forbruger". Priser m.v. finder du på vores hjemmeside
+www.vestjyskbank.dk
+.go RETUR
+...RETUR
+.sp
+Du skal returnere følgende til os:
+.sp
+.if &U'&B19TX1I = N
+.th - Kopi af kundeaftale i underskrevet stand
+.th .br
+.el .br
+- En underskrevet tro og love erklæring (kopi af dette brev)
+.br
+- Legitimation
+.sp
+Legitimationen skal være kopi af dit pas eller dit kørekort samt en
+kopi af dit sundhedskort. Har du ikke noget legitimation med dit
+billede på, kan du i stedet fremsende kopi af din dåbsattest eller
+navneattest sammen med en kopi af sundhedskortet.
+.sp
+.if &U'&B19TX1I = J
+.th Så snart kundeaftalen er underskrevet, og vi har dokumenterne retur,
+.th vil vi oprette &KONTO til dig.
+.el Så snart vi har kundeaftale og dokumenter retur, vil vi
+.el oprette &KONTO til dig.
+.sp
+.sp
+:VERDA10.
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.ar off
 .da BUND 25mm 235mm width 150mm
 .ar BUND on
 .hr left right
@@ -35,39 +189,20 @@ Dato:
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.sp
-:VERDA10.
-Med venlig hilsen
+.fo left
+.***********************************************************************
+.ti ¤ 05
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
 .br
-:FED.
-vestjyskBANK
-:SKRSLUT.
-.sp2
-&GENEKSP
-.br
-:KURSIV.
-&GENTITEL
-:SKRSLUT.
+&KONTROL1
 .ar off
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* oprettet 26. maj 2014 pfa. Jes Lauritsen
-.* hk/9910
-E-mail &GENEMAIL
-.sp
-&DATO
-.ar off
+.***********************************************************************
 :VERDA10.
 .********************DEFINITION AF AREALER*************
 .da NAVN         25mm     40mm  width 80mm
@@ -119,32 +254,71 @@ Kontaktperson:
 .br
 Direkte &GENTLFNR
 .br
-.fo left
-.***********************************************************************
-.ti ¤ 05
-.***********************************************************************
-.* navn på brev, anført i nederste venstre hjørne
-.da VEND 7mm 280mm width 180mm rotate -90
-.***********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-&KONTROL1
+E-mail &GENEMAIL
+.sp
+&DATO
 .ar off
-.***********************************************************************
 :VERDA10.
-.da KOPI 182mm 32mm width 30mm
-.***********************************************************
-.ar KOPI on
-:COUR14.
+.* oprettet 26. maj 2014 pfa. Jes Lauritsen
+.* hk/9910
+.da SIDE 25mm 90mm width 150mm
+.ar SIDE on
+.****************************************
+.if &B19TX1F = 1
+.th .se KONTO = 'den aftalte konto'
+.if &B19TX1F = 2
+.th .se KONTO = 'de aftalte konti'
+.****************************************
+:VERDA10.
 :FED.
-KOPI
+Etablering af kundeforhold
+.sp
 :SKRSLUT.
-.ar off
-.***********************************************************
-.** SIDESKIFT
-.pa
+Du er nu oprettet som privatkunde i &BANKNAVN., og i den
+forbindelse beder vi dig om at underskrive en kundeaftale, og du
+skal fremsende gyldig legitimation.
+.*************************************
+.if &U'&B19TX1I = J
+.th .go NETBANK
+.el .go SKRIV
+...NETBANK
+.sp
+Du underskriver kundeaftalen ved at logge på Netbank. Sammen med
+kundeaftalen finder du vores
+"Almindelige forretningsbetingelser og særlige bestemmelser for lån og
+kreditter - forbruger". Priser m.v. finder du på vores
+hjemmeside www.vestjyskbank.dk.
+.go RETUR
+...SKRIV
+.sp
+Sammen med kundeaftalen fremsender vi vores "Almindelige
+forretningsbetingelser og særlige bestemmelser for lån og
+kreditter - forbruger". Priser m.v. finder du på vores hjemmeside
+www.vestjyskbank.dk
+.go RETUR
+...RETUR
+.sp
+Du skal returnere følgende til os:
+.sp
+.if &U'&B19TX1I = N
+.th - Kopi af kundeaftale i underskrevet stand
+.th .br
+.el .br
+- En underskrevet tro og love erklæring (kopi af dette brev)
+.br
+- Legitimation
+.sp
+Legitimationen skal være kopi af dit pas eller dit kørekort samt en
+kopi af dit sundhedskort. Har du ikke noget legitimation med dit
+billede på, kan du i stedet fremsende kopi af din dåbsattest eller
+navneattest sammen med en kopi af sundhedskortet.
+.sp
+.if &U'&B19TX1I = J
+.th Så snart kundeaftalen er underskrevet, og vi har dokumenterne retur,
+.th vil vi oprette &KONTO til dig.
+.el Så snart vi har kundeaftale og dokumenter retur, vil vi
+.el oprette &KONTO til dig.
+.sp
 .sp
 :VERDA10.
 Med venlig hilsen
@@ -159,188 +333,15 @@ vestjyskBANK
 &GENTITEL
 :SKRSLUT.
 .ar off
-.da SIDE 25mm 90mm width 150mm
-.ar SIDE on
-.****************************************
-.if &B19TX1F = 1
-.th .se KONTO = 'den aftalte konto'
-.if &B19TX1F = 2
-.th .se KONTO = 'de aftalte konti'
-.****************************************
-:VERDA10.
+.** SIDESKIFT
+.pa
+.da KOPI 182mm 32mm width 30mm
+.***********************************************************
+.ar KOPI on
+:COUR14.
 :FED.
-Etablering af kundeforhold
-.sp
+KOPI
 :SKRSLUT.
-Du er nu oprettet som privatkunde i &BANKNAVN., og i den
-forbindelse beder vi dig om at underskrive en kundeaftale, og du
-skal fremsende gyldig legitimation.
-.*************************************
-.if &U'&B19TX1I = J
-.th .go NETBANK
-.el .go SKRIV
-...NETBANK
-.sp
-Du underskriver kundeaftalen ved at logge på Netbank. Sammen med
-kundeaftalen finder du vores
-"Almindelige forretningsbetingelser og særlige bestemmelser for lån og
-kreditter - forbruger". Priser m.v. finder du på vores
-hjemmeside www.vestjyskbank.dk.
-.go RETUR
-...SKRIV
-.sp
-Sammen med kundeaftalen fremsender vi vores "Almindelige
-forretningsbetingelser og særlige bestemmelser for lån og
-kreditter - forbruger". Priser m.v. finder du på vores hjemmeside
-www.vestjyskbank.dk
-.go RETUR
-...RETUR
-.sp
-Du skal returnere følgende til os:
-.sp
-.if &U'&B19TX1I = N
-.th - Kopi af kundeaftale i underskrevet stand
-.th .br
-.el .br
-- En underskrevet tro og love erklæring (kopi af dette brev)
-.br
-- Legitimation
-.sp
-Legitimationen skal være kopi af dit pas eller dit kørekort samt en
-kopi af dit sundhedskort. Har du ikke noget legitimation med dit
-billede på, kan du i stedet fremsende kopi af din dåbsattest eller
-navneattest sammen med en kopi af sundhedskortet.
-.sp
-.if &U'&B19TX1I = J
-.th Så snart kundeaftalen er underskrevet, og vi har dokumenterne retur,
-.th vil vi oprette &KONTO til dig.
-.el Så snart vi har kundeaftale og dokumenter retur, vil vi
-.el oprette &KONTO til dig.
-.sp
-.da SIDE 25mm 90mm width 150mm
-.ar SIDE on
-.****************************************
-.if &B19TX1F = 1
-.th .se KONTO = 'den aftalte konto'
-.if &B19TX1F = 2
-.th .se KONTO = 'de aftalte konti'
-.****************************************
-:VERDA10.
-:FED.
-Etablering af kundeforhold
-.sp
-:SKRSLUT.
-Du er nu oprettet som privatkunde i &BANKNAVN., og i den
-forbindelse beder vi dig om at underskrive en kundeaftale, og du
-skal fremsende gyldig legitimation.
-.*************************************
-.if &U'&B19TX1I = J
-.th .go NETBANK
-.el .go SKRIV
-...NETBANK
-.sp
-Du underskriver kundeaftalen ved at logge på Netbank. Sammen med
-kundeaftalen finder du vores
-"Almindelige forretningsbetingelser og særlige bestemmelser for lån og
-kreditter - forbruger". Priser m.v. finder du på vores
-hjemmeside www.vestjyskbank.dk.
-.go RETUR
-...SKRIV
-.sp
-Sammen med kundeaftalen fremsender vi vores "Almindelige
-forretningsbetingelser og særlige bestemmelser for lån og
-kreditter - forbruger". Priser m.v. finder du på vores hjemmeside
-www.vestjyskbank.dk
-.go RETUR
-...RETUR
-.sp
-Du skal returnere følgende til os:
-.sp
-.if &U'&B19TX1I = N
-.th - Kopi af kundeaftale i underskrevet stand
-.th .br
-.el .br
-- En underskrevet tro og love erklæring (kopi af dette brev)
-.br
-- Legitimation
-.sp
-Legitimationen skal være kopi af dit pas eller dit kørekort samt en
-kopi af dit sundhedskort. Har du ikke noget legitimation med dit
-billede på, kan du i stedet fremsende kopi af din dåbsattest eller
-navneattest sammen med en kopi af sundhedskortet.
-.sp
-.if &U'&B19TX1I = J
-.th Så snart kundeaftalen er underskrevet, og vi har dokumenterne retur,
-.th vil vi oprette &KONTO til dig.
-.el Så snart vi har kundeaftale og dokumenter retur, vil vi
-.el oprette &KONTO til dig.
-.sp
-.********************DEFINITION AF AREALER*************
-.da NAVN         25mm     40mm  width 80mm
-.da REG          94mm     40mm
-.da AFDOPL      140mm     40mm
-.***********************TABULATOR**********************
-.ti ¤ 05
-.tp 13mm
-.*******************NAVNEOPLYSNINGER*******************
-:VERDA10.
-.ar NAVN on
-&STILL
-.sp 1mm
-&NAVN
-.if &L'&COADR gt 0
-.th .sp 1mm
-.th &COADR
-.th .sp 1mm
-.el .sp 1mm
-&GADE
-.sp 1mm
-&BY
-.sp 1mm
-&LAND
-.sp
-.if &L'&B19TX30A gt 0
-.th Att. &B19TX30A
 .ar off
-.******************REGISTRERINGSNR*******************
-.ar REG on
-:VERDA06.
-&REGNR
-.ar off
-.*****************AFD.OPLYSNINGER*******************
-.ar AFDOPL on
-:VERDA08.
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.br
-&AFDTLF
-.sp
-Kontaktperson:
-.br
-&GENEKSP
-.br
-Direkte: ¤&GENTLFNR
-.br
-E-mail: ¤&GENEMAIL
-.sp
-&DATO
-.ar off
-:VERDA10.
-.fo left
-.***********************************************************************
-.ti ¤ 05
-.***********************************************************************
-.* navn på brev, anført i nederste venstre hjørne
-.da VEND 7mm 280mm width 180mm rotate -90
-.***********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-&KONTROL1
-.ar off
-.***********************************************************************
-:VERDA10.
+.***********************************************************
+

@@ -11,211 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* PARAMETERAFSNIT
-.* Teksten ligger i AFSNIT T
-.se BECTLBP = 1
-.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
-.dm TLADR on
-.se post=&*1
-.se post1=&*1
-.se TR = ' '
-.se TN = 'Der er ingen tinglysningskontor'
-.se TG = 'under postnr. &post.'
-.se TB = '-------------------------------'
-.se fundet = 0
-.TLADR1 &post
-.*.if &fundet = 0 .TLADR2 &post
-.*.if &fundet = 0 .TLADR3 &post
-.*.if &fundet = 0 .TLADR4 &post
-.*.if &fundet = 0 .TLADR5 &post
-.*.if &fundet = 0 .go EJFUND
-.if &fundet = 1
-.th .go RET
-.el .go EJFUND
-.**************************************************************************
-...RET
-.if &fundet = 1 .se TN = 'Tinglysningskontoret'
-.th .se gb = substr '&TB.' 7 28
-.th .se TR = '&GENRET. &gb.'
-.if .&post1 = .0001 .se TN = 'Bilbogen'
-.th .se TR = 'Tinglysningsretten'
-.if .&post1 = .0002 .se TN = 'Personbogen'
-.th .se TR = 'Tinglysningsretten'
-.if .&post1 = .0003 .se TN = 'Andelsboligbogen'
-.th .se TR = 'Tinglysningsretten'
-.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
-.th .se TR = ' '
-.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
-.th .se TR = ' '
-.if .&post1 = .2100 .se TN = 'Skibsregistret'
-.th .se TR = ' '
-.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
-.th .se TR = ' '
-.if .&post1 = .9500 .se TN = 'Tinglysningsretten'
-.th .se TR = ' '
-...EJFUND
-...DM
-.dm off
-.se BECTL1 = 1
-.dm TLADR1 on
-.se ITLPN=&*1
-.if &ITLPN = 0001
-.or &ITLPN = 0002
-.or &ITLPN = 0003
-.th .se TG 'Majsmarken 5'
-.th .se TB '9500  Hobro'
-.th .se ktonr = '0216 4069152155'
-.th .go SLUT
-.if &ITLPN = 0110
-.th .se TG 'C. Pløyensgøta 1'
-.th .se TB '110  Tórshavn'
-.th .se ktonr = ''
-.th .go SLUT
-.if &ITLPN = 3900
-.th .se TG ''
-.th .se TB '3900  Godthåb (Nuuk)'
-.th .se ktonr = ''
-.th .go SLUT
-.if &ITLPN = 9500
-.th .se TG 'Majsmarken 5'
-.th .se TB '9500 Hobro'
-.th .se ktonr = ''
-.th .go SLUT
-.go END
-...SLUT
-.se fundet=1
-...END
-.dm off
-.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
-.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ********
-.TLADR &LNTLKODE.
-.if &L'&GENNAVN = 0
-.th .se GENRET  = '&TR.'
-.th .se GENNAVN = '&TN.'
-.th .se GENGADE = '&TG.'
-.th .se GENBY   = '&TB.'
-.**************** NORMALT 2. KUDAFSNIT ******************************
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSELINIE1 '%&GENRET.'
-.BR
-.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
-.BR
-.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
-.BR
-.NV PAGE ADRESSELINIE4 '%&GENGADE.'
-.BR
-.NV PAGE ADRESSELINIE5 '%&GENBY.'
-.BR
-.NV PAGE ADRESSENØGLE '% '
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**********************
-.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL *********
-:GL.
-&GENRET.
-.br
-&GENNAVN
-.br
-&GENCOADR
-.br
-&GENGADE
-.br
-&GENBY
-:EGL.
-.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
-.****** AREAL MEDKONTOHAVER ************************
-.da ANB 24mm 43mm width 175mm
-.***********************************************
-:COUR10.
-.ar ANB on
-.if x&U'&B20ANB = xX
-.th :FED.
-.th Rekommanderet
-.th :SKRSLUT.
-.ar off
-.oc **B20TING03
-:COUR10.
-.fo left
-.ti ¤ 05
-.* Brevnavn roteret
-.da VEND 7mm 270mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B20TING03
-.ar off
-.***********************************************************************
-.da KASSER 20mm 100mm width 170mm
-.******************************************************
-.ar KASSER on
-.tp 1mm
-:SWISS10.:FED.
-¤Vedr. &B20TEKST01
-.sp
-¤Hermed fremsendes
-:SKRSLUT.
-.bx left right
-:SWISS8.
-.sp 25mm
-.bx off
-:SWISS10.:FED.
-¤til
-:SKRSLUT.
-.bx left right
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx off
-:SWISS10.:FED.
-¤Desuden medfølger
-:SKRSLUT.
-.bx left right
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx new 5mm 8mm / 90mm 93mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.bx new left right
-.sp 19mm
-.bx off
-.bx can
-:SKRSLUT.
-.ar off
 .da REF 126mm 95mm width 175mm
 .da FAST1 34mm 147mm width 160mm
 .da FAST2 34mm 175mm width 160mm
@@ -384,3 +179,209 @@ Med venlig hilsen
 .el &GENEKSP
 .ce off
 .ar off
+.* PARAMETERAFSNIT
+.* Teksten ligger i AFSNIT T
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.se TR = ' '
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.*.if &fundet = 0 .TLADR2 &post
+.*.if &fundet = 0 .TLADR3 &post
+.*.if &fundet = 0 .TLADR4 &post
+.*.if &fundet = 0 .TLADR5 &post
+.*.if &fundet = 0 .go EJFUND
+.if &fundet = 1
+.th .go RET
+.el .go EJFUND
+.**************************************************************************
+...RET
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.th .se gb = substr '&TB.' 7 28
+.th .se TR = '&GENRET. &gb.'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0003 .se TN = 'Andelsboligbogen'
+.th .se TR = 'Tinglysningsretten'
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.th .se TR = ' '
+.if .&post1 = .2100 .se TN = 'Skibsregistret'
+.th .se TR = ' '
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+.th .se TR = ' '
+.if .&post1 = .9500 .se TN = 'Tinglysningsretten'
+.th .se TR = ' '
+...EJFUND
+...DM
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0001
+.or &ITLPN = 0002
+.or &ITLPN = 0003
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .se ktonr = '0216 4069152155'
+.th .go SLUT
+.if &ITLPN = 0110
+.th .se TG 'C. Pløyensgøta 1'
+.th .se TB '110  Tórshavn'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 9500
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500 Hobro'
+.th .se ktonr = ''
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ********
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENRET  = '&TR.'
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENRET.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**********************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL *********
+:GL.
+&GENRET.
+.br
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
+.****** AREAL MEDKONTOHAVER ************************
+.da ANB 24mm 43mm width 175mm
+.***********************************************
+:COUR10.
+.ar ANB on
+.if x&U'&B20ANB = xX
+.th :FED.
+.th Rekommanderet
+.th :SKRSLUT.
+.ar off
+.oc **B20TING03
+:COUR10.
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B20TING03
+.ar off
+.***********************************************************************
+.da KASSER 20mm 100mm width 170mm
+.******************************************************
+.ar KASSER on
+.tp 1mm
+:SWISS10.:FED.
+ ¤ Vedr. &B20TEKST01
+.sp
+ ¤ Hermed fremsendes
+:SKRSLUT.
+.bx left right
+:SWISS8.
+.sp 25mm
+.bx off
+:SWISS10.:FED.
+ ¤ til
+:SKRSLUT.
+.bx left right
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx off
+:SWISS10.:FED.
+ ¤ Desuden medfølger
+:SKRSLUT.
+.bx left right
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx new 5mm 8mm / 90mm 93mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.bx new left right
+.sp 19mm
+.bx off
+.bx can
+:SKRSLUT.
+.ar off
+

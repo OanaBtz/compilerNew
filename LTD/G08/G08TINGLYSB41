@@ -1,53 +1,110 @@
-.if &L'&B19L3 gt 0
-.th .go UDGÅR
-.el .go VALG
-...UDGÅR
-.sp
-Af pantet udgår:
-.sp
-&B19L3., stelnr. &B19L4 &ÅCONT
-.if &L'&B19L9 gt 0
-.th .sp 1mm
-.th &B19L9., stelnr. &B19L10 &ÅCONT
-.if &L'&B19L11 gt 0
-.th .sp 1mm
-.th &B19L11., stelnr. &B19L12 &ÅCONT
-.if &L'&B19L15 gt 0
-.th .sp 1mm
-.th &B19L15., stelnr. &B19L16 &ÅCONT
-.****** PÅTEGNING PANT IND + PANT IND OG UD - MEN IKKE: KUN PANT UD ******
-.if &L'&B19L1 lt 1
-.an &L'&B19L3 gt 0
-.th .go TXT
-.el .go VALG
-.************ PÅTEGNING **************************************************
-...VALG
-.sp
-Nærværende ændring af pantet omfatter alene erhvervsaktiver. Der sker
-herved ikke skift af pantsætter.
-...TXT
-.if &L'&B19BELØB1 gt 0
-.th .go FORHØJ
-.el .go EJHØJ
-...FORHØJ
-.sp2
-Nærværende ejerpantebrev ¤¤kr. ¤¤&B19BELØB
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.tm 30mm
+.ll 175mm
+.*
+.*
+.*
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm  270mm width 180mm rotate -90
+.da OVERSKR 20mm   32mm width 175mm
+.da BOX     20mm   40mm width 175mm
+.da ID      20mm   47mm width 175mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Aftale om udskiftning af effekt samt forhøjelse
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
 .br
-Forhøjes med ¤¤kr. ¤¤&B19BELØB1
-.br
-.hr 60mm 90mm
-.sp
-I alt ¤¤kr. ¤¤&RESULTC
-.br
-.hr 60mm 90mm
-.sp
-skriver: kroner &RESULTCT1.&RESULTCT2..
-...EJHØJ
-.sp2
-.if &L'&B19BELØB gt 0
-.th Ejerpantebrevets øvrige bestemmelser gentages i alle dets ord og
-.th punkter, idet det dog bemærkes, at der for så vidt angår
-.th forhøjelsesbeløbet meddeles afkald på renteopskrivningsbestemmelsen.
+&KONTROL1 kl. &KLOKKESLET ¤ &DATO
+.ar off
+.********************KASSE TIL ID OG AFGIFT*******************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 50mm 100mm 140mm
+.bx left right
+.if &L'&B19TX30B gt 0
+.th ¤ Kundenr. ¤ Meddebitors kundenr. ¤ Afgift ¤ Udskrevet
+.el ¤ Kundenr. ¤ ¤ Afgift ¤ Udskrevet
+.sp 6mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.********************ID OG AFGIFT******************************************
+.ar ID on
+:SWISS9.
+.tp 1mm 50mm 90mm 140mm
+ ¤ &KUNDENR ¤ &B19CPR1 ¤ &B19BELØB2 kr. ¤ &DATO
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 47mm
+.rh off
+.rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
 .******** AFSNIT OG AREALER ***********
 .da OVERSKR   22mm 55mm width 160mm
 .da TEKST     22mm 80mm width 172mm
@@ -98,6 +155,56 @@ Lyst første gang: &B19DATO Løbenr. &B19TX13A
 .th .sp
 .th &B19L1., stelnr. &B19L2 &ÅCONT
 .************ PÅTEGNING NÅR DER TAGES EFFEKTER UD AF PANTET ***************
+.if &L'&B19L3 gt 0
+.th .go UDGÅR
+.el .go VALG
+...UDGÅR
+.sp
+Af pantet udgår:
+.sp
+&B19L3., stelnr. &B19L4 &ÅCONT
+.if &L'&B19L9 gt 0
+.th .sp 1mm
+.th &B19L9., stelnr. &B19L10 &ÅCONT
+.if &L'&B19L11 gt 0
+.th .sp 1mm
+.th &B19L11., stelnr. &B19L12 &ÅCONT
+.if &L'&B19L15 gt 0
+.th .sp 1mm
+.th &B19L15., stelnr. &B19L16 &ÅCONT
+.****** PÅTEGNING PANT IND + PANT IND OG UD - MEN IKKE: KUN PANT UD ******
+.if &L'&B19L1 lt 1
+.an &L'&B19L3 gt 0
+.th .go TXT
+.el .go VALG
+.************ PÅTEGNING **************************************************
+...VALG
+.sp
+Nærværende ændring af pantet omfatter alene erhvervsaktiver. Der sker
+herved ikke skift af pantsætter.
+...TXT
+.if &L'&B19BELØB1 gt 0
+.th .go FORHØJ
+.el .go EJHØJ
+...FORHØJ
+.sp2
+Nærværende ejerpantebrev ¤ ¤ kr. ¤ ¤ &B19BELØB
+.br
+Forhøjes med ¤ ¤ kr. ¤ ¤ &B19BELØB1
+.br
+.hr 60mm 90mm
+.sp
+I alt ¤ ¤ kr. ¤ ¤ &RESULTC
+.br
+.hr 60mm 90mm
+.sp
+skriver: kroner &RESULTCT1.&RESULTCT2..
+...EJHØJ
+.sp2
+.if &L'&B19BELØB gt 0
+.th Ejerpantebrevets øvrige bestemmelser gentages i alle dets ord og
+.th punkter, idet det dog bemærkes, at der for så vidt angår
+.th forhøjelsesbeløbet meddeles afkald på renteopskrivningsbestemmelsen.
 .el Ejerpantebrevets øvrige bestemmelser gentages i alle dets ord
 .el og punkter.
 .sp
@@ -109,7 +216,7 @@ og/eller tinglysning af påtegningen til en samarbejdspartner.
 .*************** UNDERSKRIFTER *************
 .if &L'&B19TX20A gt 0
 .th &B19TX20A., den
-.el ¤, den
+.el ¤ , den
 .sp
 .if &L'&RINCPR1 gt 0
 .th Som pantedebitorer:
@@ -119,115 +226,9 @@ og/eller tinglysning af påtegningen til en samarbejdspartner.
 .if &L'&RINCPR1 gt 0
 .th .hr 5mm 75mm 85mm 150mm
 .th .br
-.th &NAVN ¤&B19TX30B
+.th &NAVN ¤ &B19TX30B
 .el .hr 5mm 75mm
 .el .br
 .el &NAVN
 .ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
-.**************************************************************************
-.sp 47mm
-.rh off
-.rh execute
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND     7mm  270mm width 180mm rotate -90
-.da OVERSKR 20mm   32mm width 175mm
-.da BOX     20mm   40mm width 175mm
-.da ID      20mm   47mm width 175mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.********************OVERSKRIFT********************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-Aftale om udskiftning af effekt samt forhøjelse
-:SKRSLUT.
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.br
-&KONTROL1 kl. &KLOKKESLET ¤&DATO
-.ar off
-.********************KASSE TIL ID OG AFGIFT*******************************
-.ar BOX on
-:SWISS9.
-.tp 1mm 50mm 100mm 140mm
-.bx left right
-.if &L'&B19TX30B gt 0
-.th ¤Kundenr. ¤Meddebitors kundenr. ¤Afgift ¤Udskrevet
-.el ¤Kundenr. ¤¤Afgift ¤Udskrevet
-.sp 6mm
-.bx off
-.********************KASSE TIL INDHOLD*************************************
-.sp 4mm
-.bx left right
-.sp 216mm
-.bx off
-.ar off
-.********************ID OG AFGIFT******************************************
-.ar ID on
-:SWISS9.
-.tp 1mm 50mm 90mm 140mm
-¤&KUNDENR ¤&B19CPR1 ¤&B19BELØB2 kr. ¤&DATO
-.ar off
-.*
-.*
-.*
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.tm 30mm
-.ll 175mm
-.pm 20mm
-.NV PAGE BANKSTED '%&KNDTILH.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

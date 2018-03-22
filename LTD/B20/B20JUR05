@@ -11,297 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.oc **B20jur05
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.if &GENDUJANEJ = N
-.th .go H
-.el .go HSLUT
-...H
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.*************************************************************
-.ar AFSENDER on
-:VERDA08.
-A/S &BANKNAVN
-.br;&AFDNAVN
-.br;&AFDGADE
-.br;&AFDBY
-.br;T: &AFDTLF
-.br;M: inkasso@al-bank.dk
-.sp2
-.br;&DATO
-.br
-.sp 1mm
-.if &L'&GENKORTREF = 0
-.th .sp 1mm
-.el &GENKORTREF
-.sp
-.ar off
-.*************************************************************
-.if &L'&B20TEKST55 > 0
-.th &NAVN og &B20TEKST55
-.el &NAVN
-.if &L'&COADR > 0
-.th .br
-.th &COADR
-.br
-&GADE
-.br
-&BY
-...HSLUT
-.*************************************************************
-.if &GENDUJANEJ = N
-.th .go O
-.el .go OSLUT
-...O
-:OMTALE &OMTALEF
-:TILTALE &TILTALEF
-:VERDA09.
-.fo left
-.ti ¤ 05
-.* Brevnavn roteret
-.da VEND 7mm 270mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B20JUR04
-.ar off
-.********************OVERSKRIFT*****************************************
-.da OVERSKR 20mm 110mm width 170mm
-.ar OVERSKR on
-:VERDA10.
-:FED.
-&SDIT engagement med banken
-:SKRSLUT.
-:SKRSLUT.
-.sp
-...OSLUT
-.if &GENDUJANEJ = N
-.th .go T
-.el .go TSLUT
-...T
-I henhold til aftale fremsendes vedlagt frivilligt forlig
-til underskrift. Samtidig vedlægges kopi til eget brug.
-.sp
-.if &L'&B20TEST02 > 0
-.th &SDU vil modtage indbetalingskort hver måned til brug for betaling
-.th af ydelsen. Indbetalingskortet kan tilmeldes Betalingsservice.
-.th .sp
-.if &L'&B20TEST03 > 0
-.th Af hensyn til reglerne om hvidvask skal vi samtidig anmode &DIG om, at
-.th fremsende en kopi af pas eller kørekort, samt sundhedskort.
-.th .sp
-Vedlægges:
-.sp
-- Frivilligt forlig
-.br
-- Europæiske forbrugerkreditoplysninger med henblik på gældsomlægning
-.br
-- Alm. betingelser for kreditaftaler til privatkunder
-.if &L'&B20TEST04 > 0
-.th .br
-.th - Kreditoplysninger
-.sp
-Vi imødeser forliget retur inden 14 dage fra dato.
-...TSLUT
-.if &GENDUJANEJ = N
-.th .go MVH
-.el .go MVHSLUT
-...MVH
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&BANKNAVN
-.sp 3
-.if &L'&GENMEKSP gt 0
-.th &GENMEKSP          &GENEKSP
-.el &GENEKSP
-.ce off
-.ar off
-.pa
-...MVHSLUT
-.ti ¤ 05
-.tp 1mm 88,5mm
-.sp 40mm
-:SWISS9.
-.*************************************************************
-.if &L'&B20TEKST55 > 0
-.th ¤&NAVN ¤&B20TEKST55
-.th .br
-.if &L'&COADR > 0 .an &L'&B20TEKST56 = 0 .an &L'&B20TEKST55 > 0
-.th ¤&COADR
-.if &L'&COADR = 0 .an &L'&B20TEKST56 > 0
-.th ¤¤&B20TEKST56
-.if &L'&COADR > 0 .an &L'&B20TEKST56 > 0
-.th ¤&COADR ¤&B20TEKST56
-.if &L'&B20TEKST55 > 0
-.th .br
-.th ¤&GADE ¤&B20TEKST57
-.th .br
-.th ¤&BY ¤&B20TEKST58
-.el ¤&NAVN
-.el .br
-.el ¤&COADR
-.el .br
-.el ¤&GADE
-.el .br
-.el ¤&BY
-.*************************************************************
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :SWISS9.
@@ -331,14 +40,14 @@ B20JUR05
 .bx 0mm 15mm 30mm 45mm
 :SWISS8.
 .tp 1mm 16mm 31mm
-¤Rev. af¤Gennemg.¤Revisor
+ ¤ Rev. af ¤ Gennemg. ¤ Revisor
 .sp 5mm
 .bx off
 .************ PARTER ******************************************************
 .ar SIDE on
 .tp 1mm 30mm 65mm 140mm
 .bx left right
-¤Banksted¤Kontonummer¤¤Udskrivningsdato
+ ¤ Banksted ¤ Kontonummer ¤ ¤ Udskrivningsdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -346,27 +55,68 @@ B20JUR05
 .bx left right
 .tp 1mm 88.5mm 135mm
 .if &L'&B20TEKST55 > 0
-.th ¤Debitor ¤Debitor
-.el ¤Debitor
+.th ¤ Debitor ¤ Debitor
+.el ¤ Debitor
 .sp 20mm
 .if &L'&B20TEKST55 > 0
-.th ¤Kundenummer &KUNDENR ¤Kundenummer &B20CPR
-.el ¤Kundenummer &KUNDENR
+.th ¤ Kundenummer &KUNDENR ¤ Kundenummer &B20CPR
+.el ¤ Kundenummer &KUNDENR
 .bx off
 .sp 4mm
 .bx left right
 .sp 184mm
 .bx off
 .ar off
-.th :SKRSLUT.
-.th .br
-.th &B20TEKST05
-.th &B20TEKST06
-.th &B20TEKST08
-.th &B20TEKST09
-.th &B20TEKST11
-.th &B20TEKST13
+.tp 60mm 100mm right
+.******************************************************************
+.da BANKSTED      20mm  47mm width 175mm
+.******************************************************************
+.ar BANKSTED on
+.tp 1mm 30mm 65mm 140mm
+ ¤ 5306  ¤ &B20KONTO12 ¤ ¤ &DATO
 .ar off
+.**************************************
+.da SIDE1 22mm  95mm width 172mm
+.ar SIDE1 on
+:FED.
+Beløb
+:SKRSLUT.
+.br
+&SJEG erkender herved at skylde &BANKNAVN.
+.sp
+.if &L'&B20KONTO05 > 0
+.th Konto &B20KONTO05 ¤ kr. ¤ &B20BELØB10.
+.if &L'&B20KONTO06 > 0
+.th .br
+.th Konto &B20KONTO06 ¤ kr. ¤ &B20BELØB11.
+.if &L'&B20KONTO08 > 0
+.th .br
+.th Konto &B20KONTO08 ¤ kr. ¤ &B20BELØB20.
+.if &L'&B20KONTO09 > 0
+.th .br
+.th Konto &B20KONTO09 ¤ kr. ¤ &B20BELØB21.
+.if &L'&B20KONTO10 > 0
+.th .br
+.th Konto &B20KONTO10 ¤ kr. ¤ &B20BELØB22.
+.if &L'&B20BELØB12 > 0
+.th .br
+.th Kautionsforpligtelse, &B20TEKST03 ¤ kr. ¤ &B20BELØB12.
+.if &L'&B20TEKST10 > 0
+.th .br.
+.th &B20TEKST10 ¤ kr. ¤ &B20BELØB23.
+.if &L'&B20BELØB13 > 0
+.th .br.
+.th Påløbne morarenter ¤ kr. ¤ &B20BELØB13.
+.if &L'&B20BELØB14 > 0
+.th .br
+.th Inkassoomkostninger ¤ kr. ¤ &B20BELØB14.
+.br
+I alt ¤ kr. ¤ &B20BELØB15.
+.sp 5mm
+:FED.
+Afvikling
+:SKRSLUT.
+.br
 Beløb betales som et annuitetslån med &B20LØBETID ydelser.
 De enkelte ydelser og disses
 forfaldstidspunkt fremgår af kreditoplysningerne. Første ydelse
@@ -417,56 +167,15 @@ til renten.
 .th .sp 5mm
 .th :FED.
 .th Særlige vilkår
-.tp 60mm 100mm right
-.******************************************************************
-.da BANKSTED      20mm  47mm width 175mm
-.******************************************************************
-.ar BANKSTED on
-.tp 1mm 30mm 65mm 140mm
-¤5306  ¤&B20KONTO12 ¤¤&DATO
+.th :SKRSLUT.
+.th .br
+.th &B20TEKST05
+.th &B20TEKST06
+.th &B20TEKST08
+.th &B20TEKST09
+.th &B20TEKST11
+.th &B20TEKST13
 .ar off
-.**************************************
-.da SIDE1 22mm  95mm width 172mm
-.ar SIDE1 on
-:FED.
-Beløb
-:SKRSLUT.
-.br
-&SJEG erkender herved at skylde &BANKNAVN.
-.sp
-.if &L'&B20KONTO05 > 0
-.th Konto &B20KONTO05 ¤kr.¤&B20BELØB10.
-.if &L'&B20KONTO06 > 0
-.th .br
-.th Konto &B20KONTO06 ¤kr.¤&B20BELØB11.
-.if &L'&B20KONTO08 > 0
-.th .br
-.th Konto &B20KONTO08 ¤kr.¤&B20BELØB20.
-.if &L'&B20KONTO09 > 0
-.th .br
-.th Konto &B20KONTO09 ¤kr.¤&B20BELØB21.
-.if &L'&B20KONTO10 > 0
-.th .br
-.th Konto &B20KONTO10 ¤kr.¤&B20BELØB22.
-.if &L'&B20BELØB12 > 0
-.th .br
-.th Kautionsforpligtelse, &B20TEKST03 ¤kr.¤&B20BELØB12.
-.if &L'&B20TEKST10 > 0
-.th .br.
-.th &B20TEKST10 ¤kr.¤&B20BELØB23.
-.if &L'&B20BELØB13 > 0
-.th .br.
-.th Påløbne morarenter ¤kr.¤&B20BELØB13.
-.if &L'&B20BELØB14 > 0
-.th .br
-.th Inkassoomkostninger ¤kr.¤&B20BELØB14.
-.br
-I alt ¤kr.¤&B20BELØB15.
-.sp 5mm
-:FED.
-Afvikling
-:SKRSLUT.
-.br
 .** SIDESKIFT
 .pa
 .*************** definer siden som et areal *******************************
@@ -586,13 +295,13 @@ Jeg/Vi kvitterer samtidig for modtagelsen af kreditoplysninger.
 .sp 18mm
 .hr tynd 5mm 45mm 50mm 170mm
 .br
-¤Dato ¤&NAVN
+ ¤ Dato ¤ &NAVN
 .******************* Evt. Underskrift fra medkontohaver *******************
 .if &L'&B20TEKST55 > 0
 .th .sp 18mm
 .th .hr tynd 5mm 45mm 50mm 170mm
 .th .br
-.th ¤Dato ¤&B20TEKST55
+.th ¤ Dato ¤ &B20TEKST55
 .******************* Evt. underskrift fra pantsættere *********************
 .if &L'&B20TEKST01 > 0
 .th .sp 18mm
@@ -603,12 +312,12 @@ Jeg/Vi kvitterer samtidig for modtagelsen af kreditoplysninger.
 .th .sp 18mm
 .th .hr tynd 5mm 45mm 50mm 170mm
 .th .br
-.th ¤Dato ¤&B20TEKST01
+.th ¤ Dato ¤ &B20TEKST01
 .if &L'&B20TEKST02 > 0
 .th .sp 18mm
 .th .hr tynd 5mm 45mm 50mm 170mm
 .th .br
-.th ¤Dato ¤&B20TEKST02
+.th ¤ Dato ¤ &B20TEKST02
 .ar off
 .** SIDESKIFT
 .pa
@@ -702,6 +411,35 @@ Gældende fra &B20DATO10 til &B20DATO11
 .ta row SEFO3 off
 ...PKT3
 .ta table off
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
 .*PUNKT 3 (1)**************************************************************
 :FED.
 3. Kreditomkostninger
@@ -768,13 +506,13 @@ kreditbeløb.
 antagelser, vist i følgende eksempel:
 .sp 3mm
 .tp 70mm right
-Kreditrammen: ¤100.000,00 DKK
+Kreditrammen: ¤ 100.000,00 DKK
 .br
-Debitorrente ¤10,5 %
+Debitorrente ¤ 10,5 %
 .br
-Stiftelsesomkostninger: ¤5.700,00 DKK
+Stiftelsesomkostninger: ¤ 5.700,00 DKK
 .br
-Kredittens varighed: ¤60 måneder
+Kredittens varighed: ¤ 60 måneder
 :SKRSLUT.
 .ta row SEFO3 off
 .*PUNKT 3 (3)**************************************************************
@@ -849,7 +587,7 @@ Disse oplysninger er gyldige fra &B20DATO13 til &B20DATO14
 .*PUNKT 5 (OVERSKRIFT)*****************************************************
 :FED.
 .of 5mm
-5.¤Supplerende oplysninger, som skal gives, hvis oplysningerne forud
+5. ¤ Supplerende oplysninger, som skal gives, hvis oplysningerne forud
 for aftaleindgåelse tilbydes i forbindelse med en forbrugerkredit med
 henblik på gældsomlægning
 :SKRSLUT.
@@ -933,26 +671,26 @@ KOPI
 :SWISS9.
 .*************************************************************
 .if &L'&B20TEKST55 > 0
-.th ¤&NAVN ¤&B20TEKST55
+.th ¤ &NAVN ¤ &B20TEKST55
 .th .br
 .if &L'&COADR > 0 .an &L'&B20TEKST56 = 0 .an &L'&B20TEKST55 > 0
-.th ¤&COADR
+.th ¤ &COADR
 .if &L'&COADR = 0 .an &L'&B20TEKST56 > 0
-.th ¤¤&B20TEKST56
+.th ¤ ¤ &B20TEKST56
 .if &L'&COADR > 0 .an &L'&B20TEKST56 > 0
-.th ¤&COADR ¤&B20TEKST56
+.th ¤ &COADR ¤ &B20TEKST56
 .if &L'&B20TEKST55 > 0
 .th .br
-.th ¤&GADE ¤&B20TEKST57
+.th ¤ &GADE ¤ &B20TEKST57
 .th .br
-.th ¤&BY ¤&B20TEKST58
-.el ¤&NAVN
+.th ¤ &BY ¤ &B20TEKST58
+.el ¤ &NAVN
 .el .br
-.el ¤&COADR
+.el ¤ &COADR
 .el .br
-.el ¤&GADE
+.el ¤ &GADE
 .el .br
-.el ¤&BY
+.el ¤ &BY
 .*************************************************************
 ...H1SLUT
 .if &GENDUJANEJ = N
@@ -993,14 +731,14 @@ B20JUR05
 .bx 0mm 15mm 30mm 45mm
 :SWISS8.
 .tp 1mm 16mm 31mm
-¤Rev. af¤Gennemg.¤Revisor
+ ¤ Rev. af ¤ Gennemg. ¤ Revisor
 .sp 5mm
 .bx off
 .************ PARTER ******************************************************
 .ar SIDE on
 .tp 1mm 30mm 65mm 140mm
 .bx left right
-¤Banksted¤Kontonummer¤¤Udskrivningsdato
+ ¤ Banksted ¤ Kontonummer ¤ ¤ Udskrivningsdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -1008,12 +746,12 @@ B20JUR05
 .bx left right
 .tp 1mm 88.5mm 135mm
 .if &L'&B20TEKST55 > 0
-.th ¤Debitor ¤Debitor
-.el ¤Debitor
+.th ¤ Debitor ¤ Debitor
+.el ¤ Debitor
 .sp 20mm
 .if &L'&B20TEKST55 > 0
-.th ¤Kundenummer &KUNDENR ¤Kundenummer &B20CPR
-.el ¤Kundenummer &KUNDENR
+.th ¤ Kundenummer &KUNDENR ¤ Kundenummer &B20CPR
+.el ¤ Kundenummer &KUNDENR
 .bx off
 .sp 4mm
 .bx left right
@@ -1031,7 +769,7 @@ B20JUR05
 .******************************************************************
 .ar BANKSTED on
 .tp 1mm 30mm 65mm 140mm
-¤5306  ¤&B20KONTO12 ¤¤&DATO
+ ¤ 5306  ¤ &B20KONTO12 ¤ ¤ &DATO
 .ar off
 .**************************************
 .da SIDE1 22mm  95mm width 172mm
@@ -1043,48 +781,34 @@ Beløb
 &SJEG erkender herved at skylde &BANKNAVN.
 .sp
 .if &L'&B20KONTO05 > 0
-.th Konto &B20KONTO05 ¤kr.¤&B20BELØB10.
+.th Konto &B20KONTO05 ¤ kr. ¤ &B20BELØB10.
 .if &L'&B20KONTO06 > 0
 .th .br
-.th Konto &B20KONTO06 ¤kr.¤&B20BELØB11.
+.th Konto &B20KONTO06 ¤ kr. ¤ &B20BELØB11.
 .if &L'&B20KONTO08 > 0
 .th .br
-.th Konto &B20KONTO08 ¤kr.¤&B20BELØB20.
+.th Konto &B20KONTO08 ¤ kr. ¤ &B20BELØB20.
 .if &L'&B20KONTO09 > 0
 .th .br
-.th Konto &B20KONTO09 ¤kr.¤&B20BELØB21.
+.th Konto &B20KONTO09 ¤ kr. ¤ &B20BELØB21.
 .if &L'&B20KONTO10 > 0
 .th .br
-.th Konto &B20KONTO10 ¤kr.¤&B20BELØB22.
+.th Konto &B20KONTO10 ¤ kr. ¤ &B20BELØB22.
 .if &L'&B20BELØB12 > 0
 .th .br
-.th Kautionsforpligtelse, &B20TEKST03 ¤kr.¤&B20BELØB12.
+.th Kautionsforpligtelse, &B20TEKST03 ¤ kr. ¤ &B20BELØB12.
 .if &L'&B20TEKST10 > 0
 .th .br.
-.th &B20TEKST10 ¤kr.¤&B20BELØB23.
+.th &B20TEKST10 ¤ kr. ¤ &B20BELØB23.
 .if &L'&B20BELØB13 > 0
 .th .br.
-.th Påløbne morarenter ¤kr.¤&B20BELØB13.
+.th Påløbne morarenter ¤ kr. ¤ &B20BELØB13.
 .if &L'&B20BELØB14 > 0
 .th .br
-.th Inkassoomkostninger ¤kr.¤&B20BELØB14.
+.th Inkassoomkostninger ¤ kr. ¤ &B20BELØB14.
 .br
-I alt ¤kr.¤&B20BELØB15.
+I alt ¤ kr. ¤ &B20BELØB15.
 .sp 5mm
-.if &L'&B20TEKST05 > 0
-.th .sp 5mm
-.th :FED.
-.th Særlige vilkår
-.th :SKRSLUT.
-.th .br
-.th &B20TEKST05
-.th &B20TEKST06
-.th &B20TEKST08
-.th &B20TEKST09
-.th &B20TEKST11
-.th &B20TEKST13
-.ar off
-...T1SLUT
 :FED.
 Afvikling
 :SKRSLUT.
@@ -1135,9 +859,24 @@ Renten beregnes og tilskrives kvartårligt bagud første gang den
 Ved forsinket betaling er &BANKNAVN. berettiget til at opkræve en
 årlig variabel morarente, som udgør et tillæg på pt. &B20RENTE2 %
 til renten.
+.if &L'&B20TEKST05 > 0
+.th .sp 5mm
+.th :FED.
+.th Særlige vilkår
+.th :SKRSLUT.
+.th .br
+.th &B20TEKST05
+.th &B20TEKST06
+.th &B20TEKST08
+.th &B20TEKST09
+.th &B20TEKST11
+.th &B20TEKST13
+.ar off
+...T1SLUT
 .** SIDESKIFT
 .if &GENDUJANEJ = N
 .th .pa
+.oc **B20jur05
 .** TEKST KOPI ***************
 .if &GENDUJANEJ = N
 .th .go KOPI
@@ -1240,24 +979,6 @@ fordele frem for øvrige kreditorer herunder &BANKNAVN
 .in 4mm
 -
 .in 6mm nobreak
-.******************* Evt. underskrift fra pantsættere *********************
-.if &L'&B20TEKST01 > 0
-.th .sp 18mm
-.th :FED.
-.th Underskrift som pantsætter(e)
-.th :SKRSLUT.
-.th .br
-.th .sp 18mm
-.th .hr tynd 5mm 45mm 50mm 170mm
-.th .br
-.th ¤Dato ¤&B20TEKST01
-.if &L'&B20TEKST02 > 0
-.th .sp 18mm
-.th .hr tynd 5mm 45mm 50mm 170mm
-.th .br
-.th ¤Dato ¤&B20TEKST02
-.ar off
-...T3SLUT
 At &JEG ikke forud for aftalens indgåelse uberettiget har trukket midler
 ud til nært beslægtede
 .br
@@ -1301,13 +1022,31 @@ Jeg/Vi kvitterer samtidig for modtagelsen af kreditoplysninger.
 .sp 18mm
 .hr tynd 5mm 45mm 50mm 170mm
 .br
-¤Dato ¤&NAVN
+ ¤ Dato ¤ &NAVN
 .******************* Evt. Underskrift fra medkontohaver *******************
 .if &L'&B20TEKST55 > 0
 .th .sp 18mm
 .th .hr tynd 5mm 45mm 50mm 170mm
 .th .br
-.th ¤Dato ¤&B20TEKST55
+.th ¤ Dato ¤ &B20TEKST55
+.******************* Evt. underskrift fra pantsættere *********************
+.if &L'&B20TEKST01 > 0
+.th .sp 18mm
+.th :FED.
+.th Underskrift som pantsætter(e)
+.th :SKRSLUT.
+.th .br
+.th .sp 18mm
+.th .hr tynd 5mm 45mm 50mm 170mm
+.th .br
+.th ¤ Dato ¤ &B20TEKST01
+.if &L'&B20TEKST02 > 0
+.th .sp 18mm
+.th .hr tynd 5mm 45mm 50mm 170mm
+.th .br
+.th ¤ Dato ¤ &B20TEKST02
+.ar off
+...T3SLUT
 .** SIDESKIFT
 .if &GENDUJANEJ = N
 .th .pa
@@ -1425,72 +1164,107 @@ Gældende fra &B20DATO10 til &B20DATO11
 ...PKT3
 .ta table off
 ...T4SLUT
-.ta cell 2
-Ja
-.ta row SEFO3 off
-.**************************************************************************
-.**TEKST, DER ALTID SKAL UDSKRIVES ****************************************
-.ta row SEFO3 on
-.ta cell 2
-.in 5mm
-.ir 1mm
-:KURSIV.
-Nærværende er ikke et tilbud, men alene et oplysningsskema i henhold til
-Lov om Kreditaftaler. Samtlige oplysninger er afgivet med forbehold for
-fremtidige ændringer, herunder ændringer i rente og omkostninger.
-:SKRSLUT.
-.ta table off
-...T7SLUT
 .if &GENDUJANEJ = N
-.th .go T7
-.el .go T7SLUT
-...T7
-.*TEST PÅ OM PUNKT 5. SKAL UDSKRIVES **************************************
-.*PUNKT 5 (OVERSKRIFT)*****************************************************
+.th .go T5
+.el .go T5SLUT
+...T5
+.*PUNKT 3 (1)**************************************************************
 :FED.
-.of 5mm
-5.¤Supplerende oplysninger, som skal gives, hvis oplysningerne forud
-for aftaleindgåelse tilbydes i forbindelse med en forbrugerkredit med
-henblik på gældsomlægning
+3. Kreditomkostninger
 :SKRSLUT.
+.**************************************************************************
 .ta table SEFO3 on
-.*PUNKT 5 (1) *************************************************************
 .ta row SEFO3 on
 .ta cell 1
 .in 5mm
 .ir 1mm
-Afdrag og, hvis det er relevant, i hvilken rækkefølge afdragene vil blive
-fordelt.
+Debitorrenten eller, hvis det er relevant, de forskellige debitorrenter,
+der gælder for kreditaftalen.
+.*********
 .ta cell 2
-&SDU skal betale følgende:
+.tp 60mm char ,
+&B20RENTE1 %
+.sp
+[Overholder du ikke aftalen, vil renten udgøre &B20RENTE3 %]
+.sp 3mm
+.us Ændring af rentesatser
 .br
-Afdrag &B20BELØB17 kr.
-.br
-Antal &B20ANTAL1
-.br
-Hyppighed månedligt
+&BANKNAVN kan nedsætte renten uden varsel.
+.sp 3mm
+&BANKNAVN kan forhøje renten, ved underretning inden ændringen træder i
+kraft, hvis inden- eller udenlandske ændringer i penge- eller
+kreditpolitik har betydning for &BANKNAVN., fordi det almindelige
+renteniveau påvirkes. &BANKNAVN kan på samme måde forhøje renten,
+hvis anden udvikling i det almindelige renteniveau, eksempelvis på
+penge- og obligationsmarkederne, har betydning for &BANKNAVN., eller hvis
+ændringer i skatter og afgifter har betydning for &BANKNAVN..
+.sp 3mm
+&BANKNAVN kan forhøje renten med
+.us én måneds varsel
+ved ændringer i de forhold, som individuelt blev lagt til grund ved
+fastsættelse af debitors rentevilkår. &BANKNAVN kan på samme måde
+forhøje renten, hvis &BANKNAVN ændrer sin generelle rente- og
+prisfastsættelse af forretningsmæssige grunde, uden at det har
+sammenhæng med udviklingen i det almindelige
+renteniveau. Forretningsmæssige grunde kan bl.a. være at opnå en mere
+hensigtsmæssig anvendelse af &BANKNAVN.s ressourcer eller kapacitet
+eller at øge indtjeningen.
+.sp 3mm
+Debitor får oplysning om stigning i renten på papir eller andet varigt
+medium inden ændringen træder i kraft.
 .ta row SEFO3 off
-.*PUNKT 5 (2) *************************************************************
+.*PUNKT 3 (2)**************************************************************
 .ta row SEFO3 on SPLIT
 .ta cell 1
 .in 5mm
 .ir 1mm
-Det samlede beløb, &DU skal betale
-.ta cell 2
-&B20BELØB19 kr.
-.ta row SEFO3 off
-.*PUNKT 5 (3) *************************************************************
-.***************
-.ta row SEFO3 on SPLIT
-.ta cell 1
-.in 5mm
-.ir 1mm
-Førtidig indbetaling
+De årlige omkostninger i procent (ÅOP)
 .br
 :KURSIV.
-&SDU har ret til helt eller delvis at tilbagebetale kreditbeløbet før
-tiden.
+Dette er de samlede omkostninger udtrykt i procent pr. år af det samlede
+kreditbeløb.
+.br
+ÅOP anføres for at hjælpe &DIG med at sammenligne forskellige tilbud.
 :SKRSLUT.
+.ta cell 2
+&B20RENTE4 %.
+.sp 3mm
+:KURSIV.
+Årlige omkostninger i procent (ÅOP) beregnes på grundlag af følgende
+antagelser, vist i følgende eksempel:
+.sp 3mm
+.tp 70mm right
+Kreditrammen: ¤ 100.000,00 DKK
+.br
+Debitorrente ¤ 10,5 %
+.br
+Stiftelsesomkostninger: ¤ 5.700,00 DKK
+.br
+Kredittens varighed: ¤ 60 måneder
+:SKRSLUT.
+.ta row SEFO3 off
+.*PUNKT 3 (3)**************************************************************
+.ta row SEFO3 on SPLIT
+.ta cell 1
+.in 5mm
+.ir 1mm
+Omkostninger
+.br
+Betingelserne for ændring af disse omkostninger
+.ta cell 2
+&B20BELØB18 kr.
+.ta row SEFO3 off
+.*PUNKT 3 (4)**************************************************************
+.ta row SEFO3 on SPLIT
+.ta cell 1
+.in 5mm
+.ir 1mm
+Morarenter
+.ta cell 2
+&SDU vil blive pålagt &B20RENTE2 % for forsinkede betalinger.
+.sp 3mm
+.ta table off
+...T5SLUT
 .if &GENDUJANEJ = N
 .th .go T6
 .el .go T6SLUT
@@ -1543,104 +1317,331 @@ kreditgiveren
 Disse oplysninger er gyldige fra &B20DATO13 til &B20DATO14
 .ta table off
 ...T6SLUT
-.ta row SEFO3 on SPLIT
-.ta cell 1
-.in 5mm
-.ir 1mm
-De årlige omkostninger i procent (ÅOP)
-.br
-:KURSIV.
-Dette er de samlede omkostninger udtrykt i procent pr. år af det samlede
-kreditbeløb.
-.br
-ÅOP anføres for at hjælpe &DIG med at sammenligne forskellige tilbud.
-:SKRSLUT.
-.ta cell 2
-&B20RENTE4 %.
-.sp 3mm
-:KURSIV.
-Årlige omkostninger i procent (ÅOP) beregnes på grundlag af følgende
-antagelser, vist i følgende eksempel:
-.sp 3mm
-.tp 70mm right
-Kreditrammen: ¤100.000,00 DKK
-.br
-Debitorrente ¤10,5 %
-.br
-Stiftelsesomkostninger: ¤5.700,00 DKK
-.br
-Kredittens varighed: ¤60 måneder
-:SKRSLUT.
-.ta row SEFO3 off
-.*PUNKT 3 (3)**************************************************************
-.ta row SEFO3 on SPLIT
-.ta cell 1
-.in 5mm
-.ir 1mm
-Omkostninger
-.br
-Betingelserne for ændring af disse omkostninger
-.ta cell 2
-&B20BELØB18 kr.
-.ta row SEFO3 off
-.*PUNKT 3 (4)**************************************************************
-.ta row SEFO3 on SPLIT
-.ta cell 1
-.in 5mm
-.ir 1mm
-Morarenter
-.ta cell 2
-&SDU vil blive pålagt &B20RENTE2 % for forsinkede betalinger.
-.sp 3mm
-.ta table off
-.if &GENDUJANEJ = N
-.th .go T5
-.el .go T5SLUT
-...T5
-.*PUNKT 3 (1)**************************************************************
-:FED.
-3. Kreditomkostninger
-:SKRSLUT.
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
 .**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+.if &GENDUJANEJ = N
+.th .go T7
+.el .go T7SLUT
+...T7
+.*TEST PÅ OM PUNKT 5. SKAL UDSKRIVES **************************************
+.*PUNKT 5 (OVERSKRIFT)*****************************************************
+:FED.
+.of 5mm
+5. ¤ Supplerende oplysninger, som skal gives, hvis oplysningerne forud
+for aftaleindgåelse tilbydes i forbindelse med en forbrugerkredit med
+henblik på gældsomlægning
+:SKRSLUT.
 .ta table SEFO3 on
+.*PUNKT 5 (1) *************************************************************
 .ta row SEFO3 on
 .ta cell 1
 .in 5mm
 .ir 1mm
-Debitorrenten eller, hvis det er relevant, de forskellige debitorrenter,
-der gælder for kreditaftalen.
-.*********
+Afdrag og, hvis det er relevant, i hvilken rækkefølge afdragene vil blive
+fordelt.
 .ta cell 2
-.tp 60mm char ,
-&B20RENTE1 %
-.sp
-[Overholder du ikke aftalen, vil renten udgøre &B20RENTE3 %]
-.sp 3mm
-.us Ændring af rentesatser
+&SDU skal betale følgende:
 .br
-&BANKNAVN kan nedsætte renten uden varsel.
-.sp 3mm
-&BANKNAVN kan forhøje renten, ved underretning inden ændringen træder i
-kraft, hvis inden- eller udenlandske ændringer i penge- eller
-kreditpolitik har betydning for &BANKNAVN., fordi det almindelige
-renteniveau påvirkes. &BANKNAVN kan på samme måde forhøje renten,
-hvis anden udvikling i det almindelige renteniveau, eksempelvis på
-penge- og obligationsmarkederne, har betydning for &BANKNAVN., eller hvis
-ændringer i skatter og afgifter har betydning for &BANKNAVN..
-.sp 3mm
-&BANKNAVN kan forhøje renten med
-.us én måneds varsel
-ved ændringer i de forhold, som individuelt blev lagt til grund ved
-fastsættelse af debitors rentevilkår. &BANKNAVN kan på samme måde
-forhøje renten, hvis &BANKNAVN ændrer sin generelle rente- og
-prisfastsættelse af forretningsmæssige grunde, uden at det har
-sammenhæng med udviklingen i det almindelige
-renteniveau. Forretningsmæssige grunde kan bl.a. være at opnå en mere
-hensigtsmæssig anvendelse af &BANKNAVN.s ressourcer eller kapacitet
-eller at øge indtjeningen.
-.sp 3mm
-Debitor får oplysning om stigning i renten på papir eller andet varigt
-medium inden ændringen træder i kraft.
+Afdrag &B20BELØB17 kr.
+.br
+Antal &B20ANTAL1
+.br
+Hyppighed månedligt
 .ta row SEFO3 off
-.*PUNKT 3 (2)**************************************************************
-...T5SLUT
+.*PUNKT 5 (2) *************************************************************
+.ta row SEFO3 on SPLIT
+.ta cell 1
+.in 5mm
+.ir 1mm
+Det samlede beløb, &DU skal betale
+.ta cell 2
+&B20BELØB19 kr.
+.ta row SEFO3 off
+.*PUNKT 5 (3) *************************************************************
+.***************
+.ta row SEFO3 on SPLIT
+.ta cell 1
+.in 5mm
+.ir 1mm
+Førtidig indbetaling
+.br
+:KURSIV.
+&SDU har ret til helt eller delvis at tilbagebetale kreditbeløbet før
+tiden.
+:SKRSLUT.
+.ta cell 2
+Ja
+.ta row SEFO3 off
+.**************************************************************************
+.**TEKST, DER ALTID SKAL UDSKRIVES ****************************************
+.ta row SEFO3 on
+.ta cell 2
+.in 5mm
+.ir 1mm
+:KURSIV.
+Nærværende er ikke et tilbud, men alene et oplysningsskema i henhold til
+Lov om Kreditaftaler. Samtlige oplysninger er afgivet med forbehold for
+fremtidige ændringer, herunder ændringer i rente og omkostninger.
+:SKRSLUT.
+.ta table off
+...T7SLUT
+.if &GENDUJANEJ = N
+.th .go H
+.el .go HSLUT
+...H
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN
+.br;&AFDNAVN
+.br;&AFDGADE
+.br;&AFDBY
+.br;T: &AFDTLF
+.br;M: inkasso@al-bank.dk
+.sp2
+.br;&DATO
+.br
+.sp 1mm
+.if &L'&GENKORTREF = 0
+.th .sp 1mm
+.el &GENKORTREF
+.sp
+.ar off
+.*************************************************************
+.if &L'&B20TEKST55 > 0
+.th &NAVN og &B20TEKST55
+.el &NAVN
+.if &L'&COADR > 0
+.th .br
+.th &COADR
+.br
+&GADE
+.br
+&BY
+...HSLUT
+.*************************************************************
+.if &GENDUJANEJ = N
+.th .go O
+.el .go OSLUT
+...O
+:OMTALE &OMTALEF
+:TILTALE &TILTALEF
+:VERDA09.
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B20JUR04
+.ar off
+.********************OVERSKRIFT*****************************************
+.da OVERSKR 20mm 110mm width 170mm
+.ar OVERSKR on
+:VERDA10.
+:FED.
+&SDIT engagement med banken
+:SKRSLUT.
+:SKRSLUT.
+.sp
+...OSLUT
+.if &GENDUJANEJ = N
+.th .go T
+.el .go TSLUT
+...T
+I henhold til aftale fremsendes vedlagt frivilligt forlig
+til underskrift. Samtidig vedlægges kopi til eget brug.
+.sp
+.if &L'&B20TEST02 > 0
+.th &SDU vil modtage indbetalingskort hver måned til brug for betaling
+.th af ydelsen. Indbetalingskortet kan tilmeldes Betalingsservice.
+.th .sp
+.if &L'&B20TEST03 > 0
+.th Af hensyn til reglerne om hvidvask skal vi samtidig anmode &DIG om, at
+.th fremsende en kopi af pas eller kørekort, samt sundhedskort.
+.th .sp
+Vedlægges:
+.sp
+- Frivilligt forlig
+.br
+- Europæiske forbrugerkreditoplysninger med henblik på gældsomlægning
+.br
+- Alm. betingelser for kreditaftaler til privatkunder
+.if &L'&B20TEST04 > 0
+.th .br
+.th - Kreditoplysninger
+.sp
+Vi imødeser forliget retur inden 14 dage fra dato.
+...TSLUT
+.if &GENDUJANEJ = N
+.th .go MVH
+.el .go MVHSLUT
+...MVH
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off
+.pa
+...MVHSLUT
+.ti ¤ 05
+.tp 1mm 88,5mm
+.sp 40mm
+:SWISS9.
+.*************************************************************
+.if &L'&B20TEKST55 > 0
+.th ¤ &NAVN ¤ &B20TEKST55
+.th .br
+.if &L'&COADR > 0 .an &L'&B20TEKST56 = 0 .an &L'&B20TEKST55 > 0
+.th ¤ &COADR
+.if &L'&COADR = 0 .an &L'&B20TEKST56 > 0
+.th ¤ ¤ &B20TEKST56
+.if &L'&COADR > 0 .an &L'&B20TEKST56 > 0
+.th ¤ &COADR ¤ &B20TEKST56
+.if &L'&B20TEKST55 > 0
+.th .br
+.th ¤ &GADE ¤ &B20TEKST57
+.th .br
+.th ¤ &BY ¤ &B20TEKST58
+.el ¤ &NAVN
+.el .br
+.el ¤ &COADR
+.el .br
+.el ¤ &GADE
+.el .br
+.el ¤ &BY
+.*************************************************************
+

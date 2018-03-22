@@ -1,41 +1,51 @@
-.***********************************************************
-.da oversk      20mm   32mm width   175mm
-.da side 20mm 38mm width 175mm
-.***********************************************************
-.ar oversk on
-:SWISS12.
-:FED.
-.us Bevis for oprettelse af børnebørnskonto
-:SKRSLUT. :SKRSLUT.
-.br
-.bx left right
-.sp 55mm
-.bx off
-.sp 1mm
-:SWISS10.
-:FED.
-Kontoen er oprettet på følgende vilkår:
-:SKRSLUT. :SKRSLUT.
-.br
-.bx left right
-.sp 185mm
-.bx off
-.ar off
-.***********************************************************
-:COUR10.
-.ti ¤ 05
-.fo left
-.**************************************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-09.12.2009
-.ar off
-.***********************************************************************
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
 .* Parameterlisten
+.su off
+.se a = substr &KUNDENR 1 6
+.se b = substr &KUNDENR 7 4
+.su on
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -86,31 +96,6 @@ Kontoen er oprettet på følgende vilkår:
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -161,54 +146,69 @@ Kontoen er oprettet på følgende vilkår:
 .an &L'&DUROLLE4 = 0
 .th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
 .el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .* Parameterlisten
-.su off
-.se a = substr &KUNDENR 1 6
-.se b = substr &KUNDENR 7 4
-.su on
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+09.12.2009
+.ar off
+.***********************************************************************
+.***********************************************************
+.da oversk      20mm   32mm width   175mm
+.da side 20mm 38mm width 175mm
+.***********************************************************
+.ar oversk on
+:SWISS12.
+:FED.
+.us Bevis for oprettelse af børnebørnskonto
+:SKRSLUT. :SKRSLUT.
+.br
+.bx left right
+.sp 55mm
+.bx off
+.sp 1mm
+:SWISS10.
+:FED.
+Kontoen er oprettet på følgende vilkår:
+:SKRSLUT. :SKRSLUT.
+.br
+.bx left right
+.sp 185mm
+.bx off
+.ar off
+.***********************************************************
 .***********************************************************
 .da tekst1           20mm     38mm  width   175mm
 .da firk             20mm    130mm  width   175mm
@@ -245,9 +245,9 @@ dokumenteret ved forevisning af følgende id: &B48TEKST4
 .in 1mm
 .tp 45mm
 :FED.
-Indbetaling :SKRSLUT. ¤Minimum: Intet
+Indbetaling :SKRSLUT. ¤ Minimum: Intet
 .br
-¤Maximum: &B48TEKST5
+ ¤ Maximum: &B48TEKST5
 .sp 3mm
 .in 45mm nobreak
 Det er alene opretter, der kan indbetale på kontoen. Indestående på
@@ -255,7 +255,7 @@ kontoen tilhører kontohaver.
 .sp
 .in 1mm
 :FED.
-Rentevilkår :SKRSLUT. ¤Renten er variabel og tilskrives hver år den
+Rentevilkår :SKRSLUT. ¤ Renten er variabel og tilskrives hver år den
 31. december.
 .sp 3mm
 .in 45mm nobreak
@@ -263,7 +263,7 @@ Oplysning om aktuel rente kan til enhver tid fås i &BANKNAVN..
 .sp
 .in 1mm
 :FED.
-Binding :SKRSLUT. ¤Kontoen er bundet indtil kontohaver fylder 18 år.
+Binding :SKRSLUT. ¤ Kontoen er bundet indtil kontohaver fylder 18 år.
 .sp 3mm
 .in 45mm nobreak
 Tilskrevne renter og eventuelt andet afkast er omfattet af kontoens
@@ -271,10 +271,10 @@ binding, og kan ikke hæves særskilt.
 .sp
 .in 1mm
 :FED.
-Udbetaling :SKRSLUT. ¤Kontoen kan tidligst ophæves, når kontohaver fylder
+Udbetaling :SKRSLUT. ¤ Kontoen kan tidligst ophæves, når kontohaver fylder
 18 år og skal senest op-
 .br
-¤hæves ved kontohavers 25 års fødselsdag.
+ ¤ hæves ved kontohavers 25 års fødselsdag.
 .sp 3mm
 .in 45mm nobreak
 Hvis kontoen ikke er ophævet ved kontohavers 25 års fødselsdag, ændres
@@ -285,12 +285,12 @@ Der kan ikke ske deludbetaling på kontoen - kontoen skal ophæves ved
 første udbetaling.
 .sp 3mm
 .in 1mm
-¤Udbetaling kan kun ske til kontohaver.
+ ¤ Udbetaling kan kun ske til kontohaver.
 .sp 2mm
 :FED.
 Placering i
 .br
-værdipapirer :SKRSLUT. ¤Såfremt
+værdipapirer :SKRSLUT. ¤ Såfremt
 .in 45mm nobreak
 indeståendet, af opretter, ønskes placeret i værdipapirer,
 forudsætter det, at opretter har knyttet et vilkår herom til oprettelsen
@@ -298,17 +298,17 @@ af kontoen, jf. reglerne om gavekonti. Fra det 18. år kan kontohaver
 selv investere midlerne.
 .sp 3mm
 .in 1mm
-¤Handelsomkostninger og depotgebyr må hæves på kontoen.
+ ¤ Handelsomkostninger og depotgebyr må hæves på kontoen.
 .sp
 :FED.
-Skat :SKRSLUT. ¤Renter
+Skat :SKRSLUT. ¤ Renter
 .in 45mm nobreak
 og eventuelt afkast er skattepligtig for kontohaver i henhold til
 gældende skattelov.
 .in 1mm
 .sp
 :FED.
-Øvrige betingelser :SKRSLUT. ¤Beslutning om overførsel af kontoen til et
+Øvrige betingelser :SKRSLUT. ¤ Beslutning om overførsel af kontoen til et
 andet pengeinstitut kan alene træffes
 .br
 .in 45mm nobreak
@@ -320,17 +320,18 @@ For kontoen gælder i øvrigt &BANKNAVN.'s almindelig forretningsbetingelser.
 .in 1mm
 .sp 5mm
 .tp 85mm
-&B48TEKST7., den &B48DATO1 ¤&B48TEKST8., den &B48DATO2
+&B48TEKST7., den &B48DATO1 ¤ &B48TEKST8., den &B48DATO2
 .sp
 .sp
 .sp
 .sp
 .tp delete
 .tp _/82mm 85mm _/165mm
-¤ ¤¤
+¤ ¤ ¤
 .br
 .tp delete
 .tp 85mm
-&NAVN ¤&BANKNAVN
+&NAVN ¤ &BANKNAVN
 .ar off
 .************************************************
+

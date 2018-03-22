@@ -1,25 +1,3 @@
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
 .pm 20mm
 .NV PAGE BANKSTED '%&KNDTILH.'
 .BR
@@ -32,382 +10,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.if &prodtype = PRU+
-.th .se pbaft = 'Private Banking Elite Aftale - Ultima+'
-.se pbweb = 'nykredit.dk/privatebanking-vilkaar'
-.se pbweb1 = 'nykredit.dk/bankvilkaar-erhverv'
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.:'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.:'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.:'
-.th .se tlfnr = 'Erhverv'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.:'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.:'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.:'
-.*Afgør produkttype
-.se prodtype = '?'
-.if &REGTYPE. = 3033
-.th .se prodtype = 'PR'
-.if &REGTYPE. = 3034
-.th .se prodtype = 'PRU'
-.if &REGTYPE. = 3035
-.th .se prodtype = 'PRU+'
-.if &prodtype = ?
-.th .mg/T/Dokument kan ikke udskrives for denne regtype: &REGTYPE.
-.**** DIVERSE FORKOTELSER ****************************
-.if &prodtype = PR
-.th .se pbaft = 'Private Banking Elite Aftale'
-.th .se pbaftn = 'Private Banking Elite Aftalen'
-.if &prodtype = PRU
-.th .se pbaft = 'Private Banking Elite Aftale - Ultima'
-.**************************************************************************
-.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
-.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
-.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  160mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.*rh on
-.**************************************************************************
-.ar VEND on
-.*:SWISS6.
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = Erhverv
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.sp 40mm
-.*rh off
-.*rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.ll 175mm
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
-.**************************************************************************
-.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
-.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
-.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  160mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = Erhverv
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.sp 20mm
-.rh off
-.da T1TEKST 20mm 95mm width 170mm
-.ar T1TEKST on
-:VERDA09.
-.*************** Aftale start ***************
-:FED.&pbaft.:SKRSLUT.
-.br
-Når du underskriver denne aftale, indgår du en &pbaft. med
-&BANKNAVN. A/S (herefter benævnt &B32NYK.). Når du indgår en
-&pbaft., opnår du adgang til rådgivning om daglig økonomi og
-formueforvaltning.
-.sp 3mm
-I tilknytning til &pbaft. kan du indgå særskilt aftale
-med &B32NYK. og/eller tredjepart om andre ydelser.
-.sp 3mm
-Det er et vilkår for &pbaft., at &KTONAVN. eventuelt i kombination med
-ejer og/eller ejers ægtefælle har en
-formueopsparing i &B32NYK. på ikke under
-.if &prodtype = PR
-.th 7.000.000
-.if &prodtype = PRU
-.th 25.000.000
-.if &prodtype = PRU+
-.th 50.000.000
-kr., placeret i et af
-&B32NYK.s pensionsprodukter, særlige opsparingsprodukter eller udvalgte
-konti - eller har investeret i værdipapirer i depot i &B32NYK.. I denne
-bedømmelse indgår også formueopsparing i eventuelle selskaber
-(A/S, ApS, I/S, K/S), som ejes af &KTONAVN.s ejer og/eller ejers ægtefælle.
-.sp 3mm
-Hvis din formueopsparing falder til under
-5.600.000 kr., forbeholder &B32NYK. sig retten til at opsige &pbaft. i
-henhold til de vilkår for opsigelse, der er anført nedenfor.
-.sp 3mm
-.***************Opsigelse og misligholdelse *****
-:FED.Opsigelse og misligholdelse:SKRSLUT.
-.br
-Du kan opsige &pbaft. uden varsel, og det skal ske skriftligt.
-.sp 3mm
-Du kan opsige de ydelser, der er indgået særskilt aftale om, i henhold til
-aftalegrundlaget for ydelsen.
-.sp 3mm
-Hvis du opsiger &pbaft., vil det medføre, at
-Private Banking Kontoen og
-tilhørende kontovilkår ændres til en anden kontotype i &B32NYK.. Mastercard
-Business Classic fortsætter på &B32NYK.s sædvanlige vilkår for sådanne
-kort.
-.sp 3mm
-&B32NYK. kan opsige &pbaft. med tre måneders varsel. Opsigelse kan blandt
-andet ske, hvis ovennævnte vilkår om formueopsparing ikke er opfyldt.
-.sp 3mm
-I tilfælde af misligholdelse af dine forpligtelser over for &BANKNAVN.
-og/eller &B32NYK. Realkredit kan aftalen opsiges af &B32NYK. uden varsel.
-.sp 3mm
-.************* Ændringer *******************
-:FED.Ændringer:SKRSLUT.
-.br
-&B32NYK. kan indføre ændringer af &pbaft. uden varsel, hvis ændringerne
-er til fordel for dig. For ydelser, hvor der er indgået særskilt aftale,
-kan disse ændres eller ophøre i henhold til det særskilte aftalegrundlag.
-.sp 3mm
-Priser, herunder renter og gebyrer, kan ændres i henhold til de vilkår, der
-gælder for den pågældende ydelse, og i henhold til 'Almindelige
-forretningsbetingelser for erhvervskunder'.
-.sp 3mm
-Øvrige ændringer af &pbaft. kan ske med 2 måneders varsel. Meddelelse om
-ændringer sker enten skriftligt eller elektronisk i &B32MITNYK..
-.ar off
-.pa
-.*************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-.hy off
-.in 5mm
-:VERDA09.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.us off
-.**************************************************************************
-.da FEJL      20mm 120mm width 170mm
-.da KTOHAVOV  20mm 30mm width 155mm
-.da KTOHAVER  20mm 35mm width 155mm
-.da MKTOHAVR 115mm 35mm width 85mm
-.da KUNDENR   20mm 68mm width 155mm
-.da MKUNDNR  115mm 68mm width 155mm
-.da KTOOPL1   20mm 75mm width 170mm
-.**************************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.se cpr1  = substr &KTOKNDNR1 1 6
-.se cpr2  = substr &KTOKNDNR1 7 4
-.se mcpr1 = substr &MEDKNDNR1 1 6
-.se mcpr2 = substr &MEDKNDNR1 7 4
-.su on
-.**************************************************************************
-.ar KTOOPL1 on
-.tp 50mm right 165mm right
-¤¤Dato: &DATO.
-.*Reg.nr.¤&regnr.¤Dato: &DATO.
-.*br
-.*Kontonr.¤&ktonr.
-.ar off
-...DOKTXT
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-.if &L'&MEDNAVN gt 0
-.th Kontohavere
-.el Kontohaver
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOHAVER on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.ar MKTOHAVR on
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-.if &kunnr. = CPR-nr.:
-.th &kunnr. &cpr1.-&cpr2.
-.el &kunnr. &KTOKNDNR1.
-.ar off
-.ar MKUNDNR on
-.if &L'&MEDNAVN gt 0
-.an &mkunnr. = CPR-nr.:
-.th &mkunnr. &mcpr1.-&mcpr2
-.if &L'&MEDNAVN gt 0
-.an &mkunnr. <> CPR-nr.:
-.th &mkunnr. &MEDKNDNR1
-.ar off
-.**************************************************************************
-.** SIDESKIFT
-.pa
-.************* Pris for Private Banking Aftale *****
-:FED.Pris for &pbaft.:SKRSLUT.
-.br
-&pbaft. koster et månedligt gebyr på
-.if &prodtype = PR
-.th 300 kr.
-.if &prodtype = PRU
-.th 500 kr.
-.if &prodtype = PRU+
-.th 800 kr.
-.br
-Beløbet opkræves månedsvis bagud fra Private Banking
-.if &prodtype. = PR
-.th Konto:
-.if &prodtype. = PRU
-.th Ultima Konto:
-.if &prodtype. = PRU+
-.th Ultima+ Konto:
-kontonr &regnr.-&ktonr.
-.sp 3mm
-.************* Underskrift Private Banking aftale **
-:FED.Underskrift &pbaft.:SKRSLUT.
-.br
-Du bekræfter, at du har modtaget kopi af og har gjort dig bekendt med
-indholdet af denne aftale samt de øvrige ovenfor i aftalen nævnte vilkår,
-betingelser og gebyroversigter for ovennævnte produkter.
-.br
-Tegningsberettige bekræfter at have modtaget og været indforstået med
-følgende vilkår, der tillige er gældende for aftalen, som også findes
-på &pbweb1..
-.sp 3mm
-'Almindelige forretningsbetingelser for erhvervskunder'
-.sp 3mm
-Du er indforstået med, at &BANKNAVN. er berettiget, men ikke forpligtet,
-til at optage telefoniske instrukser på lydbånd. I tilfælde af uenighed, er
-båndoptagelsen tilstrækkeligt bevis for indholdet af aftalen.
-.sp 3mm
-Det bekræftes herved, at &KTONAVN. indgår nærværende &pbaft.
-med tilhørende bilag.
-.sp 15mm
-.dr tynd weight 0.1mm
-.tp 30mm 90mm 115mm
-.if &L'&MEDNAVN = 0
-.th .go EENUNDER
-.el .go TOUNDER
-...EENUNDER
-.hr tynd 5mm 25mm 30mm 85mm
-Dato¤&KTONAVN.
-.kp off
-.go AFSLUT
-...TOUNDER
-.hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
-Dato¤&KTONAVN.¤Dato¤&MEDNAVN.
-.kp off
-.go AFSLUT
-...AFSLUT
 :VERDA08.
 .hy off
 :VERDA10.
@@ -685,3 +287,402 @@ Denne blanket skal afleveres/sendes til:
 .br
 &BANKNAVN., Private Banking, Under Krystallen 1, 1780 København V
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.:'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.:'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.:'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.:'
+.*Afgør produkttype
+.se prodtype = '?'
+.if &REGTYPE. = 3033
+.th .se prodtype = 'PR'
+.if &REGTYPE. = 3034
+.th .se prodtype = 'PRU'
+.if &REGTYPE. = 3035
+.th .se prodtype = 'PRU+'
+.if &prodtype = ?
+.th .mg/T/Dokument kan ikke udskrives for denne regtype: &REGTYPE.
+.**** DIVERSE FORKOTELSER ****************************
+.if &prodtype = PR
+.th .se pbaft = 'Private Banking Elite Aftale'
+.th .se pbaftn = 'Private Banking Elite Aftalen'
+.if &prodtype = PRU
+.th .se pbaft = 'Private Banking Elite Aftale - Ultima'
+.if &prodtype = PRU+
+.th .se pbaft = 'Private Banking Elite Aftale - Ultima+'
+.se pbweb = 'nykredit.dk/privatebanking-vilkaar'
+.se pbweb1 = 'nykredit.dk/bankvilkaar-erhverv'
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.*rh on
+.**************************************************************************
+.ar VEND on
+.*:SWISS6.
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 40mm
+.*rh off
+.*rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.*************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+.hy off
+.in 5mm
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.us off
+.**************************************************************************
+.da FEJL      20mm 120mm width 170mm
+.da KTOHAVOV  20mm 30mm width 155mm
+.da KTOHAVER  20mm 35mm width 155mm
+.da MKTOHAVR 115mm 35mm width 85mm
+.da KUNDENR   20mm 68mm width 155mm
+.da MKUNDNR  115mm 68mm width 155mm
+.da KTOOPL1   20mm 75mm width 170mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1  = substr &KTOKNDNR1 1 6
+.se cpr2  = substr &KTOKNDNR1 7 4
+.se mcpr1 = substr &MEDKNDNR1 1 6
+.se mcpr2 = substr &MEDKNDNR1 7 4
+.su on
+.**************************************************************************
+.ar KTOOPL1 on
+.tp 50mm right 165mm right
+ ¤ ¤ Dato: &DATO.
+.*Reg.nr. ¤ &regnr. ¤ Dato: &DATO.
+.*br
+.*Kontonr. ¤ &ktonr.
+.ar off
+...DOKTXT
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+.if &L'&MEDNAVN gt 0
+.th Kontohavere
+.el Kontohaver
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.if &kunnr. = CPR-nr.:
+.th &kunnr. &cpr1.-&cpr2.
+.el &kunnr. &KTOKNDNR1.
+.ar off
+.ar MKUNDNR on
+.if &L'&MEDNAVN gt 0
+.an &mkunnr. = CPR-nr.:
+.th &mkunnr. &mcpr1.-&mcpr2
+.if &L'&MEDNAVN gt 0
+.an &mkunnr. <> CPR-nr.:
+.th &mkunnr. &MEDKNDNR1
+.ar off
+.**************************************************************************
+.da T1TEKST 20mm 95mm width 170mm
+.ar T1TEKST on
+:VERDA09.
+.*************** Aftale start ***************
+:FED.&pbaft.:SKRSLUT.
+.br
+Når du underskriver denne aftale, indgår du en &pbaft. med
+&BANKNAVN. A/S (herefter benævnt &B32NYK.). Når du indgår en
+&pbaft., opnår du adgang til rådgivning om daglig økonomi og
+formueforvaltning.
+.sp 3mm
+I tilknytning til &pbaft. kan du indgå særskilt aftale
+med &B32NYK. og/eller tredjepart om andre ydelser.
+.sp 3mm
+Det er et vilkår for &pbaft., at &KTONAVN. eventuelt i kombination med
+ejer og/eller ejers ægtefælle har en
+formueopsparing i &B32NYK. på ikke under
+.if &prodtype = PR
+.th 7.000.000
+.if &prodtype = PRU
+.th 25.000.000
+.if &prodtype = PRU+
+.th 50.000.000
+kr., placeret i et af
+&B32NYK.s pensionsprodukter, særlige opsparingsprodukter eller udvalgte
+konti - eller har investeret i værdipapirer i depot i &B32NYK.. I denne
+bedømmelse indgår også formueopsparing i eventuelle selskaber
+(A/S, ApS, I/S, K/S), som ejes af &KTONAVN.s ejer og/eller ejers ægtefælle.
+.sp 3mm
+Hvis din formueopsparing falder til under
+5.600.000 kr., forbeholder &B32NYK. sig retten til at opsige &pbaft. i
+henhold til de vilkår for opsigelse, der er anført nedenfor.
+.sp 3mm
+.***************Opsigelse og misligholdelse *****
+:FED.Opsigelse og misligholdelse:SKRSLUT.
+.br
+Du kan opsige &pbaft. uden varsel, og det skal ske skriftligt.
+.sp 3mm
+Du kan opsige de ydelser, der er indgået særskilt aftale om, i henhold til
+aftalegrundlaget for ydelsen.
+.sp 3mm
+Hvis du opsiger &pbaft., vil det medføre, at
+Private Banking Kontoen og
+tilhørende kontovilkår ændres til en anden kontotype i &B32NYK.. Mastercard
+Business Classic fortsætter på &B32NYK.s sædvanlige vilkår for sådanne
+kort.
+.sp 3mm
+&B32NYK. kan opsige &pbaft. med tre måneders varsel. Opsigelse kan blandt
+andet ske, hvis ovennævnte vilkår om formueopsparing ikke er opfyldt.
+.sp 3mm
+I tilfælde af misligholdelse af dine forpligtelser over for &BANKNAVN.
+og/eller &B32NYK. Realkredit kan aftalen opsiges af &B32NYK. uden varsel.
+.sp 3mm
+.************* Ændringer *******************
+:FED.Ændringer:SKRSLUT.
+.br
+&B32NYK. kan indføre ændringer af &pbaft. uden varsel, hvis ændringerne
+er til fordel for dig. For ydelser, hvor der er indgået særskilt aftale,
+kan disse ændres eller ophøre i henhold til det særskilte aftalegrundlag.
+.sp 3mm
+Priser, herunder renter og gebyrer, kan ændres i henhold til de vilkår, der
+gælder for den pågældende ydelse, og i henhold til 'Almindelige
+forretningsbetingelser for erhvervskunder'.
+.sp 3mm
+Øvrige ændringer af &pbaft. kan ske med 2 måneders varsel. Meddelelse om
+ændringer sker enten skriftligt eller elektronisk i &B32MITNYK..
+.ar off
+.pa
+.************* Pris for Private Banking Aftale *****
+:FED.Pris for &pbaft.:SKRSLUT.
+.br
+&pbaft. koster et månedligt gebyr på
+.if &prodtype = PR
+.th 300 kr.
+.if &prodtype = PRU
+.th 500 kr.
+.if &prodtype = PRU+
+.th 800 kr.
+.br
+Beløbet opkræves månedsvis bagud fra Private Banking
+.if &prodtype. = PR
+.th Konto:
+.if &prodtype. = PRU
+.th Ultima Konto:
+.if &prodtype. = PRU+
+.th Ultima+ Konto:
+kontonr &regnr.-&ktonr.
+.sp 3mm
+.************* Underskrift Private Banking aftale **
+:FED.Underskrift &pbaft.:SKRSLUT.
+.br
+Du bekræfter, at du har modtaget kopi af og har gjort dig bekendt med
+indholdet af denne aftale samt de øvrige ovenfor i aftalen nævnte vilkår,
+betingelser og gebyroversigter for ovennævnte produkter.
+.br
+Tegningsberettige bekræfter at have modtaget og været indforstået med
+følgende vilkår, der tillige er gældende for aftalen, som også findes
+på &pbweb1..
+.sp 3mm
+'Almindelige forretningsbetingelser for erhvervskunder'
+.sp 3mm
+Du er indforstået med, at &BANKNAVN. er berettiget, men ikke forpligtet,
+til at optage telefoniske instrukser på lydbånd. I tilfælde af uenighed, er
+båndoptagelsen tilstrækkeligt bevis for indholdet af aftalen.
+.sp 3mm
+Det bekræftes herved, at &KTONAVN. indgår nærværende &pbaft.
+med tilhørende bilag.
+.sp 15mm
+.dr tynd weight 0.1mm
+.tp 30mm 90mm 115mm
+.if &L'&MEDNAVN = 0
+.th .go EENUNDER
+.el .go TOUNDER
+...EENUNDER
+.hr tynd 5mm 25mm 30mm 85mm
+Dato ¤ &KTONAVN.
+.kp off
+.go AFSLUT
+...TOUNDER
+.hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
+Dato ¤ &KTONAVN. ¤ Dato ¤ &MEDNAVN.
+.kp off
+.go AFSLUT
+...AFSLUT
+.** SIDESKIFT
+.pa
+

@@ -1,122 +1,53 @@
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .br
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
-.* Txt1
-.se T = 2
-.ir 27mm
-.*sp 80mm
-.tp 40mm 45mm
-:DUTCH12.:FED.
-Vi mangler &DIN. legitimation
-:SKRSLUT.
- 
-:DUTCH10.
-&BANKNAVN. er ligesom andre
-banker, forpligtet til at have legitimation
-på alle deres kunder. Kravet
-kommer fra
-reglerne om bekæmpelse af hvidvask, og det er et generelt princip, som
-gælder for alle kunder - også selvom &DU. har været kunde i banken længe.
-.sp 3mm
-Da vi ikke har noget legitimation fra &DIG., vil vi
-bede &DIG. - om snarest
-muligt - at indlevere en kopi af &DIT. pas eller kørekort.
-.sp 3mm
-Hvis ikke &DU. har et pas eller et kørekort, kan
-&DU. indlevere en kopi af &DIT
-sygesikringskort/sundhedskort samt f.eks. dåbs- eller navnebevis,
-vielsesattest eller årsopgørelse fra Skat. Husk, at også børn skal
-legitimeres.
-.sp 3mm
-&SDU. kan enten komme ind til os med legitimationen eller sende os
-en kopi. Legitimationen
-kan sendes til &DIN. rådgiver, til &DIN. filials mailadresse (se
-adressen øverst i højre hjørne) eller via besked i Webbank.
-.sp 3mm
-Hvis ikke &DU. indleverer &DIN. legitimation, kan vi desværre i yderste
-konsekvens blive nødt til at spærre &DINE. konti, kort, Webbank mv.
-.sp 3mm
-&SDU. kan læse mere om legitimationskravene
-på vores hjemmeside: www.handelsbanken.dk/legitimation
-.sp 3mm
-&SDU. er som altid velkommen til at kontakte os, hvis &DU har spørgsmål.
-.sp 3mm
-Vi ser frem til at modtage &DIN legitimation.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&STILL
+.BR
+&NAVN
+.BR
+&COADR
+.BR
+&GADE
+.BR
+&BY  &LAND
+.SK
+:EGL.
 .SE B37KUDAL = 1
 .dr tynd WEIGHT 0.1mm
 .LL 175mm
@@ -179,53 +110,123 @@ Att.: &GENATT
 .*ir 25mm
 .* ÆNDRET d. 12/01.2000 jvf. Standard for breve.
 .ir 20mm
-.* NAVNEMODUL TIL VISNING PÅ SKÆRM
-:GL.
-&STILL
-.BR
-&NAVN
-.BR
-&COADR
-.BR
-&GADE
-.BR
-&BY  &LAND
-.SK
-:EGL.
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Txt1
+.se T = 2
+.ir 27mm
+.*sp 80mm
+.tp 40mm 45mm
+:DUTCH12.:FED.
+Vi mangler &DIN. legitimation
+:SKRSLUT.
+ 
+:DUTCH10.
+&BANKNAVN. er ligesom andre
+banker, forpligtet til at have legitimation
+på alle deres kunder. Kravet
+kommer fra
+reglerne om bekæmpelse af hvidvask, og det er et generelt princip, som
+gælder for alle kunder - også selvom &DU. har været kunde i banken længe.
+.sp 3mm
+Da vi ikke har noget legitimation fra &DIG., vil vi
+bede &DIG. - om snarest
+muligt - at indlevere en kopi af &DIT. pas eller kørekort.
+.sp 3mm
+Hvis ikke &DU. har et pas eller et kørekort, kan
+&DU. indlevere en kopi af &DIT
+sygesikringskort/sundhedskort samt f.eks. dåbs- eller navnebevis,
+vielsesattest eller årsopgørelse fra Skat. Husk, at også børn skal
+legitimeres.
+.sp 3mm
+&SDU. kan enten komme ind til os med legitimationen eller sende os
+en kopi. Legitimationen
+kan sendes til &DIN. rådgiver, til &DIN. filials mailadresse (se
+adressen øverst i højre hjørne) eller via besked i Webbank.
+.sp 3mm
+Hvis ikke &DU. indleverer &DIN. legitimation, kan vi desværre i yderste
+konsekvens blive nødt til at spærre &DINE. konti, kort, Webbank mv.
+.sp 3mm
+&SDU. kan læse mere om legitimationskravene
+på vores hjemmeside: www.handelsbanken.dk/legitimation
+.sp 3mm
+&SDU. er som altid velkommen til at kontakte os, hvis &DU har spørgsmål.
+.sp 3mm
+Vi ser frem til at modtage &DIN legitimation.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .br
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
+

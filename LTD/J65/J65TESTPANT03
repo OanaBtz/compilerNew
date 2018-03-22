@@ -11,56 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-Jeg bekræfter, at jeg er opmærksom på, at &BANKNAVN ikke er ansvarlig for
-rigtigheden af de bilag, der er indhentet fra låntager og at pantsætningen
-ikke udelukker &BANKNAVN fra nu eller senere at yde låntager lån/kredit.
-.sp 5mm
-.*KAUTIONIST **************************************************************
-:FED.
-Som pantsætter
-:SKRSLUT.
-.tp 5mm 60mm
-.sp 10mm
-.hr 5mm 55mm 60mm 170mm
-.br
-¤Dato ¤&KAUNIST2.
-.sp 5mm
-.**UNDERSKRIFT - DEBITORER ************************************************
-.hy off
-:FED.
-Videregivelse af fortrolige oplysninger
-:SKRSLUT.
-.sp 3mm
-&BANKNAVN. skal ifølge loven om finansiel virksomhed udlevere konkrete
-oplysninger om låntagers økonomi til pantsætter.
-.sp 3mm
-Låntager accepterer, at &BANKNAVN. i forbindelse med ovenstående
-tredjemandspant kan udlevere de anførte bilag med oplysninger om
-.if &DEBANTAL = 1
-.th mine
-.el vores
-privat, økonomiske forhold til pantsætter.
-.sp 3mm
-.******************
-.tp 5mm 60mm
-:FED.
-.if &DEBANTAL > 1
-.th Låntagere
-.el Låntager
-:SKRSLUT.
-.sp 10mm
-.hr 5mm 55mm 60mm 170mm
-.br
-¤Dato ¤&DEB1ADR2.
-.if &DEBANTAL < 2
-.th .go DEBSL
-.sp 10mm
-.hr 5mm 55mm 60mm 170mm
-.br
-¤Dato ¤&DEB2ADR2
-...DEBSL
-.*VITTERLIGHEDSVIDNE ******************************************************
-.*in
 .**************************************************************************
 .dr thin weight 0.1mm
 .da SELVSK  20mm 42mm width 175mm
@@ -111,6 +61,56 @@ forhold:
 Jeg har desuden modtaget Finansrådets og Forbrugerrådets
 pjece Information om kaution og tredjemandspant.
 .sp 3mm
+Jeg bekræfter, at jeg er opmærksom på, at &BANKNAVN ikke er ansvarlig for
+rigtigheden af de bilag, der er indhentet fra låntager og at pantsætningen
+ikke udelukker &BANKNAVN fra nu eller senere at yde låntager lån/kredit.
+.sp 5mm
+.*KAUTIONIST **************************************************************
+:FED.
+Som pantsætter
+:SKRSLUT.
+.tp 5mm 60mm
+.sp 10mm
+.hr 5mm 55mm 60mm 170mm
+.br
+¤Dato ¤&KAUNIST2.
+.sp 5mm
+.**UNDERSKRIFT - DEBITORER ************************************************
+.hy off
+:FED.
+Videregivelse af fortrolige oplysninger
+:SKRSLUT.
+.sp 3mm
+&BANKNAVN. skal ifølge loven om finansiel virksomhed udlevere konkrete
+oplysninger om låntagers økonomi til pantsætter.
+.sp 3mm
+Låntager accepterer, at &BANKNAVN. i forbindelse med ovenstående
+tredjemandspant kan udlevere de anførte bilag med oplysninger om
+.if &DEBANTAL = 1
+.th mine
+.el vores
+privat, økonomiske forhold til pantsætter.
+.sp 3mm
+.******************
+.tp 5mm 60mm
+:FED.
+.if &DEBANTAL > 1
+.th Låntagere
+.el Låntager
+:SKRSLUT.
+.sp 10mm
+.hr 5mm 55mm 60mm 170mm
+.br
+¤Dato ¤&DEB1ADR2.
+.if &DEBANTAL < 2
+.th .go DEBSL
+.sp 10mm
+.hr 5mm 55mm 60mm 170mm
+.br
+¤Dato ¤&DEB2ADR2
+...DEBSL
+.*VITTERLIGHEDSVIDNE ******************************************************
+.*in
 .*ir
 .*hr 0mm 175mm
 .*in 5mm
@@ -134,8 +134,160 @@ pjece Information om kaution og tredjemandspant.
 .*in 5mm
 .*ir 5mm
 .ar off
-.** SIDESKIFT
-.pa
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.* følgende test ligger i systemet ********
+.***************************************
+.*Fejl ved sammensætning af bilag
+.*.if &GENAAR gt 10
+.*Gyldighedsperioden kan max. være 10 år
+.*.if &GENAAR eq 0
+.*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm  32mm width 175mm
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Erklæring (privat tredjemandspant)
+:SKRSLUT.
+.ar off
+.sp 53mm
+.*************************************************************************
+.**************************************************************************
+.da KAUNIST 25mm 46mm width 85mm
+.da BANK   112.5mm 46mm width 80mm
+.**************************************************************************
+.ar KAUNIST on
+&KAUNIST1
+.br
+&KAUNIST2
+.br
+&KAUNIST3
+.br
+&KAUNIST4
+.br
+&KAUNIST5
+.ar off
+.**************************************************************************
+.ar BANK on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE1 20mm 40mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE1 on
+:SWISS9.
+.tp 1mm 88.5mm
+.bx left 87.5mm right
+ ¤ Pantsætter ¤ indestår herved (pengeinstitut)
+.sp 20mm
+ ¤ Kundenummer &KAUKNDNR ¤ Tlf.nr. &AFDTLF
+ ¤ Depotnummer &DEPOTNR
+.bx off
+.sp 4mm
+.bx left right
+.sp 204mm
+.bx off
+.ar off
+.**************************************************************************
+.ti ¤ 05
+.fo left
+:SWISS9.
+.dr thin weight 0.2mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.dr tynd weight 0.1mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Erklæring (privat tredjemandspant)
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar BOX on
+.bx left right
+.sp 235mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 43MM: Y = 30mm + 13mm (TOPMARGIN) = 43mm
+.**************************************************************************
+.sp 30mm
+.rh off
+.*rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
 .**************************************************************************
 .in 5mm
 .ir 1mm
@@ -165,11 +317,11 @@ fastsat tilbagebetalingstidspunkt
 .th .sp 2mm
 .th .go DEB1
 .if &DEBANTAL = 2
-.th Låntager¤Låntager
+.th Låntager ¤ Låntager
 .th .sp 2mm
 .th .go DEB2
 .if &DEBANTAL > 2
-.th Låntager ¤Låntager ¤Flere låntagere
+.th Låntager ¤ Låntager ¤ Flere låntagere
 .th .sp 2mm
 .th .go DEB2
 ...DEB2
@@ -208,7 +360,7 @@ fastsat tilbagebetalingstidspunkt
 .**************************************************************************
 Kundenummer &DEB1KNDNR
 .if &DEBANTAL > 1
-.th .ct ¤Kundenummer &DEB2KNDNR
+.th .ct ¤ Kundenummer &DEB2KNDNR
 .**************************************************************************
 .sp 2mm
 :FED.
@@ -269,157 +421,6 @@ Særligt om pant:SKRSLUT.
 .**1. KOLONNE *************************************************************
 .tp 3mm
 .**************************************************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.**************************************************************************
-.ti ¤ 05
-.fo left
-:SWISS9.
-.dr thin weight 0.2mm
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.dr tynd weight 0.1mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Erklæring (privat tredjemandspant)
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar BOX on
-.bx left right
-.sp 235mm
-.bx off
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO
-.br
-Kl. &TID
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 43MM: Y = 30mm + 13mm (TOPMARGIN) = 43mm
-.**************************************************************************
-.sp 30mm
-.rh off
-.*rh execute
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.*************** definer siden som et areal *******************************
-.da SIDE1 20mm 40mm width 175mm
-.****************** KAUTIONSERKLÆRING *************************************
-.ar SIDE1 on
-:SWISS9.
-.tp 1mm 88.5mm
-.bx left 87.5mm right
-¤Pantsætter ¤indestår herved (pengeinstitut)
-.sp 20mm
-¤Kundenummer &KAUKNDNR ¤Tlf.nr. &AFDTLF
-¤Depotnummer &DEPOTNR
-.bx off
-.sp 4mm
-.bx left right
-.sp 204mm
-.bx off
-.ar off
-.**************************************************************************
-.da KAUNIST 25mm 46mm width 85mm
-.da BANK   112.5mm 46mm width 80mm
-.**************************************************************************
-.ar KAUNIST on
-&KAUNIST1
-.br
-&KAUNIST2
-.br
-&KAUNIST3
-.br
-&KAUNIST4
-.br
-&KAUNIST5
-.ar off
-.**************************************************************************
-.ar BANK on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:SWISS9.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND     7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm  32mm width 175mm
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO
-.br
-Kl. &TID
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Erklæring (privat tredjemandspant)
-:SKRSLUT.
-.ar off
-.sp 53mm
-.*************************************************************************
-.* følgende test ligger i systemet ********
-.***************************************
-.*Fejl ved sammensætning af bilag
-.*.if &GENAAR gt 10
-.*Gyldighedsperioden kan max. være 10 år
-.*.if &GENAAR eq 0
-.*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE REGBKSTED '%&REGBKSTED.'
-.BR
-:ENY.
+.** SIDESKIFT
+.pa
+

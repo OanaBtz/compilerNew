@@ -31,46 +31,6 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.th .se type1 = 'Sundhedssikring'
-.if X&FSSPROD = X11
-.th .se type1 = 'Økonomiforsikring'
-.if X&FSSPROD = X12
-.th .se type1 = 'Børnepakke'
-.*****************************************
-.*********TEST OM REGNR ER UDFYLDT FOR OVERFØRSEL *************************
-.if X&FSSTYPE = X4
-.th .go TEST12
-.el .go UDENOM12
-...TEST12
-.if &L'&REGNR2 = 0
-.th .mg/T/Regnummer på den bank overførslen kommer fra skal udfyldes/
-...UDENOM12
-.*********TEST OM OPSIGELSESDATO ER UDFYLDT *******************************
-.if X&FSSTYPE = X5
-.th .go TEST13
-.el .go UDENOM13
-...TEST13
-.if &L'&B11DATO = 0
-.th .mg/T/Opsigelsesdato skal udfyldes/
-...UDENOM13
-.*********TIDLIGERE PRODUKTTYPE SKAL OPLYSES ******************************
-.if X&FSSTYPE = X2
-.or X&FSSTYPE = X3
-.or X&FSSTYPE = X6
-.or X&FSSTYPE = X7
-.th .go TEST15
-.el .go UDENOM15
-...TEST15
-.if &L'&FSSTYPE02 = 0
-.th .mg/T/Tidligere produktkode skal udfyldes/
-...UDENOM15
-.************************************
-.su off
-.se cpr1 = substr &KUNDENR 1 6
-.se cpr2 = substr &KUNDENR 7 11
-.se cpr3 = substr &B11CPRNR 1 6
-.se cpr4 = substr &B11CPRNR 7 11
-.su on
 .************************************************
 .if X&FSSPROD = X1
 .or X&FSSPROD = X2
@@ -121,17 +81,46 @@
 .if X&FSSPROD = X9
 .th .se type1 = 'Erhvervslivsforsikring'
 .if X&FSSPROD = X10
-:SWISS10.
-.ti ¤ 05
-.fo left
-.**************************************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.ar off
-.***********************************************************************
+.th .se type1 = 'Sundhedssikring'
+.if X&FSSPROD = X11
+.th .se type1 = 'Økonomiforsikring'
+.if X&FSSPROD = X12
+.th .se type1 = 'Børnepakke'
+.*****************************************
+.*********TEST OM REGNR ER UDFYLDT FOR OVERFØRSEL *************************
+.if X&FSSTYPE = X4
+.th .go TEST12
+.el .go UDENOM12
+...TEST12
+.if &L'&REGNR2 = 0
+.th .mg/T/Regnummer på den bank overførslen kommer fra skal udfyldes/
+...UDENOM12
+.*********TEST OM OPSIGELSESDATO ER UDFYLDT *******************************
+.if X&FSSTYPE = X5
+.th .go TEST13
+.el .go UDENOM13
+...TEST13
+.if &L'&B11DATO = 0
+.th .mg/T/Opsigelsesdato skal udfyldes/
+...UDENOM13
+.*********TIDLIGERE PRODUKTTYPE SKAL OPLYSES ******************************
+.if X&FSSTYPE = X2
+.or X&FSSTYPE = X3
+.or X&FSSTYPE = X6
+.or X&FSSTYPE = X7
+.th .go TEST15
+.el .go UDENOM15
+...TEST15
+.if &L'&FSSTYPE02 = 0
+.th .mg/T/Tidligere produktkode skal udfyldes/
+...UDENOM15
+.************************************
+.su off
+.se cpr1 = substr &KUNDENR 1 6
+.se cpr2 = substr &KUNDENR 7 11
+.se cpr3 = substr &B11CPRNR 1 6
+.se cpr4 = substr &B11CPRNR 7 11
+.su on
 .*************** KUNDEFORHOLD *******************
 .if &FSSPROD = 1
 .th .go PROD1
@@ -579,92 +568,17 @@
 .th
 .el .mg/T/Produktkoden for Børnepakke er forkert/
 ...UDENOM12
-.da MODT 20mm 40mm width 100mm
-.da TYPE 20mm 40mm width 170mm
-.da SUM  20mm 80mm width 170mm
-.*************MODTAGERS NAVN OG ADRESSE *****************************
-.*************ALTID DEN SAMME MODTAGER ******************************
-.ar MODT on
 :SWISS10.
-nærpension A/S
-.br
-Østbanegade 135, 2. sal
-.br
-2100 København Ø
-:SKRSLUT.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
 .ar off
-.*************TYPE PÅ BREVET - VISES ØVERST TIL HØJRE *****************
-.ar TYPE on
-.tp 160mm right
-:SWISS12.
-:FED.
-.if X&FSSTYPE = X1
-.th ¤Oprettelse
-.if X&FSSTYPE = X2
-.th ¤Forhøjelse af dækning
-.if X&FSSTYPE = X3
-.th ¤Nedsættelse af dækning
-.if X&FSSTYPE = X4
-.th ¤Overførsel fra
-.th .br
-.th ¤andet nærpension pengeinstitut
-.if X&FSSTYPE = X5
-.th ¤Sletning/Opsigelse
-.if X&FSSTYPE = X6
-.th ¤Ændring af skattekode
-.*th .br
-.*th ¤på pensionsgrp-liv
-.if X&FSSTYPE = X7
-.th ¤Ændring af skattekode
-.th .br
-.th ¤på SKAT 1 ordning
-.if X&FSSTYPE = X8
-.th ¤Ændring fra krydsliv
-.if X&FSSTYPE = X9
-.th ¤Ændring til krydsliv
-.if X&FSSTYPE = X10
-.th ¤Sletning af begunstigelse
-:SKRSLUT.
-.ar off
-.**********FORSIKRINGSTYPE OVERSKRIFT OG FORSIKRINGSSUM ****************
-.ar SUM on
-.tp 100mm right
-:FED.
-&type1.
-:SKRSLUT.
-.sp 2
-.************************
-.if X&FSSTYPE = X4
-.th :FED.
-.th Ovenstående forsikring er overført fra
-.th :SKRSLUT.
-.th .br
-.th Reg.nr. &REGNR2.
-.th .br
-.th Pengeinstitut: &GENNAVNBD1.
-.th .go SLUT
-.************************
-.if X&FSSTYPE = X5
-.th :FED.
-.th Forsikringen slettes/opsiges til ophør pr. &B11DATO.
-.th :SKRSLUT.
-.************************
-...SLUT
-.ar off
-.*******************************
-.th Forsikrede
-.el Forsikringstager/Forsikrede
-...UDENOM1
-:SKRSLUT.
-.br
-.bx left 30mm right
-.sp 5mm
-.bx new left 30mm right
-.sp 15mm
-.bx off
-.bx can
-.sp
-.ar off
+.***********************************************************************
 .da KASSE 20mm 105mm width 175mm
 .*******************************
 .ar KASSE on
@@ -715,20 +629,150 @@ nærpension A/S
 .or X&FSSPROD = X7
 .or X&FSSPROD = X9
 .or X&FSSPROD = X12
-.tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+.th Forsikrede
+.el Forsikringstager/Forsikrede
+...UDENOM1
+:SKRSLUT.
 .br
-Aftalen aktiv: ¤Dato: ¤
+.bx left 30mm right
+.sp 5mm
+.bx new left 30mm right
+.sp 15mm
+.bx off
+.bx can
+.sp
+.ar off
+.da MODT 20mm 40mm width 100mm
+.da TYPE 20mm 40mm width 170mm
+.da SUM  20mm 80mm width 170mm
+.*************MODTAGERS NAVN OG ADRESSE *****************************
+.*************ALTID DEN SAMME MODTAGER ******************************
+.ar MODT on
+:SWISS10.
+nærpension A/S
+.br
+Østbanegade 135, 2. sal
+.br
+2100 København Ø
+:SKRSLUT.
+.ar off
+.*************TYPE PÅ BREVET - VISES ØVERST TIL HØJRE *****************
+.ar TYPE on
+.tp 160mm right
+:SWISS12.
+:FED.
+.if X&FSSTYPE = X1
+.th ¤ Oprettelse
+.if X&FSSTYPE = X2
+.th ¤ Forhøjelse af dækning
+.if X&FSSTYPE = X3
+.th ¤ Nedsættelse af dækning
+.if X&FSSTYPE = X4
+.th ¤ Overførsel fra
+.th .br
+.th ¤ andet nærpension pengeinstitut
+.if X&FSSTYPE = X5
+.th ¤ Sletning/Opsigelse
+.if X&FSSTYPE = X6
+.th ¤ Ændring af skattekode
+.*th .br
+.*th ¤ på pensionsgrp-liv
+.if X&FSSTYPE = X7
+.th ¤ Ændring af skattekode
+.th .br
+.th ¤ på SKAT 1 ordning
+.if X&FSSTYPE = X8
+.th ¤ Ændring fra krydsliv
+.if X&FSSTYPE = X9
+.th ¤ Ændring til krydsliv
+.if X&FSSTYPE = X10
+.th ¤ Sletning af begunstigelse
+:SKRSLUT.
+.ar off
+.**********FORSIKRINGSTYPE OVERSKRIFT OG FORSIKRINGSSUM ****************
+.ar SUM on
+.tp 100mm right
+:FED.
+&type1.
+:SKRSLUT.
+.sp 2
+.************************
+.if X&FSSTYPE = X4
+.th :FED.
+.th Ovenstående forsikring er overført fra
+.th :SKRSLUT.
+.th .br
+.th Reg.nr. &REGNR2.
+.th .br
+.th Pengeinstitut: &GENNAVNBD1.
+.th .go SLUT
+.************************
+.if X&FSSTYPE = X5
+.th :FED.
+.th Forsikringen slettes/opsiges til ophør pr. &B11DATO.
+.th :SKRSLUT.
+.************************
 ...SLUT
 .ar off
-.*************************
-Cpr.nr. ¤&cpr1.-&cpr2.
+.*******************************
+.da TEKST1  21,5mm 108mm width 175mm
+.***************************************
+.ar TEKST1 on
+.tp 32mm 82mm 122mm
+.****
+.if X&FSSTYPE = X2
+.or X&FSSTYPE = X3
+.or X&FSSTYPE = X6
+.or X&FSSTYPE = X7
+.th Typenr. ¤ &FSSTYPE01. ¤ Tidl. typenr. ¤ &FSSTYPE02.
+.el Typenr. ¤ &FSSTYPE01.
+.sp 2mm
+.if &L'&FSSIKRAFT > 0
+.th Oprettet ¤ &DATO. ¤ Ikrafttrædelsesdato ¤ &FSSIKRAFT.
+.el Oprettet ¤ &DATO.
 .sp 3mm
-Navn og adresse ¤&NAVN.
+Kontonr. ¤ &KONTO. ¤ Debiteringskontonr. ¤ &FSSDEBITNR
+.sp 3mm
+.tp 32mm 44mm 112mm
+Pengeinstitut ¤ &REGNR. ¤ &BANKNAVN. ¤ &AFDNAVN.
+.sp 3mm
+.tp 32mm 112mm 127mm
+Kontaktperson ¤ &GENEKSP. ¤ Tlf.nr. ¤ &GENTLFNR.
+.***********************
+.sp 3
+.if &FSSPROD = 3
+.or &FSSPROD = 6
+.or &FSSPROD = 8
+.or &FSSPROD = 10
+.or &FSSPROD = 11
+.th .go UDENOM
+.tp 32mm
+.if X&FSSPROD = X9
+.th Cpr.nr./CVR.nr. ¤ &cpr3.-&cpr4.
+.el Cpr.nr. ¤ &cpr3.-&cpr4.
+.sp 3mm
+Navn og adresse ¤ &B11NAVN01.
 .br
-¤&GADE.
+ ¤ &B11GADE.
 .br
-¤&BY.
+ ¤ &B11BY
+.sp 14mm
+.*************************
+...UDENOM
+.if &FSSPROD = 3
+.or &FSSPROD = 6
+.or &FSSPROD = 8
+.or &FSSPROD = 10
+.or &FSSPROD = 11
+.th .sp 1
+.*************************
+Cpr.nr. ¤ &cpr1.-&cpr2.
+.sp 3mm
+Navn og adresse ¤ &NAVN.
+.br
+ ¤ &GADE.
+.br
+ ¤ &BY.
 .sp 4
 .************************************
 .*DATO OG UNDERSKRIFT ***************
@@ -743,17 +787,17 @@ Navn og adresse ¤&NAVN.
 .tp 2mm 56mm
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/75mm 80mm 120mm _/155mm
-Indsendt ¤Dato:¤ ¤Afslag: ¤Dato: ¤
+Indsendt ¤ Dato: ¤ ¤ Afslag: ¤ Dato: ¤
 .br
-Supplerende oplysninger: ¤Dato: ¤ ¤Aftalen aktiv: ¤Dato: ¤
+Supplerende oplysninger: ¤ Dato: ¤ ¤ Aftalen aktiv: ¤ Dato: ¤
 .br
-Godkendt: ¤Dato: ¤
+Godkendt: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...PROD2
@@ -768,20 +812,20 @@ Godkendt: ¤Dato: ¤
 .hr 1mm 60mm 65mm 170mm
 .br
 .if X&FSSTYPE = X8
-.th ¤Dato og forsikredes underskrift ¤Dato og forsikringstagers underskrift
-.el ¤Dato ¤Forsikringstagers underskrift
+.th ¤ Dato og forsikredes underskrift ¤ Dato og forsikringstagers underskrift
+.el ¤ Dato ¤ Forsikringstagers underskrift
 .sp 2
 .hr 1mm 60mm 65mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .br
-Aftalen aktiv: ¤Dato: ¤
+Aftalen aktiv: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...PROD3
@@ -795,20 +839,20 @@ Aftalen aktiv: ¤Dato: ¤
 .hr 1mm 50mm 55mm 170mm
 .br
 .if X&FSSTYPE = X6
-.th ¤Dato ¤Underskrift (Forsikringstager)
-.el ¤Dato ¤Underskrift (Forsikringstager/Forsikrede)
+.th ¤ Dato ¤ Underskrift (Forsikringstager)
+.el ¤ Dato ¤ Underskrift (Forsikringstager/Forsikrede)
 .sp 2
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .br
-Aftalen aktiv: ¤Dato: ¤
+Aftalen aktiv: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...PROD4
@@ -820,69 +864,19 @@ Aftalen aktiv: ¤Dato: ¤
 .tp 2mm 56mm
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤Forsikringstagers underskrift
-.da TEKST1  21,5mm 108mm width 175mm
-.***************************************
-.ar TEKST1 on
-.tp 32mm 82mm 122mm
-.****
-.if X&FSSTYPE = X2
-.or X&FSSTYPE = X3
-.or X&FSSTYPE = X6
-.or X&FSSTYPE = X7
-.th Typenr. ¤&FSSTYPE01. ¤Tidl. typenr. ¤&FSSTYPE02.
-.el Typenr. ¤&FSSTYPE01.
-.sp 2mm
-.if &L'&FSSIKRAFT > 0
-.th Oprettet ¤&DATO. ¤Ikrafttrædelsesdato ¤&FSSIKRAFT.
-.el Oprettet ¤&DATO.
-.sp 3mm
-Kontonr. ¤&KONTO. ¤Debiteringskontonr. ¤&FSSDEBITNR
-.sp 3mm
-.tp 32mm 44mm 112mm
-Pengeinstitut ¤&REGNR. ¤&BANKNAVN. ¤&AFDNAVN.
-.sp 3mm
-.tp 32mm 112mm 127mm
-Kontaktperson ¤&GENEKSP. ¤Tlf.nr. ¤&GENTLFNR.
-.***********************
-.sp 3
-.if &FSSPROD = 3
-.or &FSSPROD = 6
-.or &FSSPROD = 8
-.or &FSSPROD = 10
-.or &FSSPROD = 11
-.th .go UDENOM
-.tp 32mm
-.if X&FSSPROD = X9
-.th Cpr.nr./CVR.nr. ¤&cpr3.-&cpr4.
-.el Cpr.nr. ¤&cpr3.-&cpr4.
-.sp 3mm
-Navn og adresse ¤&B11NAVN01.
-.br
-¤&B11GADE.
-.br
-¤&B11BY
-.sp 14mm
-.*************************
-...UDENOM
-.if &FSSPROD = 3
-.or &FSSPROD = 6
-.or &FSSPROD = 8
-.or &FSSPROD = 10
-.or &FSSPROD = 11
-.th .sp 1
+ ¤ Dato ¤ Forsikringstagers underskrift
 .sp 2
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .br
-Aftalen opgjort: ¤Dato: ¤
+Aftalen opgjort: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...NEXT6
@@ -894,17 +888,17 @@ Aftalen opgjort: ¤Dato: ¤
 .tp 2mm 56mm
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤Forsikringstagers underskrift
+ ¤ Dato ¤ Forsikringstagers underskrift
 .sp 2
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .go SLUT
 .**********************
 ...NEXT7
@@ -916,8 +910,15 @@ Indsendt ¤Dato: ¤
 .hr 1mm 50mm 55mm 170mm
 .tp 2mm 56mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
+.tp 45mm _/155mm
+Indsendt ¤ Dato: ¤
+.br
+Aftalen aktiv: ¤ Dato: ¤
+...SLUT
+.ar off
+

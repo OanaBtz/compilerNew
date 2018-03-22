@@ -30,37 +30,6 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.if x&paar > x&maxaar
-.th .go FEJL1
-.if x&paar < x&maxaar
-.th .go OK
-.***** HER TESTES PÅ ON KONTOHAVER ER YNGRE END 14 ÅR *********************
-...OK
-.if x&paar < x&minaar
-.th .go FEJL1
-.if x&paar > x&minaar
-.th .go OK1
-.***** HER TESTES OM ÅRSTAL ER RIGTIGT MEN AT MÅNEDERNE GØR AT KONTOHAVER *
-.***** ER FYLDT 14 ÅR *****************************************************
-.if x&pmdr < x&fmdr
-.th .go FEJL1
-.if x&pmdr > x&fmdr
-.th .go OK1
-.if x&pdag < x&fdag
-.th .go FEJL1
-.el .go OK1
-.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
-...FEJL1
-.mg/T/ Udløbsdatoen skal være mellem barnets 14 - 21 år./
-...OK1
-.***** HER TESTES PÅ OM OPRETTELSESÅRET ER INDEN UDLØBET AF BARNETS 14. ÅR*
-.if x&minaar < x&kaar
-.th .go FEJL2
-.el .go OK2
-.***** HER AFSLUTTES TESTEN PÅ OPRETTELSESÅRET ****************************
-...FEJL2
-.mg/T/ Opr.år, inden udg. af det kalenderår hvori barnet bliver 14 år./
-...OK2
 .***** HER DELES DATOERNE FOR OPR. OG FRIG. OP TIL TESTS ******************
 .su off
 .se kaar = substr &KOPRETDATO 7 4
@@ -111,6 +80,37 @@
 .se maxaar = &faar1 + 21
 .***** HER TESTES PÅ OM KONTOHAVER ER ÆLDRE END 21 ÅR *********************
 .su on
+.if x&paar > x&maxaar
+.th .go FEJL1
+.if x&paar < x&maxaar
+.th .go OK
+.***** HER TESTES PÅ ON KONTOHAVER ER YNGRE END 14 ÅR *********************
+...OK
+.if x&paar < x&minaar
+.th .go FEJL1
+.if x&paar > x&minaar
+.th .go OK1
+.***** HER TESTES OM ÅRSTAL ER RIGTIGT MEN AT MÅNEDERNE GØR AT KONTOHAVER *
+.***** ER FYLDT 14 ÅR *****************************************************
+.if x&pmdr < x&fmdr
+.th .go FEJL1
+.if x&pmdr > x&fmdr
+.th .go OK1
+.if x&pdag < x&fdag
+.th .go FEJL1
+.el .go OK1
+.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
+...FEJL1
+.mg/T/ Udløbsdatoen skal være mellem barnets 14 - 21 år./
+...OK1
+.***** HER TESTES PÅ OM OPRETTELSESÅRET ER INDEN UDLØBET AF BARNETS 14. ÅR*
+.if x&minaar < x&kaar
+.th .go FEJL2
+.el .go OK2
+.***** HER AFSLUTTES TESTEN PÅ OPRETTELSESÅRET ****************************
+...FEJL2
+.mg/T/ Opr.år, inden udg. af det kalenderår hvori barnet bliver 14 år./
+...OK2
 .ti ¤ 05
 .***********************************************************************
 .* Brevnavn, roteret i nederste venstre hjørne
@@ -121,90 +121,6 @@
 &BREVNAVN
 .ar off
 .***********************************************************************
-.el .go SLUT
-...VIDERE
-.ar BETALMD on
-.if &U'X&GENHVER eq XM
-.th .se valg = 'måned.'
-.if &U'X&GENHVER eq XK
-.th .se valg = 'kvartal.'
-.if &U'X&GENHVER eq XA
-.th .se valg = 'år.'
-.if &U'X&GENHVER eq XH
-.th .se valg = 'halvår.'
-&valg
-.ar off
-...SLUT
-.*************************************************
-.ar OVFØROP on
-.se regnr = substr &GENKONTO2 1 4
-.se ktonr = substr &GENKONTO2 5 10
-&regnr &ktonr
-.ar off
-.*************************************************
-.ar FØRGANG on
-&FGANGDATO
-.ar off
-.******** HOP hertil hvis genkonto2 ikke er udfyldt
-...UDENOM
-.*************************************************
-.ar OPUNDSK on
-.ce &INDNAVN
-.ar off
-.*************************************************
-.ar PIUNDSK on
-.ce &BANKNAVN
-.ar off
-.ar CPRNR on
-&INDKUNDENR
-.ar off
-.*************************************************
-.ar KONTONR on
-.se reg01 = substr &LANGKTONR 1 4
-.se kto01 = substr &LANGKTONR 5 21
-&reg01 &kto01
-.ar off
-.*************************************************
-.ar OPRTID on
-&KOPRETDATO
-.ar off
-.*************************************************
-.ar PENGEINS on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*************************************************
-.ar VÆRGE on
-.tp 10mm
-&GENNAVN
-.*************************************************
-.ar VÆRGECPR on
-&GENCPR
-.ar off
-.*************************************************
-.ar BINDPER on
-&FRIDATO
-.ar off
-.*************************************************
-.* hvis der ingen overførselkonto er
-.* skal der heller ikke vises de andre parametre
-.if &L'&GENKONTO2 = 0
-.th .go UDENOM
-.********************
-.ar BIDRAG on
-:VS.&GENBELØB.
-.ar off
-.*************************************************
-.if &U'X&GENHVER eq XM
-.or &U'X&GENHVER eq XK
-.or &U'X&GENHVER eq XA
-.or &U'X&GENHVER eq XH
-.th .go VIDERE
 :COUR10.
 .da KONTOHAV 25mm 51mm width 80mm
 .da KONTOCPR 32,5mm 71,5mm width 80mm
@@ -255,6 +171,90 @@
 &INDLAND
 .ar off
 .*************************************************
+.ar CPRNR on
+&INDKUNDENR
+.ar off
+.*************************************************
+.ar KONTONR on
+.se reg01 = substr &LANGKTONR 1 4
+.se kto01 = substr &LANGKTONR 5 21
+&reg01 &kto01
+.ar off
+.*************************************************
+.ar OPRTID on
+&KOPRETDATO
+.ar off
+.*************************************************
+.ar PENGEINS on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************************
+.ar VÆRGE on
+.tp 10mm
+&GENNAVN
+.*************************************************
+.ar VÆRGECPR on
+&GENCPR
+.ar off
+.*************************************************
+.ar BINDPER on
+&FRIDATO
+.ar off
+.*************************************************
+.* hvis der ingen overførselkonto er
+.* skal der heller ikke vises de andre parametre
+.if &L'&GENKONTO2 = 0
+.th .go UDENOM
+.********************
+.ar BIDRAG on
+:VS.&GENBELØB.
+.ar off
+.*************************************************
+.if &U'X&GENHVER eq XM
+.or &U'X&GENHVER eq XK
+.or &U'X&GENHVER eq XA
+.or &U'X&GENHVER eq XH
+.th .go VIDERE
+.el .go SLUT
+...VIDERE
+.ar BETALMD on
+.if &U'X&GENHVER eq XM
+.th .se valg = 'måned.'
+.if &U'X&GENHVER eq XK
+.th .se valg = 'kvartal.'
+.if &U'X&GENHVER eq XA
+.th .se valg = 'år.'
+.if &U'X&GENHVER eq XH
+.th .se valg = 'halvår.'
+&valg
+.ar off
+...SLUT
+.*************************************************
+.ar OVFØROP on
+.se regnr = substr &GENKONTO2 1 4
+.se ktonr = substr &GENKONTO2 5 10
+&regnr &ktonr
+.ar off
+.*************************************************
+.ar FØRGANG on
+&FGANGDATO
+.ar off
+.******** HOP hertil hvis genkonto2 ikke er udfyldt
+...UDENOM
+.*************************************************
+.ar OPUNDSK on
+.ce &INDNAVN
+.ar off
+.*************************************************
+.ar PIUNDSK on
+.ce &BANKNAVN
+.ar off
 .da oversk 20mm 35mm width 80mm
 .da side1 20mm 42mm width 175mm
 .**********************************
@@ -320,106 +320,6 @@ Underskrift
 .bx can
 .*************************************************
 .ar off
-.is to 5mm
-.in 5mm nobreak
-Kontoen kan ikke hæves, før barnet har en fastsat alder, der mindst
-skal være 14 år og højst 21 år. Bindingsperioden skal være mindst 7 år.
-.in
-.sp
-.ar off
-.***** ANDEN KOLONNE **************************************************
-.ar REGLER2 on
-5.
-.is to 5mm
-.in 5mm nobreak
-Ved kritisk sygdom hos barnet kan SKAT tillade, at
-opsparingen udbetales.
-.in
-.sp
-6.
-.is to 5mm
-.in 5mm nobreak
-Opsparingen kan ikke overdrages til eje eller pant eller gøres
-til genstand for retsfølgning fra kreditorers side i
-.hw bindings-perioden.
-.in
-.sp
-7.
-.is to 5mm
-.in 5mm nobreak
-Opsparingen forrentes med pengeinstituttets til enhver tid fastsatte rente.
-.in
-.sp
-8.
-.is to 5mm
-.in 5mm nobreak
-Renter og andet afkast, der tilskrives kontoen i bindingsperioden,
-skal ikke medregnes i den skattepligtige indkomst.
-.ar off
-.**************************************************
-.ar ERKLÆR on
-Jeg bestemmer, at der ikke kan hæves på kontoen før
-:SKRSLUT.
-&FRIDATO.,
-:SWISS8. således at opsparingen ikke kan udbetales tidligere.
-.br
-Barnet må kun have en børneopsparing.
-.if &U'&GENKRYDS. = J
-.th Denne aftale er overført fra andet pengeinstitut.
-.th .br
-.el Har barnet i forvejen en børneopsparing i andet pengeinstitut, skal den
-.el overføres til &BANKNAVN..
-.*Endvidere erklærer jeg, at barnet ikke har eller har haft en tilsvarende
-CPR.nr.
-.ar off
-.*************************************************
-.ar BINDPER on
-Bindingsperiodens udløb:
-.ar off
-.*************************************************
-.ar INDBETA on
-.tp 71mm
-.if &L'&GENKONTO2 > 0
-.th Som bidrag indbetales (indtil videre): kr. ¤pr.
-.th .sp 1mm
-.th Overføres fra kontonr.: ¤Første gang den:
-.th .sp 2mm
-.th Beløbet trækkes uden yderligere meddelelse til kontohavere.
-.th Overførselsanmodningen er gyldig indtil den skriftligt tilbagekaldes.
-.th Pengeinstituttet kan uden meddelelse undlade den aftalte overførsel,
-.th såfremt overførslen bevirker manglende dækning på den konto midlerne
-.th overføres fra.
-.el .sp 1mm
-.el Der er ikke aftalt fast indbetaling
-.ar off
-.*************************************************
-.ar REGLER1 on
-1.
-.is to 5mm
-.in 5mm nobreak
-Indskud sker på en konto lydende på barnets navn. Opsparingen kan placeres
-kontant eller i værdipapirer - enten via pulje eller i særskilt depot.
-.br
-Pengeinstituttet modtager på barnets vegne de på kontoen indbetalte
-beløb som tilhørende barnet.
-.in
-.sp
-2.
-.is to 5mm
-.in 5mm nobreak
-Der kan kun oprettes én konto for barnet. Såvel opretteren af kontoen
-som kontohaver og personer, der er beslægtet med barnet i ret opstigende
-linie kan foretage indskud på kontoen.
-.in
-.sp
-3.
-.is to 5mm
-.in 5mm nobreak
-Der kan indskydes indtil 3.000 kr. årligt på kontoen, og der kan i alt
-indsættes højst 36.000 kr.
-.in
-.sp
-4.
 :SWISS8.
 .da KONTOHAV 21mm 47mm width 80mm
 .da KONTOCPR 21mm 72mm width 80mm
@@ -470,6 +370,106 @@ Pengeinstitut
 .ar VÆRGE on
 Værge
 .sp 14mm
+CPR.nr.
+.ar off
+.*************************************************
+.ar BINDPER on
+Bindingsperiodens udløb:
+.ar off
+.*************************************************
+.ar INDBETA on
+.tp 71mm
+.if &L'&GENKONTO2 > 0
+.th Som bidrag indbetales (indtil videre): kr. ¤ pr.
+.th .sp 1mm
+.th Overføres fra kontonr.: ¤ Første gang den:
+.th .sp 2mm
+.th Beløbet trækkes uden yderligere meddelelse til kontohavere.
+.th Overførselsanmodningen er gyldig indtil den skriftligt tilbagekaldes.
+.th Pengeinstituttet kan uden meddelelse undlade den aftalte overførsel,
+.th såfremt overførslen bevirker manglende dækning på den konto midlerne
+.th overføres fra.
+.el .sp 1mm
+.el Der er ikke aftalt fast indbetaling
+.ar off
+.*************************************************
+.ar REGLER1 on
+1.
+.is to 5mm
+.in 5mm nobreak
+Indskud sker på en konto lydende på barnets navn. Opsparingen kan placeres
+kontant eller i værdipapirer - enten via pulje eller i særskilt depot.
+.br
+Pengeinstituttet modtager på barnets vegne de på kontoen indbetalte
+beløb som tilhørende barnet.
+.in
+.sp
+2.
+.is to 5mm
+.in 5mm nobreak
+Der kan kun oprettes én konto for barnet. Såvel opretteren af kontoen
+som kontohaver og personer, der er beslægtet med barnet i ret opstigende
+linie kan foretage indskud på kontoen.
+.in
+.sp
+3.
+.is to 5mm
+.in 5mm nobreak
+Der kan indskydes indtil 3.000 kr. årligt på kontoen, og der kan i alt
+indsættes højst 36.000 kr.
+.in
+.sp
+4.
+.is to 5mm
+.in 5mm nobreak
+Kontoen kan ikke hæves, før barnet har en fastsat alder, der mindst
+skal være 14 år og højst 21 år. Bindingsperioden skal være mindst 7 år.
+.in
+.sp
+.ar off
+.***** ANDEN KOLONNE **************************************************
+.ar REGLER2 on
+5.
+.is to 5mm
+.in 5mm nobreak
+Ved kritisk sygdom hos barnet kan SKAT tillade, at
+opsparingen udbetales.
+.in
+.sp
+6.
+.is to 5mm
+.in 5mm nobreak
+Opsparingen kan ikke overdrages til eje eller pant eller gøres
+til genstand for retsfølgning fra kreditorers side i
+.hw bindings-perioden.
+.in
+.sp
+7.
+.is to 5mm
+.in 5mm nobreak
+Opsparingen forrentes med pengeinstituttets til enhver tid fastsatte rente.
+.in
+.sp
+8.
+.is to 5mm
+.in 5mm nobreak
+Renter og andet afkast, der tilskrives kontoen i bindingsperioden,
+skal ikke medregnes i den skattepligtige indkomst.
+.ar off
+.**************************************************
+.ar ERKLÆR on
+Jeg bestemmer, at der ikke kan hæves på kontoen før
+:SKRSLUT.
+&FRIDATO.,
+:SWISS8. således at opsparingen ikke kan udbetales tidligere.
+.br
+Barnet må kun have en børneopsparing.
+.if &U'&GENKRYDS. = J
+.th Denne aftale er overført fra andet pengeinstitut.
+.th .br
+.el Har barnet i forvejen en børneopsparing i andet pengeinstitut, skal den
+.el overføres til &BANKNAVN..
+.*Endvidere erklærer jeg, at barnet ikke har eller har haft en tilsvarende
 .*konto i noget andet pengeinstitut.
 .*br
 Jeg er desuden bekendt med, at opsparingen
@@ -493,3 +493,4 @@ Pengeinstituttets underskrift
 .ar PIDATO on
 Dato:
 .ar off
+

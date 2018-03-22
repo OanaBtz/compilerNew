@@ -11,217 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-:ENY.
-.*
-.*
-.**************************************************************************
-.* ændring af tiltale, så det følger anviste LOF-regler, som er:
-.* 1. Kunder med CPR.NR. skal tiltales efter deres tiltaleform hentet fra
-.*    kunderegisteret.
-.* 2. Alle kunder med CVR.NR (Første 2 cifre er 00) skal tiltales med I.
-.**************************************************************************
-.su off
-.se cpr1 = substr &KUNDENR 1 2
-.su on
-.***TEST om det er CVR-NR eller CPR-NR*************************************
-.if x&cpr1 = x00
-.th .go CVR
-.el .go ENDCVR
-.**************************************************************************
-...CVR
-.se DU = &I
-.se SDU = &I
-.se DIG = &JER
-.se SDIG = &SJER
-.se DIN = &JERES
-.se SDIN = &SJERES
-.se DIT =  &JERES
-.se SDIT = &SJERES
-.se DINE = &JERES
-.se SDINE = &SJERES
-...ENDCVR
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.**************************************************************************
-.da LOFADR   23mm 48mm
-.da FORFALD 126.5mm 64.51mm
-.**** Adressefelter *Hvis ingen formidler, da "venstrestil" kunde**********
-.ar LOFADR on
-.if &L'&FORMIDADR1. > 0
-.th .go to FORMID
-.el .go to KUNDE
-.******************************************************
-...FORMID
-&FORMIDADR1.
-.br
-&FORMIDADR2.
-.br
-&FORMIDADR3.
-.br
-&FORMIDADR4.
-.br
-&FORMIDADR5.
-.sp 3
-Debitor
-.sp
-&ADR1.
-.br
-&ADR2.
-.br
-&ADR3.
-.br
-&ADR4.
-.br
-&ADR5.
-.br
-.sp 3
-.ar off
-.go to HVDEND
-.***********************************************************************
-.******************************************************
-...KUNDE
-&ADR1.
-.br
-&ADR2.
-.br
-&ADR3.
-.br
-&ADR4.
-.br
-&ADR5.
-.sp 3
-.ar off
-.******************************************************
-...HVDEND
-.********************AREAL-DEFINITIONER************************************
-.* Brevnavn, roteret i venstre hjørne
-.da OVERSKR 20mm 110mm width 170mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.da KONTRAKT 126.8mm 63mm
-.********************ROTERET BREVNAVN**************************************
-:tiltale &TILTALEF
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************OPLYSNING OM KONTRAKTNUMMER***************************
-.ar KONTRAKT on
-:COUR8.
-Kontrakt nr.: &AFTALENR.
-.ar off
-.******************* START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-.us on
-.if &L'&FORMIDADR1. > 0
-.th Tilbud på finansiering af din kundes kommende køretøj
-.el Tilbud på finansiering af dit kommende køretøj
-.us off
-.sp
-.dr thin weight 0.1mm
-Som aftalt har vi fornøjelsen at tilbyde lån til køb af:
-.br
-.tp 2mm 100mm 150mm right
-.in 2mm
-1 stk. &BESKRIV01., årgang &ÅRG01
-.sp
-.in
-Købesum: ¤¤kr. &ANSKAFPM.
-.br
-Udbetaling inkl. friværdi af evt. byttebil: ¤¤kr. &UDBETAL2.
-svarende til &UDBETPCT.%
-.br
-Løbetid: ¤¤&LØBETID. Måneder
-.br
-Pålydende rente p.t.: ¤¤&PÅRENTE1 procent p.a. &ÅCONT.
-.if &U'&RENTETYP = F
-.th fast rente
-.el var. rente
-.br
-Nominel rente p.t.: ¤¤&NOMRENTE. procent p.a.
-.br
-Årlige omkostninger: ¤¤&LOFÅOP. procent p.a.
-.sp
-:FED.
-Omkostninger
-:SKRSLUT.
-.if &L'&STIFTLÅN > 0
-.th .br
-.th Stiftelsesprovision ¤¤kr.¤&STIFTLÅN.
-.br
-Ekspeditionsgebyr ¤¤kr.¤&EKSGEB.
-.br
-Tinglysningsafgift ¤¤kr.¤&TINGAFG.
-.br
-Forsikringsgebyr ¤¤kr.¤&PANTHGEB.
-.sp
-Lånebeløb incl. finansieringsomkostninger: ¤¤kr.¤&BELINCLOMK.
-.br
-Lånebeløb excl. finansieringsomkostninger: ¤¤kr.¤&PROVENU1.
-.br
-Ydelse pr. måned incl. kontogebyr kr. &KTOGEB. ¤¤kr. ¤&SUMYDKTOG.
-.br
-Første gang den:¤¤¤&FFDATO.
-.sp
-Ved manglende tilmelding til &PRODUKT2. tillægges administrationsgebyr
-kr. 50,00 pr. ydelse.
-.sp
-Der tages sikkerhed i ovennævnte køretøj ved udstedelse af
-bilejerpantebrev.
-.sp
-Ønsker &ÅCONT.
-.if &L'&FORMIDADR1. > 0
-.th kunden
-.el du/I
-at gøre brug af dette tilbud, behøver du/I blot at fremsende slutseddel, så
-vil vi ordne det videre forløb - så
-.if &L'&FORMIDADR1. > 0
-.th kunden
-.el du/I
-kan få
-.if &L'&FORMIDADR1. > 0
-.th sit
-.el dit/jeres
-nye køretøj hurtigst muligt.
-.sp
-Tilbuddet er gældende 1 måned fra dato. Tilbuddet er afgivet under
-forudsætning af, at efterfølgende kreditvurdering ikke giver anledning til
-bemærkninger.
-.sp
-Har du/I spørgsmål til ovenstående, er du/I velkommen til at kontakte os.
-.sp2
- 
-Venlig hilsen
-.br
-&AFDBNKNAVN
-.SP
-&GENEKSP
-.br
- 
-.ar off
-.****************************************************************
 .************** Areal definitioner ****************************************
 .da BUND1  28mm 279mm width 25mm
 .da BUND2  53mm 279mm width 25mm
@@ -440,3 +229,215 @@ Fredag
 :COUR6.
 9947
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.*
+.**************************************************************************
+.* ændring af tiltale, så det følger anviste LOF-regler, som er:
+.* 1. Kunder med CPR.NR. skal tiltales efter deres tiltaleform hentet fra
+.*    kunderegisteret.
+.* 2. Alle kunder med CVR.NR (Første 2 cifre er 00) skal tiltales med I.
+.**************************************************************************
+.su off
+.se cpr1 = substr &KUNDENR 1 2
+.su on
+.***TEST om det er CVR-NR eller CPR-NR*************************************
+.if x&cpr1 = x00
+.th .go CVR
+.el .go ENDCVR
+.**************************************************************************
+...CVR
+.se DU = &I
+.se SDU = &I
+.se DIG = &JER
+.se SDIG = &SJER
+.se DIN = &JERES
+.se SDIN = &SJERES
+.se DIT =  &JERES
+.se SDIT = &SJERES
+.se DINE = &JERES
+.se SDINE = &SJERES
+...ENDCVR
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.da LOFADR   23mm 48mm
+.da FORFALD 126.5mm 64.51mm
+.**** Adressefelter *Hvis ingen formidler, da "venstrestil" kunde**********
+.ar LOFADR on
+.if &L'&FORMIDADR1. > 0
+.th .go to FORMID
+.el .go to KUNDE
+.******************************************************
+...FORMID
+&FORMIDADR1.
+.br
+&FORMIDADR2.
+.br
+&FORMIDADR3.
+.br
+&FORMIDADR4.
+.br
+&FORMIDADR5.
+.sp 3
+Debitor
+.sp
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.br
+.sp 3
+.ar off
+.go to HVDEND
+.***********************************************************************
+.******************************************************
+...KUNDE
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.sp 3
+.ar off
+.******************************************************
+...HVDEND
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da OVERSKR 20mm 110mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da KONTRAKT 126.8mm 63mm
+.********************ROTERET BREVNAVN**************************************
+:tiltale &TILTALEF
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************OPLYSNING OM KONTRAKTNUMMER***************************
+.ar KONTRAKT on
+:COUR8.
+Kontrakt nr.: &AFTALENR.
+.ar off
+.******************* START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us on
+.if &L'&FORMIDADR1. > 0
+.th Tilbud på finansiering af din kundes kommende køretøj
+.el Tilbud på finansiering af dit kommende køretøj
+.us off
+.sp
+.dr thin weight 0.1mm
+Som aftalt har vi fornøjelsen at tilbyde lån til køb af:
+.br
+.tp 2mm 100mm 150mm right
+.in 2mm
+1 stk. &BESKRIV01., årgang &ÅRG01
+.sp
+.in
+Købesum: ¤ ¤ kr. &ANSKAFPM.
+.br
+Udbetaling inkl. friværdi af evt. byttebil: ¤ ¤ kr. &UDBETAL2.
+svarende til &UDBETPCT.%
+.br
+Løbetid: ¤ ¤ &LØBETID. Måneder
+.br
+Pålydende rente p.t.: ¤ ¤ &PÅRENTE1 procent p.a. &ÅCONT.
+.if &U'&RENTETYP = F
+.th fast rente
+.el var. rente
+.br
+Nominel rente p.t.: ¤ ¤ &NOMRENTE. procent p.a.
+.br
+Årlige omkostninger: ¤ ¤ &LOFÅOP. procent p.a.
+.sp
+:FED.
+Omkostninger
+:SKRSLUT.
+.if &L'&STIFTLÅN > 0
+.th .br
+.th Stiftelsesprovision ¤ ¤ kr. ¤ &STIFTLÅN.
+.br
+Ekspeditionsgebyr ¤ ¤ kr. ¤ &EKSGEB.
+.br
+Tinglysningsafgift ¤ ¤ kr. ¤ &TINGAFG.
+.br
+Forsikringsgebyr ¤ ¤ kr. ¤ &PANTHGEB.
+.sp
+Lånebeløb incl. finansieringsomkostninger: ¤ ¤ kr. ¤ &BELINCLOMK.
+.br
+Lånebeløb excl. finansieringsomkostninger: ¤ ¤ kr. ¤ &PROVENU1.
+.br
+Ydelse pr. måned incl. kontogebyr kr. &KTOGEB. ¤ ¤ kr. ¤ &SUMYDKTOG.
+.br
+Første gang den: ¤ ¤ ¤ &FFDATO.
+.sp
+Ved manglende tilmelding til &PRODUKT2. tillægges administrationsgebyr
+kr. 50,00 pr. ydelse.
+.sp
+Der tages sikkerhed i ovennævnte køretøj ved udstedelse af
+bilejerpantebrev.
+.sp
+Ønsker &ÅCONT.
+.if &L'&FORMIDADR1. > 0
+.th kunden
+.el du/I
+at gøre brug af dette tilbud, behøver du/I blot at fremsende slutseddel, så
+vil vi ordne det videre forløb - så
+.if &L'&FORMIDADR1. > 0
+.th kunden
+.el du/I
+kan få
+.if &L'&FORMIDADR1. > 0
+.th sit
+.el dit/jeres
+nye køretøj hurtigst muligt.
+.sp
+Tilbuddet er gældende 1 måned fra dato. Tilbuddet er afgivet under
+forudsætning af, at efterfølgende kreditvurdering ikke giver anledning til
+bemærkninger.
+.sp
+Har du/I spørgsmål til ovenstående, er du/I velkommen til at kontakte os.
+.sp2
+ 
+Venlig hilsen
+.br
+&AFDBNKNAVN
+.SP
+&GENEKSP
+.br
+ 
+.ar off
+.****************************************************************
+

@@ -11,50 +11,8 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV'.
-.BR
-.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
-.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
-.**************************************************************************
-.*               : Du skal vælge om aftalen skal sendes til kundens netbank
-.*               : i Underskriftsrum (J) eller udskrives på papir (N)
-.*
-.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
-.*               : Underskriftsrum, du vælge 1 for at komme videre.
-.*               : skal du vælge 1 for at komme videre.
-.*
-.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
-.*           --> : ved at vælge "3", inden du udskriver brevet.
-.*
-.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
-.*               : finder det i stedet i I*net under "Ubehandl. aftaler
-.*               : til underskrift" - her lægger du brevet i kuvert og
-
 .** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
+.pa
 :SWISS8.
 .**************************************************************************
 .da BOX 20mm 41mm width 175mm
@@ -102,8 +60,311 @@ Generelle regler for debitorer i Betalingsservice pr. 1. august 2015
 .* .RH CANCEL
 .* .PA
 .**************************************************************************
+.rh cancel
 .** SIDESKIFT
-.pa
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV'.
+.BR
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+.* Kopi af BECBS01P, men parameter GENVALG ændret til kode 3 som
+.* forvalg og ændret til betinget beskyttet.
+.* 31.05.2016 / hk
+.*-----------------------------------------------------------------
+.oc  ** BetalingsService
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************************
+.da OVERSK 20mm 32mm width 80mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Aftale om Betalingsservice
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.*******************************************************
+.da KUNDEOPL   25mm 48mm width 80mm
+.da PIOPL      112.5mm 48mm width 80mm
+.da PIMAIL     25mm 82.5mm width 81mm
+.da KUNDENR    25mm 73mm width 80mm
+.da KTONR      65mm 73mm width 80mm
+.da BUDGET     112.5mm 73mm width 80mm
+.da OVERSIGT   25mm 87mm width 165mm
+.da ANDET      25mm 224mm width 165mm
+.*******************************************************
+.if &GENVALG = 0
+.or &GENVALG > 3
+.th .mg/T/Der kan kun vælges 1 til 3 for betalingsoversigt/
+.*******************************************************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*******************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar PIMAIL on
+&BANKEMAIL.
+.ar off
+.*******************************************************
+.ar KUNDENR on
+&KUNDENR
+.ar off
+.*******************************************************
+.ar KTONR on
+.***** HER DELES KONTONUMMER  OP I TO PARAMETRE *******
+.se regnr = substr &GENKTO 1 4
+.se ktonr = substr &GENKTO 5 10
+&regnr &ktonr
+.ar off
+.*******************************************************
+.ar BUDGET on
+.if &U'&GENBUDGET = J
+.th Med budgetskema
+.el Uden budgetskema
+.ar off
+.*******************************************************
+.ar OVERSIGT on
+.if &GENVALG = 1
+.th Betalingsoversigt ønskes fremsendt, &WEBSYSNAVN benyttes ikke.
+.if &GENVALG = 2
+.th Betalingsoversigt ønskes fremsendt, Betalingsservice benyttes
+.th samtidig i &WEBSYSNAVN..
+.if &GENVALG = 3
+.th Betalingsoversigt på papir afmeldes, Betalingsservice benyttes
+.th i &WEBSYSNAVN..
+.ar off
+.*******************************************************
+.ar ANDET on
+.if &L'&GENANDET gt 0
+.th .br
+.th &GENANDET
+.if &L'&GENANDET1 gt 0
+.th .br
+.th &GENANDET1
+.if &L'&GENANDET2 gt 0
+.th .br
+.th &GENANDET2
+.if &L'&GENANDET3 gt 0
+.th .br
+.th &GENANDET3
+.if &L'&GENANDET4 gt 0
+.th .br
+.th &GENANDET4
+.ar off
+.*Tekst i rubrikken kundens/pengeinstituttes underskrift er i K-afsnittet**
+.da SIDE1 20mm 38mm width 175mm
+.ar SIDE1 on
+.**************************************************************************
+.tp 1mm 88.5mm
+.**************************************************************************
+:SWISS10.
+:FED.
+ ¤ Parter
+:SKRSLUT.
+.***** her laves kassen til Kunde  og Pengeinstitut *******
+:SWISS8.
+.bx left 87.5mm right
+ ¤ Kunde ¤ Pengeinstitut
+.sp 21mm
+.***** her laves kassen til CPR-nr/CVR-nr., Debiteringskontonr. og E-mail
+.tp 1mm 41mm 88.5mm
+.bx new left 40mm 87.5mm right
+ ¤ CPR-nr./CVR-nr. ¤ Debiteringskontonr. for evt. gebyr ¤ Budgetskema
+.sp 5mm
+.***** her laves kassen til Budgetskema  *****
+.bx new left right
+ ¤ Pengeinstituttets e-mail
+.sp 5mm
+.***** her laves kassen til Betalingsoversigt  *****
+.bx new left right
+.sp 8.5mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+ ¤ Betingelser
+:SKRSLUT.
+.***** her laves kassen til betingelser *******
+.bx left right
+.sp 115.5mm
+.bx off
+.**********************************************
+.if &L'&GENANDET gt 0
+.th :SWISS10.
+.th :FED.
+.th ¤ Supplerende oplysninger
+.th :SKRSLUT.
+.th .***** her laves kassen til fritekst *******
+.th .bx new left right
+.th .sp 19mm
+.th .bx off
+.el .go UNDER
+...UNDER
+:SWISS10.
+:FED.
+ ¤ Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi underskrift ******
+.bx new left 87.5mm right
+.tp 58mm  88.5mm 144.5mm
+.in 1mm
+:SWISS8.
+Kundens underskrift ¤ Dato: ¤ Pengeinstituttets underskrift ¤ Dato:
+.ir 92.5mm
+.sp 6mm
+.tp 44mm center
+.***NEDENSTÅENDE ":SKRSLUT." BEVIRKER, AT DER SKIFTES SKRIFTTYPE TIL COUR10
+.***DE MÅ IKKE SLETTES*****************************************************
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+ ¤ &NAVN
+:SWISS8.
+.br
+Jeg beder herved &BANKNAVN yde Betalingsservice
+.if &U'&GENBUDGET = J
+.th .ct , som anført i mit budgetskema eller
+ifølge afgivne betalingsordre. Samtidig
+erklærer jeg mig indforstået med nedenstående regler og bestemmelser.
+.**gba/Næste lille 'stunt' minimerer linieskift som følger pga ir/tp
+.**statements inden Banknavn udskr.
+.**Lavet for at skaffe lidt mere plads til kundens underskrift.
+.ls normal p4
+.ir
+.tp 131.5mm center
+:SKRSLUT.
+ ¤ &BANKNAVN
+.bx off
+.bx can
+.ar off
 :SWISS8.
 .*******************************************************
 .da KOLONNE1   21mm    93mm width 78mm
@@ -201,264 +462,4 @@ nedenfor.
 .fo off
 .ar off
 .*Tekst i rubrikken kundens/pengeinstituttes underskrift er i K-afsnittet**
-.da SIDE1 20mm 38mm width 175mm
-.ar SIDE1 on
-.**************************************************************************
-.tp 1mm 88.5mm
-.**************************************************************************
-:SWISS10.
-:FED.
-¤Parter
-:SKRSLUT.
-.***** her laves kassen til Kunde  og Pengeinstitut *******
-:SWISS8.
-.bx left 87.5mm right
-¤Kunde ¤Pengeinstitut
-.sp 21mm
-.***** her laves kassen til CPR-nr/CVR-nr., Debiteringskontonr. og E-mail
-.tp 1mm 41mm 88.5mm
-.bx new left 40mm 87.5mm right
-¤CPR-nr./CVR-nr. ¤Debiteringskontonr. for evt. gebyr ¤Budgetskema
-.sp 5mm
-.***** her laves kassen til Budgetskema  *****
-.bx new left right
-¤Pengeinstituttets e-mail
-.sp 5mm
-.***** her laves kassen til Betalingsoversigt  *****
-.bx new left right
-.sp 8.5mm
-.bx off
-.bx can
-.bx can
-.bx can
-:SWISS10.
-:FED.
-¤Betingelser
-:SKRSLUT.
-.***** her laves kassen til betingelser *******
-.bx left right
-.sp 115.5mm
-.bx off
-.**********************************************
-.if &L'&GENANDET gt 0
-.th :SWISS10.
-.th :FED.
-.th ¤Supplerende oplysninger
-.th :SKRSLUT.
-.th .***** her laves kassen til fritekst *******
-.th .bx new left right
-.th .sp 19mm
-.th .bx off
-.el .go UNDER
-...UNDER
-:SWISS10.
-:FED.
-¤Underskrift
-:SKRSLUT.
-.***** her laves kassen til kontohaver/pi underskrift ******
-.bx new left 87.5mm right
-.tp 58mm  88.5mm 144.5mm
-.in 1mm
-:SWISS8.
-Kundens underskrift ¤Dato: ¤Pengeinstituttets underskrift ¤Dato:
-.ir 92.5mm
-.sp 6mm
-.tp 44mm center
-.***NEDENSTÅENDE ":SKRSLUT." BEVIRKER, AT DER SKIFTES SKRIFTTYPE TIL COUR10
-.***DE MÅ IKKE SLETTES*****************************************************
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-¤&NAVN
-:SWISS8.
-.br
-Jeg beder herved &BANKNAVN yde Betalingsservice
-.if &U'&GENBUDGET = J
-.th .ct , som anført i mit budgetskema eller
-ifølge afgivne betalingsordre. Samtidig
-erklærer jeg mig indforstået med nedenstående regler og bestemmelser.
-.**gba/Næste lille 'stunt' minimerer linieskift som følger pga ir/tp
-.**statements inden Banknavn udskr.
-.**Lavet for at skaffe lidt mere plads til kundens underskrift.
-.ls normal p4
-.ir
-.tp 131.5mm center
-:SKRSLUT.
-¤&BANKNAVN
-.bx off
-.bx can
-.ar off
-.*******************************************************
-.ar BUDGET on
-.if &U'&GENBUDGET = J
-.th Med budgetskema
-.el Uden budgetskema
-.ar off
-.*******************************************************
-.ar OVERSIGT on
-.if &GENVALG = 1
-.th Betalingsoversigt ønskes fremsendt, &WEBSYSNAVN benyttes ikke.
-.if &GENVALG = 2
-.th Betalingsoversigt ønskes fremsendt, Betalingsservice benyttes
-.th samtidig i &WEBSYSNAVN..
-.if &GENVALG = 3
-.th Betalingsoversigt på papir afmeldes, Betalingsservice benyttes
-.th i &WEBSYSNAVN..
-.ar off
-.*******************************************************
-.ar ANDET on
-.if &L'&GENANDET gt 0
-.th .br
-.th &GENANDET
-.if &L'&GENANDET1 gt 0
-.th .br
-.th &GENANDET1
-.if &L'&GENANDET2 gt 0
-.th .br
-.th &GENANDET2
-.if &L'&GENANDET3 gt 0
-.th .br
-.th &GENANDET3
-.if &L'&GENANDET4 gt 0
-.th .br
-.th &GENANDET4
-.ar off
-.*Tekst i rubrikken kundens/pengeinstituttes underskrift er i K-afsnittet**
-.*******************************************************
-.da KUNDEOPL   25mm 48mm width 80mm
-.da PIOPL      112.5mm 48mm width 80mm
-.da PIMAIL     25mm 82.5mm width 81mm
-.da KUNDENR    25mm 73mm width 80mm
-.da KTONR      65mm 73mm width 80mm
-.da BUDGET     112.5mm 73mm width 80mm
-.da OVERSIGT   25mm 87mm width 165mm
-.da ANDET      25mm 224mm width 165mm
-.*******************************************************
-.if &GENVALG = 0
-.or &GENVALG > 3
-.th .mg/T/Der kan kun vælges 1 til 3 for betalingsoversigt/
-.*******************************************************
-.ar KUNDEOPL on
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.*******************************************************
-.ar PIOPL on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*******************************************************
-.ar PIMAIL on
-&BANKEMAIL.
-.ar off
-.*******************************************************
-.ar KUNDENR on
-&KUNDENR
-.ar off
-.*******************************************************
-.ar KTONR on
-.***** HER DELES KONTONUMMER  OP I TO PARAMETRE *******
-.se regnr = substr &GENKTO 1 4
-.se ktonr = substr &GENKTO 5 10
-&regnr &ktonr
-.ar off
-:COUR10.
-.ti ¤ 05
-.fo left
-.**************************************************************************
-.da OVERSK 20mm 32mm width 80mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************
-.ar OVERSK on
-:SWISS12.
-:FED.
-.us Aftale om Betalingsservice
-.ar off
-.**************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.***********************************************************************
-.* Kopi af BECBS01P, men parameter GENVALG ændret til kode 3 som
-.* forvalg og ændret til betinget beskyttet.
-.* 31.05.2016 / hk
-.*-----------------------------------------------------------------
-.oc  ** BetalingsService
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 5
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+

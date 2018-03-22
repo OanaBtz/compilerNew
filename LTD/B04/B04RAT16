@@ -11,71 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-:ENY.
-.**************************************************************************
-.* PARAMETRENE VEDR. MAKSIMUMBELØB -ÅR ************************************
-.* PARAMETRE TIL KAPITALPENSIONS-, RATEPENSIONS-, ALDERSOPSPARINGSBREVENE:
-.************ PENSIONSAFTALESYSTEMET **************************************
-.* BECPEN01
-.* BECPEN02
-.* BECPEN20
-.* BECPEN40
-.* BECPEN45
-.* BECPEN55
-.* BECPEN56
-.* BECPEN60
-.* BECPEN65
-.************ STANDARDBREVSSYSTEMET ***************************************
-.* BECRAT16
-.* BECRAT17
-.**************************************************************************
-.* DET ER FLG. PARAMETRE:
-.* GENMAXBEL, GENMAXBELA (INCL ARBEJDSMARKEDSBIDRAG)
-.* GENMAX15, GENMAX15B  *****
-.* GENMAXRAT, GENMAXOPF ***** tilføjet 2009
-.* GENMAXRAA,           ***** tilføjet 2013
-.* GENMAXDATO                                                         *****
-.* GENMAXALD
-.**************************************************************************
-.* UDLIGNSKAT, OVFÆGTEFÆL **** tilføjet 2010                          *****
-.* OVENSTÅENDE 2 PARAMETRE BRUGES I FØLGENDE BREVE ****************
-.* BECPENRV
-.* BECPEN02
-.**************************************************************************
-.*
-.*
-.****NYE BEGUNSTIGELSESREGLER FRA 1/1 2008********************
-.if &U'&NYBEGUN = J
-.or &U'&NYBEGUN = N
-.th .go OKBEGUN
-.el .mg/T/Regler for begunstigelse skal være Ja eller Nej/
-...OKBEGUN
-.****
-.*
-.*
 .*
 .*
 .*
@@ -218,227 +153,6 @@
 .or x&GENPRISTAL > x4
 .th .mg /T/Ved pristalsregulering skal indeks være 1-4/
 ...UDENTST
-.da KUNDEOPL       25mm  48mm   width  84mm
-.da ARBGOPL       116mm  48mm   width  84mm
-.da CPRSENR       120mm  68.6mm width  84mm
-.da PIOPL          25mm  76.6mm width  84mm
-.da KTOOPL        118mm  78mm   width  76mm
-.da INDBARBKOMB    33mm 112.5mm width 170mm
-.da INDBARBKOM     33mm 131mm   width 168mm
-.**************
-.ar KUNDEOPL on
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.*****************
-.ar ARBGOPL on
-.if &L'&GENNAVN1 gt 0
-.th &GENNAVN1
-.th .br
-.if &L'&GENGADE1 gt 0
-.th &GENGADE1
-.th .br
-.if &L'&GENBY gt 0
-.th &GENBY
-.ar off
-.****************
-.ar CPRSENR on
-&GENSENR
-.ar off
-.****************
-.ar PIOPL on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.****************
-.ar KTOOPL on
-.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 10
-.tp 43mm
-&KTOKNDNR1
-.sp 7mm
-.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE ****
-.se dregnr = substr &GENDEPNR 1 4
-.se depnr = substr &GENDEPNR 5 6
-&regnr &ktonr ¤&dregnr &depnr
-.ar off
-.*******************
-.ar INDBARBKOMB on
-.****arbejdsgiver fast  ***
-.se kombiregnr = substr &GENKOMBKTO 1 4
-.se kombiktonr = substr &GENKOMBKTO 5 7
-.if &L'&GENARBFAST gt 0
-.th .go KOMB
-.el .go KOMBSLUT
-...KOMB
-.tp 35mm right 69mm right 75mm 130mm right
-.if x&GENLØNINDB eq x1
-.th ¤¤&RESULTA
-.th .go KOMBKTO
-.if x&GENLØNINDB eq x2
-.th ¤¤&RESULTA ¤¤&RESULTH
-.th .go KOMBKTO
-.if x&GENLØNINDB eq x3
-.th ¤¤&RESULTA ¤¤&RESULTB
-.th .go KOMBKTO
-.if x&GENLØNINDB eq x4
-.th ¤¤&RESULTA ¤¤&RESULTC
-.th .go KOMBKTO
-.if x&GENLØNINDB eq x5
-.th ¤¤&RESULTA ¤¤&RESULTD
-.th .go KOMBKTO
-.if x&GENLØNINDB eq x6
-.th ¤¤&RESULTA ¤¤&RESULTI
-...KOMBKTO
-.br
-¤&RESULTA ¤¤&GENDATO12..
-...KOMBSLUT
-.ar off
-.*************
-.ar INDBARBKOM on
-.if &L'&GENARBFAST gt 0
-.th .go SKRIV5
-.el .go SKRIV5SL
-...SKRIV5
-.tp 27mm char ,
-¤&GENARB
-.br
-¤&GENMED
-...SKRIV5SL
-.ar off
-.*forts. i t4 **
-.*****************************************
-.da INDBARBPCT     21mm 113mm width 168mm
-.da INDBARBKONTP   42mm 130.5mm   width  80mm
-.da INDBARBENG     25mm 112.5mm width 168mm
-.da INDBARBKONTA   12mm 128mm   width 100mm
-.da INDAAR         95mm 139.5mm width 15mm
-.da INDAARP        95mm 138mm width 15mm
-.da UDBETALING     21mm 166.7mm   width 168mm
-.** SUBSTRING PÅ FØDSELSDAG ***************************************
-.su off
-.se fdag = substr &KTOKNDNR1 1 2
-.se fmd = substr &KTOKNDNR1 3 2
-.se faar = substr &KTOKNDNR1 5 2
-.** SUBSTRING PÅ OPRETTELSESDAG / MED VIRKNING FRA DATO ***********
-.se odag = substr &GENDATO12 1 2
-.se omd = substr &GENDATO12 4 2
-.se oaar = substr &GENDATO12 7 4
-.se oaar2 = substr &GENDATO12 9 2
-.** SUBSTRING PÅ DATO FOR START PÅ UDBETALING *****************************
-.se uddag = substr &GENSTART 1 2
-.se udmd = substr &GENSTART 4 2
-.se udaar = substr &GENSTART 7 4
-.** SUBSTRING PÅ DAGS DATO ************************************************
-.se daar = substr &DATO 9 2
-.su on
-.if x&faar > x&daar
-.th .se aarstal = 1900
-.el .se aarstal = 2000
-.** FØDEÅR (faar1), MINIMUMSLØBETID (udminaar)*****************************
-.se faar1 = &faar + &aarstal
-.se udminaar1 = &faar1 + 40
-.se udmaxaar = &faar1 + 50
-.** TEST PÅ ANTAL UDBETALINGSÅR *******************************************
-.if X&GENANTUDÅR > X10
-.th .mg /T/Antal udbetalingsår skal være mindre end 10 år/
-.***************
-.ar INDBARBPCT on
-.tp 32mm 71mm right
-.* ARBEJDSGIVERORDNING ***
-.****arbejdsgiver procentindbetaling  ****
-.if &L'&GENARBPCT gt 0
-.th .go PCT
-.el .go PCTSLUT
-...PCT
-.if &L'&RESULTA gt 6
-.th .mg /T/PENSIONSBIDRAG STØRRE END 100,00 %/
-.if &L'&RESULTA lt 6
-.th .go ALTOK4
-.if X&RESULTA gt X100,00
-.th .mg /T/PENSIONSBIDRAG STØRRE END 100,00 %/
-...ALTOK4
-¤¤&RESULTA.
-.br
-.th &GENDATO12..
-...PCTSLUT
-.ar off
-.*********************************
-.ar INDBARBKONTP on
-.if &L'&GENARBPCT gt 0
-.th .go SKRIV2
-.el .go SKRIV2SL
-...SKRIV2
-.tp 25mm char ,
-¤&GENARB %
-.br
-¤&GENMED %
-...SKRIV2SL
-.ar off
-.***************************
-.ar INDBARBENG on
-.*** arbejdsgiver engangsindskud *****
-.if &L'&GENARBENGA gt 0
-.th .go AENG
-.el .go AENGSL
-...AENG
-.tp 40mm right 63mm 85mm right
-¤¤¤&RESULTA
-.br
-¤&RESULTA ¤&GENDATO12
-...AENGSL
-.ar off
-.*********************
-.ar INDBARBKONTA on
-.if &L'&GENARBENGA gt 0
-.th .go SKRIV3
-.el .go SKRIV3SL
-...SKRIV3
-.tp 50mm char ,
-¤&GENARB
-.br
-¤&GENMED
-...SKRIV3SL
-.ar off
-.************************
-.ar INDAARP on
-.if &L'&GENARBPCT gt 0
-.th .se alder = &udaar - &faar1
-.th .se alder1 = &alder - 1
-.th &alder1
-.ar off
-.***************************
-.if &L'&GENARBENGA > 0
-.or &L'&GENARBPCT > 0
-.th .go UDBET
-.ar INDAAR on
-.se alder = &udaar - &faar1
-.se alder1 = &alder - 1
-&alder1
-.ar off
-.***************************
-...UDBET
-.ar UDBETALING on
-.tp 38mm 60mm 105mm 137mm
-.se alder = &udaar - &faar1
-.se alderslut = &alder + &GENANTUDÅR - 1
-.* ¤¤&GENSTART ¤&udaar ¤&alder
-.sp 0.5mm
-.* ¤&GENANTUDÅR ¤¤¤&alderslut..
-.ar off
-.*
-.*
 .da side1  20mm 35mm width 175mm
 .da oversk 20mm 32mm width 150mm
 .***********************************
@@ -507,6 +221,249 @@ Indhold
 .bx off
 .*****************
 .ar off
+.da KUNDEOPL       25mm  48mm   width  84mm
+.da ARBGOPL       116mm  48mm   width  84mm
+.da CPRSENR       120mm  68.6mm width  84mm
+.da PIOPL          25mm  76.6mm width  84mm
+.da KTOOPL        118mm  78mm   width  76mm
+.da INDBARBKOMB    33mm 112.5mm width 170mm
+.da INDBARBKOM     33mm 131mm   width 168mm
+.**************
+.ar KUNDEOPL on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*****************
+.ar ARBGOPL on
+.if &L'&GENNAVN1 gt 0
+.th &GENNAVN1
+.th .br
+.if &L'&GENGADE1 gt 0
+.th &GENGADE1
+.th .br
+.if &L'&GENBY gt 0
+.th &GENBY
+.ar off
+.****************
+.ar CPRSENR on
+&GENSENR
+.ar off
+.****************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.****************
+.ar KTOOPL on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 10
+.tp 43mm
+&KTOKNDNR1
+.sp 7mm
+.***** HER DELES DEPOTNUMMER  OP I TO PARAMETRE ****
+.se dregnr = substr &GENDEPNR 1 4
+.se depnr = substr &GENDEPNR 5 6
+&regnr &ktonr ¤ &dregnr &depnr
+.ar off
+.*******************
+.ar INDBARBKOMB on
+.****arbejdsgiver fast  ***
+.se kombiregnr = substr &GENKOMBKTO 1 4
+.se kombiktonr = substr &GENKOMBKTO 5 7
+.if &L'&GENARBFAST gt 0
+.th .go KOMB
+.el .go KOMBSLUT
+...KOMB
+.tp 35mm right 69mm right 75mm 130mm right
+.if x&GENLØNINDB eq x1
+.th ¤ ¤ &RESULTA
+.th .go KOMBKTO
+.if x&GENLØNINDB eq x2
+.th ¤ ¤ &RESULTA ¤ ¤ &RESULTH
+.th .go KOMBKTO
+.if x&GENLØNINDB eq x3
+.th ¤ ¤ &RESULTA ¤ ¤ &RESULTB
+.th .go KOMBKTO
+.if x&GENLØNINDB eq x4
+.th ¤ ¤ &RESULTA ¤ ¤ &RESULTC
+.th .go KOMBKTO
+.if x&GENLØNINDB eq x5
+.th ¤ ¤ &RESULTA ¤ ¤ &RESULTD
+.th .go KOMBKTO
+.if x&GENLØNINDB eq x6
+.th ¤ ¤ &RESULTA ¤ ¤ &RESULTI
+...KOMBKTO
+.br
+ ¤ &RESULTA ¤ ¤ &GENDATO12..
+...KOMBSLUT
+.ar off
+.*************
+.ar INDBARBKOM on
+.if &L'&GENARBFAST gt 0
+.th .go SKRIV5
+.el .go SKRIV5SL
+...SKRIV5
+.tp 27mm char ,
+ ¤ &GENARB
+.br
+ ¤ &GENMED
+...SKRIV5SL
+.ar off
+.*forts. i t4 **
+.*****************************************
+.da INDBARBPCT     21mm 113mm width 168mm
+.da INDBARBKONTP   42mm 130.5mm   width  80mm
+.da INDBARBENG     25mm 112.5mm width 168mm
+.da INDBARBKONTA   12mm 128mm   width 100mm
+.da INDAAR         95mm 139.5mm width 15mm
+.da INDAARP        95mm 138mm width 15mm
+.da UDBETALING     21mm 166.7mm   width 168mm
+.** SUBSTRING PÅ FØDSELSDAG ***************************************
+.su off
+.se fdag = substr &KTOKNDNR1 1 2
+.se fmd = substr &KTOKNDNR1 3 2
+.se faar = substr &KTOKNDNR1 5 2
+.** SUBSTRING PÅ OPRETTELSESDAG / MED VIRKNING FRA DATO ***********
+.se odag = substr &GENDATO12 1 2
+.se omd = substr &GENDATO12 4 2
+.se oaar = substr &GENDATO12 7 4
+.se oaar2 = substr &GENDATO12 9 2
+.** SUBSTRING PÅ DATO FOR START PÅ UDBETALING *****************************
+.se uddag = substr &GENSTART 1 2
+.se udmd = substr &GENSTART 4 2
+.se udaar = substr &GENSTART 7 4
+.** SUBSTRING PÅ DAGS DATO ************************************************
+.se daar = substr &DATO 9 2
+.su on
+.if x&faar > x&daar
+.th .se aarstal = 1900
+.el .se aarstal = 2000
+.** FØDEÅR (faar1), MINIMUMSLØBETID (udminaar)*****************************
+.se faar1 = &faar + &aarstal
+.se udminaar1 = &faar1 + 40
+.se udmaxaar = &faar1 + 50
+.** TEST PÅ ANTAL UDBETALINGSÅR *******************************************
+.if X&GENANTUDÅR > X10
+.th .mg /T/Antal udbetalingsår skal være mindre end 10 år/
+.***************
+.ar INDBARBPCT on
+.tp 32mm 71mm right
+.* ARBEJDSGIVERORDNING ***
+.****arbejdsgiver procentindbetaling  ****
+.if &L'&GENARBPCT gt 0
+.th .go PCT
+.el .go PCTSLUT
+...PCT
+.if &L'&RESULTA gt 6
+.th .mg /T/PENSIONSBIDRAG STØRRE END 100,00 %/
+.if &L'&RESULTA lt 6
+.th .go ALTOK4
+.if X&RESULTA gt X100,00
+.th .mg /T/PENSIONSBIDRAG STØRRE END 100,00 %/
+...ALTOK4
+ ¤ ¤ &RESULTA.
+.br
+.th &GENDATO12..
+...PCTSLUT
+.ar off
+.*********************************
+.ar INDBARBKONTP on
+.if &L'&GENARBPCT gt 0
+.th .go SKRIV2
+.el .go SKRIV2SL
+...SKRIV2
+.tp 25mm char ,
+ ¤ &GENARB %
+.br
+ ¤ &GENMED %
+...SKRIV2SL
+.ar off
+.***************************
+.ar INDBARBENG on
+.*** arbejdsgiver engangsindskud *****
+.if &L'&GENARBENGA gt 0
+.th .go AENG
+.el .go AENGSL
+...AENG
+.tp 40mm right 63mm 85mm right
+ ¤ ¤ ¤ &RESULTA
+.br
+ ¤ &RESULTA ¤ &GENDATO12
+...AENGSL
+.ar off
+.*********************
+.ar INDBARBKONTA on
+.if &L'&GENARBENGA gt 0
+.th .go SKRIV3
+.el .go SKRIV3SL
+...SKRIV3
+.tp 50mm char ,
+ ¤ &GENARB
+.br
+ ¤ &GENMED
+...SKRIV3SL
+.ar off
+.************************
+.ar INDAARP on
+.if &L'&GENARBPCT gt 0
+.th .se alder = &udaar - &faar1
+.th .se alder1 = &alder - 1
+.th &alder1
+.ar off
+.***************************
+.if &L'&GENARBENGA > 0
+.or &L'&GENARBPCT > 0
+.th .go UDBET
+.ar INDAAR on
+.se alder = &udaar - &faar1
+.se alder1 = &alder - 1
+&alder1
+.ar off
+.***************************
+...UDBET
+.ar UDBETALING on
+.tp 38mm 60mm 105mm 137mm
+.se alder = &udaar - &faar1
+.se alderslut = &alder + &GENANTUDÅR - 1
+.* ¤ ¤ &GENSTART ¤ &udaar ¤ &alder
+.sp 0.5mm
+.* ¤ &GENANTUDÅR ¤ ¤ ¤ &alderslut..
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
 .****************************************
 .da BEGUNSDØD1     25mm 223mm   width 168mm
 .da PERSON         25mm 268mm   width 168mm
@@ -541,15 +498,15 @@ Indhold
 .th &GENNAVNBD1
 .el .go BEGUN2
 .if &l'&GENNAVNBD2 > 0
-.th .ct ¤¤&GENNAVNBD2
+.th .ct ¤ ¤ &GENNAVNBD2
 .el .go EJBEGUN2
 .br
-&GENRELABD1 ¤¤&GENRELABD2
+&GENRELABD1 ¤ ¤ &GENRELABD2
 .br
 .if &L'&GENCPRBD1 > 0
 .th CPR.nr. &GENCPRBD1
 .if &L'&GENCPRBD2 > 0
-.th .ct ¤¤CPR.nr. &GENCPRBD2
+.th .ct ¤ ¤ CPR.nr. &GENCPRBD2
 .br
 .if &GENPCTBD1 > 0,00
 .an &GENPCTBD2 = 0,00
@@ -560,21 +517,21 @@ Indhold
 .if &GENPCTBD1 > 0,00
 .th &GENPCTBD1 %
 .if &GENPCTBD2 > 0,00
-.th .ct ¤¤&GENPCTBD2 %
+.th .ct ¤ ¤ &GENPCTBD2 %
 .sp
 .go BEGUN3
 ...EJBEGUN2
 .** FØRSTE og TREDIE  BEGUNSTIGEDE *******
 .if &l'&GENNAVNBD3 > 0
-.th .ct ¤¤&GENNAVNBD3
+.th .ct ¤ ¤ &GENNAVNBD3
 .el .go EJBEGUN3
 .br
-&GENRELABD1 ¤¤&GENRELABD3
+&GENRELABD1 ¤ ¤ &GENRELABD3
 .br
 .if &L'&GENCPRBD1 > 0
 .th CPR.nr. &GENCPRBD1
 .if &L'&GENCPRBD3 > 0
-.th .ct ¤¤CPR.nr. &GENCPRBD3
+.th .ct ¤ ¤ CPR.nr. &GENCPRBD3
 .br
 .if &GENPCTBD1 > 0,00
 .an &GENPCTBD3 = 0,00
@@ -585,7 +542,7 @@ Indhold
 .if &GENPCTBD1 > 0,00
 .th &GENPCTBD1 %
 .if &GENPCTBD3 > 0,00
-.th .ct ¤¤&GENPCTBD3 %
+.th .ct ¤ ¤ &GENPCTBD3 %
 .go SLUTBGU
 ...EJBEGUN3
 .** KUN FØRSTE BEGUNSTIGEDE *******
@@ -604,15 +561,15 @@ Indhold
 .th &GENNAVNBD2
 .el .go BEGUN3
 .if &l'&GENNAVNBD3 > 0
-.th .ct ¤¤&GENNAVNBD3
+.th .ct ¤ ¤ &GENNAVNBD3
 .el .go KUNBEG2
 .br
-&GENRELABD2 ¤¤&GENRELABD3
+&GENRELABD2 ¤ ¤ &GENRELABD3
 .br
 .if &L'&GENCPRBD2 > 0
 .th CPR.nr. &GENCPRBD2
 .if &L'&GENCPRBD3 > 0
-.th .ct ¤¤CPR.nr. &GENCPRBD3
+.th .ct ¤ ¤ CPR.nr. &GENCPRBD3
 .br
 .if &GENPCTBD2 > 0,00
 .an &GENPCTBD3 = 0,00
@@ -623,7 +580,7 @@ Indhold
 .if &GENPCTBD2 > 0,00
 .th &GENPCTBD2 %
 .if &GENPCTBD3 > 0,00
-.th .ct ¤¤&GENPCTBD3 %
+.th .ct ¤ ¤ &GENPCTBD3 %
 .go SLUTBGU
 ...KUNBEG2
 .** KUN ANDEN BEGUNSTIGEDE *******
@@ -729,9 +686,9 @@ Indbetalinger
 ...ARBFAST
 .tp 82mm 145mm
 .if x&GENLØNINDB = x1
-.th Arbejdsgiver indbetaler et fast beløb på ¤kr pr. år.
+.th Arbejdsgiver indbetaler et fast beløb på ¤ kr pr. år.
 .th .go AA1
-Arbejdsgiver indbetaler et fast beløb på ¤kr
+Arbejdsgiver indbetaler et fast beløb på ¤ kr
 .if x&GENLØNINDB = x2
 .th pr. halvår,
 .if x&GENLØNINDB = x3
@@ -742,19 +699,19 @@ Arbejdsgiver indbetaler et fast beløb på ¤kr
 .th pr. 14. dag,
 .if x&GENLØNINDB = x6
 .th pr. uge,
-svarende til ¤kr. årlig.
+svarende til ¤ kr. årlig.
 ...AA1
 .**** kun arb fast beløb ******
 .tp 46mm
-Beløbet ¤kr. indbetales første gang den
+Beløbet ¤ kr. indbetales første gang den
 .sp
 .sp
 .tp 47mm
 Af pensionsbidraget betaler:
 .sp 3mm
-- Arbejdsgiver ¤kr og
+- Arbejdsgiver ¤ kr og
 .br
-- Kontohaver   ¤kr
+- Kontohaver   ¤ kr
 .br
 .**** test for pristalsregulering ************
 .tp 64mm
@@ -764,24 +721,6 @@ Af pensionsbidraget betaler:
 .el .sp
 .el .go INDBVIDR
 .if x&GENPRISTAL = x1
-...ARBENGA
-.tp 90mm
-Arbejdsgiver indbetaler et engangsindskud på ¤kr.
-.br
-.tp 43mm
-Beløbet ¤kr. indbetales den
-.sp
-.tp 49mm
-Af pensionsbidraget betaler:
-.sp
-- Arbejdsgiver ¤kr og
-.br
-- Kontohaver   ¤kr
-.go INDBSLUT
-.**********************************************************
-...INDBSLUT
-.ar off
-.*************afsnittet fortsætter i t7 ********
 .th forbrugerprisindekset.
 .th .go INDBVIDR
 .if x&GENPRISTAL = x2
@@ -794,13 +733,13 @@ Af pensionsbidraget betaler:
 .th lønindekset.
 .th .go INDBVIDR
 .if &L'&GENPRIFRI gt 0
-.th .ct ¤&GENPRIFRI..
+.th .ct ¤ &GENPRIFRI..
 .go INDBVIDR
 .****arbejdsgiver procentindbetaling  *****
 ...ARBPCT
 .*tp 40mm 73mm 156mm 166mm
 .tp 24mm 59mm 73mm
-Arbejdsgiver indbetaler et pensionsbidrag på ¤¤¤%
+Arbejdsgiver indbetaler et pensionsbidrag på ¤ ¤ ¤ %
 .if x&GENLØNINDB = x1
 .th pr. år
 .if x&GENLØNINDB = x2
@@ -825,14 +764,31 @@ Af pensionsbidraget betaler:
 ...INDBVIDR
 .br
 .tp 79mm
-Aftalen om indbetaling er gældende indtil kontohaver fylder ¤år,
+Aftalen om indbetaling er gældende indtil kontohaver fylder ¤ år,
 dog kun så længe kontohaver er ansat i virksomheden.
 Indbetalingsloftet er det til enhver tid gældende loft for fradrag for
 indbetalinger til pensionsopspringskonti, der pt. udgør 20% af den samlede
 løn.
 .go INDBSLUT
 .****arbejdsgiver engangsindskud **********
-.pa
+...ARBENGA
+.tp 90mm
+Arbejdsgiver indbetaler et engangsindskud på ¤ kr.
+.br
+.tp 43mm
+Beløbet ¤ kr. indbetales den
+.sp
+.tp 49mm
+Af pensionsbidraget betaler:
+.sp
+- Arbejdsgiver ¤ kr og
+.br
+- Kontohaver   ¤ kr
+.go INDBSLUT
+.**********************************************************
+...INDBSLUT
+.ar off
+.*************afsnittet fortsætter i t7 ********
 .da PLACERING    21mm 149mm width 170mm
 .da UDBETAL      21mm 161mm width 170mm
 .da BEGUNSTIG    21mm 187mm width 170mm
@@ -883,6 +839,7 @@ nævne navne.):
 .ar off
 .*********************************
 :SKRSLUT.
+.pa
 :COUR10.
 .ti ¤ 05
 .*************************************************************
@@ -894,13 +851,6 @@ nævne navne.):
 &DATO
 .ar off
 .*************************************************************
-.th .ar AFSL1 on
-.el .ar AFSL2 on
-.tp 39mm center 127mm center
-¤&NAVN ¤&GENNAVN1
-.sp 9.5mm
-.ce &BANKNAVN
-.ar off
 .******************************************************************
 .da BEGUNSUBS1     25mm  68mm width 84mm
 .da BEGUNSUBS2    115mm  68mm width 84mm
@@ -1051,17 +1001,13 @@ nævne navne.):
 ...AFSL
 .*************************************
 .if &U'&GENSAMLVR ne J
-.sp 12mm
-.***** her laves kassen til pi- underskrift *******************************
-.bx new left right
-.sp 12mm
-.bx off
-.if &U'&GENSAMLVR ne J
-.th .bx can
-.th .bx can
-.bx can
+.th .ar AFSL1 on
+.el .ar AFSL2 on
+.tp 39mm center 127mm center
+ ¤ &NAVN ¤ &GENNAVN1
+.sp 9.5mm
+.ce &BANKNAVN
 .ar off
-.**************************************************************************
 .da oversk 20mm 32mm width 80mm
 .da side1a 20mm 39mm width 175mm
 .**************************************************************************
@@ -1112,6 +1058,17 @@ Underskrift
 .sp 10mm
 .***** her laves kassen til kontohaver/arbejdsg. underskrift **************
 .bx new left 87.5mm right
+.sp 12mm
+.***** her laves kassen til pi- underskrift *******************************
+.bx new left right
+.sp 12mm
+.bx off
+.if &U'&GENSAMLVR ne J
+.th .bx can
+.th .bx can
+.bx can
+.ar off
+.**************************************************************************
 :SWISS8.
 .da SUBBEGUN   21mm  40.5mm width 170mm
 .da NYGLBEG    21mm  85mm width 170mm
@@ -1162,7 +1119,7 @@ ligesom eventuel pensionsafkastskat mv. skal reguleres.
 .***********************
 .ar KTOHAVR on
 .tp 144mm
-Kontohavers underskrift¤Dato:
+Kontohavers underskrift ¤ Dato:
 .ar off
 ...NEJSAM
 .******************************************
@@ -1178,21 +1135,65 @@ og at &BANKNAVN har gennemgået vilkårene med mig.
 .th .ar UNDKONTO1 on
 .el .ar UNDKONTO2 on
 .tp 60mm
-Kontohavers underskrift¤Dato:
+Kontohavers underskrift ¤ Dato:
 .ar off
 .******************************************
 .if &U'&GENSAMLVR ne J
 .th .ar UNDARB1 on
 .el .ar UNDARB2 on
 .tp 60mm
-Arbejdsgivers underskrift¤Dato:
+Arbejdsgivers underskrift ¤ Dato:
 .ar off
 .******************************************
 .if &U'&GENSAMLVR ne J
 .th .ar UNDPI1 on
 .el .ar UNDPI2 on
 .tp 144mm
-Pengeinstituttets underskrift¤Dato:
+Pengeinstituttets underskrift ¤ Dato:
 .ar off
 .******************************************
 .pa
+.**************************************************************************
+.* PARAMETRENE VEDR. MAKSIMUMBELØB -ÅR ************************************
+.* PARAMETRE TIL KAPITALPENSIONS-, RATEPENSIONS-, ALDERSOPSPARINGSBREVENE:
+.************ PENSIONSAFTALESYSTEMET **************************************
+.* BECPEN01
+.* BECPEN02
+.* BECPEN20
+.* BECPEN40
+.* BECPEN45
+.* BECPEN55
+.* BECPEN56
+.* BECPEN60
+.* BECPEN65
+.************ STANDARDBREVSSYSTEMET ***************************************
+.* BECRAT16
+.* BECRAT17
+.**************************************************************************
+.* DET ER FLG. PARAMETRE:
+.* GENMAXBEL, GENMAXBELA (INCL ARBEJDSMARKEDSBIDRAG)
+.* GENMAX15, GENMAX15B  *****
+.* GENMAXRAT, GENMAXOPF ***** tilføjet 2009
+.* GENMAXRAA,           ***** tilføjet 2013
+.* GENMAXDATO                                                         *****
+.* GENMAXALD
+.**************************************************************************
+.* UDLIGNSKAT, OVFÆGTEFÆL **** tilføjet 2010                          *****
+.* OVENSTÅENDE 2 PARAMETRE BRUGES I FØLGENDE BREVE ****************
+.* BECPENRV
+.* BECPEN02
+.**************************************************************************
+.*
+.****NYE BEGUNSTIGELSESREGLER FRA 1/1 2008********************
+.if &U'&NYBEGUN = J
+.or &U'&NYBEGUN = N
+.th .go OKBEGUN
+.el .mg/T/Regler for begunstigelse skal være Ja eller Nej/
+...OKBEGUN
+.****
+.*
+.*
+.*
+.*
+.*
+

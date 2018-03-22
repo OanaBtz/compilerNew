@@ -1,50 +1,72 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .*** SÆT SKÆRM/PRINT-FORMAT ***
-.*.pm 15mm
-.ll 190mm
-.sp 18mm
-.tp 94mm
-.* Areal9 er defineret til kundens navn
-.* Areal10 er defineret til Lægernes Pensionsbank
-.* Areal11 er defineret til indhold
-.* Areal12 er defineret til underskrift
+.oc  ***
+:NY.
+.*:GL.:BECFST.B30720:EGL.
+.ti > 05
+.*:GL..PM 6:EGL.
+.*.pl 70
+.*:GL..LL 75:EGL.
+.*IM MAKROER
+.*:GL.&&??#:EGL.
+.*  Areal1 er defineret til kundens navn
+.*  Areal2 er defineret til Lægernes Pensionsbank
+.*  Areal3 er defineret til Cpr-nummer etc
+.*  Areal4 er defineret til kundens underskrift
+.*  Areal5 er defineret til underskrift Lægernes Pensionsbank
 .*** BREVSTART ***
-.da AREAL9 21mm 45mm width 86mm
-.ar AREAL9 on
+.da AREAL1 21mm 43mm width 81mm
+.ar AREAL1 on
 Mellem (kunden)
 .sp
-.su off
-.se SE = substr &KTOKUNDENR 1 2
-.su on
-.if &SE eq 00
-.th &STILL
-.th .br
-.th &B30X
-.th .br
-.if &SE eq 43
-.th &STILL
-.th .br
-.th &B30X
-.th .br
 &NAVN
+.br
+V/ &B30A
 .br
 &COADR
 .br
 &GADE
 .br
 &BY
-.sp 7mm
-.br
-.su off
-.se bruger = substr &RESULTA 1 2
-.se brugere = substr &RESULTA 4 3
-.se brugeren = substr &RESULTA 8 3
-.se brugerer = substr &RESULTA 12 3
-.su on
-Brugernummer: &bruger.&brugere.&brugeren.&brugerer
-.*:HALVLIN.
 .ar off
-.da AREAL10 115mm 45mm width 76mm
-.ar AREAL10 on
+.da AREAL2 115mm 43mm width 128mm
+.ar AREAL2 on
 og (banken)
 .sp
 Lægernes Pensionsbank
@@ -53,66 +75,50 @@ Esplanaden 8 A
 .br
 1263  København K
 .ar off
-.da AREAL11 23mm 116mm width 188mm
-.ar AREAL11 on
-.tp 13mm 41mm 109mm
-.if &L'&B30TIL1 eq 0
-.th &BANKREGNR >&B30KTO1 >&BKNAVN
+.da AREAL3 21mm 82mm width 153mm
+.ar AREAL3 on
+.su off
+.se SE = substr &KTOKUNDENR 1 2
+.su on
+.if &SE eq 00
+.th SE-nummer: &KTOKUNDENR
 .th .sp
-.if &L'&B30TIL1 gt 0 .an &L'&B30TIL1A gt 0
-.th &BANKREGNR >&B30KTO1 >&BKNAVN >Kontoen tilhører
-.th > > >&B30TIL1
-.th .br
-.th > > >&B30TIL1A
+.th .go slut
+.if &SE gt 32
+.th Kundenummer: &KTOKUNDENR
 .th .sp
-.if &L'&B30TIL1 gt 0 .an &L'&B30TIL1A eq 0
-.th &BANKREGNR >&B30KTO1 >&BKNAVN >Kontoen tilhører
-.th > > >&B30TIL1
+.th .go slut
+.if &SE le 31
+.th CPR-nummer: &KTOKUNDENR
 .th .sp
-.if &L'&B30REG2 gt 0 .an &L'&B30TIL2 eq 0
-.th &B30REG2 >&B30KTO2 >&B30BANK2
-.th .sp
-.if &L'&B30REG2 gt 0 .an &L'&B30TIL2 gt 0
-.th &B30REG2 >&B30KTO2 >&B30BANK2 >Kontoen tilhører
-.th > > >&B30TIL2
-.th .br
-.th > > >&B30TIL2A
-.th .sp
+.th .go slut
+...slut
+Debiteringskonto ved evt. gebyr: 6771 &KTONR
+.sp
+.su off
+.se bruger = substr &RESULTA 1 2
+.se brugere = substr &RESULTA 4 3
+.se brugeren = substr &RESULTA 8 3
+.se brugerer = substr &RESULTA 12 3
+.su on
+Brugernummer: &bruger.&brugere.&brugeren.&brugerer
+.sp
 .ar off
-.da AREAL4 21mm 254mm width 188mm
+.da AREAL4 21mm 261mm width 188mm
 .ar AREAL4 on
+.*:GL..TP 48:EGL.
+.tp 122mm
 .su off
 .se byen = substr &BY 6
 .su on
-.tp 124mm
 .br
-&byen., den >København, den &DATO2
-.sp 13mm
- &NAVN >Lægernes Pensionsbank
+&byen., den > København, den &DATO2
+.sp 9mm
+ &B30A > Lægernes Pensionsbank
 .ar off
-.da AREAL12 21mm 28mm width 185mm
-.ar AREAL12 on
-:CALIB14.
-:FED.Tillægsaftale om TelefonService i Lægernes Pensionsbank
-.br
-(Overførsel til andre pengeinstitutter):SKRSLUT.
-.sp 61mm
-:CALIB10.
-er der indgået følgende aftale om udvidet anvendelse af TelefonService.
-.hr left right
-.sp
-Aftalen omfatter følgende konti:
-.sp 97mm
-.hr left right
-.sp 2mm
-Enhver ændring i kundens adgang til at benytte konti skal aftales
-skriftligt mellem kunden og Lægernes Pensionsbank.
-.sp
-Nærværende aftale er udfærdiget og underskrevet i to eksemplarer, hvoraf
-det ene opbevares af kunden og det andet af banken.
-.ar off
-.se antlin = &ÅLC-1
-.sp &antlin
+.*.se antlin = &ÅLC-1
+.*.sp &antlin
+.*:GL.:BECFSL:EGL.
 .*  Areal6 er defineret til kontraktoverskrift
 .*  Areal7 er defineret til venstre kolonne
 .*  Areal8 er defineret til højre kolonne
@@ -194,37 +200,52 @@ af systemet.
 .se antlin = &ÅLC - 1
 .sp &antlin
 .*** SÆT SKÆRM/PRINT-FORMAT ***
-.oc  ***
-:NY.
-.*:GL.:BECFST.B30720:EGL.
-.ti > 05
-.*:GL..PM 6:EGL.
-.*.pl 70
-.*:GL..LL 75:EGL.
-.*IM MAKROER
-.*:GL.&&??#:EGL.
-.*  Areal1 er defineret til kundens navn
-.*  Areal2 er defineret til Lægernes Pensionsbank
-.*  Areal3 er defineret til Cpr-nummer etc
-.*  Areal4 er defineret til kundens underskrift
-.*  Areal5 er defineret til underskrift Lægernes Pensionsbank
+.*.pm 15mm
+.ll 190mm
+.sp 18mm
+.tp 94mm
+.* Areal9 er defineret til kundens navn
+.* Areal10 er defineret til Lægernes Pensionsbank
+.* Areal11 er defineret til indhold
+.* Areal12 er defineret til underskrift
 .*** BREVSTART ***
-.da AREAL1 21mm 43mm width 81mm
-.ar AREAL1 on
+.da AREAL9 21mm 45mm width 86mm
+.ar AREAL9 on
 Mellem (kunden)
 .sp
+.su off
+.se SE = substr &KTOKUNDENR 1 2
+.su on
+.if &SE eq 00
+.th &STILL
+.th .br
+.th &B30X
+.th .br
+.if &SE eq 43
+.th &STILL
+.th .br
+.th &B30X
+.th .br
 &NAVN
-.br
-V/ &B30A
 .br
 &COADR
 .br
 &GADE
 .br
 &BY
+.sp 7mm
+.br
+.su off
+.se bruger = substr &RESULTA 1 2
+.se brugere = substr &RESULTA 4 3
+.se brugeren = substr &RESULTA 8 3
+.se brugerer = substr &RESULTA 12 3
+.su on
+Brugernummer: &bruger.&brugere.&brugeren.&brugerer
+.*:HALVLIN.
 .ar off
-.da AREAL2 115mm 43mm width 128mm
-.ar AREAL2 on
+.da AREAL10 115mm 45mm width 76mm
+.ar AREAL10 on
 og (banken)
 .sp
 Lægernes Pensionsbank
@@ -233,139 +254,66 @@ Esplanaden 8 A
 .br
 1263  København K
 .ar off
-.da AREAL3 21mm 82mm width 153mm
-.ar AREAL3 on
-.su off
-.se SE = substr &KTOKUNDENR 1 2
-.su on
-.if &SE eq 00
-.th SE-nummer: &KTOKUNDENR
+.da AREAL11 23mm 116mm width 188mm
+.ar AREAL11 on
+.tp 13mm 41mm 109mm
+.if &L'&B30TIL1 eq 0
+.th &BANKREGNR > &B30KTO1 > &BKNAVN
 .th .sp
-.th .go slut
-.if &SE gt 32
-.th Kundenummer: &KTOKUNDENR
+.if &L'&B30TIL1 gt 0 .an &L'&B30TIL1A gt 0
+.th &BANKREGNR > &B30KTO1 > &BKNAVN > Kontoen tilhører
+.th > > > &B30TIL1
+.th .br
+.th > > > &B30TIL1A
 .th .sp
-.th .go slut
-.if &SE le 31
-.th CPR-nummer: &KTOKUNDENR
+.if &L'&B30TIL1 gt 0 .an &L'&B30TIL1A eq 0
+.th &BANKREGNR > &B30KTO1 > &BKNAVN > Kontoen tilhører
+.th > > > &B30TIL1
 .th .sp
-.th .go slut
-...slut
-Debiteringskonto ved evt. gebyr: 6771 &KTONR
-.sp
-.su off
-.se bruger = substr &RESULTA 1 2
-.se brugere = substr &RESULTA 4 3
-.se brugeren = substr &RESULTA 8 3
-.se brugerer = substr &RESULTA 12 3
-.su on
-Brugernummer: &bruger.&brugere.&brugeren.&brugerer
-.sp
+.if &L'&B30REG2 gt 0 .an &L'&B30TIL2 eq 0
+.th &B30REG2 > &B30KTO2 > &B30BANK2
+.th .sp
+.if &L'&B30REG2 gt 0 .an &L'&B30TIL2 gt 0
+.th &B30REG2 > &B30KTO2 > &B30BANK2 > Kontoen tilhører
+.th > > > &B30TIL2
+.th .br
+.th > > > &B30TIL2A
+.th .sp
 .ar off
-.da AREAL4 21mm 261mm width 188mm
+.da AREAL4 21mm 254mm width 188mm
 .ar AREAL4 on
-.*:GL..TP 48:EGL.
-.tp 122mm
 .su off
 .se byen = substr &BY 6
 .su on
+.tp 124mm
 .br
-&byen., den >København, den &DATO2
-.sp 9mm
- &B30A >Lægernes Pensionsbank
+&byen., den > København, den &DATO2
+.sp 13mm
+ &NAVN > Lægernes Pensionsbank
 .ar off
-.*.se antlin = &ÅLC-1
-.*.sp &antlin
-.*:GL.:BECFSL:EGL.
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%9999999999'
-.BR
-.NV PAGE ADRESSENØGLE '% '
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.da AREAL12 21mm 28mm width 185mm
+.ar AREAL12 on
+:CALIB14.
+:FED.Tillægsaftale om TelefonService i Lægernes Pensionsbank
 .br
-:ENY.
-.th Vi vedlægger et udkast hertil, hvor vi har registreret din mor på
-.th aftalerne, og det er således din mor, der disponerer på kontoen.
-.th Hvis der skal rettes noget, så skriv det på aftalerne og send dem
-.th tilbage hertil.
-.th .sp
-.th Hvis det er, som det skal være, så få din mor til at underskrive
-.th aftalerne og send alle eksemplarerne tilbage hertil.
-.th .sp
-Hvis du på denne måde tilknytter TelefonService til din højrentekonto,
-vil vi skrive til dig, når du fylder femten år med henblik på at ændre,
-så du selv kan disponere på kontoen.
-.go slut
-...lille
-Du kan alligevel godt få tilknyttet en aftale til din konto. Den skal
-blot oprettes i en af dine forældres navn.
-.if &U'&B302 eq F
-.th Vi vedlægger et udkast hertil, hvor vi har registreret din far på
-.th aftalerne, og det er således din far, der disponerer på kontoen.
-.th Hvis der skal rettes noget, skal det skrives på aftalerne, og de
-.th skal sendes tilbage hertil.
-.th .sp
-.th Hvis aftalerne er, som de skal være, så få din far
-.th til at underskrive
-.th aftalerne og sende alle eksemplarerne tilbage hertil.
-.th .sp
-.if &U'&B302 eq M
-.th Vi vedlægger et udkast hertil, hvor vi har registreret din mor på
-.th aftalerne, og det er således din mor, der disponerer på kontoen.
-.th Hvis der skal rettes noget, skal det skrives på aftalerne, og de
-.th skal sendes tilbage hertil.
-.th .sp
-.th Hvis aftalerne er, som de skal være, så få din mor
-.th til at underskrive
-.th aftalerne og sende alle eksemplarerne tilbage hertil.
-.th .sp
-Hvis du på denne måde tilknytter TelefonService til din højrentekonto,
-vil vi skrive til dig, når du fylder femten år med henblik på at lave
-aftaler, så du selv kan disponere på kontoen.
-.go slut
-...slut
-.sp 14mm
-.*:GL..LL 110:EGL.
-.*:GL..TP 90:EGL.
-.ri on
-Med venlig hilsen
-.sp 14mm
-&GENEKSP
-.ri off
+(Overførsel til andre pengeinstitutter):SKRSLUT.
+.sp 61mm
+:CALIB10.
+er der indgået følgende aftale om udvidet anvendelse af TelefonService.
+.hr left right
 .sp
-.*.pa
+Aftalen omfatter følgende konti:
+.sp 97mm
+.hr left right
+.sp 2mm
+Enhver ændring i kundens adgang til at benytte konti skal aftales
+skriftligt mellem kunden og Lægernes Pensionsbank.
+.sp
+Nærværende aftale er udfærdiget og underskrevet i to eksemplarer, hvoraf
+det ene opbevares af kunden og det andet af banken.
+.ar off
+.se antlin = &ÅLC-1
+.sp &antlin
 .*** SÆT SKÆRM/PRINT-FORMAT ***
 .*:GL..PM 17:EGL.
 .ll 169mm
@@ -416,3 +364,56 @@ blot oprettes i en af dine forældres navn.
 .th aftalerne og send alle eksemplarerne tilbage hertil.
 .th .sp
 .if &U'&B302 eq M
+.th Vi vedlægger et udkast hertil, hvor vi har registreret din mor på
+.th aftalerne, og det er således din mor, der disponerer på kontoen.
+.th Hvis der skal rettes noget, så skriv det på aftalerne og send dem
+.th tilbage hertil.
+.th .sp
+.th Hvis det er, som det skal være, så få din mor til at underskrive
+.th aftalerne og send alle eksemplarerne tilbage hertil.
+.th .sp
+Hvis du på denne måde tilknytter TelefonService til din højrentekonto,
+vil vi skrive til dig, når du fylder femten år med henblik på at ændre,
+så du selv kan disponere på kontoen.
+.go slut
+...lille
+Du kan alligevel godt få tilknyttet en aftale til din konto. Den skal
+blot oprettes i en af dine forældres navn.
+.if &U'&B302 eq F
+.th Vi vedlægger et udkast hertil, hvor vi har registreret din far på
+.th aftalerne, og det er således din far, der disponerer på kontoen.
+.th Hvis der skal rettes noget, skal det skrives på aftalerne, og de
+.th skal sendes tilbage hertil.
+.th .sp
+.th Hvis aftalerne er, som de skal være, så få din far
+.th til at underskrive
+.th aftalerne og sende alle eksemplarerne tilbage hertil.
+.th .sp
+.if &U'&B302 eq M
+.th Vi vedlægger et udkast hertil, hvor vi har registreret din mor på
+.th aftalerne, og det er således din mor, der disponerer på kontoen.
+.th Hvis der skal rettes noget, skal det skrives på aftalerne, og de
+.th skal sendes tilbage hertil.
+.th .sp
+.th Hvis aftalerne er, som de skal være, så få din mor
+.th til at underskrive
+.th aftalerne og sende alle eksemplarerne tilbage hertil.
+.th .sp
+Hvis du på denne måde tilknytter TelefonService til din højrentekonto,
+vil vi skrive til dig, når du fylder femten år med henblik på at lave
+aftaler, så du selv kan disponere på kontoen.
+.go slut
+...slut
+.sp 14mm
+.*:GL..LL 110:EGL.
+.*:GL..TP 90:EGL.
+.ri on
+Med venlig hilsen
+.sp 14mm
+&GENEKSP
+.ri off
+.sp
+.*.pa
+.br
+:ENY.
+

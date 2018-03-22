@@ -1,3 +1,22 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp 2
+:VERDA09.
+Med venlig hilsen
+.br
+&B32NYK
+.ar off
 .*************************************************************************
 .da BEMÆRK 25mm 225mm width 135mm
 .***********************************
@@ -26,184 +45,6 @@ der behandles oplysninger om dit kortnummer.
 .in 0mm
 .bx off
 .ar off
-.sp 2
-:VERDA09.
-Med venlig hilsen
-.br
-&B32NYK
-.ar off
-.*************************************************************************
-:VERDA09.
-&SDIN konto er fortsat i overtræk med &OVERTRÆK kr., og vi har spærret
-alle kort til &DINE konti i &BANKNAVN.. &SDU bedes indlevere kortene
-til &B32NYK hurtigst muligt.
-.sp
-&SDU bedes senest 10 dage fra dato inddække overtrækket.
-.sp
-Såfremt overtrækket ikke inddækkes,vil &DINE nuværende personalevilkår
-ophøre og banken vil have mulighed for at indberette manglende
-indbetalinger til RKI/Experian.
-.sp
-Når overtrækket er inddækket, kan en eventuel genåbning af kort
-ske ved, at &DU henvender &DIG enten skriftligt eller telefonisk
-til &B32NYK.. En genåbning af kort vil afhænge af en
-individuel vurdering fra &B32NYK.s side.
-.sp
-Vi gør opmærksom på, at &DU. betaler &OVTRTE01. % p.a. i
-overtræksrente, som beregnes dag til dag af det til enhver tid
-værende overtræk, svarende til en debitorrente på
-&DEBRTE01. % p.a.
-.sp
-.if x&RYKGEBYR gt x0,00
-.th Ved udsendelse af denne rykker er der blevet
-.th trukket kr. &RYKGEBYR på &DIN. konto.
-.th .sp
-.if &L'&RYKTXTL1A = 0
-.th .go SLUT
-&RYKTXTL1A.&RYKTXTL1B
-.br
-&RYKTXTL2A.&RYKTXTL2B
-.sp
-...SLUT
-Hvis &DU ikke kan inddække overtrækket, skal &DU kontakte &B32KUNSERV.
-hurtigst muligt på telefon &B32TLFDIR..
-.sp
-Hvis &DU. er tilmeldt et af Nykredits kundekoncepter vil fortsat
-misligholdelse af dit engagement betyde, at vi opsiger tilmeldingen til
-kundekonceptet straks. Opsigelsen får virkning for alle tilmeldte personer
-i husstanden.
-.** ORDDELING FRA
-.HY off
-.*********************GENEREL OPSÆTNING************************************
-:VERDA09.
-.fo left
-.ti ¤ 05
-:tiltale &TILTALEM.
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.*  det er kun def. af start-arealet der er forskellig fra B32ryko-modulet
-.da START 25mm 85mm width 135mm
-.da REF  160mm 70mm width  40mm
-.da DATO 160mm 85mm width  40mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************* VORES REF. *****************************************
-.ar REF on
-.tp 18mm
-:VERDA07.
-Vores ref. Rykker 2
-:SKRSLUT.
-.ar off
-.********************* DATO ***********************************************
-.ar DATO on
-&DATO.
-.ar off
-.******************** ROTERET BREVNAVN ************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN
-&BRUGERNR
-KL. &KLOKKESLET.
-:SKRSLUT.
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-:FED.
-Kontonr. &regnr.-&ktonr
-:SKRSLUT.
-.sp
-.**************************************************************************
-:VERDA09.
-.*************** AREAL-DEFINITIONER ***************************************
-.da ADR 25mm 47mm width 150mm
-.**************************************************************************
-.ar ADR on
-.if &U'X&PRIMÆR = XJ
-.th .go PRIMÆR
-.el .go MEDKTO
-.*** Adresselinjer primærkontohaver ***************************************
-...PRIMÆR
-.if &L'&KTOCO > 0
-.an &L'&KTOLAND > 0
-.th
-.el &KTOSTILL
-.el .br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.go HOVSL
-.*** Adresselinjer medkontohaver ******************************************
-...MEDKTO
-.if &L'&COADR > 0
-.an &L'&LAND > 0
-.th
-.el &STILL
-.el .br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.br
-&LAND
-.**************************************************************************
-...HOVSL
-.ar off
-.* Nykredit-specifikke parametre
-.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
-.** sidste 1-10 posteringer fra kontoen.
-.***************************
-.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
-.* forsendelsesadresse til primær kontohaver
-.* og adresse til medkontohaver.
-.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
-.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
-.*****************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .ar off
 .************** Areal definitioner ****************************************
 .da BUNDV   25mm 271mm width 55mm
@@ -273,3 +114,163 @@ E-mail:
 :VERDA07.
 .us &B32WWWNYK.
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
+.** sidste 1-10 posteringer fra kontoen.
+.* Nykredit-specifikke parametre
+:VERDA09.
+.*************** AREAL-DEFINITIONER ***************************************
+.da ADR 25mm 47mm width 150mm
+.**************************************************************************
+.ar ADR on
+.if &U'X&PRIMÆR = XJ
+.th .go PRIMÆR
+.el .go MEDKTO
+.*** Adresselinjer primærkontohaver ***************************************
+...PRIMÆR
+.if &L'&KTOCO > 0
+.an &L'&KTOLAND > 0
+.th
+.el &KTOSTILL
+.el .br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.go HOVSL
+.*** Adresselinjer medkontohaver ******************************************
+...MEDKTO
+.if &L'&COADR > 0
+.an &L'&LAND > 0
+.th
+.el &STILL
+.el .br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.**************************************************************************
+...HOVSL
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALEM.
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.*  det er kun def. af start-arealet der er forskellig fra B32ryko-modulet
+.da START 25mm 85mm width 135mm
+.da REF  160mm 70mm width  40mm
+.da DATO 160mm 85mm width  40mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************* VORES REF. *****************************************
+.ar REF on
+.tp 18mm
+:VERDA07.
+Vores ref. Rykker 2
+:SKRSLUT.
+.ar off
+.********************* DATO ***********************************************
+.ar DATO on
+&DATO.
+.ar off
+.******************** ROTERET BREVNAVN ************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN
+&BRUGERNR
+KL. &KLOKKESLET.
+:SKRSLUT.
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+:FED.
+Kontonr. &regnr.-&ktonr
+:SKRSLUT.
+.sp
+.**************************************************************************
+.** ORDDELING FRA
+.HY off
+.*************************************************************************
+:VERDA09.
+&SDIN konto er fortsat i overtræk med &OVERTRÆK kr., og vi har spærret
+alle kort til &DINE konti i &BANKNAVN.. &SDU bedes indlevere kortene
+til &B32NYK hurtigst muligt.
+.sp
+&SDU bedes senest 10 dage fra dato inddække overtrækket.
+.sp
+Såfremt overtrækket ikke inddækkes,vil &DINE nuværende personalevilkår
+ophøre og banken vil have mulighed for at indberette manglende
+indbetalinger til RKI/Experian.
+.sp
+Når overtrækket er inddækket, kan en eventuel genåbning af kort
+ske ved, at &DU henvender &DIG enten skriftligt eller telefonisk
+til &B32NYK.. En genåbning af kort vil afhænge af en
+individuel vurdering fra &B32NYK.s side.
+.sp
+Vi gør opmærksom på, at &DU. betaler &OVTRTE01. % p.a. i
+overtræksrente, som beregnes dag til dag af det til enhver tid
+værende overtræk, svarende til en debitorrente på
+&DEBRTE01. % p.a.
+.sp
+.if x&RYKGEBYR gt x0,00
+.th Ved udsendelse af denne rykker er der blevet
+.th trukket kr. &RYKGEBYR på &DIN. konto.
+.th .sp
+.if &L'&RYKTXTL1A = 0
+.th .go SLUT
+&RYKTXTL1A.&RYKTXTL1B
+.br
+&RYKTXTL2A.&RYKTXTL2B
+.sp
+...SLUT
+Hvis &DU ikke kan inddække overtrækket, skal &DU kontakte &B32KUNSERV.
+hurtigst muligt på telefon &B32TLFDIR..
+.sp
+Hvis &DU. er tilmeldt et af Nykredits kundekoncepter vil fortsat
+misligholdelse af dit engagement betyde, at vi opsiger tilmeldingen til
+kundekonceptet straks. Opsigelsen får virkning for alle tilmeldte personer
+i husstanden.
+

@@ -11,6 +11,11 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
 .NV PAGE SENDKUNDE '%&SANTKUNDE.'
@@ -48,132 +53,6 @@
 &BREVNAVN
 .ar off
 .***********************************************************************
-.da SIDE1 20mm 38mm width 175mm
-.ar SIDE1 on
-.**************************************************************************
-.tp 1mm 88.5mm
-.**************************************************************************
-:SWISS10.
-:FED.
-¤Parter
-:SKRSLUT.
-.***** her laves kassen til Kunde  og Pengeinstitut *******
-:SWISS8.
-.bx left 87.5mm right
-¤Kunde ¤Pengeinstitut
-.sp 21mm
-.***** her laves kassen til CPR-nr/CVR-nr., Debiteringskontonr. og E-mail
-.tp 1mm 41mm 88.5mm
-.bx new left 40mm 87.5mm right
-¤CPR-nr./CVR-nr. ¤Debiteringskontonr. for evt. gebyr ¤Budgetskema
-.sp 5mm
-.***** her laves kassen til Budgetskema  *****
-.bx new left right
-¤Pengeinstituttets e-mail
-.sp 5mm
-.***** her laves kassen til Betalingsoversigt  *****
-.bx new left right
-.sp 8.5mm
-.bx off
-.bx can
-.bx can
-.bx can
-:SWISS10.
-:FED.
-¤Betingelser
-:SKRSLUT.
-.***** her laves kassen til betingelser *******
-.bx left right
-.sp 115.5mm
-.bx off
-.**********************************************
-.if &L'&GENANDET gt 0
-.th :SWISS10.
-.th :FED.
-.th ¤Supplerende oplysninger
-.th :SKRSLUT.
-.th .***** her laves kassen til fritekst *******
-.th .bx new left right
-.th .sp 19mm
-.th .bx off
-.el .go UNDER
-...UNDER
-:SWISS10.
-:FED.
-¤Underskrift
-:SKRSLUT.
-.***** her laves kassen til kontohaver/pi underskrift ******
-.bx new left 87.5mm right
-.tp 58mm  88.5mm 144.5mm
-.in 1mm
-:SWISS8.
-Kundens underskrift ¤Dato: ¤Pengeinstituttets underskrift ¤Dato:
-.ir 92.5mm
-.sp 6mm
-.tp 44mm center
-.***NEDENSTÅENDE ":SKRSLUT." BEVIRKER, AT DER SKIFTES SKRIFTTYPE TIL COUR10
-.***DE MÅ IKKE SLETTES*****************************************************
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-¤&NAVN
-:SWISS8.
-.br
-Jeg beder herved &BANKNAVN yde Betalingsservice
-.if &U'&GENBUDGET = J
-.th .ct , som anført i mit budgetskema eller
-ifølge afgivne betalingsordre. Samtidig
-erklærer jeg mig indforstået med nedenstående regler og bestemmelser.
-.**gba/Næste lille 'stunt' minimerer linieskift som følger pga ir/tp
-.**statements inden Banknavn udskr.
-.**Lavet for at skaffe lidt mere plads til kundens underskrift.
-.ls normal p4
-.ir
-.tp 131.5mm center
-:SKRSLUT.
-¤&BANKNAVN
-.bx off
-.bx can
-.ar off
-.*******************************************************
-.ar BUDGET on
-.if &U'&GENBUDGET = J
-.th Med budgetskema
-.el Uden budgetskema
-.ar off
-.*******************************************************
-.ar OVERSIGT on
-.if &GENVALG = 1
-.th Betalingsoversigt ønskes fremsendt, &WEBSYSNAVN benyttes ikke.
-.if &GENVALG = 2
-.th Betalingsoversigt ønskes fremsendt, Betalingsservice benyttes
-.th samtidig i &WEBSYSNAVN..
-.if &GENVALG = 3
-.th Betalingsoversigt på papir afmeldes, Betalingsservice benyttes
-.th i &WEBSYSNAVN..
-.ar off
-.*******************************************************
-.ar ANDET on
-.if &L'&GENANDET gt 0
-.th .br
-.th &GENANDET
-.if &L'&GENANDET1 gt 0
-.th .br
-.th &GENANDET1
-.if &L'&GENANDET2 gt 0
-.th .br
-.th &GENANDET2
-.if &L'&GENANDET3 gt 0
-.th .br
-.th &GENANDET3
-.if &L'&GENANDET4 gt 0
-.th .br
-.th &GENANDET4
-.ar off
-.*Tekst i rubrikken kundens/pengeinstituttes underskrift er i K-afsnittet**
 .*******************************************************
 .da KUNDEOPL   25mm 48mm width 80mm
 .da PIOPL      112.5mm 48mm width 80mm
@@ -223,6 +102,132 @@ erklærer jeg mig indforstået med nedenstående regler og bestemmelser.
 .se regnr = substr &GENKTO 1 4
 .se ktonr = substr &GENKTO 5 10
 &regnr &ktonr
+.ar off
+.*******************************************************
+.ar BUDGET on
+.if &U'&GENBUDGET = J
+.th Med budgetskema
+.el Uden budgetskema
+.ar off
+.*******************************************************
+.ar OVERSIGT on
+.if &GENVALG = 1
+.th Betalingsoversigt ønskes fremsendt, &WEBSYSNAVN benyttes ikke.
+.if &GENVALG = 2
+.th Betalingsoversigt ønskes fremsendt, Betalingsservice benyttes
+.th samtidig i &WEBSYSNAVN..
+.if &GENVALG = 3
+.th Betalingsoversigt på papir afmeldes, Betalingsservice benyttes
+.th i &WEBSYSNAVN..
+.ar off
+.*******************************************************
+.ar ANDET on
+.if &L'&GENANDET gt 0
+.th .br
+.th &GENANDET
+.if &L'&GENANDET1 gt 0
+.th .br
+.th &GENANDET1
+.if &L'&GENANDET2 gt 0
+.th .br
+.th &GENANDET2
+.if &L'&GENANDET3 gt 0
+.th .br
+.th &GENANDET3
+.if &L'&GENANDET4 gt 0
+.th .br
+.th &GENANDET4
+.ar off
+.*Tekst i rubrikken kundens/pengeinstituttes underskrift er i K-afsnittet**
+.da SIDE1 20mm 38mm width 175mm
+.ar SIDE1 on
+.**************************************************************************
+.tp 1mm 88.5mm
+.**************************************************************************
+:SWISS10.
+:FED.
+ ¤ Parter
+:SKRSLUT.
+.***** her laves kassen til Kunde  og Pengeinstitut *******
+:SWISS8.
+.bx left 87.5mm right
+ ¤ Kunde ¤ Pengeinstitut
+.sp 21mm
+.***** her laves kassen til CPR-nr/CVR-nr., Debiteringskontonr. og E-mail
+.tp 1mm 41mm 88.5mm
+.bx new left 40mm 87.5mm right
+ ¤ CPR-nr./CVR-nr. ¤ Debiteringskontonr. for evt. gebyr ¤ Budgetskema
+.sp 5mm
+.***** her laves kassen til Budgetskema  *****
+.bx new left right
+ ¤ Pengeinstituttets e-mail
+.sp 5mm
+.***** her laves kassen til Betalingsoversigt  *****
+.bx new left right
+.sp 8.5mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+ ¤ Betingelser
+:SKRSLUT.
+.***** her laves kassen til betingelser *******
+.bx left right
+.sp 115.5mm
+.bx off
+.**********************************************
+.if &L'&GENANDET gt 0
+.th :SWISS10.
+.th :FED.
+.th ¤ Supplerende oplysninger
+.th :SKRSLUT.
+.th .***** her laves kassen til fritekst *******
+.th .bx new left right
+.th .sp 19mm
+.th .bx off
+.el .go UNDER
+...UNDER
+:SWISS10.
+:FED.
+ ¤ Underskrift
+:SKRSLUT.
+.***** her laves kassen til kontohaver/pi underskrift ******
+.bx new left 87.5mm right
+.tp 58mm  88.5mm 144.5mm
+.in 1mm
+:SWISS8.
+Kundens underskrift ¤ Dato: ¤ Pengeinstituttets underskrift ¤ Dato:
+.ir 92.5mm
+.sp 6mm
+.tp 44mm center
+.***NEDENSTÅENDE ":SKRSLUT." BEVIRKER, AT DER SKIFTES SKRIFTTYPE TIL COUR10
+.***DE MÅ IKKE SLETTES*****************************************************
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+ ¤ &NAVN
+:SWISS8.
+.br
+Jeg beder herved &BANKNAVN yde Betalingsservice
+.if &U'&GENBUDGET = J
+.th .ct , som anført i mit budgetskema eller
+ifølge afgivne betalingsordre. Samtidig
+erklærer jeg mig indforstået med nedenstående regler og bestemmelser.
+.**gba/Næste lille 'stunt' minimerer linieskift som følger pga ir/tp
+.**statements inden Banknavn udskr.
+.**Lavet for at skaffe lidt mere plads til kundens underskrift.
+.ls normal p4
+.ir
+.tp 131.5mm center
+:SKRSLUT.
+ ¤ &BANKNAVN
+.bx off
+.bx can
 .ar off
 :SWISS8.
 .*******************************************************
@@ -323,11 +328,6 @@ nedenfor.
 .*Tekst i rubrikken kundens/pengeinstituttes underskrift er i K-afsnittet**
 .** SIDESKIFT
 .pa
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
 :SWISS8.
 .**************************************************************************
 .da BOX 20mm 41mm width 175mm
@@ -348,7 +348,7 @@ nedenfor.
 &BREVNAVN
 .br
 .tp 20mm
-¤&DATO.
+ ¤ &DATO.
 .ar off
 .**************************************************************************
 .ar OVERSKR on
@@ -375,3 +375,4 @@ Generelle regler for debitorer i Betalingsservice pr. 1. august 2015
 .* .RH CANCEL
 .* .PA
 .**************************************************************************
+

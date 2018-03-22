@@ -11,189 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.* MB ÆNDRING
-.*BR
-.*NV PAGE ID-OPL_01 '% '
-.*BR
-.*NV PAGE ID-OPL_02 '% '
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.* NAVNEMODUL TIL VISNING PÅ SKÆRM
-:GL.
-&STILL
-.BR
-&NAVN
-.BR
-&COADR
-.BR
-&GADE
-.BR
-&BY  &LAND
-.SK
-:EGL.
-.**************************************************************************
-.* Reference øverst til højre
-.da DERES 126.45mm 63.9mm
-.**************************************************************************
-.ar DERES on
-:COUR8.
-.if &L'&GENDERREF gt 0
-.th Ref.      &GENDERREF
-.th .sp 0.5mm
-.if &L'&B37VORREF gt 0
-.th Vor ref.  &B37VORREF
-.th .sp 0.5mm
-.if &E'&REGNR. = 0
-.th .go EJREGHNR
-.if &E'&BANKREGNR. = 0
-.th .go EJREGHNR
-Reg.nr.   &REGNR.
-...EJREGHNR
-:SKRSLUT.
-.ar off
-.***********************************************************************
-.* parameterafsn.
-.**************************************************************************
-.* REC-felt
-.da RECF 24mm 43.0mm
-.**************************************************************************
-.if &E'&B37REC. = 0
-.th .go EJREC
-.if &L'&B37REC. = 0
-.th .go EJREC
-.ar RECF on
-:COUR10.
-&B37REC
-:SKRSLUT.
-.ar off
-.if .&U'&UDSKRSTED. = .D
-.th .go EJREC
-.mg /t/  "Rec m.v." er (&B37REC.). "Udskriv.sted" (&UDSKRSTED.) skal være D
-...EJREC
-.***********************************************************************
-.*
-.SE B37KUDAL = 1
-.dr tynd WEIGHT 0.1mm
-.LL 175mm
-.fo left
-.PM 0
-.***************** Evt. ALTERNATIV PRENTER ***********
-.* Til alternativ print skal bruges parametrene
-.* PRTVALG        (J/N/alt.printer):
-.* ALTPRINTER     Brugerafh.printer:
-.if &E'&PRTVALG = 0 .go EJALT
-:altprint &PRTVALG
-...EJALT
-.*****************************************************
-.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
-.th .se TILTALEM = &TILTALEF
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
-.th .se TILTALEM = du
-:TILTALE &TILTALEM
-...EJTILT
-.******************* ATT FELT I ADR. **************
-.if &E'&GENATT = 0
-.th .go EJATT
-.if &L'&GENATT = 0
-.th .go EJATT
-.* Att placeret i adresseruden mellem adresse og evt. KOPI
-.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
-.if .&U'&UDSKRSTED = .D
-.th .da ATT 24mm 68.5mm width 180mm
-.el .da ATT 20mm 68.5mm width 180mm
-.ar ATT on
-:COUR10.
-Att.: &GENATT
-.ar off
-...EJATT
-.********************ROTERET BREVNAVN**************
-.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
-.th .se B37BREV = '&BREVNAVN.'
-.if &E'&B37BREV = 0
-.th .go EJROT
-.if &L'&B37BREV = 0
-.th .go EJROT
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 277mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-&B37BREV.
-.ar off
-...EJROT
-.*****************************************************
-.ti ^ 05
-:COUR10.
-.*****************************************************
-.* PM og TM virker først fra side 2
-.PM 20mm
-.TM 35mm
-.*****************************************************
-.DA BRTXT 20mm 100mm WIDTH 195mm
-.*AR BRTXT on
-.*ir 20mm
-.* Kasse til fri tekst er udvidet
-.da OVER 20mm 100mm width 170mm
-.da SIDE 20mm 105mm width 170mm
-.*******************************
-.ar OVER on
-:SWISS12.
-:FED.
-Følgebrev
-:SKRSLUT.
-.ar off
-.*******************************
-.ar SIDE on
-.bx left right
-.**** Her laves afkrydsnings kasserne *****
-.sp 3mm
-.bx new 5mm 10mm / 90mm 95mm
-.sp 4mm
-.bx off
-.sp 5mm
-.bx new 5mm 10mm / 90mm 95mm
-.sp 4mm
-.bx off
-.sp 5mm
-.bx new 5mm 10mm / 90mm 95mm
-.sp 4mm
-.bx off
-.sp 5mm
-.bx new 5mm 10mm / 90mm 95mm
-.sp 4mm
-.bx off
-.sp 5mm
-.bx new 5mm 10mm / 90mm 95mm
-.sp 4mm
-.bx off
-.sp 3mm
-.bx new left right
-.* MB ret
-.*sp 27mm
-.sp 45mm
-.bx off
-.bx can
-.bx can
-.bx can
-.ar off
 .* Deres fjernet vedr. brev (MB)
 .da AFTAL 37mm 112mm width 70mm
 .da BREV 122mm 112mm width 55mm
@@ -380,19 +197,19 @@ Kvittering udbedes
 .th .se mmd  = 12
 .se fixmm = &fixk.*&mmt./&mmd
 .tp &fixmm.mm center
-^Med venlig hilsen
+ ^ Med venlig hilsen
 .*sk
-.*^M i d t b a n k
+.* ^ M i d t b a n k
 .if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
 .th .br
-.th ^&AFDNAVN
+.th ^ &AFDNAVN
 .if .&T = .1
 .th .sk 3
 .el .sk 4
 .if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
+ ^ &GENEKSP
 .br
-^&GENTITEL
+ ^ &GENTITEL
 ...EJ1
 .if .&B37ANTUSK ne .2 .go EJ2
 .se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
@@ -413,10 +230,194 @@ Kvittering udbedes
 .se mibtab1m = &mibtab1 * &mmt / &mmd
 .se mibtab2m = &mibtab2 * &mmt / &mmd
 .tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
+ ^ &GENMEKSP ^ &GENEKSP
 .br
-^&GENMTITEL ^&GENTITEL
+ ^ &GENMTITEL ^ &GENTITEL
 ...EJ2
 .tp
 .br
 ...EJ9
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.* MB ÆNDRING
+.*BR
+.*NV PAGE ID-OPL_01 '% '
+.*BR
+.*NV PAGE ID-OPL_02 '% '
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&STILL
+.BR
+&NAVN
+.BR
+&COADR
+.BR
+&GADE
+.BR
+&BY  &LAND
+.SK
+:EGL.
+.**************************************************************************
+.* Reference øverst til højre
+.da DERES 126.45mm 63.9mm
+.**************************************************************************
+.ar DERES on
+:COUR8.
+.if &L'&GENDERREF gt 0
+.th Ref.      &GENDERREF
+.th .sp 0.5mm
+.if &L'&B37VORREF gt 0
+.th Vor ref.  &B37VORREF
+.th .sp 0.5mm
+.if &E'&REGNR. = 0
+.th .go EJREGHNR
+.if &E'&BANKREGNR. = 0
+.th .go EJREGHNR
+Reg.nr.   &REGNR.
+...EJREGHNR
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.* parameterafsn.
+.**************************************************************************
+.* REC-felt
+.da RECF 24mm 43.0mm
+.**************************************************************************
+.if &E'&B37REC. = 0
+.th .go EJREC
+.if &L'&B37REC. = 0
+.th .go EJREC
+.ar RECF on
+:COUR10.
+&B37REC
+:SKRSLUT.
+.ar off
+.if .&U'&UDSKRSTED. = .D
+.th .go EJREC
+.mg /t/  "Rec m.v." er (&B37REC.). "Udskriv.sted" (&UDSKRSTED.) skal være D
+...EJREC
+.***********************************************************************
+.*
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.* Kasse til fri tekst er udvidet
+.da OVER 20mm 100mm width 170mm
+.da SIDE 20mm 105mm width 170mm
+.*******************************
+.ar OVER on
+:SWISS12.
+:FED.
+Følgebrev
+:SKRSLUT.
+.ar off
+.*******************************
+.ar SIDE on
+.bx left right
+.**** Her laves afkrydsnings kasserne *****
+.sp 3mm
+.bx new 5mm 10mm / 90mm 95mm
+.sp 4mm
+.bx off
+.sp 5mm
+.bx new 5mm 10mm / 90mm 95mm
+.sp 4mm
+.bx off
+.sp 5mm
+.bx new 5mm 10mm / 90mm 95mm
+.sp 4mm
+.bx off
+.sp 5mm
+.bx new 5mm 10mm / 90mm 95mm
+.sp 4mm
+.bx off
+.sp 5mm
+.bx new 5mm 10mm / 90mm 95mm
+.sp 4mm
+.bx off
+.sp 3mm
+.bx new left right
+.* MB ret
+.*sp 27mm
+.sp 45mm
+.bx off
+.bx can
+.bx can
+.bx can
+.ar off
+

@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :altprint &PRTVALG
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
@@ -25,19 +38,76 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.oc **B20FLEX09
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.el .br
+.el M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+&KTOSTILL
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.br
+.if &L'&KTOLAND > 0
+.th &KTOLAND
+.*************************************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.* brevnavn roteret
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.* overskrift
+.da START 20mm 115mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+:VERDA10.
+:FED.
+Betingelser for AL-FormueFLEX-Forening Opsigelse konto nr. &REGNR &KTONR1
+:SKRSLUT.
+:SKRSLUT.
 .ti ¤ 05
 .tp 50mm right 70mm
 .sp
@@ -94,9 +164,9 @@ Renten beregnes bagud og tilskrives hvert år den 30. november.
 .se streg = '________________________'
 .se streg1 = '______________________________'
 .if &L'&MEDNAVN > 0
-.th &streg1 ¤&streg1
+.th &streg1 ¤ &streg1
 .th .br
-.th &KTONAVN ¤&MEDNAVN
+.th &KTONAVN ¤ &MEDNAVN
 .el &streg
 .el .br
 .el &KTONAVN
@@ -110,73 +180,4 @@ Bemærk, at nettoindlån over 750.000 kr. ikke er dækket af
 Indskydergarantifonden.
 :SKRSLUT.
 :SKRSLUT.
-:VERDA09.
-.fo left
-.ti ¤ 05
-:tiltale &TILTALE
-.* brevnavn roteret
-.da VEND 7mm 275mm width 180mm rotate -90
-.****************************************
-.* overskrift
-.da START 20mm 115mm width 170mm
-.****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.****************************************
-.ar START on
-:VERDA10.
-:FED.
-Betingelser for AL-FormueFLEX-Forening Opsigelse konto nr. &REGNR &KTONR1
-:SKRSLUT.
-:SKRSLUT.
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.*************************************************************
-.ar AFSENDER on
-.se bankregnr = &BANKREGNR
-:VERDA08.
-A/S &BANKNAVN.
-.br
-.if &bankregnr = 0000
-.th &AFDNAVN
-.th .br
-.th &AFDGADE
-.th .br
-.th &AFDBY
-.th .br
-.th T: &AFDTLF
-.th .br
-.th M: &GENEMAIL
-.el &BKAFD
-.el .br
-.el &BKADR
-.el .br
-.el &BKBY
-.el .br
-.el T: &BKTLF
-.el .br
-.el M: &GENEMAIL
-.sp2
-.br;&DATO
-.sp
-.ar off
-.*************************************************************
-&KTOSTILL
-.br
-&KTONAVN
-.br
-.if &L'&KTOCO > 0
-.th &KTOCO
-.th .br
-&KTOGADE
-.br
-&KTOBY
-.br
-.if &L'&KTOLAND > 0
-.th &KTOLAND
-.*************************************************************
-.oc **B20FLEX09
+

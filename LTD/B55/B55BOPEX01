@@ -1,3 +1,194 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*** Areal til brevnavn i nederste venstre hjørne **********
+.da VEND 6,5mm 275mm width 180mm rotate -90
+.*****
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
+.***** HER DELES DATOERNE FOR OPR. OG FRIG. OP TIL TESTS ******************
+.su off
+.se kaar = substr &KOPRETDATO 7 4
+.se kmdr = substr &KOPRETDATO 4 2
+.se kdag = substr &KOPRETDATO 1 2
+.se paar = substr &FRIDATO 7 4
+.se pmdr = substr &FRIDATO 4 2
+.se pdag = substr &FRIDATO 1 2
+.se baar1 = &kaar + 7
+.su on
+.***** HVIS OVERFØRSEL FRA ANDET PI, HOPPES OVER TEST PÅ BINDINGSPERIODE **
+.if &U'&GENKRYDS = J
+.th .go GOD
+.***** HER TESTES PÅ AT BINDINGSPERIODEN ER MINDST 7 ÅR. ******************
+.if x&paar < x&baar1
+.th .go FEJL
+.if x&paar > x&baar1
+.th .go GOD
+.if x&pmdr < x&kmdr
+.th .go FEJL
+.if x&pmdr > x&kmdr
+.th .go GOD
+.if x&pdag < x&kdag
+.th .go FEJL
+.el .go GOD
+...FEJL
+.mg/T/ Bindingsperioden skal være på mindst 7 år./
+...GOD
+.***** HER TESTES PÅ OM KONTOEN OPHÆVES INDEN FOR DET 14 OG 21 ÅR *********
+.***** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
+.su off
+.se faar = substr &KTOKNDNR1 5 2
+.se fmdr = substr &KTOKNDNR1 3 2
+.se fdag = substr &KTOKNDNR1 1 2
+.su on
+.***** Hvis barnets cprnr er konstrueret (dvs fødselsdagen > 31) ******
+.***** så springes alle disse test over.*******************************
+.if x&fdag > x31
+.go OK2
+.***** her tilføjes årstal på barnets fødselsår. **********************
+.if x&faar < x50
+.th .se faar1 = &faar + 2000
+.el .se faar1 = &faar + 1900
+.***** HER SÆTTES MIN. OG MAX ALDER VED OPHÆVELSE AF KONTO ****************
+.se minaar = &faar1 + 14
+.se maxaar = &faar1 + 21
+.***** HER TESTES PÅ OM KONTOHAVER ER ÆLDRE END 21 ÅR *********************
+.su on
+.if x&paar > x&maxaar
+.th .go FEJL1
+.if x&paar < x&maxaar
+.th .go OK
+.***** HER TESTES PÅ ON KONTOHAVER ER YNGRE END 14 ÅR *********************
+...OK
+.if x&paar < x&minaar
+.th .go FEJL1
+.if x&paar > x&minaar
+.th .go OK1
+.***** HER TESTES OM ÅRSTAL ER RIGTIGT MEN AT MÅNEDERNE GØR AT KONTOHAVER *
+.***** ER FYLDT 14 ÅR *****************************************************
+.if x&pmdr < x&fmdr
+.th .go FEJL1
+.if x&pmdr > x&fmdr
+.th .go OK1
+.if x&pdag < x&fdag
+.th .go FEJL1
+.el .go OK1
+.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
+...FEJL1
+.mg/T/ Udløbsdatoen skal være mellem barnets 14 - 21 år./
+...OK1
+.***** HER TESTES PÅ OM OPRETTELSESÅRET ER INDEN UDLØBET AF BARNETS 14. ÅR*
+.if x&minaar < x&kaar
+.th .go FEJL2
+.el .go OK2
+.***** HER AFSLUTTES TESTEN PÅ OPRETTELSESÅRET ****************************
+...FEJL2
+.mg/T/ Opr.år, inden udg. af det kalenderår hvori barnet bliver 14 år./
+...OK2
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 8
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "BØRN01"**************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XBØRN01DU
+.th .go BØR01
+.el .go DUEXIT
+...BØR01
+.* VÆRGEOPLYSNINGEN KAN UNDVÆRES, DA DER IKKE ER UNDERSKRIFTSFELT TIL
+.* VÆRGEN PÅ DOKUMENTET!!!! Eva Brandt, d. 3-6-2014
+.*.if &L'&GENNAVN > 0
+.*.an &L'&DUROLLE2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast VAE i DUROLLE2/
+.*.if &L'&GENCPR > 0
+.*.an &L'&DUCPRNR2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
+.*************************************************************
+...DUEXIT
 .ti ¤ 05
 :COUR10.
 .da KONTOHAV 25mm 51mm width 80mm
@@ -129,197 +320,6 @@
 .ar PIUNDSK on
 .ce &BANKNAVN
 .ar off
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 8
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "BØRN01"**************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XBØRN01DU
-.th .go BØR01
-.el .go DUEXIT
-...BØR01
-.* VÆRGEOPLYSNINGEN KAN UNDVÆRES, DA DER IKKE ER UNDERSKRIFTSFELT TIL
-.* VÆRGEN PÅ DOKUMENTET!!!! Eva Brandt, d. 3-6-2014
-.*.if &L'&GENNAVN > 0
-.*.an &L'&DUROLLE2 = 0
-.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast VAE i DUROLLE2/
-.*.if &L'&GENCPR > 0
-.*.an &L'&DUCPRNR2 = 0
-.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
-.*************************************************************
-...DUEXIT
-.if x&paar < x&maxaar
-.th .go OK
-.***** HER TESTES PÅ ON KONTOHAVER ER YNGRE END 14 ÅR *********************
-...OK
-.if x&paar < x&minaar
-.th .go FEJL1
-.if x&paar > x&minaar
-.th .go OK1
-.***** HER TESTES OM ÅRSTAL ER RIGTIGT MEN AT MÅNEDERNE GØR AT KONTOHAVER *
-.***** ER FYLDT 14 ÅR *****************************************************
-.if x&pmdr < x&fmdr
-.th .go FEJL1
-.if x&pmdr > x&fmdr
-.th .go OK1
-.if x&pdag < x&fdag
-.th .go FEJL1
-.el .go OK1
-.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
-...FEJL1
-.mg/T/ Udløbsdatoen skal være mellem barnets 14 - 21 år./
-...OK1
-.***** HER TESTES PÅ OM OPRETTELSESÅRET ER INDEN UDLØBET AF BARNETS 14. ÅR*
-.if x&minaar < x&kaar
-.th .go FEJL2
-.el .go OK2
-.***** HER AFSLUTTES TESTEN PÅ OPRETTELSESÅRET ****************************
-...FEJL2
-.mg/T/ Opr.år, inden udg. af det kalenderår hvori barnet bliver 14 år./
-...OK2
-.***** HER DELES DATOERNE FOR OPR. OG FRIG. OP TIL TESTS ******************
-.su off
-.se kaar = substr &KOPRETDATO 7 4
-.se kmdr = substr &KOPRETDATO 4 2
-.se kdag = substr &KOPRETDATO 1 2
-.se paar = substr &FRIDATO 7 4
-.se pmdr = substr &FRIDATO 4 2
-.se pdag = substr &FRIDATO 1 2
-.se baar1 = &kaar + 7
-.su on
-.***** HVIS OVERFØRSEL FRA ANDET PI, HOPPES OVER TEST PÅ BINDINGSPERIODE **
-.if &U'&GENKRYDS = J
-.th .go GOD
-.***** HER TESTES PÅ AT BINDINGSPERIODEN ER MINDST 7 ÅR. ******************
-.if x&paar < x&baar1
-.th .go FEJL
-.if x&paar > x&baar1
-.th .go GOD
-.if x&pmdr < x&kmdr
-.th .go FEJL
-.if x&pmdr > x&kmdr
-.th .go GOD
-.if x&pdag < x&kdag
-.th .go FEJL
-.el .go GOD
-...FEJL
-.mg/T/ Bindingsperioden skal være på mindst 7 år./
-...GOD
-.***** HER TESTES PÅ OM KONTOEN OPHÆVES INDEN FOR DET 14 OG 21 ÅR *********
-.***** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
-.su off
-.se faar = substr &KTOKNDNR1 5 2
-.se fmdr = substr &KTOKNDNR1 3 2
-.se fdag = substr &KTOKNDNR1 1 2
-.su on
-.***** Hvis barnets cprnr er konstrueret (dvs fødselsdagen > 31) ******
-.***** så springes alle disse test over.*******************************
-.if x&fdag > x31
-.go OK2
-.***** her tilføjes årstal på barnets fødselsår. **********************
-.if x&faar < x50
-.th .se faar1 = &faar + 2000
-.el .se faar1 = &faar + 1900
-.***** HER SÆTTES MIN. OG MAX ALDER VED OPHÆVELSE AF KONTO ****************
-.se minaar = &faar1 + 14
-.se maxaar = &faar1 + 21
-.***** HER TESTES PÅ OM KONTOHAVER ER ÆLDRE END 21 ÅR *********************
-.su on
-.if x&paar > x&maxaar
-.th .go FEJL1
-.*** Areal til brevnavn i nederste venstre hjørne **********
-.da VEND 6,5mm 275mm width 180mm rotate -90
-.*****
-.ar VEND on
-:VERDA06.
-&BREVNAVN
-.ar off
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .da oversk 20mm 35mm width 80mm
 .da side1 20mm 42mm width 175mm
 .**********************************
@@ -445,9 +445,9 @@ Bindingsperiodens udløb:
 .ar INDBETA on
 .tp 71mm
 .if &L'&GENBELØB gt 0
-.th Som bidrag indbetales (indtil videre): kr. ¤pr.
+.th Som bidrag indbetales (indtil videre): kr. ¤ pr.
 .th .sp 1mm
-.th Overføres fra kontonr.: ¤Første gang den:
+.th Overføres fra kontonr.: ¤ Første gang den:
 .th .sp 2mm
 .th Beløbet trækkes uden yderligere meddelelse til kontohavere.
 .th Overførselsanmodningen er gyldig indtil den skriftligt tilbagekaldes.
@@ -523,3 +523,4 @@ Pengeinstituttets underskrift
 .ar PIDATO on
 Dato:
 .ar off
+

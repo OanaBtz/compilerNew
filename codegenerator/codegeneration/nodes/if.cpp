@@ -33,7 +33,7 @@ string generateIf(Node* currentNode, string result, int tabs)
     for(int i=0;i<tabs;i++){
         ifStatement+="\t";
     }
-    ifStatement += "<![CDATA[/ifStatement]]>";
+    ifStatement += "<![CDATA[/ifStatement]]>\n";
 
     return ifStatement;
 }

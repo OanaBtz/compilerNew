@@ -54,114 +54,56 @@
 &DATO
 .ar off
 .***********************************************************************
-.if &L'&GENNAVN3 = 0
-.an &L'&GENNAVN4 > 0
-.th .ce on
-.th &GENNAVN4
-.th .ce off
-...UNDSL
-.ar off
 .*******************************************************
-.th B-autorisation.
-.th .sp 3mm
-.th Brugeren skal være 1. godkender, idet brugeren ikke har adgang til at
-.th foretage endelig godkendelse af en kuvert, som en anden bruger med
-.th B- eller C-autorisation har godkendt.
-.th .sp 3mm
-.th Har brugeren adgang til overførsler
-.th mellem egne konti kan disse gennemføres alene uden godkendelse
-.th fra en anden bruger. Brugeren kan ikke handle fonds.
-.th .go BBB
-.if &U'X&GENOVF eq XD
-.th D-Autorisation
-.th .sp 3mm
-.th Brugeren kan udelukkende oprette oplysninger i en kuvert samt
-.th rette/slette oplysninger i kuverter med status Åben.
-.th .sp 3mm
-.th Brugeren kan ikke på nogen måde godkende oplysninger eller kuverter
-.th og heller ikke rette i kuverter, der enten er delvist godkendt
-.th eller endeligt godkendt. Brugeren kan ikke handle fonds.
-.th .go BBB
-...BBB
-.ar off
+.da KUNDEOPL   25mm 48mm width 84mm
+.da KUNDECPR   165mm 67.5mm   width 30mm
+.da PIOPL      25mm 76.6mm width 84mm
+.da BRUGERNR   36mm 108mm width 158mm
+.da FORESPG    25mm 120mm width 165mm
+.da BRUGERVALG 25mm 137mm width 165mm
+.da TEKST      25mm 186mm width 165mm
+.da UNDSKBRUG  25mm 235mm width 165mm
 .*******************************************************
-.ar TEKST on
-&GENTEKST1.
-.br
-&GENTEKST2.
-.br
-&GENTEKST3.
-.br
-&GENTEKST4.
-.ar off
-.*******************************************************
-.ar UNDSKBRUG on
+.* Test, Hvis brugeransvarlig findes skal brugeransvarliges
+.* navn til underskrift være indtastet.
 .if X&U'&WEBBRUANS = XN
-.th .ce on
-.th &NAVN
-.th .ce off
-.th .go UNDSL
+.th .go UDENOM
 .if &L'&GENNAVN3 > 0
-.an &L'&GENNAVN4 > 0
-.th .tp 42mm center 125mm center
-.th ¤&GENNAVN3 ¤&GENNAVN4
-.th .go UNDSL
-.if &L'&GENNAVN3 > 0
-.an &L'&GENNAVN4 = 0
-.th .ce on
-.th &GENNAVN3
-.th .ce off
-.th .go UNDSL
+.or &L'&GENNAVN4 > 0
+.th .go UDENOM
+.el .mg/t/Den brugeransvarliges navn til underskrift skal indtastes/
+...UDENOM
 .*******************************************************
-.ar BRUGERVALG on
-.if &U'X&GENOVF eq XA
-.th .go AUTA
-.el .go AUTB
-...AUTA
-A-Autorisation
-.sp 3mm
-Brugeren kan oprette/rette/slette oplysninger uden godkendelse fra
-en anden bruger. &ÅCONT
-.if &L'&WEBHSTRAKS > 0
-.or &L'&WEBHBORS > 0
-.or &L'&WEBHMARKED > 0
-.or &L'&WEBHLIMIT > 0
-.or &L'&WEBHGNS > 0
-.th Brugeren er autoriseret til følgende fondshandelstyper:
-.el .go BBB
-.sp 3mm
-.if &L'&WEBHSTRAKS > 0
-.th - &WEBHSTRAKS
-.th .br
-.if &L'&WEBHBORS > 0
-.th - &WEBHBORS
-.th .br
-.if &L'&WEBHMARKED > 0
-.th - &WEBHMARKED
-.th .br
-.if &L'&WEBHLIMIT > 0
-.th - &WEBHLIMIT
-.th .br
-.if &L'&WEBHGNS > 0
-.th - &WEBHGNS
-.go BBB
-...AUTB
-.if &U'X&GENOVF eq XB
-.th B-Autorisation
-.th .sp 3mm
-.th Brugeren kan oprette/rette/slette oplysninger i en kuvert samt
-.th godkende kuverten i forening med en anden bruger, som har A-, B-,
-.th eller C-autorisation.
-.th .sp 3mm
-.th Har brugeren adgang til overførsler
-.th mellem egne konti kan disse gennemføres alene uden godkendelse
-.th fra en anden bruger. Brugeren kan ikke handle fonds.
-.th .go BBB
-.if &U'X&GENOVF eq XC
-.th C-Autorisation
-.th .sp 3mm
-.th Brugeren kan oprette/rette/slette oplysninger i en kuvert samt godkende
-.th kuverten i forening med en anden bruger, som har A- eller
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*******************************************************
+.ar KUNDECPR on
+&KUNDENR
+.ar off
+.*******************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************************************
+.ar BRUGERNR on
+.tp 81.5mm
+&GENBRUGNR ¤ &GENBRUGNVN
+.ar off
 .*******************************************************
 .********NEDENSTÅENDE GÆLDER KUN FOR AUTORISATIONSKODE D***********
 .ar FORESPG on
@@ -213,55 +155,113 @@ en anden bruger. &ÅCONT
 ...EJFOR2
 .ar off
 .*******************************************************
-.da KUNDEOPL   25mm 48mm width 84mm
-.da KUNDECPR   165mm 67.5mm   width 30mm
-.da PIOPL      25mm 76.6mm width 84mm
-.da BRUGERNR   36mm 108mm width 158mm
-.da FORESPG    25mm 120mm width 165mm
-.da BRUGERVALG 25mm 137mm width 165mm
-.da TEKST      25mm 186mm width 165mm
-.da UNDSKBRUG  25mm 235mm width 165mm
+.ar BRUGERVALG on
+.if &U'X&GENOVF eq XA
+.th .go AUTA
+.el .go AUTB
+...AUTA
+A-Autorisation
+.sp 3mm
+Brugeren kan oprette/rette/slette oplysninger uden godkendelse fra
+en anden bruger. &ÅCONT
+.if &L'&WEBHSTRAKS > 0
+.or &L'&WEBHBORS > 0
+.or &L'&WEBHMARKED > 0
+.or &L'&WEBHLIMIT > 0
+.or &L'&WEBHGNS > 0
+.th Brugeren er autoriseret til følgende fondshandelstyper:
+.el .go BBB
+.sp 3mm
+.if &L'&WEBHSTRAKS > 0
+.th - &WEBHSTRAKS
+.th .br
+.if &L'&WEBHBORS > 0
+.th - &WEBHBORS
+.th .br
+.if &L'&WEBHMARKED > 0
+.th - &WEBHMARKED
+.th .br
+.if &L'&WEBHLIMIT > 0
+.th - &WEBHLIMIT
+.th .br
+.if &L'&WEBHGNS > 0
+.th - &WEBHGNS
+.go BBB
+...AUTB
+.if &U'X&GENOVF eq XB
+.th B-Autorisation
+.th .sp 3mm
+.th Brugeren kan oprette/rette/slette oplysninger i en kuvert samt
+.th godkende kuverten i forening med en anden bruger, som har A-, B-,
+.th eller C-autorisation.
+.th .sp 3mm
+.th Har brugeren adgang til overførsler
+.th mellem egne konti kan disse gennemføres alene uden godkendelse
+.th fra en anden bruger. Brugeren kan ikke handle fonds.
+.th .go BBB
+.if &U'X&GENOVF eq XC
+.th C-Autorisation
+.th .sp 3mm
+.th Brugeren kan oprette/rette/slette oplysninger i en kuvert samt godkende
+.th kuverten i forening med en anden bruger, som har A- eller
+.th B-autorisation.
+.th .sp 3mm
+.th Brugeren skal være 1. godkender, idet brugeren ikke har adgang til at
+.th foretage endelig godkendelse af en kuvert, som en anden bruger med
+.th B- eller C-autorisation har godkendt.
+.th .sp 3mm
+.th Har brugeren adgang til overførsler
+.th mellem egne konti kan disse gennemføres alene uden godkendelse
+.th fra en anden bruger. Brugeren kan ikke handle fonds.
+.th .go BBB
+.if &U'X&GENOVF eq XD
+.th D-Autorisation
+.th .sp 3mm
+.th Brugeren kan udelukkende oprette oplysninger i en kuvert samt
+.th rette/slette oplysninger i kuverter med status Åben.
+.th .sp 3mm
+.th Brugeren kan ikke på nogen måde godkende oplysninger eller kuverter
+.th og heller ikke rette i kuverter, der enten er delvist godkendt
+.th eller endeligt godkendt. Brugeren kan ikke handle fonds.
+.th .go BBB
+...BBB
+.ar off
 .*******************************************************
-.* Test, Hvis brugeransvarlig findes skal brugeransvarliges
-.* navn til underskrift være indtastet.
+.ar TEKST on
+&GENTEKST1.
+.br
+&GENTEKST2.
+.br
+&GENTEKST3.
+.br
+&GENTEKST4.
+.ar off
+.*******************************************************
+.ar UNDSKBRUG on
 .if X&U'&WEBBRUANS = XN
-.th .go UDENOM
+.th .ce on
+.th &NAVN
+.th .ce off
+.th .go UNDSL
 .if &L'&GENNAVN3 > 0
-.or &L'&GENNAVN4 > 0
-.th .go UDENOM
-.el .mg/t/Den brugeransvarliges navn til underskrift skal indtastes/
-...UDENOM
-.*******************************************************
-.ar KUNDEOPL on
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
+.an &L'&GENNAVN4 > 0
+.th .tp 42mm center 125mm center
+.th ¤ &GENNAVN3 ¤ &GENNAVN4
+.th .go UNDSL
+.if &L'&GENNAVN3 > 0
+.an &L'&GENNAVN4 = 0
+.th .ce on
+.th &GENNAVN3
+.th .ce off
+.th .go UNDSL
+.if &L'&GENNAVN3 = 0
+.an &L'&GENNAVN4 > 0
+.th .ce on
+.th &GENNAVN4
+.th .ce off
+...UNDSL
 .ar off
 .*******************************************************
-.ar KUNDECPR on
-&KUNDENR
-.ar off
-.*******************************************************
-.ar PIOPL on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*******************************************************
-.ar BRUGERNR on
-.tp 81.5mm
-&GENBRUGNR ¤&GENBRUGNVN
-.ar off
 .da SIDE1 20mm 38mm width 175mm
 .ar SIDE1 on
 :SWISS10.
@@ -336,7 +336,7 @@ herved om oprettelse eller ændring af følgende brugers tilslutning til
 og anvendelse af &WEBSYSNAVN..
 .tp 87.5mm
 .sp
-Bruger-ID: ¤Navn:
+Bruger-ID: ¤ Navn:
 .ar off
 .*******************************************************
 .ar AUTORIS on
@@ -355,6 +355,7 @@ Eventuelle begrænsninger/tilføjelser til ovennævnte autorisation:
 .if &U'&WEBBRUANS = J
 .th .ct Brugeransvarliges
 .el .ct Kundens
-underskrift ¤Dato:
+underskrift ¤ Dato:
 .ar off
 .*******************************************************
+

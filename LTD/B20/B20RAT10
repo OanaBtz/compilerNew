@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :altprint &PRTVALG
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
@@ -25,20 +38,6 @@
 .NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.oc **B20RAT10
 .ti ¤ 05
 .sp 25mm
 :VERDA09.
@@ -91,73 +90,7 @@ A/S &BANKNAVN.
 .if &L'&KTOLAND > 0
 .th &KTOLAND
 .*************************************************************
-:VERDA09.
-:tiltale &TILTALEF
-.fo left
-.ti ¤ 05
-.* Brevnavn roteret
-.da VEND 7mm 270mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B20RAT10
-.ar off
-.********************OVERSKRIFT*****************************************
-.da OVERSKR 20mm 110mm width 170mm
-.ar OVERSKR on
-:VERDA10.
-:FED.
-Tillæg til ratepension nr. &REGNR &KTONR1
-:SKRSLUT.
-:SKRSLUT.
-.sp
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
+.oc **B20RAT10
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -208,7 +141,75 @@ Tillæg til ratepension nr. &REGNR &KTONR1
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T.************ FORLÆNGELSE AF UDBETALINGSFORLØB
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:VERDA09.
+:tiltale &TILTALEF
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B20RAT10
+.ar off
+.********************OVERSKRIFT*****************************************
+.da OVERSKR 20mm 110mm width 170mm
+.ar OVERSKR on
+:VERDA10.
+:FED.
+Tillæg til ratepension nr. &REGNR &KTONR1
+:SKRSLUT.
+:SKRSLUT.
+.sp
+.************ FORLÆNGELSE AF UDBETALINGSFORLØB
 .if &L'B20ANTAL01 > 0 .an &L'&B20ANTAL02 > 0
 .th Jeg ønsker at forlænge udbetalingsperioden på min ratepension
 .th fra &B20ANTAL01. år til &B20ANTAL02. år. Jeg er
@@ -245,3 +246,4 @@ Dato:
 &streg
 .br
 &KTONAVN
+

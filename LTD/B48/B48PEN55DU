@@ -57,18 +57,6 @@
 .if &U'&PENVALG = N
 .an &L'&PENACVR > 0
 .th .mg/T/Arbejdsgivers CVR.nr. må ikke være udfyldt/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -119,6 +107,18 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
 .*********************GENEREL OPSÆTNING************************************
 :SWISS8.
 .fo left
@@ -219,10 +219,10 @@
 .ar KTOOPL on
 .tp 43mm
 .if &U'&PENVALG = J
-.th &KUNDENR ¤&PENACVR
+.th &KUNDENR ¤ &PENACVR
 .el &KUNDENR
 .sp 6mm
-&regnr &ktonr ¤&dregnr &depnr
+&regnr &ktonr ¤ &dregnr &depnr
 .ar off
 .**************************************************************************
 .**** Her starter teksten *********
@@ -270,7 +270,7 @@ jeg har forholdt mig til begunstigelsen på aldersopsparingen.
 .ar AFSL1 on
 .if &U'&PENVALG = J
 .th .tp 39mm center 126mm center
-.th ¤&NAVN.¤&PENANAVN.
+.th ¤ &NAVN. ¤ &PENANAVN.
 .el .ce &NAVN.
 .sp 7.8mm
 .ce &BANKNAVN
@@ -288,20 +288,20 @@ Parter
 .***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
 .if &U'&PENVALG = J
 .th .bx left 87.5mm right
-.th ¤Kontohaver ¤Arbejdsgiver
+.th ¤ Kontohaver ¤ Arbejdsgiver
 .el .bx left right
-.el ¤Kontohaver
+.el ¤ Kontohaver
 .sp 17.5mm
 .***** her laves kassen til pengeinstitut og regnr ************************
 .if &U'&PENVALG = J
 .th .bx new left 87.5mm 130.5mm right
-.th ¤Pengeinstitut ¤Kontohavers CPR-nr.¤Arbejdsgivers CVR-nr.
+.th ¤ Pengeinstitut ¤ Kontohavers CPR-nr. ¤ Arbejdsgivers CVR-nr.
 .el .bx new left 87.5mm right
-.el ¤Pengeinstitut ¤Kontohavers CPR-nr.
+.el ¤ Pengeinstitut ¤ Kontohavers CPR-nr.
 .sp 4.5mm
 .***** her laves kassen til kontonr og depotnr ****************************
 .bx new 87.5mm 130.5mm right
-¤¤Kontonr. ¤Depotnr.
+ ¤ ¤ Kontonr. ¤ Depotnr.
 .sp 4.5mm
 .***** her laves kassen til formål ****************************************
 .bx new left right
@@ -317,15 +317,15 @@ Indhold
 :SKRSLUT.
 .***** her laves kassen til Afregning af afgift  **************************
 .bx left right
-¤Afregning af afgift
+ ¤ Afregning af afgift
 .sp 30mm
 .***** her laves kassen til placering af opsparing*************************
 .bx new left right
-¤Pensionsudbetalingsalder
+ ¤ Pensionsudbetalingsalder
 .sp 30mm
 .***** her laves kassen til Begunstigelse *********************************
 .bx new left right
-¤Begunstigelse
+ ¤ Begunstigelse
 .sp 14mm
 .bx off
 .bx can
@@ -344,15 +344,15 @@ Underskrift
 .if &U'&PENVALG = J
 .th .bx new left 87.5mm right
 .th .tp 1mm 61mm 89mm 145mm
-.th ¤Kontohavers underskift ¤Dato: ¤Arbejdsgivers underskrift ¤Dato:
+.th ¤ Kontohavers underskift ¤ Dato: ¤ Arbejdsgivers underskrift ¤ Dato:
 .el .bx new left right
 .el .tp 1mm 145mm
-.el ¤Kontohavers underskift ¤Dato:
+.el ¤ Kontohavers underskift ¤ Dato:
 .sp 6.5mm
 .***** her laves kassen til pi- underskrift *******************************
 .tp 1mm 61mm 89mm 145mm
 .bx new left right
-¤Pengeinstituttets underskrift ¤¤¤Dato:
+ ¤ Pengeinstituttets underskrift ¤ ¤ ¤ Dato:
 .sp 6.5mm
 .bx off
 .bx can
@@ -362,3 +362,4 @@ Underskrift
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+

@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -24,19 +37,6 @@
 .NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .*Parametre, substrings og tests ******************************************
 .su off
 .*SUBSTRING PÅ LANGKTONR *************************************************
@@ -46,18 +46,6 @@
 .*.se ktonr = substr &IREGKTO 5 7
 .su on
 .************************************************************
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -108,6 +96,18 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
 .**************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -145,13 +145,13 @@
 .bx left 87.5mm right
 :SWISS8.
 .tp 1mm 88.5mm
-¤Kontohaver ¤Pengeinstitut
+ ¤ Kontohaver ¤ Pengeinstitut
 .sp 23mm
 .bx left 87.5mm right
-¤CPR-/SE-nr. ¤Kontaktperson
+ ¤ CPR-/SE-nr. ¤ Kontaktperson
 .sp 5mm
 .bx left 87.5mm right
-¤Kontonummer ¤Telefonnummer
+ ¤ Kontonummer ¤ Telefonnummer
 .sp 5mm
 .bx off
 .bx can
@@ -163,7 +163,7 @@ Indhold
 :SKRSLUT.
 .bx left right
 :SWISS8.
-¤Betingelser
+ ¤ Betingelser
 :SKRSLUT.
 .sp 65mm
 .bx off
@@ -174,42 +174,10 @@ Underskrifter
 :SWISS8.
 .tp 1mm 54mm 88,5mm 120mm 139mm
 .bx left 87.5mm right
-¤Kontohavers underskrift ¤Dato: ¤Pengeinstituttets underskrift ¤¤Dato:
+ ¤ Kontohavers underskrift ¤ Dato: ¤ Pengeinstituttets underskrift ¤ ¤ Dato:
 .sp 28mm
 .bx off
 .ar off
-.if &U'&B55SPØRG1. eq A
-.th Alderspension.
-.if &U'&B55SPØRG1. eq K
-.th Kapitalpension.
-.if &U'&B55SPØRG1. eq R
-.th Ratepenion.
-.sp
-&B55FRI1.
-.if &L'&B55FRI3. > 0 .an &L'&B55FRI2. = 0
-.th .sp
-.el &B55FRI2.
-.if &L'&B55FRI4. > 0 .an &L'&B55FRI3. = 0
-.th .sp
-.el &B55FRI3.
-.if &L'&B55FRI5. > 0 .an &L'&B55FRI4. = 0
-.th .sp
-.el &B55FRI4.
-.if &L'&B55FRI6. > 0 .an &L'&B55FRI5. = 0
-.th .sp
-.el &B55FRI5.
-&B55FRI6.
-:SKRSLUT.
-.ar off
-.*************************************
-.ar UNDER1 on
-&KTONAVN
-.ar off
-.*************************************
-.ar UNDER2 on
-&BANKNAVN.
-.ar off
-.*************************************
 :COUR10.
 .tp 87.5mm
 .******************************************************************
@@ -242,11 +210,11 @@ Underskrifter
 .ar off
 .******************************************************************
 .ar CPR on
-&KTOKNDNR1 ¤&GENEKSP
+&KTOKNDNR1 ¤ &GENEKSP
 .ar off
 .******************************************************************
 .ar KTONR on
-&regnr &ktonr ¤&AFDTLF
+&regnr &ktonr ¤ &AFDTLF
 .ar off
 .******************************************************************
 .ar FRI on
@@ -260,3 +228,36 @@ Til denne aftale tilknyttes ny
 .th Ratepenion
 konto nr. &B55REGTYP. &B55KONTONR., som er oprettet på samme
 betingelser, som ovennævnte
+.if &U'&B55SPØRG1. eq A
+.th Alderspension.
+.if &U'&B55SPØRG1. eq K
+.th Kapitalpension.
+.if &U'&B55SPØRG1. eq R
+.th Ratepenion.
+.sp
+&B55FRI1.
+.if &L'&B55FRI3. > 0 .an &L'&B55FRI2. = 0
+.th .sp
+.el &B55FRI2.
+.if &L'&B55FRI4. > 0 .an &L'&B55FRI3. = 0
+.th .sp
+.el &B55FRI3.
+.if &L'&B55FRI5. > 0 .an &L'&B55FRI4. = 0
+.th .sp
+.el &B55FRI4.
+.if &L'&B55FRI6. > 0 .an &L'&B55FRI5. = 0
+.th .sp
+.el &B55FRI5.
+&B55FRI6.
+:SKRSLUT.
+.ar off
+.*************************************
+.ar UNDER1 on
+&KTONAVN
+.ar off
+.*************************************
+.ar UNDER2 on
+&BANKNAVN.
+.ar off
+.*************************************
+

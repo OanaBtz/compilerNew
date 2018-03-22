@@ -1,421 +1,16 @@
-.********************GENEREL OPSÆTNING*************************************
-:SWISS8.
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 83mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-.******************************************************************
-.da KUNDEOPL       25mm   56mm width  80mm
-.da PI          112.5mm   56mm width  80mm
-.da CPRSENR        42mm   74,9mm width  80mm
-.da KTONR          25mm   84,5mm width  80mm
-.da DEPOTNR     112.5mm   84,5mm width  80mm
-.******************************************************************
-.ar KUNDEOPL on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.*************************************
-.ar PI on
-.br
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*************************************
-.ar CPRSENR on
-&KTOKNDNR1
-.ar off
-.*************************************
-.ar KTONR on
-.se konto = substr &LANGKTONR 1 14
-&konto
-.ar off
-.*************************************
-.ar DEPOTNR on
-&DEPOTNR
-.ar off
-.*************************************
-
-.**************************************************************************
-.da OVERSKR  20mm   38mm width 175mm
-.da BOX      20mm   46mm width 175mm
-.da BANKSTED 20mm   47mm width 175mm
-.da VEND      7mm  270mm width 180mm rotate -90
-.da SIDEN2  170mm 33.5mm width 60mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar BOX on
-.bx left right
-.sp 228mm
-.bx off
-.ar off
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Erklæring vedr. investering af pensionsmidler i unoterede værdipapirer
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.*SIDSTE SIDE (ORDRESEDDEL) SKAL IKKE HAVE PÅFØRT SIDENUMMER, HVORFOR VI
-.*IKKE KAN LADE KUD PÅFØRE SIDENUMMER - DERFOR GØR VI DET SELV!
-.ar SIDEN2 on
-:COUR8.
-.if &ÅPN = 2
-.th Side 2 af 3
-.if &ÅPN = 3
-.th Side 3 af 3
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 45MM: Y = 38mm + 13mm (TOPMARGIN) = 51mm
-.**************************************************************************
-.sp 38mm
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.*******************
-...T2T2
-:VS. &STKDEC.
-&valg1. &instru.
-:SWISS8.
-udstedt i
-:SKRSLUT.
-.UP ON
-&GENMØNTK.
-.UP OFF
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB..
-...T2T2END
-.***Hvis der er valgt stk. hel ****
-.if &L'&STKHEL > 0
-.th .go T2T3
-.el .go T2T3END
-...T2T3
-.*******************
-:VS. &STKHEL.
-&valg1. &instru.
-:SWISS8.
-udstedt i
-:SKRSLUT.
-.UP ON
-&GENMØNTK.
-.UP OFF
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB..
-...T2T3END
-.***********************
-:SWISS8.
-Som dokumentation for ejerskabet deponerer &JEG. i &BANKNAVN.
-:SKRSLUT.
-&bilag1.
-:SWISS8.
-fra
-:SKRSLUT.
-&SELSKAB..
-:SWISS8.
-.sp 3mm
-.kp off
-.kp on
-:FED.
-Grænserne for &MIN. investering
-:SKRSLUT.
-.kp on
-Det er muligt at investere
-pensionsmidler i unoterede kapitalandele i aktieselskaber,
-anpartsselskaber, samt visse selskabstyper indenfor EU, andele i
-kommanditselskaber samt selskaber med en tilsvarende juridisk form
-indenfor EU. Ved unoterede aktier, anparter eller andele i
-kommanditselskaber forstås værdipapirer, som ikke handles på en
-reguleret markedsplads.
-.sp 3mm
-.kp off
-.kp on
-Investering af pensionsmidler i unoterede værdipapirer
-indebærer, at der stilles krav efter lovgivningen til, at
-&DU. løbende skal afgive en række oplysninger til
-&BANKNAVN., ligesom lovgivningen fastlægger nogle
-begrænsninger for, hvordan &DU. kan investere i de
-unoterede værdipapirer.
-.sp 3mm
-.kp off
-.kp on
-:FED.
-&SMIN. investering
-:SKRSLUT.
-.br
-Denne erklæring vedrører &MIT. køb af
-:SKRSLUT.
-.***Hvis der er valgt nominelt ****
-.if &L'&BECNOM > 0
-.th .go T2T1
-.el .go T2T1END
-.*******************
-...T2T1
-&valg1.
-:VS. &BECNOM.
-&instru.
-:SWISS8.
-udstedt i
-:SKRSLUT.
-.UP ON
-&GENMØNTK.
-.UP OFF
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB..
-...T2T1END
-.***Hvis der er valgt stk. dec ****
-.if &L'&STKDEC > 0
-.th .go T2T2
-.el .go T2T2END
-.br
-Ved &MIN. underskrift på denne erklæring bekræfter &JEG.,
-at &JEG. er bekendt med, at der gælder nogle lovbestemte
-placeringsgrænser for investering i unoterede
-værdipapirer for pensionsmidler. &SJEG. erklærer således,
-at &JEG.:
-.sp 3mm
-.tp 10mm 13mm
-.of 5mm
-*¤i &BANKNAVN. har alders-, rate- eller kapitalpensionsmidler
-for mere end 500.000 kr.
-.of
-.of 5mm
-*¤at investeringen i
-:SKRSLUT.
-&SELSKAB.
-:SWISS8.
-udgør mindst 100.000 kr.
-.of
-.of 5mm
-*¤at investeringen maksimalt udgør henholdsvis 20
-pct., 50 pct. eller 75 pct. af &MINE. samlede
-pensionsmidler i &BANKNAVN..
-.br
-¤¤20 pct.'s grænsen gælder for pensionsformuer under 2 mio. kr.,
-.br
-¤¤50 pct.'s grænsen for pensionsformuer mellem 2 og 4. mio. kr.,
-.br
-¤¤75 pct.'s grænsen for pensionsformuer over 4 mio. kr.
-.of 5mm
-*¤at &JEG. ikke ejer 25 pct. eller mere af kapitalen i
-:SKRSLUT.
-&SELSKAB.
-:SWISS8.
-erhvervet via pensionsmidler, via frie
-midler eller via &MINE. nærtstående. Ejerandelen opgøres i
-overensstemmelse med § 4 i aktieavancebeskatningsloven; dog skal tidligere
-ejede ejerandele ikke medregnes.
-.of
-.sp 3mm
-Ved beregningen af ovennævnte grænser er &JEG. endvidere
-indforstået med, at det er &MINE. oplysninger om
-værdipapirerne, der lægges til grund. &BANKNAVN. har
-således ikke noget ansvar for, at &MINE. oplysninger er
-korrekte.
-.sp 3mm
-.kp off
-.kp on
-:FED.
-Hvis &JEG. overskrider 25 pct.'s grænsen
-:SKRSLUT.
-.br
-Ved &MIN. investering i
-:SKRSLUT.
-&SELSKAB.
-:SWISS8.
-sender &BANKNAVN. erklæring til selskabet om, at &JEG. har foretaget
-investeringen for pensionsmidler, og at selskabet
-forpligtes til at foretage alle betalinger til den
-afkastkonto, som er tilknyttet &MIT. pensionsdepot. Se
-nærmere herom under afsnittet om fuldmagter.
-.sp 3mm
-Meddelelsen indeholder samtidig en erklæring, som selskabet skal
-underskrive og returnere til &BANKNAVN.. Jeg er indforstået med, at jeg
-ikke kan erhverve
-:SKRSLUT.
-&instru.
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB.
-:SWISS8.
-før ovennævnte erklæring er modtaget i &BANKNAVN. i underskreven stand.
-.sp 3mm
-.kp off
-.kp on
-:FED.
-Oplysning om kurser til brug for PAL-skatteberegningen
-:SKRSLUT.
-.br
-Ved &MIN. underskrift på nærværende erklæring bekræfter
-&JEG., at &JEG. hvert år vil oplyse &BANKNAVN. om værdien
-af &MINE. unoterede
-:SKRSLUT.
-&instru.
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB..
-:SWISS8.
-&BANKNAVN. skal bruge oplysningerne til at beregne den løbende
-pensionsafkastskat, som alle pensionsopsparere skal
-betale, og som &BANKNAVN. er forpligtet til at afregne
-over for skattemyndighederne.
-.sp 3mm
-.*.kp off
-.*.kp on
-&SJEG. er indforstået med, at &JEG. til &BANKNAVN. skal oplyse
-:SKRSLUT.
-&instrus.
-:SKRSLUT.
-.br
-&SJEG. er indforstået med, at hvis &JEG. senere erhverver
-:SKRSLUT.
-&instru.
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB.
-:SWISS8.
-- og dermed overskrider 25 pct.'s
-grænsen - skal &JEG. inden for tre måneder nedbringe
-&MIN. ejerandel til under 25 pct. Alternativt kan &JEG.
-sælge værdipapirerne i &MIT. pensionsdepot og i stedet
-erhverve dem for frie midler. &SJEG. er opmærksom på, at &JEG. da skal
-erhverve dem til den højeste af enten den værdi, de blev erhvervet til i
-pensionsordningen eller den aktuelle værdi. &SJEG. er i den forbindelse
-indforstået med, at &BANKNAVN. ikke har nogen pligt til eller mulighed for
-at påse, om grænsen overskrides.
-.sp 3mm
-.kp off
-.kp on
-Har &JEG. ikke inden for fristen bragt &MIN. ejerandel
-under 25 pct. eller erhvervet værdipapirerne for frie
-midler, forpligter &JEG. &MIG. til straks at underrette
-&BANKNAVN.. &SJEG. er indforstået med, at &BANKNAVN. efter
-lovgivningen herefter er forpligtet til at
-afgiftsberigtige den del af &MIN. pensionsordning, der
-kan henføres til &MINE.
-:SKRSLUT.
-&instru.
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB..
-:SWISS8.
-Afgiftsberigtigelsen sker med 60 pct.
-.sp 3mm
-.kp off
-.kp on
-:FED.
-Meddelelse til
-:SKRSLUT.
-:SKRSLUT.
-:FED.
-&SELSKAB.
-:SKRSLUT.
-:SWISS8.
-:FED.
-om investeringen
-.kp off
-:SWISS8.
-indre værdi ifølge seneste aflagte
-årsregnskab pr. 15. november i indkomståret. &BANKNAVN.
-efterprøver ikke rigtigheden af &MINE. oplysninger. Hvis
-oplysningerne ikke er korrekte, er det et anliggende
-mellem skattemyndighederne og &MIG..
-.sp 3mm
-.*.kp off
-.*.kp on
-Oplysningerne skal være &BANKNAVN. i hænde senest
-:FED.
-1. december i indkomståret.
-:SKRSLUT.
-.sp 3mm
-.kp off
-.kp on
-&SJEG. bekræfter endvidere, at &JEG. er indforstået med,
-at hvis &JEG. ikke oplyser &BANKNAVN. om værdierne inden
-1. december i indkomståret, da er &BANKNAVN. efter
-lovgivningen forpligtet til at lægge anskaffelsessummen
-til grund for beregning af PAL-skatten, ligesom
-&BANKNAVN. er forpligtet til at oplyse
-skattemyndighederne om &MIN. manglende overholdelse af
-oplysningsforpligtelsen.
-.sp 3mm
-.kp off
-.kp on
-Hvis ikke oplysningsforpligtelsen opfyldes rettidigt,
-sender skattemyndighederne en rykkerskrivelse med 1
-måneds frist til at indsende de manglende oplysninger til
-&BANKNAVN.. Hvis oplysningerne modtages i &BANKNAVN.
-inden udløbet af fristen, foretager &BANKNAVN. en
-særskilt manuel PAL-opgørelse, som indsendes til
-skattemyndighederne.
-.sp 3mm
-.kp off
-.kp on
-&SJEG. er indforstået med, at hvis &BANKNAVN. ikke har
-modtaget oplysningerne inden udløbet af fristen, er
-&BANKNAVN. forpligtet til at opgøre den del af &MIN.
-pensionsopsparing, der angår &MINE.
-:SKRSLUT.
-&instru.
-:SWISS8.
-i
-:SKRSLUT.
-&SELSKAB..
-:SWISS8.
-Opgørelsen sker med 60 pct.'s afgift.
-.sp 3mm
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .kp on
 :FED.
 Fald i værdien af &MINE. pensionsmidler
@@ -516,56 +111,6 @@ Ved &MIN. underskrift på nærværende erklæring bekræfter
 .kp on
 :FED.
 Gebyrer
-.UP OFF
-:SWISS8.
-...T3T1END
-.***Hvis der er valgt stk. dec ****
-.if &L'&STKDEC > 0
-.th .go T3T2
-.el .go T3T2END
-...T3T2
-.**************
-:VS. &STKDEC.
-&valg1. &instru.,
-:SWISS8.
-udstedt i
-:SKRSLUT.
-.UP ON
-&GENMØNTK.,
-.UP OFF
-:SWISS8.
-...T3T2END
-.***Hvis der er valgt stk. hel ****
-.if &L'&STKHEL > 0
-.th .go T3T3
-.el .go T3T3END
-...T3T3
-.**************
-:VS. &STKHEL.
-&valg1. &instru.,
-:SWISS8.
-udstedt i
-:SKRSLUT.
-.UP ON
-&GENMØNTK.,
-.UP OFF
-:SWISS8.
-...T3T3END
-.**************
-i selskabet, som
-&JEG. vil placere i et særskilt depot tilknyttet &MIN.
-:SKRSLUT.
-.*TEST PÅ OM DET ER EN RATE ELLER KAPITAL PENSION
-.if &U'&GENVALG7 = R
-.th ratepension
-.if &U'&GENVALG7 = K
-.th kapitalpension
-.if &U'&GENVALG7 = A
-.th alderspension
-:SWISS8.
-reg. nr. &ÅCONT
-:SKRSLUT.
-&regnr.,
 :SKRSLUT.
 .br
 &BANKNAVN. beregner sig gebyr for administration af investeringen.
@@ -616,6 +161,56 @@ udstedt i
 :SKRSLUT.
 .UP ON
 &GENMØNTK.,
+.UP OFF
+:SWISS8.
+...T3T1END
+.***Hvis der er valgt stk. dec ****
+.if &L'&STKDEC > 0
+.th .go T3T2
+.el .go T3T2END
+...T3T2
+.**************
+:VS. &STKDEC.
+&valg1. &instru.,
+:SWISS8.
+udstedt i
+:SKRSLUT.
+.UP ON
+&GENMØNTK.,
+.UP OFF
+:SWISS8.
+...T3T2END
+.***Hvis der er valgt stk. hel ****
+.if &L'&STKHEL > 0
+.th .go T3T3
+.el .go T3T3END
+...T3T3
+.**************
+:VS. &STKHEL.
+&valg1. &instru.,
+:SWISS8.
+udstedt i
+:SKRSLUT.
+.UP ON
+&GENMØNTK.,
+.UP OFF
+:SWISS8.
+...T3T3END
+.**************
+i selskabet, som
+&JEG. vil placere i et særskilt depot tilknyttet &MIN.
+:SKRSLUT.
+.*TEST PÅ OM DET ER EN RATE ELLER KAPITAL PENSION
+.if &U'&GENVALG7 = R
+.th ratepension
+.if &U'&GENVALG7 = K
+.th kapitalpension
+.if &U'&GENVALG7 = A
+.th alderspension
+:SWISS8.
+reg. nr. &ÅCONT
+:SKRSLUT.
+&regnr.,
 :SWISS8.
 konto nr. &ÅCONT
 :SKRSLUT.
@@ -818,6 +413,56 @@ i
 .***********************
 .sk
 
+.***********************************************************************
+.********* Aldersopsparing er tilføjes under paraetren GENVALG7
+.*********
+.***********************************************************************
+.da AFTALE   21mm   93mm width 170mm
+.***********************************************************************
+.ar AFTALE on
+:SWISS8.
+Køb af:
+.sp 3mm
+.tp 4mm
+.******************
+.if &L'&BECNOM > 0
+.th ¤ Nominelt:
+.******************
+.if &L'&STKDEC > 0
+.th ¤ Stk:
+.******************
+.if &L'&STKHEL > 0
+.th ¤ Stk:
+.sp 3mm
+ ¤ Fondskode:
+.sp 3mm
+ ¤ Kurs:
+.sp 3mm
+ ¤ Kursværdi:
+.sp 7mm
+Beløbet plus bankens omkostninger hæves fra
+.sp 2mm
+.tp 4mm
+:SKRSLUT.
+.******************
+.if &U'X&GENVALG7 eq XK
+.th ¤ Kapitalpension &LANGKTONR.
+.******************
+.if &U'X&GENVALG7 eq XR
+.th ¤ Ratepension &LANGKTONR.
+.******************
+.if &U'X&GENVALG7 eq XA
+.th ¤ Alderspension &LANGKTONR.
+.******************
+:SKRSLUT.
+.sp 2mm
+:SWISS8.
+ ¤ Fysisk værdipapir/bevis m.v. deponeres i depot nr. &ÅCONT
+:SKRSLUT.
+&DEPOTNR.
+:SKRSLUT.
+:SWISS8.
+.sp 6.5mm
 .******************
 .if &L'&GENKTONR > 0
 .th .go HAT6
@@ -828,17 +473,17 @@ i
 Handelsbeløbet efter omkostninger bedes indsat på
 .sp 2mm
 .tp 4mm 19mm
-¤Reg. nr.
+ ¤ Reg. nr.
 :SKRSLUT.
 :COUR10.
-.ct ¤&reg1.
+.ct ¤ &reg1.
 :SKRSLUT.
 :SWISS8.
 .br
-¤Konto nr.
+ ¤ Konto nr.
 :SKRSLUT.
 :COUR10.
-.ct ¤&kto1.
+.ct ¤ &kto1.
 :SKRSLUT.
 :SWISS8.
 .sp 7mm
@@ -853,7 +498,7 @@ opgjort til:
 .sp 2mm
 :SKRSLUT.
 :COUR10.
-¤:VS.&GENBELØB28.
+ ¤ :VS.&GENBELØB28.
 :SKRSLUT.
 :SWISS8.
 den
@@ -863,56 +508,6 @@ den
 :SKRSLUT.
 .ar off
 .**************************
-.***********************************************************************
-.********* Aldersopsparing er tilføjes under paraetren GENVALG7
-.*********
-.***********************************************************************
-.da AFTALE   21mm   93mm width 170mm
-.***********************************************************************
-.ar AFTALE on
-:SWISS8.
-Køb af:
-.sp 3mm
-.tp 4mm
-.******************
-.if &L'&BECNOM > 0
-.th ¤Nominelt:
-.******************
-.if &L'&STKDEC > 0
-.th ¤Stk:
-.******************
-.if &L'&STKHEL > 0
-.th ¤Stk:
-.sp 3mm
-¤Fondskode:
-.sp 3mm
-¤Kurs:
-.sp 3mm
-¤Kursværdi:
-.sp 7mm
-Beløbet plus bankens omkostninger hæves fra
-.sp 2mm
-.tp 4mm
-:SKRSLUT.
-.******************
-.if &U'X&GENVALG7 eq XK
-.th ¤Kapitalpension &LANGKTONR.
-.******************
-.if &U'X&GENVALG7 eq XR
-.th ¤Ratepension &LANGKTONR.
-.******************
-.if &U'X&GENVALG7 eq XA
-.th ¤Alderspension &LANGKTONR.
-.******************
-:SKRSLUT.
-.sp 2mm
-:SWISS8.
-¤Fysisk værdipapir/bevis m.v. deponeres i depot nr. &ÅCONT
-:SKRSLUT.
-&DEPOTNR.
-:SKRSLUT.
-:SWISS8.
-.sp 6.5mm
 .*************** definer siden som et areal *******************************
 .da SIDE 20mm 50mm width 175mm
 .************ PARTER ******************************************************
@@ -923,12 +518,12 @@ Beløbet plus bankens omkostninger hæves fra
 .bx left 87.5mm right
 :SWISS8.
 .tp 1mm 88.5mm
-¤Kunden ¤Tillæg til
+ ¤ Kunden ¤ Tillæg til
 .sp 22mm
 .***********************
 .bx left 87.5mm 131mm right
 .tp 1mm 88.5mm 132mm
-¤CPR-nr./CVR-nr. ¤Kontonummer ¤Depotnummer
+ ¤ CPR-nr./CVR-nr. ¤ Kontonummer ¤ Depotnummer
 .sp 5mm
 .bx off
 .*****************
@@ -965,19 +560,6 @@ Den samlede værdi
 .sp 14mm
 .bx off
 .ar off
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -1149,11 +731,11 @@ Parter
 .bx left 87.5mm right
 :SWISS8.
 .tp 1mm 88.5mm
-¤Kunde ¤Pengeinstitut
+ ¤ Kunde ¤ Pengeinstitut
 .sp 21mm
-¤CPR-nr/CVR-nr.
+ ¤ CPR-nr/CVR-nr.
 .bx new left 87.5mm right
-¤Kontonummer ¤Depotnummer
+ ¤ Kontonummer ¤ Depotnummer
 .sp 5mm
 .bx off
 .bx can
@@ -1165,3 +747,422 @@ Indhold
 .sp 182.5mm
 .bx off
 .ar off
+.******************************************************************
+.da KUNDEOPL       25mm   56mm width  80mm
+.da PI          112.5mm   56mm width  80mm
+.da CPRSENR        42mm   74,9mm width  80mm
+.da KTONR          25mm   84,5mm width  80mm
+.da DEPOTNR     112.5mm   84,5mm width  80mm
+.******************************************************************
+.ar KUNDEOPL on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.*************************************
+.ar PI on
+.br
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar CPRSENR on
+&KTOKNDNR1
+.ar off
+.*************************************
+.ar KTONR on
+.se konto = substr &LANGKTONR 1 14
+&konto
+.ar off
+.*************************************
+.ar DEPOTNR on
+&DEPOTNR
+.ar off
+.*************************************
+
+.********************GENEREL OPSÆTNING*************************************
+:SWISS8.
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR  20mm   38mm width 175mm
+.da BOX      20mm   46mm width 175mm
+.da BANKSTED 20mm   47mm width 175mm
+.da VEND      7mm  270mm width 180mm rotate -90
+.da SIDEN2  170mm 33.5mm width 60mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+.bx left right
+.sp 228mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Erklæring vedr. investering af pensionsmidler i unoterede værdipapirer
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*SIDSTE SIDE (ORDRESEDDEL) SKAL IKKE HAVE PÅFØRT SIDENUMMER, HVORFOR VI
+.*IKKE KAN LADE KUD PÅFØRE SIDENUMMER - DERFOR GØR VI DET SELV!
+.ar SIDEN2 on
+:COUR8.
+.if &ÅPN = 2
+.th Side 2 af 3
+.if &ÅPN = 3
+.th Side 3 af 3
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 45MM: Y = 38mm + 13mm (TOPMARGIN) = 51mm
+.**************************************************************************
+.sp 38mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.kp on
+Det er muligt at investere
+pensionsmidler i unoterede kapitalandele i aktieselskaber,
+anpartsselskaber, samt visse selskabstyper indenfor EU, andele i
+kommanditselskaber samt selskaber med en tilsvarende juridisk form
+indenfor EU. Ved unoterede aktier, anparter eller andele i
+kommanditselskaber forstås værdipapirer, som ikke handles på en
+reguleret markedsplads.
+.sp 3mm
+.kp off
+.kp on
+Investering af pensionsmidler i unoterede værdipapirer
+indebærer, at der stilles krav efter lovgivningen til, at
+&DU. løbende skal afgive en række oplysninger til
+&BANKNAVN., ligesom lovgivningen fastlægger nogle
+begrænsninger for, hvordan &DU. kan investere i de
+unoterede værdipapirer.
+.sp 3mm
+.kp off
+.kp on
+:FED.
+&SMIN. investering
+:SKRSLUT.
+.br
+Denne erklæring vedrører &MIT. køb af
+:SKRSLUT.
+.***Hvis der er valgt nominelt ****
+.if &L'&BECNOM > 0
+.th .go T2T1
+.el .go T2T1END
+.*******************
+...T2T1
+&valg1.
+:VS. &BECNOM.
+&instru.
+:SWISS8.
+udstedt i
+:SKRSLUT.
+.UP ON
+&GENMØNTK.
+.UP OFF
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB..
+...T2T1END
+.***Hvis der er valgt stk. dec ****
+.if &L'&STKDEC > 0
+.th .go T2T2
+.el .go T2T2END
+.*******************
+...T2T2
+:VS. &STKDEC.
+&valg1. &instru.
+:SWISS8.
+udstedt i
+:SKRSLUT.
+.UP ON
+&GENMØNTK.
+.UP OFF
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB..
+...T2T2END
+.***Hvis der er valgt stk. hel ****
+.if &L'&STKHEL > 0
+.th .go T2T3
+.el .go T2T3END
+...T2T3
+.*******************
+:VS. &STKHEL.
+&valg1. &instru.
+:SWISS8.
+udstedt i
+:SKRSLUT.
+.UP ON
+&GENMØNTK.
+.UP OFF
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB..
+...T2T3END
+.***********************
+:SWISS8.
+Som dokumentation for ejerskabet deponerer &JEG. i &BANKNAVN.
+:SKRSLUT.
+&bilag1.
+:SWISS8.
+fra
+:SKRSLUT.
+&SELSKAB..
+:SWISS8.
+.sp 3mm
+.kp off
+.kp on
+:FED.
+Grænserne for &MIN. investering
+:SKRSLUT.
+.br
+Ved &MIN. underskrift på denne erklæring bekræfter &JEG.,
+at &JEG. er bekendt med, at der gælder nogle lovbestemte
+placeringsgrænser for investering i unoterede
+værdipapirer for pensionsmidler. &SJEG. erklærer således,
+at &JEG.:
+.sp 3mm
+.tp 10mm 13mm
+.of 5mm
+* ¤ i &BANKNAVN. har alders-, rate- eller kapitalpensionsmidler
+for mere end 500.000 kr.
+.of
+.of 5mm
+* ¤ at investeringen i
+:SKRSLUT.
+&SELSKAB.
+:SWISS8.
+udgør mindst 100.000 kr.
+.of
+.of 5mm
+* ¤ at investeringen maksimalt udgør henholdsvis 20
+pct., 50 pct. eller 75 pct. af &MINE. samlede
+pensionsmidler i &BANKNAVN..
+.br
+ ¤ ¤ 20 pct.'s grænsen gælder for pensionsformuer under 2 mio. kr.,
+.br
+ ¤ ¤ 50 pct.'s grænsen for pensionsformuer mellem 2 og 4. mio. kr.,
+.br
+ ¤ ¤ 75 pct.'s grænsen for pensionsformuer over 4 mio. kr.
+.of 5mm
+* ¤ at &JEG. ikke ejer 25 pct. eller mere af kapitalen i
+:SKRSLUT.
+&SELSKAB.
+:SWISS8.
+erhvervet via pensionsmidler, via frie
+midler eller via &MINE. nærtstående. Ejerandelen opgøres i
+overensstemmelse med § 4 i aktieavancebeskatningsloven; dog skal tidligere
+ejede ejerandele ikke medregnes.
+.of
+.sp 3mm
+Ved beregningen af ovennævnte grænser er &JEG. endvidere
+indforstået med, at det er &MINE. oplysninger om
+værdipapirerne, der lægges til grund. &BANKNAVN. har
+således ikke noget ansvar for, at &MINE. oplysninger er
+korrekte.
+.sp 3mm
+.kp off
+.kp on
+:FED.
+Hvis &JEG. overskrider 25 pct.'s grænsen
+:SKRSLUT.
+.br
+&SJEG. er indforstået med, at hvis &JEG. senere erhverver
+:SKRSLUT.
+&instru.
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB.
+:SWISS8.
+- og dermed overskrider 25 pct.'s
+grænsen - skal &JEG. inden for tre måneder nedbringe
+&MIN. ejerandel til under 25 pct. Alternativt kan &JEG.
+sælge værdipapirerne i &MIT. pensionsdepot og i stedet
+erhverve dem for frie midler. &SJEG. er opmærksom på, at &JEG. da skal
+erhverve dem til den højeste af enten den værdi, de blev erhvervet til i
+pensionsordningen eller den aktuelle værdi. &SJEG. er i den forbindelse
+indforstået med, at &BANKNAVN. ikke har nogen pligt til eller mulighed for
+at påse, om grænsen overskrides.
+.sp 3mm
+.kp off
+.kp on
+Har &JEG. ikke inden for fristen bragt &MIN. ejerandel
+under 25 pct. eller erhvervet værdipapirerne for frie
+midler, forpligter &JEG. &MIG. til straks at underrette
+&BANKNAVN.. &SJEG. er indforstået med, at &BANKNAVN. efter
+lovgivningen herefter er forpligtet til at
+afgiftsberigtige den del af &MIN. pensionsordning, der
+kan henføres til &MINE.
+:SKRSLUT.
+&instru.
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB..
+:SWISS8.
+Afgiftsberigtigelsen sker med 60 pct.
+.sp 3mm
+.kp off
+.kp on
+:FED.
+Meddelelse til
+:SKRSLUT.
+:SKRSLUT.
+:FED.
+&SELSKAB.
+:SKRSLUT.
+:SWISS8.
+:FED.
+om investeringen
+:SKRSLUT.
+.br
+Ved &MIN. investering i
+:SKRSLUT.
+&SELSKAB.
+:SWISS8.
+sender &BANKNAVN. erklæring til selskabet om, at &JEG. har foretaget
+investeringen for pensionsmidler, og at selskabet
+forpligtes til at foretage alle betalinger til den
+afkastkonto, som er tilknyttet &MIT. pensionsdepot. Se
+nærmere herom under afsnittet om fuldmagter.
+.sp 3mm
+Meddelelsen indeholder samtidig en erklæring, som selskabet skal
+underskrive og returnere til &BANKNAVN.. Jeg er indforstået med, at jeg
+ikke kan erhverve
+:SKRSLUT.
+&instru.
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB.
+:SWISS8.
+før ovennævnte erklæring er modtaget i &BANKNAVN. i underskreven stand.
+.sp 3mm
+.kp off
+.kp on
+:FED.
+Oplysning om kurser til brug for PAL-skatteberegningen
+:SKRSLUT.
+.br
+Ved &MIN. underskrift på nærværende erklæring bekræfter
+&JEG., at &JEG. hvert år vil oplyse &BANKNAVN. om værdien
+af &MINE. unoterede
+:SKRSLUT.
+&instru.
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB..
+:SWISS8.
+&BANKNAVN. skal bruge oplysningerne til at beregne den løbende
+pensionsafkastskat, som alle pensionsopsparere skal
+betale, og som &BANKNAVN. er forpligtet til at afregne
+over for skattemyndighederne.
+.sp 3mm
+.*.kp off
+.*.kp on
+&SJEG. er indforstået med, at &JEG. til &BANKNAVN. skal oplyse
+:SKRSLUT.
+&instrus.
+:SWISS8.
+indre værdi ifølge seneste aflagte
+årsregnskab pr. 15. november i indkomståret. &BANKNAVN.
+efterprøver ikke rigtigheden af &MINE. oplysninger. Hvis
+oplysningerne ikke er korrekte, er det et anliggende
+mellem skattemyndighederne og &MIG..
+.sp 3mm
+.*.kp off
+.*.kp on
+Oplysningerne skal være &BANKNAVN. i hænde senest
+:FED.
+1. december i indkomståret.
+:SKRSLUT.
+.sp 3mm
+.kp off
+.kp on
+&SJEG. bekræfter endvidere, at &JEG. er indforstået med,
+at hvis &JEG. ikke oplyser &BANKNAVN. om værdierne inden
+1. december i indkomståret, da er &BANKNAVN. efter
+lovgivningen forpligtet til at lægge anskaffelsessummen
+til grund for beregning af PAL-skatten, ligesom
+&BANKNAVN. er forpligtet til at oplyse
+skattemyndighederne om &MIN. manglende overholdelse af
+oplysningsforpligtelsen.
+.sp 3mm
+.kp off
+.kp on
+Hvis ikke oplysningsforpligtelsen opfyldes rettidigt,
+sender skattemyndighederne en rykkerskrivelse med 1
+måneds frist til at indsende de manglende oplysninger til
+&BANKNAVN.. Hvis oplysningerne modtages i &BANKNAVN.
+inden udløbet af fristen, foretager &BANKNAVN. en
+særskilt manuel PAL-opgørelse, som indsendes til
+skattemyndighederne.
+.sp 3mm
+.kp off
+.kp on
+&SJEG. er indforstået med, at hvis &BANKNAVN. ikke har
+modtaget oplysningerne inden udløbet af fristen, er
+&BANKNAVN. forpligtet til at opgøre den del af &MIN.
+pensionsopsparing, der angår &MINE.
+:SKRSLUT.
+&instru.
+:SWISS8.
+i
+:SKRSLUT.
+&SELSKAB..
+:SWISS8.
+Opgørelsen sker med 60 pct.'s afgift.
+.sp 3mm
+.kp off
+

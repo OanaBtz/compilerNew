@@ -31,25 +31,6 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Aftale om værdipapirhandel og depotoprettelse
-:SKRSLUT.
-.ar off
-.*************************************************************************
 .* Parametre og substrings ************************************************
 .***** her deles kontonummer for obligationsrenter ************************
 .su off
@@ -71,6 +52,125 @@
 .se sikregnr = substr &GENSIKDEP 1 4
 .se sikktonr = substr &GENSIKDEP 5 10
 .su on
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Aftale om værdipapirhandel og depotoprettelse
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.da DEPINDEH   25mm    48mm width 89mm
+.da DEPCPR     45mm    65mm width 89mm
+.da PI      112.5mm    48mm width 89mm
+.da DEPNR      25mm  74.5mm width 85mm
+.da VPNR    112.5mm  74.5mm width 85mm
+.da KUNDEKAT   25mm  83.5mm width 85mm
+.da DEPTYPE 112.5mm  83.5mm width 89mm
+.da OBLRENTE   25mm    93mm width 80mm
+.da UDTOBL  112.5mm    93mm width 80mm
+.da AKTIUDB    25mm 102.5mm width 80mm
+.da DEPGEB  112.5mm 102.5mm width 80mm
+.da PTBAFK     25mm   112mm width 80mm
+.da SIKDEP  112.5mm   112mm width 80mm
+.if &U'X&OBLKTOMF = XJ
+.or &U'X&UOBLKTOM = XJ
+.or &U'X&AKTKTOMF = XJ
+.th .se ja = 1
+.el .se ja = 0
+.**************Hvor begge er N *************************************
+.if &ja = 0
+.an &U'&AKTTXT = N
+.th .go ARE1
+.el .go ARE2
+...ARE1
+.da FRAVALG   176mm   147mm width 5mm
+.da AKTIEADR   25mm   246mm width 80mm
+.da AKTIECPR   45mm 261,6mm width 80mm
+.go ARE8
+.**************
+...ARE2
+.*************
+.if &ja = 1
+.an &U'&AKTTXT = N
+.th .go ARE3
+.el .go ARE4
+...ARE3
+.da FRAVALG   176mm 150,7mm width 5mm
+.da AKTIEADR   25mm 250,3mm width 80mm
+.da AKTIECPR   45mm 265,4mm width 80mm
+.go ARE8
+.**************
+...ARE4
+.**************
+.if &ja = 1
+.an &U'&AKTTXT = J
+.th .go ARE5
+.el .go ARE6
+...ARE5
+.da FRAVALG   176mm 157,9mm width 5mm
+.da AKTIEADR   25mm 257,1mm width 80mm
+.da AKTIECPR   45mm 272,3mm width 80mm
+.go ARE8
+.**************
+...ARE6
+.**************
+.if &ja = 0
+.an &U'&AKTTXT = J
+.th .go ARE7
+.el .go ARE8
+...ARE7
+.da FRAVALG   176mm   154mm width 5mm
+.da AKTIEADR   25mm   253mm width 80mm
+.da AKTIECPR   45mm 268,6mm width 80mm
+.**************
+...ARE8
+.**************************************************************************
+.ar DEPINDEH on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.**************************************************************************
+.ar DEPCPR on
+&DEPKUNDENR
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar DEPNR on
+&DEPREGNR &DEPDEPNR
+.ar off
+.**************************************************************************
+.ar VPNR on
+&VPKTONR
+.ar off
 .**************************************************************************
 .ar KUNDEKAT on
 .if &U'X&KUNDEKAT = XD
@@ -122,106 +222,6 @@
 .ar FRAVALG on
 .if &L'&GENKRYDS1 gt 0
 .th Ja
-.da AKTIECPR   45mm 272,3mm width 80mm
-.go ARE8
-.**************
-...ARE6
-.**************
-.if &ja = 0
-.an &U'&AKTTXT = J
-.th .go ARE7
-.el .go ARE8
-...ARE7
-.da FRAVALG   176mm   154mm width 5mm
-.da AKTIEADR   25mm   253mm width 80mm
-.da AKTIECPR   45mm 268,6mm width 80mm
-.**************
-...ARE8
-.**************************************************************************
-.ar DEPINDEH on
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.**************************************************************************
-.ar DEPCPR on
-&DEPKUNDENR
-.ar off
-.**************************************************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-.ar DEPNR on
-&DEPREGNR &DEPDEPNR
-.ar off
-.**************************************************************************
-.ar VPNR on
-&VPKTONR
-.ar off
-.**************************************************************************
-.da DEPINDEH   25mm    48mm width 89mm
-.da DEPCPR     45mm    65mm width 89mm
-.da PI      112.5mm    48mm width 89mm
-.da DEPNR      25mm  74.5mm width 85mm
-.da VPNR    112.5mm  74.5mm width 85mm
-.da KUNDEKAT   25mm  83.5mm width 85mm
-.da DEPTYPE 112.5mm  83.5mm width 89mm
-.da OBLRENTE   25mm    93mm width 80mm
-.da UDTOBL  112.5mm    93mm width 80mm
-.da AKTIUDB    25mm 102.5mm width 80mm
-.da DEPGEB  112.5mm 102.5mm width 80mm
-.da PTBAFK     25mm   112mm width 80mm
-.da SIKDEP  112.5mm   112mm width 80mm
-.if &U'X&OBLKTOMF = XJ
-.or &U'X&UOBLKTOM = XJ
-.or &U'X&AKTKTOMF = XJ
-.th .se ja = 1
-.el .se ja = 0
-.**************Hvor begge er N *************************************
-.if &ja = 0
-.an &U'&AKTTXT = N
-.th .go ARE1
-.el .go ARE2
-...ARE1
-.da FRAVALG   176mm   147mm width 5mm
-.da AKTIEADR   25mm   246mm width 80mm
-.da AKTIECPR   45mm 261,6mm width 80mm
-.go ARE8
-.**************
-...ARE2
-.*************
-.if &ja = 1
-.an &U'&AKTTXT = N
-.th .go ARE3
-.el .go ARE4
-...ARE3
-.da FRAVALG   176mm 150,7mm width 5mm
-.da AKTIEADR   25mm 250,3mm width 80mm
-.da AKTIECPR   45mm 265,4mm width 80mm
-.go ARE8
-.**************
-...ARE4
-.**************
-.if &ja = 1
-.an &U'&AKTTXT = J
-.th .go ARE5
-.el .go ARE6
-...ARE5
-.da FRAVALG   176mm 157,9mm width 5mm
-.da AKTIEADR   25mm 257,1mm width 80mm
 .el &ÅRB
 .sp 0.7mm
 .if &L'&GENKRYDS2 gt 0
@@ -299,56 +299,6 @@
 .ar off
 .**************************************************************************
 ...AKTEND
-.ar SIDE on
-:SWISS10.:FED.
-Parter
-:SKRSLUT.
-.bx left 87.5mm right
-:SWISS8.
-.tp 1mm 88.5mm
-¤Depotindehaver ¤Pengeinstitut
-.sp 17mm
-¤CPR-nr./CVR-nr.
-.************************
-.bx new left 87.5mm right
-¤Depotnr.¤VP-kontonr.
-.sp 5mm
-.************************
-.bx new left 87.5mm right
-¤Kundekategori ¤Depottype
-.sp 5mm
-.************************
-.bx new left 87.5mm right
-¤Konto for obligationsrente ¤Konto for udtrukne obligationer
-.sp 5mm
-.************************
-.bx new left 87.5mm right
-¤Konto for aktieudbytte ¤Konto for depotgebyr
-.sp 5mm
-.************************
-.bx new left 87.5mm right
-¤Konto for pantebrevsafkast ¤Sikkerhedsdepot for
-.sp 5mm
-.************************
-.bx off
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.if &U'X&OBLKTOMF = XJ
-.or &U'X&UOBLKTOM = XJ
-.or &U'X&AKTKTOMF = XJ
-.th :FED
-.th * M.fl. betyder, at der er registreret flere mulige afkastkonti i denne
-.th kategori.
-.th :SKRSLUT.
-.th .sp 1mm
-.**************************************************************************
-.if &U'X&AKTTXT = XJ
-.th :FED
-.th Afkast af beholdninger opbevaret i VP Securities i udenlandske valuta
-.th bliver ikke omregnet til danske kroner, men stilles til depothavers
 .*************** definer siden som et areal *******************************
 .da SIDE 20mm 40mm width 175mm
 .**********************************
@@ -399,29 +349,56 @@ Parter
 .dr thin weight 0.1mm
 .dr normal weight 0.3mm
 .************ PARTER ******************************************************
-.if &L'&GENCPR3 = 0
-.th .go BOXEND
-.************ AKTIEBOGSNAVN **********************************************
+.ar SIDE on
 :SWISS10.:FED.
-Aktiebogsnavn
-:SKRSLUT.
-:SWISS8.:FED. (hvis forskelligt fra depotindehaver)
+Parter
 :SKRSLUT.
 .bx left 87.5mm right
-.tp 1mm 88.5mm
-¤Navn og adresse ¤som underskrives
-.sp 16mm
-¤CPR-nr./CVR-nr.
-.bx off
-...BOXEND
-.ar off
-.************ FAST TEKST TIL RUBRIKKEN SKATTEPLIGT ************************
-.ar SKAT on
 :SWISS8.
-Depotet er omfattet af dansk skattepligt. Såfremt dette ændres, skal det
-straks meddeles skriftligt til &BANKNAVN..
-.ar off
+.tp 1mm 88.5mm
+ ¤ Depotindehaver ¤ Pengeinstitut
+.sp 17mm
+ ¤ CPR-nr./CVR-nr.
+.************************
+.bx new left 87.5mm right
+ ¤ Depotnr. ¤ VP-kontonr.
+.sp 5mm
+.************************
+.bx new left 87.5mm right
+ ¤ Kundekategori ¤ Depottype
+.sp 5mm
+.************************
+.bx new left 87.5mm right
+ ¤ Konto for obligationsrente ¤ Konto for udtrukne obligationer
+.sp 5mm
+.************************
+.bx new left 87.5mm right
+ ¤ Konto for aktieudbytte ¤ Konto for depotgebyr
+.sp 5mm
+.************************
+.bx new left 87.5mm right
+ ¤ Konto for pantebrevsafkast ¤ Sikkerhedsdepot for
+.sp 5mm
+.************************
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.if &U'X&OBLKTOMF = XJ
+.or &U'X&UOBLKTOM = XJ
+.or &U'X&AKTKTOMF = XJ
+.th :FED
+.th * M.fl. betyder, at der er registreret flere mulige afkastkonti i denne
+.th kategori.
+.th :SKRSLUT.
+.th .sp 1mm
 .**************************************************************************
+.if &U'X&AKTTXT = XJ
+.th :FED
+.th Afkast af beholdninger opbevaret i VP Securities i udenlandske valuta
+.th bliver ikke omregnet til danske kroner, men stilles til depothavers
 .th disposition.
 .th :SKRSLUT.
 .th .sp 1mm
@@ -452,7 +429,7 @@ oplysninger relateret til mit depot, såsom
 beholdningsoversigt, rentetilskrivning, udbyttebetaling mv. På den baggrund
 har jeg foretaget følgende fravalg af ændringsmeddelelser vedrørende mit
 depot i &VPCENTRAL., som jeg hermed er
-gjort bekendt med:¤Fravalgt
+gjort bekendt med: ¤ Fravalgt
 .*******
 .bx new normal left thin 150mm normal right
 001/01   Udtrækningsmeddelelse vedrørende obligationer
@@ -465,13 +442,13 @@ i sin helhed pr. sidste termin)
 004/01   Alle daglige ændringsmeddelelser:
 .hr  thin left right
 .tp 16mm
-004/02   ¤a) oplysninger om kontostamdata
+004/02   ¤ a) oplysninger om kontostamdata
 .hr  thin left right
-004/03   ¤b) beholdningsændringer vedrørende handler
+004/03   ¤ b) beholdningsændringer vedrørende handler
 .hr  thin left right
-004/04   ¤c) beholdningsændringer vedrørende overførsler
+004/04   ¤ c) beholdningsændringer vedrørende overførsler
 .hr  thin left right
-004/05   ¤d) oplysninger om rettighedshaver
+004/05   ¤ d) oplysninger om rettighedshaver
 .hr  thin left right
 005/01   Renteadvis (meddelelse om rentetilskrivning)
 .hr  thin left right
@@ -496,29 +473,53 @@ Instrument typer
 :SKRSLUT.:SKRSLUT.
 .bx left right
 .tp 1mm
-¤Depotet kan indeholde følgende typer finansielle instrumenter:
+ ¤ Depotet kan indeholde følgende typer finansielle instrumenter:
 .sp 1mm
 .tp 1mm
 .of 3mm
 .********* Særløsning - J26 - starter her **************************
-¤*¤Investeringsforeningsbeviser, hedgeforeninger og lignende kollektive
+ ¤ * ¤ Investeringsforeningsbeviser, hedgeforeninger og lignende kollektive
 .********* Særløsning - J26 - slutter her **************************
 .of
 .of 3mm
-¤*¤Obligationer og andre værdipapirer, der kan sammenlignes med disse
+ ¤ * ¤ Obligationer og andre værdipapirer, der kan sammenlignes med disse
 .of
 .of 3mm
-¤*¤Aktier og andre værdipapirer, der kan sammenlignes med disse
+ ¤ * ¤ Aktier og andre værdipapirer, der kan sammenlignes med disse
 .of
 .********* Særløsning - J26 - starter her **************************
 .*.of 3mm
-.¤*¤Gælds-/Pantebreve
+. ¤ * ¤ Gælds-/Pantebreve
 .*.of
 .********* Særløsning - J26 - slutter her **************************
 .sp 1mm
 .tp 1mm
-¤Hvis depotet ikke benyttes i en periode på 3 måneder, er &BANKNAVN
+ ¤ Hvis depotet ikke benyttes i en periode på 3 måneder, er &BANKNAVN
 berettiget til at slette det.
 .bx off
 .bx can
 .*********************************************************************
+.if &L'&GENCPR3 = 0
+.th .go BOXEND
+.************ AKTIEBOGSNAVN **********************************************
+:SWISS10.:FED.
+Aktiebogsnavn
+:SKRSLUT.
+:SWISS8.:FED. (hvis forskelligt fra depotindehaver)
+:SKRSLUT.
+.bx left 87.5mm right
+.tp 1mm 88.5mm
+ ¤ Navn og adresse ¤ som underskrives
+.sp 16mm
+ ¤ CPR-nr./CVR-nr.
+.bx off
+...BOXEND
+.ar off
+.************ FAST TEKST TIL RUBRIKKEN SKATTEPLIGT ************************
+.ar SKAT on
+:SWISS8.
+Depotet er omfattet af dansk skattepligt. Såfremt dette ændres, skal det
+straks meddeles skriftligt til &BANKNAVN..
+.ar off
+.**************************************************************************
+

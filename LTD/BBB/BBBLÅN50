@@ -11,6 +11,100 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*if &U'&PRIERH = E
+.**************************************************************************
+.*TEST OM LÅNET ER AF TYPEN FAST*******************************************
+.if &U'&RENTETYP = V
+.or &U'&RENTETYP = D
+.th .go ENDLAAN
+.kp on
+:FED.
+Førtidig tilbagebetaling
+:SKRSLUT.
+.br
+.if &U'&PRIERH = E
+.th .go ERHVT4
+&BANKNAVN. er berettiget til kompensation for indfrielse før aftalt
+tid på 1 % af det kreditbeløb, der tilbagebetales før tiden, hvis der er
+mere end et år mellem den førtidige betaling og kreditaftalens aftalte
+ophørstidspunkt. Hvis perioden ikke overstiger et år kan kompensationen
+ikke overstige 0,5 % af det kreditbeløb, der tilbagebetales før tiden.
+.sp 3mm
+.kp off
+.kp on
+Hvis &BANKNAVN. kan dokumentere, at de tab, som &BANKNAVN. har
+lidt som følge af den førtidige tilbagebetaling, overstiger de grænser der
+her er nævnt, kan &BANKNAVN. undtagelsesvis kræve en højere
+kompensation. Hvis den kompensation, som &BANKNAVN. kan kræve, overstiger
+&BANKNAVN.s faktiske tab, kan debitor kræve en tilsvarende
+nedsættelse. Ingen kompensation for førtidig tilbagebetaling kan overstige
+det rentebeløb, som debitor skulle have betalt i perioden mellem den
+førtidige betaling og kreditaftalens ophørstidspunkt.
+.kp off
+.go ENDLAAN
+...ERHVT4
+Ved førtidig tilbagebetaling skal indfrielsesbeløbet kursfastsættes. Hvis
+renteniveauet (markedsrenten) er faldet efter aftalens indgåelse, kan
+indfrielsesbeløbet være større end den registrerede restgæld. Er
+renteniveauet steget efter aftalens indgåelse, kan indfrielsesbeløbet være
+mindre end den registrerede restgæld. Til fastsættelse af ændringer i
+renteniveauet fastsættes en referencesats.
+.sp 3mm
+.kp off
+.kp on
+Reglerne gælder ved hel eller delvis førtidig tilbagebetaling og uanset, om
+det er &migos., der frivilligt vil betale før tiden, eller om indfrielsen
+skyldes, at det er &BANKNAVN., der kræver lånet indfriet på grund af
+misligholdelse.
+.sp 3mm
+Det er aftalt, at den aftalte referencesats for denne låneaftale er den
+gennemsnitlige effektive obligationsrentesats før skat for
+statsobligationer m.v. Den fremgår p.t. af Københavns Fondsbørs'
+hjemmeside:
+.br
+http://www.nasdaqomxnordic.com/obligationer/danmark/rentegennemsnit/
+under Stat, Fiskeri og Færøerne og kan til enhver tid oplyses ved
+henvendelse til &BANKNAVN.. Der benyttes det restløbetidsinterval,
+der svarer til kreditaftalens løbetid.
+.sp 3mm
+.kp off
+.kp on
+Referencesatsen er ved aftalens indgåelse fastsat til &REFRENT. %.
+.sp 3mm
+Ved indfrielse før aftalt tid fastsættes referencesatsen på tilsvarende
+måde som ved indgåelse af kreditaftalen. Der benyttes dog satsen for dagen
+før udregningen af indfrielsesbeløbet og med det løbetidsinterval, der
+svarer til restløbetiden af fastrenteaftalen.
+.sp 3mm
+Der foretages en tilbagediskontering af de aftalte låneydelser i den
+resterende del af fastrenteperioden med den nominelle rente
+tillagt/fratrukket ændringen i referencesatsen. Indfrielseskursen kan
+herefter fastsættes ved:
+.sp 3mm
+.tp 10mm 62mm
+.of 10mm
+.bx 15mm 60mm
+ Den tilbagediskonterede værdi ¤¤x 100
+.bx off
+.hr 7mm 80mm
+.br
+¤Den faktiske restgæld på indfrielsestidspunktet
+.of
+.sp 3mm
+Hvis obligationsrentegennemsnittet fjernes fra Københavns Fondsbørs
+kursliste, er &BANKNAVN. berettiget til at vælge en anden
+referencesats, der er repræsentativ for markedsrenten. Det samme
+gælder, hvis &BANKNAVN. skønner, at obligationsrentegennemsnittet
+ikke længere er repræsentativt for udviklingen i markedsrenten. Dette vil
+i givet fald blive meddelt &migos..
+.sp 5mm
+.kp off
+...ENDLAAN
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -158,7 +252,7 @@
 :SWISS9.
 .tp 1mm 30mm 65mm 140mm
 .bx left right
-¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
+ ¤ Banksted ¤ Kontonummer ¤ Kredittype ¤ Dannelsesdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -170,7 +264,7 @@
 .ar BANKSTED on
 :SWISS9.
 .tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+ ¤ &BANKSTED  ¤ &LANGKTONR ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
 .ar off
 .**************************************************************************
 .ar VEND on
@@ -206,156 +300,6 @@
 .ll 175mm
 .in 5mm
 .ir 5mm
-.or &U'&AFDYDL02 = X
-.th .go AFV02AX
-.el .go AFV02YZ
-...AFV02AX
-.if &AFVANT02 > 1
-.th Dette afdrag betales &AFVANT02 gange.
-.el Dette afdrag betales &AFVANT02 gang.
-.go 3AFVIKL
-...AFV02YZ
-.if &AFVANT02 > 1
-.th Denne ydelse betales &AFVANT02 gange.
-.el Denne ydelse betales &AFVANT02 gang.
-.go 3AFVIKL
-.*3. AFVIKLING ***********
-...3AFVIKL
-.*** Er afviklingsrækken overhovedet udfyldt?
-.if &L'&AFDYDL03 = 0
-.th .sp 5mm
-.th .go SLUTAFV
-.br
-.if &U'&AFDYDL03 = F
-.th .go AFDFRI3
-.el .go UDENOM3
-...AFDFRI3
-Lånet henstår afdragsfrit i perioden fra den &AFVFDATO03. til den
-&AFVTDATO03.. I den afdragsfri periode betales
-påløbne renter
-.if &AFVFREK03 = 1
-.th hver måned,
-.if &AFVFREK03 = 3
-.th hvert kvartal,
-.if &AFVFREK03 = 4
-.th hver 2. måned,
-.if &AFVFREK03 = 6
-.th hvert halvår,
-.if &AFVFREK03 = 7
-.th hver uge,
-.if &AFVFREK03 = 9
-.th hvert år,
-.if &AFVFREK03 = 14
-.th hver 14. dag,
-.if &AFVFREK03 = 15
-.th hver den 15. og sidste i måneden,
-første gang den &AFVDATO03..
-.go 4AFVIKL
-...UDENOM3
-.if &U'&AFDYDL03 = A
-.th Lånet afdrages med
-.if &U'&AFDYDL03 = Y
-.th Ydelsen er
-påløbne renter
-.if &AFVFREK02 = 1
-.th hver måned,
-.if &AFVFREK02 = 3
-.th hvert kvartal,
-.if &AFVFREK02 = 4
-.th hver 2. måned,
-.if &AFVFREK02 = 6
-.th hvert halvår,
-.if &AFVFREK02 = 7
-.th hver uge,
-.if &AFVFREK02 = 9
-.th hvert år,
-.if &AFVFREK02 = 14
-.th hver 14. dag,
-.if &AFVFREK02 = 15
-.th hver den 15. og sidste i måneden,
-første gang den &AFVDATO02..
-.go 3AFVIKL
-...UDENOM2
-.if &U'&AFDYDL02 = A
-.th Lånet afdrages med
-.if &U'&AFDYDL02 = Y
-.th Ydelsen er
-.if &U'&AFDYDL02 = X
-.th Ekstraordinært afdrag på
-.if &U'&AFDYDL02 = Z
-.th Ekstraordinær ydelse på
-:VS. &AFVBEL02
-kr., som betales
-.if &AFVFREK02 = 1
-.th hver måned,
-.if &AFVFREK02 = 3
-.th hvert kvartal,
-.if &AFVFREK02 = 4
-.th hver 2. måned,
-.if &AFVFREK02 = 6
-.th hvert halvår,
-.if &AFVFREK02 = 7
-.th hver uge,
-.if &AFVFREK02 = 9
-.th hvert år,
-.if &AFVFREK02 = 14
-.th hver 14. dag,
-.if &AFVFREK02 = 15
-.th hver den 15. og sidste i måneden,
-første gang den &AFVDATO02.. &ÅCONT
-.if x&AFVANT02 = x99
-.th .go 3AFVIKL
-.if &U'&AFDYDL02 = A
-.if &U'&AFDYDL01 = Z
-.th Ekstraordinær ydelse på
-:VS. &AFVBEL01
-kr., som betales
-.if &AFVFREK01 = 1
-.th hver måned,
-.if &AFVFREK01 = 3
-.th hvert kvartal,
-.if &AFVFREK01 = 4
-.th hver 2. måned,
-.if &AFVFREK01 = 6
-.th hvert halvår,
-.if &AFVFREK01 = 7
-.th hver uge,
-.if &AFVFREK01 = 9
-.th hvert år,
-.if &AFVFREK01 = 14
-.th hver 14. dag,
-.if &AFVFREK01 = 15
-.th hver den 15. og sidste i måneden,
-første gang den &AFVDATO01.. &ÅCONT
-.if x&AFVANT01 = x99
-.th .go 2AFVIKL
-.if &U'&AFDYDL01 = A
-.or &U'&AFDYDL01 = X
-.th .go AFV01AX
-.el .go AFV01YZ
-...AFV01AX
-.if &AFVANT01 > 1
-.th Dette afdrag betales &AFVANT01 gange.
-.el Dette afdrag betales &AFVANT01 gang.
-.go 2AFVIKL
-...AFV01YZ
-.if &AFVANT01 > 1
-.th Denne ydelse betales &AFVANT01 gange.
-.el Denne ydelse betales &AFVANT01 gang.
-.go 2AFVIKL
-.*2. AFVIKLING ***********
-...2AFVIKL
-.*** Er afviklingsrækken overhovedet udfyldt?
-.if &L'&AFDYDL02 = 0
-.th .sp 5mm
-.th .go SLUTAFV
-.br
-.if &U'&AFDYDL02 = F
-.th .go AFDFRI2
-.el .go UDENOM2
-...AFDFRI2
-Lånet henstår afdragsfrit i perioden fra den &AFVFDATO02. til den
-&AFVTDATO02.. I den afdragsfri periode betales
 :FED.
 Beløb
 .br
@@ -406,34 +350,156 @@ første gang den &AFVDATO01..
 .th Ydelsen er
 .if &U'&AFDYDL01 = X
 .th Ekstraordinært afdrag på
-.if &L'&OPFØLGDATO = 0
-.an &L'&OPFØLGFREK = 0
-.th .go INGDATO
-Låneaftalen tages op til vurdering
-.if &OPFØLGFREK = 0
-.th den &OPFØLGDATO. med henblik på aftale om yderligere
-.th afvikling/forlængelse.
+.if &U'&AFDYDL01 = Z
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL01
+kr., som betales
+.if &AFVFREK01 = 1
+.th hver måned,
+.if &AFVFREK01 = 3
+.th hvert kvartal,
+.if &AFVFREK01 = 4
+.th hver 2. måned,
+.if &AFVFREK01 = 6
+.th hvert halvår,
+.if &AFVFREK01 = 7
+.th hver uge,
+.if &AFVFREK01 = 9
+.th hvert år,
+.if &AFVFREK01 = 14
+.th hver 14. dag,
+.if &AFVFREK01 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO01.. &ÅCONT
+.if x&AFVANT01 = x99
+.th .go 2AFVIKL
+.if &U'&AFDYDL01 = A
+.or &U'&AFDYDL01 = X
+.th .go AFV01AX
+.el .go AFV01YZ
+...AFV01AX
+.if &AFVANT01 > 1
+.th Dette afdrag betales &AFVANT01 gange.
+.el Dette afdrag betales &AFVANT01 gang.
+.go 2AFVIKL
+...AFV01YZ
+.if &AFVANT01 > 1
+.th Denne ydelse betales &AFVANT01 gange.
+.el Denne ydelse betales &AFVANT01 gang.
+.go 2AFVIKL
+.*2. AFVIKLING ***********
+...2AFVIKL
+.*** Er afviklingsrækken overhovedet udfyldt?
+.if &L'&AFDYDL02 = 0
 .th .sp 5mm
-.th .go INGDATO
-.if &OPFØLGFREK = 1
-.th månedligt
-.if &OPFØLGFREK = 3
-.th kvartårligt
-.if &OPFØLGFREK = 6
-.th halvårligt
-.if &OPFØLGFREK = 9
-.th årligt
-.if &OPFØLGFREK = 19
-.th hvert andet år
-.if &OPFØLGFREK = 29
-.th hvert tredje år
-.if &OPFØLGFREK = 49
-.th hvert femte år
-med henblik på aftale om yderligere afvikling/forlængelse, første gang
-den &OPFØLGDATO..
-.sp 5mm
-...INGDATO
-.***********************************************************************
+.th .go SLUTAFV
+.br
+.if &U'&AFDYDL02 = F
+.th .go AFDFRI2
+.el .go UDENOM2
+...AFDFRI2
+Lånet henstår afdragsfrit i perioden fra den &AFVFDATO02. til den
+&AFVTDATO02.. I den afdragsfri periode betales
+påløbne renter
+.if &AFVFREK02 = 1
+.th hver måned,
+.if &AFVFREK02 = 3
+.th hvert kvartal,
+.if &AFVFREK02 = 4
+.th hver 2. måned,
+.if &AFVFREK02 = 6
+.th hvert halvår,
+.if &AFVFREK02 = 7
+.th hver uge,
+.if &AFVFREK02 = 9
+.th hvert år,
+.if &AFVFREK02 = 14
+.th hver 14. dag,
+.if &AFVFREK02 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO02..
+.go 3AFVIKL
+...UDENOM2
+.if &U'&AFDYDL02 = A
+.th Lånet afdrages med
+.if &U'&AFDYDL02 = Y
+.th Ydelsen er
+.if &U'&AFDYDL02 = X
+.th Ekstraordinært afdrag på
+.if &U'&AFDYDL02 = Z
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL02
+kr., som betales
+.if &AFVFREK02 = 1
+.th hver måned,
+.if &AFVFREK02 = 3
+.th hvert kvartal,
+.if &AFVFREK02 = 4
+.th hver 2. måned,
+.if &AFVFREK02 = 6
+.th hvert halvår,
+.if &AFVFREK02 = 7
+.th hver uge,
+.if &AFVFREK02 = 9
+.th hvert år,
+.if &AFVFREK02 = 14
+.th hver 14. dag,
+.if &AFVFREK02 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO02.. &ÅCONT
+.if x&AFVANT02 = x99
+.th .go 3AFVIKL
+.if &U'&AFDYDL02 = A
+.or &U'&AFDYDL02 = X
+.th .go AFV02AX
+.el .go AFV02YZ
+...AFV02AX
+.if &AFVANT02 > 1
+.th Dette afdrag betales &AFVANT02 gange.
+.el Dette afdrag betales &AFVANT02 gang.
+.go 3AFVIKL
+...AFV02YZ
+.if &AFVANT02 > 1
+.th Denne ydelse betales &AFVANT02 gange.
+.el Denne ydelse betales &AFVANT02 gang.
+.go 3AFVIKL
+.*3. AFVIKLING ***********
+...3AFVIKL
+.*** Er afviklingsrækken overhovedet udfyldt?
+.if &L'&AFDYDL03 = 0
+.th .sp 5mm
+.th .go SLUTAFV
+.br
+.if &U'&AFDYDL03 = F
+.th .go AFDFRI3
+.el .go UDENOM3
+...AFDFRI3
+Lånet henstår afdragsfrit i perioden fra den &AFVFDATO03. til den
+&AFVTDATO03.. I den afdragsfri periode betales
+påløbne renter
+.if &AFVFREK03 = 1
+.th hver måned,
+.if &AFVFREK03 = 3
+.th hvert kvartal,
+.if &AFVFREK03 = 4
+.th hver 2. måned,
+.if &AFVFREK03 = 6
+.th hvert halvår,
+.if &AFVFREK03 = 7
+.th hver uge,
+.if &AFVFREK03 = 9
+.th hvert år,
+.if &AFVFREK03 = 14
+.th hver 14. dag,
+.if &AFVFREK03 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO03..
+.go 4AFVIKL
+...UDENOM3
+.if &U'&AFDYDL03 = A
+.th Lånet afdrages med
+.if &U'&AFDYDL03 = Y
+.th Ydelsen er
 .if &U'&AFDYDL03 = X
 .th Ekstraordinært afdrag på
 .if &U'&AFDYDL03 = Z
@@ -484,97 +550,32 @@ første gang den &AFVDATO03.. &ÅCONT
 .sp 5mm
 ...SLUTAFV
 .********************
-.br
-http://www.nasdaqomxnordic.com/obligationer/danmark/rentegennemsnit/
-under Stat, Fiskeri og Færøerne og kan til enhver tid oplyses ved
-henvendelse til &BANKNAVN.. Der benyttes det restløbetidsinterval,
-der svarer til kreditaftalens løbetid.
-.sp 3mm
-.kp off
-.kp on
-Referencesatsen er ved aftalens indgåelse fastsat til &REFRENT. %.
-.sp 3mm
-Ved indfrielse før aftalt tid fastsættes referencesatsen på tilsvarende
-måde som ved indgåelse af kreditaftalen. Der benyttes dog satsen for dagen
-før udregningen af indfrielsesbeløbet og med det løbetidsinterval, der
-svarer til restløbetiden af fastrenteaftalen.
-.sp 3mm
-Der foretages en tilbagediskontering af de aftalte låneydelser i den
-resterende del af fastrenteperioden med den nominelle rente
-tillagt/fratrukket ændringen i referencesatsen. Indfrielseskursen kan
-herefter fastsættes ved:
-.sp 3mm
-.tp 10mm 62mm
-.of 10mm
-.bx 15mm 60mm
- Den tilbagediskonterede værdi ¤¤x 100
-.bx off
-.hr 7mm 80mm
-.br
-¤Den faktiske restgæld på indfrielsestidspunktet
-.of
-.sp 3mm
-Hvis obligationsrentegennemsnittet fjernes fra Københavns Fondsbørs
-kursliste, er &BANKNAVN. berettiget til at vælge en anden
-referencesats, der er repræsentativ for markedsrenten. Det samme
-gælder, hvis &BANKNAVN. skønner, at obligationsrentegennemsnittet
-ikke længere er repræsentativt for udviklingen i markedsrenten. Dette vil
-i givet fald blive meddelt &migos..
+.if &L'&OPFØLGDATO = 0
+.an &L'&OPFØLGFREK = 0
+.th .go INGDATO
+Låneaftalen tages op til vurdering
+.if &OPFØLGFREK = 0
+.th den &OPFØLGDATO. med henblik på aftale om yderligere
+.th afvikling/forlængelse.
+.th .sp 5mm
+.th .go INGDATO
+.if &OPFØLGFREK = 1
+.th månedligt
+.if &OPFØLGFREK = 3
+.th kvartårligt
+.if &OPFØLGFREK = 6
+.th halvårligt
+.if &OPFØLGFREK = 9
+.th årligt
+.if &OPFØLGFREK = 19
+.th hvert andet år
+.if &OPFØLGFREK = 29
+.th hvert tredje år
+.if &OPFØLGFREK = 49
+.th hvert femte år
+med henblik på aftale om yderligere afvikling/forlængelse, første gang
+den &OPFØLGDATO..
 .sp 5mm
-.kp off
-...ENDLAAN
-.*if &U'&PRIERH = E
-.**************************************************************************
-.*TEST OM LÅNET ER AF TYPEN FAST*******************************************
-.if &U'&RENTETYP = V
-.or &U'&RENTETYP = D
-.th .go ENDLAAN
-.kp on
-:FED.
-Førtidig tilbagebetaling
-:SKRSLUT.
-.br
-.if &U'&PRIERH = E
-.th .go ERHVT4
-&BANKNAVN. er berettiget til kompensation for indfrielse før aftalt
-tid på 1 % af det kreditbeløb, der tilbagebetales før tiden, hvis der er
-mere end et år mellem den førtidige betaling og kreditaftalens aftalte
-ophørstidspunkt. Hvis perioden ikke overstiger et år kan kompensationen
-ikke overstige 0,5 % af det kreditbeløb, der tilbagebetales før tiden.
-.sp 3mm
-.kp off
-.kp on
-Hvis &BANKNAVN. kan dokumentere, at de tab, som &BANKNAVN. har
-lidt som følge af den førtidige tilbagebetaling, overstiger de grænser der
-her er nævnt, kan &BANKNAVN. undtagelsesvis kræve en højere
-kompensation. Hvis den kompensation, som &BANKNAVN. kan kræve, overstiger
-&BANKNAVN.s faktiske tab, kan debitor kræve en tilsvarende
-nedsættelse. Ingen kompensation for førtidig tilbagebetaling kan overstige
-det rentebeløb, som debitor skulle have betalt i perioden mellem den
-førtidige betaling og kreditaftalens ophørstidspunkt.
-.kp off
-.go ENDLAAN
-...ERHVT4
-Ved førtidig tilbagebetaling skal indfrielsesbeløbet kursfastsættes. Hvis
-renteniveauet (markedsrenten) er faldet efter aftalens indgåelse, kan
-indfrielsesbeløbet være større end den registrerede restgæld. Er
-renteniveauet steget efter aftalens indgåelse, kan indfrielsesbeløbet være
-mindre end den registrerede restgæld. Til fastsættelse af ændringer i
-renteniveauet fastsættes en referencesats.
-.sp 3mm
-.kp off
-.kp on
-Reglerne gælder ved hel eller delvis førtidig tilbagebetaling og uanset, om
-det er &migos., der frivilligt vil betale før tiden, eller om indfrielsen
-skyldes, at det er &BANKNAVN., der kræver lånet indfriet på grund af
-misligholdelse.
-.sp 3mm
-Det er aftalt, at den aftalte referencesats for denne låneaftale er den
-gennemsnitlige effektive obligationsrentesats før skat for
-statsobligationer m.v. Den fremgår p.t. af Københavns Fondsbørs'
-hjemmeside:
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+...INGDATO
+.***********************************************************************
+

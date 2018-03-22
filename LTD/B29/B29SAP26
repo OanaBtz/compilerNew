@@ -11,6 +11,45 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.***********
+.***********
+.***********
+.***********
+.***********
+.***********
+.***********
+.***********
+.*********************GENEREL OPSÆTNING************************************
+:SWISS10.
+.ls by 1.30
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.da BREVHOVED 26mm 40mm width 80mm
+.ar BREVHOVED on
+:SWISS10.
+&GENNAVN.
+.br
+&GENADR.
+.br
+&GENBY.
+.br
+&GENLAND.
+.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -37,6 +76,680 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
+.************
+.* Brevstart, incl. overskrift
+.*da START 26mm 105mm width 158mm
+.*Arealet ændret, så længst tænkelige brev kan være på 1 side
+.da START 26mm 98mm width 158mm
+.dr stregtyk weight 0,05mm
+.tp ./85mm r 120mm r 158mm r
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT*****
+.ar START on
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.*red. linespace mellem afsnit, så længst mulige brev kan være på 1 side
+.*
+.ls by 1.0
+.sp
+.************
+Kære &GENNAVN.
+.sp
+&SDU og &KTONAVN.s
+.if &L'&B29ARV3 > 0
+.th .go MANGEARV
+.*Kun to arvinger
+.if &U'&B29LIVSARV = L
+.th anden livsarving
+.el anden nærmeste pårørende
+.go VIDERE1
+.*Mange arvinger (3 eller flere)
+...MANGEARV
+.if &U'&B29LIVSARV = L
+.th øvrige livsarvinger
+.el øvrige nærmeste pårørende
+...VIDERE1
+får nu udbetalt
+.if &U'&GENMK = M
+.th hans
+.el hendes
+kapitalpension i &BANKNAVN. til lige deling.
+.sp
+Vi har beregnet udbetalingen således:
+.sp
+Saldo ¤ ¤ &RESULTA kr.
+.ls by 1.30
+.br
+Afgiftspligtige renter ¤ ¤ &GENBEL11 kr. ¤ &GENBEL10 kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng1 120mm
+.**********
+.tp ./85mm r 158mm r
+.br
+Pensionsafkastskat &B29B. % af rentebeløbet ¤ ¤ -&RESULTB kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.**********
+.br
+I alt ¤ ¤ &RESULTC kr.
+.br
+Statsafgift &B29C. % ¤ ¤ -&RESULTH kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.br
+Saldo før boafgift ¤ ¤ &RESULTG kr.
+.br
+Boafgift &B29E. %  ¤ ¤ &RESULTT kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.br
+Til udbetaling ¤ ¤ &RESULTS kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.**************
+.*Linespace er reduceret for at brevet kan være på een side
+.ls by 1
+.sp
+&SDIN andel af kapitalpensionen udgør
+&RESULTZ.
+kroner og er
+.if &U'&B29UDBFORM eq U
+.th overført til &DIN konto i &BKNAVN.,
+.th regnr. &BANKREGNR., kontonr. &B29KTOFRPI..
+.**********
+.if &U'&B29UDBFORM eq C
+.th vedlagt på en check.
+.**********
+.if &U'&B29UDBFORM eq N
+.th overført til &DIN NemKonto.
+.**********
+.if &L'&B29ARV3 > 0
+.th .go FLEREARV
+.*Der er kun 2 arvinger
+.ct  &B29ARV2.s andel, som udgør
+&RESULTV.
+kroner, har vi sendt direkte.
+.go VIDERE2
+...FLEREARV
+.*Der er 3 eller flere arvinger
+.ct  De andre
+.if &U'&B29LIVSARV = L
+.th livsarvingers
+.el nærmeste pårørendes
+andele, som udgør
+&RESULTV.
+kroner til hver, har vi sendt direkte til dem hver især.
+...VIDERE2
+.sp
+Vi har også sendt en kopi af dette brev til
+.if &L'&B29ARV3 = 0
+.th &B29ARV2..
+.th .go VIDERE3
+.if &L'&B29ARV4 = 0
+.th &B29ARV2. og &B29ARV3..
+.th .go VIDERE3
+.if &L'&B29ARV5 = 0
+.th &B29ARV2., &B29ARV3. og &B29ARV4..
+.th .go VIDERE3
+.if &L'&B29ARV6 = 0
+.th &B29ARV2., &B29ARV3., &B29ARV4. og &B29ARV5..
+.th .go VIDERE3
+.if &L'&B29ARV7 = 0
+.th &B29ARV2., &B29ARV3., &B29ARV4., &B29ARV5. og &B29ARV6..
+.th .go VIDERE3
+.if &L'&B29ARV8 = 0
+.th &B29ARV2., &B29ARV3., &B29ARV4., &B29ARV5., &B29ARV6. og &B29ARV7..
+.el &B29ARV2., &B29ARV3., &B29ARV4., &B29ARV5., &B29ARV6., &B29ARV7.
+.el og &B29ARV8..
+...VIDERE3
+.sp
+:FED.
+&SDU. skal ikke betale indkomstskat
+:SKRSLUT.
+.sp
+&SDU. skal ikke betale indkomstskat af pengene. Som &DU kan se, har vi
+trukket &B29C. % i statsafgift og
+.br
+&B29E. % i boafgift, som vi
+afregner direkte med Skifteretten.
+.sp
+:FED.
+Har &DU. spørgsmål?
+:SKRSLUT.
+.sp
+Har &DU. spørgsmål, er &DU. altid velkommen til at ringe til mig
+på telefon &GENTLFNR..
+.*Linespace resat til 1.3
+.ls by 1.3
+.*******
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.if &L'&B29ARV2 gt 0
+.th .go FOL1
+.el .go NOFOL1
+...FOL1
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV2.
+.br
+&B29ARVADR2.
+.br
+&B29ARVBY2.
+.br
+&GENLAND2
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM2 eq U
+.th indsat på kontonr. &GENKTO2..
+.**********
+.if &U'&GENUDFORM2 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM2 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL1
+.if &L'&B29ARV3 gt 0
+.th .go FOL2
+.el .go NOFOL2
+...FOL2
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV3.
+.br
+&B29ARVADR3.
+.br
+&B29ARVBY3.
+.br
+&GENLAND3
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM3 eq U
+.th indsat på kontonr. &GENKTO3..
+.**********
+.if &U'&GENUDFORM3 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM3 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp 3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL2
+.if &L'&B29ARV4 gt 0
+.th .go FOL3
+.el .go NOFOL3
+...FOL3
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV4.
+.br
+&B29ARVADR4.
+.br
+&B29ARVBY4.
+.br
+&GENLAND4
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM4 eq U
+.th indsat på kontonr. &GENKTO4..
+.**********
+.if &U'&GENUDFORM4 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM4 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp 3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL3
+.if &L'&B29ARV5 gt 0
+.th .go FOL4
+.el .go NOFOL4
+...FOL4
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV5.
+.br
+&B29ARVADR5.
+.br
+&B29ARVBY5.
+.br
+&GENLAND5
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM5 eq U
+.th indsat på kontonr. &GENKTO5..
+.**********
+.if &U'&GENUDFORM5 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM5 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp 3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL4
+.if &L'&B29ARV6 gt 0
+.th .go FOL5
+.el .go NOFOL5
+...FOL5
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV6.
+.br
+&B29ARVADR6.
+.br
+&B29ARVBY6.
+.br
+&GENLAND6
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM6 eq U
+.th indsat på kontonr. &GENKTO6..
+.**********
+.if &U'&GENUDFORM6 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM6 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp 3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL5
+.if &L'&B29ARV7 gt 0
+.th .go FOL6
+.el .go NOFOL6
+...FOL6
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV7.
+.br
+&B29ARVADR7.
+.br
+&B29ARVBY7.
+.br
+&GENLAND7
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM7 eq U
+.th indsat på kontonr. &GENKTO7..
+.**********
+.if &U'&GENUDFORM7 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM7 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL6
+.if &L'&B29ARV8 gt 0
+.th .go FOL7
+.el .go NOFOL7
+...FOL7
+.pa
+.da START 26mm 40mm width 80mm
+.*********************************
+.ar BREVHOVED on
+:SWISS10.
+.br
+&B29ARV8.
+.br
+&B29ARVADR8.
+.br
+&B29ARVBY8.
+.br
+&GENLAND8
+.ar off
+.*********************GENEREL OPSÆTNING************************************
+.ls by 1.30
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:SWISS10.
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp 1
+.**************************************************************************
+Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
+med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
+&RESULTV.
+kroner, som er
+.if &U'&GENUDFORM8 eq U
+.th indsat på kontonr. &GENKTO8..
+.**********
+.if &U'&GENUDFORM8 eq C
+.th vedlagt på en check.
+.**********
+.if &U'&GENUDFORM8 eq N
+.th indsat på &DIN NemKonto.
+.***********
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.************
+...NOFOL7
 .***********************************************************
 .*** V A L I D E R  G E N E R E L L E  P A R A M E T R E ***
 .***********************************************************
@@ -351,716 +1064,4 @@
 .*
 .*
 .*
-.***********
-.***********
-.***********
-.***********
-.***********
-.***********
-.***********
-.***********
-.*********************GENEREL OPSÆTNING************************************
-:SWISS10.
-.ls by 1.30
-.fo left
-.ti ¤ 05
-:tiltale &TILTALE
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.da BREVHOVED 26mm 40mm width 80mm
-.ar BREVHOVED on
-:SWISS10.
-&GENNAVN.
-.br
-&GENADR.
-.br
-&GENBY.
-.br
-&GENLAND.
-.ar off
-.************
-.* Brevstart, incl. overskrift
-.*da START 26mm 105mm width 158mm
-.*Arealet ændret, så længst tænkelige brev kan være på 1 side
-.da START 26mm 98mm width 158mm
-.dr stregtyk weight 0,05mm
-.tp ./85mm r 120mm r 158mm r
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT*****
-.ar START on
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.*red. linespace mellem afsnit, så længst mulige brev kan være på 1 side
-.*
-.ls by 1.0
-.sp
-.************
-Kære &GENNAVN.
-.sp
-&SDU og &KTONAVN.s
-.if &L'&B29ARV3 > 0
-.th .go MANGEARV
-.*Kun to arvinger
-.if &U'&B29LIVSARV = L
-.th anden livsarving
-.el anden nærmeste pårørende
-.go VIDERE1
-.*Mange arvinger (3 eller flere)
-...MANGEARV
-.if &U'&B29LIVSARV = L
-.th øvrige livsarvinger
-.el øvrige nærmeste pårørende
-...VIDERE1
-får nu udbetalt
-.if &U'&GENMK = M
-.th hans
-.el hendes
-kapitalpension i &BANKNAVN. til lige deling.
-.sp
-Vi har beregnet udbetalingen således:
-.sp
-Saldo ¤¤&RESULTA kr.
-.ls by 1.30
-.br
-Afgiftspligtige renter ¤¤&GENBEL11 kr.¤&GENBEL10 kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng1 120mm
-.**********
-.tp ./85mm r 158mm r
-.br
-Pensionsafkastskat &B29B. % af rentebeløbet ¤¤-&RESULTB kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.**********
-.br
-I alt ¤¤&RESULTC kr.
-.br
-Statsafgift &B29C. % ¤¤-&RESULTH kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.***********
-.br
-Saldo før boafgift ¤¤&RESULTG kr.
-.br
-Boafgift &B29E. %  ¤¤&RESULTT kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.***********
-.br
-Til udbetaling ¤¤&RESULTS kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.***********
-.**************
-.*Linespace er reduceret for at brevet kan være på een side
-.ls by 1
-.sp
-&SDIN andel af kapitalpensionen udgør
-&RESULTZ.
-kroner og er
-.if &U'&B29UDBFORM eq U
-.th overført til &DIN konto i &BKNAVN.,
-.th regnr. &BANKREGNR., kontonr. &B29KTOFRPI..
-.**********
-.if &U'&B29UDBFORM eq C
-.th vedlagt på en check.
-.**********
-.if &U'&B29UDBFORM eq N
-.th overført til &DIN NemKonto.
-.**********
-.if &L'&B29ARV3 > 0
-.th .go FLEREARV
-.*Der er kun 2 arvinger
-.ct  &B29ARV2.s andel, som udgør
-&RESULTV.
-kroner, har vi sendt direkte.
-.go VIDERE2
-...FLEREARV
-.*Der er 3 eller flere arvinger
-.ct  De andre
-.if &U'&B29LIVSARV = L
-.th livsarvingers
-.el nærmeste pårørendes
-andele, som udgør
-&RESULTV.
-kroner til hver, har vi sendt direkte til dem hver især.
-...VIDERE2
-.sp
-Vi har også sendt en kopi af dette brev til
-.if &L'&B29ARV3 = 0
-.th &B29ARV2..
-.th .go VIDERE3
-.if &L'&B29ARV4 = 0
-.th &B29ARV2. og &B29ARV3..
-.th .go VIDERE3
-.if &L'&B29ARV5 = 0
-.th &B29ARV2., &B29ARV3. og &B29ARV4..
-.th .go VIDERE3
-.if &L'&B29ARV6 = 0
-.th &B29ARV2., &B29ARV3., &B29ARV4. og &B29ARV5..
-.th .go VIDERE3
-.if &L'&B29ARV7 = 0
-.th &B29ARV2., &B29ARV3., &B29ARV4., &B29ARV5. og &B29ARV6..
-.th .go VIDERE3
-.if &L'&B29ARV8 = 0
-.th &B29ARV2., &B29ARV3., &B29ARV4., &B29ARV5., &B29ARV6. og &B29ARV7..
-.el &B29ARV2., &B29ARV3., &B29ARV4., &B29ARV5., &B29ARV6., &B29ARV7.
-.el og &B29ARV8..
-...VIDERE3
-.sp
-:FED.
-&SDU. skal ikke betale indkomstskat
-:SKRSLUT.
-.sp
-&SDU. skal ikke betale indkomstskat af pengene. Som &DU kan se, har vi
-trukket &B29C. % i statsafgift og
-.br
-&B29E. % i boafgift, som vi
-afregner direkte med Skifteretten.
-.sp
-:FED.
-Har &DU. spørgsmål?
-:SKRSLUT.
-.sp
-Har &DU. spørgsmål, er &DU. altid velkommen til at ringe til mig
-på telefon &GENTLFNR..
-.*Linespace resat til 1.3
-.ls by 1.3
-.*******
-.sp 2
-Med venlig hilsen
-.sp3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.if &L'&B29ARV2 gt 0
-.th .go FOL1
-.el .go NOFOL1
-...FOL1
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV2.
-.br
-&B29ARVADR2.
-.br
-&B29ARVBY2.
-.br
-&GENLAND2
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM2 eq U
-.th indsat på kontonr. &GENKTO2..
-.**********
-.if &U'&GENUDFORM2 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM2 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL1
-.if &L'&B29ARV3 gt 0
-.th .go FOL2
-.el .go NOFOL2
-...FOL2
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV3.
-.br
-&B29ARVADR3.
-.br
-&B29ARVBY3.
-.br
-&GENLAND3
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM3 eq U
-.th indsat på kontonr. &GENKTO3..
-.**********
-.if &U'&GENUDFORM3 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM3 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp 3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL2
-.if &L'&B29ARV4 gt 0
-.th .go FOL3
-.el .go NOFOL3
-...FOL3
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV4.
-.br
-&B29ARVADR4.
-.br
-&B29ARVBY4.
-.br
-&GENLAND4
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM4 eq U
-.th indsat på kontonr. &GENKTO4..
-.**********
-.if &U'&GENUDFORM4 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM4 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp 3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL3
-.if &L'&B29ARV5 gt 0
-.th .go FOL4
-.el .go NOFOL4
-...FOL4
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV5.
-.br
-&B29ARVADR5.
-.br
-&B29ARVBY5.
-.br
-&GENLAND5
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM5 eq U
-.th indsat på kontonr. &GENKTO5..
-.**********
-.if &U'&GENUDFORM5 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM5 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp 3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL4
-.if &L'&B29ARV6 gt 0
-.th .go FOL5
-.el .go NOFOL5
-...FOL5
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV6.
-.br
-&B29ARVADR6.
-.br
-&B29ARVBY6.
-.br
-&GENLAND6
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM6 eq U
-.th indsat på kontonr. &GENKTO6..
-.**********
-.if &U'&GENUDFORM6 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM6 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp 3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL5
-.if &L'&B29ARV7 gt 0
-.th .go FOL6
-.el .go NOFOL6
-...FOL6
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV7.
-.br
-&B29ARVADR7.
-.br
-&B29ARVBY7.
-.br
-&GENLAND7
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM7 eq U
-.th indsat på kontonr. &GENKTO7..
-.**********
-.if &U'&GENUDFORM7 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM7 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL6
-.if &L'&B29ARV8 gt 0
-.th .go FOL7
-.el .go NOFOL7
-...FOL7
-.pa
-.da START 26mm 40mm width 80mm
-.*********************************
-.ar BREVHOVED on
-:SWISS10.
-.br
-&B29ARV8.
-.br
-&B29ARVADR8.
-.br
-&B29ARVBY8.
-.br
-&GENLAND8
-.ar off
-.*********************GENEREL OPSÆTNING************************************
-.ls by 1.30
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:SWISS10.
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp 1
-.**************************************************************************
-Vedlagt fremsendes kopi af vort brev til &GENNAVN. i forbindelse
-med udbetaling af &KTONAVN.s kapitalpension. &SDIN andel udgør
-&RESULTV.
-kroner, som er
-.if &U'&GENUDFORM8 eq U
-.th indsat på kontonr. &GENKTO8..
-.**********
-.if &U'&GENUDFORM8 eq C
-.th vedlagt på en check.
-.**********
-.if &U'&GENUDFORM8 eq N
-.th indsat på &DIN NemKonto.
-.***********
-.sp 2
-Med venlig hilsen
-.sp3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.************
-...NOFOL7
+

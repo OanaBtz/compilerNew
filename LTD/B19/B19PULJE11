@@ -11,6 +11,127 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.ar off
+.*******************************************
+.da OPRET      45mm   79.5mm width  168mm
+.da PULJE      35mm  115mm   width  150mm
+.da DEPOT      28mm  159mm   width  150mm
+.da DATO3      85mm  223.5mm   width   83mm
+.da BKUND      23mm  263mm   width   83mm
+.da KNDNAVN   109mm  267mm   width   85mm
+.*******************************************
+.ti ¤ 05
+:SKRSLUT.
+:COUR10.
+.**********************************
+.ar OPRET on
+&B19DATO3
+.ar off
+.****************************************
+.ar PULJE on
+.if &B19TX2A = 1
+.th 100% Mixpulje Minimum
+.th .go END
+.if &B19TX2A = 2
+.th 100% Mixpulje Lav
+.th .go END
+.if &B19TX2A = 3
+.th 100% Mixpulje Middel
+.th .go END
+.if &B19TX2A = 4
+.th 100% Mixpulje Lav
+.th .go END
+.if &B19TX2A = 5
+.th 100% Mixpulje Middel
+.th .go END
+.if &B19TX2A = 6
+.th 100% Mixpulje Høj
+.th .go END
+.if &B19TX2A = 7
+.th 100% Mixpulje Middel
+.th .go END
+.if &B19TX2A = 8
+.th 100% Mixpulje Høj
+.th .go END
+.in 0mm
+.if &B19TX2A = 9
+.th .go PROFIL9
+.if &B19TX2A = 10
+.th .go PROFIL10
+.********************** PROFIL 9 ********************
+...PROFIL9
+.tp 80mm right 90mm 100mm
+Korte danske obligationer ¤ 0%
+.sp 1,5mm
+Lange danske obligationer ¤ 20%
+.sp 1,5mm
+Udenlandske aktier ¤ 40%
+.sp 1,5mm
+Danske aktier ¤ 40%
+.sp 1,5mm
+Kontantkonto ¤ 0% ¤ = ¤ :FED.:US.100%:SKRSLUT.
+.go END
+.********************** PROFIL 10 VALGFRI ***********
+...PROFIL10
+.tp 80mm right 90mm 100mm
+Korte danske obligationer ¤ &B19TX3B.%
+.sp 1,5mm
+Lange danske obligationer ¤ &B19TX3C.%
+.sp 1,5mm
+Udenlandske aktier ¤ &B19TX3D.%
+.sp 1,5mm
+Danske Aktier ¤ &B19TX3A.%
+.sp 1,5mm
+Kontantkonto ¤ &B19TX3E.%     ¤ = ¤ :FED.:US.&RESULTA.%:SKRSLUT.
+.ar off
+.go END
+.****************************************************
+...END
+.ar DEPOT on
+.tp 50mm
+ ¤ &B19TX14A
+.sp 4.5mm
+.tp 7mm 16mm 22mm
+.if &L'&B19TX14A gt 0
+.th .go VIDERE
+.el .go SLUT
+...VIDERE
+.if &U'&B19TX3F = JA
+.sp 1mm
+.th x
+.if &U'&B19TX3F = NEJ
+.th ¤ ¤ x
+.sp 12mm
+ ¤ &B19TX50A
+.sp 1,5mm
+ ¤ &B19TX50B
+.sp 1,5mm
+ ¤ &B19TX50C
+.ar off
+.go SLUT
+.******************************************
+...SLUT
+.ar DATO3 on
+&DATO8
+.*****************************************
+.ar KNDNAVN on
+.ce
+&NAVN ;.br
+.ar off
+.*****************************************
+.ar BKUND on
+.ce
+&BANKNAVN ;.br
+.ce
+&AFDNAVN
+.ar off
+.** SIDESKIFT
+.pa
+.** SIDESKIFT
+.pa
+.** SIDESKIFT
+.pa
+.ar off
 .* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
 .* i kundens netbank - afsnittet indsættes efter KUNDEUD1
 .**************************************************************************
@@ -121,81 +242,6 @@
 .* pfa. Investering og Pension, Sandie S. Johansen
 .* 9910/hk
 .*******************************
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -246,6 +292,81 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .***********************************
 .da KASSE 20mm 32mm width 175mm
 .**********************************
@@ -331,7 +452,7 @@ Dog ønsker jeg at beholde følgende papirer:
 .*******************************************************
 .ar BKUNS on
 .tp 55mm
-Bankens underskrift ¤Dato
+Bankens underskrift ¤ Dato
 .ar off
 .*******************************************************
 .ar KUUNS on
@@ -342,7 +463,7 @@ næste side samt &BANKNAVN.s Almindelige forretningsbetingelser. Jeg har
 modtaget og accepteret bankens retningslinier for administration af puljen.
 .sp 5mm
 :SWISS8.
-Kundens underskrift ¤Dato
+Kundens underskrift ¤ Dato
 .ar off
 .********************************************************
 .ar RISIKO2 on
@@ -404,124 +525,4 @@ anbefaler.
 &KUNDENR
 .ar off
 .**********************************
-.ar off
-.*******************************************
-.da OPRET      45mm   79.5mm width  168mm
-.da PULJE      35mm  115mm   width  150mm
-.da DEPOT      28mm  159mm   width  150mm
-.da DATO3      85mm  223.5mm   width   83mm
-.da BKUND      23mm  263mm   width   83mm
-.da KNDNAVN   109mm  267mm   width   85mm
-.*******************************************
-.ti ¤ 05
-:SKRSLUT.
-:COUR10.
-.**********************************
-.ar OPRET on
-&B19DATO3
-.ar off
-.****************************************
-.ar PULJE on
-.if &B19TX2A = 1
-.th 100% Mixpulje Minimum
-.th .go END
-.if &B19TX2A = 2
-.th 100% Mixpulje Lav
-.th .go END
-.if &B19TX2A = 3
-.th 100% Mixpulje Middel
-.th .go END
-.if &B19TX2A = 4
-.th 100% Mixpulje Lav
-.th .go END
-.if &B19TX2A = 5
-.th 100% Mixpulje Middel
-.th .go END
-.if &B19TX2A = 6
-.th 100% Mixpulje Høj
-.th .go END
-.if &B19TX2A = 7
-.th 100% Mixpulje Middel
-.th .go END
-.if &B19TX2A = 8
-.th 100% Mixpulje Høj
-.th .go END
-.in 0mm
-.if &B19TX2A = 9
-.th .go PROFIL9
-.if &B19TX2A = 10
-.th .go PROFIL10
-.********************** PROFIL 9 ********************
-...PROFIL9
-.tp 80mm right 90mm 100mm
-.ar DATO3 on
-&DATO8
-.*****************************************
-.ar KNDNAVN on
-.ce
-&NAVN ;.br
-.ar off
-.*****************************************
-.ar BKUND on
-.ce
-&BANKNAVN ;.br
-.ce
-&AFDNAVN
-.ar off
-Korte danske obligationer ¤0%
-.sp 1,5mm
-Lange danske obligationer ¤20%
-.sp 1,5mm
-Udenlandske aktier ¤40%
-.sp 1,5mm
-Danske aktier ¤40%
-.sp 1,5mm
-Kontantkonto ¤0% ¤= ¤:FED.:US.100%:SKRSLUT.
-.go END
-.********************** PROFIL 10 VALGFRI ***********
-...PROFIL10
-.tp 80mm right 90mm 100mm
-Korte danske obligationer ¤&B19TX3B.%
-.sp 1,5mm
-Lange danske obligationer ¤&B19TX3C.%
-.sp 1,5mm
-Udenlandske aktier ¤&B19TX3D.%
-.sp 1,5mm
-Danske Aktier ¤&B19TX3A.%
-.sp 1,5mm
-Kontantkonto ¤&B19TX3E.%     ¤= ¤:FED.:US.&RESULTA.%:SKRSLUT.
-.ar off
-.go END
-.****************************************************
-...END
-.ar DEPOT on
-.tp 50mm
-¤&B19TX14A
-.sp 4.5mm
-.tp 7mm 16mm 22mm
-.if &L'&B19TX14A gt 0
-.th .go VIDERE
-.el .go SLUT
-...VIDERE
-.if &U'&B19TX3F = JA
-.sp 1mm
-.th x
-.if &U'&B19TX3F = NEJ
-.th ¤¤x
-.sp 12mm
-¤&B19TX50A
-.sp 1,5mm
-¤&B19TX50B
-.sp 1,5mm
-¤&B19TX50C
-.ar off
-.go SLUT
-.******************************************
-...SLUT
-.** SIDESKIFT
-.pa
-.** SIDESKIFT
-.pa
-.** SIDESKIFT
-.pa
-.ar off
+

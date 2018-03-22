@@ -34,6 +34,75 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
+.*
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
+.*
+.*Default er 1 værge
+.se vtext1 = 'værgen/forældrene'
+.se vtext2 = 'værge'
+.se OMTALEF = 'jeg'
+.*Men, hvis der nu er 2? ;O)
+.if &L'&B32CPRNRV2 gt 0
+.th .se vtext1 = 'værgerne/forældrene'
+.th .se vtext2 = 'værger'
+.th .se OMTALEF = 'vi'
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+.*:SWISS9.
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL1TXT  25mm 90mm width 170mm
+.da FEJL2TXT  25mm 90mm width 170mm
+.da HEADER1   25mm 123mm width 170mm
+.da HEADER2   25mm 110mm width 170mm
+.da VÆRGEOV   25mm 30mm width 155mm
+.da VÆRGE1    25mm 37mm width 155mm
+.da VÆRGE2   115mm 37mm width 85mm
+.da VÆRGENR   25mm 67mm width 155mm
+.da UMYNDIG   25mm 75mm width 155mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se umcpr1 = substr &KTOKNDNR1 1 6
+.se umcpr2 = substr &KTOKNDNR1 7 4
+.se v1cpr1 = substr &KUNDENR 1 6
+.se v1cpr2 = substr &KUNDENR 7 4
+.se v2cpr1 = substr &B32CPRNRV2 1 6
+.se v2cpr2 = substr &B32CPRNRV2 7 4
+.su on
+.**************************************************************************
+.ar HEADER1 on
+:FED.Værgeerklæring :SKRSLUT.
+.ar off
+.ar HEADER2 on
+.tp 50mm right 165mm right
+Reg.nr. ¤ &regnr. ¤ Dato &DATO.
+.br
+Kontonr. ¤ &ktonr.
+.ar off
+.if &U'&B32JANEJ1. = J
+.or &U'&B32JANEJ1. = N
+.th
+.el .go FEJL1
+.if &U'&B32JANEJ2. = J
+.or &U'&B32JANEJ2. = N
+.th
+.el .go FEJL1
+.go DOKTXT
 ...FEJL1
 .ar FEJL1TXT on
 .sp 3mm
@@ -83,7 +152,7 @@ tilknyttet?'. Værdien SKAL være J eller N.
 .tp 90mm
 CPR-nr. &v1cpr1.-&v1cpr2.
 .if &L'&B32CPRNRV2 gt 0
-.th .ct ¤CPR-nr. &v2cpr1.-&v2cpr2.
+.th .ct ¤ CPR-nr. &v2cpr1.-&v2cpr2.
 .ar off
 .**************************************************************************
 .ar UMYNDIG on
@@ -101,82 +170,6 @@ CPR-nr. &v1cpr1.-&v1cpr2.
 .sp 1mm
 CPR-nr. &umcpr1.-&umcpr2.
 .ar off
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-.*:SWISS9.
-:VERDA09.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.**************************************************************************
-.da FEJL1TXT  25mm 90mm width 170mm
-.da FEJL2TXT  25mm 90mm width 170mm
-.da HEADER1   25mm 123mm width 170mm
-.da HEADER2   25mm 110mm width 170mm
-.da VÆRGEOV   25mm 30mm width 155mm
-.da VÆRGE1    25mm 37mm width 155mm
-.da VÆRGE2   115mm 37mm width 85mm
-.da VÆRGENR   25mm 67mm width 155mm
-.da UMYNDIG   25mm 75mm width 155mm
-.**************************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.se umcpr1 = substr &KTOKNDNR1 1 6
-.se umcpr2 = substr &KTOKNDNR1 7 4
-.se v1cpr1 = substr &KUNDENR 1 6
-.se v1cpr2 = substr &KUNDENR 7 4
-.se v2cpr1 = substr &B32CPRNRV2 1 6
-.se v2cpr2 = substr &B32CPRNRV2 7 4
-.su on
-.**************************************************************************
-.ar HEADER1 on
-:FED.Værgeerklæring :SKRSLUT.
-.ar off
-.ar HEADER2 on
-.tp 50mm right 165mm right
-Reg.nr.¤&regnr.¤Dato &DATO.
-.br
-Kontonr.¤&ktonr.
-.ar off
-.if &U'&B32JANEJ1. = J
-.or &U'&B32JANEJ1. = N
-.th
-.el .go FEJL1
-.if &U'&B32JANEJ2. = J
-.or &U'&B32JANEJ2. = N
-.th
-.el .go FEJL1
-.go DOKTXT
-.*
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.su on
-.if x&cprcvr = x00
-.th .se tlfnr = 'Erhverv'
-.*
-.*Default er 1 værge
-.se vtext1 = 'værgen/forældrene'
-.se vtext2 = 'værge'
-.se OMTALEF = 'jeg'
-.*Men, hvis der nu er 2? ;O)
-.if &L'&B32CPRNRV2 gt 0
-.th .se vtext1 = 'værgerne/forældrene'
-.th .se vtext2 = 'værger'
-.th .se OMTALEF = 'vi'
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
 .**************************************************************************
 .* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
 .* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
@@ -227,6 +220,13 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .ar off
 .sp 20mm
 .rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
 .hy off
 .sp 99mm
 .tp 8mm 16mm
@@ -240,9 +240,9 @@ umyndige/kontohaver måtte have erhvervet ved eget arbejde.
 &SJEG. er bekendt med, at unge under 15 år ifølge Værgemålsloven kun må
 have selvstændig rådighed over
 .sp
-¤1)¤Lommepenge modtaget fra &vtext1. og
+ ¤ 1) ¤ Lommepenge modtaget fra &vtext1. og
 .br
-¤2)¤Penge, som den unge har fået til fri rådighed, som arv eller gave.
+ ¤ 2) ¤ Penge, som den unge har fået til fri rådighed, som arv eller gave.
 ...T1CONT1
 .if &U'&B32JANEJ2. = N
 .th .go T1CONT2
@@ -268,6 +268,7 @@ også selvom umyndige/kontohaver ikke selvstændigt hæfter for misbruget.
 .tp 30mm 90mm 115mm
 .if &L'&B32NAVNV2 > 0
 .th .hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
-.th Dato¤&NAVN.¤Dato¤&B32NAVNV2.
+.th Dato ¤ &NAVN. ¤ Dato ¤ &B32NAVNV2.
 .el .hr tynd 5mm 25mm 30mm 85mm
-.el Dato¤&NAVN.
+.el Dato ¤ &NAVN.
+

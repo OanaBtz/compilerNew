@@ -11,185 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
-.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
-.**************************************************************************
-.*               : Du skal vælge om aftalen skal sendes til kundens netbank
-.*               : i Underskriftsrum (J) eller udskrives på papir (N)
-.*
-.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
-.*               : Underskriftsrum, du vælge 1 for at komme videre.
-.*               : skal du vælge 1 for at komme videre.
-.*
-.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
-.*           --> : ved at vælge "3", inden du udskriver brevet.
-.*
-.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
-.*               : finder det i stedet i I*net under "Ubehandl. aftaler
-.*               : til underskrift" - her lægger du brevet i kuvert og
-
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.*------------------------------------------------------------
-.* Har du valgt "JA" til Underskriftsrum, er det
-.* kun regarantien, der sendes til Underskriftsrum.
-.*
-.* Har du valgt "NEJ" til Underskriftsrum, udskrives
-.* både garanti og regaranti til fysisk underskrift.
-.*------------------------------------------------------------
-.* Parameterafsnit
-.* Parameterafsnit - beregning
-.* Parameterafsnit
-.* Parameterafsnit
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -217,36 +38,36 @@ Garanti i forbindelse med tvangsauktion
 .**********************************
 .ar BOX on
 :SWISS10.:FED.
-¤Garantinummer
+ ¤ Garantinummer
 :SKRSLUT.
 .**********************************
 .bx left right
 :SWISS8.
-¤Kontonr. for garanti
+ ¤ Kontonr. for garanti
 :SKRSLUT.
 .sp 6mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Garantianmoder
+ ¤ Garantianmoder
 :SWISS8.
 .bx left right
 .if X&L'&MEDNAVN gt X0
-.th ¤På foranledning af¤og
-.el ¤På foranledning af
+.th ¤ På foranledning af ¤ og
+.el ¤ På foranledning af
 :SKRSLUT.
 .sp 19mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Betingelser
+ ¤ Betingelser
 :SWISS8.
 .bx left right
-¤indestår underskrevne &BANKNAVN som garantistiller
+ ¤ indestår underskrevne &BANKNAVN som garantistiller
 .sp 5mm
-¤hermed for et beløb af indtil kr.
+ ¤ hermed for et beløb af indtil kr.
 .sp 5mm
-¤Beløb i tekst:
+ ¤ Beløb i tekst:
 :SKRSLUT.
 .sp 5mm
 .bx off
@@ -254,20 +75,20 @@ Garanti i forbindelse med tvangsauktion
 .bx set left right
 .sp 7mm
 :SWISS8.
-¤overfor Retten i
+ ¤ overfor Retten i
 .sp 10mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Til sikkerhed for
+ ¤ Til sikkerhed for
 :SKRSLUT.
 .sp 25mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Garantien er gyldig
+ ¤ Garantien er gyldig
 :SKRSLUT.
 .sp 25mm
 .bx off
@@ -282,7 +103,7 @@ Garanti i forbindelse med tvangsauktion
 .ar KASS1 on
 .tp 1mm
 :SWISS10.:FED.
-¤Pengeinstituterklæring
+ ¤ Pengeinstituterklæring
 :SKRSLUT.
 .bx left right
 .sp 30mm
@@ -309,7 +130,7 @@ beløb, som &BANKNAVN. betaler under nærværende garanti.
 .ar UNDER on
 :SWISS8.
 .tp 143mm
-Pengeinstituttets underskrift¤Dato:
+Pengeinstituttets underskrift ¤ Dato:
 .ar off
 :COUR10.
 .da GARNR   25mm  49.5mm
@@ -327,7 +148,7 @@ Pengeinstituttets underskrift¤Dato:
 .tp 112mm
 .if &KTOKNDNR1 lt 0100000000
 .or &KTOKNDNR1 gt 3112999999
-.th &REGNR. &KTONR1. ¤CVR-nr.: &KTOKNDNR1
+.th &REGNR. &KTONR1. ¤ CVR-nr.: &KTOKNDNR1
 .el &REGNR. &KTONR1.
 .ar off
 .*******************************
@@ -358,14 +179,14 @@ Pengeinstituttets underskrift¤Dato:
 .*******************************
 .ar BELOB on
 .tp 13mm
-¤&RESULTA
+ ¤ &RESULTA
 .sp 4.5mm
-¤&RESULTAT1.&RESULTAT2
+ ¤ &RESULTAT1.&RESULTAT2
 .ar off
 .*******************************
 .ar RET on
 .tp 13mm
-¤&B19TX30A
+ ¤ &B19TX30A
 .ar off
 .*******************************
 .ar SIKKER on
@@ -446,36 +267,36 @@ Garanti i forbindelse med tvangsauktion
 .**********************************
 .ar BOX on
 :SWISS10.:FED.
-¤Garantinummer
+ ¤ Garantinummer
 :SKRSLUT.
 .**********************************
 .bx left right
 :SWISS8.
-¤Kontonr. for garanti
+ ¤ Kontonr. for garanti
 :SKRSLUT.
 .sp 6mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Garantianmoder
+ ¤ Garantianmoder
 :SWISS8.
 .bx left right
 .if X&L'&MEDNAVN gt X0
-.th ¤På foranledning af¤og
-.el ¤På foranledning af
+.th ¤ På foranledning af ¤ og
+.el ¤ På foranledning af
 :SKRSLUT.
 .sp 19mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Betingelser
+ ¤ Betingelser
 :SWISS8.
 .bx left right
-¤indestår underskrevne &BANKNAVN som garantistiller
+ ¤ indestår underskrevne &BANKNAVN som garantistiller
 .sp 5mm
-¤hermed for et beløb af indtil kr.
+ ¤ hermed for et beløb af indtil kr.
 .sp 5mm
-¤Beløb i tekst:
+ ¤ Beløb i tekst:
 :SKRSLUT.
 .sp 5mm
 .bx off
@@ -483,20 +304,20 @@ Garanti i forbindelse med tvangsauktion
 .bx set left right
 .sp 7mm
 :SWISS8.
-¤overfor Retten i
+ ¤ overfor Retten i
 .sp 10mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Til sikkerhed for
+ ¤ Til sikkerhed for
 :SKRSLUT.
 .sp 25mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Garantien er gyldig
+ ¤ Garantien er gyldig
 :SKRSLUT.
 .sp 25mm
 .bx off
@@ -517,7 +338,7 @@ Garanti i forbindelse med tvangsauktion
 .tp 112mm
 .if &KTOKNDNR1 lt 0100000000
 .or &KTOKNDNR1 gt 3112999999
-.th &REGNR. &KTONR1. ¤CVR-nr.: &KTOKNDNR1
+.th &REGNR. &KTONR1. ¤ CVR-nr.: &KTOKNDNR1
 .el &REGNR. &KTONR1.
 .ar off
 .*******************************
@@ -548,14 +369,14 @@ Garanti i forbindelse med tvangsauktion
 .*******************************
 .ar BELOB on
 .tp 13mm
-¤&RESULTA
+ ¤ &RESULTA
 .sp 4.5mm
-¤&RESULTAT1.&RESULTAT2
+ ¤ &RESULTAT1.&RESULTAT2
 .ar off
 .*******************************
 .ar RET on
 .tp 13mm
-¤&B19TX30A
+ ¤ &B19TX30A
 .ar off
 .*******************************
 .ar SIKKER on
@@ -586,6 +407,23 @@ Garanti i forbindelse med tvangsauktion
 .sp
 .** SIDESKIFT
 .pa
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -622,7 +460,7 @@ Garanti i forbindelse med tvangsauktion
 .ar KASS1 on
 .tp 1mm
 :SWISS10.:FED.
-¤Pengeinstituterklæring
+ ¤ Pengeinstituterklæring
 :SKRSLUT.
 .bx left right
 .sp 30mm
@@ -646,10 +484,8 @@ beløb, som &BANKNAVN. betaler under nærværende garanti.
 .ar UNDER on
 :SWISS8.
 .tp 143mm
-Pengeinstituttets underskrift¤Dato:
+Pengeinstituttets underskrift ¤ Dato:
 .ar off
-.** SIDESKIFT
-.pa
 :COUR10.
 .da PIDATO 173mm  76mm
 .da PIUSKR 25mm  80mm
@@ -678,7 +514,7 @@ Pengeinstituttets underskrift¤Dato:
 .**********************************
 .ar MODGA on
 :SWISS10.:FED.
-¤Kundeerklæring
+ ¤ Kundeerklæring
 :SKRSLUT.
 :SWISS8.
 .bx left right
@@ -686,10 +522,10 @@ Pengeinstituttets underskrift¤Dato:
 .bx off
 .bx set left 87mm right
 .tp 1mm 88mm
-¤Dato og kundens underskrift. ¤Til vitterlighed om ægte
+ ¤ Dato og kundens underskrift. ¤ Til vitterlighed om ægte
 underskrift/underskrifter, dateringens rigtig-
 .br
-¤¤hed og udstederens/udstedernes myndighed.
+ ¤ ¤ hed og udstederens/udstedernes myndighed.
 .sp 36mm
 .go SSS
 ...SSS
@@ -722,7 +558,7 @@ Selv på de områder, hvor der gælder et strengere ansvar, er banken ikke
 ansvarlig for tab, som skyldes:
 .sp 3mm
 .tp 5mm
-*¤nedbrud i/manglende
+* ¤ nedbrud i/manglende
 .in 5mm nobreak
 adgang til it-systemer eller beskadigelse af data i disse systemer, der
 kan henføres til nedennævnte
@@ -734,14 +570,14 @@ kan henføres til nedennævnte
 :SWISS8.
 .** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
 .tp 5mm
-¤begivenheder,
+ ¤ begivenheder,
 .in 5mm nobreak
 uanset om det er
 pengeinstituttet selv eller en ekstern leverandør, der står for driften
 af systemerne
 .in 0mm
 .br
-*¤svigt
+* ¤ svigt
 .in 5mm nobreak
 i pengeinstituttets strømforsyning eller telekommunikation, lovindgreb
 eller forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige
@@ -749,7 +585,7 @@ uroligheder, sabotage, terror eller hærværk (herunder computervirus og
 hacking)
 .br
 .in 0mm
-*¤strejke, lockout, boykot
+* ¤ strejke, lockout, boykot
 .in 5mm nobreak
 eller blokade, uanset om konflikten er rettet mod eller iværksat af
 pengeinstituttet selv eller dens organisation, og uanset konfliktens
@@ -757,20 +593,20 @@ pengeinstituttet selv eller dens organisation, og uanset konfliktens
 pengeinstituttet
 .br
 .in 0mm
-*¤andre
+* ¤ andre
 .in 5mm nobreak
 omstændigheder, som er uden for pengeinstituttets kontrol.
 .sp
 .in 0mm
 Pengeinstituttets ansvarsfrihed gælder ikke hvis:
 .sp 3mm
-*¤pengeinstituttet
+* ¤ pengeinstituttet
 .in 5mm nobreak
 burde have forudset det forhold, som er årsag til tabet, da aftalen blev
 indgået eller burde have undgået eller overvundet årsagen til tabet
 .br
 .in 0mm
-*¤lovgivningen
+* ¤ lovgivningen
 .in 5mm nobreak
 under alle omstændigheder gør pengeinstituttet ansvarlig for det
 forhold, som er årsag til tabet.
@@ -844,36 +680,36 @@ Garanti i forbindelse med tvangsauktion
 .**********************************
 .ar BOX on
 :SWISS10.:FED.
-¤Garantinummer
+ ¤ Garantinummer
 :SKRSLUT.
 .**********************************
 .bx left right
 :SWISS8.
-¤Kontonr. for garanti
+ ¤ Kontonr. for garanti
 :SKRSLUT.
 .sp 6mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Garantianmoder
+ ¤ Garantianmoder
 :SWISS8.
 .bx left right
 .if X&L'&MEDNAVN gt X0
-.th ¤På foranledning af¤og
-.el ¤På foranledning af
+.th ¤ På foranledning af ¤ og
+.el ¤ På foranledning af
 :SKRSLUT.
 .sp 19mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Betingelser
+ ¤ Betingelser
 :SWISS8.
 .bx left right
-¤indestår underskrevne &BANKNAVN som garantistiller
+ ¤ indestår underskrevne &BANKNAVN som garantistiller
 .sp 5mm
-¤hermed for et beløb af indtil kr.
+ ¤ hermed for et beløb af indtil kr.
 .sp 5mm
-¤Beløb i tekst:
+ ¤ Beløb i tekst:
 :SKRSLUT.
 .sp 5mm
 .bx off
@@ -881,20 +717,20 @@ Garanti i forbindelse med tvangsauktion
 .bx set left right
 .sp 7mm
 :SWISS8.
-¤overfor Retten i
+ ¤ overfor Retten i
 .sp 10mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Til sikkerhed for
+ ¤ Til sikkerhed for
 :SKRSLUT.
 .sp 25mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Garantien er gyldig
+ ¤ Garantien er gyldig
 :SKRSLUT.
 .sp 25mm
 .bx off
@@ -915,7 +751,7 @@ Garanti i forbindelse med tvangsauktion
 .tp 112mm
 .if &KTOKNDNR1 lt 0100000000
 .or &KTOKNDNR1 gt 3112999999
-.th &REGNR. &KTONR1. ¤CVR-nr.: &KTOKNDNR1
+.th &REGNR. &KTONR1. ¤ CVR-nr.: &KTOKNDNR1
 .el &REGNR. &KTONR1.
 .ar off
 .*******************************
@@ -946,14 +782,14 @@ Garanti i forbindelse med tvangsauktion
 .*******************************
 .ar BELOB on
 .tp 13mm
-¤&RESULTA
+ ¤ &RESULTA
 .sp 4.5mm
-¤&RESULTAT1.&RESULTAT2
+ ¤ &RESULTAT1.&RESULTAT2
 .ar off
 .*******************************
 .ar RET on
 .tp 13mm
-¤&B19TX30A
+ ¤ &B19TX30A
 .ar off
 .*******************************
 .ar SIKKER on
@@ -982,6 +818,34 @@ Garanti i forbindelse med tvangsauktion
 .el &KTONAVN. har opfyldt auktionsvilkårene.
 .ar off
 .sp
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.** SIDESKIFT
+.pa
 .** TEKST KUNDEKOPI hvor KOPI normalt påføres
 .da KUNDKOPI 169.1mm 34.4mm
 .ar KUNDKOPI on
@@ -1015,6 +879,59 @@ Garanti i forbindelse med tvangsauktion
 :SKRSLUT.
 .ar off
 .*************************************************************************
+.* Garanti - incl. anfordring - Faste betingelser
+.ti ¤ 05
+.da KASS1  20mm 40mm WIDTH 175mm
+.da BETK1  21mm 45mm WIDTH 85mm
+.da BETK2 108mm 45mm WIDTH 85mm
+.da UNDER 21mm 76.5mm WIDTH 175mm
+.**************
+.ar KASS1 on
+.tp 1mm
+:SWISS10.:FED.
+ ¤ Pengeinstituterklæring
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx new left right
+.sp 20mm
+.bx off
+.bx can
+.ar off
+.ar BETK1 on
+:SWISS8.
+Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
+garantikreditor med urette måtte foranledige udbetalt under garantien er
+samtidig hermed overdraget til &BANKNAVN. til sikkerhed for garantien.
+.sp 2mm
+Det er en klar forudsætning for &BANKNAVN.s garantistillelse, at
+&BANKNAVN. får anmeldelsesretten i garantirekvirentens evt. bo for
+beløb, som &BANKNAVN. betaler under nærværende garanti.
+.of
+.ar off
+.**********************
+.ar UNDER on
+:SWISS8.
+.tp 143mm
+Pengeinstituttets underskrift ¤ Dato:
+.ar off
+:COUR10.
+.da PIDATO 173mm  76mm
+.da PIUSKR 25mm  80mm
+.tp 154mm
+.*******************************
+.ar PIDATO on
+&DATO8
+.ar off
+.*******************************
+.ar PIUSKR on
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*******************************
 .* Box/teskt (MODGARANTI)
 .** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
 .tp 1mm
@@ -1026,7 +943,7 @@ Garanti i forbindelse med tvangsauktion
 .**********************************
 .ar MODGA on
 :SWISS10.:FED.
-¤Kundeerklæring
+ ¤ Kundeerklæring
 :SKRSLUT.
 :SWISS8.
 .bx left right
@@ -1034,10 +951,10 @@ Garanti i forbindelse med tvangsauktion
 .bx off
 .bx set left 87mm right
 .tp 1mm 88mm
-¤Dato og kundens underskrift. ¤Til vitterlighed om ægte
+ ¤ Dato og kundens underskrift. ¤ Til vitterlighed om ægte
 underskrift/underskrifter, dateringens rigtig-
 .br
-¤¤hed og udstederens/udstedernes myndighed.
+ ¤ ¤ hed og udstederens/udstedernes myndighed.
 .sp 36mm
 .go SSS
 ...SSS
@@ -1070,7 +987,7 @@ Selv på de områder, hvor der gælder et strengere ansvar, er banken ikke
 ansvarlig for tab, som skyldes:
 .sp 3mm
 .tp 5mm
-*¤nedbrud i/manglende
+* ¤ nedbrud i/manglende
 .in 5mm nobreak
 adgang til it-systemer eller beskadigelse af data i disse systemer, der
 kan henføres til nedennævnte
@@ -1082,14 +999,14 @@ kan henføres til nedennævnte
 :SWISS8.
 .** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
 .tp 5mm
-¤begivenheder,
+ ¤ begivenheder,
 .in 5mm nobreak
 uanset om det er
 pengeinstituttet selv eller en ekstern leverandør, der står for driften
 af systemerne
 .in 0mm
 .br
-*¤svigt
+* ¤ svigt
 .in 5mm nobreak
 i pengeinstituttets strømforsyning eller telekommunikation, lovindgreb
 eller forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige
@@ -1097,7 +1014,7 @@ uroligheder, sabotage, terror eller hærværk (herunder computervirus og
 hacking)
 .br
 .in 0mm
-*¤strejke, lockout, boykot
+* ¤ strejke, lockout, boykot
 .in 5mm nobreak
 eller blokade, uanset om konflikten er rettet mod eller iværksat af
 pengeinstituttet selv eller dens organisation, og uanset konfliktens
@@ -1105,20 +1022,20 @@ pengeinstituttet selv eller dens organisation, og uanset konfliktens
 pengeinstituttet
 .br
 .in 0mm
-*¤andre
+* ¤ andre
 .in 5mm nobreak
 omstændigheder, som er uden for pengeinstituttets kontrol.
 .sp
 .in 0mm
 Pengeinstituttets ansvarsfrihed gælder ikke hvis:
 .sp 3mm
-*¤pengeinstituttet
+* ¤ pengeinstituttet
 .in 5mm nobreak
 burde have forudset det forhold, som er årsag til tabet, da aftalen blev
 indgået eller burde have undgået eller overvundet årsagen til tabet
 .br
 .in 0mm
-*¤lovgivningen
+* ¤ lovgivningen
 .in 5mm nobreak
 under alle omstændigheder gør pengeinstituttet ansvarlig for det
 forhold, som er årsag til tabet.
@@ -1145,56 +1062,140 @@ Underskrift ¤
 .**********************************
 ...slut
 :COUR10.
-:COUR10.
-.da PIDATO 173mm  76mm
-.da PIUSKR 25mm  80mm
-.tp 154mm
-.*******************************
-.ar PIDATO on
-&DATO8
-.ar off
-.*******************************
-.ar PIUSKR on
-&BANKNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*******************************
-.* Garanti - incl. anfordring - Faste betingelser
-.ti ¤ 05
-.da KASS1  20mm 40mm WIDTH 175mm
-.da BETK1  21mm 45mm WIDTH 85mm
-.da BETK2 108mm 45mm WIDTH 85mm
-.da UNDER 21mm 76.5mm WIDTH 175mm
-.**************
-.ar KASS1 on
-.tp 1mm
-:SWISS10.:FED.
-¤Pengeinstituterklæring
-:SKRSLUT.
-.bx left right
-.sp 30mm
-.bx new left right
-.sp 20mm
-.bx off
-.bx can
-.ar off
-.ar BETK1 on
-:SWISS8.
-Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
-garantikreditor med urette måtte foranledige udbetalt under garantien er
-samtidig hermed overdraget til &BANKNAVN. til sikkerhed for garantien.
-.sp 2mm
-Det er en klar forudsætning for &BANKNAVN.s garantistillelse, at
-&BANKNAVN. får anmeldelsesretten i garantirekvirentens evt. bo for
-beløb, som &BANKNAVN. betaler under nærværende garanti.
-.of
-.ar off
-.**********************
-.ar UNDER on
-:SWISS8.
-.tp 143mm
-Pengeinstituttets underskrift¤Dato:
-.ar off
+.*------------------------------------------------------------
+.* Har du valgt "JA" til Underskriftsrum, er det
+.* kun regarantien, der sendes til Underskriftsrum.
+.*
+.* Har du valgt "NEJ" til Underskriftsrum, udskrives
+.* både garanti og regaranti til fysisk underskrift.
+.*------------------------------------------------------------
+.* Parameterafsnit
+.* Parameterafsnit - beregning
+.* Parameterafsnit
+.* Parameterafsnit
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+

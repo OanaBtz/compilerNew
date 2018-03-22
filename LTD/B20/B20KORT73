@@ -1,26 +1,45 @@
-.*********************GENEREL OPSÆTNING************************************
-:VERDA09.
-.fo left
-.ti ¤ 05
-:TILTALE &TILTALEF
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.da START 20mm 110mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:VERDA10.
-:FED.
-&B11KTTYPT. nr. &knr1. XXXX XXXX &knr4.
-:SKRSLUT.
-:SKRSLUT.
-.sp
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&B11KTKNDNR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre
+.*******************************
+.su off
+.se knr1 = substr &B11KTNR 1 4
+.se knr2 = substr &B11KTNR 6 4
+.se knr3 = substr &B11KTNR 11 4
+.se knr4 = substr &B11KTNR 16 4
+.su on
+.*******************************
 .ti ¤ 05
 .sp 25mm
 :VERDA09
@@ -55,59 +74,29 @@ A/S &BANKNAVN
 .th &B11KTADR5
 .th .br
 .*************************************************************
-.*Parametre
-.*******************************
-.su off
-.se knr1 = substr &B11KTNR 1 4
-.se knr2 = substr &B11KTNR 6 4
-.se knr3 = substr &B11KTNR 11 4
-.se knr4 = substr &B11KTNR 16 4
-.su on
-.*******************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&B11KTKNDNR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&BANKNAVN
-.sp 3
-.if &L'&GENMEKSP gt 0
-.th &GENMEKSP          &GENEKSP
-.el &GENEKSP
-.ce off
+.*********************GENEREL OPSÆTNING************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+:TILTALE &TILTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
 .ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA10.
+:FED.
+&B11KTTYPT. nr. &knr1. XXXX XXXX &knr4.
+:SKRSLUT.
+:SKRSLUT.
+.sp
 .**************************************************************************
 .****** HER TESTES PÅ OM DET ER DEN RIGTIGE KORTTYPE ****
 .if &B11KTTYPE gt 10
@@ -203,3 +192,15 @@ hos os og i det internationale system.
 .th spærres, bortfalder
 .th tillægsydelserne, herunder &DIN. rejseforsikring.
 ...SLUT
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off
+

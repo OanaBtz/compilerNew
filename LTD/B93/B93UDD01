@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .***************************************************************
 :COUR10.
 .* Kolonne 2 af regelsættet
@@ -43,6 +56,239 @@ En konto, hvorfra der foretages deludbetaling uden præmie, betragtes ikke
 mere som en uddannelseskonto. Herefter kan der ikke tilskrives præmie,
 og der kan ikke foretages yderligere indskud.
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **Uddannelseserklæring
+:GL.
+&&??#
+:EGL.
+.ti ¤ 05
+.fo left
+:NY.
+:COUR10.
+:ENY.
+.*Areal definition for kontohaver
+.da KTOHAVER 20mm 57mm width 84mm
+.*Areal definition for pengeinstituttet
+.da PI 110mm 57mm width 84mm
+.*Areal definition for kundenr./kontonr
+.da KUNDENR 20mm 85mm width 84mm
+.***********************************************************
+.ar KTOHAVER on
+.us Kontohaver
+.sp
+&STILL.
+.br
+&NAVN.
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.***********************************************************
+.ar PI on
+.us Kontoførende pengeinstitut
+.sp
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.***********************************************************
+.ar KUNDENR on
+.tp 40mm 94mm
+Kontonr. ¤ &LANGKTONR.
+.br
+Kundenr. ¤ &KTOKUNDENR
+.sp
+.ar off
+.*************************************************************
+.* Uddataoverskrift
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Uddataoverskrift
+.da OVERSKR 20mm 110mm width 175mm
+.*************************************************************
+.ar VEND on
+:COUR6.
+BECUDD01
+.ar off
+.*************************************************************
+.ar OVERSKR on
+.us Uddannelseserklæring
+.sp
+.*************************************************************
+.us INDHOLD
+.sp
+.se studium = 'at jeg vil være studieaktiv indenfor følgende:'
+.se kursus = 'at jeg i mindre end 1 år vil deltage i følgende kursus:'
+.se uddstart = 'at uddannelsesperioden starter den'
+.se uddstop = 'og slutter den'
+.********************** Kun studium valgt ****************************
+.if &L'&GENTEKST1 gt 0
+.an &L'&GENTEKST3 eq 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th .go START1
+.el .go NEXT
+...START1
+Jeg erklærer, &studium
+.sp
+.ce &GENTEKST1
+.sp
+.if &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Uddannelsesperioden starter den &DATO1 &uddstop &DATO2..
+.th .sp
+Jeg vil straks meddele banken, hvis min studieaktivitet ophører.
+.sp
+.go SLUT
+.********************** Kun kursus valgt ****************************
+...NEXT
+.if &L'&GENTEKST1 eq 0
+.an &L'&GENTEKST3 gt 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th .go START2
+.el .go NEXT1
+...START2
+Jeg erklærer, &kursus
+.sp
+.ce &GENTEKST3
+.sp
+.if &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Uddannelsesperioden starter den &DATO1 &uddstop &DATO2..
+.th .sp
+Jeg vil straks meddele banken, hvis min deltagelse i nævnte kursus
+ophører.
+.sp
+.go SLUT
+.********************** Kun uddannelsesperiode valgt *****************
+...NEXT1
+.if &L'&GENTEKST1 eq 0
+.an &L'&GENTEKST3 eq 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Jeg erklærer, &uddstart &DATO1 &uddstop
+.th .br
+.th &DATO2..
+.th .sp
+.th .go SLUT
+.********************** Hvis flere moduler er valgt ******************
+.********************** Uddannelse ***********************************
+Jeg erklærer,
+.sp
+.tp 15mm
+.if &L'&GENTEKST1 gt 0
+.th ¤ &studium
+.th .sp
+.tp 30mm
+.th ¤ &GENTEKST1
+.*********************************************************************
+.th .sp
+.********************** Kursus **************************************
+.tp 15mm
+.if &L'&GENTEKST3 gt 0
+.th ¤ &kursus
+.th .sp
+.*********************************************************************
+.tp 30mm
+.th ¤ &GENTEKST3
+.th .sp
+.********************** Uddannelsesperiode ***************************
+.tp 15mm
+.if &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th ¤ &uddstart &DATO1 &uddstop &DATO2..
+.th .sp
+.********************** Meddelelse om ophør **************************
+.if &L'&GENTEKST1 gt 0
+.an &L'&GENTEKST3 gt 0
+.an &L'&DATO1 gt 0
+.an &L'&DATO2 gt 0
+.th Jeg erklærer, at jeg straks vil meddele banken, hvis min
+.th studieaktivitet eller deltagelse i nævnte kursus ophører.
+.th .sp
+.********************** Ratestørrelse og antal ***********************
+...SLUT
+.in 0mm
+.if &U'X&GENHVER eq XU
+.th .se valg = 'i ugentlige rater'
+.if &U'X&GENHVER eq XM
+.th .se valg = 'i månedlige rater'
+.if &U'X&GENHVER eq XE
+.th .se valg = 'som engangsbeløb'
+.el
+.se regnr = substr &REGKTO 1 4
+.se ktonr = substr &REGKTO 5 10
+Beløb á kr. &ÅCONT
+:VS. &GENBELQB.
+bedes udbetalt &valg og overført til mit kontonr. &regnr &ktonr..
+.sp
+.if &U'X&GENHVER ne XE
+.th Første gang den &GENDATO1 og sidste gang den &GENDATO2..
+.sp 9mm
+.us UNDERSKRIFT
+.sp 12mm
+.tp 72mm
+.se streg = '__________________________________'
+&streg ¤ , den ¤ &streg
+.sp 17mm
+.if &L'&VÆRGE gt 1
+.se streg = '__________________________________'
+.tp 85mm
+.th &streg ¤ &streg
+.th .br
+.th &NAVN. ¤ &VÆRGE
+.th .sp
+.th ¤ Værges underskrift, hvis kontohaver ikke
+.th .br
+.th ¤ er fyldt 18 år
+.th .br
+.if &L'&VÆRGE lt 1
+.th .ce on
+.th &streg
+.th .br
+.th &NAVN
+.th .ce off
+.ar off
+.*************************************************************
+.pa
+.*************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.*************************************************************
+.ar VEND on
+:COUR6.
+BECUDD01
+.br
+Kl. &KLOKKESLET. &DATO.
+.ar off
+.*************************************************************
 .* Overskrift
 .da OVER1 20mm 65mm width 170mm
 .* Del-overskrift
@@ -105,249 +351,4 @@ Udbetalingsåret starter ved første udbetaling fra kontoen, og udbetaling
 kan tidligst finde sted ved uddannelsens påbegyndelse.
 .ar off
 .*****************************************************************
-.*************************************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.*************************************************************
-.ar VEND on
-:COUR6.
-BECUDD01
-.br
-Kl. &KLOKKESLET. &DATO.
-.ar off
-.*************************************************************
-.us UNDERSKRIFT
-.sp 12mm
-.tp 72mm
-.se streg = '__________________________________'
-&streg ¤, den¤&streg
-.sp 17mm
-.if &L'&VÆRGE gt 1
-.se streg = '__________________________________'
-.tp 85mm
-.th &streg ¤&streg
-.th .br
-.th &NAVN.¤&VÆRGE
-.th .sp
-.th ¤Værges underskrift, hvis kontohaver ikke
-.th .br
-.th ¤er fyldt 18 år
-.th .br
-.if &L'&VÆRGE lt 1
-.th .ce on
-.th &streg
-.th .br
-.th &NAVN
-.th .ce off
-.ar off
-.*************************************************************
-.pa
-.th .se valg = 'som engangsbeløb'
-.el
-.se regnr = substr &REGKTO 1 4
-.se ktonr = substr &REGKTO 5 10
-Beløb á kr. &ÅCONT
-:VS. &GENBELQB.
-bedes udbetalt &valg og overført til mit kontonr. &regnr &ktonr..
-.sp
-.if &U'X&GENHVER ne XE
-.th Første gang den &GENDATO1 og sidste gang den &GENDATO2..
-.sp 9mm
-.an &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th Jeg erklærer, &uddstart &DATO1 &uddstop
-.th .br
-.th &DATO2..
-.th .sp
-.th .go SLUT
-.********************** Hvis flere moduler er valgt ******************
-.********************** Uddannelse ***********************************
-Jeg erklærer,
-.sp
-.tp 15mm
-.if &L'&GENTEKST1 gt 0
-.th ¤&studium
-.th .sp
-.tp 30mm
-.th ¤&GENTEKST1
-.*********************************************************************
-.th .sp
-.********************** Kursus **************************************
-.tp 15mm
-.if &L'&GENTEKST3 gt 0
-.th ¤&kursus
-.th .sp
-.*********************************************************************
-.tp 30mm
-.th ¤&GENTEKST3
-.th .sp
-.********************** Uddannelsesperiode ***************************
-.tp 15mm
-.if &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th ¤&uddstart &DATO1 &uddstop &DATO2..
-.th .sp
-.********************** Meddelelse om ophør **************************
-.if &L'&GENTEKST1 gt 0
-.an &L'&GENTEKST3 gt 0
-.an &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th Jeg erklærer, at jeg straks vil meddele banken, hvis min
-.th studieaktivitet eller deltagelse i nævnte kursus ophører.
-.th .sp
-.********************** Ratestørrelse og antal ***********************
-...SLUT
-.in 0mm
-.if &U'X&GENHVER eq XU
-.th .se valg = 'i ugentlige rater'
-.if &U'X&GENHVER eq XM
-.th .se valg = 'i månedlige rater'
-.if &U'X&GENHVER eq XE
-.us INDHOLD
-.sp
-.se studium = 'at jeg vil være studieaktiv indenfor følgende:'
-.se kursus = 'at jeg i mindre end 1 år vil deltage i følgende kursus:'
-.se uddstart = 'at uddannelsesperioden starter den'
-.se uddstop = 'og slutter den'
-.********************** Kun studium valgt ****************************
-.if &L'&GENTEKST1 gt 0
-.an &L'&GENTEKST3 eq 0
-.an &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th .go START1
-.el .go NEXT
-...START1
-Jeg erklærer, &studium
-.sp
-.ce &GENTEKST1
-.sp
-.if &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th Uddannelsesperioden starter den &DATO1 &uddstop &DATO2..
-.th .sp
-Jeg vil straks meddele banken, hvis min studieaktivitet ophører.
-.sp
-.go SLUT
-.********************** Kun kursus valgt ****************************
-...NEXT
-.if &L'&GENTEKST1 eq 0
-.an &L'&GENTEKST3 gt 0
-.an &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th .go START2
-.el .go NEXT1
-...START2
-Jeg erklærer, &kursus
-.sp
-.ce &GENTEKST3
-.sp
-.if &L'&DATO1 gt 0
-.an &L'&DATO2 gt 0
-.th Uddannelsesperioden starter den &DATO1 &uddstop &DATO2..
-.th .sp
-Jeg vil straks meddele banken, hvis min deltagelse i nævnte kursus
-ophører.
-.sp
-.go SLUT
-.********************** Kun uddannelsesperiode valgt *****************
-...NEXT1
-.if &L'&GENTEKST1 eq 0
-.an &L'&GENTEKST3 eq 0
-.*************************************************************
-.* Uddataoverskrift
-.da VEND 7mm 270mm width 180mm rotate -90
-.* Uddataoverskrift
-.da OVERSKR 20mm 110mm width 175mm
-.*************************************************************
-.ar VEND on
-:COUR6.
-BECUDD01
-.ar off
-.*************************************************************
-.ar OVERSKR on
-.us Uddannelseserklæring
-.sp
-.*************************************************************
-.*Areal definition for kontohaver
-.da KTOHAVER 20mm 57mm width 84mm
-.*Areal definition for pengeinstituttet
-.da PI 110mm 57mm width 84mm
-.*Areal definition for kundenr./kontonr
-.da KUNDENR 20mm 85mm width 84mm
-.***********************************************************
-.ar KTOHAVER on
-.us Kontohaver
-.sp
-&STILL.
-.br
-&NAVN.
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.***********************************************************
-.ar PI on
-.us Kontoførende pengeinstitut
-.sp
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.***********************************************************
-.ar KUNDENR on
-.tp 40mm 94mm
-Kontonr.¤&LANGKTONR.
-.br
-Kundenr.¤&KTOKUNDENR
-.sp
-.ar off
-.oc **Uddannelseserklæring
-:GL.
-&&??#
-:EGL.
-.ti ¤ 05
-.fo left
-:NY.
-:COUR10.
-:ENY.
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

@@ -11,6 +11,107 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+.if &L'&MEDNAVN gt 0
+.th &KTONAVN og
+.th .sp 1mm
+.th &MEDNAVN
+.el &KTOSTILL
+.el .sp 1mm
+.el &KTONAVN
+.sp 1mm
+.if &L'&KTOCO gt 0
+.th &KTOCO
+.th .sp 1mm
+&KTOGADE
+.sp 1mm
+&KTOBY
+.sp 1mm
+&KTOLAND
+.sp
+.if &L'&B19TX30A gt 0
+.th Att. &B19TX30A
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.******************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+Produktion
+.br
+Torvet 2
+.br
+6950  Ringkøbing
+.br
+Tlf 96 63 20 00
+.sp
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+&DATO
+.ar off
+:VERDA10.
+.da SIDE 25mm 100mm width 150mm
+.ar SIDE on
+.se kto = substr &IREGKTO 5 7
+.***********************************************************
+.if &L'&B19REGKTO gt 0
+.th .go TO
+.el .go EN
+.***********************************************************
+...TO
+:FED.
+Vedr. indeks kontonumre &IREGKTO og &B19REGKTO..
+:SKRSLUT.
+.go VIDERE
+.***********************************************************
+...EN
+:FED.
+Vedr. indeks kontonummer &IREGKTO..
+:SKRSLUT.
+.go VIDERE
+.***********************************************************
+...VIDERE
+.sp
+I forbindelse med udbetalinger fra ovennævnte indeks, fremsender vi
+tilbud med to mulige udbetalingsformer, samt et svarkort
+vedr. indeks.
+.sp 5mm
+For at udbetaling kan finde sted den &B19DATO., beder vi &DIG senest den
+&B19DATO1 rette henvendelse til &EKSPNAVN., &a..
+.sp 5mm
+Vi sørger for underskrift ved kommunen på, at &DU er berettiget til at
+modtage folkepension.
+.sp 5mm
+Vi benytter &DIT bikort fra SKAT i forbindelse med udbetaling fra &DIN
+indekskonto, medmindre vi hører andet fra &DIG..
+.sp 5mm
+Medbring venligst vedlagte svarkort.
+.sp
+.sp
+:VERDA10.
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.ar off
 .NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -87,18 +188,6 @@ SWIFT VEHODK22
 &DATO
 .ar off
 :VERDA10.
-.th .se a = 'Videbæk afdeling'
-.if &EKSPREGNR = 7653
-.th .se a = 'Hadsten afdeling'
-.if &EKSPREGNR = 7654
-.th .se a = 'Fjernkunde afdeling'
-.if &EKSPREGNR = 7655
-.th .se a = 'Horsens afdeling'
-.if &EKSPREGNR = 7656
-.th .se a = 'Hvide Sande afdeling'
-.if &EKSPREGNR = 7660
-.th .se a = 'Stabsfunktioner'
-.****************
 .* Dette afsnit oversætter regnr. fra ekspedienten til tekst.
 .* F.eks. 7604 oversættes til "Herning afdeling".
 .**************************************************************
@@ -149,6 +238,18 @@ SWIFT VEHODK22
 .if &EKSPREGNR = 7651
 .th .se a = 'Skjern afdeling'
 .if &EKSPREGNR = 7652
+.th .se a = 'Videbæk afdeling'
+.if &EKSPREGNR = 7653
+.th .se a = 'Hadsten afdeling'
+.if &EKSPREGNR = 7654
+.th .se a = 'Fjernkunde afdeling'
+.if &EKSPREGNR = 7655
+.th .se a = 'Horsens afdeling'
+.if &EKSPREGNR = 7656
+.th .se a = 'Hvide Sande afdeling'
+.if &EKSPREGNR = 7660
+.th .se a = 'Stabsfunktioner'
+.****************
 .fo left
 .***********************************************************************
 .ti ¤ 05
@@ -225,104 +326,4 @@ vestjyskBANK
 :SKRSLUT.
 .ar off
 .pa
-.********************DEFINITION AF AREALER*************
-.da NAVN         25mm     40mm  width 80mm
-.da REG          94mm     40mm
-.da AFDOPL      140mm     40mm
-.*******************NAVNEOPLYSNINGER*******************
-:VERDA10.
-.ar NAVN on
-.if &L'&MEDNAVN gt 0
-.th &KTONAVN og
-.th .sp 1mm
-.th &MEDNAVN
-.el &KTOSTILL
-.el .sp 1mm
-.el &KTONAVN
-.sp 1mm
-.if &L'&KTOCO gt 0
-.th &KTOCO
-.th .sp 1mm
-&KTOGADE
-.sp 1mm
-&KTOBY
-.sp 1mm
-&KTOLAND
-.sp
-.if &L'&B19TX30A gt 0
-.th Att. &B19TX30A
-.ar off
-.******************REGISTRERINGSNR*******************
-.ar REG on
-:VERDA06.
-&REGNR
-.ar off
-.******************AFD.OPLYSNINGER*******************
-.ar AFDOPL on
-:VERDA08.
-Produktion
-.br
-Torvet 2
-.br
-6950  Ringkøbing
-.br
-Tlf 96 63 20 00
-.sp
-CVR 34631328
-.br
-SWIFT VEHODK22
-.sp
-&DATO
-.ar off
-:VERDA10.
-.da SIDE 25mm 100mm width 150mm
-.ar SIDE on
-.se kto = substr &IREGKTO 5 7
-.***********************************************************
-.if &L'&B19REGKTO gt 0
-.th .go TO
-.el .go EN
-.***********************************************************
-...TO
-:FED.
-Vedr. indeks kontonumre &IREGKTO og &B19REGKTO..
-:SKRSLUT.
-.go VIDERE
-.***********************************************************
-...EN
-:FED.
-Vedr. indeks kontonummer &IREGKTO..
-:SKRSLUT.
-.go VIDERE
-.***********************************************************
-...VIDERE
-.sp
-I forbindelse med udbetalinger fra ovennævnte indeks, fremsender vi
-tilbud med to mulige udbetalingsformer, samt et svarkort
-vedr. indeks.
-.sp 5mm
-For at udbetaling kan finde sted den &B19DATO., beder vi &DIG senest den
-&B19DATO1 rette henvendelse til &EKSPNAVN., &a..
-.sp 5mm
-Vi sørger for underskrift ved kommunen på, at &DU er berettiget til at
-modtage folkepension.
-.sp 5mm
-Vi benytter &DIT bikort fra SKAT i forbindelse med udbetaling fra &DIN
-indekskonto, medmindre vi hører andet fra &DIG..
-.sp 5mm
-Medbring venligst vedlagte svarkort.
-.sp
-.sp
-:VERDA10.
-Med venlig hilsen
-.br
-:FED.
-vestjyskBANK
-:SKRSLUT.
-.sp2
-&GENEKSP
-.br
-:KURSIV.
-&GENTITEL
-:SKRSLUT.
-.ar off
+

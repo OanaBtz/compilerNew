@@ -1,27 +1,3 @@
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE REGBKSTED '%&REGBKSTED.'
-.BR
-:ENY.
 .pm 20mm
 .BR
 .NV PAGE BANKSTED '%&EKSPBNKST.'
@@ -35,422 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* Valider indtastning af lån til indfrielsen ****************************
-.*Valider indfrielse, lån 1
-...VALIND1
-.if &L'&G08IKRED1  = 0
-.an &L'&G08IHVDST1 = 0
-.th .go SLUTP02
-.if &L'&G08IKRED1  > 0
-.an &L'&G08IHVDST1 > 0
-.th
-.el .mg/T/Een eller flere parametre i lån 1 der indfries er IKKE udfyldt/
-...VALIND2
-.if &L'&G08IKRED2  = 0
-.an &L'&G08IHVDST2 = 0
-.th .go SLUTP02
-.if &L'&G08IKRED2  > 0
-.an &L'&G08IHVDST2 > 0
-.th
-.el .mg/T/Een eller flere parametre i lån 2 der indfries er IKKE udfyldt/
-...VALIND3
-.if &L'&G08IKRED3  = 0
-.an &L'&G08IHVDST3 = 0
-.th .go SLUTP02
-.if &L'&G08IKRED3  > 0
-.an &L'&G08IHVDST3 > 0
-.th
-.el .mg/T/Een eller flere parametre i lån 3 der indfries er IKKE udfyldt/
-...VALIND4
-.if &L'&G08IKRED4  = 0
-.an &L'&G08IHVDST4 = 0
-.th .go SLUTP02
-.if &L'&G08IKRED4  > 0
-.an &L'&G08IHVDST4 > 0
-.th
-.el .mg/T/Een eller flere parametre i lån 4 der indfries er IKKE udfyldt/
-.*Test bestående lån 1
-...SLUTP02
-.*SUBSTRINGS**************************************************************
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*************************************************************************
-.su off
-.se cprcvr1 = substr &KTOKNDNR1 1 2
-.se cprcvr2 = substr &KTOKNDNR1 1 6
-.se cprcvr3 = substr &KTOKNDNR1 7 4
-.if &G08OLTYP1 = 1
-.th .se olantype1 = 'Fastforrentet lån'
-.if &G08OLTYP1 = 2
-.th .se olantype1 = 'Variabelt forrentet lån'
-.if &G08OLTYP2 = 1
-.th .se olantype2 = 'Fastforrentet lån'
-.if &G08OLTYP2 = 2
-.th .se olantype2 = 'Variabelt forrentet lån'
-.su on
-.*************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr1 > x31
-.th .se kuntxt = 'Kundenummer'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr1 = x00
-.th .se kuntxt = 'CVR-nummer'
-.**************************************************************************
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr1 > x00
-.an x&cprcvr1 < x32
-.th .se kuntxt = 'CPR-nummer'
-.**************************************************************************
-.if &L'&G08ADRESSE = 0
-.th .mg/T/Ejendommens adresse skal udfyldes/
-.if &L'&G08DEPKTO = 0
-.th .mg/T/Deponeringskonto skal udfyldes/
-.* Validering af omkostninger og gebyrer *********************************
-...VALEKSP
-.if &L'&G08EKSGEB = 0
-.an &L'&G08EKSRAB = 0
-.an &L'&G08EKSNET = 0
-.th .go VALQVR
-.if &L'&G08EKSGEB > 0
-.an &L'&G08EKSRAB > 0
-.an &L'&G08EKSNET > 0
-.th .go VALQVR
-.if &L'&G08EKSGEB = 0
-.th .mg/T/Fejl i indtastning af eksp.gebyr m.m/
-.if &L'&G08EKSRAB = 0
-.an &L'&G08EKSNET = 0
-.th .go VALQVR
-.if &L'&G08EKSRAB > 0
-.an &L'&G08EKSNET > 0
-.th .go VALQVR
-.el .mg/T/Fejl i indtastning af eksp.gebyr m.m/
-.*Valider øvrige gebyrer
-...VALQVR
-.if &L'&G08QGEBTXT = 0
-.an &L'&G08QGEBBLB = 0
-.th .go SLUTP07
-.if &L'&G08QGEBTXT > 0
-.an &L'&G08QGEBBLB > 0
-.th
-.el .mg/T/Fejl i indtastning af Øvrige gebyrer/
-...SLUTP07
-.* Validering af bestående lån der overtages ******************************
-.*Valider bestående lån 1
-...VALBST1
-.if &L'&G08OKRED1  = 0
-.an &L'&G08OHVDST1 = 0
-.th .go SLUTP05
-.if &L'&G08OKRED1  > 0
-.an &L'&G08OHVDST1 > 0
-.th
-.el .mg/T/Een eller flere parametre i best. lån1 er IKKE udfyldt/
-...VALBST2
-.if &L'&G08OKRED2  = 0
-.an &L'&G08OHVDST2 = 0
-.th .go SLUTP05
-.if &L'&G08OKRED2  > 0
-.an &L'&G08OHVDST2 > 0
-.an &L'&G08OLTYP2  > 0
-.th
-.el .mg/T/Een eller flere parametre i best. lån2 er IKKE udfyldt/
-...SLUTP05
-¤Opsigelsesdato: ____________________
-.br
-.bx 5mm 8mm
-.ct ¤Pari-straksindfrielse
-.bx off
-.br
-¤Indfrielsesdato: ___________________
-.br
-.bx 5mm 8mm
-.ct ¤Opsigelse til termin med efterfølgende pari-straksindfrielse
-.bx off
-.br
-¤Indfrielsesdato: ___________________
-.br
-.bx 5mm 8mm
-.ct ¤Indfries bedst muligt
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Når jeg/vi giver meddelelse herom
-.bx off
-.sp
-.kp off
-...IN2ASLUT
-¤Indfrielsesdato: ___________________
-.br
-.bx 5mm 8mm
-.ct ¤Opsigelse til termin med efterfølgende pari-straksindfrielse
-.bx off
-.br
-¤Indfrielsesdato: ___________________
-.br
-.bx 5mm 8mm
-.ct ¤Indfries bedst muligt
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Når jeg/vi giver meddelelse herom
-.bx off
-.sp
-.kp off
-.*Lån 2
-.if &L'&G08IHVDST2. > 0
-.th
-.el .go IN2ASLUT
-.kp on
-.tp 50mm 100mm
-:COUR8.
-:FED.LÅN 2:
-:SKRSLUT.
-.br
-.us Hovedstol:¤Kreditor:
-.br
-&G08IHVDST2. DKK.¤&G08IKRED2.
-.sp
-.us Indfrielse
-.sp
-.tp 15mm 20mm
-.bx 5mm 8mm
-.ct ¤Obligationsindfrielse
-.bx off
-.br
-.bx 13mm 16mm
-.ct ¤¤Hurtigst muligt uden kurssikring
-.bx off
-.br
-.bx 13mm 16mm
-.ct ¤¤Kurskontrakt pr. dato ____________________
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Opsiges til førstkommende termin
-.bx off
-.br
-.tp 50mm 100mm 150mm
-.**************************************************************************
-.if &BREVNAVN = G08PRIOAFT07
-.* Ligger normalt i G08PRIOAFTT01, men modulet anv. ikke i dette brev
-.th .sp 45mm
-.in 5mm
-.*LÅN1
-.if &L'&G08IHVDST1. > 0
-.th
-.el .go IN2ASLUT
-.kp on
-:COUR10.
-:FED.
-Lån der indfries:
-:SKRSLUT.
-:COUR8.
-.sp
-:FED.LÅN 1:
-:SKRSLUT.
-.tp 50mm 100mm
-.br
-.us Hovedstol:¤Kreditor:
-.br
-&G08IHVDST1. DKK.¤&G08IKRED1.
-.sp
-.us Indfrielse
-.sp
-.tp 15mm 20mm
-.bx 5mm 8mm
-.ct ¤Obligationsindfrielse
-.bx off
-.br
-.bx 13mm 16mm
-.ct ¤¤Hurtigst muligt uden kurssikring
-.bx off
-.br
-.bx 13mm 16mm
-.ct ¤¤Kurskontrakt pr. dato ____________________
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Opsiges til førstkommende termin
-.bx off
-.br
-¤Opsigelsesdato: ____________________
-.br
-.bx 5mm 8mm
-.ct ¤Pari-straksindfrielse
-.bx off
-.br
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 275mm width 75mm
-.da BUNDH  160mm 275mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &KLOKKESLET.
-.ar off
-.sp 30mm
-.rh off
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.**************************************************************************
-.tp 50mm 100mm 150mm
-.dr tynd weight 0.1mm
-.fo left
-.ti ¤ 05
-:COUR10.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.*********************AREAL-DEFINITIONER***********************************
-.da HEADER1   25mm  30mm width 170mm
-.da HEADER2   25mm  45mm width 170mm
-.**************************************************************************
-.ar HEADER1 on
-&KTONAVN.
-.br
-&KTOCO.
-.br
-&KTOGADE.
-.br
-&KTOBY.
-.br
-&KTOLAND.
-.sp 6mm
-.if &MEDKNDNR1 ne 0000000000
-.th Meddebitor(er):
-.th .br
-.th &MEDNAVN., &MEDKNDNR1.
-.if &L'&G08MEDNR2. > 0
-.th .br
-.th &G08MEDNA2., &G08MEDNR2.
-.if &L'&G08MEDNR3. > 0
-.th .br
-.th &G08MEDNA3., &G08MEDNR3.
-.if &L'&G08MEDNR4. > 0
-.th .br
-.th &G08MEDNA4., &G08MEDNR4.
-.if &L'&MEDKNDNR1. > 0
-.th .sp 9mm
-.el .sp 19mm
-Indgår hermed aftale med &BANKNAVN om indfrielse og øvrige ekspeditioner
-i forbindelse med salg af ejendommen:
-.sp
-Adresse: &G08ADRESSE.
-.ar off
-.ar HEADER2 on
-.tp 110mm 170mm right
-:FED.
-¤¤Salg af fast ejendom
-:SKRSLUT.
-.br
-.if &kuntxt. = CPR-nummer
-.th ¤&kuntxt.:¤&cprcvr2.-&cprcvr3.
-.el ¤&kuntxt.:¤&KTOKNDNR1.
-¤Dato:¤&DATO.
-.ar off
-.**************************************************************************
-.**************************************************************************
-.*Bestående lån
-.if &L'&G08OKRED1.  > 0
-.an &L'&G08OHVDST1. > 0
-.th
-.el .go BLSLUT
-.kp on
-.tp 50mm 100mm
-.sp
-:FED.
-Bestående lån, der skal overtages:
-:SKRSLUT.
-:COUR8.
-.br
-.us Hovedstol:¤Kreditor:
-.br
-&G08OHVDST1. DKK¤&G08OKRED1.
-.if &L'&G08OKRED2.  > 0
-.an &L'&G08OHVDST2. > 0
-.an &L'&G08OLTYP2.  > 0
-.th
-.el .sp
-.el .kp off
-.el .go BLSLUT
-.br
-&G08OHVDST2. DKK¤&G08OKRED2.
-.sp
-.kp off
-...BLSLUT
-.br
-¤Indfrielsesdato: ___________________
-.br
-.bx 5mm 8mm
-.ct ¤Indfries bedst muligt
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Når jeg/vi giver meddelelse herom
-.bx off
-.sp
-.kp off
-...IN2BSLUT
-.br
-.bx 5mm 8mm
-.ct ¤Når jeg/vi giver meddelelse herom
-.bx off
-.sp
-.kp off
-.*** Lån 4
-.if &L'&G08IHVDST4. > 0
-.th
-.el .go IN2BSLUT
-.kp on
-.tp 50mm 100mm
-:COUR8
-:FED.LÅN 4:
-:SKRSLUT.
-.br
-.us Hovedstol:¤Kreditor:
-.br
-&G08IHVDST4. DKK.¤&G08IKRED4.
-.sp
-.us Indfrielse
-.sp
-.tp 15mm 20mm
-.bx 5mm 8mm
-.ct ¤Obligationsindfrielse
-.bx off
-.br
-.bx 13mm 16mm
-.ct ¤¤Hurtigst muligt uden kurssikring
-.bx off
-.br
-.bx 13mm 16mm
-.ct ¤¤Kurskontrakt pr. dato ____________________
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Opsiges til førstkommende termin
-.bx off
-.br
-¤Opsigelsesdato: ____________________
-.br
-.bx 5mm 8mm
-.ct ¤Pari-straksindfrielse
-.bx off
-.br
-¤Indfrielsesdato: ___________________
-.br
-.bx 5mm 8mm
-.ct ¤Opsigelse til termin med efterfølgende pari-straksindfrielse
-.bx off
 .*LÅN3
 .if &L'&G08IHVDST3. > 0
 .th
@@ -501,6 +61,143 @@ Bestående lån, der skal overtages:
 .bx 5mm 8mm
 .ct ¤Indfries bedst muligt
 .bx off
+.br
+.bx 5mm 8mm
+.ct ¤Når jeg/vi giver meddelelse herom
+.bx off
+.sp
+.kp off
+.*** Lån 4
+.if &L'&G08IHVDST4. > 0
+.th
+.el .go IN2BSLUT
+.kp on
+.tp 50mm 100mm
+:COUR8
+:FED.LÅN 4:
+:SKRSLUT.
+.br
+.us Hovedstol:¤Kreditor:
+.br
+&G08IHVDST4. DKK.¤&G08IKRED4.
+.sp
+.us Indfrielse
+.sp
+.tp 15mm 20mm
+.bx 5mm 8mm
+.ct ¤Obligationsindfrielse
+.bx off
+.br
+.bx 13mm 16mm
+.ct ¤¤Hurtigst muligt uden kurssikring
+.bx off
+.br
+.bx 13mm 16mm
+.ct ¤¤Kurskontrakt pr. dato ____________________
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤Opsiges til førstkommende termin
+.bx off
+.br
+¤Opsigelsesdato: ____________________
+.br
+.bx 5mm 8mm
+.ct ¤Pari-straksindfrielse
+.bx off
+.br
+¤Indfrielsesdato: ___________________
+.br
+.bx 5mm 8mm
+.ct ¤Opsigelse til termin med efterfølgende pari-straksindfrielse
+.bx off
+.br
+¤Indfrielsesdato: ___________________
+.br
+.bx 5mm 8mm
+.ct ¤Indfries bedst muligt
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤Når jeg/vi giver meddelelse herom
+.bx off
+.sp
+.kp off
+...IN2BSLUT
+.**************************************************************************
+.*Bestående lån
+.if &L'&G08OKRED1.  > 0
+.an &L'&G08OHVDST1. > 0
+.th
+.el .go BLSLUT
+.kp on
+.tp 50mm 100mm
+.sp
+:FED.
+Bestående lån, der skal overtages:
+:SKRSLUT.
+:COUR8.
+.br
+.us Hovedstol:¤Kreditor:
+.br
+&G08OHVDST1. DKK¤&G08OKRED1.
+.if &L'&G08OKRED2.  > 0
+.an &L'&G08OHVDST2. > 0
+.an &L'&G08OLTYP2.  > 0
+.th
+.el .sp
+.el .kp off
+.el .go BLSLUT
+.br
+&G08OHVDST2. DKK¤&G08OKRED2.
+.sp
+.kp off
+...BLSLUT
+.if &L'&G08EKSGEB.  = 0
+.an &L'&G08EKSRAB.  = 0
+.an &L'&G08EKSNET.  = 0
+.an &L'&G08GAPRBLB. = 0
+.an &L'&G08QGEBBLB. = 0
+.th .go INGENGEB
+.kp on
+:COUR10.
+:FED.
+Omkostninger og gebyrer:
+:SKRSLUT.
+.if &L'&G08EKSGEB. > 0
+.th
+.el .go GARANTI
+.*EKSPEDITONSGEBYR
+.tp 140mm right 142mm 160mm right 162mm
+.br
+Ekspedition af sagen:¤&G08EKSGEB.¤kr.
+.if &L'&G08EKSRAB. > 0
+.th
+.el .go GARANTI
+.br
+Rabat på ekspedition af sagen:¤&G08EKSRAB.¤kr.
+.br
+Ekspedition af sagen - efter rabat:¤¤¤&G08EKSNET.¤kr.
+.br
+...GARANTI
+.if &L'&G08GAPRBLB. > 0
+.th
+.el .go QVRGEB
+.br
+Garantiprovision for forhåndslånsgaranti:
+.br
+&G08GAPRSA. % p.a. af kr. &G08FHLGAR. (Svarer til kr. &G08GAPRBLB.
+kvartårligt)
+...QVRGEB
+.if &L'&G08QGEBTXT > 0
+.th
+.el .go GEBSLUT
+.br
+.th &G08QGEBTXT.¤¤¤&G08QGEBBLB.¤kr.
+...GEBSLUT
+.sp
+.kp off
+...INGENGEB
 .kp on
 Omkostninger til realkreditinstitutter  er ikke medtaget i
 opgørelsen. Disse vil fremgå af tilbud fra realkreditinstituttet.
@@ -576,61 +273,86 @@ på at sikre &BANKNAVN.s rettigheder, herunder denutiation og registrering
 i Værdipapircentralen.
 .sp
 .kp off
-.if &L'&G08EKSGEB.  = 0
-.an &L'&G08EKSRAB.  = 0
-.an &L'&G08EKSNET.  = 0
-.an &L'&G08GAPRBLB. = 0
-.an &L'&G08QGEBBLB. = 0
-.th .go INGENGEB
+.tp 10mm
 .kp on
-:COUR10.
 :FED.
-Omkostninger og gebyrer:
-:SKRSLUT.
-.if &L'&G08EKSGEB. > 0
-.th
-.el .go GARANTI
-.*EKSPEDITONSGEBYR
-.tp 140mm right 142mm 160mm right 162mm
+Låntager er før underskriften gjort bekendt med:
+:SKRSLUT
 .br
-Ekspedition af sagen:¤&G08EKSGEB.¤kr.
-.if &L'&G08EKSRAB. > 0
-.th
-.el .go GARANTI
+*¤Det forventede
+.in 10mm nobreak
+tidsmæssige forløb af lånesagen, herunder at &BANKNAVN.
+er uden indflydelse på Tinglysningsrettens eller realkreditinstitutters
+ekspeditionstid
 .br
-Rabat på ekspedition af sagen:¤&G08EKSRAB.¤kr.
+.in 5mm
+.kp off
+.kp on
+*¤Forudsætninger
+.in 10mm nobreak
+for lånesagens endelige gennemførelse samt frigivelse af
+eventuelle garantier
+.in 5mm
+.kp off
+.kp on
+*¤Økonomiske konsekvenser, herunder ændring af budget og
+forskudsregistrering
 .br
-Ekspedition af sagen - efter rabat:¤¤¤&G08EKSNET.¤kr.
-.br
-...GARANTI
-.if &L'&G08GAPRBLB. > 0
-.th
-.el .go QVRGEB
-.br
-Garantiprovision for forhåndslånsgaranti:
-.br
-&G08GAPRSA. % p.a. af kr. &G08FHLGAR. (Svarer til kr. &G08GAPRBLB.
-kvartårligt)
-...QVRGEB
-.if &L'&G08QGEBTXT > 0
-.th
-.el .go GEBSLUT
-.br
-.th &G08QGEBTXT.¤¤¤&G08QGEBBLB.¤kr.
-...GEBSLUT
+.kp off
+.kp on
+*¤At kunden anbefales
+.in 10mm nobreak
+at søge juridisk rådgivning hos advokat om salgets juridiske vilkår
+.in 5mm
+.kp off
+.kp on
+*¤Evt. beskatning af
+.in 10mm nobreak
+kursgevinst ved førtidig indfrielse af kontantlån
+.in 5mm
+.kp off
+.kp on
+*¤Såfremt der
+.in 10mm nobreak
+ikke indgås kurskontrakt/fastkursaftale er jeg bekendt med, at der senere
+kan foretages kurssikring af lånet. Samtidig er jeg opmærksom på,
+at &BANKNAVN. ikke påtager sig nogen forpligtelse til at henvende sig om
+kurs- og renteudviklingen på markedet
+.in 5mm
+*¤Evt. kurstabskonto (fradagskonto)
+.in 10mm nobreak
+bortfalder, hvis der ikke senest 1 år efter lånets indfrielse optages
+et nyt realkreditlån med mindst samme løbetid. Hvis hovedstolen på det nye
+lån er mindre end restgælden på det indfriede lån, reduceres
+kurstabskontoen forholdsmæssigt.
+.in 5mm
 .sp
 .kp off
-...INGENGEB
-.th .hr tynd 5mm 50mm
-.th .br
-.th ¤&G08MEDNA2.
-...SLUT
-.sp 10mm
-:FED.&BANKNAVN.::SKRSLUT.
-.sp 5mm
-Dato:
-.sp 5mm
-.hr tynd 5mm 50mm
+.kp on
+*¤Midler vedr.
+.in 10mm nobreak
+fast ejendom er beskyttet i henhold til reglerne for Garantiformuen med op
+til 75 mio. kr. i op til 12 måneder. Det er en forudsætning at den faste
+ejendom har været anvendt hovedsageligt ikke-erhvervsmæssigt eller er
+bestemt til hovedsagelig ikke-erhvervsmæssig anvendelse.
+.br
+Flere oplysninger kan findes www.gii.dk og/eller
+www.djs.dk/om-os/priser-og-vilkaar/garantiformuen-(indskydergarantifonden).
+.in 5mm
+.kp off
+.kp on
+.sp
+Punkter som er drøftet:
+.tp 15mm
+.br
+.bx 5mm 8mm
+.ct ¤Fortrydelsesret
+.bx off
+.sp
+Undertegnede er gjort opmærksom på, at pengeinstituttets gennemgang af
+ovenstående punkt ikke kan erstatte egentlig rådgivning om dette. Der opfor
+dres til, at kunden søger relevant rådgivning.
+.sp
 .kp off
 .kp on
 :COUR10.
@@ -682,84 +404,363 @@ Dato:
 .th ¤&G08MEDNA2. ¤&G08MEDNA3.
 .th .go SLUT
 .if &L'&G08MEDNR2. > 0
-lån er mindre end restgælden på det indfriede lån, reduceres
-kurstabskontoen forholdsmæssigt.
-.in 5mm
-.sp
+.th .hr tynd 5mm 50mm
+.th .br
+.th ¤&G08MEDNA2.
+...SLUT
+.sp 10mm
+:FED.&BANKNAVN.::SKRSLUT.
+.sp 5mm
+Dato:
+.sp 5mm
+.hr tynd 5mm 50mm
 .kp off
-.kp on
-*¤Midler vedr.
-.in 10mm nobreak
-fast ejendom er beskyttet i henhold til reglerne for Garantiformuen med op
-til 75 mio. kr. i op til 12 måneder. Det er en forudsætning at den faste
-ejendom har været anvendt hovedsageligt ikke-erhvervsmæssigt eller er
-bestemt til hovedsagelig ikke-erhvervsmæssig anvendelse.
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.*SUBSTRINGS**************************************************************
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*************************************************************************
+.su off
+.se cprcvr1 = substr &KTOKNDNR1 1 2
+.se cprcvr2 = substr &KTOKNDNR1 1 6
+.se cprcvr3 = substr &KTOKNDNR1 7 4
+.if &G08OLTYP1 = 1
+.th .se olantype1 = 'Fastforrentet lån'
+.if &G08OLTYP1 = 2
+.th .se olantype1 = 'Variabelt forrentet lån'
+.if &G08OLTYP2 = 1
+.th .se olantype2 = 'Fastforrentet lån'
+.if &G08OLTYP2 = 2
+.th .se olantype2 = 'Variabelt forrentet lån'
+.su on
+.*************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr1 > x31
+.th .se kuntxt = 'Kundenummer'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr1 = x00
+.th .se kuntxt = 'CVR-nummer'
+.**************************************************************************
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr1 > x00
+.an x&cprcvr1 < x32
+.th .se kuntxt = 'CPR-nummer'
+.**************************************************************************
+.if &L'&G08ADRESSE = 0
+.th .mg/T/Ejendommens adresse skal udfyldes/
+.if &L'&G08DEPKTO = 0
+.th .mg/T/Deponeringskonto skal udfyldes/
+.* Valider indtastning af lån til indfrielsen ****************************
+.*Valider indfrielse, lån 1
+...VALIND1
+.if &L'&G08IKRED1  = 0
+.an &L'&G08IHVDST1 = 0
+.th .go SLUTP02
+.if &L'&G08IKRED1  > 0
+.an &L'&G08IHVDST1 > 0
+.th
+.el .mg/T/Een eller flere parametre i lån 1 der indfries er IKKE udfyldt/
+...VALIND2
+.if &L'&G08IKRED2  = 0
+.an &L'&G08IHVDST2 = 0
+.th .go SLUTP02
+.if &L'&G08IKRED2  > 0
+.an &L'&G08IHVDST2 > 0
+.th
+.el .mg/T/Een eller flere parametre i lån 2 der indfries er IKKE udfyldt/
+...VALIND3
+.if &L'&G08IKRED3  = 0
+.an &L'&G08IHVDST3 = 0
+.th .go SLUTP02
+.if &L'&G08IKRED3  > 0
+.an &L'&G08IHVDST3 > 0
+.th
+.el .mg/T/Een eller flere parametre i lån 3 der indfries er IKKE udfyldt/
+...VALIND4
+.if &L'&G08IKRED4  = 0
+.an &L'&G08IHVDST4 = 0
+.th .go SLUTP02
+.if &L'&G08IKRED4  > 0
+.an &L'&G08IHVDST4 > 0
+.th
+.el .mg/T/Een eller flere parametre i lån 4 der indfries er IKKE udfyldt/
+.*Test bestående lån 1
+...SLUTP02
+.* Validering af bestående lån der overtages ******************************
+.*Valider bestående lån 1
+...VALBST1
+.if &L'&G08OKRED1  = 0
+.an &L'&G08OHVDST1 = 0
+.th .go SLUTP05
+.if &L'&G08OKRED1  > 0
+.an &L'&G08OHVDST1 > 0
+.th
+.el .mg/T/Een eller flere parametre i best. lån1 er IKKE udfyldt/
+...VALBST2
+.if &L'&G08OKRED2  = 0
+.an &L'&G08OHVDST2 = 0
+.th .go SLUTP05
+.if &L'&G08OKRED2  > 0
+.an &L'&G08OHVDST2 > 0
+.an &L'&G08OLTYP2  > 0
+.th
+.el .mg/T/Een eller flere parametre i best. lån2 er IKKE udfyldt/
+...SLUTP05
+.* Validering af omkostninger og gebyrer *********************************
+...VALEKSP
+.if &L'&G08EKSGEB = 0
+.an &L'&G08EKSRAB = 0
+.an &L'&G08EKSNET = 0
+.th .go VALQVR
+.if &L'&G08EKSGEB > 0
+.an &L'&G08EKSRAB > 0
+.an &L'&G08EKSNET > 0
+.th .go VALQVR
+.if &L'&G08EKSGEB = 0
+.th .mg/T/Fejl i indtastning af eksp.gebyr m.m/
+.if &L'&G08EKSRAB = 0
+.an &L'&G08EKSNET = 0
+.th .go VALQVR
+.if &L'&G08EKSRAB > 0
+.an &L'&G08EKSNET > 0
+.th .go VALQVR
+.el .mg/T/Fejl i indtastning af eksp.gebyr m.m/
+.*Valider øvrige gebyrer
+...VALQVR
+.if &L'&G08QGEBTXT = 0
+.an &L'&G08QGEBBLB = 0
+.th .go SLUTP07
+.if &L'&G08QGEBTXT > 0
+.an &L'&G08QGEBBLB > 0
+.th
+.el .mg/T/Fejl i indtastning af Øvrige gebyrer/
+...SLUTP07
+.**************************************************************************
+.tp 50mm 100mm 150mm
+.dr tynd weight 0.1mm
+.fo left
+.ti ¤ 05
+:COUR10.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.da HEADER1   25mm  30mm width 170mm
+.da HEADER2   25mm  45mm width 170mm
+.**************************************************************************
+.ar HEADER1 on
+&KTONAVN.
 .br
-Flere oplysninger kan findes www.gii.dk og/eller
-www.djs.dk/om-os/priser-og-vilkaar/garantiformuen-(indskydergarantifonden).
-.in 5mm
-.kp off
-.kp on
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp 6mm
+.if &MEDKNDNR1 ne 0000000000
+.th Meddebitor(er):
+.th .br
+.th &MEDNAVN., &MEDKNDNR1.
+.if &L'&G08MEDNR2. > 0
+.th .br
+.th &G08MEDNA2., &G08MEDNR2.
+.if &L'&G08MEDNR3. > 0
+.th .br
+.th &G08MEDNA3., &G08MEDNR3.
+.if &L'&G08MEDNR4. > 0
+.th .br
+.th &G08MEDNA4., &G08MEDNR4.
+.if &L'&MEDKNDNR1. > 0
+.th .sp 9mm
+.el .sp 19mm
+Indgår hermed aftale med &BANKNAVN om indfrielse og øvrige ekspeditioner
+i forbindelse med salg af ejendommen:
 .sp
-Punkter som er drøftet:
-.tp 15mm
+Adresse: &G08ADRESSE.
+.ar off
+.ar HEADER2 on
+.tp 110mm 170mm right
+:FED.
+ ¤ ¤ Salg af fast ejendom
+:SKRSLUT.
+.br
+.if &kuntxt. = CPR-nummer
+.th ¤ &kuntxt.: ¤ &cprcvr2.-&cprcvr3.
+.el ¤ &kuntxt.: ¤ &KTOKNDNR1.
+ ¤ Dato: ¤ &DATO.
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 275mm width 75mm
+.da BUNDH  160mm 275mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &KLOKKESLET.
+.ar off
+.sp 30mm
+.rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.tp 50mm 100mm 150mm
+.**************************************************************************
+.if &BREVNAVN = G08PRIOAFT07
+.* Ligger normalt i G08PRIOAFTT01, men modulet anv. ikke i dette brev
+.th .sp 45mm
+.in 5mm
+.*LÅN1
+.if &L'&G08IHVDST1. > 0
+.th
+.el .go IN2ASLUT
+.kp on
+:COUR10.
+:FED.
+Lån der indfries:
+:SKRSLUT.
+:COUR8.
+.sp
+:FED.LÅN 1:
+:SKRSLUT.
+.tp 50mm 100mm
+.br
+.us Hovedstol: ¤ Kreditor:
+.br
+&G08IHVDST1. DKK. ¤ &G08IKRED1.
+.sp
+.us Indfrielse
+.sp
+.tp 15mm 20mm
+.bx 5mm 8mm
+.ct ¤ Obligationsindfrielse
+.bx off
+.br
+.bx 13mm 16mm
+.ct ¤ ¤ Hurtigst muligt uden kurssikring
+.bx off
+.br
+.bx 13mm 16mm
+.ct ¤ ¤ Kurskontrakt pr. dato ____________________
+.bx off
 .br
 .bx 5mm 8mm
-.ct ¤Fortrydelsesret
+.ct ¤ Opsiges til førstkommende termin
+.bx off
+.br
+ ¤ Opsigelsesdato: ____________________
+.br
+.bx 5mm 8mm
+.ct ¤ Pari-straksindfrielse
+.bx off
+.br
+ ¤ Indfrielsesdato: ___________________
+.br
+.bx 5mm 8mm
+.ct ¤ Opsigelse til termin med efterfølgende pari-straksindfrielse
+.bx off
+.br
+ ¤ Indfrielsesdato: ___________________
+.br
+.bx 5mm 8mm
+.ct ¤ Indfries bedst muligt
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤ Når jeg/vi giver meddelelse herom
 .bx off
 .sp
-Undertegnede er gjort opmærksom på, at pengeinstituttets gennemgang af
-ovenstående punkt ikke kan erstatte egentlig rådgivning om dette. Der opfor
-dres til, at kunden søger relevant rådgivning.
+.kp off
+.*Lån 2
+.if &L'&G08IHVDST2. > 0
+.th
+.el .go IN2ASLUT
+.kp on
+.tp 50mm 100mm
+:COUR8.
+:FED.LÅN 2:
+:SKRSLUT.
+.br
+.us Hovedstol: ¤ Kreditor:
+.br
+&G08IHVDST2. DKK. ¤ &G08IKRED2.
+.sp
+.us Indfrielse
+.sp
+.tp 15mm 20mm
+.bx 5mm 8mm
+.ct ¤ Obligationsindfrielse
+.bx off
+.br
+.bx 13mm 16mm
+.ct ¤ ¤ Hurtigst muligt uden kurssikring
+.bx off
+.br
+.bx 13mm 16mm
+.ct ¤ ¤ Kurskontrakt pr. dato ____________________
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤ Opsiges til førstkommende termin
+.bx off
+.br
+ ¤ Opsigelsesdato: ____________________
+.br
+.bx 5mm 8mm
+.ct ¤ Pari-straksindfrielse
+.bx off
+.br
+ ¤ Indfrielsesdato: ___________________
+.br
+.bx 5mm 8mm
+.ct ¤ Opsigelse til termin med efterfølgende pari-straksindfrielse
+.bx off
+.br
+ ¤ Indfrielsesdato: ___________________
+.br
+.bx 5mm 8mm
+.ct ¤ Indfries bedst muligt
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤ Når jeg/vi giver meddelelse herom
+.bx off
 .sp
 .kp off
-.tp 10mm
-.kp on
-:FED.
-Låntager er før underskriften gjort bekendt med:
-:SKRSLUT
-.br
-*¤Det forventede
-.in 10mm nobreak
-tidsmæssige forløb af lånesagen, herunder at &BANKNAVN.
-er uden indflydelse på Tinglysningsrettens eller realkreditinstitutters
-ekspeditionstid
-.br
-.in 5mm
-.kp off
-.kp on
-*¤Forudsætninger
-.in 10mm nobreak
-for lånesagens endelige gennemførelse samt frigivelse af
-eventuelle garantier
-.in 5mm
-.kp off
-.kp on
-*¤Økonomiske konsekvenser, herunder ændring af budget og
-forskudsregistrering
-.br
-.kp off
-.kp on
-*¤At kunden anbefales
-.in 10mm nobreak
-at søge juridisk rådgivning hos advokat om salgets juridiske vilkår
-.in 5mm
-.kp off
-.kp on
-*¤Evt. beskatning af
-.in 10mm nobreak
-kursgevinst ved førtidig indfrielse af kontantlån
-.in 5mm
-.kp off
-.kp on
-*¤Såfremt der
-.in 10mm nobreak
-ikke indgås kurskontrakt/fastkursaftale er jeg bekendt med, at der senere
-kan foretages kurssikring af lånet. Samtidig er jeg opmærksom på,
-at &BANKNAVN. ikke påtager sig nogen forpligtelse til at henvende sig om
-kurs- og renteudviklingen på markedet
-.in 5mm
-*¤Evt. kurstabskonto (fradagskonto)
-.in 10mm nobreak
-bortfalder, hvis der ikke senest 1 år efter lånets indfrielse optages
-et nyt realkreditlån med mindst samme løbetid. Hvis hovedstolen på det nye
+...IN2ASLUT
+

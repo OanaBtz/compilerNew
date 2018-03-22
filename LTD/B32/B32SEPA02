@@ -11,298 +11,9 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*
-.*Initier switch til kontakt-tlfnr i B32sepa01O2
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se reg = substr &IREGKTO 1 4
-.se kto = substr &IREGKTO 5 14
-.se cpr1 = substr &KTOKNDNR1 1 6
-.se cpr2 = substr &KTOKNDNR1 7 4
-.su on
-.**************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.th .se tlfnr = 'Erhverv'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.**************************************************************************
-.ar off
-.**************************************************************************
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-:VERDA09.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.**************************************************************************
-.da FEJL      21mm 60mm width 170mm
-.da KTOOPL1   21mm 80mm width 170mm
-.da KTOOPL2   21mm 75mm width 170mm
-.da KTOHAVOV  21mm 30mm width 155mm
-.da KTOHAVER  21mm 35mm width 155mm
-.da KUNDENR   21mm 70mm width 155mm
-.dr tynd weight 0.1mm
-.**************************************************************************
-.ar KTOOPL1 on
-:FED.
-Tilslutningsaftale til SEPA Direct Debit - Debitoraftale (Erhverv)
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOOPL2 on
-.tp 169mm right
-¤Dato: &DATO.
-.ar off
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-Kontohaver
-:SKRSLUT.
-.**************************************************************************
-.ar KTOHAVER on
-&KTONAVN.
-.br
-&KTOCO.
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-.if &kunnr. = CPR-nr.
-.th &kunnr.: &cpr1.-&cpr2.
-.el &kunnr.: &KTOKNDNR1.
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  166mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = 'Erhverv'
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.*.sp 40mm (RH)
-.*.rh off  (RH)
-.*.rh execute  (RH)
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.*.ll 170mm  (RH)
-.*.in 5mm    (RH)
-.*.ir 1mm    (RH)
-10. 'Generelle regler for erhvervsdebitorer i SEPA Direct Debit
-(B2B/Erhverv)' gælder sammen med denne aftale for de betalinger, der
-gennemføres i henhold til denne tilslutningsaftale. I tilfælde, hvor
-betalinger gennemføres på vilkår for private, er 'Generelle regler for
-debitorer i SEPA Direct Debit (Core/Privat)' gældende. I øvrigt gælder
-'Almindelige forretningsbetingelser for erhvervskunder i &BANKNAVN.'.
-Regelsættene er vedlagt denne aftale.
-.sp 5mm
-.ar off
-.*.sp 78mm (RH)
-.hy of
-:VERDA09.
-.**************************************************************************
-.da TEXT1 21mm 88mm width 170mm
-.**************************************************************************
-.ar TEXT1 on
-1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
-tilslutning til og brug af SEPA Direct Debit. Efter
-indgåelsen af tilslutningsaftalen kan der frit indgås
-SEPA-betalingsaftaler med kreditorer.
-.sp 5mm
-&BANKNAVN må herefter på en kreditors anmodning overføre beløb fra
-tilmeldte konto til kreditors konto. Betalingen vil ske fra følgende
-betalingskonto, som er tilmeldt aftalen:
-.sp 5mm
-.tp 50mm 110mm
-Kontonummer ¤IBAN-nummer ¤BIC-nummer
-.br
-&reg.-&kto.¤&IBANKTONR.¤NYKBDKKK
-.sp 5mm
-2. For at kunne benytte SEPA Direct Debit skal der indgås aftale om brug
-af &B32NYKNET..
-.sp 5mm
-3. Alle indgåede SEPA betalingsaftaler skal godkendes i &B32NYKNET.
-inden første træk kan gennemføres.
-.sp 5mm
-4. Overførsel af beløb mellem tilmeldte konto og kreditors konto sker på
-grundlag af dataoplysninger fra kreditor. &BANKNAVN. har derfor ikke
-noget ansvar for, at den af kreditor iværksatte betaling er korrekt.
-&BANKNAVN. påtager sig alene at være formidler af dataoplysninger og at
-gennemføre betalinger.
-.sp 5mm
-5. Kreditor skal advisere om en kommende betaling.
-.sp 5mm
-6. Oplysninger om kommende betalinger vil fremgå af &B32NYKNET..
-.sp 5mm
-7. Skriftlig opsigelse af denne aftale kan ske uden varsel. Opsigelsen får
-virkning hurtigst muligt, dog senest for betalinger, der skal finde sted
-tre arbejdsdage efter, at &BANKNAVN. har modtaget opsigelsen.
-.sp 5mm
-8. &BANKNAVN. kan opsige SEPA betalingsaftalen i overensstemmelse med
-'Generelle regler for erhvervsdebitorer i SEPA Direct Debit'. I tilfælde af
-væsentlig misligholdelse, herunder at der gentagne gange ikke har været
-dækning på tilmeldte konto, kan &BANKNAVN. hæve aftalen uden varsel.
-.sp 5mm
-9. Betaling for &BANKNAVN.s ydelser i henhold til SEPA Direct Debit vil
-automatisk blive opkrævet på tilmeldte konto. Prisen for at anvende SEPA
-Direct Debit fastsættes af &BANKNAVN.. Prisen kan ændres uden varsel.
-.sp 5mm
 .** SIDESKIFT
 .pa
-.da TEXT2 21mm 30mm width 170mm
-.************************************************************************
-.ar TEXT2 on
-.sp 12mm
-.tp 3mm 28mm
-.hr tynd 1mm 20mm 25mm 165mm
-.br
-¤Dato ¤&KTONAVN.
-.sp 9mm
-Jeg beder herved &BANKNAVN. tilslutte mig SEPA Direct Debit. Samtidig
-erklærer jeg mig indforstået med vilkårene i denne tilslutningsaftale,
-'Generelle regler for erhvervsdebitorer i SEPA Direct Debit (B2B/erhverv)',
-'Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)' samt
-'Almindelige forretningsbetingelser for erhvervskunder i Nykredit Bank'.
-.ar off
 .**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  166mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = 'Erhverv'
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.*.sp 40mm (RH)
-.*.rh off  (RH)
-.*.rh execute  (RH)
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.*.ll 170mm  (RH)
-.*.in 5mm    (RH)
-.*.ir 1mm    (RH)
-.** SIDESKIFT
-.pa
-.rh execute
-.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
-.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.*KOLONNEDEFINITION *******************************************************
-.cd 2 1mm 88mm
-.cl 85mm
-.pm 20mm
-.tm 13mm
-.bm 35mm
-;T.**************************************************************************
 .da BOX     20mm  31mm width 175mm
 .da OVERSKR 20mm  28mm width 175mm
 .da VEND     7mm 277mm width 180mm rotate -90
@@ -352,6 +63,18 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .sp 20mm
 :SWISS10.
 .rh off
+.rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.*KOLONNEDEFINITION *******************************************************
+.cd 2 1mm 88mm
+.cl 85mm
+.pm 20mm
+.tm 13mm
+.bm 35mm
+;T
 .tp 3mm 7mm
 :SWISS8.
 .**************************************************************************
@@ -1186,18 +909,7 @@ hjemting som værneting, medmindre debitor har aftalt andet med &BANKNAVN..
 .rh cancel
 .** SIDESKIFT
 .pa
-.rh execute
-.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
-.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.*KOLONNEDEFINITION *******************************************************
-.cd 2 1mm 88mm
-.cl 85mm
-.pm 20mm
-.tm 13mm
-.bm 35mm
-;T.**************************************************************************
+.**************************************************************************
 .da BOX     20mm  31mm width 175mm
 .da OVERSKR 20mm  28mm width 175mm
 .da VEND     7mm 277mm width 180mm rotate -90
@@ -1247,6 +959,41 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .sp 20mm
 :SWISS10.
 .rh off
+.rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.*KOLONNEDEFINITION *******************************************************
+.cd 2 1mm 88mm
+.cl 85mm
+.pm 20mm
+.tm 13mm
+.bm 35mm
+;T
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .tp 3mm 7mm
 :SWISS8.
 .**************************************************************************
@@ -2112,3 +1859,259 @@ hermed.
 .sp 5mm
 .kp off
 .rh cancel
+.*
+.*Initier switch til kontakt-tlfnr i B32sepa01O2
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 14
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL      21mm 60mm width 170mm
+.da KTOOPL1   21mm 80mm width 170mm
+.da KTOOPL2   21mm 75mm width 170mm
+.da KTOHAVOV  21mm 30mm width 155mm
+.da KTOHAVER  21mm 35mm width 155mm
+.da KUNDENR   21mm 70mm width 155mm
+.dr tynd weight 0.1mm
+.**************************************************************************
+.ar KTOOPL1 on
+:FED.
+Tilslutningsaftale til SEPA Direct Debit - Debitoraftale (Erhverv)
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOOPL2 on
+.tp 169mm right
+ ¤ Dato: &DATO.
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+Kontohaver
+:SKRSLUT.
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.if &kunnr. = CPR-nr.
+.th &kunnr.: &cpr1.-&cpr2.
+.el &kunnr.: &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  166mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = 'Erhverv'
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.*.sp 40mm (RH)
+.*.rh off  (RH)
+.*.rh execute  (RH)
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*.ll 170mm  (RH)
+.*.in 5mm    (RH)
+.*.ir 1mm    (RH)
+.*.sp 78mm (RH)
+.hy of
+:VERDA09.
+.**************************************************************************
+.da TEXT1 21mm 88mm width 170mm
+.**************************************************************************
+.ar TEXT1 on
+1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
+tilslutning til og brug af SEPA Direct Debit. Efter
+indgåelsen af tilslutningsaftalen kan der frit indgås
+SEPA-betalingsaftaler med kreditorer.
+.sp 5mm
+&BANKNAVN må herefter på en kreditors anmodning overføre beløb fra
+tilmeldte konto til kreditors konto. Betalingen vil ske fra følgende
+betalingskonto, som er tilmeldt aftalen:
+.sp 5mm
+.tp 50mm 110mm
+Kontonummer ¤ IBAN-nummer ¤ BIC-nummer
+.br
+&reg.-&kto. ¤ &IBANKTONR. ¤ NYKBDKKK
+.sp 5mm
+2. For at kunne benytte SEPA Direct Debit skal der indgås aftale om brug
+af &B32NYKNET..
+.sp 5mm
+3. Alle indgåede SEPA betalingsaftaler skal godkendes i &B32NYKNET.
+inden første træk kan gennemføres.
+.sp 5mm
+4. Overførsel af beløb mellem tilmeldte konto og kreditors konto sker på
+grundlag af dataoplysninger fra kreditor. &BANKNAVN. har derfor ikke
+noget ansvar for, at den af kreditor iværksatte betaling er korrekt.
+&BANKNAVN. påtager sig alene at være formidler af dataoplysninger og at
+gennemføre betalinger.
+.sp 5mm
+5. Kreditor skal advisere om en kommende betaling.
+.sp 5mm
+6. Oplysninger om kommende betalinger vil fremgå af &B32NYKNET..
+.sp 5mm
+7. Skriftlig opsigelse af denne aftale kan ske uden varsel. Opsigelsen får
+virkning hurtigst muligt, dog senest for betalinger, der skal finde sted
+tre arbejdsdage efter, at &BANKNAVN. har modtaget opsigelsen.
+.sp 5mm
+8. &BANKNAVN. kan opsige SEPA betalingsaftalen i overensstemmelse med
+'Generelle regler for erhvervsdebitorer i SEPA Direct Debit'. I tilfælde af
+væsentlig misligholdelse, herunder at der gentagne gange ikke har været
+dækning på tilmeldte konto, kan &BANKNAVN. hæve aftalen uden varsel.
+.sp 5mm
+9. Betaling for &BANKNAVN.s ydelser i henhold til SEPA Direct Debit vil
+automatisk blive opkrævet på tilmeldte konto. Prisen for at anvende SEPA
+Direct Debit fastsættes af &BANKNAVN.. Prisen kan ændres uden varsel.
+.sp 5mm
+10. 'Generelle regler for erhvervsdebitorer i SEPA Direct Debit
+(B2B/Erhverv)' gælder sammen med denne aftale for de betalinger, der
+gennemføres i henhold til denne tilslutningsaftale. I tilfælde, hvor
+betalinger gennemføres på vilkår for private, er 'Generelle regler for
+debitorer i SEPA Direct Debit (Core/Privat)' gældende. I øvrigt gælder
+'Almindelige forretningsbetingelser for erhvervskunder i &BANKNAVN.'.
+Regelsættene er vedlagt denne aftale.
+.sp 5mm
+.ar off
+.** SIDESKIFT
+.pa
+.da TEXT2 21mm 30mm width 170mm
+.************************************************************************
+.ar TEXT2 on
+.sp 12mm
+.tp 3mm 28mm
+.hr tynd 1mm 20mm 25mm 165mm
+.br
+ ¤ Dato ¤ &KTONAVN.
+.sp 9mm
+Jeg beder herved &BANKNAVN. tilslutte mig SEPA Direct Debit. Samtidig
+erklærer jeg mig indforstået med vilkårene i denne tilslutningsaftale,
+'Generelle regler for erhvervsdebitorer i SEPA Direct Debit (B2B/erhverv)',
+'Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)' samt
+'Almindelige forretningsbetingelser for erhvervskunder i Nykredit Bank'.
+.ar off
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  166mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = 'Erhverv'
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.*.sp 40mm (RH)
+.*.rh off  (RH)
+.*.rh execute  (RH)
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*.ll 170mm  (RH)
+.*.in 5mm    (RH)
+.*.ir 1mm    (RH)
+

@@ -11,149 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.* NAVNEMODUL TIL VISNING PÅ SKÆRM
-:GL.
-&KTOSTILL
-.BR
-&KTONAVN
-.BR
-&KTOCO
-.BR
-&KTOGADE
-.BR
-&KTOBY  &KTOLAND
-.SK
-:EGL.
-.* Parameterafsnit
-.* FJERNET FRA UNDERSKRIFTSRUM d.23.9.2014 jf. GITTE SINDBÆK / PIA - PENS
-.* DERFOR ER NEDENSTÅENDE TEST INAKTIVERET
-.go TSTSLUT
-.if &L'&B37DATO. = 0
-.an &L'&B37REGKTO. = 0
-.el .go TSTSLUT
-.mg /T/ Forlængelses dato ELLER udbetalingskontonr SKAL udfyldes //
-... TSTSLUT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 5
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
 .* Parameterafsnit
 .SE B37KUDAL = 1
 .dr tynd WEIGHT 0.1mm
@@ -276,9 +133,6 @@ nvendes ved såvel udbetaling som forlængelse.
 K
 ontakt os inden erklæringen udfyldes og sendes/indleveres - senest den2
 0. &kontakt..
-B
-emærk, når selvpensionen er udbetalt og indsat på en fri konto,v
-il udbetalingen ikke længere være kreditorbeskyttet.
 .se ludlo = &L'&RESULTA
 .se udpo = SUBSTR '&RESULTA.' 3 1
 .if .x = &udpo.x
@@ -329,6 +183,9 @@ automatisk blive udbetalt til dig.
  
 Ønsker du at få den udbetalt før denne dato, skal du underskrive
 vedlagte blanket og returnere til Handelsbanken.
+B
+emærk, når selvpensionen er udbetalt og indsat på en fri konto,v
+il udbetalingen ikke længere være kreditorbeskyttet.
 .* parameterafsn.
 .* parameterafsn.
 .* GENEKSP      MIBAFSU1
@@ -369,19 +226,19 @@ vedlagte blanket og returnere til Handelsbanken.
 .th .se mmd  = 12
 .se fixmm = &fixk.*&mmt./&mmd
 .tp &fixmm.mm center
-^Med venlig hilsen
+ ^ Med venlig hilsen
 .*sk
-.*^M i d t b a n k
+.* ^ M i d t b a n k
 .if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
 .th .sk
-.th ^&AFDNAVN
+.th ^ &AFDNAVN
 .if .&T = .1
 .th .sk 3
 .el .sk 4
 .if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
+ ^ &GENEKSP
 .br
-^&GENTITEL
+ ^ &GENTITEL
 ...EJ1
 .if .&B37ANTUSK ne .2 .go EJ2
 .se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
@@ -402,9 +259,9 @@ vedlagte blanket og returnere til Handelsbanken.
 .se mibtab1m = &mibtab1 * &mmt / &mmd
 .se mibtab2m = &mibtab2 * &mmt / &mmd
 .tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
+ ^ &GENMEKSP ^ &GENEKSP
 .br
-^&GENMTITEL ^&GENTITEL
+ ^ &GENMTITEL ^ &GENTITEL
 ...EJ2
 .tp
 .br
@@ -414,6 +271,32 @@ vedlagte blanket og returnere til Handelsbanken.
 .** SIDESKIFT
 .pa
 .* Brevnavn hentes fra parametren BREVNAVN
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .SE B37KUDAL = 1
 .dr tynd WEIGHT 0.1mm
 .LL 175mm
@@ -483,13 +366,13 @@ Att.: &GENATT
 .ar SKMAT on
 .tp 55mm
  
-^&REGNR. &KTONR1.
+ ^ &REGNR. &KTONR1.
 .sp 4mm
-^&KTONAVN
+ ^ &KTONAVN
 .sp 4mm
-^&KTOKNDNR1
+ ^ &KTOKNDNR1
 .sp 4mm
-^&RESULTA.
+ ^ &RESULTA.
  
 .ar off
 .* TEST INAKTIVERET DEN 23.9.2014
@@ -528,7 +411,7 @@ at udbetalingstidspunktet
 ændres til (dato):  den &B37DATO.
  
 .sp 15mm
-Dato: ^Underskrift:
+Dato: ^ Underskrift:
 .bx off
 .sp 8mm
 ... UDBT
@@ -544,7 +427,7 @@ Jeg anmoder herved om, at ovennævnte selvpensioneringskonto ophæves,
 og at indestående indsættes på kontonummer:  &B37REGKTO.
 .
 sp 15mmD
-ato: ^Underskrift:.
+ato: ^ Underskrift:.
 bx off.
 .. SLUT.
 ar off
@@ -586,7 +469,125 @@ Jeg anmoder herved om, at ovennævnte selvpensioneringskonto ophæves,
 og at indestående indsættes på kontonummer:  &B37REGKTO.
  
 .sp 15mm
-Dato: ^Underskrift:
+Dato: ^ Underskrift:
 .bx off
 ... SLUT
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.* NAVNEMODUL TIL VISNING PÅ SKÆRM
+:GL.
+&KTOSTILL
+.BR
+&KTONAVN
+.BR
+&KTOCO
+.BR
+&KTOGADE
+.BR
+&KTOBY  &KTOLAND
+.SK
+:EGL.
+.* Parameterafsnit
+.* FJERNET FRA UNDERSKRIFTSRUM d.23.9.2014 jf. GITTE SINDBÆK / PIA - PENS
+.* DERFOR ER NEDENSTÅENDE TEST INAKTIVERET
+.go TSTSLUT
+.if &L'&B37DATO. = 0
+.an &L'&B37REGKTO. = 0
+.el .go TSTSLUT
+.mg /T/ Forlængelses dato ELLER udbetalingskontonr SKAL udfyldes //
+... TSTSLUT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+

@@ -11,6 +11,163 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.INDVTXT
+.se HILSKVT = 1
+.if .&U'&B37ANKJN = .J .an &E'&anken = 0
+.*th .se anken 'Vi beder &DIG anerkende modtagelsen på vedlagte kopi'
+.th .se anken '&B37ANK01.'
+.th .se kvitt '&B37KVIT01.'
+.th .se s '_'
+.if .&U'&B37ANKJN ne .J .an &E'&anken = 0
+.th .se anken ' '
+.th .se kvitt ' '
+.th .se s ' '
+.dm KVITTM on
+.sp
+.sx //&s.//
+.sp
+.*For modtagelsen af ovennævnte kvitteres herved.
+&kvitt.:
+.br
+.dm off
+.dm ANKM on
+.sp
+&anken..
+.*sx //&s.//
+.se kpnej = 1
+...HILSEJ
+.br
+.dm off
+.if .&U'&B37ANKJN ne .J
+.th .go EJANKM
+.ANKM
+...EJANKM
+.dm HILSV on
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
+.dm off
+.*********
+.HILSV
+.** Stopper et areal
+.ar off
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 20mm 71.4mm
+.dm KUNKOP on
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+.dm off
+.**********
+.*KUNKOP
+.* Styring af side 2 og 3 ***********************************
+.if .&U'&B37ANKJN ne .J
+.th .go KOPI
+.** ANERKENDELSE ***********
+.ar off
+.pa
+.KUNKOP
+.REF
+.REC
+.KUDAL1
+.INDVTXT
+.*ANKM
+.HILSV
+.KVITTM
+.** PAPIRKOPI **************
+...KOPI
+.if .&U'&B37KOPIJN ne .J
+.th .go SLUT
+.ar off
+.pa
+.REF
+.REC
+.KUDAL1
+.INDVTXT
+.ANKM
+.*KVITTM
+.HILSV
+.ar off
+.KUNKOP
+.** SLUT **************
+...SLUT
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -192,160 +349,4 @@ Her skal du begynde din tekst. Startlinie 0 giver max 30 tekstlinier
  
 .dm off ;.* DENNE LINIE SKAL STÅ SIDST og MAX. HAVE NR. 038 og IKKE ÆNDRES.
 .* parameterafsn.
-.INDVTXT
-.se HILSKVT = 1
-.if .&U'&B37ANKJN = .J .an &E'&anken = 0
-.*th .se anken 'Vi beder &DIG anerkende modtagelsen på vedlagte kopi'
-.th .se anken '&B37ANK01.'
-.th .se kvitt '&B37KVIT01.'
-.th .se s '_'
-.if .&U'&B37ANKJN ne .J .an &E'&anken = 0
-.th .se anken ' '
-.th .se kvitt ' '
-.th .se s ' '
-.dm KVITTM on
-.sp
-.sx //&s.//
-.sp
-.*For modtagelsen af ovennævnte kvitteres herved.
-&kvitt.:
-.br
-.dm off
-.dm ANKM on
-.sp
-&anken..
-.*sx //&s.//
-.se kpnej = 1
-...HILSEJ
-.br
-.dm off
-.if .&U'&B37ANKJN ne .J
-.th .go EJANKM
-.ANKM
-...EJANKM
-.dm HILSV on
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .sk
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
-.dm off
-.*********
-.HILSV
-.** Stopper et areal
-.ar off
-.** TEKST KUNDEKOPI hvor KOPI normalt påføres
-.da KUNDKOPI 20mm 71.4mm
-.dm KUNKOP on
-.ar KUNDKOPI on
-:COUR14.
-:FED.KOPI:SKRSLUT.
-.ar off
-:COUR10.
-.dm off
-.**********
-.*KUNKOP
-.* Styring af side 2 og 3 ***********************************
-.if .&U'&B37ANKJN ne .J
-.th .go KOPI
-.** ANERKENDELSE ***********
-.ar off
-.pa
-.KUNKOP
-.REF
-.REC
-.KUDAL1
-.INDVTXT
-.*ANKM
-.HILSV
-.KVITTM
-.** PAPIRKOPI **************
-...KOPI
-.if .&U'&B37KOPIJN ne .J
-.th .go SLUT
-.ar off
-.pa
-.REF
-.REC
-.KUDAL1
-.INDVTXT
-.ANKM
-.*KVITTM
-.HILSV
-.ar off
-.KUNKOP
-.** SLUT **************
-...SLUT
+

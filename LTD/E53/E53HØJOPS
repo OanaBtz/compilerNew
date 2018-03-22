@@ -1,3 +1,38 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .*Parametre og test på regtype ********************************************
 .if &REGTYPE = 1200
 .or &REGTYPE = 1021
@@ -15,30 +50,6 @@
 .se ktonr = substr &IREGKTO 5 7
 .su on
 .***************************************
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 20mm 115mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-.us Kontoaftale
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************
-.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 111mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.* LINIELÆNGDEN *******
-.ll 165mm
 .**** Generel opsætning *** findes normalt i O-afsnittet **********
 .ti ¤ 05
 :COUR10.
@@ -78,6 +89,44 @@ Medkontohaver
 &MEDLAND
 ...MEDSL
 .ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us Kontoaftale
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 111mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.* LINIELÆNGDEN *******
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
 .tp 8mm
 .**************************************************************************
 Vi kan konstatere, at denne konto benyttes til erhvervsmæssige formål. Da
@@ -100,7 +149,7 @@ på følgende vilkår:
 .*****
 .sp
 .of 8mm
-*¤På kontoen er indbetalt &SALDO. kr. Beløbet er
+* ¤ På kontoen er indbetalt &SALDO. kr. Beløbet er
 .if &GENVALG = 1
 .th modtaget på check.
 .if &GENVALG = 2
@@ -113,27 +162,27 @@ på følgende vilkår:
 .of 8mm
 .******************
 .if &REGTYPE = 1200
-.th *¤Kontoen er en løn- og budgetkonto til privatkunder.
+.th * ¤ Kontoen er en løn- og budgetkonto til privatkunder.
 .th .of
 .th .sp
 .th .of 8mm
 .******************
 .if &REGTYPE = 1021
 .or &REGTYPE = 1321
-.th *¤Kontoen er en transaktionskonto til privatkunder.
+.th * ¤ Kontoen er en transaktionskonto til privatkunder.
 .th .of
 .th .sp
 .th .of 8mm
-.th *¤Indestående på kontoen er ikke bundet og kan frit hæves.
+.th * ¤ Indestående på kontoen er ikke bundet og kan frit hæves.
 .th .of
 .th .sp
 .th .of 8mm
 .******************
-*¤Indbetaling kan ske løbende og eventuelt ved elektronisk overførsel.
+* ¤ Indbetaling kan ske løbende og eventuelt ved elektronisk overførsel.
 .of
 .sp
 .of 8mm
-*¤Indestående op til &KRETRIN2 kr. forrentes p.t. med &TOTKRE1.% p.a.
+* ¤ Indestående op til &KRETRIN2 kr. forrentes p.t. med &TOTKRE1.% p.a.
 .br
 Den del af indestående, der overstiger &KRETRIN2 kr., forrentes
 p.t. med &TOTKRE2.% p.a.
@@ -143,21 +192,21 @@ p.t. med &TOTKRE2.% p.a.
 .of 8mm
 .*************** Overtræksrente *****************************
 .if &REGTYPE = 1200
-.th *¤Overtræk forrentes med den til enhver tid gældende overtræksrente
+.th * ¤ Overtræk forrentes med den til enhver tid gældende overtræksrente
 .th jf. bankens prisliste.
 .th .of
 .th .sp
 .th .of 8mm
 .****************************************************************
-*¤Rentesatserne er variable og kan til enhver tid ændres af &BANKNAVN..
+* ¤ Rentesatserne er variable og kan til enhver tid ændres af &BANKNAVN..
 .of
 .sp
 .of 8mm
-*¤Renten tilskrives kontoen hvert år ultimo december.
+* ¤ Renten tilskrives kontoen hvert år ultimo december.
 .of
 .sp
 .of 8mm
-*¤Kontoen føres uden bankbog. Der udsendes månedlig kontoudskrift, når der
+* ¤ Kontoen føres uden bankbog. Der udsendes månedlig kontoudskrift, når der
 har været en postering på kontoen, og når kontoen opgøres.
 Ønskes udskrifter på andre tidspunkter, kan dette aftales mod
 gebyr. Gebyrets størrelse fremgår af bankens til enhver tid gældende
@@ -165,7 +214,7 @@ satser i henhold til prislisten.
 .of
 .sp
 .of 8mm
-*¤For kontoen gælder &BANKNAVN.s almindelige forretningsbetingelser for
+* ¤ For kontoen gælder &BANKNAVN.s almindelige forretningsbetingelser for
 privatkunder med tillæg, som
 .*****
 .if &MEDKNDNR1 = 0000000000
@@ -177,7 +226,7 @@ kan se på
 .of
 .sp
 .of 8mm
-*¤Kontoen må ikke bruges til erhvervsmæssigeformål. Hvis &BANKNAVN. bliver
+* ¤ Kontoen må ikke bruges til erhvervsmæssigeformål. Hvis &BANKNAVN. bliver
 bekendt med, at kontoen bruges på denne måde opsiger og opgør vi straks
 kontoen.
 .of
@@ -222,20 +271,6 @@ til at kontakte vores kundecenter
 på telefon 70 10 21 00. Kundecentret har åbent alle ugens dage
 kl. 9.00-21.00.
 .kp off
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
 .kp on
 .sp 2
 .ce on
@@ -248,38 +283,4 @@ Med venlig hilsen
 .el &GENEKSP
 .ce off
 .kp off
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

@@ -11,314 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-.NV PAGE REGBKSTED '%&REGBKSTED.'
-:ENY.
-.*Parametre
-.if &L'&PRIERH = 0
-.th .mg/T/Skriv P for privat eller E for erhverv/
-.*OMTALEPARAMETRE *********************************************************
-.*ERHVERV *****************************************************************
-.*debsomt = debitor 'sort' omtale **********************************
-.*deblomt = debitor 'lille' omtale *********************************
-.*-------B32-version start-------
-.if &U'&PRIERH = E
-.th .se debsomt = 'Låntager'
-.th .se deblomt = 'låntager'
-.*-------B32-version slut--------
-.th .se migos = 'os'
-.th .se min = 'vores'
-.th .se mine = 'vores'
-.th .go OMTALEND
-.*PRIVAT *************
-.if &DEBANTAL = 1
-.th .se debsomt = 'Jeg'
-.th .se deblomt = 'jeg'
-.th .se migos = 'mig'
-.th .se min = 'min'
-.th .se mine = 'mine'
-.el .se debsomt = 'Vi'
-.el .se deblomt = 'vi'
-.el .se migos = 'os'
-.el .se min = 'vores'
-.el .se mine = 'vores'
-...OMTALEND
-.*Parametre, særlige betingelser
-...TESTPRI
-.if &U'&PRIERH = P
-.th .go DOKU
-.el .go FEJL
-.*---------------------
-...TESTERH
-.if &U'&PRIERH = E
-.th .go DOKU
-.el .go FEJL
-.*---------------------
-...FEJL
-.*
-.* Brugeren har en gal kombination mellem regtypen og kode for privat/
-.* erhverv og der skal kun udskrives overskrift samt denne fejltekst
-.* hvorefter der laves en QUIT og udskrivningen afbrydes.
-.*
-.ar FEJLTXT on
-.hr left right
-.sp 3mm
-Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
-&BREVNAVN..
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP. har benyttet regtype &REGTYPE11
-som er ugyldig kombineret med kode &PRIERH for privat/erhverv.
-.sp 3mm
-.hr left right
-.ar off
-.qu
-.*-------B32-version slut--------
-...DOKU
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:tiltale &TILTALE
-:omtale  &OMTALEF
-.*-------B32-version start-------
-:VERDA08.
-.*-------B32-version slut--------
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*-------B32-version start-------
-.da FEJLTXT 20mm 130mm width 175mm
-.*-------B32-version slut -------
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-.*-------B32-version start-------
-:VERDA05.
-.*-------B32-version slut--------
-&BREVNAVN
-.br
-Kl. &TID
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-.*-------B32-version start-------
-:VERDA10.:FED.
-.if &U'&PRIERH = P
-.th Kreditaftale
-.*-------B32-version slut--------
-.if &U'&PRIERH = E
-.th Kreditaftale Erhverv
-:SKRSLUT.
-.ar off
-.*-------B32-version start-------
-.if x&REGTYPE11 = x3030
-.or x&REGTYPE11 = x3031
-.or x&REGTYPE11 = x3032
-.th .go TESTPRI
-.*---------------------
-.if x&REGTYPE11 = x3033
-.or x&REGTYPE11 = x3034
-.or x&REGTYPE11 = x3035
-.or x&REGTYPE11 = x3036
-.or x&REGTYPE11 = x3037
-.or x&REGTYPE11 = x3038
-.th .go TESTERH
-.el .go DOKU
-.*---------------------
-.********************GENEREL OPSÆTNING*************************************
-.*-------B32-version start-------
-:VERDA08.
-.*-------B32-version slut--------
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 83mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.************ PARTER ******************************************************
-.ar SIDE on
-.*-------B32-version start-------
-.tp 1mm 35mm 140mm
-.*-------B32-version slut--------
-.bx left right
-.*-------B32-version start-------
-¤Kontonr.¤Kontonavn¤Udskrevet
-.*-------B32-version slut--------
-.sp 6mm
-.bx off
-.sp 4mm
-.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
-.*LÅNTAGER ****************************************************************
-.bx left right
-.tp 1mm 88.5mm 135mm
-.if &DEBANTAL = 1
-.th ¤Låntager
-.if &DEBANTAL = 2
-.th ¤Låntager ¤Låntager
-.if &DEBANTAL > 2
-.th ¤Låntager ¤Låntager ¤Flere låntagere
-.sp 20mm
-.*-------B32-version start-------
-.if &DEBANTAL > 1
-.th ¤Kundenr. &KTOKNDNR1 ¤Kundenr. &DEB2KNDNR
-.el ¤Kundenr. &KTOKNDNR1
-.*-------B32-version slut--------
-.bx off
-.sp 4mm
-.bx left right
-.sp 184mm
-.bx off
-.ar off
-.******************************************************************
-.da BANKSTED      20mm  47mm width 175mm
-.*-------B32-version start-------
-.da KUNDEOPL       25mm  64.5mm width 85mm
-.da KUNDEOPL2    112.5mm 64.5mm width 85mm
-.*-----------------OPDELING AF REGTYPE OG KONTONUMMER--------------
-.se reg = substr &IREGKTO 1 4
-.se kto = substr &IREGKTO 5 7
-.*-------B32-version slut--------
-.ar BANKSTED on
-.*-------B32-version start-------
-.tp 1mm 35mm 140mm
-¤&reg &kto ¤&REGTYPE11 &REGTYPELNG ¤&DATO
-.*-------B32-version slut--------
-.ar off
-.**************************************
-.ar KUNDEOPL on
-&DEB1ADR1
-.br
-&DEB1ADR2
-.br
-&DEB1ADR3
-.br
-&DEB1ADR4
-.br
-&DEB1ADR5
-.ar off
-.*************************************
-.ar KUNDEOPL2 on
-.if &DEBANTAL > 1
-.th &DEB2ADR1
-.th .br
-.th &DEB2ADR2
-.th .br
-.th &DEB2ADR3
-.th .br
-.th &DEB2ADR4
-.th .br
-.th &DEB2ADR5
-.ar off
-.*************************************
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.*-------B32-version start-------
-:VERDA08.
-.*-------B32-version slut--------
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar BOX on
-.*-------B32-version start-------
-:VERDA08.
-.tp 1mm 35mm 140mm
-.*-------B32-version slut--------
-.bx left right
-.*-------B32-version start-------
-¤Kontonr.¤Kontonavn¤Udskrevet
-.*-------B32-version slut--------
-.sp 6mm
-.bx off
-.sp 4mm
-.bx left right
-.sp 221.5mm
-.bx off
-.ar off
-.*-------B32-version start-------
-.se reg = substr &IREGKTO 1 4
-.se kto = substr &IREGKTO 5 7
-.*-------B32-version slut--------
-.ar BANKSTED on
-.*-------B32-version start-------
-:VERDA08.
-.tp 1mm 35mm 140mm
-¤&reg &kto ¤&REGTYPE11 &REGTYPELNG ¤&DATO
-.*-------B32-version slut--------
-.ar off
-.**************************************************************************
-.ar VEND on
-.*-------B32-version start-------
-:VERDA05.
-.*-------B32-version slut--------
-&BREVNAVN
-.br
-Kl. &TID
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-.*-------B32-version start-------
-:VERDA10.
-:FED.
-.if &U'&PRIERH = P
-.th Kreditaftale
-.*-------B32-version slut--------
-.if &U'&PRIERH = E
-.th Kreditaftale Erhverv
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
-.**************************************************************************
-.sp 50mm
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
 .*-------B32-version start-------
 .if &U'&PRIERH = E
 .th .go BELOB
@@ -698,276 +390,813 @@ første gang den &AFVDATO03.. &ÅCONT
 .sp 5mm
 ...T2A2EX
 .********************
-.*-------B32-version start-------
-.*** særløsning kun for b32 har lånesag sat noget i TINGGEBYR **********
-.if &U'&TINGGEBYR = N
-.th .go UDBKTOSL
-.el .go UDBKTO
-.************
-...UDBKTO
-.kp on
+.***************
+.*Kodet efter anvisning fra Rikke Jørgsholm 16-6-2013*
+.if x&REGTYPE11 = x2006
+.or x&REGTYPE11 = x2018
+.th .go REG20
+.el .go SLT20
+...REG20
 :FED.
-Udbetalingskonto
+Rente og provision
 :SKRSLUT.
 .br
-Såfremt der er tilknyttet en tinglysningsafgift i forbindelse med
-etablering af sikkerhed for denne låne-/kreditaftale, oprettes
-der en særskilt udbetalings-/køberkonto. Ved
-udbetaling af lånet/kreditten tilbageholdes et beløb
-svarende til tinglysningsafgiften. Dette beløb indsættes på
-udbetalings-/køberkontoen og vil blive anvendt til betaling af
-tinglysningsafgiften, når tinglysningen finder sted.
+Udlånsrenten for træk på kreditten beregnes dagligt som
+.if x&REGTYPE11 = x2006
+.th 3-måneders CIBOR
+.el 3-måneders CITA
+tillagt en marginal. Marginalen er variabel og kan til enhver tid ændres
+af banken med 3 måneders varsel. Den samlede rente kan aldrig blive
+negativ.
 .sp
-Udbetalings-/køberkontoen er pantsat til &BANKNAVN.. Låntager kan
-derfor ikke disponere over kontoen, men efter endt
-sagsbehandling bliver kontoen afregnet over for låntager. Ved opgørelse af
-kontoen vil der ikke blive fremsendt særskilt meddelelse herom. Kontoen
-vil fremgå af mitNykredit under Udgåede konti.
+Den samlede udlånsrente udgør p.t. &RENTE. % pr. år og tilskrives kreditten
+hvert kvartal, første gang den &RTEDATO01..
 .sp
-.kp off
-.******************
-...UDBKTOSL
+Ved positiv saldo på kontoen forrentes denne på baggrund af den af banken
+til enhver tid fastsatte indlånsrente for kreditter. Renten udgør
+.if x&LSDFKRESI1. < x0,000
+.th .ct  p.t. 0,000 % pr. år.
+.el .ct  p.t. &LSDFKRESI1. % pr. år.
+.sp
+.*-------B32-version start-------
+.if &L'&PROV > 0
+.th .go PRTXA3
+.el .go PREXA3
+...PRTXA3
+.if &U'&PRIERH = P
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.th .sp
+.th .go PREXA3
+.if X&LSPROVKB = X1
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.if X&LSPROVKB = X2
+.th Provision af kreditmaksimum er for tiden &PROV % om året. &ÅCONT
+.if X&LSPROVKB = X4
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.if X&LSPROVKB = X5
+.th Provisionen af uudnyttet kreditmaksimum er for tiden &PROV % om
+.th året. &ÅCONT
+...PREXA3
+.*-------B32-version slut-------
+Overtræksprovision er for tiden &PROVOVERTR. % om
+året. Provision af bevilget overtræk er for tiden &PROVBEVILG. % om
+året.
+.sp
+Hvis Nasdaq OMX (eller andre som måtte træde i stedet) ophører med at
+notere rentesatsen på den aftalte referencerente, eller
+&BANKNAVN. vurderer, at den aftalte
+referencerente ikke længere afspejler det danske
+marked for referencesatser, kan &BANKNAVN. beregne lånets rente med
+udgangspunkt i en anden, markedskonform referencerente.
+.sp
+Endelig kan &BANKNAVN. beregne lånets rente med udgangspunkt i en anden
+markedskonform referencerente, hvis en eller flere offentlige myndigheder
+væsentligt anfægter den aftalte referencerente som referencerente, eller
+hvis den finansielle sektor indgår aftale med en offentlig myndighed om
+anvendelse af en anden referencerente end den aftale referencerente.
+.sp
+&BANKNAVN. skal give 1 måneds varsel, før banken kan beregne lånets
+rente med udgangspunkt i en anden, markedskonform referencerente.
+.sp 5mm
+...SLT20
+.su off
+.se reggrp = 'NEJ'
+.if x&REGTYPE11 = x5855
+.or x&REGTYPE11 = x3700
+.or x&REGTYPE11 = x3701
+.or x&REGTYPE11 = x3702
+.or x&REGTYPE11 = x3704
+.or x&REGTYPE11 = x3705
+.or x&REGTYPE11 = x3706
+.th .se reggrp = 'ADMRENTE'
+.if x&REGTYPE11 = x5854
+.or x&REGTYPE11 = x5864
+.th .se reggrp = 'CIBOR'
+.if x&REGTYPE11 = x5856
+.or x&REGTYPE11 = x5866
+.th .se reggrp = 'CIBOR0'
+.if x&REGTYPE11 = x1997
+.th .se reggrp = 'BYGCIBOR0'
+.if x&REGTYPE11 = x5855
+.or x&REGTYPE11 = x5865
+.th .se reggrp = 'CITA'
+.if x&REGTYPE11 = x5857
+.or x&REGTYPE11 = x5867
+.th .se reggrp = 'CITA0'
+.if x&REGTYPE11 = x1998
+.th .se reggrp = 'BYGCITA0'
+.if x&REGTYPE11 = x3703
+.or x&REGTYPE11 = x3707
+.th .se reggrp = 'NYKBID'
+.if x&REGTYPE11 = x3713
+.th .se reggrp = 'ADMCIBOR'
+.if x&REGTYPE11 = x3720
+.th .se reggrp = 'ADMCITA'
+.su on
+.if &reggrp. = NEJ
+.th .go AFSNSL
+:FED.
+Rente og Provision
+:SKRSLUT.
+.br
+.**** BREVTEKST
+.*Afsnit 1a og 1b
+.if &reggrp. = CITA
+.or &reggrp. = CITA0
+.or &reggrp. = CIBOR
+.or &reggrp. = CIBOR0
+.or &reggrp. = BYGCIBOR0
+.th
+.el .go AFSN1C
+Udlånsrenten for træk på kreditten beregnes dagligt som referencerenten
+.if &reggrp. = CIBOR
+.or &reggrp. = CIBOR0
+.or &reggrp. = BYGCIBOR0
+.th 3-måneders CIBOR (Copenhagen Interbank Offered Rate)
+.el 3-måneders CITA (Copenhagen Interbank Tomorrow/Next Average)
+tillagt en marginal for udlån. Er
+.if &reggrp. = CIBOR
+.or &reggrp. = CIBOR0
+.or &reggrp. = BYGCIBOR0
+.th 3-måneders CIBOR
+.el 3-måneders CITA
+negativ, bliver den samlede udlånsrente fastsat til marginalen for udlån.
+Den samlede rente kan aldrig blive negativ.
+...AFSN1C
+.*Afsnit 1c
+.if &reggrp. = NYKBID
+.th
+.el .go AFSN1D
+Udlånsrenten for træk på kreditten beregnes dagligt som den af &BANKNAVN.
+fastsatte referencerente NYKBOR tillagt en marginal for udlån. Den
+samlede udlånsrente kan aldrig blive negativ.
+...AFSN1D
+.*Afsnit 1D
+.if &reggrp. = ADMCIBOR
+.th
+.el .go AFSN1E
+Udlånsrenten for træk på kreditten beregnes dagligt som referencerenten
+3-måneders CIBOR (Copenhagen Interbank Offered Rate) tillagt en marginal
+for udlån Den samlede udlånsrente kan aldrig blive negativ.
+.*Afsnit 1E
+...AFSN1E
+.if &reggrp. = ADMCITA
+.th
+.el .go AFSN1F
+Udlånsrenten for træk på kreditten beregnes dagligt som referencerenten
+3-måneders CITA (Copenhagen Interbank Tomorrow/Next Average) tillagt en
+marginal for udlån. Den samlede udlånsrente kan aldrig blive negativ.
+...AFSN1F
+.if &reggrp. = ADMRENTE
+.th
+.el .go AFSN2
+Rente,  provision og gebyrer er variable og fastsættes til enhver tid af
+&BANKNAVN. jf. &BANKNAVN.s Bankguide.
+.sp
+Udlånsrenten kan aldrig blive negativ.
+...AFSN2
+.sp
+Den samlede udlånsrente udgør p.t. &RENTE. % pr. år og tilskrives kreditten
+hvert kvartal, første gang den &RTEDATO01..
+...AFSN3
+.if &reggrp. = NYKBID
+.or &reggrp. = CITA0
+.or &reggrp. = CIBOR0
+.th
+.el .go AFSN3B
+.sp
+Ved positiv saldo på kontoen beregnes renten af indestående op til og med
+3.000.000 kr. på baggrund af en variable rentesats fastsat af &BANKNAVN..
+...AFSN3B
+.if &reggrp. = ADMRENTE
+.or &reggrp. = ADMCITA
+.or &reggrp. = ADMCIBOR
+.th
+.el .go AFSN3C
+.sp
+Ved positiv saldo på kontoen beregnes renten af indestående på baggrund af
+en variable rentesats fastsat af &BANKNAVN..
+...AFSN3C
+.if &reggrp. = CITA
+.or &reggrp. = BYGCITA0
+.th
+.el .go AFSN3D
+.sp
+Ved positiv saldo på kontoen beregnes renten af indestående dagligt som
+referencerenten 3-måneders CITA, fratrukket en marginal for indlån.
+...AFSN3D
+.if &reggrp. = CIBOR
+.or &reggrp. = BYGCIBOR0
+.th
+.el .go AFSN4
+.sp
+Ved positiv saldo på kontoen beregnes renten af indestående dagligt som
+referencerenten 3-måneders CIBOR, fratrukket en marginal for indlån.
+...AFSN4
+.if &reggrp. = CITA
+.th
+.el .go AFSN4B
+.sp
+Ved positiv saldo på kontoen beregnes renten af den del af indestående, der
+overstiger &LSDFKREBE2. kr., dagligt referencerenten 3-måneders CITA,
+fratrukket en marginal for indlån.
+...AFSN4B
+.if &reggrp. = CIBOR
+.th
+.el .go AFSN4C
+.sp
+Ved positiv saldo på kontoen beregnes renten af den del af indestående, der
+overstiger &LSDFKREBE2. kr., dagligt referencerenten 3-måneders CIBOR,
+fratrukket en marginal for indlån.
+...AFSN4C
+.if &reggrp. = NYKBID
+.th
+.el .go AFSN5
+.sp
+Ved positiv saldo på kontoen beregnes renten af den del af indestående, der
+overstiger &LSDFKREBE2. kr., dagligt referencerenten NYKBID, fratrukket en
+marginal for indlån.
+...AFSN5
+...AFSN5B
+.if &reggrp. = NYKBID
+.or &reggrp. = CITA0
+.or &reggrp. = CIBOR0
+.or &reggrp. = BYGCIBOR0
+.th
+.el .go AFSN5C
+.sp
+Den samlede indlånsrente kan blive negativ. Er den samlede indlånsrenten
+negativ kan &BANKNAVN. vælge, enten for hele eller for dele af
+indeståendet, midlertidigt at sætte indlånsrenten til 0,000 % pr. år.
+&BANKNAVN. kan efterfølgende med 7 dages varsel meddele, at
+indlånsrenten ikke længere fastsættes til 0,000 % pr. år, og i stedet
+fastsætte en negativ rente. Meddelelser herom bliver givet på samme måde
+som andre meddelelser om renteændringer jf. &BANKNAVN.s Bankguide.
+...AFSN5C
+.if &reggrp. = CITA
+.or &reggrp. = CIBOR
+.th
+.el .go AFSN6
+.sp
+Er den samlede indlånsrente negativ kan &BANKNAVN. vælge, for hele
+eller for dele af indeståendet, midlertidigt at sætter den samlede
+indlånsrente til 0,000 % pr. år. &BANKNAVN. kan efterfølgende med 7
+dages varsel meddele,
+at den samlede indlånsrente ikke længere fastsættes til 0,000 % pr. år, og
+i stedet fastsætte en negativ rente. Meddelelser herom bliver givet på
+samme måde som andre meddelelser om renteændringer jf. &BANKNAVN.s
+Bankguide.
+...AFSN6
+.if &reggrp. = CITA
+.or &reggrp. = CIBOR
+.or &reggrp. = BYGCITA0
+.or &reggrp. = BYGCIBOR0
+.th
+.el .go AFSN7
+.sp
+Den samlede indlånsrente for indestående udgør for tiden
+.if x&LSDFKRESI1 lt x0
+.th 0,00
+.el &LSDFKRESI1.
+% pr. år. Renten tilskrives årligt.
+.go AFSN8
+...AFSN7
+.sp
+Den samlede indlånsrente for indestående op til og med DKK &LSDFKREBE2.
+udgør for tiden &LSDFKRESI1. % pr. år, og for
+indestående over DKK &LSDFKREBE2. for
+tiden &LSDFKRESI2. % pr. år. Renten tilskrives årligt.
+...AFSN8
+.sp
+Provision af kreditmaksimum er for tiden &LSPROVSATS. % om året.
+Overtræksprovision er for tiden &LSOVPRSATS. % om året. Provision af
+bevilget overtræk er for tiden &LSBEVOVSAT. % om året.
+...AFSN9
+.if &reggrp. = CITA
+.or &reggrp. = CIBOR
+.or &reggrp. = CITA0
+.or &reggrp. = CIBOR0
+.or &reggrp. = BYGCIBOR0
+.or &reggrp. = NYKBID
+.or &reggrp. = ADMCITA
+.or &reggrp. = ADMCIBOR
+.th
+.el .go AFSN11B
+.sp
+Marginaler for ind og udlån er variable og kan ændres af &BANKNAVN. med
+1 måneds varsel.
+.sp
+.* Afsnit 10
+Referencerenten fastsættes på baggrund af oplysninger indhentet af
+&BANKNAVN..
+.sp
+.* Afsnit 11a
+&BANKNAVN. kan ændre renteberegningsmetoder og kriterierne for
+fastsættelse af renten, herunder ændre referencerenter og/eller ændre eller
+fjerne beløbsgrænser for de forskellige renteberegningsmetoder uden
+begrundelse med 1 måneds forudgående varsel.
+.sp
+.go AFSNSL
+...AFSN11B
+.sp
+&BANKNAVN. kan ændre renteberegningsmetoder og kriterierne for
+fastsættelse af renten, herunder ændre eller fjerne beløbsgrænser for de
+forskellige renteberegningsmetoder uden begrundelse med 1 måneds
+forudgående varsel.
+.sp
+...AFSNSL
+.**************HER ER DER TILFØJET NAVNET PÅ B32'S BETINGELSER**********
+.*   NB NB NB
+.*   NB NB NB        På nogle regtyper ligger rente og omkost-
+.*   NB NB NB        ningsoplysningerne i B32KRED50T3A1
+.*   NB NB NB
+.if &reggrp. = NEJ
+.th
+.el .go UDENOM5
+.*------ B32-version - start --------
+.if x&REGTYPE11 = x3030
+.or x&REGTYPE11 = x3031
+.or x&REGTYPE11 = x3032
+.or x&REGTYPE11 = x3033
+.or x&REGTYPE11 = x3034
+.or x&REGTYPE11 = x3035
+.or x&REGTYPE11 = x3036
+.or x&REGTYPE11 = x3037
+.or x&REGTYPE11 = x3038
+.th .go INGENOPS
+.********************************************
+.if x&REGTYPE11 = x2006
+.or x&REGTYPE11 = x2018
+.th .go UDENOM5
+.*------ B32-version - slut ---------
+:FED.
+.if &U'&PRIERH = P
+.th Rente og omkostninger
+.*-------B32-version start-------
+.el Rente og provision
+:SKRSLUT.
+.br
+.if &U'&PRIERH = P
+.th Det lånte beløb forrentes fra udbetalingsdagen. &ÅCONT
+.th Rente og omkostninger er
+.el Rente, provision og gebyrer er
+.*-------B32-version slut-------
+.if &U'&RENTETYP = V
+.th variable
+.if &U'&RENTETYP = D
+.th differentieret
+og fastsættes til enhver tid af
+&BANKNAVN., jf. &BANKNAVN.s
+.*-------B32-version start-------
+.if &U'&PRIERH = P
+.th Almindelige bestemmelser for lån og kreditter.
+.if &U'&PRIERH = E
+.th Bankguide. Rentesatsen for kontoens indlån kan afhænge af den til
+.th enhver tid indestående saldo. Rente, provision og gebyrer kan ændres
+.th af &BANKNAVN., efter reglerne i &BANKNAVN.s Bankguide.
+.th .sp
+.th Renteberegningen sker på basis af et renteår på faktiske dage divideret
+.th med 360. Renten betales bagud hvert kvartal, første gang
+.th ved udløb af kredittens første rentetermin.
+.sp 3mm
+.if &U'&RENTETYP = V
+.th .go TYPV
+.el .go TYPD
+...TYPV
+Udlånsrenten er for tiden &RENTE % om året og tilskrives kreditten
+.if &RTEFREK01 = 1
+.th hver måned,
+.if &RTEFREK01 = 3
+.th hvert kvartal,
+.if &RTEFREK01 = 6
+.th hvert halvår,
+.if &RTEFREK01 = 9
+.th hvert år,
+første gang den &RTEDATO01..
+...TYPD
+.if &U'&RENTETYP = D
+.th Renten er differentieret og fremgår af kreditoplysningerne.
+.*
+.***************PRIVAT*****************************************************
+.if &U'&PRIERH = E
+.th .go GEBYREND
+.if x&REGTYPE11 = x5130
+.or x&REGTYPE11 = x5131
+.or x&REGTYPE11 = x5134
+.or x&REGTYPE11 = x6700
+.or x&REGTYPE11 = x6710
+.or x&REGTYPE11 = x6720
+.or x&REGTYPE11 = x6750
+.or x&REGTYPE11 = x6760
+.or x&REGTYPE11 = x6770
+.or x&REGTYPE11 = x6800
+.or x&REGTYPE11 = x6801
+.or x&REGTYPE11 = x6805
+.or x&REGTYPE11 = x6810
+.or x&REGTYPE11 = x7000
+.or x&REGTYPE11 = x7001
+.or x&REGTYPE11 = x7005
+.or x&REGTYPE11 = x7010
+.or x&REGTYPE11 = x7200
+.or x&REGTYPE11 = x7205
+.or x&REGTYPE11 = x7210
+.or x&REGTYPE11 = x7300
+.or x&REGTYPE11 = x7600
+.or x&REGTYPE11 = x7601
+.or x&REGTYPE11 = x7602
+.or x&REGTYPE11 = x7603
+.or x&REGTYPE11 = x7604
+.or x&REGTYPE11 = x7605
+.or x&REGTYPE11 = x7606
+.or x&REGTYPE11 = x7610
+.or x&REGTYPE11 = x7611
+.or x&REGTYPE11 = x7612
+.or x&REGTYPE11 = x7613
+.or x&REGTYPE11 = x7614
+.or x&REGTYPE11 = x7615
+.or x&REGTYPE11 = x7620
+.or x&REGTYPE11 = x7623
+.or x&REGTYPE11 = x7625
+.or x&REGTYPE11 = x7626
+.or x&REGTYPE11 = x7627
+.or x&REGTYPE11 = x7628
+.or x&REGTYPE11 = x7629
+.or x&REGTYPE11 = x7631
+.or x&REGTYPE11 = x7632
+.or x&REGTYPE11 = x7636
+.or x&REGTYPE11 = x7638
+.or x&REGTYPE11 = x7639
+.or x&REGTYPE11 = x7663
+.or x&REGTYPE11 = x7665
+.or x&REGTYPE11 = x7666
+.or x&REGTYPE11 = x7667
+.or x&REGTYPE11 = x7668
+.or x&REGTYPE11 = x7669
+.or x&REGTYPE11 = x8600
+.or x&REGTYPE11 = x8650
+.th .sp 3mm
+.th Der beregnes et variabelt kontogebyr for Kernekonto og
+.th FriværdiKonto. Kontogebyret beregnes p.t. som
+.th 0,75 kr. pr. postering. Der opkræves maksimalt 10 kr. pr. måned
+.th pr. konto.
+...GEBYREND
+.**PROVISION **************************************************************
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.*-------B32-version start-------
+.el .sp
+.*-------B32-version slut--------
+.el .go PROV
+.***************
+...PROV
+.if &U'&PRIERH = P
+.th .go PROVP
+.el .go PROVE
+...PROVE
+.*-------B32-version start-------
+.**ERHVERV ***************************************************************
+.*Mellemrum fjernet mellem de 3 provisoiner*******************************
+.if &L'&PROV > 0
+.th .go PRTXA4
+.el .go PREXA4
+...PRTXA4
+.if X&LSPROVKB = X1
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.if X&LSPROVKB = X2
+.th Provision af kreditmaksimum er for tiden &PROV % om året. &ÅCONT
+.if X&LSPROVKB = X4
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.if X&LSPROVKB = X5
+.th Provisionen af uudnyttet kreditmaksimum er for tiden &PROV % om
+.th året. &ÅCONT
+...PREXA4
+.if &L'&PROVOVERTR > 0
+.th Overtræksprovision er for tiden &PROVOVERTR % om året. &ÅCONT
+.if &L'&PROVBEVILG > 0
+.th Provision af bevilget overtræk er for tiden &PROVBEVILG % om året.
+.*-------B32-version slut--------
+.th .br
+.go PROVSL
+.**PRIVATE ****************************************************************
+...PROVP
+.if &L'&PROV > 0
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.if &L'&PROVOVERTR > 0
+.th Ved overtræk af kreditten er &BANKNAVN berettiget til at opkræve
+.th overtræksprovision, der for tiden er &PROVOVERTR % om året. &ÅCONT
+.if &L'&PROVBEVILG > 0
+.th Provision af bevilget overtræk er for tiden &PROVBEVILG %
+.th om året. &ÅCONT
+.if &L'&PROVOVERTR > 0
+.th Overtræksprovision beregnes af det beløb som er trukket ud over
+.th kredittens aftalte kreditbeløb, fra dagen hvor
+.th overtræk foretages indtil betaling sker. &BANKNAVN kan ændre
+.th overtræksprovisionen uden varsel eller begrundelse.
+.sp 3mm
+Ved overtræk af kreditten kan der endvidere påløbe omkostninger i
+forbindelse med udsendelse af påmindelse - og rykkerbreve. Gebyr for
+påmindelsesbrev udgør p.t. kr. 40,00 pr. brev. Gebyr for rykkerbrev udgør
+p.t. kr. 100,00 pr. brev.
+.sp 3mm
+Ved overdragelse til inkasso vil der påløbe yderligere omkostninger til
+advokat, domstole m.v. Manglende betaling vil kunne medføre, at &BANKNAVN
+kan ophæve kreditaftalen uden varsel og forlange hele gælden betalt
+straks.
+...PROVSL
+.sp 5mm
+...UDENOM5
+.***************
+.if &L'&AFDYDL01 > 0
+.an &U'&AFDYDL01 = H
+.th .go AFDSLUT
+:FED.
+Betaling
+.br
+:SKRSLUT.
+&debsomt får ikke separat meddelelse om beløb, der er
+hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.sp 5mm
+.***************
+...AFDSLUT
+.*-------B32-version start - GÆLDER KUN FOR ERHVERVSKUNDER------------
+.if &U'&PRIERH = P
+.th .go INGENOPS
+:FED.
+Opsigelse
+.br
+:SKRSLUT.
+&BANKNAVN. kan til enhver tid opsige kreditten med 14 dages varsel.
+.sp
+&BANKNAVN. kan i de tilfælde som er anført i bankguiden opsige
+kreditten uden varsel til fuld indfrielse.
+.sp
+...INGENOPS
 .*-------B32-version slut--------
 .*--------------------B32s EGNE BETINGELSER------------------------------
-.*B32SPECVILT4 er 4 del af Nykredits Specielle vilkår for lån og kredit.
-.*regtyper - Privatkunder.
+.*B32SPECVILT1 er 1 del af Nykredits Specielle vilkår for lån og kredit.
+.*for Privatkunder.
 .*-----------------------------------------------------------------------
-.if x&REGTYPE11 = x7140
-.or x&REGTYPE11 = x7150
-.or x&REGTYPE11 = x7152
-.or x&REGTYPE11 = x7153
-.or x&REGTYPE11 = x4310
-.or x&REGTYPE11 = x4311
-.or x&REGTYPE11 = x2126
-.or x&REGTYPE11 = x2162
-.or x&REGTYPE11 = x6414
-.or x&REGTYPE11 = x6415
-.th .go SPEVIL4
-.el .go SPESLUT4
-.************************************************************************
-...SPEVIL4
+.if x&REGTYPE11 = x5080
+.or x&REGTYPE11 = x5081
+.or x&REGTYPE11 = x5082
+.or x&REGTYPE11 = x5083
+.or x&REGTYPE11 = x5090
+.or x&REGTYPE11 = x5091
+.or x&REGTYPE11 = x5095
+.or x&REGTYPE11 = x5096
+.or x&REGTYPE11 = x5600
+.or x&REGTYPE11 = x5930
+.or x&REGTYPE11 = x5940
+.or x&REGTYPE11 = x5941
+.or x&REGTYPE11 = x5942
+.or x&REGTYPE11 = x5943
+.or x&REGTYPE11 = x5944
+.or x&REGTYPE11 = x6010
+.or x&REGTYPE11 = x6011
+.or x&REGTYPE11 = x6012
+.or x&REGTYPE11 = x6013
+.or x&REGTYPE11 = x6020
+.or x&REGTYPE11 = x6021
+.or x&REGTYPE11 = x6022
+.or x&REGTYPE11 = x6023
+.or x&REGTYPE11 = x6060
+.or x&REGTYPE11 = x6061
+.or x&REGTYPE11 = x6062
+.or x&REGTYPE11 = x6063
+.or x&REGTYPE11 = x6150
+.or x&REGTYPE11 = x6151
+.or x&REGTYPE11 = x6152
+.or x&REGTYPE11 = x6153
+.or x&REGTYPE11 = x6160
+.or x&REGTYPE11 = x6161
+.or x&REGTYPE11 = x6162
+.or x&REGTYPE11 = x6163
+.or x&REGTYPE11 = x6170
+.or x&REGTYPE11 = x6171
+.or x&REGTYPE11 = x6172
+.or x&REGTYPE11 = x6173
+.or x&REGTYPE11 = x6180
+.or x&REGTYPE11 = x6181
+.or x&REGTYPE11 = x6182
+.or x&REGTYPE11 = x6183
+.or x&REGTYPE11 = x6190
+.or x&REGTYPE11 = x6191
+.or x&REGTYPE11 = x6192
+.or x&REGTYPE11 = x6193
+.or x&REGTYPE11 = x6195
+.or x&REGTYPE11 = x6196
+.or x&REGTYPE11 = x6197
+.or x&REGTYPE11 = x6198
+.th .go SPEVIL1
+.el .go SPESLUT1
+...SPEVIL1
 .kp 4
-.***Ingen overskrift på reg 2126 og 2162 **********************
-.if x&REGTYPE11 = x2126
-.or x&REGTYPE11 = x2162
-.th .go INOVERS
 :FED.
 Specielle vilkår :SKRSLUT.
 .br
-...INOVERS
-.**************************************************************************
-.* gba, tilf. feb.2015:     6414 & 6415 ***********************************
-.if x&REGTYPE11 = x6414
-.or x&REGTYPE11 = x6415
-.th .go REGT6414
-.el .go UDENOM8
-...REGT6414
-Primo den måned, hvor yngste kontohaver fylder 36 år, overgår
-Ung Konto - med mindre andet er aftalt - til vilkårene for en Konto
-i Nykredit.
-.go SLUT4
-...UDENOM8
-.if x&REGTYPE11 = x7140
-.or x&REGTYPE11 = x7150
-.or x&REGTYPE11 = x7152
-.or x&REGTYPE11 = x7153
-.th .go REGT7150
-.el .go UDENOM9
-.***** 18-28KONTO - REGTYPE 7140 & 7150 ***********************************
-.* gba, tilf. jan.2015:     6414 & 6415 ***********************************
-...REGT7150
-Primo den måned, hvor yngste kontohaver fylder 29 år, overgår
-1828Kontoen - med mindre andet er aftalt - til vilkårene for Frikonto
-eller tilsvarende konto i Nykredit.
-.go SLUT4
-.************************************************************************
-.*****Her ligger teksten til Nykredit Premium kontoaftale med kredit*****
-...UDENOM9
-.if x&REGTYPE11 = x4310
-.or x&REGTYPE11 = x4311
-.th .go REGT4310
-.el .go UDENOM10
-.************************************************************************
-...REGT4310
-.kp on
-.tp 8mm
-:FED.
-¤Gebyrer :SKRSLUT.
+.***************
+.if x&REGTYPE11 = x5080
+.or x&REGTYPE11 = x5081
+.or x&REGTYPE11 = x5082
+.or x&REGTYPE11 = x5083
+.or x&REGTYPE11 = x5090
+.or x&REGTYPE11 = x5091
+.or x&REGTYPE11 = x5095
+.or x&REGTYPE11 = x5096
+.or x&REGTYPE11 = x5940
+.or x&REGTYPE11 = x6010
+.or x&REGTYPE11 = x6011
+.or x&REGTYPE11 = x6012
+.or x&REGTYPE11 = x6013
+.or x&REGTYPE11 = x6020
+.or x&REGTYPE11 = x6021
+.or x&REGTYPE11 = x6022
+.or x&REGTYPE11 = x6023
+.or x&REGTYPE11 = x6060
+.or x&REGTYPE11 = x6061
+.or x&REGTYPE11 = x6062
+.or x&REGTYPE11 = x6063
+.or x&REGTYPE11 = x6150
+.or x&REGTYPE11 = x6151
+.or x&REGTYPE11 = x6152
+.or x&REGTYPE11 = x6153
+.or x&REGTYPE11 = x6160
+.or x&REGTYPE11 = x6161
+.or x&REGTYPE11 = x6162
+.or x&REGTYPE11 = x6163
+.or x&REGTYPE11 = x6170
+.or x&REGTYPE11 = x6171
+.or x&REGTYPE11 = x6172
+.or x&REGTYPE11 = x6173
+.or x&REGTYPE11 = x6180
+.or x&REGTYPE11 = x6181
+.or x&REGTYPE11 = x6182
+.or x&REGTYPE11 = x6183
+.or x&REGTYPE11 = x6190
+.or x&REGTYPE11 = x6191
+.or x&REGTYPE11 = x6192
+.or x&REGTYPE11 = x6193
+.or x&REGTYPE11 = x6195
+.or x&REGTYPE11 = x6196
+.or x&REGTYPE11 = x6197
+.or x&REGTYPE11 = x6198
+.th .go REGT5080
+.el .go UDENOM1
+.***** BOLIGLÅN ***********************************************************
+.***** REGTYPE 5080, 5081, 5082, 5083, 5090, 5091, 5095 og 5096           *
+.*gba/tilf. jan. 2015: 6150, 6151, 6152, 6160, 6161, 6162                 *
+.*                     6170, 6171, 6172, 6180, 6181, 6182                 *
+.*                     6190, 6191, 6192, 6195, 6196, 6197                 *
+.*SBL-opg jan 2016:    5940, 6060, 6061, 6062, 6063                       *
+...REGT5080
+Renten er variabel.
 .br
-.in 8mm nobreak
-Der opkræves et gebyr på 100 kr. pr måned på kontoen. Gebyret opkræves
-bagud på den sidste bankdag i måneden. Der opkræves ikke gebyr ved hævning
-på Visa/Dankort i &B32NYK.s egne eller i fremmede pengeinstitutters
-hæveautomater i Danmark.
+Lånet forfalder ved ejerskifte.
+.go SLUT1
+.***************
+...UDENOM1
+.if x&REGTYPE11 = x5944
+.th .go REGT5944
+.el .go UDENOM2
+.***** FRIVÆRDIKONTO ANDEL - PERSONALE ************************************
+.***** REGTYPE 5944 *******************************************************
+...REGT5944
+Renten er variabel.
 .br
-Retningslinjer for &BANKNAVN.s opkrævning af øvrige gebyrer fremgår af
-"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.". De
-almindelige gebyrer fremgår af skiltning i &B32NYK.s centre, af
-.us &B32WWWNYK
-.ct  eller oplyses ved forespørgsel. Øvrige gebyrer oplyses ved
-forespørgsel.
+Kreditten forfalder ved ejerskifte.
+.go SLUT1
+.***************
+...UDENOM2
+.if x&REGTYPE11 = x5941
+.or x&REGTYPE11 = x5942
+.or x&REGTYPE11 = x5943
+.th .go REGT5941
+.el .go UDENOM3
+.***** BOLIGLÅN OG ANDELSBOLIGLÅN - PERSONALE *****************************
+.***** REGTYPE 5941, 5942 og 5943 *****************************************
+...REGT5941
+Renten er variabel.
+.br
+Lånet forfalder ved ejerskifte.
+.go SLUT1
+.***************
+...UDENOM3
+.if x&REGTYPE11 = x5600
+.or x&REGTYPE11 = x5930
+.th .go REGT5600
+.el .go SPESLUT1
+.***** PAUSEKONTI *********************************************************
+.***** REGTYPE 5600 OG 5930 ***********************************************
+...REGT5600
+Ved pauseperiodens ophør vil lånets restgæld, som følge af tilskrevne
+renter i pauseperioden, være større end den ovennævnte hovedstol. Se bilag
+til låneaftalen for flere informationer.
+.****
+...SLUT1
 .sp 5mm
-.in 5mm
-.kp off
-.kp on
-.tp 8mm
+...SPESLUT1
+.*--------------------B32s EGNE BETINGELSER------------------------------
+.*B32SPECVILT2 er 2 del af Nykredits Specielle vilkår for lån og kredit.
+.*regtyper - Privatkunder.
+.*-----------------------------------------------------------------------
+.if x&REGTYPE11 = x4309
+.or x&REGTYPE11 = x5115
+.or x&REGTYPE11 = x5116
+.or x&REGTYPE11 = x5117
+.or x&REGTYPE11 = x5118
+.or x&REGTYPE11 = x5132
+.or x&REGTYPE11 = x5133
+.or x&REGTYPE11 = x5135
+.or x&REGTYPE11 = x5136
+.or x&REGTYPE11 = x5150
+.or x&REGTYPE11 = x5151
+.or x&REGTYPE11 = x5155
+.or x&REGTYPE11 = x5156
+.or x&REGTYPE11 = x5905
+.or x&REGTYPE11 = x5906
+.or x&REGTYPE11 = x6120
+.or x&REGTYPE11 = x6121
+.or x&REGTYPE11 = x6122
+.or x&REGTYPE11 = x6123
+.or x&REGTYPE11 = x6130
+.or x&REGTYPE11 = x6131
+.or x&REGTYPE11 = x6132
+.or x&REGTYPE11 = x6133
+.or x&REGTYPE11 = x6140
+.or x&REGTYPE11 = x6141
+.or x&REGTYPE11 = x6142
+.or x&REGTYPE11 = x6143
+.th .go SPEVIL2
+.el .go SPESLUT2
+...SPEVIL2
+.kp 4
 :FED.
-¤Mulighed for &B32NYK. Platinum :SKRSLUT.
+Specielle vilkår :SKRSLUT.
 .br
-.in 8mm nobreak
-Kunder med en &B32NYK. Premium konto har mulighed for at bestille et
-&B32NYK. Platinum kort uden oprettelsesgebyr.
-.sp 3mm
-Gebyrer for brug af &B32NYK. Platinum kortet fremgår af den til enhver tid
-gældende prisliste, der findes på
-.hy off
-.us &B32WWWNYK.
-.hy on
-.ct  eller oplyses ved forespørgsel.
+.**************
+.if x&REGTYPE11 = x5905
+.or x&REGTYPE11 = x5906
+.th .go REGT5905
+.el .go UDENOM4
+.***** FRIVÆRDIKONTO - PERSONALE <80% OG 80-100% **************************
+.***** REGTYPE 5905 og 5906 ***********************************************
+...REGT5905
+Renten er variabel.
+.br
+Kreditten forfalder ved ejerskifte.
+.go SLUT2
+.***************
+...UDENOM4
+.if x&REGTYPE11 = x4309
+.th .go REGT4309
+.el .go UDENOM5
+.***** INVESTERINGSKREDIT *************************************************
+.***** REGTYPE 4309 *******************************************************
+...REGT4309
+For særlige betingelser henvises til "tillæg til kreditaftale" som
+udleveres sammen med denne kreditaftale. Tillægget indeholder bl.a.
+låntagers pantsætning af sikkerhedsdepotet og de nærmere regler for,
+hvornår der skal stilles yderligere sikkerhed.
+.go SLUT2
+.***************
+...UDENOM5
+.if x&REGTYPE11 = x5115
+.or x&REGTYPE11 = x5116
+.or x&REGTYPE11 = x5117
+.or x&REGTYPE11 = x5118
+.or x&REGTYPE11 = x5132
+.or x&REGTYPE11 = x5133
+.or x&REGTYPE11 = x5135
+.or x&REGTYPE11 = x5136
+.or x&REGTYPE11 = x5150
+.or x&REGTYPE11 = x5151
+.or x&REGTYPE11 = x5155
+.or x&REGTYPE11 = x5156
+.or x&REGTYPE11 = x6120
+.or x&REGTYPE11 = x6121
+.or x&REGTYPE11 = x6122
+.or x&REGTYPE11 = x6123
+.or x&REGTYPE11 = x6130
+.or x&REGTYPE11 = x6131
+.or x&REGTYPE11 = x6132
+.or x&REGTYPE11 = x6133
+.or x&REGTYPE11 = x6140
+.or x&REGTYPE11 = x6141
+.or x&REGTYPE11 = x6142
+.or x&REGTYPE11 = x6143
+.th .go REGT5115
+.el .go SPESLUT2
+.***** ANDELSBOLIGLÅN LØN *************************************************
+.***** REGTYPE 5115, 5116, 5117, 5118, 5132, 5133, 5135, 5150 og 5155 *****
+.*gba/tilf. jan. 2015: 6130, 6131, 6132                               *****
+...REGT5115
+Lånet forfalder ved ejerskifte.
+.***************
+...SLUT2
 .sp 5mm
-.kp off
-.kp on
-.tp 8mm
-:FED.
-¤Opsigelse :SKRSLUT.
-.br
-.in 8mm nobreak
-Denne konto kan til enhver tid opsiges af kontohaver med virkning fra
-udgangen af måneden.
-.sp 3mm
-Kontohaver kan til enhver tid indfri kreditten uden varsel. Kreditten
-ophører og forfalder endeligt til indfrielse ved opsigelse af kontoen.
-.sp 3mm
-.in 8mm nobreak
-For &BANKNAVN.s opsigelse af kontoen gælder de almindelige bestemmelser
-i &BANKNAVN.s "Almindelige forretningsbetingelser for privatkunder i
-&BANKNAVN.".
-.kp off
-.go SLUT4
-.************************************************************************
-...UDENOM10
-.if x&REGTYPE11 = x2126
-.or x&REGTYPE11 = x2162
-.an &U'&PRIERH = P
-.th .go REGT2126
-.el .go SPESLUT4
-.************************************************************************
-...REGT2126
-.kp on
-.tp 5mm 8mm
-:FED.
-Førtidig indfrielse af lån
-:SKRSLUT.
-.br
-&SDU. har ret til helt eller delvis at indfri &DINE. forpligtelser i
-henhold til de til enhver tid gældende regler i Kreditaftaleloven.
-.sp
-.kp off
-.kp on
-Ved førtidig hel eller delvis tilbagebetaling af lån i en periode med fast
-rente er &DU. forpligtet til at
-betale &BANKNAVN. kompensation for
-omkostninger, der er direkte forbundet med den førtidige tilbagebetaling på
-de betingelser, der fremgår af denne aftale herunder de almindelige
-betingelser for lån og kreditter.
-.sp
-.kp off
-.kp on
-Hel eller delvis indfrielse af lån med renteperioder med løbetid på tre
-måneder og lån med variabel rente kan til enhver tid ske med 14 dages
-varsel til en termin til kurs 100 og med et separat indfrielsesgebyr.
-.sp
-.kp off
-.kp on
-.tp 8mm
-&SDU. kan efter 14 dages forudgående varsel helt eller delvist indfri lån
-med renteperioder med løbetid på mere end tre måneder. En sådan indfrielse,
-herunder også indfrielse efter &BANKNAVN.´s opsigelse, finder
-sted på følgende
-vilkår:
-.sp
-*¤Lånet
-.in 8mm nobreak
-indfries i sin helhed med et beløb svarende til markedsværdien af
-lånets udestående betalinger på indfrielsestidspunktet, tillagt skyldige
-renter og ikke tilskrevne renter fra seneste rentetermin.
-.in -3mm
-*¤Ved
-.in 8mm nobreak
-opgørelse af markedsværdien anvendes &BANKNAVN. nulkuponrenter på
-indfrielsestidspunktet. &BANKNAVN.'s nulkuponrenter
-beregnes på grundlag af
-&BANKNAVN.'s
-.hw swap-renter
-for &BANKNAVN.´s placering af
-fast rente i en renteswap i den
-pågældende lånevaluta.
-.in -3mm
-*¤Ved
-.in 8mm nobreak
-førtidig indfrielse af lånet ved
-uændret renteniveau må &DU. påregne
-en omkostning (eller tillæg i markedsværdiopgørelsen), som &DU. hæfter
-for, idet &BANKNAVN.'s placeringsrente ofte
-vil være forskellig fra den
-oprindelig fastsatte rente, og &BANKNAVN.'s rentemarginal i den resterende
-fastrenteperiode ligeledes indgår i beregningen.
-.in -3mm
-*¤Hvis
-.in 8mm nobreak
-&BANKNAVN. skønner, at swaprenterne ikke
-længere udgør et markedsrelateret
-grundlag for beregning af nulkuponrenter på indfrielsestidspunktet, er
-&BANKNAVN. til enhver tid berettiget til at anvende et andet repræsentativt
-beregningsgrundlag.
-.in 0mm
-.sp
-.kp off
-.kp on
-Hvis &DIN. førtidige tilbagebetaling af beløb til &BANKNAVN. i
-en periode med
-fast rente sker på et tidspunkt, hvor der er mindre end et år mellem den
-førtidige tilbagebetaling til &BANKNAVN. og
-lånets ophørstidspunkt, kan &BANKNAVN. som
-udgangspunkt kræve kompensation op til 0,5 pct. af det beløb, der
-tilbagebetales førtidigt.
-.sp
-.kp off
-.kp on
-Hvis &DIN. førtidige tilbagebetaling af beløb til &BANKNAVN. i
-en periode med
-fast rente sker på et tidspunkt, hvor der er mere end et år mellem den
-førtidige tilbagebetaling til &BANKNAVN. og
-lånets ophørstidspunkt, kan &BANKNAVN. som
-udgangspunkt kræve kompensation op til 1 pct. af det beløb, der
-tilbagebetales førtidigt.
-.sp
-.kp off
-.kp on
-&BANKNAVN. kan dog kræve en højere kompensation
-end henholdsvis 0,5 pct. eller
-1 pct. af det beløb, der tilbagebetales førtidigt til
-&BANKNAVN. i en periode
-med fast rente, hvis &BANKNAVN. kan
-dokumentere, at de tab, som &BANKNAVN. har lidt
-som følge af den førtidige tilbagebetaling, overstiger førnævnte grænser på
-0,5 pct. og 1 pct. af det beløb, der tilbagebetales førtidigt.
-.sp
-.kp off
-.kp on
-Den maksimale kompensation til &BANKNAVN. ved
-førtidig tilbagebetaling af beløb
-i en periode med fast rente kan dog aldrig overstige det rentebeløb, som
-&DU. skulle have betalt af det førtidigt tilbagebetalte beløb i perioden
-mellem den førtidige betaling til &BANKNAVN. og lånets ophørstidspunkt.
-.sp
-&BANKNAVN. beregner sig et gebyr for indfrielsesberegninger, der ikke
-effektueres.
-.kp off
-...SLUT4
-.sp 5mm
-.************************************************************************
-...SPESLUT4
+...SPESLUT2
 .*--------------------B32s EGNE BETINGELSER------------------------------
 .*B32SPECVILT3 er 3 del af Nykredits Specielle vilkår for lån og kredit.
 .*regtyper - Privatkunder.
@@ -1220,863 +1449,301 @@ Kreditten forfalder ved ejerskifte.
 ...SLUT3
 .sp 5mm
 ...SPESLUT3
-.***************
-...UDENOM4
-.if x&REGTYPE11 = x4309
-.th .go REGT4309
-.el .go UDENOM5
-.***** INVESTERINGSKREDIT *************************************************
-.***** REGTYPE 4309 *******************************************************
-...REGT4309
-For særlige betingelser henvises til "tillæg til kreditaftale" som
-udleveres sammen med denne kreditaftale. Tillægget indeholder bl.a.
-låntagers pantsætning af sikkerhedsdepotet og de nærmere regler for,
-hvornår der skal stilles yderligere sikkerhed.
-.go SLUT2
-.***************
-...UDENOM5
-.if x&REGTYPE11 = x5115
-.or x&REGTYPE11 = x5116
-.or x&REGTYPE11 = x5117
-.or x&REGTYPE11 = x5118
-.or x&REGTYPE11 = x5132
-.or x&REGTYPE11 = x5133
-.or x&REGTYPE11 = x5135
-.or x&REGTYPE11 = x5136
-.or x&REGTYPE11 = x5150
-.or x&REGTYPE11 = x5151
-.or x&REGTYPE11 = x5155
-.or x&REGTYPE11 = x5156
-.or x&REGTYPE11 = x6120
-.or x&REGTYPE11 = x6121
-.or x&REGTYPE11 = x6122
-.or x&REGTYPE11 = x6123
-.or x&REGTYPE11 = x6130
-.or x&REGTYPE11 = x6131
-.or x&REGTYPE11 = x6132
-.or x&REGTYPE11 = x6133
-.or x&REGTYPE11 = x6140
-.or x&REGTYPE11 = x6141
-.or x&REGTYPE11 = x6142
-.or x&REGTYPE11 = x6143
-.th .go REGT5115
-.el .go SPESLUT2
-.***** ANDELSBOLIGLÅN LØN *************************************************
-.***** REGTYPE 5115, 5116, 5117, 5118, 5132, 5133, 5135, 5150 og 5155 *****
-.*gba/tilf. jan. 2015: 6130, 6131, 6132                               *****
-...REGT5115
-Lånet forfalder ved ejerskifte.
-.***************
-...SLUT2
-.sp 5mm
-...SPESLUT2
 .*--------------------B32s EGNE BETINGELSER------------------------------
-.*B32SPECVILT2 er 2 del af Nykredits Specielle vilkår for lån og kredit.
+.*B32SPECVILT4 er 4 del af Nykredits Specielle vilkår for lån og kredit.
 .*regtyper - Privatkunder.
 .*-----------------------------------------------------------------------
-.if x&REGTYPE11 = x4309
-.or x&REGTYPE11 = x5115
-.or x&REGTYPE11 = x5116
-.or x&REGTYPE11 = x5117
-.or x&REGTYPE11 = x5118
-.or x&REGTYPE11 = x5132
-.or x&REGTYPE11 = x5133
-.or x&REGTYPE11 = x5135
-.or x&REGTYPE11 = x5136
-.or x&REGTYPE11 = x5150
-.or x&REGTYPE11 = x5151
-.or x&REGTYPE11 = x5155
-.or x&REGTYPE11 = x5156
-.or x&REGTYPE11 = x5905
-.or x&REGTYPE11 = x5906
-.or x&REGTYPE11 = x6120
-.or x&REGTYPE11 = x6121
-.or x&REGTYPE11 = x6122
-.or x&REGTYPE11 = x6123
-.or x&REGTYPE11 = x6130
-.or x&REGTYPE11 = x6131
-.or x&REGTYPE11 = x6132
-.or x&REGTYPE11 = x6133
-.or x&REGTYPE11 = x6140
-.or x&REGTYPE11 = x6141
-.or x&REGTYPE11 = x6142
-.or x&REGTYPE11 = x6143
-.th .go SPEVIL2
-.el .go SPESLUT2
-...SPEVIL2
+.if x&REGTYPE11 = x7140
+.or x&REGTYPE11 = x7150
+.or x&REGTYPE11 = x7152
+.or x&REGTYPE11 = x7153
+.or x&REGTYPE11 = x4310
+.or x&REGTYPE11 = x4311
+.or x&REGTYPE11 = x2126
+.or x&REGTYPE11 = x2162
+.or x&REGTYPE11 = x6414
+.or x&REGTYPE11 = x6415
+.th .go SPEVIL4
+.el .go SPESLUT4
+.************************************************************************
+...SPEVIL4
 .kp 4
+.***Ingen overskrift på reg 2126 og 2162 **********************
+.if x&REGTYPE11 = x2126
+.or x&REGTYPE11 = x2162
+.th .go INOVERS
 :FED.
 Specielle vilkår :SKRSLUT.
 .br
-.**************
-.if x&REGTYPE11 = x5905
-.or x&REGTYPE11 = x5906
-.th .go REGT5905
-.el .go UDENOM4
-.***** FRIVÆRDIKONTO - PERSONALE <80% OG 80-100% **************************
-.***** REGTYPE 5905 og 5906 ***********************************************
-...REGT5905
-Renten er variabel.
-.br
-Kreditten forfalder ved ejerskifte.
-.go SLUT2
-.or x&REGTYPE11 = x6193
-.or x&REGTYPE11 = x6195
-.or x&REGTYPE11 = x6196
-.or x&REGTYPE11 = x6197
-.or x&REGTYPE11 = x6198
-.th .go SPEVIL1
-.el .go SPESLUT1
-...SPEVIL1
-.kp 4
+...INOVERS
+.**************************************************************************
+.* gba, tilf. feb.2015:     6414 & 6415 ***********************************
+.if x&REGTYPE11 = x6414
+.or x&REGTYPE11 = x6415
+.th .go REGT6414
+.el .go UDENOM8
+...REGT6414
+Primo den måned, hvor yngste kontohaver fylder 36 år, overgår
+Ung Konto - med mindre andet er aftalt - til vilkårene for en Konto
+i Nykredit.
+.go SLUT4
+...UDENOM8
+.if x&REGTYPE11 = x7140
+.or x&REGTYPE11 = x7150
+.or x&REGTYPE11 = x7152
+.or x&REGTYPE11 = x7153
+.th .go REGT7150
+.el .go UDENOM9
+.***** 18-28KONTO - REGTYPE 7140 & 7150 ***********************************
+.* gba, tilf. jan.2015:     6414 & 6415 ***********************************
+...REGT7150
+Primo den måned, hvor yngste kontohaver fylder 29 år, overgår
+1828Kontoen - med mindre andet er aftalt - til vilkårene for Frikonto
+eller tilsvarende konto i Nykredit.
+.go SLUT4
+.************************************************************************
+.*****Her ligger teksten til Nykredit Premium kontoaftale med kredit*****
+...UDENOM9
+.if x&REGTYPE11 = x4310
+.or x&REGTYPE11 = x4311
+.th .go REGT4310
+.el .go UDENOM10
+.************************************************************************
+...REGT4310
+.kp on
+.tp 8mm
 :FED.
-Specielle vilkår :SKRSLUT.
+¤Gebyrer :SKRSLUT.
 .br
-.***************
-.if x&REGTYPE11 = x5080
-.or x&REGTYPE11 = x5081
-.or x&REGTYPE11 = x5082
-.or x&REGTYPE11 = x5083
-.or x&REGTYPE11 = x5090
-.or x&REGTYPE11 = x5091
-.or x&REGTYPE11 = x5095
-.or x&REGTYPE11 = x5096
-.or x&REGTYPE11 = x5940
-.or x&REGTYPE11 = x6010
-.or x&REGTYPE11 = x6011
-.or x&REGTYPE11 = x6012
-.or x&REGTYPE11 = x6013
-.or x&REGTYPE11 = x6020
-.or x&REGTYPE11 = x6021
-.or x&REGTYPE11 = x6022
-.or x&REGTYPE11 = x6023
-.or x&REGTYPE11 = x6060
-.or x&REGTYPE11 = x6061
-.or x&REGTYPE11 = x6062
-.or x&REGTYPE11 = x6063
-.or x&REGTYPE11 = x6150
-.or x&REGTYPE11 = x6151
-.or x&REGTYPE11 = x6152
-.or x&REGTYPE11 = x6153
-.or x&REGTYPE11 = x6160
-.or x&REGTYPE11 = x6161
-.or x&REGTYPE11 = x6162
-.or x&REGTYPE11 = x6163
-.or x&REGTYPE11 = x6170
-.or x&REGTYPE11 = x6171
-.or x&REGTYPE11 = x6172
-.or x&REGTYPE11 = x6173
-.or x&REGTYPE11 = x6180
-.or x&REGTYPE11 = x6181
-.or x&REGTYPE11 = x6182
-.or x&REGTYPE11 = x6183
-.or x&REGTYPE11 = x5930
-.th .go REGT5600
-.el .go SPESLUT1
-.***** PAUSEKONTI *********************************************************
-.***** REGTYPE 5600 OG 5930 ***********************************************
-...REGT5600
-Ved pauseperiodens ophør vil lånets restgæld, som følge af tilskrevne
-renter i pauseperioden, være større end den ovennævnte hovedstol. Se bilag
-til låneaftalen for flere informationer.
-.****
-...SLUT1
+.in 8mm nobreak
+Der opkræves et gebyr på 100 kr. pr måned på kontoen. Gebyret opkræves
+bagud på den sidste bankdag i måneden. Der opkræves ikke gebyr ved hævning
+på Visa/Dankort i &B32NYK.s egne eller i fremmede pengeinstitutters
+hæveautomater i Danmark.
+.br
+Retningslinjer for &BANKNAVN.s opkrævning af øvrige gebyrer fremgår af
+"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.". De
+almindelige gebyrer fremgår af skiltning i &B32NYK.s centre, af
+.us &B32WWWNYK
+.ct  eller oplyses ved forespørgsel. Øvrige gebyrer oplyses ved
+forespørgsel.
 .sp 5mm
-...SPESLUT1
-.or x&REGTYPE11 = x6190
-.or x&REGTYPE11 = x6191
-.or x&REGTYPE11 = x6192
-.or x&REGTYPE11 = x6193
-.or x&REGTYPE11 = x6195
-.or x&REGTYPE11 = x6196
-.or x&REGTYPE11 = x6197
-.or x&REGTYPE11 = x6198
-.th .go REGT5080
-.el .go UDENOM1
-.***** BOLIGLÅN ***********************************************************
-.***** REGTYPE 5080, 5081, 5082, 5083, 5090, 5091, 5095 og 5096           *
-.*gba/tilf. jan. 2015: 6150, 6151, 6152, 6160, 6161, 6162                 *
-.*                     6170, 6171, 6172, 6180, 6181, 6182                 *
-.*                     6190, 6191, 6192, 6195, 6196, 6197                 *
-.*SBL-opg jan 2016:    5940, 6060, 6061, 6062, 6063                       *
-...REGT5080
-Renten er variabel.
-.br
-Lånet forfalder ved ejerskifte.
-.go SLUT1
-.***************
-...UDENOM1
-.if x&REGTYPE11 = x5944
-.th .go REGT5944
-.el .go UDENOM2
-.***** FRIVÆRDIKONTO ANDEL - PERSONALE ************************************
-.***** REGTYPE 5944 *******************************************************
-...REGT5944
-Renten er variabel.
-.br
-Kreditten forfalder ved ejerskifte.
-.go SLUT1
-.***************
-...UDENOM2
-.if x&REGTYPE11 = x5941
-.or x&REGTYPE11 = x5942
-.or x&REGTYPE11 = x5943
-.th .go REGT5941
-.el .go UDENOM3
-.***** BOLIGLÅN OG ANDELSBOLIGLÅN - PERSONALE *****************************
-.***** REGTYPE 5941, 5942 og 5943 *****************************************
-...REGT5941
-Renten er variabel.
-.br
-Lånet forfalder ved ejerskifte.
-.go SLUT1
-.***************
-...UDENOM3
-.if x&REGTYPE11 = x5600
-.*--------------------B32s EGNE BETINGELSER------------------------------
-.*B32SPECVILT1 er 1 del af Nykredits Specielle vilkår for lån og kredit.
-.*for Privatkunder.
-.*-----------------------------------------------------------------------
-.if x&REGTYPE11 = x5080
-.or x&REGTYPE11 = x5081
-.or x&REGTYPE11 = x5082
-.or x&REGTYPE11 = x5083
-.or x&REGTYPE11 = x5090
-.or x&REGTYPE11 = x5091
-.or x&REGTYPE11 = x5095
-.or x&REGTYPE11 = x5096
-.or x&REGTYPE11 = x5600
-.or x&REGTYPE11 = x5930
-.or x&REGTYPE11 = x5940
-.or x&REGTYPE11 = x5941
-.or x&REGTYPE11 = x5942
-.or x&REGTYPE11 = x5943
-.or x&REGTYPE11 = x5944
-.or x&REGTYPE11 = x6010
-.or x&REGTYPE11 = x6011
-.or x&REGTYPE11 = x6012
-.or x&REGTYPE11 = x6013
-.or x&REGTYPE11 = x6020
-.or x&REGTYPE11 = x6021
-.or x&REGTYPE11 = x6022
-.or x&REGTYPE11 = x6023
-.or x&REGTYPE11 = x6060
-.or x&REGTYPE11 = x6061
-.or x&REGTYPE11 = x6062
-.or x&REGTYPE11 = x6063
-.or x&REGTYPE11 = x6150
-.or x&REGTYPE11 = x6151
-.or x&REGTYPE11 = x6152
-.or x&REGTYPE11 = x6153
-.or x&REGTYPE11 = x6160
-.or x&REGTYPE11 = x6161
-.or x&REGTYPE11 = x6162
-.or x&REGTYPE11 = x6163
-.or x&REGTYPE11 = x6170
-.or x&REGTYPE11 = x6171
-.or x&REGTYPE11 = x6172
-.or x&REGTYPE11 = x6173
-.or x&REGTYPE11 = x6180
-.or x&REGTYPE11 = x6181
-.or x&REGTYPE11 = x6182
-.or x&REGTYPE11 = x6183
-.or x&REGTYPE11 = x6190
-.or x&REGTYPE11 = x6191
-.or x&REGTYPE11 = x6192
-.**************HER ER DER TILFØJET NAVNET PÅ B32'S BETINGELSER**********
-.*   NB NB NB
-.*   NB NB NB        På nogle regtyper ligger rente og omkost-
-.*   NB NB NB        ningsoplysningerne i B32KRED50T3A1
-.*   NB NB NB
-.if &reggrp. = NEJ
-.th
-.el .go UDENOM5
-.*------ B32-version - start --------
-.if x&REGTYPE11 = x3030
-.or x&REGTYPE11 = x3031
-.or x&REGTYPE11 = x3032
-.or x&REGTYPE11 = x3033
-.or x&REGTYPE11 = x3034
-.or x&REGTYPE11 = x3035
-.or x&REGTYPE11 = x3036
-.or x&REGTYPE11 = x3037
-.or x&REGTYPE11 = x3038
-.th .go INGENOPS
-.********************************************
-.if x&REGTYPE11 = x2006
-.or x&REGTYPE11 = x2018
-.th .go UDENOM5
-.*------ B32-version - slut ---------
-:FED.
-.if &U'&PRIERH = P
-.th Rente og omkostninger
-.*-------B32-version start-------
-.el Rente og provision
-:SKRSLUT.
-.br
-.if &U'&PRIERH = P
-.th Det lånte beløb forrentes fra udbetalingsdagen. &ÅCONT
-.th Rente og omkostninger er
-.el Rente, provision og gebyrer er
-.*-------B32-version slut-------
-.if &U'&RENTETYP = V
-.th variable
-.if &U'&RENTETYP = D
-.th differentieret
-og fastsættes til enhver tid af
-&BANKNAVN., jf. &BANKNAVN.s
-.*-------B32-version start-------
-.if &U'&PRIERH = P
-.th Almindelige bestemmelser for lån og kreditter.
-.if &U'&PRIERH = E
-.th Bankguide. Rentesatsen for kontoens indlån kan afhænge af den til
-.th enhver tid indestående saldo. Rente, provision og gebyrer kan ændres
-.th af &BANKNAVN., efter reglerne i &BANKNAVN.s Bankguide.
-.th .sp
-.th Renteberegningen sker på basis af et renteår på faktiske dage divideret
-.th med 360. Renten betales bagud hvert kvartal, første gang
-.th ved udløb af kredittens første rentetermin.
-.sp 3mm
-.if &U'&RENTETYP = V
-.th .go TYPV
-.el .go TYPD
-...TYPV
-Udlånsrenten er for tiden &RENTE % om året og tilskrives kreditten
-.if &RTEFREK01 = 1
-.th hver måned,
-.if &RTEFREK01 = 3
-.th hvert kvartal,
-.if &RTEFREK01 = 6
-.th hvert halvår,
-.if &RTEFREK01 = 9
-.th hvert år,
-første gang den &RTEDATO01..
-...TYPD
-.if &U'&RENTETYP = D
-.th Renten er differentieret og fremgår af kreditoplysningerne.
-.*
-.***************PRIVAT*****************************************************
-.if &U'&PRIERH = E
-.th .go GEBYREND
-.if x&REGTYPE11 = x5130
-.or x&REGTYPE11 = x5131
-.or x&REGTYPE11 = x5134
-.or x&REGTYPE11 = x6700
-.or x&REGTYPE11 = x6710
-.or x&REGTYPE11 = x6720
-.or x&REGTYPE11 = x6750
-.or x&REGTYPE11 = x6760
-.or x&REGTYPE11 = x6770
-.or x&REGTYPE11 = x6800
-.or x&REGTYPE11 = x6801
-.or x&REGTYPE11 = x6805
-.or x&REGTYPE11 = x6810
-.or x&REGTYPE11 = x7000
-.or x&REGTYPE11 = x7001
-.or x&REGTYPE11 = x7005
-.or x&REGTYPE11 = x7010
-.or x&REGTYPE11 = x7200
-.or x&REGTYPE11 = x7205
-.or x&REGTYPE11 = x7210
-.or x&REGTYPE11 = x7300
-.or x&REGTYPE11 = x7600
-.or x&REGTYPE11 = x7601
-.or x&REGTYPE11 = x7602
-.or x&REGTYPE11 = x7603
-.or x&REGTYPE11 = x7604
-.or x&REGTYPE11 = x7605
-.or x&REGTYPE11 = x7606
-.or x&REGTYPE11 = x7610
-.or x&REGTYPE11 = x7611
-.or x&REGTYPE11 = x7612
-.or x&REGTYPE11 = x7613
-.or x&REGTYPE11 = x7614
-.or x&REGTYPE11 = x7615
-.or x&REGTYPE11 = x7620
-.or x&REGTYPE11 = x7623
-.or x&REGTYPE11 = x7625
-.or x&REGTYPE11 = x7626
-.or x&REGTYPE11 = x7627
-.or x&REGTYPE11 = x7628
-.or x&REGTYPE11 = x7629
-.or x&REGTYPE11 = x7631
-.or x&REGTYPE11 = x7632
-.or x&REGTYPE11 = x7636
-.or x&REGTYPE11 = x7638
-.or x&REGTYPE11 = x7639
-.or x&REGTYPE11 = x7663
-.or x&REGTYPE11 = x7665
-.or x&REGTYPE11 = x7666
-.or x&REGTYPE11 = x7667
-.or x&REGTYPE11 = x7668
-.or x&REGTYPE11 = x7669
-.or x&REGTYPE11 = x8600
-.or x&REGTYPE11 = x8650
-.th .sp 3mm
-.th Der beregnes et variabelt kontogebyr for Kernekonto og
-.th FriværdiKonto. Kontogebyret beregnes p.t. som
-.th 0,75 kr. pr. postering. Der opkræves maksimalt 10 kr. pr. måned
-.th pr. konto.
-...GEBYREND
-.**PROVISION **************************************************************
-.if &L'&PROV = 0
-.an &L'&PROVOVERTR = 0
-.an &L'&PROVBEVILG = 0
-.th .go PROVSL
-.*-------B32-version start-------
-.el .sp
-.*-------B32-version slut--------
-.el .go PROV
-.***************
-...PROV
-.if &U'&PRIERH = P
-.th .go PROVP
-.el .go PROVE
-...PROVE
-.*-------B32-version start-------
-.**ERHVERV ***************************************************************
-.*Mellemrum fjernet mellem de 3 provisoiner*******************************
-.if &L'&PROV > 0
-.th .go PRTXA4
-.el .go PREXA4
-...PRTXA4
-.if X&LSPROVKB = X1
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.if X&LSPROVKB = X2
-.th Provision af kreditmaksimum er for tiden &PROV % om året. &ÅCONT
-.if X&LSPROVKB = X4
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.if X&LSPROVKB = X5
-.th Provisionen af uudnyttet kreditmaksimum er for tiden &PROV % om
-.th året. &ÅCONT
-...PREXA4
-.if &L'&PROVOVERTR > 0
-.th Overtræksprovision er for tiden &PROVOVERTR % om året. &ÅCONT
-.if &L'&PROVBEVILG > 0
-.th Provision af bevilget overtræk er for tiden &PROVBEVILG % om året.
-.*-------B32-version slut--------
-.th .br
-.go PROVSL
-.**PRIVATE ****************************************************************
-...PROVP
-.if &L'&PROV > 0
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.if &L'&PROVOVERTR > 0
-.th Ved overtræk af kreditten er &BANKNAVN berettiget til at opkræve
-.th overtræksprovision, der for tiden er &PROVOVERTR % om året. &ÅCONT
-.if &L'&PROVBEVILG > 0
-.th Provision af bevilget overtræk er for tiden &PROVBEVILG %
-.th om året. &ÅCONT
-.if &L'&PROVOVERTR > 0
-.th Overtræksprovision beregnes af det beløb som er trukket ud over
-.th kredittens aftalte kreditbeløb, fra dagen hvor
-.th overtræk foretages indtil betaling sker. &BANKNAVN kan ændre
-.th overtræksprovisionen uden varsel eller begrundelse.
-.sp 3mm
-Ved overtræk af kreditten kan der endvidere påløbe omkostninger i
-forbindelse med udsendelse af påmindelse - og rykkerbreve. Gebyr for
-påmindelsesbrev udgør p.t. kr. 40,00 pr. brev. Gebyr for rykkerbrev udgør
-p.t. kr. 100,00 pr. brev.
-.sp 3mm
-Ved overdragelse til inkasso vil der påløbe yderligere omkostninger til
-advokat, domstole m.v. Manglende betaling vil kunne medføre, at &BANKNAVN
-kan ophæve kreditaftalen uden varsel og forlange hele gælden betalt
-straks.
-...PROVSL
-.sp 5mm
-...UDENOM5
-.***************
-.if &L'&AFDYDL01 > 0
-.an &U'&AFDYDL01 = H
-.th .go AFDSLUT
-:FED.
-Betaling
-.br
-:SKRSLUT.
-&debsomt får ikke separat meddelelse om beløb, der er
-hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
-.sp 5mm
-.***************
-...AFDSLUT
-.*-------B32-version start - GÆLDER KUN FOR ERHVERVSKUNDER------------
-.if &U'&PRIERH = P
-.th .go INGENOPS
-:FED.
-Opsigelse
-.br
-:SKRSLUT.
-&BANKNAVN. kan til enhver tid opsige kreditten med 14 dages varsel.
-.sp
-&BANKNAVN. kan i de tilfælde som er anført i bankguiden opsige
-kreditten uden varsel til fuld indfrielse.
-.sp
-...INGENOPS
-.*-------B32-version slut--------
-.if &reggrp. = NYKBID
-.or &reggrp. = CITA0
-.or &reggrp. = CIBOR0
-.th
-.el .go AFSN3B
-.sp
-Ved positiv saldo på kontoen beregnes renten af indestående op til og med
-3.000.000 kr. på baggrund af en variable rentesats fastsat af &BANKNAVN..
-...AFSN3B
-.if &reggrp. = ADMRENTE
-.or &reggrp. = ADMCITA
-.or &reggrp. = ADMCIBOR
-.th
-.el .go AFSN3C
-.sp
-Ved positiv saldo på kontoen beregnes renten af indestående på baggrund af
-en variable rentesats fastsat af &BANKNAVN..
-...AFSN3C
-.if &reggrp. = CITA
-.or &reggrp. = BYGCITA0
-.th
-.el .go AFSN3D
-.sp
-Ved positiv saldo på kontoen beregnes renten af indestående dagligt som
-referencerenten 3-måneders CITA, fratrukket en marginal for indlån.
-...AFSN3D
-.if &reggrp. = CIBOR
-.or &reggrp. = BYGCIBOR0
-.th
-.el .go AFSN4
-.sp
-Ved positiv saldo på kontoen beregnes renten af indestående dagligt som
-referencerenten 3-måneders CIBOR, fratrukket en marginal for indlån.
-...AFSN4
-.if &reggrp. = CITA
-.th
-.el .go AFSN4B
-.sp
-Ved positiv saldo på kontoen beregnes renten af den del af indestående, der
-overstiger &LSDFKREBE2. kr., dagligt referencerenten 3-måneders CITA,
-fratrukket en marginal for indlån.
-...AFSN4B
-.if &reggrp. = CIBOR
-.th
-.el .go AFSN4C
-.sp
-Ved positiv saldo på kontoen beregnes renten af den del af indestående, der
-overstiger &LSDFKREBE2. kr., dagligt referencerenten 3-måneders CIBOR,
-fratrukket en marginal for indlån.
-...AFSN4C
-.if &reggrp. = NYKBID
-.th
-.el .go AFSN5
-.sp
-Ved positiv saldo på kontoen beregnes renten af den del af indestående, der
-overstiger &LSDFKREBE2. kr., dagligt referencerenten NYKBID, fratrukket en
-marginal for indlån.
-...AFSN5
-...AFSN5B
-.if &reggrp. = NYKBID
-.or &reggrp. = CITA0
-.or &reggrp. = CIBOR0
-.or &reggrp. = BYGCIBOR0
-.th
-.el .go AFSN5C
-.sp
-Den samlede indlånsrente kan blive negativ. Er den samlede indlånsrenten
-negativ kan &BANKNAVN. vælge, enten for hele eller for dele af
-indeståendet, midlertidigt at sætte indlånsrenten til 0,000 % pr. år.
-&BANKNAVN. kan efterfølgende med 7 dages varsel meddele, at
-indlånsrenten ikke længere fastsættes til 0,000 % pr. år, og i stedet
-fastsætte en negativ rente. Meddelelser herom bliver givet på samme måde
-som andre meddelelser om renteændringer jf. &BANKNAVN.s Bankguide.
-...AFSN5C
-.if &reggrp. = CITA
-.or &reggrp. = CIBOR
-.th
-.el .go AFSN6
-.sp
-Er den samlede indlånsrente negativ kan &BANKNAVN. vælge, for hele
-eller for dele af indeståendet, midlertidigt at sætter den samlede
-indlånsrente til 0,000 % pr. år. &BANKNAVN. kan efterfølgende med 7
-dages varsel meddele,
-at den samlede indlånsrente ikke længere fastsættes til 0,000 % pr. år, og
-i stedet fastsætte en negativ rente. Meddelelser herom bliver givet på
-samme måde som andre meddelelser om renteændringer jf. &BANKNAVN.s
-Bankguide.
-...AFSN6
-.if &reggrp. = CITA
-.or &reggrp. = CIBOR
-.or &reggrp. = BYGCITA0
-.or &reggrp. = BYGCIBOR0
-.th
-.el .go AFSN7
-.sp
-Den samlede indlånsrente for indestående udgør for tiden
-.if x&LSDFKRESI1 lt x0
-.th 0,00
-.el &LSDFKRESI1.
-% pr. år. Renten tilskrives årligt.
-.if &reggrp. = CIBOR
-.or &reggrp. = CIBOR0
-.or &reggrp. = BYGCIBOR0
-.th 3-måneders CIBOR (Copenhagen Interbank Offered Rate)
-.el 3-måneders CITA (Copenhagen Interbank Tomorrow/Next Average)
-tillagt en marginal for udlån. Er
-.if &reggrp. = CIBOR
-.or &reggrp. = CIBOR0
-.or &reggrp. = BYGCIBOR0
-.th 3-måneders CIBOR
-.el 3-måneders CITA
-negativ, bliver den samlede udlånsrente fastsat til marginalen for udlån.
-Den samlede rente kan aldrig blive negativ.
-...AFSN1C
-.*Afsnit 1c
-.if &reggrp. = NYKBID
-.th
-.el .go AFSN1D
-Udlånsrenten for træk på kreditten beregnes dagligt som den af &BANKNAVN.
-fastsatte referencerente NYKBOR tillagt en marginal for udlån. Den
-samlede udlånsrente kan aldrig blive negativ.
-...AFSN1D
-.*Afsnit 1D
-.if &reggrp. = ADMCIBOR
-.th
-.el .go AFSN1E
-Udlånsrenten for træk på kreditten beregnes dagligt som referencerenten
-3-måneders CIBOR (Copenhagen Interbank Offered Rate) tillagt en marginal
-for udlån Den samlede udlånsrente kan aldrig blive negativ.
-.*Afsnit 1E
-...AFSN1E
-.if &reggrp. = ADMCITA
-.th
-.el .go AFSN1F
-Udlånsrenten for træk på kreditten beregnes dagligt som referencerenten
-3-måneders CITA (Copenhagen Interbank Tomorrow/Next Average) tillagt en
-marginal for udlån. Den samlede udlånsrente kan aldrig blive negativ.
-...AFSN1F
-.if &reggrp. = ADMRENTE
-.th
-.el .go AFSN2
-Rente,  provision og gebyrer er variable og fastsættes til enhver tid af
-&BANKNAVN. jf. &BANKNAVN.s Bankguide.
-.sp
-Udlånsrenten kan aldrig blive negativ.
-...AFSN2
-.sp
-Den samlede udlånsrente udgør p.t. &RENTE. % pr. år og tilskrives kreditten
-hvert kvartal, første gang den &RTEDATO01..
-...AFSN3
-.su off
-.se reggrp = 'NEJ'
-.if x&REGTYPE11 = x5855
-.or x&REGTYPE11 = x3700
-.or x&REGTYPE11 = x3701
-.or x&REGTYPE11 = x3702
-.or x&REGTYPE11 = x3704
-.or x&REGTYPE11 = x3705
-.or x&REGTYPE11 = x3706
-.th .se reggrp = 'ADMRENTE'
-.if x&REGTYPE11 = x5854
-.or x&REGTYPE11 = x5864
-.th .se reggrp = 'CIBOR'
-.if x&REGTYPE11 = x5856
-.or x&REGTYPE11 = x5866
-.th .se reggrp = 'CIBOR0'
-.if x&REGTYPE11 = x1997
-.th .se reggrp = 'BYGCIBOR0'
-.if x&REGTYPE11 = x5855
-.or x&REGTYPE11 = x5865
-.th .se reggrp = 'CITA'
-.if x&REGTYPE11 = x5857
-.or x&REGTYPE11 = x5867
-.th .se reggrp = 'CITA0'
-.if x&REGTYPE11 = x1998
-.th .se reggrp = 'BYGCITA0'
-.if x&REGTYPE11 = x3703
-.or x&REGTYPE11 = x3707
-.th .se reggrp = 'NYKBID'
-.if x&REGTYPE11 = x3713
-.th .se reggrp = 'ADMCIBOR'
-.if x&REGTYPE11 = x3720
-.th .se reggrp = 'ADMCITA'
-.su on
-.if &reggrp. = NEJ
-.th .go AFSNSL
-:FED.
-Rente og Provision
-:SKRSLUT.
-.br
-.**** BREVTEKST
-.*Afsnit 1a og 1b
-.if &reggrp. = CITA
-.or &reggrp. = CITA0
-.or &reggrp. = CIBOR
-.or &reggrp. = CIBOR0
-.or &reggrp. = BYGCIBOR0
-.th
-.el .go AFSN1C
-Udlånsrenten for træk på kreditten beregnes dagligt som referencerenten
-.go AFSN8
-...AFSN7
-.sp
-Den samlede indlånsrente for indestående op til og med DKK &LSDFKREBE2.
-udgør for tiden &LSDFKRESI1. % pr. år, og for
-indestående over DKK &LSDFKREBE2. for
-tiden &LSDFKRESI2. % pr. år. Renten tilskrives årligt.
-...AFSN8
-.sp
-Provision af kreditmaksimum er for tiden &LSPROVSATS. % om året.
-Overtræksprovision er for tiden &LSOVPRSATS. % om året. Provision af
-bevilget overtræk er for tiden &LSBEVOVSAT. % om året.
-...AFSN9
-.if &reggrp. = CITA
-.or &reggrp. = CIBOR
-.or &reggrp. = CITA0
-.or &reggrp. = CIBOR0
-.or &reggrp. = BYGCIBOR0
-.or &reggrp. = NYKBID
-.or &reggrp. = ADMCITA
-.or &reggrp. = ADMCIBOR
-.th
-.el .go AFSN11B
-.sp
-Marginaler for ind og udlån er variable og kan ændres af &BANKNAVN. med
-1 måneds varsel.
-.sp
-.* Afsnit 10
-Referencerenten fastsættes på baggrund af oplysninger indhentet af
-&BANKNAVN..
-.sp
-.* Afsnit 11a
-&BANKNAVN. kan ændre renteberegningsmetoder og kriterierne for
-fastsættelse af renten, herunder ændre referencerenter og/eller ændre eller
-fjerne beløbsgrænser for de forskellige renteberegningsmetoder uden
-begrundelse med 1 måneds forudgående varsel.
-.sp
-.go AFSNSL
-...AFSN11B
-.sp
-&BANKNAVN. kan ændre renteberegningsmetoder og kriterierne for
-fastsættelse af renten, herunder ændre eller fjerne beløbsgrænser for de
-forskellige renteberegningsmetoder uden begrundelse med 1 måneds
-forudgående varsel.
-.sp
-...AFSNSL
-året.
-.sp
-Hvis Nasdaq OMX (eller andre som måtte træde i stedet) ophører med at
-notere rentesatsen på den aftalte referencerente, eller
-&BANKNAVN. vurderer, at den aftalte
-referencerente ikke længere afspejler det danske
-marked for referencesatser, kan &BANKNAVN. beregne lånets rente med
-udgangspunkt i en anden, markedskonform referencerente.
-.sp
-Endelig kan &BANKNAVN. beregne lånets rente med udgangspunkt i en anden
-markedskonform referencerente, hvis en eller flere offentlige myndigheder
-væsentligt anfægter den aftalte referencerente som referencerente, eller
-hvis den finansielle sektor indgår aftale med en offentlig myndighed om
-anvendelse af en anden referencerente end den aftale referencerente.
-.sp
-&BANKNAVN. skal give 1 måneds varsel, før banken kan beregne lånets
-rente med udgangspunkt i en anden, markedskonform referencerente.
-.sp 5mm
-...SLT20
-.***************
-.*Kodet efter anvisning fra Rikke Jørgsholm 16-6-2013*
-.if x&REGTYPE11 = x2006
-.or x&REGTYPE11 = x2018
-.th .go REG20
-.el .go SLT20
-...REG20
-:FED.
-Rente og provision
-:SKRSLUT.
-.br
-Udlånsrenten for træk på kreditten beregnes dagligt som
-.if x&REGTYPE11 = x2006
-.th 3-måneders CIBOR
-.el 3-måneders CITA
-tillagt en marginal. Marginalen er variabel og kan til enhver tid ændres
-af banken med 3 måneders varsel. Den samlede rente kan aldrig blive
-negativ.
-.sp
-Den samlede udlånsrente udgør p.t. &RENTE. % pr. år og tilskrives kreditten
-hvert kvartal, første gang den &RTEDATO01..
-.sp
-Ved positiv saldo på kontoen forrentes denne på baggrund af den af banken
-til enhver tid fastsatte indlånsrente for kreditter. Renten udgør
-.if x&LSDFKRESI1. < x0,000
-.th .ct  p.t. 0,000 % pr. år.
-.el .ct  p.t. &LSDFKRESI1. % pr. år.
-.sp
-.*-------B32-version start-------
-.if &L'&PROV > 0
-.th .go PRTXA3
-.el .go PREXA3
-...PRTXA3
-.if &U'&PRIERH = P
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.th .sp
-.th .go PREXA3
-.if X&LSPROVKB = X1
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.if X&LSPROVKB = X2
-.th Provision af kreditmaksimum er for tiden &PROV % om året. &ÅCONT
-.if X&LSPROVKB = X4
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.if X&LSPROVKB = X5
-.th Provisionen af uudnyttet kreditmaksimum er for tiden &PROV % om
-.th året. &ÅCONT
-...PREXA3
-.*-------B32-version slut-------
-Overtræksprovision er for tiden &PROVOVERTR. % om
-året. Provision af bevilget overtræk er for tiden &PROVBEVILG. % om
-.th 25.000.000,00
-.if x&REGTYPE11 = x3032
-.th 50.000.000,00
-.* --------------------------------
-med &B32NYK., bedømt ud fra kontohavers og/eller dennes ægtefælles
-personlige økonomiske forhold. I denne bedømmelse indgår også
-formue og forretningsomfang i eventuelle selskaber (A/S, ApS,
-I/S, K/S), som kontrolleres af kontohaveren og/eller dennes
-ægtefælle. Ved vurdering af den regnskabsmæssige formue
-indgår aktiver såsom depoter, ejendomme m.m., og eventuel
-gæld fratrækkes.
-.br
-Ved vurderingen af forretningsomfanget med &BANKNAVN. indgår
-bl.a. indeståender i &BANKNAVN., pensionsordninger, udlån hos
-&BANKNAVN. m.m. Såfremt dette forhold efter &BANKNAVN.s
-skøn ikke er opfyldt, kan &BANKNAVN. opsige kontoen med den
-aftale opsigelsesvarsel. Dog skal der træffes særskilt aftale
-med &BANKNAVN vedrørende igangværende handler m.v. før ophør.
 .in 5mm
-.sp
+.kp off
+.kp on
+.tp 8mm
 :FED.
-¤*¤Flere kontohavere
+¤Mulighed for &B32NYK. Platinum :SKRSLUT.
+.br
+.in 8mm nobreak
+Kunder med en &B32NYK. Premium konto har mulighed for at bestille et
+&B32NYK. Platinum kort uden oprettelsesgebyr.
+.sp 3mm
+Gebyrer for brug af &B32NYK. Platinum kortet fremgår af den til enhver tid
+gældende prisliste, der findes på
+.hy off
+.us &B32WWWNYK.
+.hy on
+.ct  eller oplyses ved forespørgsel.
+.sp 5mm
+.kp off
+.kp on
+.tp 8mm
+:FED.
+¤Opsigelse :SKRSLUT.
+.br
+.in 8mm nobreak
+Denne konto kan til enhver tid opsiges af kontohaver med virkning fra
+udgangen af måneden.
+.sp 3mm
+Kontohaver kan til enhver tid indfri kreditten uden varsel. Kreditten
+ophører og forfalder endeligt til indfrielse ved opsigelse af kontoen.
+.sp 3mm
+.in 8mm nobreak
+For &BANKNAVN.s opsigelse af kontoen gælder de almindelige bestemmelser
+i &BANKNAVN.s "Almindelige forretningsbetingelser for privatkunder i
+&BANKNAVN.".
+.kp off
+.go SLUT4
+.************************************************************************
+...UDENOM10
+.if x&REGTYPE11 = x2126
+.or x&REGTYPE11 = x2162
+.an &U'&PRIERH = P
+.th .go REGT2126
+.el .go SPESLUT4
+.************************************************************************
+...REGT2126
+.kp on
+.tp 5mm 8mm
+:FED.
+Førtidig indfrielse af lån
 :SKRSLUT.
 .br
-.in 17mm nobreak
-Når der er mere end en kontohaver på kontoen, giver kontohaverne
-herved hver enkelt kontohaver fuldmagt til at disponere alene
-på kontoen. Dør en af kontohaverne, er banken berettiget til
-at spærre kontoen, indtil Skifteretten har taget stilling til,
-hvorledes der skal forholdes med afdødes bo. Hvis en kontohaver
-tilbagekalder sin fuldmagt til øvrige kontohavere forbeholder
-banken sig ligeledes ret til at spærre kontoen, indtil der
-foreligger klarhed om kontoforholdet.
-.in 5mm
+&SDU. har ret til helt eller delvis at indfri &DINE. forpligtelser i
+henhold til de til enhver tid gældende regler i Kreditaftaleloven.
 .sp
+.kp off
+.kp on
+Ved førtidig hel eller delvis tilbagebetaling af lån i en periode med fast
+rente er &DU. forpligtet til at
+betale &BANKNAVN. kompensation for
+omkostninger, der er direkte forbundet med den førtidige tilbagebetaling på
+de betingelser, der fremgår af denne aftale herunder de almindelige
+betingelser for lån og kreditter.
+.sp
+.kp off
+.kp on
+Hel eller delvis indfrielse af lån med renteperioder med løbetid på tre
+måneder og lån med variabel rente kan til enhver tid ske med 14 dages
+varsel til en termin til kurs 100 og med et separat indfrielsesgebyr.
+.sp
+.kp off
+.kp on
+.tp 8mm
+&SDU. kan efter 14 dages forudgående varsel helt eller delvist indfri lån
+med renteperioder med løbetid på mere end tre måneder. En sådan indfrielse,
+herunder også indfrielse efter &BANKNAVN.´s opsigelse, finder
+sted på følgende
+vilkår:
+.sp
+*¤Lånet
+.in 8mm nobreak
+indfries i sin helhed med et beløb svarende til markedsværdien af
+lånets udestående betalinger på indfrielsestidspunktet, tillagt skyldige
+renter og ikke tilskrevne renter fra seneste rentetermin.
+.in -3mm
+*¤Ved
+.in 8mm nobreak
+opgørelse af markedsværdien anvendes &BANKNAVN. nulkuponrenter på
+indfrielsestidspunktet. &BANKNAVN.'s nulkuponrenter
+beregnes på grundlag af
+&BANKNAVN.'s
+.hw swap-renter
+for &BANKNAVN.´s placering af
+fast rente i en renteswap i den
+pågældende lånevaluta.
+.in -3mm
+*¤Ved
+.in 8mm nobreak
+førtidig indfrielse af lånet ved
+uændret renteniveau må &DU. påregne
+en omkostning (eller tillæg i markedsværdiopgørelsen), som &DU. hæfter
+for, idet &BANKNAVN.'s placeringsrente ofte
+vil være forskellig fra den
+oprindelig fastsatte rente, og &BANKNAVN.'s rentemarginal i den resterende
+fastrenteperiode ligeledes indgår i beregningen.
+.in -3mm
+*¤Hvis
+.in 8mm nobreak
+&BANKNAVN. skønner, at swaprenterne ikke
+længere udgør et markedsrelateret
+grundlag for beregning af nulkuponrenter på indfrielsestidspunktet, er
+&BANKNAVN. til enhver tid berettiget til at anvende et andet repræsentativt
+beregningsgrundlag.
+.in 0mm
+.sp
+.kp off
+.kp on
+Hvis &DIN. førtidige tilbagebetaling af beløb til &BANKNAVN. i
+en periode med
+fast rente sker på et tidspunkt, hvor der er mindre end et år mellem den
+førtidige tilbagebetaling til &BANKNAVN. og
+lånets ophørstidspunkt, kan &BANKNAVN. som
+udgangspunkt kræve kompensation op til 0,5 pct. af det beløb, der
+tilbagebetales førtidigt.
+.sp
+.kp off
+.kp on
+Hvis &DIN. førtidige tilbagebetaling af beløb til &BANKNAVN. i
+en periode med
+fast rente sker på et tidspunkt, hvor der er mere end et år mellem den
+førtidige tilbagebetaling til &BANKNAVN. og
+lånets ophørstidspunkt, kan &BANKNAVN. som
+udgangspunkt kræve kompensation op til 1 pct. af det beløb, der
+tilbagebetales førtidigt.
+.sp
+.kp off
+.kp on
+&BANKNAVN. kan dog kræve en højere kompensation
+end henholdsvis 0,5 pct. eller
+1 pct. af det beløb, der tilbagebetales førtidigt til
+&BANKNAVN. i en periode
+med fast rente, hvis &BANKNAVN. kan
+dokumentere, at de tab, som &BANKNAVN. har lidt
+som følge af den førtidige tilbagebetaling, overstiger førnævnte grænser på
+0,5 pct. og 1 pct. af det beløb, der tilbagebetales førtidigt.
+.sp
+.kp off
+.kp on
+Den maksimale kompensation til &BANKNAVN. ved
+førtidig tilbagebetaling af beløb
+i en periode med fast rente kan dog aldrig overstige det rentebeløb, som
+&DU. skulle have betalt af det førtidigt tilbagebetalte beløb i perioden
+mellem den førtidige betaling til &BANKNAVN. og lånets ophørstidspunkt.
+.sp
+&BANKNAVN. beregner sig et gebyr for indfrielsesberegninger, der ikke
+effektueres.
+.kp off
+...SLUT4
+.sp 5mm
+.************************************************************************
+...SPESLUT4
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+:ENY.
+.*-------B32-version start-------
+.*** særløsning kun for b32 har lånesag sat noget i TINGGEBYR **********
+.if &U'&TINGGEBYR = N
+.th .go UDBKTOSL
+.el .go UDBKTO
+.************
+...UDBKTO
+.kp on
 :FED.
-¤*¤Serviceydelser
+Udbetalingskonto
 :SKRSLUT.
 .br
-.in 17mm nobreak
-Der gælder særlige regler for betalingskort samt selvbetjeningsløsninger
-så som Nykredit Internetbank o.l. Såfremt en af disse ydelser er
-knyttet til kontoen, udleveres regelsæt ved etablering af ydelsen.
-.in 5mm
+Såfremt der er tilknyttet en tinglysningsafgift i forbindelse med
+etablering af sikkerhed for denne låne-/kreditaftale, oprettes
+der en særskilt udbetalings-/køberkonto. Ved
+udbetaling af lånet/kreditten tilbageholdes et beløb
+svarende til tinglysningsafgiften. Dette beløb indsættes på
+udbetalings-/køberkontoen og vil blive anvendt til betaling af
+tinglysningsafgiften, når tinglysningen finder sted.
 .sp
-...SLT303P5
-.*------ Privat regtype - slut ----
-.*
-.*------ Erhverv regtype ----------
-.if x&REGTYPE11 = x3033
+Udbetalings-/køberkontoen er pantsat til &BANKNAVN.. Låntager kan
+derfor ikke disponere over kontoen, men efter endt
+sagsbehandling bliver kontoen afregnet over for låntager. Ved opgørelse af
+kontoen vil der ikke blive fremsendt særskilt meddelelse herom. Kontoen
+vil fremgå af mitNykredit under Udgåede konti.
+.sp
+.kp off
+.******************
+...UDBKTOSL
+.*-------B32-version slut--------
 .*--------------------B32s EGNE BETINGELSER------------------------------
 .*B32SPECVILT5 er 5 del af Nykredits Specielle vilkår for lån og kredit.
 .*regtyper - 3030-3032 (privatkunder) / 3022-3035 (erhverv)
@@ -2127,6 +1794,56 @@ og et forretningsomfang på minimum kr.
 .if x&REGTYPE11 = x3030
 .th 10.000.000,00
 .if x&REGTYPE11 = x3031
+.th 25.000.000,00
+.if x&REGTYPE11 = x3032
+.th 50.000.000,00
+.* --------------------------------
+med &B32NYK., bedømt ud fra kontohavers og/eller dennes ægtefælles
+personlige økonomiske forhold. I denne bedømmelse indgår også
+formue og forretningsomfang i eventuelle selskaber (A/S, ApS,
+I/S, K/S), som kontrolleres af kontohaveren og/eller dennes
+ægtefælle. Ved vurdering af den regnskabsmæssige formue
+indgår aktiver såsom depoter, ejendomme m.m., og eventuel
+gæld fratrækkes.
+.br
+Ved vurderingen af forretningsomfanget med &BANKNAVN. indgår
+bl.a. indeståender i &BANKNAVN., pensionsordninger, udlån hos
+&BANKNAVN. m.m. Såfremt dette forhold efter &BANKNAVN.s
+skøn ikke er opfyldt, kan &BANKNAVN. opsige kontoen med den
+aftale opsigelsesvarsel. Dog skal der træffes særskilt aftale
+med &BANKNAVN vedrørende igangværende handler m.v. før ophør.
+.in 5mm
+.sp
+:FED.
+¤*¤Flere kontohavere
+:SKRSLUT.
+.br
+.in 17mm nobreak
+Når der er mere end en kontohaver på kontoen, giver kontohaverne
+herved hver enkelt kontohaver fuldmagt til at disponere alene
+på kontoen. Dør en af kontohaverne, er banken berettiget til
+at spærre kontoen, indtil Skifteretten har taget stilling til,
+hvorledes der skal forholdes med afdødes bo. Hvis en kontohaver
+tilbagekalder sin fuldmagt til øvrige kontohavere forbeholder
+banken sig ligeledes ret til at spærre kontoen, indtil der
+foreligger klarhed om kontoforholdet.
+.in 5mm
+.sp
+:FED.
+¤*¤Serviceydelser
+:SKRSLUT.
+.br
+.in 17mm nobreak
+Der gælder særlige regler for betalingskort samt selvbetjeningsløsninger
+så som Nykredit Internetbank o.l. Såfremt en af disse ydelser er
+knyttet til kontoen, udleveres regelsæt ved etablering af ydelsen.
+.in 5mm
+.sp
+...SLT303P5
+.*------ Privat regtype - slut ----
+.*
+.*------ Erhverv regtype ----------
+.if x&REGTYPE11 = x3033
 .or x&REGTYPE11 = x3034
 .or x&REGTYPE11 = x3035
 .or x&REGTYPE11 = x3036
@@ -2975,45 +2692,6 @@ information om mit kundetilbud i &B32NYK. BoligBank.
 .kp off
 .*
 ...ENDSAMT
-.go ENDKRED
-.*
-.*------ Erhverv regtype - start ----
-.* --- Regtype 3033, 3034 3035, 3036, 3037 og 3038 --------------------
-...REG303E6
-.kp on
-:FED.
-Førtidig tilbagebetaling og opsigelse
-:SKRSLUT.
-.br
-Kontohaver har til enhver tid ret til helt eller delvis at
-indfri mine forpligtelser i henhold til kreditaftalen, og
-har herefter ret til en reduktion af de samlede
-kreditomkostninger, der består af renter og omkostninger.
-.sp
-.kp off
-.kp on
-Kontohaver kan til enhver tid opsige kreditaftalen mod
-indbetaling af det skyldige beløb inklusive rente,
-provision og eventuelle andre omkostninger.
-.sp
-.kp off
-.kp on
-&BANKNAVN. kan opsige kreditaftalen med 14 dages varsel
-med den virkning, at det skyldige beløb inklusive rente,
-provision og eventuelle andre omkostninger skal betales
-pr. opsigelsesdagen.
-.sp
-.kp off
-.kp on
-Ved misligholdelse kan &BANKNAVN. opsige kreditaftalen
-uden varsel.
-.sp 3mm
-.kp off
-.*
-.* --- Regtype 3033, 3034 og 3035 ---
-.*------ Erhverv regtype - slut -----
-.*
-...ENDKRED
 .*
 .*------ B32-version - start --------
 .*------ Erhverv regtype ------------
@@ -3064,6 +2742,45 @@ Nærmere punkt 13 i Almindelige bestemmelser for lån og kreditter.
 .*
 .* Private slut ---------------------
 .* Hop udenom de regtype bestemte ---
+.go ENDKRED
+.*
+.*------ Erhverv regtype - start ----
+.* --- Regtype 3033, 3034 3035, 3036, 3037 og 3038 --------------------
+...REG303E6
+.kp on
+:FED.
+Førtidig tilbagebetaling og opsigelse
+:SKRSLUT.
+.br
+Kontohaver har til enhver tid ret til helt eller delvis at
+indfri mine forpligtelser i henhold til kreditaftalen, og
+har herefter ret til en reduktion af de samlede
+kreditomkostninger, der består af renter og omkostninger.
+.sp
+.kp off
+.kp on
+Kontohaver kan til enhver tid opsige kreditaftalen mod
+indbetaling af det skyldige beløb inklusive rente,
+provision og eventuelle andre omkostninger.
+.sp
+.kp off
+.kp on
+&BANKNAVN. kan opsige kreditaftalen med 14 dages varsel
+med den virkning, at det skyldige beløb inklusive rente,
+provision og eventuelle andre omkostninger skal betales
+pr. opsigelsesdagen.
+.sp
+.kp off
+.kp on
+Ved misligholdelse kan &BANKNAVN. opsige kreditaftalen
+uden varsel.
+.sp 3mm
+.kp off
+.*
+.* --- Regtype 3033, 3034 og 3035 ---
+.*------ Erhverv regtype - slut -----
+.*
+...ENDKRED
 .**************************************************************************
 .* juli 2015: Ny tekst vedr. Garantiformuen som skal påføres for regtyper
 .**************************************************************************
@@ -3089,3 +2806,287 @@ til rådighed på &B32WWWNYK. under priser og vilkår for bank.
 stillet til rådighed for &MIG..
 .sp 3mm
 .kp off
+.*Parametre
+.if &L'&PRIERH = 0
+.th .mg/T/Skriv P for privat eller E for erhverv/
+.*OMTALEPARAMETRE *********************************************************
+.*ERHVERV *****************************************************************
+.*debsomt = debitor 'sort' omtale **********************************
+.*deblomt = debitor 'lille' omtale *********************************
+.*-------B32-version start-------
+.if &U'&PRIERH = E
+.th .se debsomt = 'Låntager'
+.th .se deblomt = 'låntager'
+.*-------B32-version slut--------
+.th .se migos = 'os'
+.th .se min = 'vores'
+.th .se mine = 'vores'
+.th .go OMTALEND
+.*PRIVAT *************
+.if &DEBANTAL = 1
+.th .se debsomt = 'Jeg'
+.th .se deblomt = 'jeg'
+.th .se migos = 'mig'
+.th .se min = 'min'
+.th .se mine = 'mine'
+.el .se debsomt = 'Vi'
+.el .se deblomt = 'vi'
+.el .se migos = 'os'
+.el .se min = 'vores'
+.el .se mine = 'vores'
+...OMTALEND
+.*Parametre, særlige betingelser
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:tiltale &TILTALE
+:omtale  &OMTALEF
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*-------B32-version start-------
+.da FEJLTXT 20mm 130mm width 175mm
+.*-------B32-version slut -------
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+.*-------B32-version start-------
+:VERDA05.
+.*-------B32-version slut--------
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+.*-------B32-version start-------
+:VERDA10.:FED.
+.if &U'&PRIERH = P
+.th Kreditaftale
+.*-------B32-version slut--------
+.if &U'&PRIERH = E
+.th Kreditaftale Erhverv
+:SKRSLUT.
+.ar off
+.*-------B32-version start-------
+.if x&REGTYPE11 = x3030
+.or x&REGTYPE11 = x3031
+.or x&REGTYPE11 = x3032
+.th .go TESTPRI
+.*---------------------
+.if x&REGTYPE11 = x3033
+.or x&REGTYPE11 = x3034
+.or x&REGTYPE11 = x3035
+.or x&REGTYPE11 = x3036
+.or x&REGTYPE11 = x3037
+.or x&REGTYPE11 = x3038
+.th .go TESTERH
+.el .go DOKU
+.*---------------------
+...TESTPRI
+.if &U'&PRIERH = P
+.th .go DOKU
+.el .go FEJL
+.*---------------------
+...TESTERH
+.if &U'&PRIERH = E
+.th .go DOKU
+.el .go FEJL
+.*---------------------
+...FEJL
+.*
+.* Brugeren har en gal kombination mellem regtypen og kode for privat/
+.* erhverv og der skal kun udskrives overskrift samt denne fejltekst
+.* hvorefter der laves en QUIT og udskrivningen afbrydes.
+.*
+.ar FEJLTXT on
+.hr left right
+.sp 3mm
+Der er fundet nedenstående fejl i formateringen af flg. standardbrev:
+&BREVNAVN..
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP. har benyttet regtype &REGTYPE11
+som er ugyldig kombineret med kode &PRIERH for privat/erhverv.
+.sp 3mm
+.hr left right
+.ar off
+.qu
+.*-------B32-version slut--------
+...DOKU
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.*-------B32-version start-------
+.tp 1mm 35mm 140mm
+.*-------B32-version slut--------
+.bx left right
+.*-------B32-version start-------
+ ¤ Kontonr. ¤ Kontonavn ¤ Udskrevet
+.*-------B32-version slut--------
+.sp 6mm
+.bx off
+.sp 4mm
+.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
+.*LÅNTAGER ****************************************************************
+.bx left right
+.tp 1mm 88.5mm 135mm
+.if &DEBANTAL = 1
+.th ¤ Låntager
+.if &DEBANTAL = 2
+.th ¤ Låntager ¤ Låntager
+.if &DEBANTAL > 2
+.th ¤ Låntager ¤ Låntager ¤ Flere låntagere
+.sp 20mm
+.*-------B32-version start-------
+.if &DEBANTAL > 1
+.th ¤ Kundenr. &KTOKNDNR1 ¤ Kundenr. &DEB2KNDNR
+.el ¤ Kundenr. &KTOKNDNR1
+.*-------B32-version slut--------
+.bx off
+.sp 4mm
+.bx left right
+.sp 184mm
+.bx off
+.ar off
+.******************************************************************
+.da BANKSTED      20mm  47mm width 175mm
+.*-------B32-version start-------
+.da KUNDEOPL       25mm  64.5mm width 85mm
+.da KUNDEOPL2    112.5mm 64.5mm width 85mm
+.*-----------------OPDELING AF REGTYPE OG KONTONUMMER--------------
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 7
+.*-------B32-version slut--------
+.ar BANKSTED on
+.*-------B32-version start-------
+.tp 1mm 35mm 140mm
+ ¤ &reg &kto ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
+.*-------B32-version slut--------
+.ar off
+.**************************************
+.ar KUNDEOPL on
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.ar off
+.*************************************
+.ar KUNDEOPL2 on
+.if &DEBANTAL > 1
+.th &DEB2ADR1
+.th .br
+.th &DEB2ADR2
+.th .br
+.th &DEB2ADR3
+.th .br
+.th &DEB2ADR4
+.th .br
+.th &DEB2ADR5
+.ar off
+.*************************************
+.********************GENEREL OPSÆTNING*************************************
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.*-------B32-version start-------
+:VERDA08.
+.*-------B32-version slut--------
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+.*-------B32-version start-------
+:VERDA08.
+.tp 1mm 35mm 140mm
+.*-------B32-version slut--------
+.bx left right
+.*-------B32-version start-------
+ ¤ Kontonr. ¤ Kontonavn ¤ Udskrevet
+.*-------B32-version slut--------
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 221.5mm
+.bx off
+.ar off
+.*-------B32-version start-------
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 7
+.*-------B32-version slut--------
+.ar BANKSTED on
+.*-------B32-version start-------
+:VERDA08.
+.tp 1mm 35mm 140mm
+ ¤ &reg &kto ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
+.*-------B32-version slut--------
+.ar off
+.**************************************************************************
+.ar VEND on
+.*-------B32-version start-------
+:VERDA05.
+.*-------B32-version slut--------
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+.*-------B32-version start-------
+:VERDA10.
+:FED.
+.if &U'&PRIERH = P
+.th Kreditaftale
+.*-------B32-version slut--------
+.if &U'&PRIERH = E
+.th Kreditaftale Erhverv
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 50mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+

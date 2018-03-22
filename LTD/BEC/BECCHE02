@@ -56,6 +56,56 @@ BECCHE02
 .us Anmodning om spærring af check
 .sp
 .**************************************************************************
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+Herved anmodes &BANKNAVN om at spærre nedenstående
+check:
+.sp 2
+.tp 70mm
+Kontonr.: ¤ &regnr.-&ktonr.
+.br
+.if &L'&BECCHECK02 > 0
+.th .go afs1
+.el .go afs2
+...afs1
+Check nr.: ¤ &BECCHECK01 - &BECCHECK02
+.go videre
+...afs2
+Check nr.: ¤ &BECCHECK01
+.go videre
+...videre
+.sp
+.if &L'&BECDEBET01 > 0
+.th .se becdebet01 = &BECDEBET01
+.th Beløb i kr.: ¤ &becdebet01
+.th .sp
+Kontohavers navn: ¤ &KTONAVN.
+.br
+Kontohavers adresse: ¤ &KTOGADE.
+.br
+Kontohavers postnr. og by: ¤ &KTOBY.
+.sp
+.if &L'&MEDNAVN gt 0
+.th .go MEDNAVN
+.el .go NEXT
+...MEDNAVN
+Medkontohavers navn: ¤ &MEDNAVN.
+.br
+Medkontohavers adresse: ¤ &MEDGADE.
+.br
+Medkontohavers postnr. og by: ¤ &MEDBY.
+.sp
+.go NEXT
+...NEXT
+.if &L'&BECTEKST30 > 0
+.th Ordre: ¤ &BECTEKST30.
+.th .sp
+.if &L'&BECTEKST31 > 0
+.th Årsag: ¤ &BECTEKST31.
+.th .sp
+.if &L'&BECDEBET02 > 0
+.th .se becdebet02 = &BECDEBET02
+.th Gebyr for spærring kr. &becdebet02
 .th hæves på ovennævnte konto.
 .th .sp
 .if &L'&BECTEKST32 > 0
@@ -84,63 +134,14 @@ BECCHE02
 .tp 30mm center
 .hr 0mm for 60mm
 .br
-¤&MEDNAVN
+ ¤ &MEDNAVN
 .go SLUT
 ...NEXT1
 .tp 30mm center
 .hr 0mm 60mm
 .br
-¤&KTONAVN.
+ ¤ &KTONAVN.
 .go SLUT
 ...SLUT
 .*
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-Herved anmodes &BANKNAVN om at spærre nedenstående
-check:
-.sp 2
-.tp 70mm
-Kontonr.: ¤&regnr.-&ktonr.
-.br
-.if &L'&BECCHECK02 > 0
-.th .go afs1
-.el .go afs2
-...afs1
-Check nr.: ¤&BECCHECK01 - &BECCHECK02
-.go videre
-...afs2
-Check nr.: ¤&BECCHECK01
-.go videre
-...videre
-.sp
-.if &L'&BECDEBET01 > 0
-.th .se becdebet01 = &BECDEBET01
-.th Beløb i kr.: ¤&becdebet01
-.th .sp
-Kontohavers navn: ¤&KTONAVN.
-.br
-Kontohavers adresse: ¤&KTOGADE.
-.br
-Kontohavers postnr. og by: ¤&KTOBY.
-.sp
-.if &L'&MEDNAVN gt 0
-.th .go MEDNAVN
-.el .go NEXT
-...MEDNAVN
-Medkontohavers navn: ¤&MEDNAVN.
-.br
-Medkontohavers adresse: ¤&MEDGADE.
-.br
-Medkontohavers postnr. og by: ¤&MEDBY.
-.sp
-.go NEXT
-...NEXT
-.if &L'&BECTEKST30 > 0
-.th Ordre: ¤&BECTEKST30.
-.th .sp
-.if &L'&BECTEKST31 > 0
-.th Årsag: ¤&BECTEKST31.
-.th .sp
-.if &L'&BECDEBET02 > 0
-.th .se becdebet02 = &BECDEBET02
-.th Gebyr for spærring kr. &becdebet02
+

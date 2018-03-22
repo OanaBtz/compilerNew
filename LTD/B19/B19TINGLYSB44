@@ -106,31 +106,6 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -181,6 +156,31 @@
 .an &L'&DUROLLE4 = 0
 .th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
 .el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .********************GENEREL OPSÆTNING*************************************
 :SWISS9.
 .fo left
@@ -207,7 +207,7 @@ Aftale om tinglysning af transport og fuldmagt
 :COUR6.
 &BREVNAVN.
 .br
-&KONTROL1 kl. &KLOKKESLET ¤&DATO
+&KONTROL1 kl. &KLOKKESLET ¤ &DATO
 .ar off
 .********************KASSE TIL ID OG AFGIFT*******************************
 .ar BOX on
@@ -215,8 +215,8 @@ Aftale om tinglysning af transport og fuldmagt
 .tp 1mm 50mm 100mm 140mm
 .bx left right
 .if &L'&B19TX30B gt 0
-.th ¤Kundenr. ¤Meddebitors kundenr. ¤Afgift ¤Udskrevet
-.el ¤Kundenr. ¤¤Afgift ¤Udskrevet
+.th ¤ Kundenr. ¤ Meddebitors kundenr. ¤ Afgift ¤ Udskrevet
+.el ¤ Kundenr. ¤ ¤ Afgift ¤ Udskrevet
 .sp 6mm
 .bx off
 .********************KASSE TIL INDHOLD*************************************
@@ -229,7 +229,7 @@ Aftale om tinglysning af transport og fuldmagt
 .ar ID on
 :SWISS9.
 .tp 1mm 50mm 90mm 140mm
-¤&KUNDENR ¤&B19CPR1 ¤&B19BELØB1 kr. ¤&DATO
+ ¤ &KUNDENR ¤ &B19CPR1 ¤ &B19BELØB1 kr. ¤ &DATO
 .ar off
 .**************************************************************************
 .*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
@@ -322,13 +322,13 @@ og/eller tinglysning af påtegningen til en samarbejdspartner.
 .th .go OVERD
 .el .go FULDM
 ...OVERD
-&B19TX20A ¤, den ¤¤,den
+&B19TX20A ¤ , den ¤ ¤ ,den
 .sp
-Som overdrager: ¤¤Som erhverver:
+Som overdrager: ¤ ¤ Som erhverver:
 .sp4
 .hr 0mm 75mm 85mm 160mm
 .br
-&B19TX30C (&B19TX10A.) ¤¤&NAVN
+&B19TX30C (&B19TX10A.) ¤ ¤ &NAVN
 .*********** UNDERSKRIFT MEDDEBITOR MEN INGEN MEDOVERDRAGER ***************
 .if &L'&B19TX30B gt 0
 .an &L'&B19TX30D eq 0
@@ -337,7 +337,7 @@ Som overdrager: ¤¤Som erhverver:
 ...DEB1
 .sp4
 .hr 85mm 160mm
-¤¤&B19TX30B
+ ¤ ¤ &B19TX30B
 .go VITT
 .*********** UNDERSKRIFT MEDOVERDRAGER MEN INGEN MEDDEBITOR ***************
 ...KRE
@@ -351,9 +351,59 @@ Som overdrager: ¤¤Som erhverver:
 &B19TX30D (&B19TX10B.)
 .go VITT
 .*********** UNDERSKRIFT MEDDEBITOR OG MEDOVERDRAGER **********************
-Bopæl:¤¤Bopæl:
+...DEBKRE
+.if &L'&B19TX30B gt 0
+.an &L'&B19TX30D gt 0
+.th .sp4
+.th .hr 0mm 75mm 85mm 160mm
+.th &B19TX30D (&B19TX10B.) ¤ ¤ &B19TX30B
+.go VITT
+.*********** UNDERSKRIFTER IFØLGE FULDMAGT ********************************
+...FULDM
+.if &L'&B19TX1B gt 0
+.th .go UND1
+.el .go VITT
+.*********** UNDERSKRIFTER IFØLGE FULDMAGT FLERE OVERDRAGERE **************
+...UND1
+ ¤ , den ¤ ¤ ,den
+.br
+.if &L'&B19TX30D gt 0
+.th For overdragerne &B19TX30C og &B19TX30D:  ¤ ¤ Som erhverver:
+.th .br
+.th (ifølge fuldmagt)
+.el For overdrager &B19TX30C (ifølge fuldmagt): ¤ ¤ Som erhverver:
+.sp4
+.hr 0mm 75mm 85mm 160mm
+.br
+ ¤ ¤ &NAVN
+.if &L'&B19TX30B gt 0
+.th .sp4
+.th .hr 85mm 160mm
+ ¤ ¤ &B19TX30B
+.go VITT
+...VITT
+.******************* TIL VITTERLIGHED FOR DEBITOR *************************
+.if &L'&B19TX30B gt 0
+.th .go 2V
+.el .go 1V
+...2V
 .sp
-Underskrift:¤¤Underskrift:
+Til vitterlighed om underskrifternes ægthed, dateringens rigtighed
+og underskrivernes myndighed for så vidt angår nye pantedebitorer:
+.go UND
+...1V
+.sp
+Til vitterlighed om underskriftens ægthed, dateringens rigtighed
+og underskriverens myndighed for så vidt angår ny pantedebitor:
+...UND
+.sp
+Navn: ¤ ¤ Navn:
+.sp
+Stilling: ¤ ¤ Stilling:
+.sp
+Bopæl: ¤ ¤ Bopæl:
+.sp
+Underskrift: ¤ ¤ Underskrift:
 .br
 .hr 20mm 75mm 105mm 160mm
 .********** TIL VITTERLIGHED FOR OVERDRAGEREN *****************************
@@ -372,62 +422,13 @@ og underskriverens myndighed for så vidt angår overdrager:
 .go UND2
 ...UND2
 .sp
-Navn:¤¤Navn:
+Navn: ¤ ¤ Navn:
 .sp
-Stilling:¤¤Stilling:
+Stilling: ¤ ¤ Stilling:
 .sp
-Bopæl:¤¤Bopæl:
+Bopæl: ¤ ¤ Bopæl:
 .sp
-Underskrift:¤¤Underskrift:
+Underskrift: ¤ ¤ Underskrift:
 .br
 .hr 20mm 75mm 105mm 160mm
-...DEBKRE
-.if &L'&B19TX30B gt 0
-.an &L'&B19TX30D gt 0
-.th .sp4
-.th .hr 0mm 75mm 85mm 160mm
-.th &B19TX30D (&B19TX10B.) ¤¤&B19TX30B
-.go VITT
-.*********** UNDERSKRIFTER IFØLGE FULDMAGT ********************************
-...FULDM
-.if &L'&B19TX1B gt 0
-.th .go UND1
-.el .go VITT
-.*********** UNDERSKRIFTER IFØLGE FULDMAGT FLERE OVERDRAGERE **************
-...UND1
-¤, den ¤¤,den
-.br
-.if &L'&B19TX30D gt 0
-.th For overdragerne &B19TX30C og &B19TX30D:  ¤¤Som erhverver:
-.th .br
-.th (ifølge fuldmagt)
-.el For overdrager &B19TX30C (ifølge fuldmagt): ¤¤Som erhverver:
-.sp4
-.hr 0mm 75mm 85mm 160mm
-.br
-¤¤&NAVN
-.if &L'&B19TX30B gt 0
-.th .sp4
-.th .hr 85mm 160mm
-¤¤&B19TX30B
-.go VITT
-...VITT
-.******************* TIL VITTERLIGHED FOR DEBITOR *************************
-.if &L'&B19TX30B gt 0
-.th .go 2V
-.el .go 1V
-...2V
-.sp
-Til vitterlighed om underskrifternes ægthed, dateringens rigtighed
-og underskrivernes myndighed for så vidt angår nye pantedebitorer:
-.go UND
-...1V
-.sp
-Til vitterlighed om underskriftens ægthed, dateringens rigtighed
-og underskriverens myndighed for så vidt angår ny pantedebitor:
-...UND
-.sp
-Navn:¤¤Navn:
-.sp
-Stilling:¤¤Stilling:
-.sp
+

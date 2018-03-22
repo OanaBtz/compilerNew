@@ -1,149 +1,5 @@
 .* parameterafsnit
 .* Parameterafsnit
-.* Til Privat låneansøgning
-.* Engagementsoversigt
-.se EN1  = substr '&MIBBEL7.' 21 35
-.se EN2  = substr '&MIBBEL8.' 21 35
-.se EN3  = substr '&MIBBEL9.' 21 35
-.se EN4  = substr '&MIBBEL10.' 21 35
-.se EN5  = substr '&MIBBEL11.' 21 35
-.se EN6  = substr '&MIBBEL14.' 21 35
-.se EL1  = substr '&MIBBEL7.' 1 4
-.se EL2  = substr '&MIBBEL8.' 1 4
-.se EL3  = substr '&MIBBEL9.' 1 4
-.se EL4  = substr '&MIBBEL10.' 1 4
-.se EL5  = substr '&MIBBEL11.' 1 4
-.se EL6  = substr '&MIBBEL14.' 1 4
-.se ED1  = substr '&MIBBEL7.' 6 4
-.se ED2  = substr '&MIBBEL8.' 6 4
-.se ED3  = substr '&MIBBEL9.' 6 4
-.se ED4  = substr '&MIBBEL10.' 6 4
-.se ED5  = substr '&MIBBEL11.' 6 4
-.se ED6  = substr '&MIBBEL14.' 6 4
-.se ES1  = substr '&MIBBEL7.' 11 4
-.se ES2  = substr '&MIBBEL8.' 11 4
-.se ES3  = substr '&MIBBEL9.' 11 4
-.se ES4  = substr '&MIBBEL10.' 11 4
-.se ES5  = substr '&MIBBEL11.' 11 4
-.se ES6  = substr '&MIBBEL14.' 11 4
-.se EK1  = substr '&MIBBEL7.' 16 4
-.se EK2  = substr '&MIBBEL8.' 16 4
-.se EK3  = substr '&MIBBEL9.' 16 4
-.se EK4  = substr '&MIBBEL10.' 16 4
-.se EK5  = substr '&MIBBEL11.' 16 4
-.se EK6  = substr '&MIBBEL14.' 16 4
-.se NEL1 = &V'&EL1
-.se NEL2 = &V'&EL2
-.se NEL3 = &V'&EL3
-.se NEL4 = &V'&EL4
-.se NEL5 = &V'&EL5
-.se NEL6 = &V'&EL6
-.se NED1 = &V'&ED1
-.se NED2 = &V'&ED2
-.se NED3 = &V'&ED3
-.se NED4 = &V'&ED4
-.se NED5 = &V'&ED5
-.se NED6 = &V'&ED6
-.se NES1 = &V'&ES1
-.se NES2 = &V'&ES2
-.se NES3 = &V'&ES3
-.se NES4 = &V'&ES4
-.se NES5 = &V'&ES5
-.se NES6 = &V'&ES6
-.se NEK1 = &V'&EK1
-.se NEK2 = &V'&EK2
-.se NEK3 = &V'&EK3
-.se NEK4 = &V'&EK4
-.se NEK5 = &V'&EK5
-.se NEK6 = &V'&EK6
-.* Kollonnetestværdier
-.se NELTEST '&T'&NEL1.&T'&NEL2.&T'&NEL3.&T'&NEL4.&T'&NEL5.&T'&NEL6.'
-.se NEDTEST '&T'&NED1.&T'&NED2.&T'&NED3.&T'&NED4.&T'&NED5.&T'&NED6.'
-.se NESTEST '&T'&NES1.&T'&NES2.&T'&NES3.&T'&NES4.&T'&NES5.&T'&NES6.'
-.se NEKTEST '&T'&NEK1.&T'&NEK2.&T'&NEK3.&T'&NEK4.&T'&NEK5.&T'&NEK6.'
-.* Kollonnetest
-.if &NELTEST <> NNNNNN .th .se fejlL 'Limit-kolonnen, ' ;.el .se fejlL ' '
-.if &NEDTEST <> NNNNNN .th .se fejlD 'GSik-kolonnen, ' ;.el .se fejlD ' '
-.if &NESTEST <> NNNNNN .th .se fejlS 'NSik-kolonnen, ' ;.el .se fejlS ' '
-.if &NEKTEST <> NNNNNN .th .se fejlK 'Indlån-kolonnen, ' ;.el .se fejlK ' '
-.* Linietestværdier
-.se NE1TEST '&T'&NEL1.&T'&NED1.&T'&NES1.&T'&NEK1.'
-.se NE2TEST '&T'&NEL2.&T'&NED2.&T'&NES2.&T'&NEK2.'
-.se NE3TEST '&T'&NEL3.&T'&NED3.&T'&NES3.&T'&NEK3.'
-.se NE4TEST '&T'&NEL4.&T'&NED4.&T'&NES4.&T'&NEK4.'
-.se NE5TEST '&T'&NEL5.&T'&NED5.&T'&NES5.&T'&NEK5.'
-.se NE6TEST '&T'&NEL6.&T'&NED6.&T'&NES6.&T'&NEK6.'
-.* Linietest
-.if &NE1TEST <> NNNN .th .se f1 ' 1,' ;.el .se f1 ' '
-.if &NE2TEST <> NNNN .th .se f2 ' 2,' ;.el .se f2 ' '
-.if &NE3TEST <> NNNN .th .se f3 ' 3,' ;.el .se f3 ' '
-.if &NE4TEST <> NNNN .th .se f4 ' 4,' ;.el .se f4 ' '
-.if &NE5TEST <> NNNN .th .se f5 ' 5,' ;.el .se f5 ' '
-.if &NE6TEST <> NNNN .th .se f6 ' 6,' ;.el .se f6 ' '
-.* Fejl meddelelse vedr. Eng. ovs.
-.if &L'&fejlL <> 1
-.or &L'&fejlD <> 1
-.or &L'&fejlS <> 1
-.or &L'&fejlK <> 1 ;.th .go FEJL ;.el .go A
-...FEJL
-.th .MG /i/  PRIVATKUNDELÅNEANSØGNING udskrevet af &MIBVREF.
-.th .MG /i/  Vedr. &NAVN kundenr: &KTOKUNDENR.
-.th .MG /i/
-.th .mg /i/ Der er konstateret fejl i Fremtidig engagement
-.th .mg /i/ &fejlL.&fejlD.&fejlS.&fejlK.linie &f1.&f2.&f3.&f4.&f5.&f6.
-.th .mg /i/
-.th .mg /i/ &MIBSTREG3
-.th .mg /i/ &MIBBEL7
-.th .mg /i/ &MIBBEL8
-.th .mg /i/ &MIBBEL9
-.th .mg /i/ &MIBBEL10
-.th .mg /i/ &MIBBEL11
-.th .mg /i/ &MIBBEL14
-.th .mg /i/
-.th .mg /i/ Der må KUN være "tal og - for negative tal" i beløbs-kolonner
-.th .mg /i/ Kommaer må kun findes i kolonner under kommaer i overskriften.
-.th .mg /i/ Kommaer er kun til hjælp for din indtastning. Må gerne slettes.
-.th .mg /t/ TRYK på PF3, ret ovenstående på BREVVARIABLER og prøv igen.
-...A
-.* parameterafsnit
-.* parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.pw +8
-.pl 68
-.tm 0
-.bm 1
-.if &E'&MIBBLANK = 0 ;.th .im MIBBLANK
-.if &E'&MIBKONVO = 0 .im MIBKONVO
-.if &E'&MIBKR = 0 .im MIBKRNY
-.da NAVN   07 04 PAGE WIDTH 62
-.da MNAVN  07 08 PAGE
-.da KNNR   52 04 PAGE WIDTH 61
-.da AKANS  07 09 PAGE
-.da FRENG  07 12 PAGE
-.da SATSER 07 29 PAGE
-.da SATSER1 47 29 PAGE
-.da BESKR   10 40 PAGE
-.da RAMSTA 07 03 PAGE
-.da RAMSLU 75 64 PAGE
-.ti ^ 05
-.da ENGUDV 00 38 BODY
-.da ENGSIK 00 43 BODY
-.da REGN   46 45 BODY
-.oc  ** Privat låneansøgning **
-.oc  &&??##1B<#1B#5B2 I#1B#5B?1200 K
-.se t1 '.tp 25 54 RIGHT 64 RIGHT 74 RIGHT 84 RIGHT'
-.se t2 '.tp 53 RIGHT 61 RIGHT 69 RIGHT 77 RIGHT 85 RIGHT'
-.se t3 '.tp ./45 53 RIGHT 61 RIGHT 69 RIGHT 77 RIGHT 85 RIGHT'
-.se fb '#1B#5B1m#1B#5B17a'
-.se fb1 '#1B#5B1m'
-.se fb2 '#1B#5B17a'
-.se ns '#1B#5B0m'
-.ll 86
-.ll +20
-.ir +20
-.* Parameterafsnit
 .* Parameterafsnit
 .* Parameterafsnit
 .* Parameterafsnit
@@ -152,6 +8,7 @@
 .* Parameterafsnit
 .* Parameterafsnit
 .* parameterafsnit
+.* Parameterafsnit
 .* Parameterafsnit
 .* Parameterafsnit
 .* TEST afsnit
@@ -406,3 +263,147 @@ p 27
 .* Du må skrive 13 linier tekst ialt.
 .* Det vil sige resten af siden. Begynd på linie 5. Afslut med PF3
 .*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
+.* Til Privat låneansøgning
+.* Engagementsoversigt
+.se EN1  = substr '&MIBBEL7.' 21 35
+.se EN2  = substr '&MIBBEL8.' 21 35
+.se EN3  = substr '&MIBBEL9.' 21 35
+.se EN4  = substr '&MIBBEL10.' 21 35
+.se EN5  = substr '&MIBBEL11.' 21 35
+.se EN6  = substr '&MIBBEL14.' 21 35
+.se EL1  = substr '&MIBBEL7.' 1 4
+.se EL2  = substr '&MIBBEL8.' 1 4
+.se EL3  = substr '&MIBBEL9.' 1 4
+.se EL4  = substr '&MIBBEL10.' 1 4
+.se EL5  = substr '&MIBBEL11.' 1 4
+.se EL6  = substr '&MIBBEL14.' 1 4
+.se ED1  = substr '&MIBBEL7.' 6 4
+.se ED2  = substr '&MIBBEL8.' 6 4
+.se ED3  = substr '&MIBBEL9.' 6 4
+.se ED4  = substr '&MIBBEL10.' 6 4
+.se ED5  = substr '&MIBBEL11.' 6 4
+.se ED6  = substr '&MIBBEL14.' 6 4
+.se ES1  = substr '&MIBBEL7.' 11 4
+.se ES2  = substr '&MIBBEL8.' 11 4
+.se ES3  = substr '&MIBBEL9.' 11 4
+.se ES4  = substr '&MIBBEL10.' 11 4
+.se ES5  = substr '&MIBBEL11.' 11 4
+.se ES6  = substr '&MIBBEL14.' 11 4
+.se EK1  = substr '&MIBBEL7.' 16 4
+.se EK2  = substr '&MIBBEL8.' 16 4
+.se EK3  = substr '&MIBBEL9.' 16 4
+.se EK4  = substr '&MIBBEL10.' 16 4
+.se EK5  = substr '&MIBBEL11.' 16 4
+.se EK6  = substr '&MIBBEL14.' 16 4
+.se NEL1 = &V'&EL1
+.se NEL2 = &V'&EL2
+.se NEL3 = &V'&EL3
+.se NEL4 = &V'&EL4
+.se NEL5 = &V'&EL5
+.se NEL6 = &V'&EL6
+.se NED1 = &V'&ED1
+.se NED2 = &V'&ED2
+.se NED3 = &V'&ED3
+.se NED4 = &V'&ED4
+.se NED5 = &V'&ED5
+.se NED6 = &V'&ED6
+.se NES1 = &V'&ES1
+.se NES2 = &V'&ES2
+.se NES3 = &V'&ES3
+.se NES4 = &V'&ES4
+.se NES5 = &V'&ES5
+.se NES6 = &V'&ES6
+.se NEK1 = &V'&EK1
+.se NEK2 = &V'&EK2
+.se NEK3 = &V'&EK3
+.se NEK4 = &V'&EK4
+.se NEK5 = &V'&EK5
+.se NEK6 = &V'&EK6
+.* Kollonnetestværdier
+.se NELTEST '&T'&NEL1.&T'&NEL2.&T'&NEL3.&T'&NEL4.&T'&NEL5.&T'&NEL6.'
+.se NEDTEST '&T'&NED1.&T'&NED2.&T'&NED3.&T'&NED4.&T'&NED5.&T'&NED6.'
+.se NESTEST '&T'&NES1.&T'&NES2.&T'&NES3.&T'&NES4.&T'&NES5.&T'&NES6.'
+.se NEKTEST '&T'&NEK1.&T'&NEK2.&T'&NEK3.&T'&NEK4.&T'&NEK5.&T'&NEK6.'
+.* Kollonnetest
+.if &NELTEST <> NNNNNN .th .se fejlL 'Limit-kolonnen, ' ;.el .se fejlL ' '
+.if &NEDTEST <> NNNNNN .th .se fejlD 'GSik-kolonnen, ' ;.el .se fejlD ' '
+.if &NESTEST <> NNNNNN .th .se fejlS 'NSik-kolonnen, ' ;.el .se fejlS ' '
+.if &NEKTEST <> NNNNNN .th .se fejlK 'Indlån-kolonnen, ' ;.el .se fejlK ' '
+.* Linietestværdier
+.se NE1TEST '&T'&NEL1.&T'&NED1.&T'&NES1.&T'&NEK1.'
+.se NE2TEST '&T'&NEL2.&T'&NED2.&T'&NES2.&T'&NEK2.'
+.se NE3TEST '&T'&NEL3.&T'&NED3.&T'&NES3.&T'&NEK3.'
+.se NE4TEST '&T'&NEL4.&T'&NED4.&T'&NES4.&T'&NEK4.'
+.se NE5TEST '&T'&NEL5.&T'&NED5.&T'&NES5.&T'&NEK5.'
+.se NE6TEST '&T'&NEL6.&T'&NED6.&T'&NES6.&T'&NEK6.'
+.* Linietest
+.if &NE1TEST <> NNNN .th .se f1 ' 1,' ;.el .se f1 ' '
+.if &NE2TEST <> NNNN .th .se f2 ' 2,' ;.el .se f2 ' '
+.if &NE3TEST <> NNNN .th .se f3 ' 3,' ;.el .se f3 ' '
+.if &NE4TEST <> NNNN .th .se f4 ' 4,' ;.el .se f4 ' '
+.if &NE5TEST <> NNNN .th .se f5 ' 5,' ;.el .se f5 ' '
+.if &NE6TEST <> NNNN .th .se f6 ' 6,' ;.el .se f6 ' '
+.* Fejl meddelelse vedr. Eng. ovs.
+.if &L'&fejlL <> 1
+.or &L'&fejlD <> 1
+.or &L'&fejlS <> 1
+.or &L'&fejlK <> 1 ;.th .go FEJL ;.el .go A
+...FEJL
+.th .MG /i/  PRIVATKUNDELÅNEANSØGNING udskrevet af &MIBVREF.
+.th .MG /i/  Vedr. &NAVN kundenr: &KTOKUNDENR.
+.th .MG /i/
+.th .mg /i/ Der er konstateret fejl i Fremtidig engagement
+.th .mg /i/ &fejlL.&fejlD.&fejlS.&fejlK.linie &f1.&f2.&f3.&f4.&f5.&f6.
+.th .mg /i/
+.th .mg /i/ &MIBSTREG3
+.th .mg /i/ &MIBBEL7
+.th .mg /i/ &MIBBEL8
+.th .mg /i/ &MIBBEL9
+.th .mg /i/ &MIBBEL10
+.th .mg /i/ &MIBBEL11
+.th .mg /i/ &MIBBEL14
+.th .mg /i/
+.th .mg /i/ Der må KUN være "tal og - for negative tal" i beløbs-kolonner
+.th .mg /i/ Kommaer må kun findes i kolonner under kommaer i overskriften.
+.th .mg /i/ Kommaer er kun til hjælp for din indtastning. Må gerne slettes.
+.th .mg /t/ TRYK på PF3, ret ovenstående på BREVVARIABLER og prøv igen.
+...A
+.* parameterafsnit
+.* parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.pw +8
+.pl 68
+.tm 0
+.bm 1
+.if &E'&MIBBLANK = 0 ;.th .im MIBBLANK
+.if &E'&MIBKONVO = 0 .im MIBKONVO
+.if &E'&MIBKR = 0 .im MIBKRNY
+.da NAVN   07 04 PAGE WIDTH 62
+.da MNAVN  07 08 PAGE
+.da KNNR   52 04 PAGE WIDTH 61
+.da AKANS  07 09 PAGE
+.da FRENG  07 12 PAGE
+.da SATSER 07 29 PAGE
+.da SATSER1 47 29 PAGE
+.da BESKR   10 40 PAGE
+.da RAMSTA 07 03 PAGE
+.da RAMSLU 75 64 PAGE
+.ti ^ 05
+.da ENGUDV 00 38 BODY
+.da ENGSIK 00 43 BODY
+.da REGN   46 45 BODY
+.oc  ** Privat låneansøgning **
+.oc  &&??##1B<#1B#5B2 I#1B#5B?1200 K
+.se t1 '.tp 25 54 RIGHT 64 RIGHT 74 RIGHT 84 RIGHT'
+.se t2 '.tp 53 RIGHT 61 RIGHT 69 RIGHT 77 RIGHT 85 RIGHT'
+.se t3 '.tp ./45 53 RIGHT 61 RIGHT 69 RIGHT 77 RIGHT 85 RIGHT'
+.se fb '#1B#5B1m#1B#5B17a'
+.se fb1 '#1B#5B1m'
+.se fb2 '#1B#5B17a'
+.se ns '#1B#5B0m'
+.ll 86
+.ll +20
+.ir +20
+

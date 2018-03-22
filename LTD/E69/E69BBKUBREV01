@@ -11,6 +11,138 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:VERDA09.
+.fo left
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.**************************************************************************
+.da BOX 20mm 41mm width 175mm
+.da OVERSKR 20mm 38mm width 175mm
+.da BANKOPL 162mm 200mm width 50mm
+.**************************************************************************
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.*********************ROTERET BREVNAVN*************************************
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.* .rh on
+.**************************************************************************
+.*.ar BOX on
+.*.bx left right
+.*.sp 233mm
+.*.bx off
+.*.ar off
+.**************************************************************************
+:VERDA09.
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+.if &L'&KTOCO > 0
+.th &KTOCO.
+.th .br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp 15mm
+&DATO.
+.sp 15mm
+.ar off
+.ar BANKOPL on
+:VERDA07.
+:FED.
+Spar Nord Bank A/S
+:SKRSLUT.
+.sp 3mm
+&BANKGADE.
+.sp 3mm
+&BANKBY.
+.sp 7mm
+Reg. nr. 9380
+.sp 3mm
+Telefon &BANKTLF.
+.sp 3mm
+Swift spno dk 22
+.sp 7mm
+www.sparnord.dk
+.sp 3mm
+sparnord@sparnord.dk
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.sp 50mm
+.**************************************************************************
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
+.*TILFØJ DE 30MM NEDENFOR *************************************************
+.**************************************************************************
+.sp 15mm
+.* .rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.* .rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.pm 20mm
+.tm 13mm
+.bm 20mm
+.fo off
+.ll 135mm
+;T
+.**************************************************************************
+:tiltale &TILTALE.
+.**************************************************************************
+.if x&E69VALG = x1
+.th .go T2END
+.fo left
+:FED.
+Børnebørnskonto nr. &LANGKTONR.
+:SKRSLUT.
+.sp
+Bindingsperioden på &DIN. børnebørnskonto udløber &E69DATO1..
+.sp
+Har vi ikke aftalt andet inden denne dato, bliver kontoen automatisk gjort
+op, og saldoen overføres til en ny Stjernekonto.
+.sp
+Vi foreslår, at &DU. benytter lejligheden til at tale med os, om de mange
+andre muligheder &DU. har, som kunde i Spar Nord
+.sp
+.sp 6mm
+.kp on
+Venlig hilsen
+.br
+&AFDNAVN.
+.sp 8mm
+&GENEKSP.
+.br
+&GENTITEL.
+.sp 2mm
+&GENTLFNR.
+.br
+&GENEMAIL.
+.kp off
+...T2END
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -56,81 +188,6 @@
 .th .mg/T/Indskyder skal udfyldes/
 .el .go INDOK2
 ...INDOK2
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -181,6 +238,81 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .* ændring af banknavn til at følge banksteds-banknavn
 .* .if &L'&BANKNAVN GT 0
 .* .th .se BANKNAVN = '&AFDBNKNAVN.'
@@ -285,7 +417,8 @@ sparnord@sparnord.dk
 .bm 20mm
 .fo off
 .ll 135mm
-;T.**************************************************************************
+;T
+.**************************************************************************
 :tiltale &TILTALE.
 .fo left
 .**************************************************************************
@@ -328,134 +461,4 @@ Venlig hilsen
 .kp off
 .** SIDESKIFT
 .pa
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:VERDA09.
-.fo left
-.********************AREAL-DEFINITIONER - HØJRE****************************
-.da OVERSKR 100mm 40mm width 90mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************AREAL-DEFINITIONER - VENSTRE**************************
-.**************************************************************************
-.da BOX 20mm 41mm width 175mm
-.da OVERSKR 20mm 38mm width 175mm
-.da BANKOPL 162mm 200mm width 50mm
-.**************************************************************************
-.********************AREAL-DEFINITIONER - VENSTRE**************************
-.da KUNDEOPL 20mm 40mm width 100mm
-.*********************ROTERET BREVNAVN*************************************
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.* .rh on
-.**************************************************************************
-.*.ar BOX on
-.*.bx left right
-.*.sp 233mm
-.*.bx off
-.*.ar off
-.**************************************************************************
-:VERDA09.
-.ar KUNDEOPL on
-&KTOSTILL.
-.br
-&KTONAVN.
-.br
-.if &L'&KTOCO > 0
-.th &KTOCO.
-.th .br
-&KTOGADE.
-.br
-&KTOBY.
-.br
-&KTOLAND.
-.sp 15mm
-&DATO.
-.sp 15mm
-.ar off
-.ar BANKOPL on
-:VERDA07.
-:FED.
-Spar Nord Bank A/S
-:SKRSLUT.
-.sp 3mm
-&BANKGADE.
-.sp 3mm
-&BANKBY.
-.sp 7mm
-Reg. nr. 9380
-.sp 3mm
-Telefon &BANKTLF.
-.sp 3mm
-Swift spno dk 22
-.sp 7mm
-www.sparnord.dk
-.sp 3mm
-sparnord@sparnord.dk
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.sp 50mm
-.**************************************************************************
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
-.*TILFØJ DE 30MM NEDENFOR *************************************************
-.**************************************************************************
-.sp 15mm
-.* .rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.* .rh execute
-.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
-.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.pm 20mm
-.tm 13mm
-.bm 20mm
-.fo off
-.ll 135mm
-;T.**************************************************************************
-:tiltale &TILTALE.
-.**************************************************************************
-.if x&E69VALG = x1
-.th .go T2END
-.fo left
-:FED.
-Børnebørnskonto nr. &LANGKTONR.
-:SKRSLUT.
-.sp
-Bindingsperioden på &DIN. børnebørnskonto udløber &E69DATO1..
-.sp
-Har vi ikke aftalt andet inden denne dato, bliver kontoen automatisk gjort
-op, og saldoen overføres til en ny Stjernekonto.
-.sp
-Vi foreslår, at &DU. benytter lejligheden til at tale med os, om de mange
-andre muligheder &DU. har, som kunde i Spar Nord
-.sp
-.sp 6mm
-.kp on
-Venlig hilsen
-.br
-&AFDNAVN.
-.sp 8mm
-&GENEKSP.
-.br
-&GENTITEL.
-.sp 2mm
-&GENTLFNR.
-.br
-&GENEMAIL.
-.kp off
-...T2END
+

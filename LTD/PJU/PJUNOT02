@@ -11,6 +11,335 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.da SIDE1  20mm 38mm width 175mm
+.**************************************************************************
+.ar SIDE1 on
+.tp 1mm 88.5mm 131.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til Firmaet og pengeinstitut **********************
+.bx left 87.5mm right
+:SWISS8.
+¤Selskab ¤Pengeinstitut
+:SKRSLUT.
+.sp 19mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til resten af siden *******************************
+.bx new left right
+.sp 207mm
+.bx off
+.bx can
+.********************
+.ar off
+.*************************************************************************
+.da FIRMAOPL   25mm    47mm     width  84mm
+.da PIOPL      112.5mm 47mm     width  84mm
+.da TEKST      21mm    73mm     width 170mm
+.*************************************************************************
+.ar FIRMAOPL on
+&GENNAVN.
+.br
+&GENCOADR.
+.br
+&GENGADE.
+.br
+&GENBY.
+.br
+&GENLAND.
+.ar off
+.**************************************************************************
+.*****  Pengeinstituttets oplysninger
+.**************************************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.ar TEKST on
+:SWISS9.
+&BANKNAVN.
+har meddelt at:
+:SKRSLUT.
+.sp
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.sp
+:SWISS9.
+.if &U'&GENVALG1 = A
+.th ønsker at købe
+.el har købt
+.****Hvis der er valgt nominelt ****
+.if &L'&BECNOM > 0
+.th .go T2T1
+.el .go T2T1END
+...T2T1
+.***************
+nominelt
+:VS. &BECNOM.
+&instru. udstedt i &U'&GENMØNTK. i
+.***************
+...T2T1END
+.****Hvis der er valgt stk. dec ****
+.if &L'&STKDEC > 0
+.th .go T2T2
+.el .go T2T2END
+...T2T2
+.***************
+:VS. &STKDEC.
+stk. &instru. udstedt i
+&U'&GENMØNTK. i
+.***************
+...T2T2END
+.****Hvis der er valgt stk. hel ****
+.if &L'&STKHEL > 0
+.th .go T2T3
+.el .go T2T3END
+...T2T3
+.***************
+:VS. &STKHEL.
+stk. &instru. udstedt i
+&U'&GENMØNTK. i
+...T2T3END
+.***************
+.sp
+&GENNAVN.
+.sp
+.*************************************************************************
+:SWISS9.
+&GENNAVN.
+bekræfter at &KTONAVN. ejer i alt
+.****Hvis der er valgt nominelt ****
+.if &L'&BECNOM > 0
+.th .go TEST1
+.el .go TEST1END
+...TEST1
+nominelt
+:VS. &BECNOM.
+&instru.,
+udstedt i
+&U'&GENMØNTK.,
+.************
+.if &U'&GENJANEJ = J
+.an &GENPROC = 0,00
+.th svarende til _____ procent af selskabets samlede kapital,
+.th .go VIDERE
+.************
+.if &GENPROC = 0,00
+.th .go VIDERE
+.el svarende til
+.el :VS. &GENPROC.
+.el procent af selskabets samlede kapital,
+.************
+...VIDERE
+og at
+&BANKNAVN.
+får besked, hvis
+:SKRSLUT.
+&GENNAVN.
+udsteder &instrud., &instruf., ophører, går konkurs, sælges eller hvis
+&GENNAVN.
+nedskriver kapitalen.
+...TEST1END
+.****Hvis der er valgt stk. dec ****
+.if &L'&STKDEC > 0
+.th .go TEST2
+.el .go TEST2END
+.************
+...TEST2
+:VS. &STKDEC.
+stk. &instru.,
+udstedt i
+&U'&GENMØNTK.,
+.************
+.if &U'&GENJANEJ = J
+.an &GENPROC = 0,00
+.th svarende til _____ procent af selskabets samlede kapital,
+.th .go VIDERE2
+.************
+.if &GENPROC = 0,00
+.th .go VIDERE2
+.el svarende til
+.el :VS. &GENPROC.
+.el procent af selskabets samlede kapital,
+.************
+...VIDERE2
+.ct  og at
+&BANKNAVN.
+får besked, hvis
+&GENNAVN.
+udsteder &instrud., &instruf., ophører, går konkurs, sælges eller hvis
+:SKRSLUT.
+&GENNAVN.
+nedskriver kapitalen.
+...TEST2END
+.****Hvis der er valgt stk. hel ****
+.if &L'&STKHEL > 0
+.th .go TEST3
+.el .go TEST3END
+...TEST3
+:VS. &STKHEL.
+stk. &instru., udstedt i
+&U'&GENMØNTK.,
+.************
+.if &U'&GENJANEJ = J
+.an &GENPROC = 0,00
+.th svarende til _____ procent af selskabets samlede kapital,
+.th .go VIDERE3
+.************
+.if &GENPROC = 0,00
+.th .go VIDERE3
+.el svarende til
+.el :VS. &GENPROC.
+.el procent af selskabets samlede kapital,
+.************
+...VIDERE3
+.ct  og at
+&BANKNAVN.
+får besked, hvis
+&GENNAVN.
+udsteder &instrud., &instruf., ophører, går konkurs, sælges eller hvis
+&GENNAVN.
+nedskriver kapitalen.
+.************
+...TEST3END
+.sp
+:SWISS9.
+&BANKNAVN. har oplyst til os, at &instrur. vil blive placeret i
+&BANKNAVN. i &ser. &dep. tilknyttet &KTONAVN.s
+.sp
+:SKRSLUT.
+:SKRSLUT.
+:SKRSLUT.
+.tp 5mm 41mm 60mm 73mm 92mm 117mm 137mm
+.if &L'&DEPOTNR > 0
+.th *¤&pension ¤reg.nr. ¤&reg ¤kontonr. ¤&kto ¤depotnr. ¤&DEPOTNR.
+.el *¤&pension ¤reg.nr. ¤&reg ¤kontonr. ¤&kto
+.br
+.***************
+.if &L'&KONTO10 = 0
+.th .go IKKE4
+.if &L'&GENDEPOT01 > 0
+.th *¤&pension1 ¤reg.nr. ¤&reg1 ¤kontonr. ¤&kto1 ¤depotnr. ¤&GENDEPOT01.
+.th .br
+.el *¤&pension1 ¤reg.nr. ¤&reg1 ¤kontonr. ¤&kto1
+.el .br
+...IKKE4
+.***************
+.if &L'&KONTO11 = 0
+.th .go IKKE5
+.if &L'&GENDEPOT02 > 0
+.th *¤&pension2 ¤reg.nr. ¤&reg2 ¤kontonr. ¤&kto2 ¤depotnr. ¤&GENDEPOT02.
+.th .br
+.el *¤&pension2 ¤reg.nr. ¤&reg2 ¤kontonr. ¤&kto2
+.el .br
+...IKKE5
+.***************
+.if &L'&KONTO12 = 0
+.th .go IKKE6
+.if &L'&GENDEPOT03 > 0
+.th *¤&pension3 ¤reg.nr. ¤&reg3 ¤kontonr. ¤&kto3 ¤depotnr. ¤&GENDEPOT03.
+.th .br
+.el *¤&pension3 ¤reg.nr. ¤&reg3 ¤kontonr. ¤&kto3
+.el .br
+...IKKE6
+.sp
+.**********************************
+.tp 5mm
+:SWISS9.
+&GENNAVN.
+bekræfter, at
+.sp
+*¤så
+.in 5mm nobreak
+vidt selskabet er bekendt vil
+&KTONAVN.,
+dennes nærtstående eller selskaber hvori
+&KTONAVN.
+eller dennes nærtstående har bestemmende indflydelse tilsammen ikke ejer
+&GENUNPROC. % eller mere af kapitalen i
+&GENNAVN., efter det ovenfor angivne ønskede køb er gennemført.
+.in 0mm
+.sp
+*¤det
+.in 5mm nobreak
+ikke er selskabets hovedformål eller et af dets formål at give
+brugsrettigheder, rabatter eller lignende i selskabet.
+.in 0mm
+.sp
+*¤selskabet
+.in 5mm nobreak
+ikke har udstedt eller vil udstede fysiske &instru..
+.in 0mm
+.sp
+*¤ovennævnte
+.in 5mm nobreak
+&instru., som
+.if &U'&GENVALG1 = A
+.th &KTONAVN. ønsker at købe
+.el &KTONAVN. har købt
+.ct , kan afstås til tredjemand eller erhverves af
+&KTONAVN. for midler, der ikke er pensionsmidler ved
+pensionering, eller hvis &KTONAVN.s pensionsordningers værdi i
+&BANKNAVN. bortset fra unoterede aktiver kommer under &GENUNOBEL. kr.
+.in 0mm
+.sp
+*¤hvis
+.in 5mm nobreak
+&KTONAVN. dør, før ovennævnte &pen. er udbetalt, kan de
+begunstigede eller dødsboet indtræde i &KTONAVN.s rettigheder og
+forpligtelse til at afhænde &instru. til &GENNAVN. eller tredjemand.
+.in 0mm
+.sp 2
+&KTONAVN.s
+erhvervelse af &instru. vil være underlagt reglerne i bekendtgørelse om
+puljepension og andre skattebegunstigede opsparingsformer m.v. om
+investering i værdipapirer for pensionsmidler. Efter reglerne i
+bekendtgørelsen kan &KTONAVN. således alene disponere over
+værdipapirerne ved afståelse.
+.sp
+Reglerne
+bevirker, at alle fremtidige betalinger vedrørende &instrur. skal ske til
+ovennævnte &koo..
+.ct  &GENNAVN. bekræfter, at alle fremtidige
+betalinger vedrørende ovennævnte
+&instru., såvel løbende udbytte som provenu ved afståelse og alle
+øvrige betalinger, vil ske til ovennævnte &koo..
+.sp
+:SWISS10.
+:FED.
+Selskabets underskrift
+:SKRSLUT.
+:SKRSLUT.
+.sp 14mm
+.****************UNDERSKRIFT OG DATO********************
+.dr tynd weight 0.2mm
+.tp 1mm 50mm
+.hr tynd 1mm 45mm 50mm 170mm
+.br
+¤Dato ¤&GENNAVN.
+.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -338,34 +667,34 @@ udstedt i &U'&GENMØNTK. i
 .sp
 .tp 5mm 41mm 60mm 73mm 92mm 117mm 137mm
 .if &L'&DEPOTNR > 0
-.th *¤&pension ¤reg.nr. ¤&reg ¤kontonr. ¤&kto ¤depotnr. ¤&DEPOTNR.
-.el *¤&pension ¤reg.nr. ¤&reg ¤kontonr. ¤&kto
+.th * ¤ &pension ¤ reg.nr. ¤ &reg ¤ kontonr. ¤ &kto ¤ depotnr. ¤ &DEPOTNR.
+.el * ¤ &pension ¤ reg.nr. ¤ &reg ¤ kontonr. ¤ &kto
 .br
 .***************
 .if &L'&KONTO10 = 0
 .th .go IKKE1
 .if &L'&GENDEPOT01 > 0
-.th *¤&pension1 ¤reg.nr. ¤&reg1 ¤kontonr. ¤&kto1 ¤depotnr. ¤&GENDEPOT01.
+.th * ¤ &pension1 ¤ reg.nr. ¤ &reg1 ¤ kontonr. ¤ &kto1 ¤ depotnr. ¤ &GENDEPOT01.
 .th .br
-.el *¤&pension1 ¤reg.nr. ¤&reg1 ¤kontonr. ¤&kto1
+.el * ¤ &pension1 ¤ reg.nr. ¤ &reg1 ¤ kontonr. ¤ &kto1
 .el .br
 ...IKKE1
 .***************
 .if &L'&KONTO11 = 0
 .th .go IKKE2
 .if &L'&GENDEPOT02 > 0
-.th *¤&pension2 ¤reg.nr. ¤&reg2 ¤kontonr. ¤&kto2 ¤depotnr. ¤&GENDEPOT02.
+.th * ¤ &pension2 ¤ reg.nr. ¤ &reg2 ¤ kontonr. ¤ &kto2 ¤ depotnr. ¤ &GENDEPOT02.
 .th .br
-.el *¤&pension1 ¤reg.nr. ¤&reg2 ¤kontonr. ¤&kto2
+.el * ¤ &pension1 ¤ reg.nr. ¤ &reg2 ¤ kontonr. ¤ &kto2
 .el .br
 ...IKKE2
 .***************
 .if &L'&KONTO12 = 0
 .th .go IKKE3
 .if &L'&GENDEPOT03 > 0
-.th *¤&pension3 ¤reg.nr. ¤&reg3 ¤kontonr. ¤&kto3 ¤depotnr. ¤&GENDEPOT03.
+.th * ¤ &pension3 ¤ reg.nr. ¤ &reg3 ¤ kontonr. ¤ &kto3 ¤ depotnr. ¤ &GENDEPOT03.
 .th .br
-.el *¤&pension1 ¤reg.nr. ¤&reg3 ¤kontonr. ¤&kto3
+.el * ¤ &pension1 ¤ reg.nr. ¤ &reg3 ¤ kontonr. ¤ &kto3
 .el .br
 .***************
 ...IKKE3
@@ -412,332 +741,4 @@ Med venlig hilsen
 :SKRSLUT.
 .ar off
 .**************************************************************************
-.**************************************************************************
-.da SIDE1  20mm 38mm width 175mm
-.**************************************************************************
-.ar SIDE1 on
-.tp 1mm 88.5mm 131.5mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SKRSLUT.
-.***** her laves kassen til Firmaet og pengeinstitut **********************
-.bx left 87.5mm right
-:SWISS8.
-¤Selskab ¤Pengeinstitut
-:SKRSLUT.
-.sp 19mm
-.bx off
-.bx can
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-:SKRSLUT.
-.***** her laves kassen til resten af siden *******************************
-.bx new left right
-.sp 207mm
-.bx off
-.bx can
-.********************
-.ar off
-.*************************************************************************
-.da FIRMAOPL   25mm    47mm     width  84mm
-.da PIOPL      112.5mm 47mm     width  84mm
-.da TEKST      21mm    73mm     width 170mm
-.*************************************************************************
-.ar FIRMAOPL on
-&GENNAVN.
-.br
-&GENCOADR.
-.br
-&GENGADE.
-.br
-&GENBY.
-.br
-&GENLAND.
-.ar off
-.**************************************************************************
-.*****  Pengeinstituttets oplysninger
-.**************************************************************************
-.ar PIOPL on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-.ar TEKST on
-:SWISS9.
-&BANKNAVN.
-har meddelt at:
-:SKRSLUT.
-.sp
-&KTONAVN.
-.br
-&KTOCO.
-.br
-&KTOGADE.
-.br
-&KTOBY.
-.br
-&KTOLAND.
-.sp
-:SWISS9.
-.if &U'&GENVALG1 = A
-.th ønsker at købe
-.el har købt
-.****Hvis der er valgt nominelt ****
-.if &L'&BECNOM > 0
-.th .go T2T1
-.el .go T2T1END
-...T2T1
-.***************
-nominelt
-:VS. &BECNOM.
-&instru. udstedt i &U'&GENMØNTK. i
-.***************
-...T2T1END
-.****Hvis der er valgt stk. dec ****
-.if &L'&STKDEC > 0
-.th .go T2T2
-.el .go T2T2END
-...T2T2
-.***************
-:VS. &STKDEC.
-stk. &instru. udstedt i
-&U'&GENMØNTK. i
-.***************
-...T2T2END
-.****Hvis der er valgt stk. hel ****
-.if &L'&STKHEL > 0
-.th .go T2T3
-.el .go T2T3END
-...T2T3
-.***************
-:VS. &STKHEL.
-stk. &instru. udstedt i
-&U'&GENMØNTK. i
-...T2T3END
-.***************
-.sp
-&GENNAVN.
-.sp
-.*************************************************************************
-:SWISS9.
-&GENNAVN.
-bekræfter at &KTONAVN. ejer i alt
-.****Hvis der er valgt nominelt ****
-.if &L'&BECNOM > 0
-.th .go TEST1
-.el .go TEST1END
-...TEST1
-nominelt
-:VS. &BECNOM.
-&instru.,
-udstedt i
-&U'&GENMØNTK.,
-.************
-.if &U'&GENJANEJ = J
-.an &GENPROC = 0,00
-.th svarende til _____ procent af selskabets samlede kapital,
-.th .go VIDERE
-.************
-.if &GENPROC = 0,00
-.th .go VIDERE
-.el svarende til
-.el :VS. &GENPROC.
-.el procent af selskabets samlede kapital,
-.************
-...VIDERE
-og at
-&BANKNAVN.
-får besked, hvis
-:SKRSLUT.
-&GENNAVN.
-udsteder &instrud., &instruf., ophører, går konkurs, sælges eller hvis
-&GENNAVN.
-nedskriver kapitalen.
-...TEST1END
-.****Hvis der er valgt stk. dec ****
-.if &L'&STKDEC > 0
-.th .go TEST2
-.el .go TEST2END
-.************
-...TEST2
-:VS. &STKDEC.
-stk. &instru.,
-udstedt i
-&U'&GENMØNTK.,
-.************
-.if &U'&GENJANEJ = J
-.an &GENPROC = 0,00
-.th svarende til _____ procent af selskabets samlede kapital,
-.th .go VIDERE2
-.************
-.if &GENPROC = 0,00
-.th .go VIDERE2
-.el svarende til
-.el :VS. &GENPROC.
-.el procent af selskabets samlede kapital,
-.************
-...VIDERE2
-.ct  og at
-&BANKNAVN.
-får besked, hvis
-&GENNAVN.
-udsteder &instrud., &instruf., ophører, går konkurs, sælges eller hvis
-:SKRSLUT.
-&GENNAVN.
-nedskriver kapitalen.
-...TEST2END
-.****Hvis der er valgt stk. hel ****
-.if &L'&STKHEL > 0
-.th .go TEST3
-.el .go TEST3END
-...TEST3
-:VS. &STKHEL.
-stk. &instru., udstedt i
-&U'&GENMØNTK.,
-.************
-.if &U'&GENJANEJ = J
-.an &GENPROC = 0,00
-.th svarende til _____ procent af selskabets samlede kapital,
-.th .go VIDERE3
-.************
-.if &GENPROC = 0,00
-.th .go VIDERE3
-.el svarende til
-.el :VS. &GENPROC.
-.el procent af selskabets samlede kapital,
-.************
-...VIDERE3
-.ct  og at
-&BANKNAVN.
-får besked, hvis
-&GENNAVN.
-udsteder &instrud., &instruf., ophører, går konkurs, sælges eller hvis
-&GENNAVN.
-nedskriver kapitalen.
-.************
-...TEST3END
-.sp
-øvrige betalinger, vil ske til ovennævnte &koo..
-.sp
-:SWISS10.
-:FED.
-Selskabets underskrift
-:SKRSLUT.
-:SKRSLUT.
-.sp 14mm
-.****************UNDERSKRIFT OG DATO********************
-.dr tynd weight 0.2mm
-.tp 1mm 50mm
-.hr tynd 1mm 45mm 50mm 170mm
-.br
-¤Dato ¤&GENNAVN.
-.ar off
-dennes nærtstående eller selskaber hvori
-&KTONAVN.
-eller dennes nærtstående har bestemmende indflydelse tilsammen ikke ejer
-&GENUNPROC. % eller mere af kapitalen i
-&GENNAVN., efter det ovenfor angivne ønskede køb er gennemført.
-.in 0mm
-.sp
-*¤det
-.in 5mm nobreak
-ikke er selskabets hovedformål eller et af dets formål at give
-brugsrettigheder, rabatter eller lignende i selskabet.
-.in 0mm
-.sp
-*¤selskabet
-.in 5mm nobreak
-ikke har udstedt eller vil udstede fysiske &instru..
-.in 0mm
-.sp
-*¤ovennævnte
-.in 5mm nobreak
-&instru., som
-.if &U'&GENVALG1 = A
-.th &KTONAVN. ønsker at købe
-.el &KTONAVN. har købt
-.ct , kan afstås til tredjemand eller erhverves af
-&KTONAVN. for midler, der ikke er pensionsmidler ved
-pensionering, eller hvis &KTONAVN.s pensionsordningers værdi i
-&BANKNAVN. bortset fra unoterede aktiver kommer under &GENUNOBEL. kr.
-.in 0mm
-.sp
-*¤hvis
-.in 5mm nobreak
-&KTONAVN. dør, før ovennævnte &pen. er udbetalt, kan de
-begunstigede eller dødsboet indtræde i &KTONAVN.s rettigheder og
-forpligtelse til at afhænde &instru. til &GENNAVN. eller tredjemand.
-.in 0mm
-.sp 2
-&KTONAVN.s
-erhvervelse af &instru. vil være underlagt reglerne i bekendtgørelse om
-puljepension og andre skattebegunstigede opsparingsformer m.v. om
-investering i værdipapirer for pensionsmidler. Efter reglerne i
-bekendtgørelsen kan &KTONAVN. således alene disponere over
-værdipapirerne ved afståelse.
-.sp
-Reglerne
-bevirker, at alle fremtidige betalinger vedrørende &instrur. skal ske til
-ovennævnte &koo..
-.ct  &GENNAVN. bekræfter, at alle fremtidige
-betalinger vedrørende ovennævnte
-&instru., såvel løbende udbytte som provenu ved afståelse og alle
-:SWISS9.
-&BANKNAVN. har oplyst til os, at &instrur. vil blive placeret i
-&BANKNAVN. i &ser. &dep. tilknyttet &KTONAVN.s
-.sp
-:SKRSLUT.
-:SKRSLUT.
-:SKRSLUT.
-.tp 5mm 41mm 60mm 73mm 92mm 117mm 137mm
-.if &L'&DEPOTNR > 0
-.th *¤&pension ¤reg.nr. ¤&reg ¤kontonr. ¤&kto ¤depotnr. ¤&DEPOTNR.
-.el *¤&pension ¤reg.nr. ¤&reg ¤kontonr. ¤&kto
-.br
-.***************
-.if &L'&KONTO10 = 0
-.th .go IKKE4
-.if &L'&GENDEPOT01 > 0
-.th *¤&pension1 ¤reg.nr. ¤&reg1 ¤kontonr. ¤&kto1 ¤depotnr. ¤&GENDEPOT01.
-.th .br
-.el *¤&pension1 ¤reg.nr. ¤&reg1 ¤kontonr. ¤&kto1
-.el .br
-...IKKE4
-.***************
-.if &L'&KONTO11 = 0
-.th .go IKKE5
-.if &L'&GENDEPOT02 > 0
-.th *¤&pension2 ¤reg.nr. ¤&reg2 ¤kontonr. ¤&kto2 ¤depotnr. ¤&GENDEPOT02.
-.th .br
-.el *¤&pension2 ¤reg.nr. ¤&reg2 ¤kontonr. ¤&kto2
-.el .br
-...IKKE5
-.***************
-.if &L'&KONTO12 = 0
-.th .go IKKE6
-.if &L'&GENDEPOT03 > 0
-.th *¤&pension3 ¤reg.nr. ¤&reg3 ¤kontonr. ¤&kto3 ¤depotnr. ¤&GENDEPOT03.
-.th .br
-.el *¤&pension3 ¤reg.nr. ¤&reg3 ¤kontonr. ¤&kto3
-.el .br
-...IKKE6
-.sp
-.**********************************
-.tp 5mm
-:SWISS9.
-&GENNAVN.
-bekræfter, at
-.sp
-*¤så
-.in 5mm nobreak
-vidt selskabet er bekendt vil
-&KTONAVN.,
+

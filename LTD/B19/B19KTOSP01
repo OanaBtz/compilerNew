@@ -1,3 +1,15 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
 .* i kundens netbank - afsnittet indsættes efter KUNDEUD1
 .**************************************************************************
@@ -58,54 +70,6 @@
 .***********************************************************************
 :VERDA10.
 .*
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -156,7 +120,56 @@
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T:VERDA10.
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:VERDA10.
 .da SIDE 25mm 40mm width 150mm
 .ti ¤ 05
 .tp 50mm
@@ -171,20 +184,20 @@ Erklæring vedr. spærring af konto
 .tp 85mm
 .sp3
 .if &L'&MEDNAVN gt 0
-.th Kontohaver: ¤Medkontohaver:
+.th Kontohaver: ¤ Medkontohaver:
 .el Kontohaver:
 .sp
-&NAVN. ¤&MEDNAVN.
+&NAVN. ¤ &MEDNAVN.
 .br
 .if &L'&CO gt 0
-.th &CO ¤&MEDCO
+.th &CO ¤ &MEDCO
 .br
-&GADE ¤&MEDGADE
+&GADE ¤ &MEDGADE
 .br
-&BY ¤&MEDBY
+&BY ¤ &MEDBY
 .sp
 .if &L'&MEDNAVN gt 0
-.th Kundenr.: &KTOKUNDENR ¤Kundenr. &MEDKNDNR1
+.th Kundenr.: &KTOKUNDENR ¤ Kundenr. &MEDKNDNR1
 .el Kundenr.: &KTOKUNDENR
 .sp
 Kontonr.: &IREGKTO
@@ -264,13 +277,13 @@ Kontonr.: &IREGKTO
 .th .sp
 .th Undertegnede er bekendt med, at
 .th .sp
-.th -¤i tilfælde af mit dødsfald opretholdes spærringen indtil den
+.th - ¤ i tilfælde af mit dødsfald opretholdes spærringen indtil den
 .th ovenfor nævnte dato
 .th .br
-.th -¤jeg på et senere tidspunkt har mulighed for at fortryde spærring af
+.th - ¤ jeg på et senere tidspunkt har mulighed for at fortryde spærring af
 .th kontoen
 .th .br
-.th -¤jeg ikke kan fortryde, at beløbet er indsat i kontohavers navn
+.th - ¤ jeg ikke kan fortryde, at beløbet er indsat i kontohavers navn
 .th .sp
 .th Dato:
 .th .sp 20mm
@@ -283,7 +296,7 @@ Kontonr.: &IREGKTO
 .th .br
 .th &B19TX30B.
 .th .br
-.th &B19TX4A. ¤¤&B19TX30C
+.th &B19TX4A. ¤ ¤ &B19TX30C
 .th .br
 .th Tlf.nr. &B19TX11A.
 .th .go SLUT
@@ -292,18 +305,18 @@ Kontonr.: &IREGKTO
 .th .sp
 .th Undertegnede er bekendt med, at
 .th .sp
-.th -¤i tilfælde af mit dødsfald, så råder kontohaver selv over
+.th - ¤ i tilfælde af mit dødsfald, så råder kontohaver selv over
 .th kontoen, medmindre
 .th .br
-.th ¤kontohaver er umyndig/umyndiggjort. I det
+.th ¤ kontohaver er umyndig/umyndiggjort. I det
 .th tilfælde, har kontohavers værge
 .th .br
-.th ¤råderet over kontoen
+.th ¤ råderet over kontoen
 .th .br
-.th -¤jeg på et senere tidspunkt har mulighed for at fortryde spærring af
+.th - ¤ jeg på et senere tidspunkt har mulighed for at fortryde spærring af
 .th kontoen
 .th .br
-.th -¤jeg ikke kan fortryde, at beløbet er indsat i kontohavers navn
+.th - ¤ jeg ikke kan fortryde, at beløbet er indsat i kontohavers navn
 .th .sp
 .th Dato:
 .th .sp 20mm
@@ -316,7 +329,7 @@ Kontonr.: &IREGKTO
 .th .br
 .th &B19TX30B.
 .th .br
-.th &B19TX4A. ¤¤&B19TX30C
+.th &B19TX4A. ¤ ¤ &B19TX30C
 .th .br
 .th Tlf.nr. &B19TX11A.
 .th .go SLUT
@@ -328,22 +341,11 @@ Dato:
 .if &U'&B19TX1F eq N
 .an &L'&MEDNAVN gt 0
 .th .hr 0mm 75mm 100mm 175mm
-.th &NAVN. ¤&MEDNAVN.
+.th &NAVN. ¤ &MEDNAVN.
 .if &U'&B19TX1F eq N
 .an &L'&MEDNAVN lt 1
 .th .hr 0mm 75mm
 .th &NAVN.
 .**************************************************************************
 ...SLUT
-.pm 20mm
-.NV PAGE BANKSTED '%&KNDTILH.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

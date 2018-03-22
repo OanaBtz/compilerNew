@@ -1,3 +1,78 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* Parametre og substrings ************************************************
+.***** her deles kontonummer for obligationsrenter ************************
+.su off
+.se oblregnr = substr &GENOBLKTO 1 4
+.se oblktonr = substr &GENOBLKTO 5 10
+.***** her deles kontonummer for udtrukne obligationer ********************
+.se uoblregnr = substr &GENUOBLKTO 1 4
+.se uoblktonr = substr &GENUOBLKTO 5 10
+.***** her deles kontonummer for aktieudbytte *****************************
+.se aktregnr = substr &GENAKTKTO 1 4
+.se aktktonr = substr &GENAKTKTO 5 10
+.***** her deles kontonummer for pantebrevsafkast *************************
+.se panregnr = substr &GENPANKTO 1 4
+.se panktonr = substr &GENPANKTO 5 10
+.***** her deles kontonummer for depotgebyr  ******************************
+.se depgregnr = substr &GENDEPGKTO 1 4
+.se depgktonr = substr &GENDEPGKTO 5 10
+.***** her deles kontonummer for sikkerhedsdepot **************************
+.se sikregnr = substr &GENSIKDEP 1 4
+.se sikktonr = substr &GENSIKDEP 5 10
+.su on
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.*us Aftale om handel med finansielle instrumenter og depotoprettelse
+.us Aftale om Depot
+:SKRSLUT.
+.ar off
+.*************************************************************************
 .* TEST AF MFIKATEGORI
 .if x&L'&VPKTONR ne x0
 .an x&KUNDEKAT = x
@@ -204,28 +279,28 @@ Parter
 .bx left 87.5mm right
 :SWISS8.
 .tp 1mm 88.5mm
-¤Depotindehaver ¤Bank
+ ¤ Depotindehaver ¤ Bank
 .sp 20mm
-¤CPR-nr./CVR-nr.
+ ¤ CPR-nr./CVR-nr.
 .************************
 .bx new left 87.5mm right
-¤Depotnr.¤VP-kontonr.
+ ¤ Depotnr. ¤ VP-kontonr.
 .sp 5mm
 .************************
 .bx new left 87.5mm right
-¤Kundekategori ¤Depottype
+ ¤ Kundekategori ¤ Depottype
 .sp 5mm
 .************************
 .bx new left 87.5mm right
-¤Konto for obligationsrente ¤Konto for udtrukne obligationer
+ ¤ Konto for obligationsrente ¤ Konto for udtrukne obligationer
 .sp 5mm
 .************************
 .bx new left 87.5mm right
-¤Konto for aktieudbytte ¤Konto for depotgebyr
+ ¤ Konto for aktieudbytte ¤ Konto for depotgebyr
 .sp 5mm
 .************************
 .bx new left 87.5mm right
-¤Konto for pantebrevsafkast ¤Sikkerhedsdepot for
+ ¤ Konto for pantebrevsafkast ¤ Sikkerhedsdepot for
 .sp 5mm
 .************************
 .bx off
@@ -252,7 +327,7 @@ oplysninger relateret til mit depot, såsom
 beholdningsoversigt, rentetilskrivning, udbyttebetaling mv. På den baggrund
 har jeg foretaget følgende fravalg af ændringsmeddelelser vedrørende mit
 depot i Værdipapircentralen, som jeg hermed er
-gjort bekendt med:¤Fravalgt
+gjort bekendt med: ¤ Fravalgt
 .*******
 .bx new normal left thin 150mm normal right
 001/01   Udtrækningsmeddelelse vedrørende obligationer
@@ -265,13 +340,13 @@ i sin helhed pr. sidste termin)
 004/01   Alle daglige ændringsmeddelelser:
 .hr  thin left right
 .tp 16mm
-004/02   ¤a) oplysninger om kontostamdata
+004/02   ¤ a) oplysninger om kontostamdata
 .hr  thin left right
-004/03   ¤b) beholdningsændringer vedrørende handler
+004/03   ¤ b) beholdningsændringer vedrørende handler
 .hr  thin left right
-004/04   ¤c) beholdningsændringer vedrørende overførsler
+004/04   ¤ c) beholdningsændringer vedrørende overførsler
 .hr  thin left right
-004/05   ¤d) oplysninger om rettighedshaver
+004/05   ¤ d) oplysninger om rettighedshaver
 .hr  thin left right
 005/01   Renteadvis (meddelelse om rentetilskrivning)
 .hr  thin left right
@@ -300,85 +375,11 @@ Aktiebogsnavn
 :SKRSLUT.
 .bx left 87.5mm right
 .tp 1mm 88.5mm
-¤Navn og adresse ¤som underskrives
+ ¤ Navn og adresse ¤ som underskrives
 .sp 20mm
-¤CPR-nr./CVR-nr.
+ ¤ CPR-nr./CVR-nr.
 .bx off
 ...BOXEND
 .ar off
 .**************************************************************************
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&DEPKUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.* Parametre og substrings ************************************************
-.***** her deles kontonummer for obligationsrenter ************************
-.su off
-.se oblregnr = substr &GENOBLKTO 1 4
-.se oblktonr = substr &GENOBLKTO 5 10
-.***** her deles kontonummer for udtrukne obligationer ********************
-.se uoblregnr = substr &GENUOBLKTO 1 4
-.se uoblktonr = substr &GENUOBLKTO 5 10
-.***** her deles kontonummer for aktieudbytte *****************************
-.se aktregnr = substr &GENAKTKTO 1 4
-.se aktktonr = substr &GENAKTKTO 5 10
-.***** her deles kontonummer for pantebrevsafkast *************************
-.se panregnr = substr &GENPANKTO 1 4
-.se panktonr = substr &GENPANKTO 5 10
-.***** her deles kontonummer for depotgebyr  ******************************
-.se depgregnr = substr &GENDEPGKTO 1 4
-.se depgktonr = substr &GENDEPGKTO 5 10
-.***** her deles kontonummer for sikkerhedsdepot **************************
-.se sikregnr = substr &GENSIKDEP 1 4
-.se sikktonr = substr &GENSIKDEP 5 10
-.su on
-.**************************************************************************
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.*us Aftale om handel med finansielle instrumenter og depotoprettelse
-.us Aftale om Depot
-:SKRSLUT.
-.ar off
-.*************************************************************************
+

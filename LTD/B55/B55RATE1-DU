@@ -11,6 +11,74 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+:SWISS10.:FED.
+.bx left 87.5mm right
+:SWISS8.
+.tp 1mm 88.5mm
+¤Kontohaver ¤Pengeinstitut
+.sp 23mm
+.bx left 87.5mm right
+¤CPR-/SE-nr. ¤Kontaktperson
+.sp 5mm
+.bx left 87.5mm right
+¤Kontonummer ¤Telefonnummer
+.sp 5mm
+.bx off
+.bx can
+.bx can
+.************ INDHOLD *****************************************************
+:SWISS10.:FED.
+Indhold
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 65mm
+.bx off
+.************ VÆRDIPAPIRER ************************************************
+:SWISS10.:FED.
+Værdipapirer
+.br
+:SKRSLUT.
+:SWISS8.
+.bx left right
+.sp 10mm
+.bx off
+.************ UNDERSKRIFT *************************************************
+:SWISS10.:FED.
+Jeg ønsker ovennævnte ratepension/eller del af denne udbetalt
+:SKRSLUT.
+:SWISS8.
+.bx left right
+:SWISS8.
+.sp 7mm
+.bx left 87.5mm right
+¤Dato: ¤Kontohavers underskrift
+.sp 11mm
+.bx off
+.*KASSE TIL ARBEJDSGIVERS UNDERSKRIFT *************************************
+.*KASSEN UDSKRIVES KUN, HVIS DET ER EN ARBEJDSGIVERADMINISTRERET RATEPENS**
+.*OG KUN HVIS DEN ER UDBETALT I UTIDE *************************************
+.if &U'&APFARBPENS = J
+.an &APFUDBVALG = 7
+.th .go KSARBGIV
+.el .go KSSLUT
+...KSARBGIV
+:SWISS10.:FED.
+Arbejdsgiver
+:SKRSLUT.
+:SWISS8.
+.tp 88.5mm 144mm
+.bx left 87.5mm right
+¤Arbejdsgivers underskrift¤Dato:
+.sp 18mm
+.bx off
+...KSSLUT
+.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -134,18 +202,6 @@
 .an &L'&GENBY = 0
 .th .mg/T/Der mangler oplysninger om arbejdsgiver/
 .************************************************************
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -196,6 +252,18 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
 .**************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -254,11 +322,11 @@
 .ar off
 .******************************************************************
 .ar CPR on
-&KTOKNDNR1 ¤&GENEKSP
+&KTOKNDNR1 ¤ &GENEKSP
 .ar off
 .******************************************************************
 .ar KTONR on
-&regnr &ktonr ¤&AFDTLF
+&regnr &ktonr ¤ &AFDTLF
 .ar off
 .******************************************************************
 .ar FRI on
@@ -395,32 +463,6 @@ arbejdsevne
 .sp 3mm
 :SWISS8.
 Jeg ønsker
-.th :SKRSLUT.
-.th :SKRSLUT.
-.th :SKRSLUT.
-.th :VS.&APFDELBEL
-.th :SWISS8.
-.th af
-ovennævnte kapitalpension udbetalt den
-:SKRSLUT.
-&APFIDTOUDB
-:SWISS8.
-med fradrag af 40 % afgift til
-staten, da jeg har fået en livstruende
-sygdom :FED.efter:SKRSLUT oprettelsen af pensionsordningen.
-.sp 3mm
-Jeg har i forbindelse med denne udbetaling læst "Vejledning om udbetaling
-og afgiftsberegning af Kapitalpension".
-.sp 3mm
-Jeg er opmærksom på, at min øvrige kapitalpension/kapitalpensioner
-først kan udbetales mod 40 % afgift,
-.********************
-.if &U'&GENJANEJ = J
-.th når jeg fylder 60 år.
-.el når jeg har nået pensionsalderen.
-.********************
-...LIVSSL
-.*AREALET FORTSÆTTER I BECKAP04T3 *****************************************
 .if &L'&APFDELBEL > 0
 .th kr. &ÅCONT
 .th :SKRSLUT.
@@ -471,60 +513,6 @@ Jeg ønsker min kapitalpension udbetalt på grund af livstruende sygdom
 Jeg ønsker
 .if &L'&APFDELBEL > 0
 .th kr. &ÅCONT
-ovennævnte kapitalpension.
-...MET2SL
-.**************************************
-.if X&APFUDBVALG = X7
-.th .go UTIDE
-.el .go UTIDESL
-.** UDBETALT I UTIDE *******************
-...UTIDE
-:SWISS10.
-:FED.
-Jeg ønsker min ratepension udbetalt i utide
-:SKRSLUT.
-.sp 3mm
-:SWISS8.
-Jeg ønsker
-.if &L'&APFDELBEL > 0
-.th kr. &ÅCONT
-.th :SKRSLUT.
-.th :SKRSLUT.
-.th :SKRSLUT.
-.th :VS.&APFDELBEL
-.th :SWISS8.
-.th af
-ovennævnte ratepension udbetalt den
-:SKRSLUT.
-&APFIDTOUDB
-:SWISS8.
-med fradrag af 60 % afgift til staten.
-...UTIDESL
-.sp 3mm
-.if &L'&GENGEBYR > 0
-.th Jeg er bekendt med, at &BANKNAVN beregner et ekspeditionsgebyr på kr.
-.th :VS.&GENGEBYR..
-.th :SWISS8.
-.ar off
-.el når jeg har nået pensionsalderen.
-.********************
-...MET1SL
-.*****************************
-.if X&APFUDBVALG = X6
-.th .go MET2
-.el .go MET2SL
-.** SKILSMISSE EFTER MEDTODE 2 *********
-...MET2
-:SWISS10.
-:FED.
-Jeg ønsker min kapitalpension udbetalt, som er udloddet til mig
-I forbindelse med skilsmisse efter metode 2
-:SKRSLUT.
-.sp 3mm
-:SWISS8.
-Jeg ønsker
-.if &L'&APFDELBEL > 0
-.th kr. &ÅCONT
 .th :SKRSLUT.
 .th :SKRSLUT.
 .th :SKRSLUT.
@@ -535,27 +523,22 @@ ovennævnte kapitalpension udbetalt den
 :SKRSLUT.
 &APFIDTOUDB
 :SWISS8.
-med fradrag af 40 % afgift til staten, da
-kapitalpensionen efter reglerne i Pensionsbeskatningslovens § 30, stk. 2
-og stk. 3, nr. 2 (metode 2) er udloddet til mig ved
-skilsmisse og det på udlodningstidspunktet aftalte
-udbetalingstidspunkt er indtrådt.
+med fradrag af 40 % afgift til
+staten, da jeg har fået en livstruende
+sygdom :FED.efter:SKRSLUT oprettelsen af pensionsordningen.
 .sp 3mm
-Jeg har i forbindelse med denne udbetaling læst vedlagte
-"Vejledning om udbetaling og afgiftsberegning af Kapitalpension".
+Jeg har i forbindelse med denne udbetaling læst "Vejledning om udbetaling
+og afgiftsberegning af Kapitalpension".
 .sp 3mm
-Jeg er opmærksom på, at min øvrige
-kapitalpension/kapitalpensioner, som jeg
-selv har oprettet, først kan udbetales mod 40 % afgift,
+Jeg er opmærksom på, at min øvrige kapitalpension/kapitalpensioner
+først kan udbetales mod 40 % afgift,
 .********************
 .if &U'&GENJANEJ = J
 .th når jeg fylder 60 år.
 .el når jeg har nået pensionsalderen.
 .********************
-.sp 3mm
-Jeg er opmærksom på, at jeg fra næste indkomstår
-.us ikke
-længere kan indbetale med fradragsret eller bortseelsesret til
+...LIVSSL
+.*AREALET FORTSÆTTER I BECKAP04T3 *****************************************
 .**************************************************************************
 .**********  Kopi af BECKAP04 udbetaling kapitalpenison           *********
 .********** Ændret p.g.a. ønske om formular til brug for rate-    *********
@@ -606,6 +589,91 @@ selv har oprettet, først kan udbetales mod 40 % afgift,
 .********************
 .if &U'&GENJANEJ = J
 .th når jeg fylder 60 år.
+.el når jeg har nået pensionsalderen.
+.********************
+...MET1SL
+.*****************************
+.if X&APFUDBVALG = X6
+.th .go MET2
+.el .go MET2SL
+.** SKILSMISSE EFTER MEDTODE 2 *********
+...MET2
+:SWISS10.
+:FED.
+Jeg ønsker min kapitalpension udbetalt, som er udloddet til mig
+I forbindelse med skilsmisse efter metode 2
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Jeg ønsker
+.if &L'&APFDELBEL > 0
+.th kr. &ÅCONT
+.th :SKRSLUT.
+.th :SKRSLUT.
+.th :SKRSLUT.
+.th :VS.&APFDELBEL
+.th :SWISS8.
+.th af
+ovennævnte kapitalpension udbetalt den
+:SKRSLUT.
+&APFIDTOUDB
+:SWISS8.
+med fradrag af 40 % afgift til staten, da
+kapitalpensionen efter reglerne i Pensionsbeskatningslovens § 30, stk. 2
+og stk. 3, nr. 2 (metode 2) er udloddet til mig ved
+skilsmisse og det på udlodningstidspunktet aftalte
+udbetalingstidspunkt er indtrådt.
+.sp 3mm
+Jeg har i forbindelse med denne udbetaling læst vedlagte
+"Vejledning om udbetaling og afgiftsberegning af Kapitalpension".
+.sp 3mm
+Jeg er opmærksom på, at min øvrige
+kapitalpension/kapitalpensioner, som jeg
+selv har oprettet, først kan udbetales mod 40 % afgift,
+.********************
+.if &U'&GENJANEJ = J
+.th når jeg fylder 60 år.
+.el når jeg har nået pensionsalderen.
+.********************
+.sp 3mm
+Jeg er opmærksom på, at jeg fra næste indkomstår
+.us ikke
+længere kan indbetale med fradragsret eller bortseelsesret til
+ovennævnte kapitalpension.
+...MET2SL
+.**************************************
+.if X&APFUDBVALG = X7
+.th .go UTIDE
+.el .go UTIDESL
+.** UDBETALT I UTIDE *******************
+...UTIDE
+:SWISS10.
+:FED.
+Jeg ønsker min ratepension udbetalt i utide
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+Jeg ønsker
+.if &L'&APFDELBEL > 0
+.th kr. &ÅCONT
+.th :SKRSLUT.
+.th :SKRSLUT.
+.th :SKRSLUT.
+.th :VS.&APFDELBEL
+.th :SWISS8.
+.th af
+ovennævnte ratepension udbetalt den
+:SKRSLUT.
+&APFIDTOUDB
+:SWISS8.
+med fradrag af 60 % afgift til staten.
+...UTIDESL
+.sp 3mm
+.if &L'&GENGEBYR > 0
+.th Jeg er bekendt med, at &BANKNAVN beregner et ekspeditionsgebyr på kr.
+.th :VS.&GENGEBYR..
+.th :SWISS8.
+.ar off
 .**************************************************************************
 .**********  Kopi af BECKAP04 udbetaling kapitalpenison           *********
 .********** Ændret p.g.a. ønske om formular til brug for rate-    *********
@@ -625,71 +693,4 @@ selv har oprettet, først kan udbetales mod 40 % afgift,
 .el :SWISS8.
 .el På en check udstedt til mig.
 .ar off
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.************ PARTER ******************************************************
-.ar SIDE on
-:SWISS10.:FED.
-.bx left 87.5mm right
-:SWISS8.
-.tp 1mm 88.5mm
-¤Kontohaver ¤Pengeinstitut
-.sp 23mm
-.bx left 87.5mm right
-¤CPR-/SE-nr. ¤Kontaktperson
-.sp 5mm
-.bx left 87.5mm right
-¤Kontonummer ¤Telefonnummer
-.sp 5mm
-.bx off
-.bx can
-.bx can
-.************ INDHOLD *****************************************************
-:SWISS10.:FED.
-Indhold
-.br
-:SKRSLUT.
-:SWISS8.
-.bx left right
-.sp 65mm
-.bx off
-.************ VÆRDIPAPIRER ************************************************
-:SWISS10.:FED.
-Værdipapirer
-.br
-:SKRSLUT.
-:SWISS8.
-.bx left right
-.sp 10mm
-.bx off
-.************ UNDERSKRIFT *************************************************
-:SWISS10.:FED.
-Jeg ønsker ovennævnte ratepension/eller del af denne udbetalt
-:SKRSLUT.
-:SWISS8.
-.bx left right
-:SWISS8.
-.sp 7mm
-.bx left 87.5mm right
-¤Dato: ¤Kontohavers underskrift
-.sp 11mm
-.bx off
-.*KASSE TIL ARBEJDSGIVERS UNDERSKRIFT *************************************
-.*KASSEN UDSKRIVES KUN, HVIS DET ER EN ARBEJDSGIVERADMINISTRERET RATEPENS**
-.*OG KUN HVIS DEN ER UDBETALT I UTIDE *************************************
-.if &U'&APFARBPENS = J
-.an &APFUDBVALG = 7
-.th .go KSARBGIV
-.el .go KSSLUT
-...KSARBGIV
-:SWISS10.:FED.
-Arbejdsgiver
-:SKRSLUT.
-:SWISS8.
-.tp 88.5mm 144mm
-.bx left 87.5mm right
-¤Arbejdsgivers underskrift¤Dato:
-.sp 18mm
-.bx off
-...KSSLUT
-.ar off
+

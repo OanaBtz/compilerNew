@@ -10,281 +10,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.if &L'&GENCPR4 > 0
-.an &L'&GENNAVN4 = 0
-.th .mg/T/4. fuldmagtshavers navn mangler/
-.**************************************************************************
-.* KOPI AF B19KUN02DU - bruges når der indtrædere flere medkontohavere
-.* 17.4.2015 9910/hk
-.*
-.*
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.'
-.**************************************************************************
-.if &U'X&GENVITT ne XJ
-.an &U'X&GENVITT ne XN
-.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
-.**************************************************************************
-.if &L'&GENCPR1 > 0
-.an &L'&GENNAVN1 = 0
-.th .mg/T/1. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR2 > 0
-.an &L'&GENNAVN2 = 0
-.th .mg/T/2. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR3 > 0
-.an &L'&GENNAVN3 = 0
-.th .mg/T/3. fuldmagtshavers navn mangler/
-.**************************************************************************
-.****** MEDKTO1
-.se mkunt1 = substr &MEDKUNDNR1 1 2
-.if x&mkunt1 > x00
-.an x&mkunt1 < x32
-.th .se mkun1 = 'CPR-nr.:'
-.if x&mkunt1 = x00
-.th .se mkun1 = 'CVR-nr.:'
-.if x&mkunt1 > x31
-.th .se mkun1 = 'Kunde-nr.:'
-.****** MEDKTO2
-.se mkunt2 = substr &MEDKUNDNR2 1 2
-.if x&mkunt2 > x00
-.an x&mkunt2 < x32
-.th .se mkun2 = 'CPR-nr.:'
-.if x&mkunt2 = x00
-.th .se mkun2 = 'CVR-nr.:'
-.if x&mkunt2 > x31
-.th .se mkun2 = 'Kunde-nr.:'
-.****** MEDKTO3
-.se mkunt3 = substr &MEDKUNDNR3 1 2
-.if x&mkunt3 > x00
-.an x&mkunt3 < x32
-.th .se mkun3 = 'CPR-nr.:'
-.if x&mkunt3 = x00
-.th .se mkun3 = 'CVR-nr.:'
-.if x&mkunt3 > x31
-.th .se mkun3 = 'Kunde-nr.:'
-.****** MEDKTO4
-.se mkunt4 = substr &MEDKUNDNR4 1 2
-.if x&mkunt4 > x00
-.an x&mkunt4 < x32
-.th .se mkun4 = 'CPR-nr.:'
-.if x&mkunt4 = x00
-.th .se mkun4 = 'CVR-nr.:'
-.if x&mkunt4 > x31
-.th .se mkun4 = 'Kunde-nr.:'
-.****** MEDKTO5
-.se mkunt5 = substr &MEDKUNDNR5 1 2
-.if x&mkunt5 > x00
-.an x&mkunt5 < x32
-.th .se mkun5 = 'CPR-nr.:'
-.if x&mkunt5 = x00
-.th .se mkun5 = 'CVR-nr.:'
-.if x&mkunt5 > x31
-.th .se mkun5 = 'Kunde-nr.:'
-.****** MEDKTO6
-.se mkunt6 = substr &MEDKUNDNR6 1 2
-.if x&mkunt6 > x00
-.an x&mkunt6 < x32
-.th .se mkun6 = 'CPR-nr.:'
-.if x&mkunt6 = x00
-.th .se mkun6 = 'CVR-nr.:'
-.if x&mkunt6 > x31
-.th .se mkun6 = 'Kunde-nr.:'
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 280mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-.tp 30mm
-:SWISS6.
-&BREVNAVN
-.br
-&KONTROL1  ¤&DATO kl. &KLOKKESLET
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-Kontoændring - medkontohaver(e) indtræder/udtræder
-:SKRSLUT.
-.ar off
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.** PARTER ****************************************************************
-.ar SIDE on
-.tp 1mm 88.5mm 135mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SWISS8.
-.if &L'&MEDNAVN = 0
-.th .bx left right
-.th ¤Kontohaver
-.el .bx left 87.5mm right
-.el ¤Kontohavere ¤Pengeinstitut
-.sp 50mm
-.bx off
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 175mm
-.bx off
-.ar off
-:SWISS9.
-.**************************************************************************
-.da KUNDER   25mm 50mm width 80mm
-.da PI      112mm 50mm width 80mm
-.**************************************************************************
-.ar KUNDER on
-&KTONAVN., &KTOKNDNR1
-.sp 1mm
-.if &L'&MEDNAVN > 0
-.th &MEDNAVN., &B19CPR
-.if &L'&B19TX30A > 0
-.th .sp 1mm
-.th &B19TX30A., &B19TX10A
-.if &L'&B19TX30B > 0
-.th .sp 1mm
-.th &B19TX30B., &B19TX10B
-.if &L'&B19TX30C > 0
-.th .sp 1mm
-.th &B19TX30C., &B19TX10C
-.if &L'&B19TX30D > 0
-.th .sp 1mm
-.th &B19TX30D., &B19TX10D
-.if &L'&B19TX30E > 0
-.th .sp 1mm
-.th &B19TX30E., &B19TX10E
-.if &L'&B19TX30F > 0
-.th .sp 1mm
-.th &B19TX30F., &B19TX10F
-.if &L'&B19TX30G > 0
-.th .sp 1mm
-.th &B19TX30G., &B19TX10G
-.if &L'&B19TX30H > 0
-.th .sp 1mm
-.th &B19TX30H., &B19TX10H
-.if &L'&B19TX30I > 0
-.th .sp 1mm
-.th &B19TX30I., &B19TX10I
-.ar off
-.**************************************************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-.********************GENEREL OPSÆTNING*************************************
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 95mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 42mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.ar BOX on
-.bx left right
-.sp 229mm
-.bx off
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&KONTROL1 - &DATO kl. &KLOKKESLET
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-Kontoændring - medkontohaver(e) indtræder/udtræder
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.sp 32mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.ll 180mm
-.in 5mm
-.ir 1mm
 .da INDH 25mm 110mm width 155mm
 .ar INDH on
 .**************************************************************************
@@ -335,18 +60,6 @@ kreditaftaler.
 .of
 .sp 5mm
 .kp off
-.kp off
-.*************************** MEDKONTOHAVER 10 **********************
-.kp on
-.if &L'&B19TX30I gt 0
-.th .sp 15mm
-.th .tp _/50mm 55mm 72mm  _/170mm
-.th Dato: ¤ ¤Underskrift: ¤¤
-.th .tp 121mm center
-.th .br
-.th ¤&B19TX30I
-.kp off
-.******************************************************
 .kp on
 .tp _/50mm 55mm 72mm  _/170mm
 :FED.
@@ -447,6 +160,18 @@ Dato: ¤ ¤Underskrift: ¤¤
 .th .tp 121mm center
 .th .br
 .th ¤&B19TX30H
+.kp off
+.*************************** MEDKONTOHAVER 10 **********************
+.kp on
+.if &L'&B19TX30I gt 0
+.th .sp 15mm
+.th .tp _/50mm 55mm 72mm  _/170mm
+.th Dato: ¤ ¤Underskrift: ¤¤
+.th .tp 121mm center
+.th .br
+.th ¤&B19TX30I
+.kp off
+.******************************************************
 .*********************** MEDKONTOHAVER UDTRÆDER ***********************
 ...MEDSLUT
 .sp 10mm
@@ -586,3 +311,279 @@ Underskrift ¤ ¤Underskrift ¤
 .in 5mm
 .ir 5mm
 ...END
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.* KOPI AF B19KUN02DU - bruges når der indtrædere flere medkontohavere
+.* 17.4.2015 9910/hk
+.*
+.*
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.if &U'X&GENVITT ne XJ
+.an &U'X&GENVITT ne XN
+.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
+.**************************************************************************
+.if &L'&GENCPR1 > 0
+.an &L'&GENNAVN1 = 0
+.th .mg/T/1. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR2 > 0
+.an &L'&GENNAVN2 = 0
+.th .mg/T/2. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR3 > 0
+.an &L'&GENNAVN3 = 0
+.th .mg/T/3. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR4 > 0
+.an &L'&GENNAVN4 = 0
+.th .mg/T/4. fuldmagtshavers navn mangler/
+.**************************************************************************
+.****** MEDKTO1
+.se mkunt1 = substr &MEDKUNDNR1 1 2
+.if x&mkunt1 > x00
+.an x&mkunt1 < x32
+.th .se mkun1 = 'CPR-nr.:'
+.if x&mkunt1 = x00
+.th .se mkun1 = 'CVR-nr.:'
+.if x&mkunt1 > x31
+.th .se mkun1 = 'Kunde-nr.:'
+.****** MEDKTO2
+.se mkunt2 = substr &MEDKUNDNR2 1 2
+.if x&mkunt2 > x00
+.an x&mkunt2 < x32
+.th .se mkun2 = 'CPR-nr.:'
+.if x&mkunt2 = x00
+.th .se mkun2 = 'CVR-nr.:'
+.if x&mkunt2 > x31
+.th .se mkun2 = 'Kunde-nr.:'
+.****** MEDKTO3
+.se mkunt3 = substr &MEDKUNDNR3 1 2
+.if x&mkunt3 > x00
+.an x&mkunt3 < x32
+.th .se mkun3 = 'CPR-nr.:'
+.if x&mkunt3 = x00
+.th .se mkun3 = 'CVR-nr.:'
+.if x&mkunt3 > x31
+.th .se mkun3 = 'Kunde-nr.:'
+.****** MEDKTO4
+.se mkunt4 = substr &MEDKUNDNR4 1 2
+.if x&mkunt4 > x00
+.an x&mkunt4 < x32
+.th .se mkun4 = 'CPR-nr.:'
+.if x&mkunt4 = x00
+.th .se mkun4 = 'CVR-nr.:'
+.if x&mkunt4 > x31
+.th .se mkun4 = 'Kunde-nr.:'
+.****** MEDKTO5
+.se mkunt5 = substr &MEDKUNDNR5 1 2
+.if x&mkunt5 > x00
+.an x&mkunt5 < x32
+.th .se mkun5 = 'CPR-nr.:'
+.if x&mkunt5 = x00
+.th .se mkun5 = 'CVR-nr.:'
+.if x&mkunt5 > x31
+.th .se mkun5 = 'Kunde-nr.:'
+.****** MEDKTO6
+.se mkunt6 = substr &MEDKUNDNR6 1 2
+.if x&mkunt6 > x00
+.an x&mkunt6 < x32
+.th .se mkun6 = 'CPR-nr.:'
+.if x&mkunt6 = x00
+.th .se mkun6 = 'CVR-nr.:'
+.if x&mkunt6 > x31
+.th .se mkun6 = 'Kunde-nr.:'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 280mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+.tp 30mm
+:SWISS6.
+&BREVNAVN
+.br
+&KONTROL1  ¤ &DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Kontoændring - medkontohaver(e) indtræder/udtræder
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.if &L'&MEDNAVN = 0
+.th .bx left right
+.th ¤ Kontohaver
+.el .bx left 87.5mm right
+.el ¤ Kontohavere ¤ Pengeinstitut
+.sp 50mm
+.bx off
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 175mm
+.bx off
+.ar off
+:SWISS9.
+.**************************************************************************
+.da KUNDER   25mm 50mm width 80mm
+.da PI      112mm 50mm width 80mm
+.**************************************************************************
+.ar KUNDER on
+&KTONAVN., &KTOKNDNR1
+.sp 1mm
+.if &L'&MEDNAVN > 0
+.th &MEDNAVN., &B19CPR
+.if &L'&B19TX30A > 0
+.th .sp 1mm
+.th &B19TX30A., &B19TX10A
+.if &L'&B19TX30B > 0
+.th .sp 1mm
+.th &B19TX30B., &B19TX10B
+.if &L'&B19TX30C > 0
+.th .sp 1mm
+.th &B19TX30C., &B19TX10C
+.if &L'&B19TX30D > 0
+.th .sp 1mm
+.th &B19TX30D., &B19TX10D
+.if &L'&B19TX30E > 0
+.th .sp 1mm
+.th &B19TX30E., &B19TX10E
+.if &L'&B19TX30F > 0
+.th .sp 1mm
+.th &B19TX30F., &B19TX10F
+.if &L'&B19TX30G > 0
+.th .sp 1mm
+.th &B19TX30G., &B19TX10G
+.if &L'&B19TX30H > 0
+.th .sp 1mm
+.th &B19TX30H., &B19TX10H
+.if &L'&B19TX30I > 0
+.th .sp 1mm
+.th &B19TX30I., &B19TX10I
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 42mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&KONTROL1 - &DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Kontoændring - medkontohaver(e) indtræder/udtræder
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 180mm
+.in 5mm
+.ir 1mm
+

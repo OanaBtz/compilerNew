@@ -11,6 +11,821 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+.*************** GENEREL OPSÆTNING ***************************************
+.dr tynd1 WEIGHT 0.15mm
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+.*24082004
+18102012
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.US Bestilling af &TYPE.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.*** Definer siden som et areal *******************************************
+.*da side 20mm 33,5mm width 175mm
+.da side 20mm 38mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.vr tynd1 87mm
+.sp 27mm
+.hr tynd1 87mm right
+.sp 47mm
+.bx off
+.vr off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.if X&FULDM = X1
+.th .vr tynd1 87mm
+.sp 81mm
+.bx off
+.if X&FULDM = X1
+.th .vr off
+:FED.
+.*** Underskrift **********************************************************
+.if x&U'&B11KTPIN eq xJ .an x&ÅPN eq x2
+.th .sp 3.4mm
+.el Underskrift
+:SKRSLUT.
+.bx new 0mm right
+.sp 26mm
+.bx off
+.*** TEST *****************************************************************
+.* NOTERINGSFELTER INAKTIVERET den 7.12.2009 b37 es
+.go slut
+.if x&ÅPN ne x1 ;.th .go slut
+.*** Bankens noteringer ***************************************************
+:SWISS10.
+:FED.
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.*bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
+.bx new 0mm 35mm 105mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 35mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
+...slut
+.ar off
+.**************************************************************************
+.da undertegn1   21mm 58.5mm width 85mm
+.da undertegnm  108mm 43.5mm width 85mm
+.da undertegn2  108mm 71.5mm width 85mm
+.if x&FULDM = x1
+.th .da erkl      21mm 126mm width  85mm
+.el .da erkl      21mm 126mm width 173mm
+.da erkl2        108mm 126mm width  85mm
+.da erkl3         21mm 182.5mm width 173mm
+.da erkl4        108mm 198.5mm width  85mm
+.da underskrift1  21mm 213mm width 173mm
+.da banken1       56mm 245mm width 145mm
+.da banken2       21mm 245mm width  57mm
+.**************************************************************************
+:SWISS8.
+.tp 88.5mm
+.**************************************************************************
+.ar undertegnm on
+:SWISS6.
+Evt. medkontohaver
+.sp 21mm
+:SWISS8.
+CPR.nr.:
+.ar off
+.**************************************************************************
+.ar undertegn1 on
+.sp 14mm
+.if x&FULDM ne x1
+.th CPR.nr.:
+.th .sp 5.4mm
+bestiller herved et &TYPE &TYPE1
+.sp 0.4mm
+til konto nr.
+.if &L'&BECTEKST01 gt 0
+.th .go afs
+.el .go afs1
+...afs
+.sp 5mm
+udstedt til fuldmagtshaver (kortholder):
+.sp 15.8mm
+.sp 10.0mm
+CPR.nr.:
+.ar off
+...afs1
+.ar off
+.**************************************************************************
+.ar undertegn2 on
+.sp 1.3mm
+.if X&GENBESTIL eq X1
+.th Ny bestilling
+.if X&GENBESTIL eq X2
+.th Genbestilling
+.if X&GENBESTIL gt X2
+.or X&GENBESTIL lt X1
+.th .mg/T/Genbestilling: Tast 1 eller 2 /
+.sp 1.4mm
+Bestillingsdato:
+.sp 1.4mm
+Kontoudtog ønskes:
+.sp 1.4mm
+PIN-kode ønskes:
+.sp 1.4mm
+.if X&GENBESTIL eq X1
+.th .sp 6.0mm
+.th .go GENBE
+.if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2
+.th PIN-koden fra tidligere &TYPE.
+.th .br
+.th ønskes videreført:
+.el .sp 6.0mm
+...GENBE
+.sp 1.4mm
+.if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2
+.th Jeg ønsker automatisk genbestilling
+.th .br
+.th af mit &TYPE når det udløber:
+.el .sp 6.0mm
+.sp 1.4mm
+.if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2 .or &BECTEST01 EQ 4
+.th Stamkort/Bestillings nr.:
+.el .sp 3.0mm
+.sp 1.4mm
+.if X&GENBESTIL eq X1
+.th .sp 3.0mm
+.th .go EKSPE
+.if &BECTEST01 EQ 1
+.or &BECTEST01 EQ 2
+.or &BECTEST01 EQ 4
+.th Evt. tidligere kortnr.:
+.el .sp 3.0mm
+...EKSPE
+.sp 1.4mm
+Ekspederet af:
+.ar off
+.*Test UNGNU 4 ændret 5/3-2004********************************************
+.ar erkl ON
+.if X&BECTEST01 eq X3
+.or X&BECTEST01 eq X4
+.th .go EJFOTO
+Jeg erklærer mig indforstået med, at foto og underskrift opbevares
+elektronisk med henblik på automatisk fornyelse af kortet.
+.sp
+...EJFOTO
+Jeg har modtaget og erklærer mig indforstået med de regler
+.if X&BECTEST01 eq X1 .or X&BECTEST01 eq X2
+.th og gode råd
+.ct , der gælder for
+.if X&BECTEST01 eq X3 .or X&BECTEST01 eq X4
+.th &TYPE. (Regler for Automat*kort - og andre Interne hævekort)
+.el &TYPE..
+.sp
+.if X&BECTEST01 eq X2
+.th Kontoudtog udsendes ultimo måneden, hvis &TYPE.et har
+.th været brugt i udlandet.
+.th .sp
+.if &L'&BECTEKST01 gt 0
+.th Fuldmagten er gældende så længe fuldmagtshaverens &TYPE
+.th ikke er tilbageleveret til banken.
+.th .sp
+.el .go afs2
+...afs2
+Såfremt kontoen lukkes eller ophæves, skal &TYPE.et
+tilbageleveres til banken.
+.if &BECTEST01 EQ 2 .or &BECTEST01 EQ 4
+.th .sp 10mm
+.el .sp 13mm
+.ar off
+.*****************
+.ar erkl3 on
+.TP 3mm 30mm 87mm 114mm
+.if &L'&BECTEKST01 gt 0
+.th ¤ ____________ ¤ _________________________________
+.th .br
+.th ¤ Dato ¤ Fuldmagtshavers underskrift
+.th .sp 10mm
+.el .sp 16mm
+.if &BECTEST01 EQ 4
+.th ¤ ____________ ¤ _________________________________
+.th .ct ¤ ____________ ¤ _________________________________
+.th .br
+.th ¤ Dato ¤ Kontohaver(es) underskrift
+.th .ct ¤ Dato ¤ Værge/forældre underskrift
+.el ¤ ____________ ¤ _________________________________
+.el .br
+.el ¤ Dato ¤ Kontohaver(es) underskrift
+.ar off
+.**************************************************************************
+.ar underskrift1 on
+.if x&ÅPN = x1
+.th .go KVIT
+.if x&U'&B11KTPIN eq xN
+.th .go KVIT
+.sp 5mm
+Med mindre andet er aftalt sendes kortet direkte til ovennævnte
+kortholders adresse.
+.sp 30mm
+.go KVITSLUT
+...KVIT
+For modtagelsen af
+1
+stk. &TYPE.
+kvitteres herved.
+.sp 12mm
+.TP 3mm 30mm
+ 
+ ¤ ____________ ¤ _________________________________
+.br
+ ¤ Dato ¤ Underskrift
+...KVITSLUT
+.ar off
+.**************************************************************************
+.if &L'&BECTEKST01 eq 0
+.th .go EJFIRMA
+.ar erkl2 on
+:FED.Udfyldes kun ved firmakort :SKRSLUT.
+.sp
+Undertegnede erklærer sig indforstået med, at der udstedes
+&TYPE. til ovennævnte, og at forbruget debiteres (hæves) på anførte
+konto. Uanset kortet besiddes af ovennævnte, er vi indforstået med at
+hæfte som om vi selv har brugt kortet. Vi hæfter ligeledes for et eventuelt
+3. mands misbrug jf. § 11 i Lov om visse betalingsmidler.
+.ar off
+.**********
+.ar erkl4 on
+.TP 3mm 30mm
+ ¤ ____________ ¤ ___________________________________
+.br
+ ¤ Dato ¤ Underskrift og firmastempel
+.ar off
+...EJFIRMA
+.**************************************************************************
+.if x&ÅPN ne x1 ;.th .go slut
+.**************************************************************************
+.ar banken1 on
+:SWISS8.
+.tp 40mm 60mm 80mm 100mm 120mm
+Legitimation forevist ved ¤ Kontrol RKI/ ¤ Kort ¤ Kontrol EDB / &ÅCONT.
+ ¤ Stamkort ¤ Kort udlev./
+.br
+kontooprettelse ¤ checkmisbrug ¤ bestilt ¤ ¤ afsendt ¤ autoriseret
+.sp 4mm
+Dato: ¤ Dato: ¤ Dato: ¤ Dato: ¤ Dato: ¤ Dato:
+.sp 6mm
+Init.: ¤ Init.: ¤ Init.: ¤ Init.: ¤ Init.: ¤ Init.:
+.AR OFF
+.*****
+.ar banken2 on
+:SWISS8.
+VIGTIGT:
+.sp 5mm
+:FED
+Adresse kontrolleret
+.br
+på bestillingstidspunktet
+.br
+Kort sendes direkte
+.br
+til kortholder.
+:SKRSLUT.
+.ar off
+...slut
+:SKRSLUT.
+.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DET ER ***
+.**** LÆNGERE END 26 TEGN ER DER LAVET FEJL I KORTBESTILLINGEN OG NAVNET **
+.**** SKAL RETTES I FUNKTION 3101 *****************************************
+.if &L'&NAVN > 26
+.th Kundens navn må være på max. 26 karakterer pga.
+.th navnelængden på det bestilte kort i funktion 3105. Slet kortet,
+.th ret navnet i funktion 3101, bestil
+.th kortet igen og udskriv brevet igen.
+.th .go slut
+.**************************************************************************
+.da under1   25mm 46.0mm width  85mm
+.da underm  112mm 46.0mm width  85mm
+.da undermc 127mm 65.5mm width  85mm
+.da under2  108mm 73.5mm width  85mm
+.**************************************************************************
+.****
+.ar underm on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th .go BYT
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.go BYTSLUT
+...BYT
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+...BYTSLUT
+.ar off
+.********************
+.if x&FULDM = x1
+.th .go EJMCPR
+.ar undermc on
+.if x&KUNDENR. = x&MEDKNDNR1.
+.th &KTOKNDNR1.
+.el &MEDKNDNR1.
+.ar off
+...EJMCPR
+.********************
+.ar under1 on
+.TP 15mm
+.*********
+.if &L'&BECTEKST01 ne 0
+.th .go FULDM
+&STILL
+.br
+&NAVN
+.br
+.if X&L'&COADR. ne X0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+&LAND
+.if X&L'&STILL. eq X0
+.th .sp
+.if X&L'&COADR. eq X0
+.th .sp
+.if X&L'&LAND. eq X0
+.th .sp
+.*sp 2.8mm
+.sp  6.2mm
+ ¤ &KUNDENR
+.sp 7mm
+.go FULDMS
+.****
+...FULDM
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.if X&L'&KTOSTILL. gt X0
+.el .sp
+.if X&L'&KTOCO. gt X0
+.el .sp
+.if X&L'&KTOLAND. gt X0
+.el .sp
+.sp  7.5mm
+.*sp 8mm
+.*sp  9mm
+.****
+...FULDMS
+.sp 1.6mm
+ ¤ &reg &kto.
+.if &L'&BECTEKST01 gt 0
+.th .go afs
+.el .go afs1
+...afs
+.sp 10mm
+&NAVN
+.if X&L'&COADR. gt X0
+.th .br
+.th &COADR.
+.br
+&GADE
+.br
+&BY
+.if X&L'&COADR. gt X0
+.el .sp
+.br
+&LAND
+.if X&L'&LAND. gt X0
+.el .sp
+.sp 1mm
+.sp 5.2mm
+.*sp 8mm
+ ¤ &BECCPR01
+...afs1
+.ar off
+.**************************************************************************
+.ar under2 on
+.sp
+.TP 82mm right
+.if &U'&B11KTPIN = J
+.th .se PINK = 'Ja'
+.el .se PINK = 'Nej'
+.if &U'&BECTEST02 = J
+.th .se PIN = 'Ja'
+.el .se PIN = 'Nej'
+.*********
+.se kortnr1 = substr &BECKORTNR 1 4
+.se kortnr2 = substr &BECKORTNR 5 4
+.se kortnr3 = substr &BECKORTNR 9 4
+.se kortnr4 = substr &BECKORTNR 13 4
+.****
+ ¤ &DATO1. ¤ .
+sp 1.0mm 
+ ¤ &BECTEKST02. ¤ .
+sp 1.0mm 
+ ¤ &PINK. ¤ .
+****.
+*if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
+*el .sp 15.4mm.
+*el .go BEST.
+sp 4.0mm.
+if X&GENBESTIL eq X1.
+th .sp.
+th .go GENB.
+if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
+th ¤ &PIN. ¤ .
+el .sp.
+..GENB.
+sp 4.0mm.
+if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
+th .go AUTM.
+sp.
+go EJAUTM.
+..AUTM.
+if &U'X&BECTEST03 = XJ.
+th ¤ Ja ¤ .
+el ¤ Nej ¤ .
+..EJAUTM.
+sp 1.4mm.
+..BEST.
+if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2 .or &BECTEST01 EQ 4.
+th ¤ &BECBEST01. ¤ .
+el .sp.
+sp 1.0mm.
+if X&GENBESTIL eq X1.
+th .sp.
+th .go EKSP.
+if &BECTEST01 EQ 1.
+or &BECTEST01 EQ 2.
+or &BECTEST01 EQ 4.
+th ¤ &kortnr1 &kortnr2 &kortnr3 &kortnr4. ¤ .
+el .sp.
+..EKSP.
+sp 1.0mm 
+ ¤ &BRUGERNAVN. ¤ .
+ar off.
+**************************************************************************.
+..slut
+.** SIDESKIFT
+.pa nostart
+.if &BECTEST01 EQ 3 .or &BECTEST01 EQ 4
+.el .go SLUT
+.da ovsk 20mm 32mm WIDTH 175mm
+.da box1 20mm 40mm WIDTH 175mm
+.tm 43mm
+.bm 30mm
+.PN 1
+.***********************************
+.da SIDENR 155mm 33.5mm width 60mm
+.***********************************
+.rh on
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af 2
+.ar off
+.* Brevnavn, roteret i venstre hjørne **
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.br
+18112002
+.ar off
+.ar ovsk on
+:SWISS12.:FED.
+.us
+Regler for Automat*kort - og andre interne hævekort
+:SKRSLUT.
+.ar off
+.ar box1 on
+.bx left right
+.sp 225mm
+.bx off
+.ar off
+.rh off
+.rh execute
+.panostart
+.if &BECTEST01 EQ 3 .or &BECTEST01 EQ 4
+.el .qu
+.*****
+.dm pkt on
+:FED.
+&*
+.dm off
+.*****
+.dm ovs on
+.*ct ¤ &*
+.is 2mm
+.ct &*
+:SKRSLUT.
+.sp 1mm
+.dm off
+.*****
+.tp 6mm
+.*****
+:SWISS8.
+.cl 85mm
+.cd 2 1mm 88.0mm
+.pkt 1.
+.ovs Kortets anvendelsesmuligheder
+Du kan få udleveret hævekort i tilknytning til en konto i
+Handelsbanken, se dog punkt 4. Kortet kan bruges som
+hævekort og som forespørgsels- og transaktionskort.
+ 
+.pkt 1.1
+.ovs Brug af kortet som hævekort
+Kortet kan bruges til udbetaling fra bankens pengeautomater og fra
+bankens kasser.
+I pengeautomater kan du pr. døgn få udbetalt p.t. op til 5.000,-
+kr. med Automat*Kort og op til 2.000,- kr.  med andre interne
+hævekort, hvis der er dækning på kontoen.
+Såfremt du ikke får udstedt en PIN-kode kan kortet kun anvendes i
+bankens kasser.
+ 
+.pkt 1.2
+.ovs Brug af kortet som forespørgsels- og transaktionskort
+Kortet kan bruges i bankens pengeautomater til
+ 
+ - overførsel mellem egne konti
+ - kontooversigt
+ - saldooplysninger og forespørgsel på de seneste 6 posteringer.
+ 
+.pkt 1.3
+.ovs Hævning på kontoen
+Beløbet hæves på kontoen straks efter, at transaktionen er
+gennemført.
+ 
+.pkt 2.
+.ovs Vilkår knyttet til indehavelse og anvendelse af kortet
+.sp 2mm
+.pkt 2.1
+.ovs Udlevering og opbevaring af PIN-kode
+Banken ejer det udleverede kort og kan ombytte kortet.
+ 
+Udstedes kortet til brug med PIN-kode vil PIN-koden blive
+fremsendt fra banken 1-2 dage efter du har modtaget kortet med
+posten. PIN-koden er en personlig kode, som er knyttet til kortet.
+PIN-koden konstrueres og udskrives maskinelt, uden at nogen kan få
+kendskab til koden.
+:
+KURSIV.P
+IN-koden er personlig og må ikke udleveres til andre. PIN-kodenm
+å ikke skrives ned eller opbevares sammen med kortet. Du skald
+erfor lære koden udenad eller bruge en PIN-kode-husker, som dug
+ratis kan få udleveret i din afdeling. Du skal destrueref
+remsendelsesbrevet med koden.:
+SKRSLUT. 
+P
+IN-koden er dokumentation for, at det er dig der bruger kortet. 
+:
+KURSIV.D
+u skal opbevare kortet forsvarligt. Med jævne mellemrum skal duk
+ontrollere, at kortet ikke er mistet.:
+SKRSLUT. 
+.
+pkt 2.2.
+ovs Brug af kortetN
+år du bruger kortet, indtaster du PIN-koden, eller du afgiver dinu
+nderskrift. Du kan ved ekspeditionen få udleveret en kvittering,d
+er bl.a viser dato og beløb. Du bør sikre dig, at beløbet er io
+verensstemmelse med udbetalingen, og at korrekt dato er anført. Dub
+ør gemme kvitteringen, til du har modtaget dit kontoudskrift.S
+e også punkt 2.6 "Kontoudskrift og kontrol". 
+.
+pkt 2.3.
+ovs FuldmagtK
+ort og PIN-kode må kun bruges af dig personligt. 
+Ø
+nsker du, at en anden person skal kunne hæve på din konto, skalp
+ersonen have sit eget kort og sin egen PIN-kode. Personens bruga
+f kortet sker efter samme regler, som gælder for dig selv. 
+Ø
+nsker du ikke længere, at personen skal kunne hæve på kontoen,s
+kal personen levere sit kort tilbage til banken..
+cb.
+pkt 2.4.
+ovs Din pligt til at få kortet spærretD
+u skal kontakte banken snarest muligt, hvis:.
+sp 2mm 
+- du mister kortet eller 
+- en anden får kendskab til din PIN-kode 
+- du på anden måde får mistanke om, at kortet kan blive misbrugt. 
+I
+ bankens åbningstid skal du kontakte din afdeling for spærring afk
+ort. 
+U
+den for bankens åbningstid skal du spærre kortet via bankensT
+elefonService, hvis du er bruger af dette system, og systemet erå
+bent.
+U
+den for bankens åbningstid kan kortet ligeledes spærres ved atr
+inge til PBS 24-timers kundeservice på telefonnr.  44 89 29 29. 
+.
+pkt 2.5.
+ovs Deres ansvar, hvis andre misbruger kortetH
+vis kortet og PIN-koden er blevet misbrugt af en anden, skal dud
+ække tab op til kr. 1.200,- (selvrisiko). 
+H
+vis du har oplyst PIN-koden til misbrugeren, skal du imidlertidd
+ække det fulde tab. 
+D
+u skal dække tab op til kr. 8.000,- (incl. selvrisiko), hvis.
+sp 2mm 
+- du har overladt kortet til misbrugeren eller.
+sp 1.5mm.
+of 2.5mm 
+- du eller én, du har overladt kortet til, ved groft uforsvarliga
+dfærd har muliggjort misbruget eller.
+of.
+sp 1.5mm.
+of 2.5mm 
+- der ikke er taget kontakt til banken, eller kortet ikke ers
+pærret snarest muligt efter, at du eller én, du har overladtk
+ortet til, har opdaget, at kortet er mistet..
+of 
+D
+u er ikke ansvarlig for tab, der opstår efter, at kortet ers
+pærret. 
+D
+u kan læse nærmere om ansvarsreglerne i §11 og §12 i Lov om visseb
+etalingsmidler. 
+.
+pkt 2.6.
+ovs Kontoudskrift og kontrolK
+ontoudskrift udsendes månedsvis, medmindre du aftaler andet medb
+anken. 
+K
+ontoudskriften indeholder bl.a oplysninger om beløb og dato forh
+ævning. 
+H
+vis der ikke er overensstemmelse mellem din kvittering og deo
+plysninger, der er noteret på kontoudskriften, skal du giveb
+anken besked snarest muligt. 
+.
+pkt 2.7.
+ovs Kortets udløbstidspunktB
+anken kan bestemme, at et kort kun skal være gyldigt i en bestemtp
+eriode. Efter udløbstidspunktet er kortet ugyldigt. Du kan føru
+dløb få kortet ombyttet i banken.
+.sp
+...SLUT
+.if &BECTEST01 EQ 3 .or &BECTEST01 EQ 4
+.el .go SLUT
+.**
+.pkt 2.8
+.ovs Tilbagekaldelse
+Du kan ikke tilbagekalde (kontramandere) betalinger/overførsler
+foretaget med kortet.
+ 
+.pkt 2.9
+.ovs Ophør
+Hvis du ikke længere ønsker at bruge kortet, skal du snarest
+levere kortet tilbage til banken. Hvis kontoen ophæves, skal alle
+kort, der er udleveret til kontoen, leveres tilbage. Hvis du
+sender kortet tilbage til banken, skal det forinden klippes over.
+ 
+.pkt 2.10
+.ovs Opsigelse
+Banken kan med passende varsel meddele dig, at kortet ikke længere
+kan bruges og derfor skal leveres tilbage. Du vil få refunderet en
+forholdsmæssig del af eventuelle gebyrer, du måtte have betalt for
+kortet.
+.cb
+.pkt 2.11
+.ovs Bankens ret til at spærre kortet
+Hvis du overtræder reglerne, herunder hvis du overtrækker den
+konto, som kortet er knyttet til, er banken berettiget til at
+spærre for brug af kortet. I tilfælde af overtræk vil du blive
+rykket skriftligt, før kortet bliver spærret. Øjeblikkelig
+spærring kan dog være nødvendig, hvis der er tale om særlig groft
+og/eller gentagne overtræk. Banken
+kan desuden forlange alle kort, der er udleveret til
+kontoen, leveret tilbage. Du vil få besked herom.
+ 
+.pkt 2.12
+.ovs Ændring af reglerne
+Reglerne kan ændres med 1 måneds varsel. Besked om ændringen vil
+blive givet ved brev eller ved annoncering i dagspressen.
+ 
+.pkt 2.13
+.ovs Arbejdskonflikter
+Du kan ikke bruge kortet, hvis banken og/eller bankens tekniske
+centre inddrages i en arbejdskonflikt. Ved en sådan konflikts
+begyndelse og ophør vil du hurtigst muligt blive orienteret gennem
+annoncering i dagspressen.
+ 
+.pkt 2.14
+.ovs Klager
+Hvis du har klager, kan du henvende dig i banken. Får du ikke
+medhold i din klage, kan du henvende dig til
+Pengeinstitutankenævnet eller Forbrugerombudsmanden. Hvis
+du ønsker at klage over, at dit kort er blevet spærret på
+grund af overtræk, kan du henvende dig til Finansrådet. Får du
+ikke medhold hos Finansrådet, kan du klage til Registertilsynet.
+ 
+.pkt 3.
+.ovs Omkostninger ved erhvervelse og brug af kortet
+.sp 2mm
+.pkt 3.1
+.ovs Gebyr
+Gebyrer fremgår af prislisten, som du kan få udleveret i banken
+sammen med disse regler.
+ 
+Gebyrerne kan ændres med en måneds varsel. Besked om ændringen vil
+blive givet ved brev eller ved annoncering i dagspressen.
+.cb
+.pkt 3.2
+.ovs Renter og provision
+Du kan i banken få oplysning om renter og provision på den konto,
+der er knyttet til kortet.
+ 
+.pkt 4.
+.ovs Vurdering af kortansøgere
+Kortet udstedes efter individuel vurdering.
+ 
+.pkt 5.
+.ovs Brug, opbevaring og videregivelse af personlige oplysninger m.v.
+.sp 2mm
+.pkt 5.1
+.ovs Registrering ved brug af kortet
+Ved brug af kortet noteres kortnummer, beløbet, dato for brug af
+kortet, samt hvor kortet har været brugt.
+Oplysningerne opbevares hos banken og anvendes i bankens
+bogføring, i kontoudskrifter og ved eventuel senere fejlfinding.
+ 
+Oplysningerne videregives i øvrigt kun, hvor lovgivningen kræver
+det eller til brug for retssager om krav opstået i forbindelse med
+brug af kortet.
+ 
+Oplysningerne opbevares i 10 år.
+ 
+.se o1 'Udsendelse af spærring, hvis kort eller PIN-kode bortkommer,'
+.se o2 'misbruges eller er i en uberettigets besiddelse'
+.pkt 6.
+.ovs &o1. &o2.
+Når banken har modtaget besked om, at kortet er mistet, eller at
+en anden kender PIN-koden, vil kortet blive spærret for brug. Du
+vil modtage en skriftlig bekræftelse på spærringen med angivelse
+af tidspunktet for, hvornår banken fik besked om spærringen.
+.rh cancel
+...SLUT
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -309,20 +1124,20 @@ tilbageleveres til banken.
 .ar erkl3 on
 .TP 3mm 30mm 87mm 114mm
 .if &L'&BECTEKST01 gt 0
-.th ¤____________ ¤_________________________________
+.th ¤ ____________ ¤ _________________________________
 .th .br
-.th ¤Dato ¤Fuldmagtshavers underskrift
+.th ¤ Dato ¤ Fuldmagtshavers underskrift
 .th .sp 10mm
 .el .sp 16mm
 .if &BECTEST01 EQ 4
-.th ¤____________ ¤_________________________________
-.th .ct ¤____________ ¤_________________________________
+.th ¤ ____________ ¤ _________________________________
+.th .ct ¤ ____________ ¤ _________________________________
 .th .br
-.th ¤Dato ¤Kontohaver(es) underskrift
-.th .ct ¤Dato ¤Værge/forældre underskrift
-.el ¤____________ ¤_________________________________
+.th ¤ Dato ¤ Kontohaver(es) underskrift
+.th .ct ¤ Dato ¤ Værge/forældre underskrift
+.el ¤ ____________ ¤ _________________________________
 .el .br
-.el ¤Dato ¤Kontohaver(es) underskrift
+.el ¤ Dato ¤ Kontohaver(es) underskrift
 .ar off
 .**************************************************************************
 .ar underskrift1 on
@@ -343,9 +1158,9 @@ kvitteres herved.
 .sp 12mm
 .TP 3mm 30mm
  
- ¤____________ ¤_________________________________
+ ¤ ____________ ¤ _________________________________
 .br
- ¤Dato ¤Underskrift
+ ¤ Dato ¤ Underskrift
 ...KVITSLUT
 .ar off
 .**************************************************************************
@@ -363,9 +1178,9 @@ hæfte som om vi selv har brugt kortet. Vi hæfter ligeledes for et eventuelt
 .**********
 .ar erkl4 on
 .TP 3mm 30mm
-¤____________ ¤___________________________________
+ ¤ ____________ ¤ ___________________________________
 .br
-¤Dato ¤Underskrift og firmastempel
+ ¤ Dato ¤ Underskrift og firmastempel
 .ar off
 ...EJFIRMA
 .**************************************************************************
@@ -374,14 +1189,14 @@ hæfte som om vi selv har brugt kortet. Vi hæfter ligeledes for et eventuelt
 .ar banken1 on
 :SWISS8.
 .tp 40mm 60mm 80mm 100mm 120mm
-Legitimation forevist ved ¤Kontrol RKI/ ¤Kort ¤Kontrol EDB / &ÅCONT.
-¤Stamkort ¤Kort udlev./
+Legitimation forevist ved ¤ Kontrol RKI/ ¤ Kort ¤ Kontrol EDB / &ÅCONT.
+ ¤ Stamkort ¤ Kort udlev./
 .br
-kontooprettelse ¤checkmisbrug ¤bestilt ¤ ¤afsendt ¤autoriseret
+kontooprettelse ¤ checkmisbrug ¤ bestilt ¤ ¤ afsendt ¤ autoriseret
 .sp 4mm
-Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato:
+Dato: ¤ Dato: ¤ Dato: ¤ Dato: ¤ Dato: ¤ Dato:
 .sp 6mm
-Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.:
+Init.: ¤ Init.: ¤ Init.: ¤ Init.: ¤ Init.: ¤ Init.:
 .AR OFF
 .*****
 .ar banken2 on
@@ -480,7 +1295,7 @@ til kortholder.
 .th .sp
 .*sp 2.8mm
 .sp  6.2mm
-¤&KUNDENR
+ ¤ &KUNDENR
 .sp 7mm
 .go FULDMS
 .****
@@ -508,7 +1323,7 @@ til kortholder.
 .****
 ...FULDMS
 .sp 1.6mm
-¤&reg &kto.
+ ¤ &reg &kto.
 .if &L'&BECTEKST01 gt 0
 .th .go afs
 .el .go afs1
@@ -531,7 +1346,7 @@ til kortholder.
 .sp 1mm
 .sp 5.2mm
 .*sp 8mm
-¤&BECCPR01
+ ¤ &BECCPR01
 ...afs1
 .ar off
 .**************************************************************************
@@ -550,11 +1365,11 @@ til kortholder.
 .se kortnr3 = substr &BECKORTNR 9 4
 .se kortnr4 = substr &BECKORTNR 13 4
 .****
-¤&DATO1.¤.
+ ¤ &DATO1. ¤ .
 sp 1.0mm 
-¤&BECTEKST02.¤.
+ ¤ &BECTEKST02. ¤ .
 sp 1.0mm 
-¤&PINK.¤.
+ ¤ &PINK. ¤ .
 ****.
 *if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
 *el .sp 15.4mm.
@@ -564,7 +1379,7 @@ if X&GENBESTIL eq X1.
 th .sp.
 th .go GENB.
 if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
-th ¤&PIN.¤.
+th ¤ &PIN. ¤ .
 el .sp.
 ..GENB.
 sp 4.0mm.
@@ -574,13 +1389,13 @@ sp.
 go EJAUTM.
 ..AUTM.
 if &U'X&BECTEST03 = XJ.
-th ¤Ja¤.
-el ¤Nej¤.
+th ¤ Ja ¤ .
+el ¤ Nej ¤ .
 ..EJAUTM.
 sp 1.4mm.
 ..BEST.
 if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2 .or &BECTEST01 EQ 4.
-th ¤&BECBEST01.¤.
+th ¤ &BECBEST01. ¤ .
 el .sp.
 sp 1.0mm.
 if X&GENBESTIL eq X1.
@@ -589,828 +1404,14 @@ th .go EKSP.
 if &BECTEST01 EQ 1.
 or &BECTEST01 EQ 2.
 or &BECTEST01 EQ 4.
-th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤.
+th ¤ &kortnr1 &kortnr2 &kortnr3 &kortnr4. ¤ .
 el .sp.
 ..EKSP.
 sp 1.0mm 
-¤&BRUGERNAVN.¤.
+ ¤ &BRUGERNAVN. ¤ .
 ar off.
 **************************************************************************.
 ..slut
 .** SIDESKIFT
 .pa
-.** TEKST KUNDEKOPI hvor KOPI normalt påføres
-.da KUNDKOPI 169.1mm 34.4mm
-.ar KUNDKOPI on
-:COUR14.
-:FED.KUNDEKOPI:SKRSLUT.
-.ar off
-:COUR10.
-.*************** GENEREL OPSÆTNING ***************************************
-.dr tynd1 WEIGHT 0.15mm
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da START 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-.*24082004
-18102012
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar START on
-:SWISS12.
-:FED.
-.US Bestilling af &TYPE.
-:SKRSLUT.
-.ar off
-.*************************************************************************
-.*** Definer siden som et areal *******************************************
-.*da side 20mm 33,5mm width 175mm
-.da side 20mm 38mm width 175mm
-.ar side on
-:SWISS10.
-.*** Undertegnede *********************************************************
-:FED.
-Undertegnede
-:SKRSLUT.
-.*** Kundeoplysninger *****************************************************
-.bx new 0mm right
-.vr tynd1 87mm
-.sp 27mm
-.hr tynd1 87mm right
-.sp 47mm
-.bx off
-.vr off
-:SWISS10.
-:FED.
-.*** Erklæring ************************************************************
-Erklæring
-:SKRSLUT.
-:COUR10.
-.bx new 0mm right
-.if X&FULDM = X1
-.th .vr tynd1 87mm
-.sp 81mm
-.bx off
-.if X&FULDM = X1
-.th .vr off
-:FED.
-.*** Underskrift **********************************************************
-.if x&U'&B11KTPIN eq xJ .an x&ÅPN eq x2
-.th .sp 3.4mm
-.el Underskrift
-:SKRSLUT.
-.bx new 0mm right
-.sp 26mm
-.bx off
-.*** TEST *****************************************************************
-.* NOTERINGSFELTER INAKTIVERET den 7.12.2009 b37 es
-.go slut
-.if x&ÅPN ne x1 ;.th .go slut
-.*** Bankens noteringer ***************************************************
-:SWISS10.
-:FED.
-Bankens noteringer
-:SKRSLUT.
-:COUR10.
-.*bx new 0mm 35mm 75mm 95mm 115mm 135mm 155mm 175mm
-.bx new 0mm 35mm 105mm 175mm
-.sp 6mm
-.hr 0mm 175mm
-.sp 8mm
-.hr 35mm 175mm
-.sp 8mm
-.hr 0mm 175mm
-.bx can
-.bx off
-...slut
-.ar off
-.**************************************************************************
-.da undertegn1   21mm 58.5mm width 85mm
-.da undertegnm  108mm 43.5mm width 85mm
-.da undertegn2  108mm 71.5mm width 85mm
-.if x&FULDM = x1
-.th .da erkl      21mm 126mm width  85mm
-.el .da erkl      21mm 126mm width 173mm
-.da erkl2        108mm 126mm width  85mm
-.da erkl3         21mm 182.5mm width 173mm
-.da erkl4        108mm 198.5mm width  85mm
-.da underskrift1  21mm 213mm width 173mm
-.da banken1       56mm 245mm width 145mm
-.da banken2       21mm 245mm width  57mm
-.**************************************************************************
-:SWISS8.
-.tp 88.5mm
-.**************************************************************************
-.ar undertegnm on
-:SWISS6.
-Evt. medkontohaver
-.sp 21mm
-:SWISS8.
-CPR.nr.:
-.ar off
-.**************************************************************************
-.ar undertegn1 on
-.sp 14mm
-.if x&FULDM ne x1
-.th CPR.nr.:
-.th .sp 5.4mm
-bestiller herved et &TYPE &TYPE1
-.sp 0.4mm
-til konto nr.
-.if &L'&BECTEKST01 gt 0
-.th .go afs
-.el .go afs1
-...afs
-.sp 5mm
-udstedt til fuldmagtshaver (kortholder):
-.sp 15.8mm
-.sp 10.0mm
-CPR.nr.:
-.ar off
-...afs1
-.ar off
-.**************************************************************************
-.ar undertegn2 on
-.sp 1.3mm
-.if X&GENBESTIL eq X1
-.th Ny bestilling
-.if X&GENBESTIL eq X2
-.th Genbestilling
-.if X&GENBESTIL gt X2
-.or X&GENBESTIL lt X1
-.th .mg/T/Genbestilling: Tast 1 eller 2 /
-.sp 1.4mm
-Bestillingsdato:
-.sp 1.4mm
-Kontoudtog ønskes:
-.sp 1.4mm
-PIN-kode ønskes:
-.sp 1.4mm
-.if X&GENBESTIL eq X1
-.th .sp 6.0mm
-.th .go GENBE
-.if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2
-.th PIN-koden fra tidligere &TYPE.
-.th .br
-.th ønskes videreført:
-.el .sp 6.0mm
-...GENBE
-.sp 1.4mm
-.if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2
-.th Jeg ønsker automatisk genbestilling
-.th .br
-.th af mit &TYPE når det udløber:
-.el .sp 6.0mm
-.sp 1.4mm
-.if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2 .or &BECTEST01 EQ 4
-.th Stamkort/Bestillings nr.:
-.el .sp 3.0mm
-.sp 1.4mm
-.if X&GENBESTIL eq X1
-.th .sp 3.0mm
-.th .go EKSPE
-.if &BECTEST01 EQ 1
-.or &BECTEST01 EQ 2
-.or &BECTEST01 EQ 4
-.th Evt. tidligere kortnr.:
-.el .sp 3.0mm
-...EKSPE
-.sp 1.4mm
-Ekspederet af:
-.ar off
-.*Test UNGNU 4 ændret 5/3-2004********************************************
-.ar erkl ON
-.if X&BECTEST01 eq X3
-.or X&BECTEST01 eq X4
-.th .go EJFOTO
-Jeg erklærer mig indforstået med, at foto og underskrift opbevares
-elektronisk med henblik på automatisk fornyelse af kortet.
-.sp
-...EJFOTO
-Jeg har modtaget og erklærer mig indforstået med de regler
-.if X&BECTEST01 eq X1 .or X&BECTEST01 eq X2
-.th og gode råd
-.ct , der gælder for
-.if X&BECTEST01 eq X3 .or X&BECTEST01 eq X4
-.th &TYPE. (Regler for Automat*kort - og andre Interne hævekort)
-.el &TYPE..
-.sp
-.if X&BECTEST01 eq X2
-.th Kontoudtog udsendes ultimo måneden, hvis &TYPE.et har
-.th været brugt i udlandet.
-.th .sp
-.if &L'&BECTEKST01 gt 0
-.th Fuldmagten er gældende så længe fuldmagtshaverens &TYPE
-.th ikke er tilbageleveret til banken.
-.th .sp
-.el .go afs2
-...afs2
-Såfremt kontoen lukkes eller ophæves, skal &TYPE.et
-tilbageleveres til banken.
-.if &BECTEST01 EQ 2 .or &BECTEST01 EQ 4
-.th .sp 10mm
-.el .sp 13mm
-.ar off
-.*****************
-.ar erkl3 on
-.TP 3mm 30mm 87mm 114mm
-.if &L'&BECTEKST01 gt 0
-.th ¤____________ ¤_________________________________
-.th .br
-.th ¤Dato ¤Fuldmagtshavers underskrift
-.th .sp 10mm
-.el .sp 16mm
-.if &BECTEST01 EQ 4
-.th ¤____________ ¤_________________________________
-.th .ct ¤____________ ¤_________________________________
-.th .br
-.th ¤Dato ¤Kontohaver(es) underskrift
-.th .ct ¤Dato ¤Værge/forældre underskrift
-.el ¤____________ ¤_________________________________
-.el .br
-.el ¤Dato ¤Kontohaver(es) underskrift
-.ar off
-.**************************************************************************
-.ar underskrift1 on
-.if x&ÅPN = x1
-.th .go KVIT
-.if x&U'&B11KTPIN eq xN
-.th .go KVIT
-.sp 5mm
-Med mindre andet er aftalt sendes kortet direkte til ovennævnte
-kortholders adresse.
-.sp 30mm
-.go KVITSLUT
-...KVIT
-For modtagelsen af
-1
-stk. &TYPE.
-kvitteres herved.
-.sp 12mm
-.TP 3mm 30mm
- 
- ¤____________ ¤_________________________________
-.br
- ¤Dato ¤Underskrift
-...KVITSLUT
-.ar off
-.**************************************************************************
-.if &L'&BECTEKST01 eq 0
-.th .go EJFIRMA
-.ar erkl2 on
-:FED.Udfyldes kun ved firmakort :SKRSLUT.
-.sp
-Undertegnede erklærer sig indforstået med, at der udstedes
-&TYPE. til ovennævnte, og at forbruget debiteres (hæves) på anførte
-konto. Uanset kortet besiddes af ovennævnte, er vi indforstået med at
-hæfte som om vi selv har brugt kortet. Vi hæfter ligeledes for et eventuelt
-3. mands misbrug jf. § 11 i Lov om visse betalingsmidler.
-.ar off
-.**********
-.ar erkl4 on
-.TP 3mm 30mm
-¤____________ ¤___________________________________
-.br
-¤Dato ¤Underskrift og firmastempel
-.ar off
-...EJFIRMA
-.**************************************************************************
-.if x&ÅPN ne x1 ;.th .go slut
-.**************************************************************************
-.ar banken1 on
-:SWISS8.
-.tp 40mm 60mm 80mm 100mm 120mm
-Legitimation forevist ved ¤Kontrol RKI/ ¤Kort ¤Kontrol EDB / &ÅCONT.
-¤Stamkort ¤Kort udlev./
-.br
-kontooprettelse ¤checkmisbrug ¤bestilt ¤ ¤afsendt ¤autoriseret
-.sp 4mm
-Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato: ¤Dato:
-.sp 6mm
-Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.: ¤Init.:
-.AR OFF
-.*****
-.ar banken2 on
-:SWISS8.
-VIGTIGT:
-.sp 5mm
-:FED
-Adresse kontrolleret
-.br
-på bestillingstidspunktet
-.br
-Kort sendes direkte
-.br
-til kortholder.
-:SKRSLUT.
-.ar off
-...slut
-:SKRSLUT.
-.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DET ER ***
-.**** LÆNGERE END 26 TEGN ER DER LAVET FEJL I KORTBESTILLINGEN OG NAVNET **
-.**** SKAL RETTES I FUNKTION 3101 *****************************************
-.if &L'&NAVN > 26
-.th Kundens navn må være på max. 26 karakterer pga.
-.th navnelængden på det bestilte kort i funktion 3105. Slet kortet,
-.th ret navnet i funktion 3101, bestil
-.th kortet igen og udskriv brevet igen.
-.th .go slut
-.**************************************************************************
-.da under1   25mm 46.0mm width  85mm
-.da underm  112mm 46.0mm width  85mm
-.da undermc 127mm 65.5mm width  85mm
-.da under2  108mm 73.5mm width  85mm
-.**************************************************************************
-.****
-.ar underm on
-.if x&KUNDENR. = x&MEDKNDNR1.
-.th .go BYT
-&MEDSTILL
-.br
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-.go BYTSLUT
-...BYT
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-...BYTSLUT
-.ar off
-.********************
-.if x&FULDM = x1
-.th .go EJMCPR
-.ar undermc on
-.if x&KUNDENR. = x&MEDKNDNR1.
-.th &KTOKNDNR1.
-.el &MEDKNDNR1.
-.ar off
-...EJMCPR
-.********************
-.ar under1 on
-.TP 15mm
-.*********
-.if &L'&BECTEKST01 ne 0
-.th .go FULDM
-&STILL
-.br
-&NAVN
-.br
-.if X&L'&COADR. ne X0
-.th &COADR
-.th .br
-&GADE
-.br
-&BY
-.br
-&LAND
-.if X&L'&STILL. eq X0
-.th .sp
-.if X&L'&COADR. eq X0
-.th .sp
-.if X&L'&LAND. eq X0
-.th .sp
-.*sp 2.8mm
-.sp  6.2mm
-¤&KUNDENR
-.sp 7mm
-.go FULDMS
-.****
-...FULDM
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.if X&L'&KTOSTILL. gt X0
-.el .sp
-.if X&L'&KTOCO. gt X0
-.el .sp
-.if X&L'&KTOLAND. gt X0
-.el .sp
-.sp  7.5mm
-.*sp 8mm
-.*sp  9mm
-.****
-...FULDMS
-.sp 1.6mm
-¤&reg &kto.
-.if &L'&BECTEKST01 gt 0
-.th .go afs
-.el .go afs1
-...afs
-.sp 10mm
-&NAVN
-.if X&L'&COADR. gt X0
-.th .br
-.th &COADR.
-.br
-&GADE
-.br
-&BY
-.if X&L'&COADR. gt X0
-.el .sp
-.br
-&LAND
-.if X&L'&LAND. gt X0
-.el .sp
-.sp 1mm
-.sp 5.2mm
-.*sp 8mm
-¤&BECCPR01
-...afs1
-.ar off
-.**************************************************************************
-.ar under2 on
-.sp
-.TP 82mm right
-.if &U'&B11KTPIN = J
-.th .se PINK = 'Ja'
-.el .se PINK = 'Nej'
-.if &U'&BECTEST02 = J
-.th .se PIN = 'Ja'
-.el .se PIN = 'Nej'
-.*********
-.se kortnr1 = substr &BECKORTNR 1 4
-.se kortnr2 = substr &BECKORTNR 5 4
-.se kortnr3 = substr &BECKORTNR 9 4
-.se kortnr4 = substr &BECKORTNR 13 4
-.****
-¤&DATO1.¤.
-sp 1.0mm 
-¤&BECTEKST02.¤.
-sp 1.0mm 
-¤&PINK.¤.
-****.
-*if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
-*el .sp 15.4mm.
-*el .go BEST.
-sp 4.0mm.
-if X&GENBESTIL eq X1.
-th .sp.
-th .go GENB.
-if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
-th ¤&PIN.¤.
-el .sp.
-..GENB.
-sp 4.0mm.
-if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2.
-th .go AUTM.
-sp.
-go EJAUTM.
-..AUTM.
-if &U'X&BECTEST03 = XJ.
-th ¤Ja¤.
-el ¤Nej¤.
-..EJAUTM.
-sp 1.4mm.
-..BEST.
-if &BECTEST01 EQ 1 .or &BECTEST01 EQ 2 .or &BECTEST01 EQ 4.
-th ¤&BECBEST01.¤.
-el .sp.
-sp 1.0mm.
-if X&GENBESTIL eq X1.
-th .sp.
-th .go EKSP.
-if &BECTEST01 EQ 1.
-or &BECTEST01 EQ 2.
-or &BECTEST01 EQ 4.
-th ¤&kortnr1 &kortnr2 &kortnr3 &kortnr4.¤.
-el .sp.
-..EKSP.
-sp 1.0mm 
-¤&BRUGERNAVN.¤.
-ar off.
-**************************************************************************.
-..slut
-.** SIDESKIFT
-.pa nostart
-.if &BECTEST01 EQ 3 .or &BECTEST01 EQ 4
-.el .go SLUT
-.da ovsk 20mm 32mm WIDTH 175mm
-.da box1 20mm 40mm WIDTH 175mm
-.tm 43mm
-.bm 30mm
-.PN 1
-.***********************************
-.da SIDENR 155mm 33.5mm width 60mm
-.***********************************
-.rh on
-.ar SIDENR on
-:COUR6.
-:COUR10.
-Side &ÅPN. af 2
-.ar off
-.* Brevnavn, roteret i venstre hjørne **
-.da VEND 7mm 277mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.br
-18112002
-.ar off
-.ar ovsk on
-:SWISS12.:FED.
-.us
-Regler for Automat*kort - og andre interne hævekort
-:SKRSLUT.
-.ar off
-.ar box1 on
-.bx left right
-.sp 225mm
-.bx off
-.ar off
-.rh off
-.rh execute
-.panostart
-.if &BECTEST01 EQ 3 .or &BECTEST01 EQ 4
-.el .qu
-.*****
-.dm pkt on
-:FED.
-&*
-.dm off
-.*****
-.dm ovs on
-.*ct ¤&*
-.is 2mm
-.ct &*
-:SKRSLUT.
-.sp 1mm
-.dm off
-.*****
-.tp 6mm
-.*****
-:SWISS8.
-.cl 85mm
-.cd 2 1mm 88.0mm
-.pkt 1.
-.ovs Kortets anvendelsesmuligheder
-Du kan få udleveret hævekort i tilknytning til en konto i
-Handelsbanken, se dog punkt 4. Kortet kan bruges som
-hævekort og som forespørgsels- og transaktionskort.
- 
-.pkt 1.1
-.ovs Brug af kortet som hævekort
-Kortet kan bruges til udbetaling fra bankens pengeautomater og fra
-bankens kasser.
-I pengeautomater kan du pr. døgn få udbetalt p.t. op til 5.000,-
-kr. med Automat*Kort og op til 2.000,- kr.  med andre interne
-hævekort, hvis der er dækning på kontoen.
-Såfremt du ikke får udstedt en PIN-kode kan kortet kun anvendes i
-bankens kasser.
- 
-.pkt 1.2
-.ovs Brug af kortet som forespørgsels- og transaktionskort
-Kortet kan bruges i bankens pengeautomater til
- 
- - overførsel mellem egne konti
- - kontooversigt
- - saldooplysninger og forespørgsel på de seneste 6 posteringer.
- 
-.pkt 1.3
-.ovs Hævning på kontoen
-Beløbet hæves på kontoen straks efter, at transaktionen er
-gennemført.
- 
-.pkt 2.
-.ovs Vilkår knyttet til indehavelse og anvendelse af kortet
-.sp 2mm
-.pkt 2.1
-.ovs Udlevering og opbevaring af PIN-kode
-Banken ejer det udleverede kort og kan ombytte kortet.
- 
-Udstedes kortet til brug med PIN-kode vil PIN-koden blive
-fremsendt fra banken 1-2 dage efter du har modtaget kortet med
-posten. PIN-koden er en personlig kode, som er knyttet til kortet.
-PIN-koden konstrueres og udskrives maskinelt, uden at nogen kan få
-kendskab til koden.
-:
-KURSIV.P
-IN-koden er personlig og må ikke udleveres til andre. PIN-kodenm
-å ikke skrives ned eller opbevares sammen med kortet. Du skald
-erfor lære koden udenad eller bruge en PIN-kode-husker, som dug
-ratis kan få udleveret i din afdeling. Du skal destrueref
-remsendelsesbrevet med koden.:
-SKRSLUT. 
-P
-IN-koden er dokumentation for, at det er dig der bruger kortet. 
-:
-KURSIV.D
-u skal opbevare kortet forsvarligt. Med jævne mellemrum skal duk
-ontrollere, at kortet ikke er mistet.:
-SKRSLUT. 
-.
-pkt 2.2.
-ovs Brug af kortetN
-år du bruger kortet, indtaster du PIN-koden, eller du afgiver dinu
-nderskrift. Du kan ved ekspeditionen få udleveret en kvittering,d
-er bl.a viser dato og beløb. Du bør sikre dig, at beløbet er io
-verensstemmelse med udbetalingen, og at korrekt dato er anført. Dub
-ør gemme kvitteringen, til du har modtaget dit kontoudskrift.S
-e også punkt 2.6 "Kontoudskrift og kontrol". 
-.
-pkt 2.3.
-ovs FuldmagtK
-ort og PIN-kode må kun bruges af dig personligt. 
-Ø
-nsker du, at en anden person skal kunne hæve på din konto, skalp
-ersonen have sit eget kort og sin egen PIN-kode. Personens bruga
-f kortet sker efter samme regler, som gælder for dig selv. 
-Ø
-nsker du ikke længere, at personen skal kunne hæve på kontoen,s
-kal personen levere sit kort tilbage til banken..
-cb.
-pkt 2.4.
-ovs Din pligt til at få kortet spærretD
-u skal kontakte banken snarest muligt, hvis:.
-sp 2mm 
-- du mister kortet eller 
-- en anden får kendskab til din PIN-kode 
-- du på anden måde får mistanke om, at kortet kan blive misbrugt. 
-I
- bankens åbningstid skal du kontakte din afdeling for spærring afk
-ort. 
-U
-den for bankens åbningstid skal du spærre kortet via bankensT
-elefonService, hvis du er bruger af dette system, og systemet erå
-bent.
-U
-den for bankens åbningstid kan kortet ligeledes spærres ved atr
-inge til PBS 24-timers kundeservice på telefonnr.  44 89 29 29. 
-.
-pkt 2.5.
-ovs Deres ansvar, hvis andre misbruger kortetH
-vis kortet og PIN-koden er blevet misbrugt af en anden, skal dud
-ække tab op til kr. 1.200,- (selvrisiko). 
-H
-vis du har oplyst PIN-koden til misbrugeren, skal du imidlertidd
-ække det fulde tab. 
-D
-u skal dække tab op til kr. 8.000,- (incl. selvrisiko), hvis.
-sp 2mm 
-- du har overladt kortet til misbrugeren eller.
-sp 1.5mm.
-of 2.5mm 
-- du eller én, du har overladt kortet til, ved groft uforsvarliga
-dfærd har muliggjort misbruget eller.
-of.
-sp 1.5mm.
-of 2.5mm 
-- der ikke er taget kontakt til banken, eller kortet ikke ers
-pærret snarest muligt efter, at du eller én, du har overladtk
-ortet til, har opdaget, at kortet er mistet..
-of 
-D
-u er ikke ansvarlig for tab, der opstår efter, at kortet ers
-pærret. 
-D
-u kan læse nærmere om ansvarsreglerne i §11 og §12 i Lov om visseb
-etalingsmidler. 
-.
-pkt 2.6.
-ovs Kontoudskrift og kontrolK
-ontoudskrift udsendes månedsvis, medmindre du aftaler andet medb
-anken. 
-K
-ontoudskriften indeholder bl.a oplysninger om beløb og dato forh
-ævning. 
-H
-vis der ikke er overensstemmelse mellem din kvittering og deo
-plysninger, der er noteret på kontoudskriften, skal du giveb
-anken besked snarest muligt. 
-.
-pkt 2.7.
-ovs Kortets udløbstidspunktB
-anken kan bestemme, at et kort kun skal være gyldigt i en bestemtp
-eriode. Efter udløbstidspunktet er kortet ugyldigt. Du kan føru
-dløb få kortet ombyttet i banken.
-.sp
-...SLUT
-.if &BECTEST01 EQ 3 .or &BECTEST01 EQ 4
-.el .go SLUT
-.**
-.pkt 2.8
-.ovs Tilbagekaldelse
-Du kan ikke tilbagekalde (kontramandere) betalinger/overførsler
-foretaget med kortet.
- 
-.pkt 2.9
-.ovs Ophør
-Hvis du ikke længere ønsker at bruge kortet, skal du snarest
-levere kortet tilbage til banken. Hvis kontoen ophæves, skal alle
-kort, der er udleveret til kontoen, leveres tilbage. Hvis du
-sender kortet tilbage til banken, skal det forinden klippes over.
- 
-.pkt 2.10
-.ovs Opsigelse
-Banken kan med passende varsel meddele dig, at kortet ikke længere
-kan bruges og derfor skal leveres tilbage. Du vil få refunderet en
-forholdsmæssig del af eventuelle gebyrer, du måtte have betalt for
-kortet.
-.cb
-.pkt 2.11
-.ovs Bankens ret til at spærre kortet
-Hvis du overtræder reglerne, herunder hvis du overtrækker den
-konto, som kortet er knyttet til, er banken berettiget til at
-spærre for brug af kortet. I tilfælde af overtræk vil du blive
-rykket skriftligt, før kortet bliver spærret. Øjeblikkelig
-spærring kan dog være nødvendig, hvis der er tale om særlig groft
-og/eller gentagne overtræk. Banken
-kan desuden forlange alle kort, der er udleveret til
-kontoen, leveret tilbage. Du vil få besked herom.
- 
-.pkt 2.12
-.ovs Ændring af reglerne
-Reglerne kan ændres med 1 måneds varsel. Besked om ændringen vil
-blive givet ved brev eller ved annoncering i dagspressen.
- 
-.pkt 2.13
-.ovs Arbejdskonflikter
-Du kan ikke bruge kortet, hvis banken og/eller bankens tekniske
-centre inddrages i en arbejdskonflikt. Ved en sådan konflikts
-begyndelse og ophør vil du hurtigst muligt blive orienteret gennem
-annoncering i dagspressen.
- 
-.pkt 2.14
-.ovs Klager
-Hvis du har klager, kan du henvende dig i banken. Får du ikke
-medhold i din klage, kan du henvende dig til
-Pengeinstitutankenævnet eller Forbrugerombudsmanden. Hvis
-du ønsker at klage over, at dit kort er blevet spærret på
-grund af overtræk, kan du henvende dig til Finansrådet. Får du
-ikke medhold hos Finansrådet, kan du klage til Registertilsynet.
- 
-.pkt 3.
-.ovs Omkostninger ved erhvervelse og brug af kortet
-.sp 2mm
-.pkt 3.1
-.ovs Gebyr
-Gebyrer fremgår af prislisten, som du kan få udleveret i banken
-sammen med disse regler.
- 
-Gebyrerne kan ændres med en måneds varsel. Besked om ændringen vil
-blive givet ved brev eller ved annoncering i dagspressen.
-.cb
-.pkt 3.2
-.ovs Renter og provision
-Du kan i banken få oplysning om renter og provision på den konto,
-der er knyttet til kortet.
- 
-.pkt 4.
-.ovs Vurdering af kortansøgere
-Kortet udstedes efter individuel vurdering.
- 
-.pkt 5.
-.ovs Brug, opbevaring og videregivelse af personlige oplysninger m.v.
-.sp 2mm
-.pkt 5.1
-.ovs Registrering ved brug af kortet
-Ved brug af kortet noteres kortnummer, beløbet, dato for brug af
-kortet, samt hvor kortet har været brugt.
-Oplysningerne opbevares hos banken og anvendes i bankens
-bogføring, i kontoudskrifter og ved eventuel senere fejlfinding.
- 
-Oplysningerne videregives i øvrigt kun, hvor lovgivningen kræver
-det eller til brug for retssager om krav opstået i forbindelse med
-brug af kortet.
- 
-Oplysningerne opbevares i 10 år.
- 
-.se o1 'Udsendelse af spærring, hvis kort eller PIN-kode bortkommer,'
-.se o2 'misbruges eller er i en uberettigets besiddelse'
-.pkt 6.
-.ovs &o1. &o2.
-Når banken har modtaget besked om, at kortet er mistet, eller at
-en anden kender PIN-koden, vil kortet blive spærret for brug. Du
-vil modtage en skriftlig bekræftelse på spærringen med angivelse
-af tidspunktet for, hvornår banken fik besked om spærringen.
-.rh cancel
-...SLUT
+

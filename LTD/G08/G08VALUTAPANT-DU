@@ -12,6 +12,60 @@
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.tm 30mm
+.ll 175mm
+:verda10.
+.da modtager 20mm 40mm width 60mm depth 50mm
+.ar modtager on
+Cpr/Cvr-nummer: &KTOKUNDENR.
+.br
+.if &l'&KTOSTILL. > 0 .AN &l'&MEDNAVN. = 0
+.th &KTOSTILL.
+.th .br
+&KTONAVN.
+.br
+.if &l'&KTOCO. > 0
+.th &KTOCO.
+.th .br
+&KTOGADE.
+.br
+&KTOBY.
+.if &l'&MEDNAVN. > 0
+.th .sp
+.th og
+.sp
+.th Cpr/Cvr-nummer: &MEDKUNDENR.
+.th .br
+.th &MEDNAVN.
+.ar modtager off
+.sp 65mm
+.*
+:NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
 .NV PAGE DUBANKNR '%&DUBANKNR.'
@@ -61,31 +115,6 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -136,6 +165,31 @@
 .an &L'&DUROLLE4 = 0
 .th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
 .el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 :COUR10.
 .**********************************************************************
 .ti ¤ 05
@@ -152,85 +206,6 @@
 &DATO kl. &KLOKKESLET
 .ar off
 .***********************************************************************
-bobehandling og, at der kunden bekendt ikke er truet med eller indgivet
-begæring om konkurs fra trediemand.
-.in 0mm
-.sp
-:FED.9. Særlige vilkår :SKRSLUT.
-.br
-&BANKNAVN. er berettiget til at kræve opfyldelse af panteforpligtelsen,
-herunder at realisere pantet i tilfælde af, at den pantsikrede facilitet er
-opsagt eller forfalden til indfrielse på grund af debitors misligholdelse,
-jfr. rammeaftalens pkt. 12.
-.sp
-Hvis debitor standser sine betalinger, kommer under konkurs eller anden
-insolvent bobehandling, indleder forhandling om akkord eller gældssanering,
-kan &BANKNAVN. anvende værdien af det pantsatte til først at dække renter
-og provision af debitors skyld til &BANKNAVN., samt eventuelt kurstab for
-forpligtelser i udenlandsk valuta. Dette gælder også renter for tiden efter
-konkursens eller gældssaneringens indtræden, akkordens åbning eller
-debitors død.
-.sp
-:FED.10. Diverse :SKRSLUT.
-.br
-Rammeaftalens vilkår, herunder de Almindelige forretningsbetingelser for
-&BANKNAVN.s navn gælder i det omfang, de ikke er fraveget i denne
-pantsætningsaftale.
-.sp
-Kunden bekræfter ved sin underskrift på nærværende pantsætningsaftale at
-have modtaget en kopi af pantsætningsaftalen, rammeaftalen og de
-Almindelige forretningsbetingelser for &BANKNAVN. samt at have gjort sig
-bekendt med indholdet, som i det hele tiltrædes.
-:FED.5. Ændringer af pantet :SKRSLUT.
-.br
-Såfremt det senere aftales, at sikkerheden ændres fra kontanter til
-værdipapirer kan &BANKNAVN. kræve, at kunden underskriver en særskilt
-pantsætningsaftale.
-.sp
-:FED.6. Misligholdelse :SKRSLUT.
-.br
-Manglende rettidig indbetaling af sikkerhedsstillelse er at anse for
-misligholdelse af nærværende pantsætningsaftale samt af rammeaftalen, bl.a.
-med deraf følgende ret til straks at afvikle forretninger. &BANKNAVN. kan
-dog vælge udelukkende at afvikle enkelte forretninger. Ved afvikling af en
-forretning opgøres forretningens markedsværdi på afviklingstidspunktet og
-kundens eventuelle betalingsforpligtelse kan kræves indbetalt eller
-debiteres sikringskontoen efter &BANKNAVN.s valg.
-.sp
-:FED.7. Frigivelse af sikkerhedsstillelse :SKRSLUT.
-.br
-Såfremt en for kunden negativ markedsværdi ændrer sig, således at den for
-&BANKNAVN. opståede risiko formindskes, kan kunden få frigivet en del af
-den af kunden stillede sikkerhed, dog kun ved ændringer i markedsværdien på
-minimum DKK 100.000. Frigivelse af sikkerhed sker på kundens foranledning.
-.sp
-Ændres markedsværdien, så denne bliver positiv for kunden, frigives den
-resterende sikkerhed. Kunden kan maksimalt få frigivet den stillede
-sikkerhed og kan ikke kræve sikkerhed af &BANKNAVN..
-.sp
-:FED.8. Erklæringer :SKRSLUT
-.br
-Kunden erklærer overfor &BANKNAVN., hvilke erklæringer skal betragtes som
-gentaget, hver gang der på ny stilles sikkerhed i henhold til pkt. 1, at:
-.br
-.tp 8mm 12mm
-¤-¤kunden
-.in 12mm nobreak
-har fornøden bemyndigelse til at etablere den pågældende
-sikkerhedsstillelse, at denne er lovlig og ikke i strid med noget
-lovgivningsbestemt eller aftalebestemt pantsætningsforbud samt at
-sikkerhedsstillelsen ligger indenfor kundens vedtægtsmæssige formål;
-.in 0mm
-.br
-¤-¤kunden
-.in 12mm nobreak
-er retmæssig ejer af de aktiver, der stilles som sikkerhed og at disse
-aktiver er frie og ubehæftede; og
-.in 0mm
-.br
-¤-¤kunden
-.in 12mm nobreak
-ikke er under betalingsstandsning, konkurs eller anden insolvent
 Mellem ovennævnte kunde(r) og &BANKNAVN. er der dags dato indgået
 nærværende pantsætningsaftale (i det følgende kaldet Pantsætningsaftalen),
 der er en aftale om finansiel sikkerhedsstillelse efter reglerne i
@@ -281,6 +256,85 @@ Indeståendet på sikringskontoen forrentes med den af &BANKNAVN. fastsatte
 indlånsrente. Renter tilskrives årligt og pantsættes ligeledes til fordel
 for &BANKNAVN..
 .sp
+:FED.5. Ændringer af pantet :SKRSLUT.
+.br
+Såfremt det senere aftales, at sikkerheden ændres fra kontanter til
+værdipapirer kan &BANKNAVN. kræve, at kunden underskriver en særskilt
+pantsætningsaftale.
+.sp
+:FED.6. Misligholdelse :SKRSLUT.
+.br
+Manglende rettidig indbetaling af sikkerhedsstillelse er at anse for
+misligholdelse af nærværende pantsætningsaftale samt af rammeaftalen, bl.a.
+med deraf følgende ret til straks at afvikle forretninger. &BANKNAVN. kan
+dog vælge udelukkende at afvikle enkelte forretninger. Ved afvikling af en
+forretning opgøres forretningens markedsværdi på afviklingstidspunktet og
+kundens eventuelle betalingsforpligtelse kan kræves indbetalt eller
+debiteres sikringskontoen efter &BANKNAVN.s valg.
+.sp
+:FED.7. Frigivelse af sikkerhedsstillelse :SKRSLUT.
+.br
+Såfremt en for kunden negativ markedsværdi ændrer sig, således at den for
+&BANKNAVN. opståede risiko formindskes, kan kunden få frigivet en del af
+den af kunden stillede sikkerhed, dog kun ved ændringer i markedsværdien på
+minimum DKK 100.000. Frigivelse af sikkerhed sker på kundens foranledning.
+.sp
+Ændres markedsværdien, så denne bliver positiv for kunden, frigives den
+resterende sikkerhed. Kunden kan maksimalt få frigivet den stillede
+sikkerhed og kan ikke kræve sikkerhed af &BANKNAVN..
+.sp
+:FED.8. Erklæringer :SKRSLUT
+.br
+Kunden erklærer overfor &BANKNAVN., hvilke erklæringer skal betragtes som
+gentaget, hver gang der på ny stilles sikkerhed i henhold til pkt. 1, at:
+.br
+.tp 8mm 12mm
+ ¤ - ¤ kunden
+.in 12mm nobreak
+har fornøden bemyndigelse til at etablere den pågældende
+sikkerhedsstillelse, at denne er lovlig og ikke i strid med noget
+lovgivningsbestemt eller aftalebestemt pantsætningsforbud samt at
+sikkerhedsstillelsen ligger indenfor kundens vedtægtsmæssige formål;
+.in 0mm
+.br
+ ¤ - ¤ kunden
+.in 12mm nobreak
+er retmæssig ejer af de aktiver, der stilles som sikkerhed og at disse
+aktiver er frie og ubehæftede; og
+.in 0mm
+.br
+ ¤ - ¤ kunden
+.in 12mm nobreak
+ikke er under betalingsstandsning, konkurs eller anden insolvent
+bobehandling og, at der kunden bekendt ikke er truet med eller indgivet
+begæring om konkurs fra trediemand.
+.in 0mm
+.sp
+:FED.9. Særlige vilkår :SKRSLUT.
+.br
+&BANKNAVN. er berettiget til at kræve opfyldelse af panteforpligtelsen,
+herunder at realisere pantet i tilfælde af, at den pantsikrede facilitet er
+opsagt eller forfalden til indfrielse på grund af debitors misligholdelse,
+jfr. rammeaftalens pkt. 12.
+.sp
+Hvis debitor standser sine betalinger, kommer under konkurs eller anden
+insolvent bobehandling, indleder forhandling om akkord eller gældssanering,
+kan &BANKNAVN. anvende værdien af det pantsatte til først at dække renter
+og provision af debitors skyld til &BANKNAVN., samt eventuelt kurstab for
+forpligtelser i udenlandsk valuta. Dette gælder også renter for tiden efter
+konkursens eller gældssaneringens indtræden, akkordens åbning eller
+debitors død.
+.sp
+:FED.10. Diverse :SKRSLUT.
+.br
+Rammeaftalens vilkår, herunder de Almindelige forretningsbetingelser for
+&BANKNAVN.s navn gælder i det omfang, de ikke er fraveget i denne
+pantsætningsaftale.
+.sp
+Kunden bekræfter ved sin underskrift på nærværende pantsætningsaftale at
+have modtaget en kopi af pantsætningsaftalen, rammeaftalen og de
+Almindelige forretningsbetingelser for &BANKNAVN. samt at have gjort sig
+bekendt med indholdet, som i det hele tiltrædes.
 .**HUSK AT STARTE AFSNIT TIL UNDERSKRIFT i MODUL PLACERET LIGE FØR********
 .sp 2
 .tp 10mm 40mm 70mm
@@ -289,65 +343,12 @@ Dato:
 .sp 7mm
 .if &l'&MEDNAVN. > 0
 .th .hr tynd 0mm 140mm
-.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.th ¤ &KTONAVN. ¤ ¤ &MEDNAVN.
 .el .hr tynd 0mm 70mm
-.el ¤&KTONAVN
+.el ¤ &KTONAVN
 .sp 3
 .hr tynd 0mm 70mm
-¤&BANKNAVN
+ ¤ &BANKNAVN
 .br
 .ar off
-.th &MEDNAVN.
-.ar modtager off
-.sp 65mm
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.tm 30mm
-.ll 175mm
-:verda10.
-.da modtager 20mm 40mm width 60mm depth 50mm
-.ar modtager on
-Cpr/Cvr-nummer: &KTOKUNDENR.
-.br
-.if &l'&KTOSTILL. > 0 .AN &l'&MEDNAVN. = 0
-.th &KTOSTILL.
-.th .br
-&KTONAVN.
-.br
-.if &l'&KTOCO. > 0
-.th &KTOCO.
-.th .br
-&KTOGADE.
-.br
-&KTOBY.
-.if &l'&MEDNAVN. > 0
-.th .sp
-.th og
-.sp
-.th Cpr/Cvr-nummer: &MEDKUNDENR.
-.th .br
-.*
+

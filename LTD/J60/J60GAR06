@@ -11,18 +11,60 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&AFDBNKNAVN
-.sp 3
-.if &L'&GENMEKSP gt 0
-.th &GENMEKSP          &GENEKSP
-.el &GENEKSP
-.ce off
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.*Valider at der findes data i mindst eet af Garantimodt.adresse-felterne
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.* ændring af banknavn til at følge banksteds-banknavn
+.if &L'&BANKNAVN GT 0
+.th .se BANKNAVN = '&AFDBNKNAVN.'
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+J60GAR06
 .ar off
-.*****************
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Ophør af arbejdsgaranti nr. &regnr. &ktonr.
+.sp
+.**************************************************************************
 .* Ophør af arbejdsgaranti - brevtekst
 :tiltale &TILTALEF
 .******** FJERNER FORANSTILLEDE BLANKE I PARAMETER *************
@@ -73,57 +115,16 @@ Har &DU ikke modtaget sådanne krav, bedes &DU foranledige, at garantien
 fremsendes hertil, således at den kan ophøre. Herefter vil også beregning
 af garantiprovision høre op.
 .br
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 100mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-J60GAR06
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.us Ophør af arbejdsgaranti nr. &regnr. &ktonr.
+.*****************
+.sp 2
+.ce on
+Med venlig hilsen
 .sp
-.**************************************************************************
-.* ændring af banknavn til at følge banksteds-banknavn
-.if &L'&BANKNAVN GT 0
-.th .se BANKNAVN = '&AFDBNKNAVN.'
-.* Parameterafsnit
-.*Valider at der findes data i mindst eet af Garantimodt.adresse-felterne
-.if &L'&GARMODADR1 = 0
-.an &L'&GARMODADR2 = 0
-.an &L'&GARMODADR3 = 0
-.an &L'&GARMODADR4 = 0
-.an &L'&GARMODADR5 = 0
-.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
-.* Parameterafsnit
-.* Parameterafsnit
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
+&AFDBNKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.ar off
+

@@ -11,6 +11,163 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Parameterafsnit
+.da BREVHOVED 29mm 40mm width 80mm
+.ar BREVHOVED on
+:DUTCH12.
+.**  REKOMMANDERET - benyttes ikke iflg aftale med merete **
+.** br- benyttes ikke iflg aftale med merete **
+&GENNAVN
+.br
+.if &L'&GENRET > 0
+.th &GENRET
+.th .br
+.if &L'&GENCOADR > 0
+.th &GENCOADR
+.th .br
+&GENGADE
+.br
+&GENBY
+.ar off
+.* Tinglysning - Effekter - brevnavn mv.
+.*********************GENEREL OPSÆTNING************************************
+:DUTCH12.
+.fo left
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 143mm 68mm width 30mm
+.* Brevstart, incl. overskrift
+.da START 29mm 105mm width 158mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:DUTCH6.
+B29TING                      CVR-nr. 13 88 46 76, hjemsted Farum, Danmark
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.
+.if X&BECPNJ1 eq X1
+.th Effekter til tinglysning
+.if X&BECPNJ1 eq X2
+.th Effekter til aflysning
+.if X&BECPNJ1 eq X3
+.th Lysning af påtegninger
+.if X&BECPNJ1 eq X4
+.th Annullering af retsanmærkninger
+.**************************************************************************
+.if &L'&B29MATR eq 0
+.an &L'&B29STEL eq 0
+.an &L'&BECTEKST06 eq 0
+.th
+.***********************
+.if &L'&B29MATR gt 0
+.an &L'&B29STEL eq 0
+.an &L'&BECTEKST06 gt 0
+.th vedr. matr. nr. &B29MATR.,
+.th .br
+.th beliggende &BECTEKST06
+.***********************
+.if &L'&B29MATR gt 0
+.an &L'&B29STEL eq 0
+.an &L'&BECTEKST06 eq 0
+.th vedr. matr. nr. &B29MATR
+.***********************
+.if &L'&B29MATR eq 0
+.an &L'&B29STEL gt 0
+.an &L'&BECTEKST06 eq 0
+.th vedrørende bilen, stel nr. &B29STEL
+.**************************************************************************
+:SKRSLUT
+.sp 2
+.* Tinglysning - Effekter vedr. (matr.nr., bilbog, løsøre)
+Vedlagt fremsendes:
+.sk
+.in 25mm
+.if &L'&BECTEKST10 = 0 .an &L'&BECTEKST32 > 0
+.th .sp
+.el .br
+.el &BECTEKST10.
+.br
+&BECTEKST32.
+.br
+.*****************************
+.in
+.sk
+.if .&L'&BECTEKST11 > .0
+.th Som legitimation medsendes &BECTEKST11..
+.th .sk
+.if &L'&B29CHECK gt 0
+.an &L'&B29STORKUN eq 0
+.th Check på
+.th :NY
+.th :vs.&B29CHECK
+.th :ENY
+.th kr. vedlægges til dækning af stempel og
+.th tinglysningsafgift.
+.th .sk
+.if &L'&B29CHECK eq 0
+.an &L'&B29STORKUN gt 0
+.th Til dækning af stempel og tinglysningsafgift
+.th bedes trukket
+.th :NY
+.th :vs.&B29STORKUN
+.th :ENY
+.th kr. via storkundeordningen.
+.th .sk
+Efter endt ekspedition beder vi Dem venligst returnere effekterne
+til anmelder.
+.sp
+.***********************************
+.if &L'&B29TXT11 > 1 .or &L'&B29TXT12 > 1 .or &L'&B29TXT13 > 1
+.or &L'&B29TXT14 > 1
+.th &B29TXT11
+.th &B29TXT12
+.th &B29TXT13
+.th &B29TXT14
+.th .sp
+.***********************************************************************
+.sp 4
+Med venlig hilsen
+.sp4
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
+.da BILAG 29mm 255mm width 100mm
+.ar BILAG on
+Bilag:
+.br
+.if &L'&B29TXT1 > 1 .or &L'&B29TXT2 > 1 .or &L'&B29TXT3 > 1
+.or &L'&B29TXT4 > 1
+.th &B29TXT1
+.th .br
+.th &B29TXT2
+.th .br
+.th &B29TXT3
+.th .br
+.th &B29TXT4
+.th .br
+.th &B29TXT5
+.sp4mm
+:DUTCH10.
+.se KUNR1 = substr &KUNDENR 1 6
+.se KUNR2 = substr &KUNDENR 7 4
+.su on
+&KUNR1.-&KUNR2 :SKRSLUT
+:DUTCH10.
+/ &B29LÅNENR
+.ar off
 .* PARAMETERAFSNIT
 .* Teksten ligger i AFSNIT T
 .se BECTLBP = 1
@@ -554,160 +711,4 @@
 &GENBY
 :EGL.
 .*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM,**************
-.* Parameterafsnit
-.da BREVHOVED 29mm 40mm width 80mm
-.ar BREVHOVED on
-:DUTCH12.
-.**  REKOMMANDERET - benyttes ikke iflg aftale med merete **
-.** br- benyttes ikke iflg aftale med merete **
-&GENNAVN
-.br
-.if &L'&GENRET > 0
-.th &GENRET
-.th .br
-.if &L'&GENCOADR > 0
-.th &GENCOADR
-.th .br
-&GENGADE
-.br
-&GENBY
-.ar off
-.* Tinglysning - Effekter - brevnavn mv.
-.*********************GENEREL OPSÆTNING************************************
-:DUTCH12.
-.fo left
-.ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 143mm 68mm width 30mm
-.* Brevstart, incl. overskrift
-.da START 29mm 105mm width 158mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:DUTCH6.
-B29TING                      CVR-nr. 13 88 46 76, hjemsted Farum, Danmark
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:FED.
-.if X&BECPNJ1 eq X1
-.th Effekter til tinglysning
-.if X&BECPNJ1 eq X2
-.th Effekter til aflysning
-.if X&BECPNJ1 eq X3
-.th Lysning af påtegninger
-.if X&BECPNJ1 eq X4
-.th Annullering af retsanmærkninger
-.**************************************************************************
-.if &L'&B29MATR eq 0
-.an &L'&B29STEL eq 0
-.an &L'&BECTEKST06 eq 0
-.th
-.***********************
-.if &L'&B29MATR gt 0
-.an &L'&B29STEL eq 0
-.an &L'&BECTEKST06 gt 0
-.th vedr. matr. nr. &B29MATR.,
-.th .br
-.th beliggende &BECTEKST06
-.***********************
-.if &L'&B29MATR gt 0
-.an &L'&B29STEL eq 0
-.an &L'&BECTEKST06 eq 0
-.th vedr. matr. nr. &B29MATR
-.***********************
-.if &L'&B29MATR eq 0
-.an &L'&B29STEL gt 0
-.an &L'&BECTEKST06 eq 0
-.th vedrørende bilen, stel nr. &B29STEL
-.**************************************************************************
-:SKRSLUT
-.sp 2
-.* Tinglysning - Effekter vedr. (matr.nr., bilbog, løsøre)
-Vedlagt fremsendes:
-.sk
-.in 25mm
-.if &L'&BECTEKST10 = 0 .an &L'&BECTEKST32 > 0
-.th .sp
-.el .br
-.el &BECTEKST10.
-.br
-&BECTEKST32.
-.br
-.*****************************
-.in
-.sk
-.if .&L'&BECTEKST11 > .0
-.th Som legitimation medsendes &BECTEKST11..
-.th .sk
-.if &L'&B29CHECK gt 0
-.an &L'&B29STORKUN eq 0
-.th Check på
-.th :NY
-.th :vs.&B29CHECK
-.th :ENY
-.th kr. vedlægges til dækning af stempel og
-.th tinglysningsafgift.
-.th .sk
-.if &L'&B29CHECK eq 0
-.an &L'&B29STORKUN gt 0
-.th Til dækning af stempel og tinglysningsafgift
-.th bedes trukket
-.th :NY
-.th :vs.&B29STORKUN
-.th :ENY
-.th kr. via storkundeordningen.
-.th .sk
-Efter endt ekspedition beder vi Dem venligst returnere effekterne
-til anmelder.
-.sp
-.***********************************
-.if &L'&B29TXT11 > 1 .or &L'&B29TXT12 > 1 .or &L'&B29TXT13 > 1
-.or &L'&B29TXT14 > 1
-.th &B29TXT11
-.th &B29TXT12
-.th &B29TXT13
-.th &B29TXT14
-.th .sp
-.***********************************************************************
-.sp 4
-Med venlig hilsen
-.sp4
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
-.da BILAG 29mm 255mm width 100mm
-.ar BILAG on
-Bilag:
-.br
-.if &L'&B29TXT1 > 1 .or &L'&B29TXT2 > 1 .or &L'&B29TXT3 > 1
-.or &L'&B29TXT4 > 1
-.th &B29TXT1
-.th .br
-.th &B29TXT2
-.th .br
-.th &B29TXT3
-.th .br
-.th &B29TXT4
-.th .br
-.th &B29TXT5
-.sp4mm
-:DUTCH10.
-.se KUNR1 = substr &KUNDENR 1 6
-.se KUNR2 = substr &KUNDENR 7 4
-.su on
-&KUNR1.-&KUNR2 :SKRSLUT
-:DUTCH10.
-/ &B29LÅNENR
-.ar off
+

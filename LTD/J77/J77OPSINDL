@@ -11,6 +11,169 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.ti ¤ 05
+:SWISS11.
+:TILTALE &TILTALEM
+.LL 165mm
+.fo left
+.***** arealer
+.da adresse 33mm 36mm width 85mm
+.da afsender 124mm 36mm
+.da tekst 33mm 90mm width 135mm
+.**** Opdeling af stillingsbetegnelse *****************
+.su off
+.se a = substr &KTOFSTILL 1 1
+.se b = substr &KTOFSTILL 2
+.se c = substr &MEDFSTILL 1 1
+.se d = substr &MEDFSTILL 2
+.SU ON
+.***** Adresse start **********************************
+.ar adresse on
+.if &U'&B65R = J
+.TH ANBEFALET
+.TH .SP3MM
+.***** Valg af modtager/e *****************************
+.IF &U'&B65PMED1 NE J
+.AN &U'&B65PMED2 NE J
+.th .go PRIM
+.IF &U'&B65PMED1 = J
+.AN &U'&B65PMED2 NE J
+.TH .GO MED
+.if &U'&B65PMED2 = J
+.TH .GO BEGGE
+.***** adresse til primær kontohaver - standard ******
+...PRIM
+.*.if &U'&B65R = J
+.*.TH ANBEFALET
+.*.el
+.***********************
+.sp 3mm
+&U'&a.&b
+.br
+&KTONAVN
+.br
+.if &L'&KTOCO GT 0
+.TH &KTOCO
+.TH .br
+.IF &L'&B65PH2 gt 0
+.TH &B65PH2
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.GO AFS
+.***** Adressering til kontohaver og medkontohaver *****
+...BEGGE
+.*.if &U'&B65R = J
+.*.TH ANBEFALET
+.*.sp 3mm
+&KTONAVN og
+.BR
+&MEDNAVN
+.br
+.IF &L'&KTOCO GT 1
+.TH &KTOCO
+.TH .br
+&KTOGADE
+.br
+&KTOBY
+.GO AFS
+.***** Medkontohavers adresse **************************
+...MED
+.*.if &U'&B65R = J
+.*.TH ANBEFALET
+.*.sp 3mm
+&U'&c.&d
+.BR
+&MEDNAVN
+.BR
+.IF &L'&MEDCO GT 1
+.TH &MEDCO
+.TH .BR
+&MEDGADE
+.BR
+&MEDBY
+.br
+&MEDLAND
+...AFS
+.ar off
+.***** Her begynder afsenderafsnittet ***************
+.ar afsender on
+:SWISS9.
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.sp
+CVR &BANKSENR
+.TP 20MM
+.br
+.*.if &B65P2U EQ 2
+.*.TH Reference: ¤ &GENEKSP
+.*.TH .br
+Telefon &GENTLFNR
+.br
+E-mail &GENEMAIL
+.BR
+.IF &L'&B65DREF GT 0
+.TH &SDIN reference: &B65DREF
+.TH .SP6mm
+.EL .SP10mm
+:SWISS11.
+&DATO
+.ar off
+.ar tekst on
+.sp 10mm
+:FED.Opsigelse af dit kundeforhold:SKRSLUT.
+.sp 3mm
+Vi har konstateret, at &DU fortsat har indlån hos os.
+.sp 3mm
+Da vi er under afvikling, er vi nødt til at opsige kundeforholdet.
+.th .sp 3mm
+.if &U'&B65PJN3 eq J
+.th Det betyder også, at de aftaler &DU har indgået med os om brug af
+.th betalings-
+.th .br
+.th tjenester som Betalingsservice, NetBank, Betalingskort mfl.
+.th ophører samtidig.
+.th .sp 3mm
+.if &U'&B65PJN4 eq J
+.th Opsigelsen får også virkning på den forsikring &DU har tegnet i PFA.
+.th &SDU vil derfor modtage særskilt information herom.
+.th .sp 3mm
+.if &U'&B65PJN2 eq N
+.th Vi kan oplyse, at &DU altid kan oprette en almindelig indlånskonto i et
+.th andet pengeinstitut efter &DIT valg.
+.th .sp 3mm
+.if &U'&B65PJN1 eq J
+.th Da &DIN konto hos os samtidig har virket som &DIN NemKonto, skal &DU
+.th huske, at få det ændret til &DIT fremtidige pengeinstitut.
+.th .sp 3mm
+&SDU bedes snarest meddele os til hvilken bank og til hvilken konto vi skal
+overføre &DIT indestående.
+.sp 3mm
+Har vi ikke hørt fra &DIG inden 2 måneder fra dags dato, tillader vi os
+at sende beløbet til &DIG på en check.
+.sp 3mm
+Dette brev er sendt både som anbefalet og som almindelig post.
+.sp 10MM
+.ti ¤ 05
+.TP 61MM
+Med venlig hilsen
+.sp 15MM
+&GENEKSP              ¤ &GENMEKSP
+.br
+.IF &U'&B65PSU EQ J
+.TH &GENTITEL         ¤ &GENMTITEL
+.ar off
+.DA VEND 7MM 270MM WIDTH 180MM rotate -90
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.AR OFF
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -127,7 +290,7 @@ CVR &BANKSENR
 .TP 20MM
 .br
 .*.if &B65P2U EQ 2
-.*.TH Reference:¤&GENEKSP
+.*.TH Reference: ¤ &GENEKSP
 .*.TH .br
 Telefon &GENTLFNR
 .br
@@ -182,10 +345,10 @@ Dette brev er sendt både som anbefalet og som almindelig post.
 .TP 61MM
 Med venlig hilsen
 .sp 15MM
-&GENEKSP              ¤&GENMEKSP
+&GENEKSP              ¤ &GENMEKSP
 .br
 .IF &U'&B65PSU EQ J
-.TH &GENTITEL         ¤&GENMTITEL
+.TH &GENTITEL         ¤ &GENMTITEL
 .ar off
 .DA VEND 7MM 270MM WIDTH 180MM rotate -90
 .ar VEND on
@@ -195,166 +358,4 @@ Med venlig hilsen
 .***sideskift til fx erklæringer
 .pa
 .br
-.ti ¤ 05
-:SWISS11.
-:TILTALE &TILTALEM
-.LL 165mm
-.fo left
-.***** arealer
-.da adresse 33mm 36mm width 85mm
-.da afsender 124mm 36mm
-.da tekst 33mm 90mm width 135mm
-.**** Opdeling af stillingsbetegnelse *****************
-.su off
-.se a = substr &KTOFSTILL 1 1
-.se b = substr &KTOFSTILL 2
-.se c = substr &MEDFSTILL 1 1
-.se d = substr &MEDFSTILL 2
-.SU ON
-.***** Adresse start **********************************
-.ar adresse on
-.if &U'&B65R = J
-.TH ANBEFALET
-.TH .SP3MM
-.***** Valg af modtager/e *****************************
-.IF &U'&B65PMED1 NE J
-.AN &U'&B65PMED2 NE J
-.th .go PRIM
-.IF &U'&B65PMED1 = J
-.AN &U'&B65PMED2 NE J
-.TH .GO MED
-.if &U'&B65PMED2 = J
-.TH .GO BEGGE
-.***** adresse til primær kontohaver - standard ******
-...PRIM
-.*.if &U'&B65R = J
-.*.TH ANBEFALET
-.*.el
-.***********************
-.sp 3mm
-&U'&a.&b
-.br
-&KTONAVN
-.br
-.if &L'&KTOCO GT 0
-.TH &KTOCO
-.TH .br
-.IF &L'&B65PH2 gt 0
-.TH &B65PH2
-.TH .br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.GO AFS
-.***** Adressering til kontohaver og medkontohaver *****
-...BEGGE
-.*.if &U'&B65R = J
-.*.TH ANBEFALET
-.*.sp 3mm
-&KTONAVN og
-.BR
-&MEDNAVN
-.br
-.IF &L'&KTOCO GT 1
-.TH &KTOCO
-.TH .br
-&KTOGADE
-.br
-&KTOBY
-.GO AFS
-.***** Medkontohavers adresse **************************
-...MED
-.*.if &U'&B65R = J
-.*.TH ANBEFALET
-.*.sp 3mm
-&U'&c.&d
-.BR
-&MEDNAVN
-.BR
-.IF &L'&MEDCO GT 1
-.TH &MEDCO
-.TH .BR
-&MEDGADE
-.BR
-&MEDBY
-.br
-&MEDLAND
-...AFS
-.ar off
-.***** Her begynder afsenderafsnittet ***************
-.ar afsender on
-:SWISS9.
-&BANKNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.sp
-CVR &BANKSENR
-.TP 20MM
-.br
-.*.if &B65P2U EQ 2
-.*.TH Reference:¤&GENEKSP
-.*.TH .br
-Telefon &GENTLFNR
-.br
-E-mail &GENEMAIL
-.BR
-.IF &L'&B65DREF GT 0
-.TH &SDIN reference: &B65DREF
-.TH .SP6mm
-.EL .SP10mm
-:SWISS11.
-&DATO
-.ar off
-.ar tekst on
-.sp 10mm
-:FED.Opsigelse af dit kundeforhold:SKRSLUT.
-.sp 3mm
-Vi har konstateret, at &DU fortsat har indlån hos os.
-.sp 3mm
-Da vi er under afvikling, er vi nødt til at opsige kundeforholdet.
-.th .sp 3mm
-.if &U'&B65PJN3 eq J
-.th Det betyder også, at de aftaler &DU har indgået med os om brug af
-.th betalings-
-.th .br
-.th tjenester som Betalingsservice, NetBank, Betalingskort mfl.
-.th ophører samtidig.
-.th .sp 3mm
-.if &U'&B65PJN4 eq J
-.th Opsigelsen får også virkning på den forsikring &DU har tegnet i PFA.
-.th &SDU vil derfor modtage særskilt information herom.
-.th .sp 3mm
-.if &U'&B65PJN2 eq N
-.th Vi kan oplyse, at &DU altid kan oprette en almindelig indlånskonto i et
-.th andet pengeinstitut efter &DIT valg.
-.th .sp 3mm
-.if &U'&B65PJN1 eq J
-.th Da &DIN konto hos os samtidig har virket som &DIN NemKonto, skal &DU
-.th huske, at få det ændret til &DIT fremtidige pengeinstitut.
-.th .sp 3mm
-&SDU bedes snarest meddele os til hvilken bank og til hvilken konto vi skal
-overføre &DIT indestående.
-.sp 3mm
-Har vi ikke hørt fra &DIG inden 2 måneder fra dags dato, tillader vi os
-at sende beløbet til &DIG på en check.
-.sp 3mm
-Dette brev er sendt både som anbefalet og som almindelig post.
-.sp 10MM
-.ti ¤ 05
-.TP 61MM
-Med venlig hilsen
-.sp 15MM
-&GENEKSP              ¤&GENMEKSP
-.br
-.IF &U'&B65PSU EQ J
-.TH &GENTITEL         ¤&GENMTITEL
-.ar off
-.DA VEND 7MM 270MM WIDTH 180MM rotate -90
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.AR OFF
+

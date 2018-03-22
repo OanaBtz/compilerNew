@@ -10,497 +10,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.* .NV PAGE ID-OPL_01 '% '
-.* .BR
-.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
-.* .BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.*
-.su off
-.se day = substr &FRIDATO 1 2
-.se year = substr &DATO 7 4
-.se month = substr &FRIDATO 4 2
-.se fridd = substr &FRIDATO 1 2
-.se frimm = substr &FRIDATO 4 2
-.se friyy = substr &FRIDATO 7 4
-.*************************************************************************
-.*DAN DAG MED 1 CIFFER OG MÅNED SOM TEKST FOR &FRIDATO                   *
-.*************************************************************************
-.if &day < 10
-.th .se day = substr &fridd 2 1
-.if &month = 01
-.th .se month = januar
-.if &month = 02
-.th .se month = februar
-.if &month = 03
-.th .se month = marts
-.if &month = 04
-.th .se month = april
-.if &month = 05
-.th .se month = maj
-.if &month = 06
-.th .se month = juni
-.if &month = 07
-.th .se month = juli
-.if &month = 08
-.th .se month = august
-.if &month = 09
-.th .se month = september
-.if &month = 10
-.th .se month = oktober
-.if &month = 11
-.th .se month = november
-.if &month = 12
-.th .se month = december
-.*************************************************************************
-.*DAN DAG MED 1 CIFFER OG MÅNED SOM TEKST FOR &FRIDATO                   *
-.*************************************************************************
-.if &fridd < 10
-.th .se fridd = substr &fridd 2 1
-.if &frimm = 01
-.th .se frimm = januar
-.if &frimm = 02
-.th .se frimm = februar
-.if &frimm = 03
-.th .se frimm = marts
-.if &frimm = 04
-.th .se frimm = april
-.if &frimm = 05
-.th .se frimm = maj
-.if &frimm = 06
-.th .se frimm = juni
-.if &frimm = 07
-.th .se frimm = juli
-.if &frimm = 08
-.th .se frimm = august
-.if &frimm = 09
-.th .se frimm = september
-.if &frimm = 10
-.th .se frimm = oktober
-.if &frimm = 11
-.th .se frimm = november
-.if &frimm = 12
-.th .se frimm = december
-.su on
-.*DAN MÅNED FOR FRIDATO SOM TEKST ****************************************
-.*************************************************************************
-.*TEST PÅ UDFYLDELSE AF ALLE MEDUNDERSKRIVER I FORTLØBENDE RÆKKEFØLGE    *
-.*10. medunderskriver/medkontohaver må ikke være udfyldt, hvis 9. ikke er*
-.************************************************************************
-.if &L'&MEDNAVN10 > 0
-.an &L'&MEDNAVN9 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN9 > 0
-.an &L'&MEDNAVN8 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN8 > 0
-.an &L'&MEDNAVN7 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN7 > 0
-.an &L'&MEDNAVN6 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN6 > 0
-.an &L'&MEDNAVN5 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN5 > 0
-.an &L'&MEDNAVN4 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN4 > 0
-.an &L'&MEDNAVN3 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN3 > 0
-.an &L'&MEDNAVN2 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN2 > 0
-.an &L'&MEDNAVN = 0
-.th .go INDFEJL
-.go INDOK
-...INDFEJL
-.mg/T/Medunderskrivere skal udfyldes i fortløbende rækkefølge/
-...INDOK
-.********************GENEREL OPSÆTNING*************************************
-:VERDA09.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER - HØJRE****************************
-.da OVERSKR 100mm 40mm width 90mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************AREAL-DEFINITIONER - VENSTRE**************************
-.da KUNDEOPL 20mm 40mm width 100mm
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar KUNDEOPL on
-&KTOSTILL.
-.br
-&KTONAVN.
-.br
-&KTOGADE.
-.br
-&KTOBY.
-.br
-&KTOLAND.
-.ar off
-.****HER STARTER HØJRE****
-.ar OVERSKR on
-:FED.
-.fo right
-&REGTYPELNG.
-:SKRSLUT.
-.br
-Kontonummer: &LANGKTONR.
-.br
-Cpr/Cvr-nummer: &KTOKNDNR1.
-.*.ir 0mm
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 56mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 165mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.dr thin weight 0.2mm
-.dr boxthin weight 0.1mm
-.**************************************************************************
-har i dag indgået aftale med &BANKNAVN. om oprettelse af
-en "&REGTYPELNG." på følgende vilkår:
-.sp
-:FED.
-Opsparing
-:SKRSLUT.
-.br
-Indskud, der udgør kr. 12,00 indsættes på ovennævnte konto og
-tilbagebetales 1. bankdag efter &fridd.. &frimm. &friyy.. Udløber
-bindingsperioden på en banklukkedag vil udløb af kontoen ske på
-førstkommende bankdag herefter.
-.sp
-:FED.
-Forrentning
-:SKRSLUT.
-.br
-Kreditrente udgør for tiden:
-.sp
-.tp 65mm right 75mm 142mm right
-.us Beregningsmåde¤Beløbsgrænse¤Fast/variabel¤Procentsats p.a.
-.sp 1mm
-knæk¤&KRETRIN1.¤variabel¤&TOTKRE1.
-.sp 1mm
-knæk¤&KRETRIN2.¤variabel¤&TOTKRE2.
-.sp 1mm
-knæk¤&KRETRIN3.¤variabel¤&TOTKRE3.
-.sp
-Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
-gang den 31-12-&year..
-.sp
-&BANKNAVN. forrenter det indsatte beløb med en fast rente
-i perioden fra &day.. &month. &year. til &fridd.. &frimm. &friyy..
-Der kan
-maksimalt indskydes 5.000.000 kr., og der skal minimum stå 25.000
-kr. på kontoen i hele bindingsperioden for at opnå den høje rente.
-.sp
-Renter overføres automatisk til konto nr. &E69GENLKTO. ved
-rentetilskrivning.
-.sp
-Ved udløb ændres kontoen automatisk til en ny kontoform "Højrente
-- udløbet", der forrentes med 0,00%.
-.sp
-Der kan ikke ske udbetaling i bindingsperioden.
-.sp
-I ekstraordinære tilfælde kan der hæves fra kontoen mod betaling
-af en dekort.
-.sp
-Hændelser, der betragtes som ekstraordinære er dødsfald, kritisk
-sygdom, skilsmisse eller lignende uforudsete hændelser.
-.sp
-Dekorten beregnes på følgende måde:
-.sp
-.tp 7mm
-*¤For hver 12 måneder, der er tilbage i aftaleperioden, beregnes 1% af det
-hævede beløb.
-.br
-*¤For resterende dage/måneder derudover beregnes yderligere 1%.
-.sp
-Hvis de renter, der er optjent i perioden fra
-&day.. &month. &year. og
-frem til udbetalingstidspunktet er mindre end beregnet, betales en
-dekort der svarer til optjente renter.
-.sp
-I øvrigt henvises til &BANKNAVN.'s "Almindelige forretningsbetingelser".
-.*************************************************************************
-.da CHECKBOX1 26mm 160.5mm width 10mm
-.da CHECKBOX2 26mm 165.4mm width 10mm
-.da CHECKBOX3 26mm 170.3mm width 10mm
-.*************************************************************************
-.* .ar CHECKBOX on
-.*** Er alle tre disponeringsfelter valgt ********************************
-.if &L'&GENVALGA > 0
-.an &L'&GENVALGB > 0
-.an &L'&E69GENLKTO > 0
-.th .ar CHECKBOX1 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.* .th .ar off
-.* .th .ar CHECKBOX2 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.* .th .ar off
-.* .th .ar CHECKBOX3 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.th .ar off
-.th .go NOBOX
-.if &L'&GENVALGA > 0
-.an &L'&GENVALGB > 0
-.th .ar CHECKBOX1 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.* .th .ar off
-.* .th .ar CHECKBOX2 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.th .ar off
-.th .go NOBOX
-.if &L'&GENVALGA > 0
-.an &L'&E69GENLKTO > 0
-.th .ar CHECKBOX1 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.* .th .ar off
-..* th .ar CHECKBOX2 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.th .ar off
-.th .go NOBOX
-.if &L'&GENVALGB > 0
-.an &L'&E69GENLKTO > 0
-.th .ar CHECKBOX1 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.* .th .ar off
-.* .th .ar CHECKBOX2 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.th .ar off
-.th .go NOBOX
-.if &L'&GENVALGA > 0
-.or &L'&GENVALGB > 0
-.or &L'&E69GENLKTO > 0
-.th .ar CHECKBOX1 on
-.th .bx 2mm 5mm
-.th .sp 1mm
-.th .bx off
-.th .ar off
-...NOBOX
-.ar off
-.*******************************
-.**************************************************************************
-.dr tynd weight 0.2mm
-.tp 02mm 72mm
-.***************************
-.* .tp 2mm
-.* .in 0mm
-.********kontohaver og medunderskriver/medkontohaver
-.if &L'&MEDNAVN > 0
-.th .go MEDNV1
-.el .go MEDNV0
-...MEDNV0
-.kp on
-.sp 15mm
-¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm
-¤&KTONAVN.
-.kp off
-.go SNBUND
-...MEDNV1
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&KTONAVN ¤&MEDNAVN
-.kp off
-.********2. og/eller 3. medunderskriver/medkontohaver
-.if &L'&MEDNAVN2 > 0
-.an &L'&MEDNAVN3 > 0
-.th .go MEDNV3
-.el .go MEDNV2
-...MEDNV2
-.if &L'&MEDNAVN2 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN2
-.th .kp off
-.go SNBUND
-...MEDNV3
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN2. ¤&MEDNAVN3.
-.kp off
-.********4. og/eller 5. medunderskriver/medkontohaver
-.if &L'&MEDNAVN4 > 0
-.an &L'&MEDNAVN5 > 0
-.th .go MEDNV5
-.el .go MEDNV4
-...MEDNV4
-.if &L'&MEDNAVN4 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN4
-.th .kp off
-.go SNBUND
-...MEDNV5
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN4. ¤&MEDNAVN5.
-.kp off
-.********6. og/eller 7. medunderskriver/medkontohaver
-.if &L'&MEDNAVN6 > 0
-.an &L'&MEDNAVN7 > 0
-.th .go MEDNV7
-.el .go MEDNV6
-...MEDNV6
-.if &L'&MEDNAVN6 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN6.
-.th .kp off
-.go SNBUND
-...MEDNV7
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN6. ¤&MEDNAVN7.
-.kp off
-.********8. og/eller 9. medunderskriver/medkontohaver
-.if &L'&MEDNAVN8 > 0
-.an &L'&MEDNAVN9 > 0
-.th .go MEDNV9
-.el .go MEDNV8
-...MEDNV8
-.if &L'&MEDNAVN8 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN8
-.th .kp off
-.go SNBUND
-...MEDNV9
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN8. ¤&MEDNAVN9.
-.kp off
-.********10. medunderskriver/medkontohaver
-.if &L'&MEDNAVN10 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN10
-.th .kp off
-... SNBUND
-.kp on
-.sp 15mm
-¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm
-:FED.
-¤&BANKNAVN.
-.kp off
-:SKRSLUT.
-.rh cancel
 .** SIDESKIFT
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
@@ -589,7 +98,8 @@ CVR-nr. &BANKSENR.
 .tm 13mm
 .bm 20mm
 ...EXITO1
-;T.**************************************************************************
+;T
+.**************************************************************************
 .if &L'&E69VFBPRI = 0
 .th .go EXITT1
 .fo on
@@ -697,28 +207,28 @@ uden varsel, hvis
 .sp
 .tp 4mm
 .of 4mm
-1)¤penge- eller kreditpolitiske ændringer i ind- eller udland
+1) ¤ penge- eller kreditpolitiske ændringer i ind- eller udland
 påvirker det almindelige renteniveau,
 .of 0mm
 .sp
 .of 4mm
-2)¤anden udvikling i det almindelige renteniveau, herunder bl.a.
+2) ¤ anden udvikling i det almindelige renteniveau, herunder bl.a.
 på penge- og obligationsmarkederne, er af betydning for Banken,
 .of 0mm
 .sp
 .of 4mm
-3)¤fundingomkostningerne ændres,
+3) ¤ fundingomkostningerne ændres,
 .of 0mm
 .sp
 .of 4mm
-4)¤der sker ændringer i skatter og afgifter eller myndig-
+4) ¤ der sker ændringer i skatter og afgifter eller myndig-
 hedsforanstaltninger
 .of 0mm
 .sp
 og med en måneds varsel, hvis
 .sp
 .of 4mm
-5)¤banken - uden sammenhæng med udviklingen i det almindelige
+5) ¤ banken - uden sammenhæng med udviklingen i det almindelige
 renteniveau - ændrer sin generelle rente- og prisfastsættelse af
 forretningsmæssige grunde, f. eks. for at øge indtjeningen eller
 opnå en mere hensigtsmæssig anvendelse af bankens ressourcer eller
@@ -738,11 +248,11 @@ eller ændringen skyldes
 .of 0mm
 .sp
 .of 4mm
-8)¤en generel øget kreditrisiko for banken,
+8) ¤ en generel øget kreditrisiko for banken,
 .of 0mm
 .sp
 .of 4mm
-9)¤de forhold, som individuelt blev lagt til grund ved
+9) ¤ de forhold, som individuelt blev lagt til grund ved
 fastsættelse af kundens rentevilkår, ændrer sig eksempelsvis
 ændringer i størrelsen og omfanget af indlån, lån eller kreditter.
 .of 0mm
@@ -1042,24 +552,24 @@ mangelfuldt.
 Selv på de områder, hvor der gælder et strengere ansvar, er Banken
 ikke ansvarlig for tab, som skyldes:
 .sp
-1)¤nedbrud i/manglende adgang til IT-systemer eller beskadigelser
+1) ¤ nedbrud i/manglende adgang til IT-systemer eller beskadigelser
 af data i disse systemer, der kan henføres til nedennævnte
 begivenheder, uanset om det er Banken selv eller en ekstern
 leverandør, der står for driften af systemerne
 .sp
-2)¤svigt i Bankens strømforsyning eller telekommunikation, lo-
+2) ¤ svigt i Bankens strømforsyning eller telekommunikation, lo-
 vindgreb eller forvaltningsakter, naturkatastrofer, krig oprør,
 borgerlige uroligheder, sabotage, terror eller hærværk (herunder
 computervirus og -hacking)
 .of 0mm
 .sp
 .of 4mm
-3)¤strejke, lockout, boykot eller blokade, uanset om konflikten er
+3) ¤ strejke, lockout, boykot eller blokade, uanset om konflikten er
 rettet mod eller iværksat af Banken selv eller dens organisation,
 og uanset konfliktens årsag. Det gælder også, når konflikten kun
 rammer dele af pengeinstituttet
 .sp
-4)¤andre omstændigheder, som er uden for Bankens kontrol.
+4) ¤ andre omstændigheder, som er uden for Bankens kontrol.
 .sp
 Bankens ansvarsfrihed gælder ikke hvis:
 .sp
@@ -1634,13 +1144,13 @@ serviceydelser, som der ikke tidligere har været beregnet gebyrer
 for med 3 måneds varsel, hvis
 .sp
 .of 4mm
-1)¤de forhold, som individuelt blev lagt til grund ved
+1) ¤ de forhold, som individuelt blev lagt til grund ved
 fastsættelsen af kundens gebyrvilkår ændrer sig,
 .br
 .of 0mm
 .sp
 .of 4mm
-2)¤Banken af forretningsmæssige grunde ændrer sin prisfastsættelse
+2) ¤ Banken af forretningsmæssige grunde ændrer sin prisfastsættelse
 f. eks. for at øge indtjeningen eller opnå en mere hensigtsmæssig
 anvendelse af bankens ressourcer eller kapacitet.
 .of 0mm
@@ -1816,40 +1326,40 @@ Selv på de områder, hvor der gælder et strengere ansvar, er Banken
 ikke ansvarlig for tab, som skyldes:
 .sp
 .of 0mm
-1)¤nedbrud i/manglende adgang til IT-systemer eller beskadigelser
+1) ¤ nedbrud i/manglende adgang til IT-systemer eller beskadigelser
 af data i disse systemer, der kan henføres til nedennævnte
 begivenheder, uanset om det er Banken selv eller en ekstern
 leverandør, der står for driften af systemerne
 .of 0mm
 .sp
 .of 4mm
-2)¤svigt i Bankens strømforsyning eller telekommunikation,
+2) ¤ svigt i Bankens strømforsyning eller telekommunikation,
 lovindgreb eller forvaltningsakter, naturkatastrofer, krig oprør,
 borgerlige uroligheder, sabotage, terror eller hærværk (herunder
 computervirus og -hacking)
 .of 0mm
 .sp
 .of 4mm
-3)¤strejke, lockout, boykot eller blokade, uanset om konflikten er
+3) ¤ strejke, lockout, boykot eller blokade, uanset om konflikten er
 rettet mod eller iværksat af Banken selv eller dens organisation,
 og uanset konfliktens årsag. Det gælder også, når konflikten kun
 rammer dele af pengeinstituttet
 .of 0mm
 .sp
 .of 4mm
-4)¤andre omstændigheder, som er uden for Bankens kontrol.
+4) ¤ andre omstændigheder, som er uden for Bankens kontrol.
 .of 0mm
 .sp
 Bankens ansvarsfrihed gælder ikke hvis:
 .sp
 .of 4mm
-1)¤Banken burde have forudset det forhold, som er årsag til tabet,
+1) ¤ Banken burde have forudset det forhold, som er årsag til tabet,
 da aftalen blev indgået eller burde have undgået eller overvundet
 årsagen til tabet.
 .of 0mm
 .sp
 .of 4mm
-2)¤Lovgivningen under alle omstændigheder gør Banken ansvarlig for
+2) ¤ Lovgivningen under alle omstændigheder gør Banken ansvarlig for
 det forhold, som er årsag til tabet.
 .of 0mm
 .sp
@@ -2021,13 +1531,13 @@ kan kunden vente til den følgende hverdag.
 Kunden har ikke fortrydelsesret på aftaler om:
 .br
 .of 4mm
-1)¤Lån med pant i fast ejendom, der ydes på baggrund af
+1) ¤ Lån med pant i fast ejendom, der ydes på baggrund af
 obligationsudstedelse og handel med realkreditobligationer, herunder
 fastkursaftaler.
 .of 0mm
 .sp
 .of 4mm
-2)¤Værdipapirer eller finansielle tjenesteydelser, når værdipapirets
+2) ¤ Værdipapirer eller finansielle tjenesteydelser, når værdipapirets
 eller tjenesteydelsens pris afhænger af udsving på kapitalmarkedet.
 .of 0mm
 .sp
@@ -2200,7 +1710,38 @@ CVR-nr. &BANKSENR.
 .tm 13mm
 .bm 20mm
 ...EXITEO1
-;T.**************************************************************************
+;T
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.**************************************************************************
 .if &L'&E69VFBERH = 0
 .th .go EXITET1
 .fo on
@@ -2282,21 +1823,21 @@ uden varsel, hvis
 .tp 4mm
 .sp
 .of 4mm
-1)¤penge- eller kreditpolitiske ændringer i ind- eller udland
+1) ¤ penge- eller kreditpolitiske ændringer i ind- eller udland
 påvirker det almindelige renteniveau,
 .of 0mm
 .br
 .of 4mm
-2)¤anden udvikling i det almindelige renteniveau, herunder bl.a.
+2) ¤ anden udvikling i det almindelige renteniveau, herunder bl.a.
 på penge- og obligationsmarkederne, er af betydning for Banken,
 .of 0mm
 .sp
 .of 4mm
-3)¤fundingomkostningerne ændres,
+3) ¤ fundingomkostningerne ændres,
 .of 0mm
 .sp
 .of 4mm
-4)¤der sker ændringer i skatter og afgifter eller myndig-
+4) ¤ der sker ændringer i skatter og afgifter eller myndig-
 hedsforanstaltninger
 .of 0mm
 .sp
@@ -2305,7 +1846,7 @@ og med en måneds varsel, hvis
 .of 0mm
 .sp
 .of 4mm
-5)¤Banken - uden sammenhæng med udviklingen i det almindelige
+5) ¤ Banken - uden sammenhæng med udviklingen i det almindelige
 renteniveau - ændrer sin generelle rente- og prisfastsættelse af
 forretningsmæssige grunde, f. eks. for at øge indtjeningen eller
 opnå en mere hensigtsmæssig anvendelse af Bankens ressourcer eller
@@ -2315,19 +1856,19 @@ kapacitet,
 eller ændringen skyldes
 .sp
 .of 4mm
-6)¤øgede omkostninger ved tilvejebringelse af kapital,
+6) ¤ øgede omkostninger ved tilvejebringelse af kapital,
 .of 0mm
 .sp
 .of 4mm
-7)¤øgede bidrag til garantiordninger,
+7) ¤ øgede bidrag til garantiordninger,
 .of 0mm
 .sp
 .of 4mm
-8)¤en generel øget kreditrisiko for Banken,
+8) ¤ en generel øget kreditrisiko for Banken,
 .of 0mm
 .sp
 .of 4mm
-9)¤de forhold, som individuelt blev lagt til grund ved
+9) ¤ de forhold, som individuelt blev lagt til grund ved
 fastsættelse af kundens rentevilkår, ændrer sig eksempelsvis ændringer
 i størrelsen og omfanget af indlån, lån eller kreditter
 .of 0mm
@@ -3098,12 +2639,12 @@ som der ikke tidligere har været beregnet gebyrer for med en
 måneds varsel, hvis
 .sp
 .of 4mm
-1)¤de forhold, som individuelt blev lagt til
+1) ¤ de forhold, som individuelt blev lagt til
 grund ved fastsættelsen af kundens gebyrvilkår ændrer sig,
 .of 0mm
 .br
 .of 4mm
-2)¤Banken af forretningsmæssige grunde ændrer sin prisfastsættelse
+2) ¤ Banken af forretningsmæssige grunde ændrer sin prisfastsættelse
 f. eks. for at øge indtjeningen eller opnå en mere hensigtsmæssig
 anvendelse af Bankens ressourcer eller kapacitet.
 .of 0mm
@@ -3259,40 +2800,40 @@ Selv på de områder, hvor der gælder et strengere ansvar, er Banken
 ikke ansvarlig for tab, som skyldes:
 .sp
 .of 4mm
-1)¤nedbrud i/manglende adgang til IT-systemer eller beskadigelser
+1) ¤ nedbrud i/manglende adgang til IT-systemer eller beskadigelser
 af data i disse systemer, der kan henføres til nedennævnte
 begivenheder, uanset om det er Banken eller en ekstern leverandør,
 der står for driften af systemerne
 .of 0mm
 .sp
 .of 4mm
-2)¤svigt i Bankens strømforsyning eller telekommunikation,
+2) ¤ svigt i Bankens strømforsyning eller telekommunikation,
 lovindgreb eller forvaltningsakter, naturkatastrofer, krig oprør,
 borgerlige uroligheder, sabotage, terror eller hærværk (herunder
 computer virus og -hacking)
 .of 0mm
 .sp
 .of 4mm
-3)¤strejke, lockout, boykot eller blokade, uanset om konflikten er
+3) ¤ strejke, lockout, boykot eller blokade, uanset om konflikten er
 rettet mod eller iværksat af Banken selv eller dens organisation,
 og uanset konfliktens årsag. Det gælder også, når konflikten kun
 rammer dele af pengeinstituttet
 .of 0mm
 .sp
 .of 4mm
-4)¤andre omstændigheder, som er uden for Bankens kontrol.
+4) ¤ andre omstændigheder, som er uden for Bankens kontrol.
 .of 0mm
 .sp
 Bankens ansvarsfrihed gælder ikke hvis:
 .br
 .of 4mm
-1)¤Banken burde have forudset det forhold, som er årsag til tabet,
+1) ¤ Banken burde have forudset det forhold, som er årsag til tabet,
 da aftalen blev indgået eller burde have undgået eller overvundet
 årsagen til tabet
 .of 0mm
 .sp
 .of 4mm
-2)¤lovgivningen under alle omstændigheder gør Banken ansvarlig for
+2) ¤ lovgivningen under alle omstændigheder gør Banken ansvarlig for
 det forhold, som er årsag til tabet.
 .of 0mm
 .sp
@@ -3472,3 +3013,465 @@ fra 1. november 2015.
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
 ...EXITNS
+.*
+.su off
+.se day = substr &FRIDATO 1 2
+.se year = substr &DATO 7 4
+.se month = substr &FRIDATO 4 2
+.se fridd = substr &FRIDATO 1 2
+.se frimm = substr &FRIDATO 4 2
+.se friyy = substr &FRIDATO 7 4
+.*************************************************************************
+.*DAN DAG MED 1 CIFFER OG MÅNED SOM TEKST FOR &FRIDATO                   *
+.*************************************************************************
+.if &day < 10
+.th .se day = substr &fridd 2 1
+.if &month = 01
+.th .se month = januar
+.if &month = 02
+.th .se month = februar
+.if &month = 03
+.th .se month = marts
+.if &month = 04
+.th .se month = april
+.if &month = 05
+.th .se month = maj
+.if &month = 06
+.th .se month = juni
+.if &month = 07
+.th .se month = juli
+.if &month = 08
+.th .se month = august
+.if &month = 09
+.th .se month = september
+.if &month = 10
+.th .se month = oktober
+.if &month = 11
+.th .se month = november
+.if &month = 12
+.th .se month = december
+.*************************************************************************
+.*DAN DAG MED 1 CIFFER OG MÅNED SOM TEKST FOR &FRIDATO                   *
+.*************************************************************************
+.if &fridd < 10
+.th .se fridd = substr &fridd 2 1
+.if &frimm = 01
+.th .se frimm = januar
+.if &frimm = 02
+.th .se frimm = februar
+.if &frimm = 03
+.th .se frimm = marts
+.if &frimm = 04
+.th .se frimm = april
+.if &frimm = 05
+.th .se frimm = maj
+.if &frimm = 06
+.th .se frimm = juni
+.if &frimm = 07
+.th .se frimm = juli
+.if &frimm = 08
+.th .se frimm = august
+.if &frimm = 09
+.th .se frimm = september
+.if &frimm = 10
+.th .se frimm = oktober
+.if &frimm = 11
+.th .se frimm = november
+.if &frimm = 12
+.th .se frimm = december
+.su on
+.*DAN MÅNED FOR FRIDATO SOM TEKST ****************************************
+.*************************************************************************
+.*TEST PÅ UDFYLDELSE AF ALLE MEDUNDERSKRIVER I FORTLØBENDE RÆKKEFØLGE    *
+.*10. medunderskriver/medkontohaver må ikke være udfyldt, hvis 9. ikke er*
+.************************************************************************
+.if &L'&MEDNAVN10 > 0
+.an &L'&MEDNAVN9 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN9 > 0
+.an &L'&MEDNAVN8 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN8 > 0
+.an &L'&MEDNAVN7 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN7 > 0
+.an &L'&MEDNAVN6 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN6 > 0
+.an &L'&MEDNAVN5 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN5 > 0
+.an &L'&MEDNAVN4 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN4 > 0
+.an &L'&MEDNAVN3 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN3 > 0
+.an &L'&MEDNAVN2 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN2 > 0
+.an &L'&MEDNAVN = 0
+.th .go INDFEJL
+.go INDOK
+...INDFEJL
+.mg/T/Medunderskrivere skal udfyldes i fortløbende rækkefølge/
+...INDOK
+.********************GENEREL OPSÆTNING*************************************
+:VERDA09.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER - HØJRE****************************
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************AREAL-DEFINITIONER - VENSTRE**************************
+.da KUNDEOPL 20mm 40mm width 100mm
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.*.ir 0mm
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 56mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.dr thin weight 0.2mm
+.dr boxthin weight 0.1mm
+.**************************************************************************
+har i dag indgået aftale med &BANKNAVN. om oprettelse af
+en "&REGTYPELNG." på følgende vilkår:
+.sp
+:FED.
+Opsparing
+:SKRSLUT.
+.br
+Indskud, der udgør kr. 12,00 indsættes på ovennævnte konto og
+tilbagebetales 1. bankdag efter &fridd.. &frimm. &friyy.. Udløber
+bindingsperioden på en banklukkedag vil udløb af kontoen ske på
+førstkommende bankdag herefter.
+.sp
+:FED.
+Forrentning
+:SKRSLUT.
+.br
+Kreditrente udgør for tiden:
+.sp
+.tp 65mm right 75mm 142mm right
+.us Beregningsmåde ¤ Beløbsgrænse ¤ Fast/variabel ¤ Procentsats p.a.
+.sp 1mm
+knæk ¤ &KRETRIN1. ¤ variabel ¤ &TOTKRE1.
+.sp 1mm
+knæk ¤ &KRETRIN2. ¤ variabel ¤ &TOTKRE2.
+.sp 1mm
+knæk ¤ &KRETRIN3. ¤ variabel ¤ &TOTKRE3.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den 31-12-&year..
+.sp
+&BANKNAVN. forrenter det indsatte beløb med en fast rente
+i perioden fra &day.. &month. &year. til &fridd.. &frimm. &friyy..
+Der kan
+maksimalt indskydes 5.000.000 kr., og der skal minimum stå 25.000
+kr. på kontoen i hele bindingsperioden for at opnå den høje rente.
+.sp
+Renter overføres automatisk til konto nr. &E69GENLKTO. ved
+rentetilskrivning.
+.sp
+Ved udløb ændres kontoen automatisk til en ny kontoform "Højrente
+- udløbet", der forrentes med 0,00%.
+.sp
+Der kan ikke ske udbetaling i bindingsperioden.
+.sp
+I ekstraordinære tilfælde kan der hæves fra kontoen mod betaling
+af en dekort.
+.sp
+Hændelser, der betragtes som ekstraordinære er dødsfald, kritisk
+sygdom, skilsmisse eller lignende uforudsete hændelser.
+.sp
+Dekorten beregnes på følgende måde:
+.sp
+.tp 7mm
+* ¤ For hver 12 måneder, der er tilbage i aftaleperioden, beregnes 1% af det
+hævede beløb.
+.br
+* ¤ For resterende dage/måneder derudover beregnes yderligere 1%.
+.sp
+Hvis de renter, der er optjent i perioden fra
+&day.. &month. &year. og
+frem til udbetalingstidspunktet er mindre end beregnet, betales en
+dekort der svarer til optjente renter.
+.sp
+I øvrigt henvises til &BANKNAVN.'s "Almindelige forretningsbetingelser".
+.*************************************************************************
+.da CHECKBOX1 26mm 160.5mm width 10mm
+.da CHECKBOX2 26mm 165.4mm width 10mm
+.da CHECKBOX3 26mm 170.3mm width 10mm
+.*************************************************************************
+.* .ar CHECKBOX on
+.*** Er alle tre disponeringsfelter valgt ********************************
+.if &L'&GENVALGA > 0
+.an &L'&GENVALGB > 0
+.an &L'&E69GENLKTO > 0
+.th .ar CHECKBOX1 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.* .th .ar off
+.* .th .ar CHECKBOX2 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.* .th .ar off
+.* .th .ar CHECKBOX3 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.th .ar off
+.th .go NOBOX
+.if &L'&GENVALGA > 0
+.an &L'&GENVALGB > 0
+.th .ar CHECKBOX1 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.* .th .ar off
+.* .th .ar CHECKBOX2 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.th .ar off
+.th .go NOBOX
+.if &L'&GENVALGA > 0
+.an &L'&E69GENLKTO > 0
+.th .ar CHECKBOX1 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.* .th .ar off
+..* th .ar CHECKBOX2 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.th .ar off
+.th .go NOBOX
+.if &L'&GENVALGB > 0
+.an &L'&E69GENLKTO > 0
+.th .ar CHECKBOX1 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.* .th .ar off
+.* .th .ar CHECKBOX2 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.th .ar off
+.th .go NOBOX
+.if &L'&GENVALGA > 0
+.or &L'&GENVALGB > 0
+.or &L'&E69GENLKTO > 0
+.th .ar CHECKBOX1 on
+.th .bx 2mm 5mm
+.th .sp 1mm
+.th .bx off
+.th .ar off
+...NOBOX
+.ar off
+.*******************************
+.**************************************************************************
+.dr tynd weight 0.2mm
+.tp 02mm 72mm
+.***************************
+.* .tp 2mm
+.* .in 0mm
+.********kontohaver og medunderskriver/medkontohaver
+.if &L'&MEDNAVN > 0
+.th .go MEDNV1
+.el .go MEDNV0
+...MEDNV0
+.kp on
+.sp 15mm
+ ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm
+ ¤ &KTONAVN.
+.kp off
+.go SNBUND
+...MEDNV1
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &KTONAVN ¤ &MEDNAVN
+.kp off
+.********2. og/eller 3. medunderskriver/medkontohaver
+.if &L'&MEDNAVN2 > 0
+.an &L'&MEDNAVN3 > 0
+.th .go MEDNV3
+.el .go MEDNV2
+...MEDNV2
+.if &L'&MEDNAVN2 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN2
+.th .kp off
+.go SNBUND
+...MEDNV3
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN2. ¤ &MEDNAVN3.
+.kp off
+.********4. og/eller 5. medunderskriver/medkontohaver
+.if &L'&MEDNAVN4 > 0
+.an &L'&MEDNAVN5 > 0
+.th .go MEDNV5
+.el .go MEDNV4
+...MEDNV4
+.if &L'&MEDNAVN4 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN4
+.th .kp off
+.go SNBUND
+...MEDNV5
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN4. ¤ &MEDNAVN5.
+.kp off
+.********6. og/eller 7. medunderskriver/medkontohaver
+.if &L'&MEDNAVN6 > 0
+.an &L'&MEDNAVN7 > 0
+.th .go MEDNV7
+.el .go MEDNV6
+...MEDNV6
+.if &L'&MEDNAVN6 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN6.
+.th .kp off
+.go SNBUND
+...MEDNV7
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN6. ¤ &MEDNAVN7.
+.kp off
+.********8. og/eller 9. medunderskriver/medkontohaver
+.if &L'&MEDNAVN8 > 0
+.an &L'&MEDNAVN9 > 0
+.th .go MEDNV9
+.el .go MEDNV8
+...MEDNV8
+.if &L'&MEDNAVN8 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN8
+.th .kp off
+.go SNBUND
+...MEDNV9
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN8. ¤ &MEDNAVN9.
+.kp off
+.********10. medunderskriver/medkontohaver
+.if &L'&MEDNAVN10 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN10
+.th .kp off
+... SNBUND
+.kp on
+.sp 15mm
+ ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm
+:FED.
+ ¤ &BANKNAVN.
+.kp off
+:SKRSLUT.
+.rh cancel
+

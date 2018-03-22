@@ -11,192 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.************** HB DOKUMENT TEST   ***************************************
-.se tal = 0
-.se sep1 = ''
-.se sep2 = ''
-.se sep3 = ''
-.se stal = 0
-.if &L'&SÆRBET1A = 0
-.th .go EJMSLUT
-.*if x&tal = x1
-.se  str = '&SÆRBET1A.'
-.se lstr = &L'&str
-...IGEN
-.*if &L'&SÆRBET1A = 0
-.if &tal > &lstr
-.th .go MSLUT
-.se tal = &tal + 1
-.se ldoktst = &L'&SÆRBET1A
-.if x&ldoktst = x0
-.th .se ldokrst = 0
-.el .se ldokrst = &ldoktst - 1
-.se DOKTST = SUBSTR '&SÆRBET1A.' 1 1
-.se DOKTXT = SUBSTR '&SÆRBET1A.' 2 &ldokrst
-...NUL
-.if x&DOKTST ne x( .and x&tal = x1
-.th .go EJMSLUT
-.el .se SÆRBET1A = '&DOKTXT.'
-.*.el .se PRIOPF   = 1
-.if x&DOKTST = x)
-.th .se SÆRBET1A = '&DOKTXT.'
-.th .se stal = &tal
-.* SIDSTE PARAMETER (3)**************
-.se bsep1 = 2
-.*** HVIS ) ER KOMMET, MEN DER IKKE ER ! TIL ALLE PARAMETRE **
-.if &tal. gt &stal .AN x&stal. ne x0
-.el .go PARMTST
-.if &L'&sep1 = 0
-.th .se  sep1 = &stal.
-.th .se bsep2 = &stal. + 1
-.if x&sep1 = x&stal .and &bsep1 > &sep1
-.th .se lsep1 = 0
-.el .se lsep1 = &sep1 - &bsep1
-.if &L'&sep2 = 0
-.th .se  sep2 = &stal.
-.th .se bsep3 = &stal. + 1
-.if x&sep2 = x&stal .and &bsep2 > &sep2
-.th .se lsep2 = 0
-.el .se lsep2 = &sep2 - &bsep2
-.if &L'&sep3 = 0
-.th .se  sep3 = &stal.
-.th .se bsep4 = &stal. + 1
-.if x&sep3 = x&stal .and &bsep3 > &sep3
-.th .se lsep3 = 0
-.el .se lsep3 = &sep3 - &bsep3
-...PARMTST
-.if x&DOKTST = x) .and x&sep1 ne x .and x&sep2 ne x
-.th .se  sep3 = &tal
-.th .se lsep3 = &sep3 - &bsep3
-.if x&DOKTST  = x! .and x&sep1 ne x .and x&sep2 = x
-.th .se  sep2 = &tal
-.th .se lsep2 = &sep2 - &bsep2
-.th .se bsep3 = &tal + 1
-.if x&DOKTST  = x! .and x&sep1 = x .and x&sep2 = x
-.th .se  sep1 = &tal
-.th .se lsep1 = &sep1 - &bsep1
-.th .se bsep2 = &tal + 1
-.IF x&tal = x30
-.th go MSLUT
-.if &tal < 29
-.th .go IGEN
-...MSLUT
-.if x&stal = x0
-.th .go FEJL
-.se srstr = &stal + 1
-.***
-.go EJGL
-.if &L'&sep1 = 0
-.th .se sep1 = &stal
-.if &L'&sep1 ne 0 .and &sep1 gt 2
-.th .se lsep1 = &sep1 - 2
-.se lsep2 = &sep2 - 2
-.if &L'&sep2 = 0
-.th .se sep2 = &stal
-.if &L'&sep2 ne 0 .and &sep2 gt 2
-.th .se lsep2 = &sep2 - 2
-.if &L'&sep2 ne 0 .and &sep2 gt &sep1
-...EJGL
-.***
-.se SÆRBET1A = SUBSTR '&str.' &srstr.
-.se par1     = SUBSTR '&str.' 2 &lsep1.
-.se par2     = SUBSTR '&str.' &bsep2. &lsep2.
-.se par3     = SUBSTR '&str.' &bsep3. &lsep3.
-.* SÆT PARAMETER FOR NORMAL FASTLÅN ****
-.* SKER VED LABEL  EJMSLUT *****
-.*** SÆT PARAMETER FOR PRIORITETSLÅN
-.if x&U'&par1 = xPRIO2
-.th .se PRIOPF2  = 2
-.if x&U'&par1 = xPRIOFAST
-.th .se PRIOFAST  = 1
-.th .se EJSTOP    = 1
-.if x&U'&par1 = xPRIOVAR
-.th .se PRIOVAR   = 1
-.th .se EJSTOP    = 1
-.if x&U'&par1 = xPRIOKREDIT
-.th .se PRIOKRED  = 1
-.th .se EJSTOP    = 1
-.go EJMSLUT
-.**************************
-...FEJL
-.sp 25mm
-Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEBITOR2
-.sp 25mm
-DER ER FEJL I DOKUMENT TESTSTRENGEN:
- 
-FORMAT i førsteposition af særlige bemærkinger:
-.sp
-(PrioFast) eller (PrioVar) eller (ProiKredit)
-.*(PrioFast!xx)
-.br
-.* xx = Rentebindingsperiode i antal måneder
-.sp 10mm
- 
-DU HAR SKREVET:
- 
-&str.
- 
-.qu
-.**************************
-...EJMSLUT
-.******* TEST ***
-.*** SÆT PARAMETER FOR NORMAL FASTLÅN
-.if x&par1  = x
-.or &E'&par1  = 0
-.th .se NORMAL   = 1
-.******* TESTPARAMETRE UDSKRIVES ***
-.if x&U'&par3 ne xTEST
-.th .go SLUTTEST
-.da TESTa 20mm 260mm
-.ar TESTa on
- 
- PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
-tal = &tal stal = &stal
-.br
-Særlige betingelser:
-'&SÆRBET1A.' '&SÆRBET1B.'
-.br
-sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
-par1='&par1.'par2='&par2.'par3 = '&par3.'
-.br
-srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
-bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
-bsep3 = &bsep3 lsep3=&lsep3
-.ar off
-...SLUTTEST
-.******* TEST SLUT ***
-.*************** GENEREL OPSÆTNING ***************************************
-.* BREVNAVN ÆNDRET FRA FAST TEKST til parameter BREVNAVN 18.2.2002 ES
-.ti ¤ 05
-:COUR10.
-.fo left
-.**********
-.***Parametren AFTDATO10 har ændret længed til 22. Bruges nu til dato
-.***eller til en tekst. Dette gælder kun for Nykredit B32 B58
-.**Rettet den 19 juni ***************************************
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** GENEREL OPSÆTNING AF VARIABLE DOKUMENTER ****************
-.se lovskr 'Kreditaftale - Privat'
-.se brevnavn '&BREVNAVN.'
-.if x&U'&PRIOKRED = x1
-.th .se lovskr 'Prioritetskredit - Privat'
-.th .se brevnavn '&BREVNAVN.PK'
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&brevnavn.
-.br
-Kl. &TID
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us &lovskr
-:SKRSLUT.
-.ar off
-.*************************************************************************
 .**********************************************************
 .da SIDENR 142mm 33mm width 60mm
 .**********************************************************
@@ -613,3 +427,190 @@ Sikkerheder
 &SIKHED22A.&SIKHED22B
 .br
 .ar off
+.************** HB DOKUMENT TEST   ***************************************
+.se tal = 0
+.se sep1 = ''
+.se sep2 = ''
+.se sep3 = ''
+.se stal = 0
+.if &L'&SÆRBET1A = 0
+.th .go EJMSLUT
+.*if x&tal = x1
+.se  str = '&SÆRBET1A.'
+.se lstr = &L'&str
+...IGEN
+.*if &L'&SÆRBET1A = 0
+.if &tal > &lstr
+.th .go MSLUT
+.se tal = &tal + 1
+.se ldoktst = &L'&SÆRBET1A
+.if x&ldoktst = x0
+.th .se ldokrst = 0
+.el .se ldokrst = &ldoktst - 1
+.se DOKTST = SUBSTR '&SÆRBET1A.' 1 1
+.se DOKTXT = SUBSTR '&SÆRBET1A.' 2 &ldokrst
+...NUL
+.if x&DOKTST ne x( .and x&tal = x1
+.th .go EJMSLUT
+.el .se SÆRBET1A = '&DOKTXT.'
+.*.el .se PRIOPF   = 1
+.if x&DOKTST = x)
+.th .se SÆRBET1A = '&DOKTXT.'
+.th .se stal = &tal
+.* SIDSTE PARAMETER (3)**************
+.se bsep1 = 2
+.*** HVIS ) ER KOMMET, MEN DER IKKE ER ! TIL ALLE PARAMETRE **
+.if &tal. gt &stal .AN x&stal. ne x0
+.el .go PARMTST
+.if &L'&sep1 = 0
+.th .se  sep1 = &stal.
+.th .se bsep2 = &stal. + 1
+.if x&sep1 = x&stal .and &bsep1 > &sep1
+.th .se lsep1 = 0
+.el .se lsep1 = &sep1 - &bsep1
+.if &L'&sep2 = 0
+.th .se  sep2 = &stal.
+.th .se bsep3 = &stal. + 1
+.if x&sep2 = x&stal .and &bsep2 > &sep2
+.th .se lsep2 = 0
+.el .se lsep2 = &sep2 - &bsep2
+.if &L'&sep3 = 0
+.th .se  sep3 = &stal.
+.th .se bsep4 = &stal. + 1
+.if x&sep3 = x&stal .and &bsep3 > &sep3
+.th .se lsep3 = 0
+.el .se lsep3 = &sep3 - &bsep3
+...PARMTST
+.if x&DOKTST = x) .and x&sep1 ne x .and x&sep2 ne x
+.th .se  sep3 = &tal
+.th .se lsep3 = &sep3 - &bsep3
+.if x&DOKTST  = x! .and x&sep1 ne x .and x&sep2 = x
+.th .se  sep2 = &tal
+.th .se lsep2 = &sep2 - &bsep2
+.th .se bsep3 = &tal + 1
+.if x&DOKTST  = x! .and x&sep1 = x .and x&sep2 = x
+.th .se  sep1 = &tal
+.th .se lsep1 = &sep1 - &bsep1
+.th .se bsep2 = &tal + 1
+.IF x&tal = x30
+.th go MSLUT
+.if &tal < 29
+.th .go IGEN
+...MSLUT
+.if x&stal = x0
+.th .go FEJL
+.se srstr = &stal + 1
+.***
+.go EJGL
+.if &L'&sep1 = 0
+.th .se sep1 = &stal
+.if &L'&sep1 ne 0 .and &sep1 gt 2
+.th .se lsep1 = &sep1 - 2
+.se lsep2 = &sep2 - 2
+.if &L'&sep2 = 0
+.th .se sep2 = &stal
+.if &L'&sep2 ne 0 .and &sep2 gt 2
+.th .se lsep2 = &sep2 - 2
+.if &L'&sep2 ne 0 .and &sep2 gt &sep1
+...EJGL
+.***
+.se SÆRBET1A = SUBSTR '&str.' &srstr.
+.se par1     = SUBSTR '&str.' 2 &lsep1.
+.se par2     = SUBSTR '&str.' &bsep2. &lsep2.
+.se par3     = SUBSTR '&str.' &bsep3. &lsep3.
+.* SÆT PARAMETER FOR NORMAL FASTLÅN ****
+.* SKER VED LABEL  EJMSLUT *****
+.*** SÆT PARAMETER FOR PRIORITETSLÅN
+.if x&U'&par1 = xPRIO2
+.th .se PRIOPF2  = 2
+.if x&U'&par1 = xPRIOFAST
+.th .se PRIOFAST  = 1
+.th .se EJSTOP    = 1
+.if x&U'&par1 = xPRIOVAR
+.th .se PRIOVAR   = 1
+.th .se EJSTOP    = 1
+.if x&U'&par1 = xPRIOKREDIT
+.th .se PRIOKRED  = 1
+.th .se EJSTOP    = 1
+.go EJMSLUT
+.**************************
+...FEJL
+.sp 25mm
+Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEBITOR2
+.sp 25mm
+DER ER FEJL I DOKUMENT TESTSTRENGEN:
+ 
+FORMAT i førsteposition af særlige bemærkinger:
+.sp
+(PrioFast) eller (PrioVar) eller (ProiKredit)
+.*(PrioFast!xx)
+.br
+.* xx = Rentebindingsperiode i antal måneder
+.sp 10mm
+ 
+DU HAR SKREVET:
+ 
+&str.
+ 
+.qu
+.**************************
+...EJMSLUT
+.******* TEST ***
+.*** SÆT PARAMETER FOR NORMAL FASTLÅN
+.if x&par1  = x
+.or &E'&par1  = 0
+.th .se NORMAL   = 1
+.******* TESTPARAMETRE UDSKRIVES ***
+.if x&U'&par3 ne xTEST
+.th .go SLUTTEST
+.da TESTa 20mm 260mm
+.ar TESTa on
+ 
+ PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
+tal = &tal stal = &stal
+.br
+Særlige betingelser:
+'&SÆRBET1A.' '&SÆRBET1B.'
+.br
+sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
+par1='&par1.'par2='&par2.'par3 = '&par3.'
+.br
+srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
+bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
+bsep3 = &bsep3 lsep3=&lsep3
+.ar off
+...SLUTTEST
+.******* TEST SLUT ***
+.*************** GENEREL OPSÆTNING ***************************************
+.* BREVNAVN ÆNDRET FRA FAST TEKST til parameter BREVNAVN 18.2.2002 ES
+.ti ¤ 05
+:COUR10.
+.fo left
+.**********
+.***Parametren AFTDATO10 har ændret længed til 22. Bruges nu til dato
+.***eller til en tekst. Dette gælder kun for Nykredit B32 B58
+.**Rettet den 19 juni ***************************************
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** GENEREL OPSÆTNING AF VARIABLE DOKUMENTER ****************
+.se lovskr 'Kreditaftale - Privat'
+.se brevnavn '&BREVNAVN.'
+.if x&U'&PRIOKRED = x1
+.th .se lovskr 'Prioritetskredit - Privat'
+.th .se brevnavn '&BREVNAVN.PK'
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&brevnavn.
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us &lovskr
+:SKRSLUT.
+.ar off
+.*************************************************************************
+

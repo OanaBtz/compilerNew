@@ -1,3 +1,66 @@
+.if &U'&B30MEDSKUN ne J
+.th .go SLUTO1
+.*************************
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 162mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30KUN01
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+KUNDEOPRETTELSE
+:SKRSLUT.
+.ar off
+.***************************************
+.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 41,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+.**************
+...SLUTO1
+.if &U'&B30MEDSKUN ne J
+.th .go SLUTO2
+.*************************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.****************
+.ar VEND on
+:CALIB8.
+B30KUN01
+.ar off
+.****************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...SLUTO2
+.***********
 .kp on
 .sp6
 :FED.
@@ -6,11 +69,11 @@ Kundeoprettelse
 .sp3
 .tp 24mm 87mm
 .if &cprcvr = 00
-.th Navn: ¤&KTONAVN  ¤CVR-nr.: &KTOKNDNR1
+.th Navn: ¤ &KTONAVN  ¤ CVR-nr.: &KTOKNDNR1
 .th .go TSTMEDK
 .if &cprcvr > 31
-.th Navn: ¤&KTONAVN  ¤KND-nr.: &KTOKNDNR1
-.el Navn: ¤&KTONAVN  ¤CPR-nr.: &KTOKNDNR1
+.th Navn: ¤ &KTONAVN  ¤ KND-nr.: &KTOKNDNR1
+.el Navn: ¤ &KTONAVN  ¤ CPR-nr.: &KTOKNDNR1
 .****
 ...TSTMEDK
 .if &U'&GENMEDKTOH ne J
@@ -20,32 +83,32 @@ Kundeoprettelse
 .th .go EJMEDKON
 .br
 .if &mcprcvr = 00
-.th Medkto.haver: ¤&MEDNAVN ¤CVR-nr.: &mktoh1.&mktoh2
+.th Medkto.haver: ¤ &MEDNAVN ¤ CVR-nr.: &mktoh1.&mktoh2
 .th .go EJMEDKON
 .if &mcprcvr > 31
-.th Medkto.haver: ¤&MEDNAVN ¤KND-nr.: &mktoh1.&mktoh2
-.el Medkto.haver: ¤&MEDNAVN ¤CPR-nr.: &mktoh1.&mktoh2
+.th Medkto.haver: ¤ &MEDNAVN ¤ KND-nr.: &mktoh1.&mktoh2
+.el Medkto.haver: ¤ &MEDNAVN ¤ CPR-nr.: &mktoh1.&mktoh2
 .******
 ...EJMEDKON
 .if &L'&KTOCO > 0
 .th .br
-.th Coadr: ¤&KTOCO
+.th Coadr: ¤ &KTOCO
 .*****
 .br
-Adresse: ¤&KTOGADE
+Adresse: ¤ &KTOGADE
 .br
-Postnr.: ¤&KTOBY
+Postnr.: ¤ &KTOBY
 .if &L'&KTOLAND > 0
 .th .br
-.th Land: ¤&KTOLAND
+.th Land: ¤ &KTOLAND
 .***********KONTONUMMER*********************
 .sp
-Konto-nr: ¤&IREGKTO
+Konto-nr: ¤ &IREGKTO
 .**** INDBERETNINGSPLIGTIGT KUNDENR PÅ KONSTRUEREDE KUNDER (43) ****
 .if &cprcvr = 43
 .an &L'&B30INDCPR gt 0
 .th .br
-.th Indberetningspligtigt kundenr: ¤¤&B30INDCPR
+.th Indberetningspligtigt kundenr: ¤ ¤ &B30INDCPR
 .************** ekstra space ved ny kundeopret og CVRnr samt 43 nr.***
 .sp
 .*** Ved kundeoprettelse til virksomheder ***********
@@ -190,12 +253,12 @@ Sammen med kundeoprettelsen i fotokopi
 .th ¤
 .th .br
 .th .tp 20mm 80mm
-.th Dato ¤&KTONAVN ¤&MEDNAVN
+.th Dato ¤ &KTONAVN ¤ &MEDNAVN
 .el .tp _/80mm
 .el ¤
 .el .br
 .el .tp 20mm
-.el Dato ¤&KTONAVN
+.el Dato ¤ &KTONAVN
 .***********
 ...UNDSL
 .if &U'&GENMRK = J
@@ -206,66 +269,4 @@ Sammen med kundeoprettelsen i fotokopi
 .th evt. mærke
 .kp off
 .********************
-.if &U'&B30MEDSKUN ne J
-.th .go SLUTO2
-.*************************
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.****************
-.ar VEND on
-:CALIB8.
-B30KUN01
-.ar off
-.****************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-...SLUTO2
-.***********
-.if &U'&B30MEDSKUN ne J
-.th .go SLUTO1
-.*************************
-.fo left
-.ti ¤ 05
-:CALIB10.
-.ls by 1.25
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 39,5mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da DATO 162mm 83,5mm width 42,5mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-B30KUN01
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-KUNDEOPRETTELSE
-:SKRSLUT.
-.ar off
-.***************************************
-.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 41,5mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 130mm
-.in 2mm
-.**************
-...SLUTO1
+

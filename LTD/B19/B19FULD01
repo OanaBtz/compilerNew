@@ -11,6 +11,50 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Fuldmagt i alle forhold - Tekstpåføring 2
+.**** 3. FULDMAGTSHAVER ***************************
+.ar FULDM3TEG
+.if .&BECPJN3 = .1
+.th alene
+.if .&BECPJN3 = .2
+.th i forening
+.ar off
+.ar FULDM3
+&BECNAVN403
+.br
+&BECCO403
+.br
+&BECGADE403
+.br
+&BECBY403
+.ar FULDM3CPR on
+&BECCPR03
+.ar off
+.**** 4. FULDMAGTSHAVER ***************************
+.ar FULDM4TEG
+.if .&BECPJN4 = .1
+.th alene
+.if .&BECPJN4 = .2
+.th i forening
+.ar off
+.ar FULDM4
+&BECNAVN404
+.br
+&BECCO404
+.br
+&BECGADE404
+.br
+&BECBY404
+.ar FULDM4CPR on
+&BECCPR04
+.ar off
+.**** DATO ****************************************
+.ar DATO on
+&DATO8
+.ar off
+.ar UNDERSKR on
+.ce &NAVN
+.ar off
 .* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
 .* i kundens netbank - afsnittet indsættes efter KUNDEUD1
 .**************************************************************************
@@ -57,81 +101,6 @@
 .BR
 :ENY.
 .* Parameterafsnit
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -182,6 +151,81 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .**Fuldmagt i alle forhold - Kasser og ledetekst
 .ti ¤ 05
 .fo left
@@ -196,21 +240,21 @@ Parter
 .bx left right
 .tp 1mm 91mm
 :SWISS8.
-¤Fuldmagtsgiver
+ ¤ Fuldmagtsgiver
 :SKRSLUT.
 .sp 14mm
 :SWISS8.
-¤¤CPR-/SE-nr.
+ ¤ ¤ CPR-/SE-nr.
 :SKRSLUT.
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤Pengeinstitut
+ ¤ Pengeinstitut
 :SKRSLUT.
 .sp 12.5mm
 :SWISS8.
-¤¤Reference
+ ¤ ¤ Reference
 :SKRSLUT.
 .bx off
 .**********************************
@@ -221,53 +265,53 @@ Fuldmagt og underskriftsprøve
 .bx left 90mm right
 .tp 1mm 91mm 145mm
 :SWISS8.
-¤Undertegnede bemyndiger herved med fuld bindende virkning
-.ct ¤Angiv om fuldmagt er gældende ALENE eller I FORENING
-¤for mig/os
+ ¤ Undertegnede bemyndiger herved med fuld bindende virkning
+.ct ¤ Angiv om fuldmagt er gældende ALENE eller I FORENING
+ ¤ for mig/os
 :SKRSLUT.
 .bx off
 .***** 1. FULDMAGTSHAVER ***********
 .bx set left 90mm right
 :SWISS8.
-¤Fuldmagtshaver
-.ct ¤der underskriver og tegner:
+ ¤ Fuldmagtshaver
+.ct ¤ der underskriver og tegner:
 :SKRSLUT.
 .sp 15mm
 :SWISS8.
-¤CPR-nr.
+ ¤ CPR-nr.
 :SKRSLUT.
 .bx off
 .***** 2. FULDMAGTSHAVER ***********
 .bx set left 90mm right
 :SWISS8.
-¤Fuldmagtshaver
-.ct ¤der underskriver og tegner:
+ ¤ Fuldmagtshaver
+.ct ¤ der underskriver og tegner:
 :SKRSLUT.
 .sp 15mm
 :SWISS8.
-¤CPR-nr.
+ ¤ CPR-nr.
 :SKRSLUT.
 .bx off
 .***** 3. FULDMAGTSHAVER ***********
 .bx set left 90mm right
 :SWISS8.
-¤Fuldmagtshaver
-.ct ¤der underskriver og tegner:
+ ¤ Fuldmagtshaver
+.ct ¤ der underskriver og tegner:
 :SKRSLUT.
 .sp 15mm
 :SWISS8.
-¤CPR-nr.
+ ¤ CPR-nr.
 :SKRSLUT.
 .bx off
 .***** 4. FULDMAGTSHAVER ***********
 .bx set left 90mm right
 :SWISS8.
-¤Fuldmagtshaver
-.ct ¤der underskriver og tegner:
+ ¤ Fuldmagtshaver
+.ct ¤ der underskriver og tegner:
 :SKRSLUT.
 .sp 15mm
 :SWISS8.
-¤CPR-nr.
+ ¤ CPR-nr.
 :SKRSLUT.
 .bx off
 .***** BETINGELSER *****************
@@ -284,7 +328,7 @@ Underskrifter
 .bx left right
 .tp 1mm 57mm 91mm 136mm  _/170mm
 :SWISS8.
-¤Underskrift af fuldmagtsgiver ¤¤¤Dato:
+ ¤ Underskrift af fuldmagtsgiver ¤ ¤ ¤ Dato:
 .sp 19.5mm
 .bx off
 .********************TIL VITTERLIGHED *************************************
@@ -301,21 +345,21 @@ Vitterlighedsvidner
 :SWISS8.
 .bx left right
 .sp
-¤Til vitterlighed om ægte underskrift(er), dateringens rigtighed og
+ ¤ Til vitterlighed om ægte underskrift(er), dateringens rigtighed og
 udstederens/udstedernes myndighed:
 .sp
 .bx left 90mm right
 .tp 1mm 57mm 91mm _/170mm
 .sp 7mm
-¤Navn: ¤¤Navn:
+ ¤ Navn: ¤ ¤ Navn:
 .sp 4mm
-¤Stilling: ¤¤Stilling:
+ ¤ Stilling: ¤ ¤ Stilling:
 .sp 4mm
-¤Adresse: ¤¤Adresse:
+ ¤ Adresse: ¤ ¤ Adresse:
 .sp 4mm
-¤Postnr./by: ¤¤Postnr./by:
+ ¤ Postnr./by: ¤ ¤ Postnr./by:
 .sp 4mm
-¤Underskrift: ¤¤Underskrift:
+ ¤ Underskrift: ¤ ¤ Underskrift:
 :SKRSLUT.
 .bx off
 .go END
@@ -323,19 +367,19 @@ udstederens/udstedernes myndighed:
 ...1VIT
 .bx left right
 .sp
-¤Til vitterlighed om ægte underskrift(er), dateringens rigtighed og
+ ¤ Til vitterlighed om ægte underskrift(er), dateringens rigtighed og
 udstederens/udstedernes myndighed:
 .sp 7mm
 .tp 1mm _/90mm
-¤Navn
+ ¤ Navn
 .sp 4mm
-¤Stilling
+ ¤ Stilling
 .sp 4mm
-¤Adresse
+ ¤ Adresse
 .sp 4mm
-¤Postnr./by
+ ¤ Postnr./by
 .sp 4mm
-¤Underskrift
+ ¤ Underskrift
 .sp 2mm
 .bx off
 .go END
@@ -388,40 +432,6 @@ B19FULD01
 :SKRSLUT.
 .ar off
 .*************************************************************************
-.th alene
-.if .&BECPJN1 = .2
-.th i forening
-.ar off
-.ar FULDM1
-&BECNAVN401
-.br
-&BECCO401
-.br
-&BECGADE401
-.br
-&BECBY401
-.ar FULDM1CPR on
-&BECCPR01
-.ar off
-.**** 2. FULDMAGTSHAVER ***************************
-.ar FULDM2TEG
-.if .&BECPJN2 = .1
-.th alene
-.if .&BECPJN2 = .2
-.th i forening
-.ar off
-.ar FULDM2
-&BECNAVN402
-.br
-&BECCO402
-.br
-&BECGADE402
-.br
-&BECBY402
-.ar FULDM2CPR on
-&BECCPR02
-.ar off
-.**** FORTSÆTTES **********************************
 .* Fuldmagt i alle forhold - Tekstpåføring 1
 .da KTOHAVER   25mm  42mm
 .da KUNDENR   133mm  51mm
@@ -472,47 +482,38 @@ B19FULD01
 .**** 1. FULDMAGTSHAVER ***************************
 .ar FULDM1TEG
 .if .&BECPJN1 = .1
-.* Fuldmagt i alle forhold - Tekstpåføring 2
-.**** 3. FULDMAGTSHAVER ***************************
-.ar FULDM3TEG
-.if .&BECPJN3 = .1
 .th alene
-.if .&BECPJN3 = .2
+.if .&BECPJN1 = .2
 .th i forening
 .ar off
-.ar FULDM3
-&BECNAVN403
+.ar FULDM1
+&BECNAVN401
 .br
-&BECCO403
+&BECCO401
 .br
-&BECGADE403
+&BECGADE401
 .br
-&BECBY403
-.ar FULDM3CPR on
-&BECCPR03
+&BECBY401
+.ar FULDM1CPR on
+&BECCPR01
 .ar off
-.**** 4. FULDMAGTSHAVER ***************************
-.ar FULDM4TEG
-.if .&BECPJN4 = .1
+.**** 2. FULDMAGTSHAVER ***************************
+.ar FULDM2TEG
+.if .&BECPJN2 = .1
 .th alene
-.if .&BECPJN4 = .2
+.if .&BECPJN2 = .2
 .th i forening
 .ar off
-.ar FULDM4
-&BECNAVN404
+.ar FULDM2
+&BECNAVN402
 .br
-&BECCO404
+&BECCO402
 .br
-&BECGADE404
+&BECGADE402
 .br
-&BECBY404
-.ar FULDM4CPR on
-&BECCPR04
+&BECBY402
+.ar FULDM2CPR on
+&BECCPR02
 .ar off
-.**** DATO ****************************************
-.ar DATO on
-&DATO8
-.ar off
-.ar UNDERSKR on
-.ce &NAVN
-.ar off
+.**** FORTSÆTTES **********************************
+

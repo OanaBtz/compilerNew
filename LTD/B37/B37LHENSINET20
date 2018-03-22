@@ -11,6 +11,130 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALEM.
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.**************************************************************************
+.ir +5mm
+.ti ¤ 05
+:DUTCH11.:FED.
+Udsættelse af ydelsesbetaling på lån nr. &IREGKTO
+:SKRSLUT.
+:DUTCH10.
+.sp 3mm
+Vi bekræfter vores aftale om udsættelse på ydelsesbetaling af ovennævnte
+lån. Det betyder, at næste ydelsesbetaling bliver den &B37DATOF1.. Dette
+medfører, at lånets samlede løbetid forlænges, men derudover er låneaftalen
+uændret.
+.sp 3mm
+Vi beder venligst om en bekræftelse af aftalen på medsendte kopi. Kopien
+bedes returneret til os.
+.sp 3mm
+Kontakt mig gerne, hvis dette giver anledning til spørgsmål.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .br
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
+.sp 10mm
+.ir 25mm
+.hr left right
+.sx \-- HERTIL KOPI --\
+.sp 5mm
+Ovennævnte aftale bekræftes hermed.
+.sp 10mm
+                 , den      /     - 20
+.sk4
+.ce  _______________________________
+.br
+.ce  &KTONAVN.
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -110,19 +234,19 @@ Kontakt mig gerne, hvis dette giver anledning til spørgsmål.
 .th .se mmd  = 12
 .se fixmm = &fixk.*&mmt./&mmd
 .tp &fixmm.mm center
-^Med venlig hilsen
+ ^ Med venlig hilsen
 .*sk
-.*^M i d t b a n k
+.* ^ M i d t b a n k
 .if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
 .th .br
-.th ^&AFDNAVN
+.th ^ &AFDNAVN
 .if .&T = .1
 .th .sk 3
 .el .sk 4
 .if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
+ ^ &GENEKSP
 .br
-^&GENTITEL
+ ^ &GENTITEL
 ...EJ1
 .if .&B37ANTUSK ne .2 .go EJ2
 .se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
@@ -143,9 +267,9 @@ Kontakt mig gerne, hvis dette giver anledning til spørgsmål.
 .se mibtab1m = &mibtab1 * &mmt / &mmd
 .se mibtab2m = &mibtab2 * &mmt / &mmd
 .tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
+ ^ &GENMEKSP ^ &GENEKSP
 .br
-^&GENMTITEL ^&GENTITEL
+ ^ &GENMTITEL ^ &GENTITEL
 ...EJ2
 .tp
 .br
@@ -165,127 +289,4 @@ Kontakt mig gerne, hvis dette giver anledning til spørgsmål.
 .dm off
 .**********
 .KUNKOP
-.*********************GENEREL OPSÆTNING************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-:tiltale &TILTALEM.
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart
-.da START 20mm 110mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 280mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-.**************************************************************************
-.ir +5mm
-.ti ¤ 05
-:DUTCH11.:FED.
-Udsættelse af ydelsesbetaling på lån nr. &IREGKTO
-:SKRSLUT.
-:DUTCH10.
-.sp 3mm
-Vi bekræfter vores aftale om udsættelse på ydelsesbetaling af ovennævnte
-lån. Det betyder, at næste ydelsesbetaling bliver den &B37DATOF1.. Dette
-medfører, at lånets samlede løbetid forlænges, men derudover er låneaftalen
-uændret.
-.sp 3mm
-Vi beder venligst om en bekræftelse af aftalen på medsendte kopi. Kopien
-bedes returneret til os.
-.sp 3mm
-Kontakt mig gerne, hvis dette giver anledning til spørgsmål.
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .br
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
-.sp 10mm
-.ir 25mm
-.hr left right
-.sx \-- HERTIL KOPI --\
-.sp 5mm
-Ovennævnte aftale bekræftes hermed.
-.sp 10mm
-                 , den      /     - 20
-.sk4
-.ce  _______________________________
-.br
-.ce  &KTONAVN.
+

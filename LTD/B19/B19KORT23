@@ -1,22 +1,120 @@
-.*
-.*---------- ------------------------------------------------------------
-.*   BEMÆRK: Brevet udskrives direkte til kundens e-Boks - alternativt
-.*         : på BEC. Udskrives altså IKKE på printer i banken.
-.*---------- ------------------------------------------------------------
-.sp
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&B11KTKNDNR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.*******************NAVNEOPLYSNINGER*******************
 :VERDA10.
-Med venlig hilsen
+.ar NAVN on
+&B11KTADR1
+.sp 1mm
+&B11KTADR2
+.sp 1mm
+&B11KTADR3
+.sp 1mm
+&B11KTADR4
+.sp 1mm
+&B11KTADR5
+.sp
+.if &L'&B19ATT1 gt 0
+.th Att. &B19ATT1
+.ar off
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.******************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
 .br
-:FED.
-vestjyskBANK
-:SKRSLUT.
-.sp2
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+Kontaktperson:
+.br
 &GENEKSP
 .br
-:KURSIV.
-&GENTITEL
-:SKRSLUT.
+Direkte &GENTLFNR
+.br
+E-mail &GENEMAIL
+.sp
+&DATO
 .ar off
+.*************************************************************
+.* Dankortreglerne stiller krav om, at de midterste 8 cifre i kortnummeret
+.* maskes, hvorfor kortnummeret fremover vises sløret med X'er.
+.* 16.02.2015 - 9910/hk
+.******************************************************************
+.*Parametre
+.su off
+.se knr1 = substr &B11KTNR 1 4
+.se knr2 = substr &B11KTNR 6 4
+.se knr3 = substr &B11KTNR 11 4
+.se knr4 = substr &B11KTNR 16 4
+.su on
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+:TILTALE &TILTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 25mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:VERDA10.:FED.
+&BANKNAVN. &B11KTTYPT. nr. &knr1. XXXX XXXX &knr4.
+:SKRSLUT.
+.sp
+:VERDA10.
 .*************************************************************************
 .*** ENESTE FORSKEL I FORHOLD TIL BEC'S VERSION ER AT VI IKKE HAR DEN
 .*** SIDSTE SÆTNING MED SOM ER BESKREVET I LINIE 078-079 I BEC'S VERSION.
@@ -120,120 +218,23 @@ i underskrevet stand.
 Hvis det spærrede kort kommer til veje igen, bedes &DU kontakte &BANKNAVN
 på &AFDTLF..
 ...SLUT
-.*********************GENEREL OPSÆTNING************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-:TILTALE &TILTALEF
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.da START 25mm 100mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:VERDA10.:FED.
-&BANKNAVN. &B11KTTYPT. nr. &knr1. XXXX XXXX &knr4.
+.sp
+:VERDA10.
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
 :SKRSLUT.
-.sp
-:VERDA10.
-.* Dankortreglerne stiller krav om, at de midterste 8 cifre i kortnummeret
-.* maskes, hvorfor kortnummeret fremover vises sløret med X'er.
-.* 16.02.2015 - 9910/hk
-.******************************************************************
-.*Parametre
-.su off
-.se knr1 = substr &B11KTNR 1 4
-.se knr2 = substr &B11KTNR 6 4
-.se knr3 = substr &B11KTNR 11 4
-.se knr4 = substr &B11KTNR 16 4
-.su on
-.********************DEFINITION AF AREALER*************
-.da NAVN         25mm     40mm  width 80mm
-.da REG          94mm     40mm
-.da AFDOPL      140mm     40mm
-.*******************NAVNEOPLYSNINGER*******************
-:VERDA10.
-.ar NAVN on
-&B11KTADR1
-.sp 1mm
-&B11KTADR2
-.sp 1mm
-&B11KTADR3
-.sp 1mm
-&B11KTADR4
-.sp 1mm
-&B11KTADR5
-.sp
-.if &L'&B19ATT1 gt 0
-.th Att. &B19ATT1
-.ar off
-.******************REGISTRERINGSNR*******************
-.ar REG on
-:VERDA06.
-&REGNR
-.ar off
-.******************AFD.OPLYSNINGER*******************
-.ar AFDOPL on
-:VERDA08.
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.br
-&AFDTLF
-.br
-CVR 34631328
-.br
-SWIFT VEHODK22
-.sp
-Kontaktperson:
-.br
+.sp2
 &GENEKSP
 .br
-Direkte &GENTLFNR
-.br
-E-mail &GENEMAIL
-.sp
-&DATO
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
 .ar off
-.*************************************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&B11KTKNDNR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.*---------- ------------------------------------------------------------
+.*   BEMÆRK: Brevet udskrives direkte til kundens e-Boks - alternativt
+.*         : på BEC. Udskrives altså IKKE på printer i banken.
+.*---------- ------------------------------------------------------------
+

@@ -11,6 +11,154 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*se RESULTB = &RESULTB
+.if x&REGTYPE = x6302
+.or x&REGTYPE = x6303
+.or x&REGTYPE = x6304
+.or x&REGTYPE = x6305
+.or x&REGTYPE = x6306
+.or x&REGTYPE = x6307
+.or x&REGTYPE = x6308
+.or x&REGTYPE = x6309
+.th .se ktotypeo = 'FastRente konto'
+.th .se ktotypet = 'FastRente konto'
+.el .se ktotypeo = 'Aftaleindskud'
+.el .se ktotypet = 'aftalekonto'
+.se lbtid = SUBSTR '&RESULTB.' 1 1
+.if x&lbtid. = x-
+.th .mg /t/  Rentetilskrivn. er FØR 'Fra dato' &IREGKTO. (&BRUGERNR.)&lbtid
+.*or x&lbtid. = x0
+.sp 10mm
+.us
+&ktotypeo.
+.sk
+Under henvisning til vor aftale skal vi herved bekræfte, at vi
+har
+.if x&U'&MIBJN1 = xJ
+.th forlænget
+.el oprettet
+&ktotypet. nr. &REGNR. &KTONR1. på følgende vilkår:
+.sk
+Indskuddet forrentes fra og med den &DATO. til &RESULTA., hvor
+forrentningen ophører.
+.if x&REGTYPE = x6302
+.or x&REGTYPE = x6303
+.or x&REGTYPE = x6304
+.or x&REGTYPE = x6305
+.or x&REGTYPE = x6306
+.or x&REGTYPE = x6307
+.or x&REGTYPE = x6308
+.or x&REGTYPE = x6309
+.th .sp
+.th Hvis &DU. hæver på kontoen inden udløbet af fastrenteperioden, udgør
+.th rentedekorten 0,25% for hvert tilbageværende hele kvartal, dog
+.th minimum 1%.
+.tp 5mm 90mm 100mm
+.sk
+^Indskudsbeløb  ^kr. ^&SALDO.
+.sk
+^Rentesats  ^^&TOTKRE1.% p.a.
+.sk
+.if .&RESULTC = .0,00
+.th .go EJRTB
+.*if &L'&MIBBEL1 > 0
+.*el .go EJRTB
+.*sk
+.*^Rentebeløb ^kr. ^&MIBBELOB2.
+^Rentebeløb ^kr. ^&RESULTC.
+.sk
+...EJRTB
+.if &L'&MIBEM122 > 0
+.th Ved forfald vil indskudsbeløbet plus renter
+.th blive overført til konto nr. &MIBEM122..
+.el Vi beder &DIG. venligst kontakte afdelingen dagen før forfaldsdagen,
+.el således at tilbagebetaling eller en eventuel forlængelse kan aftales.
+.sk
+&GENTEKST1.
+.br
+&GENTEKST2.
+.br
+&GENTEKST3.
+.br
+&GENTEKST4.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -137,151 +285,4 @@ Att.: &GENATT
 .*ir 25mm
 .* ÆNDRET d. 1/12.99 jvf. Standard for breve.
 .ir 20mm
-.*se RESULTB = &RESULTB
-.if x&REGTYPE = x6302
-.or x&REGTYPE = x6303
-.or x&REGTYPE = x6304
-.or x&REGTYPE = x6305
-.or x&REGTYPE = x6306
-.or x&REGTYPE = x6307
-.or x&REGTYPE = x6308
-.or x&REGTYPE = x6309
-.th .se ktotypeo = 'FastRente konto'
-.th .se ktotypet = 'FastRente konto'
-.el .se ktotypeo = 'Aftaleindskud'
-.el .se ktotypet = 'aftalekonto'
-.se lbtid = SUBSTR '&RESULTB.' 1 1
-.if x&lbtid. = x-
-.th .mg /t/  Rentetilskrivn. er FØR 'Fra dato' &IREGKTO. (&BRUGERNR.)&lbtid
-.*or x&lbtid. = x0
-.sp 10mm
-.us
-&ktotypeo.
-.sk
-Under henvisning til vor aftale skal vi herved bekræfte, at vi
-har
-.if x&U'&MIBJN1 = xJ
-.th forlænget
-.el oprettet
-&ktotypet. nr. &REGNR. &KTONR1. på følgende vilkår:
-.sk
-Indskuddet forrentes fra og med den &DATO. til &RESULTA., hvor
-forrentningen ophører.
-.if x&REGTYPE = x6302
-.or x&REGTYPE = x6303
-.or x&REGTYPE = x6304
-.or x&REGTYPE = x6305
-.or x&REGTYPE = x6306
-.or x&REGTYPE = x6307
-.or x&REGTYPE = x6308
-.or x&REGTYPE = x6309
-.th .sp
-.th Hvis &DU. hæver på kontoen inden udløbet af fastrenteperioden, udgør
-.th rentedekorten 0,25% for hvert tilbageværende hele kvartal, dog
-.th minimum 1%.
-.tp 5mm 90mm 100mm
-.sk
-^Indskudsbeløb  ^kr. ^&SALDO.
-.sk
-^Rentesats  ^^&TOTKRE1.% p.a.
-.sk
-.if .&RESULTC = .0,00
-.th .go EJRTB
-.*if &L'&MIBBEL1 > 0
-.*el .go EJRTB
-.*sk
-.*^Rentebeløb ^kr. ^&MIBBELOB2.
-^Rentebeløb ^kr. ^&RESULTC.
-.sk
-...EJRTB
-.if &L'&MIBEM122 > 0
-.th Ved forfald vil indskudsbeløbet plus renter
-.th blive overført til konto nr. &MIBEM122..
-.el Vi beder &DIG. venligst kontakte afdelingen dagen før forfaldsdagen,
-.el således at tilbagebetaling eller en eventuel forlængelse kan aftales.
-.sk
-&GENTEKST1.
-.br
-&GENTEKST2.
-.br
-&GENTEKST3.
-.br
-&GENTEKST4.
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .sk
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
+

@@ -11,6 +11,158 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.dm SAMLE3 on
+.in
+.sk
+Flere ens konti kan virke uoverskueligt. Vi tillader os derfor
+at samle de nævnte konti, således at &DU fremover fortsætter med
+konto nr. &REGNR. &KONTONR..
+.br
+Såfremt &DU ikke ønsker en sammenlægning af kontiene, beder vi &DIG
+venligst kontakte os senest den &RESULTA..
+.dm off
+.******************* UDFØRER MAKROER OG TEST FRA TIDLIGERE AFSNIT *****
+.dm UDTOG(00) u
+.dm SAMLE2(00) s
+.se lu = &L'&u. - 2
+.se tu = SUBSTR &u 2 &lu
+.se ls = &L'&s. - 2
+.se ts = SUBSTR &s 2 &ls
+.if &L'&KONTONR ne 0
+.th .se flin = &tu. + &ts.
+.el .se flin = &tu.
+.se flin = &flin / 10
+.********** TÆLLER AF VARIABLE STØRRELSER ********
+.se lin = 0
+.se tlin = 0
+.if .&U'&MIBJN1 = .J ;.th .se lin = 3 + &lin
+.if .&U'&MIBJN2 = .J ;.th .se lin = 3 + &lin
+.if &L'&KONTONR ne 0 ;.th .se lin = 8 + &lin
+.se tlin = &flin + &lin
+.*******************BREVSTART ******************
+.sp 65mm
+.ll 175mm
+.*if .&U'&MIBJN1 = .J
+.*an .&U'&MIBJN2 = .J
+.*an &L'&KONTONR ne 0
+.if &tlin gt 20
+.th .sp 30mm
+.if &tlin le 10
+.th .sp 10mm
+.if &tlin le  7
+.th .sp 10mm
+.TXT1
+.fo off
+.UDTOG
+.fo left
+.********
+.TXT3
+.******************* UDFØRER MAKROER OG TEST FRA TIDLIGERE AFSNIT *****
+.if &L'&KONTONR = 0
+.th .go EJSAMLE
+.sk
+.*if .&U'&MIBJN1 = .J
+.*an .&U'&MIBJN2 = .J
+.*or &flin gt 8
+.if &tlin gt 20
+.th .sp
+.th .ri fortsættes
+.th .pa
+.SAMLE1
+.fo off
+.SAMLE2
+.fo left
+.SAMLE3
+...EJSAMLE
+.sk
+Til fremtidig registrering af &DINE konti i &BANKNAVN. vedlægges
+en "Kontohusker".
+.sk
+Har &DU spørgsmål til ovennævnte, så er &DU velkommen til at kontakte
+undertegnede.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
+.if .&U'&MIBJN2 = .J
+.th .sp 10mm
+.th Vedlagt finder &DU også et "Guldkort" til &DIN millionærkonto. Af
+.th kortet fremgår det, at &DU fremover kan anvende Internettet, når
+.th &DU vil undersøge om &DU har vundet en af de mange præmier.
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -168,155 +320,4 @@ XXXX XXXXXXX kontotype (f.eks. anfordring)
  
  
 .dm off ;.* DENNE LINIE SKAL STÅ SIDST (fjern blanke linier)***************
-.dm SAMLE3 on
-.in
-.sk
-Flere ens konti kan virke uoverskueligt. Vi tillader os derfor
-at samle de nævnte konti, således at &DU fremover fortsætter med
-konto nr. &REGNR. &KONTONR..
-.br
-Såfremt &DU ikke ønsker en sammenlægning af kontiene, beder vi &DIG
-venligst kontakte os senest den &RESULTA..
-.dm off
-.******************* UDFØRER MAKROER OG TEST FRA TIDLIGERE AFSNIT *****
-.dm UDTOG(00) u
-.dm SAMLE2(00) s
-.se lu = &L'&u. - 2
-.se tu = SUBSTR &u 2 &lu
-.se ls = &L'&s. - 2
-.se ts = SUBSTR &s 2 &ls
-.if &L'&KONTONR ne 0
-.th .se flin = &tu. + &ts.
-.el .se flin = &tu.
-.se flin = &flin / 10
-.********** TÆLLER AF VARIABLE STØRRELSER ********
-.se lin = 0
-.se tlin = 0
-.if .&U'&MIBJN1 = .J ;.th .se lin = 3 + &lin
-.if .&U'&MIBJN2 = .J ;.th .se lin = 3 + &lin
-.if &L'&KONTONR ne 0 ;.th .se lin = 8 + &lin
-.se tlin = &flin + &lin
-.*******************BREVSTART ******************
-.sp 65mm
-.ll 175mm
-.*if .&U'&MIBJN1 = .J
-.*an .&U'&MIBJN2 = .J
-.*an &L'&KONTONR ne 0
-.if &tlin gt 20
-.th .sp 30mm
-.if &tlin le 10
-.th .sp 10mm
-.if &tlin le  7
-.th .sp 10mm
-.TXT1
-.fo off
-.UDTOG
-.fo left
-.********
-.TXT3
-.******************* UDFØRER MAKROER OG TEST FRA TIDLIGERE AFSNIT *****
-.if &L'&KONTONR = 0
-.th .go EJSAMLE
-.sk
-.*if .&U'&MIBJN1 = .J
-.*an .&U'&MIBJN2 = .J
-.*or &flin gt 8
-.if &tlin gt 20
-.th .sp
-.th .ri fortsættes
-.th .pa
-.SAMLE1
-.fo off
-.SAMLE2
-.fo left
-.SAMLE3
-...EJSAMLE
-.sk
-Til fremtidig registrering af &DINE konti i &BANKNAVN. vedlægges
-en "Kontohusker".
-.sk
-Har &DU spørgsmål til ovennævnte, så er &DU velkommen til at kontakte
-undertegnede.
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .sk
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
-.if .&U'&MIBJN2 = .J
-.th .sp 10mm
-.th Vedlagt finder &DU også et "Guldkort" til &DIN millionærkonto. Af
-.th kortet fremgår det, at &DU fremover kan anvende Internettet, når
-.th &DU vil undersøge om &DU har vundet en af de mange præmier.
+

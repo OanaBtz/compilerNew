@@ -1,9 +1,223 @@
-.rh cancel
-.sp2
-Venlig hilsen
-.sp2
-&GENEKSP
-.kp off
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*****************
+.if &U'&B3060OPF = J
+.or &U'&B3060OPF = N
+.th .go 60OPFOK
+.el .mg/T/Der må kun indtastes J eller N i Opfyldningsfradrag/
+...60OPFOK
+.**********************
+.if &U'&B306010ÅR = J
+.or &U'&B306010ÅR = N
+.th .go 6010ÅROK
+.el .mg/T/Der må kun indtastes J eller N i En 10 årig aftale/
+...6010ÅROK
+.**********************
+.if &U'&B30OPF101 = J
+.or &U'&B30OPF101 = N
+.th .go OPF101OK
+.el .mg/T/Der må kun indtastes J eller N i En af hver på een konto/
+...OPF101OK
+.**********************
+.if &U'&B30OPF102 = J
+.or &U'&B30OPF102 = N
+.th .go OPF102OK
+.el .mg/T/Der må kun indtastes J eller N i En af hver på to konti/
+...OPF102OK
+.**********************
+.if &U'&B30FLER10 = J
+.or &U'&B30FLER10 = N
+.th .go FLER10OK
+.el .mg/T/Der må kun indtastes J eller N i To 10 årige aftaler/
+...FLER10OK
+.********************
+.se type = 0
+.if &U'&B3060OPF = J
+.th .se type = &type + 1
+.el .se type = &type
+.if &U'&B306010ÅR = J
+.th .se type = &type + 1
+.el .se type = &type
+.if &U'&B30OPF101 = J
+.th .se type = &type + 1
+.el .se type = &type
+.if &U'&B30OPF102 = J
+.th .se type = &type + 1
+.el .se type = &type
+.if &U'&B30FLER10 = J
+.th .se type = &type + 1
+.el .se type = &type
+.if &type = 0
+.th .mg/T/Vælg pensionstype/
+.if &type > 1
+.th .mg/T/Der kan kun vælges 1 pensionstype/
+.*************************************
+.if &U'&B30UDBRAT = J
+.or &U'&B30UDBRAT = N
+.th .go UDBRATOK
+.el .mg/T/Der må kun indtastes J eller N i ændr. af udbet.tidspunkt/
+...UDBRATOK
+.**********************
+.if &U'&B306010ÅR = N
+.th .go VIDR1
+.if &L'&B30BELØB > 0
+.an &L'&B30DATO3 > 0
+.th .go VIDR1
+.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved en 10 årig aft./
+...VIDR1
+.******************
+.if &U'&B30OPF101 = N
+.th .go VIDR2
+.if &L'&B30AFTB1 > 0
+.an &L'&B30DATO4A > 0
+.th .go VIDR2
+.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved En af hver (en kto)/
+...VIDR2
+.**********************
+.if &U'&B30OPF102 = N
+.th .go VIDR3
+.if &L'&B30AFTB2 > 0
+.an &L'&B30DATO4 > 0
+.an &L'&B30KTOOPF > 0
+.th .go VIDR3
+.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved En af hver (to kti)/
+...VIDR3
+.**********************
+.if &U'&B30FLER10 = N
+.th .go VIDR4
+.if &L'&B30AFTB3 > 0
+.an &L'&B30DATO5 > 0
+.an &L'&B30KTO4 > 0
+.an &L'&B30AFTB4 > 0
+.an &L'&B30DATO6 > 0
+.th .go VIDR4
+.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved To 10 årige aftaler/
+...VIDR4
+.***********************
+.if &U'&B30UDBRAT = J
+.an &L'&GENIDTOUDB = 0
+.th .mg/T/Udbet.dato skal indtastes ved Ja til ændring af udbet.tidspunkt/
+.***************
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.*****
+.if &U'&B3060OPF = J .or &U'&B306010ÅR = J .or &U'&B30OPF101 = J
+.th :FED.
+.th RATEPENSION NR. &IREGKTO
+.*****
+.if &U'&B30OPF102 = J
+.th :FED.
+.th RATEPENSION NR. &IREGKTO og RATEPENSION NR. 6771 &B30KTOOPF
+.*****
+.if &U'&B30FLER10 = J
+.th :FED.
+.th RATEPENSION NR. &IREGKTO og RATEPENSION NR. 6771 &B30KTO4
+.*****
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
 Når &DU fylder 60 år ændres vilkårene for at spare op på &DIN
 ratepension, idet betingelserne for at få skattemæssige fradrag
 bliver anderledes.
@@ -174,223 +388,10 @@ af de fremtidige aftalte indbetalinger.
 .kp on
 Ønsker &DU at ændre din ratepensionsaftale, eller har &DU spørgsmål
 i den forbindelse, er &DU velkommen til at kontakte os.
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.**************************************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 105mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-.*****
-.if &U'&B3060OPF = J .or &U'&B306010ÅR = J .or &U'&B30OPF101 = J
-.th :FED.
-.th RATEPENSION NR. &IREGKTO
-.*****
-.if &U'&B30OPF102 = J
-.th :FED.
-.th RATEPENSION NR. &IREGKTO og RATEPENSION NR. 6771 &B30KTOOPF
-.*****
-.if &U'&B30FLER10 = J
-.th :FED.
-.th RATEPENSION NR. &IREGKTO og RATEPENSION NR. 6771 &B30KTO4
-.*****
-:SKRSLUT.
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 103mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-:tiltale &TILTALE
-.in 2mm
-.ll 130mm
-.*********************GENEREL OPSÆTNING************************************
-:CALIB10.
-.fo left
-.ti ¤ 05
-.ls by 1.25
-.************ arealer *****************************************************
-.da KUNDE 22mm 38.5mm width 85mm
-.da DATO 160mm 83.5mm width 42.5mm
-.**************************************************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.*******************************
-.ar KUNDE on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.*****************
-.if &U'&B3060OPF = J
-.or &U'&B3060OPF = N
-.th .go 60OPFOK
-.el .mg/T/Der må kun indtastes J eller N i Opfyldningsfradrag/
-...60OPFOK
-.**********************
-.if &U'&B306010ÅR = J
-.or &U'&B306010ÅR = N
-.th .go 6010ÅROK
-.el .mg/T/Der må kun indtastes J eller N i En 10 årig aftale/
-...6010ÅROK
-.**********************
-.if &U'&B30OPF101 = J
-.or &U'&B30OPF101 = N
-.th .go OPF101OK
-.el .mg/T/Der må kun indtastes J eller N i En af hver på een konto/
-...OPF101OK
-.**********************
-.if &U'&B30OPF102 = J
-.or &U'&B30OPF102 = N
-.th .go OPF102OK
-.el .mg/T/Der må kun indtastes J eller N i En af hver på to konti/
-...OPF102OK
-.**********************
-.if &U'&B30FLER10 = J
-.or &U'&B30FLER10 = N
-.th .go FLER10OK
-.el .mg/T/Der må kun indtastes J eller N i To 10 årige aftaler/
-...FLER10OK
-.********************
-.se type = 0
-.if &U'&B3060OPF = J
-.th .se type = &type + 1
-.el .se type = &type
-.if &U'&B306010ÅR = J
-.th .se type = &type + 1
-.el .se type = &type
-.if &U'&B30OPF101 = J
-.th .se type = &type + 1
-.el .se type = &type
-.if &U'&B30OPF102 = J
-.th .se type = &type + 1
-.el .se type = &type
-.if &U'&B30FLER10 = J
-.th .se type = &type + 1
-.el .se type = &type
-.if &type = 0
-.th .mg/T/Vælg pensionstype/
-.if &type > 1
-.th .mg/T/Der kan kun vælges 1 pensionstype/
-.*************************************
-.if &U'&B30UDBRAT = J
-.or &U'&B30UDBRAT = N
-.th .go UDBRATOK
-.el .mg/T/Der må kun indtastes J eller N i ændr. af udbet.tidspunkt/
-...UDBRATOK
-.**********************
-.if &U'&B306010ÅR = N
-.th .go VIDR1
-.if &L'&B30BELØB > 0
-.an &L'&B30DATO3 > 0
-.th .go VIDR1
-.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved en 10 årig aft./
-...VIDR1
-.******************
-.if &U'&B30OPF101 = N
-.th .go VIDR2
-.if &L'&B30AFTB1 > 0
-.an &L'&B30DATO4A > 0
-.th .go VIDR2
-.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved En af hver (en kto)/
-...VIDR2
-.**********************
-.if &U'&B30OPF102 = N
-.th .go VIDR3
-.if &L'&B30AFTB2 > 0
-.an &L'&B30DATO4 > 0
-.an &L'&B30KTOOPF > 0
-.th .go VIDR3
-.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved En af hver (to kti)/
-...VIDR3
-.**********************
-.if &U'&B30FLER10 = N
-.th .go VIDR4
-.if &L'&B30AFTB3 > 0
-.an &L'&B30DATO5 > 0
-.an &L'&B30KTO4 > 0
-.an &L'&B30AFTB4 > 0
-.an &L'&B30DATO6 > 0
-.th .go VIDR4
-.el .mg/T/Aftalt beløb og indbet.år skal indtastes ved To 10 årige aftaler/
-...VIDR4
-.***********************
-.if &U'&B30UDBRAT = J
-.an &L'&GENIDTOUDB = 0
-.th .mg/T/Udbet.dato skal indtastes ved Ja til ændring af udbet.tidspunkt/
-.***************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+

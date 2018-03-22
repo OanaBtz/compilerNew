@@ -1,62 +1,134 @@
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.**************************************************************************
+:SWISS8.
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Oplysningsskema
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
+.*TILFØJ DE 30MM NEDENFOR *************************************************
+.**************************************************************************
+.sp 30mm
+:SWISS10.
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.**************************************************************************
+.pm 20mm
+.tm 13mm
+.bm 18mm
+.bc off
+;T
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.**************************************************************************
+:SWISS8.
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Oplysningsskema
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
+.*TILFØJ DE 30MM NEDENFOR *************************************************
+.**************************************************************************
+.sp 30mm
+:SWISS10.
+.rh off
+.**************************************************************************
+.pm 20mm
+.tm 13mm
+.bm 18mm
+.bc off
+.*
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -107,136 +179,65 @@
 .or &L'&GENCPR3 > 0
 .or &L'&GENCPR4 > 0
 .an &L'&DUCPRNR3 = 0
-.*
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.**************************************************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.**************************************************************************
-:SWISS8.
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-Oplysningsskema
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
-.*TILFØJ DE 30MM NEDENFOR *************************************************
-.**************************************************************************
-.sp 30mm
-:SWISS10.
-.rh off
-.**************************************************************************
-.pm 20mm
-.tm 13mm
-.bm 18mm
-.bc off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.**************************************************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.**************************************************************************
-:SWISS8.
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-Oplysningsskema
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
-.*TILFØJ DE 30MM NEDENFOR *************************************************
-.**************************************************************************
-.sp 30mm
-:SWISS10.
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.rh execute
-.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
-.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.**************************************************************************
-.pm 20mm
-.tm 13mm
-.bm 18mm
-.bc off
-;T:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .*************** Hundeheader *********************************************
 .da KUNDEN  20mm 42mm width 175mm
 .da KUKONR  97mm 42mm width 175mm
@@ -262,11 +263,11 @@ Oplysningsskema
 .ar off
 .ar KUKONR on
 .tp 30mm
-Kontonummer:¤&LANGKTONR.
+Kontonummer: ¤ &LANGKTONR.
 .br
-Kundenummer:¤&KTOKNDNR1.
+Kundenummer: ¤ &KTOKNDNR1.
 .br
-¤&MEDKUNDENR.
+ ¤ &MEDKUNDENR.
 .ar off
 .sp 25mm
 :FED.
@@ -287,133 +288,6 @@ Indskud i &BANKNAVN. er beskyttet af:
 Garantiformuen for indskydere og investorer (Garantiformuen) (1)
 .ta row GAR off
 .*(2) ******)**************************************************************
-(4) Tilbagebetaling
-:SKRSLUT.
-.br
-Den ansvarlige indskudsgarantiordning er:
-.sp 3mm
-Garantiformuen for indskydere og investorer.
-.sp 3mm
-Indskuddene (højst 750.000 kr.) tilbagebetales via ordningen senest inden
-for 7 arbejdsdage.
-.sp 3mm
-Hvis tilbagebetalingen ikke har fundet sted inden for disse frister, bør du
-rette henvendelse til indskudsgarantiordningen, idet den periode, inden for
-hvilken der kan fremsættes krav om tilbagebetaling, kan udløbe efter en vis
-frist. Yderligere oplysninger kan findes på www.gii.dk.
-.sp 5mm
-.kp on
-:FED.
-Andre vigtige oplysninger
-:SKRSLUT.
-.br
-Normalt er alle detailindskydere og virksomheder dækket af
-indskudsgarantiordninger. Undtagelser i forbindelse med visse indskud
-anføres på webstedet for den ansvarlige indskudsgarantiordning. Dit
-kreditinstitut oplyser også efter anmodning indskyderen om, hvorvidt visse
-produkter er dækket eller ej. Hvis indskuddene er dækket, bekræfter
-kreditinstituttet det også på kontoudtoget.
-.kp off
-en indskudsgarantiordning. Tilbagebetalingen dækker højst 750.000 kr. pr.
-kreditinstitut. Det betyder, at alle indskud i det samme kreditinstitut
-lægges sammen for at fastsætte dækningsniveauet. Hvis en indskyder f.eks.
-har en opsparingskonto med 670.000 kr. og en anfordringskonto med 150.000
-kr., får vedkommende kun tilbagebetalt 750.000 kr.
-.sp 3mm
-I nogle tilfælde er indskud over 750.000 kr. beskyttet:
-.br
-*¤Pensionskonti er beskyttet fuld ud,
-.br
-*¤indskud
-.in 5mm nobreak
-som har et social formål i henhold til lov samt erstatning eller
-godtgørelse i henhold til lov for skader forvoldt ved kriminalitet eller
-fejlagtig domsfældelse er beskyttet op til 1.125.000 kr. i op til 6
-måneder,
-.br
-.in 0mm
-*¤transaktioner
-.in 5mm nobreak
-vedr. fast ejendom er beskyttet op til 75 mio. kr. i op til 12
-måneder. Det er en forudsætning at den faste ejendom har været anvendt
-hovedsageligt ikke-erhvervsmæssigt eller er bestemt til hovedsagelig
-ikke-erhversmæssig anvendelse.
-.in 0mm
-.sp 3mm
-Flere oplysninger kan findes på www.gii.dk.
-.*Denne metode anvendes også, hvis et kreditinstitut driver
-.*virksomhed under forskellige varemærker. Pengeinstitut X driver også
-.*virksomhed under Pengeinstitut Y og Z. Det betyder, at alle indskud med
-.*et eller flere af disse varemærker tilsammen dækkes med højst 750.000 kr.
-.sp 5mm
-.kp off
-.kp on
-:FED.
-(3) Grænse for beskyttelse af fælleskonti
-:SKRSLUT.
-.br
-I tilfælde af fælleskonti finder grænsen på 750.000 kr. anvendelse på hver
-indskyder.
-.sp 3mm
-Indskud på en konto, som to eller flere personer har adgang til som
-deltagere i et interessentskab, en sammenslutning eller en gruppering af
-tilsvarende art, som ikke har status som juridisk person, lægges dog sammen
-og behandles, som om de var foretaget af en enkelt indskyder, med henblik
-på beregningen af grænsen på 750.000 kr.
-.sp 5mm
-.kp off
-.kp on
-:FED.
-.*(7) *********************************************************************
-.ta row GAR on
-.ta cell 1
-.in 5mm
-.ir 1mm
-Kontakt:
-.ta cell 2
-FINANSIEL STABILITET
-.br
-Kalvebod Brygge 43
-.br
-1560 København V
-.br
-Telefon 70 27 87 47
-.br
-mail@finansielstabilitet.dk
-.br
-www.finansielstabilitet.dk
-.ta row GAR on
-.ta cell 1
-.in 5mm
-.ir 1mm
-Yderligere oplysninger:
-.ta cell 2
-www.gii.dk
-.ta row GAR off
-.*(9) *********************************************************************
-.ta row GAR on
-.ta cell 1
-.in 5mm
-.ir 1mm
-Indskyderens kvittering for modtagelsen:
-.br
-.sp 5mm
-.ta cell 2
-&DATO.
-.sp 20mm
-.ta table off
-.sp 5mm
-:FED.
-(1) Den ordning, der er ansvarlig for beskyttelsen af dit indskud
-:SKRSLUT.
-.sp 3mm
-.kp on
-:FED.
-(2) Almindelig grænse for beskyttelse
-:SKRSLUT.
-.br
-Hvis et indskud er indisponibelt, fordi et kreditinstitut er ude af stand
-til at opfylde sine finansielle forpligtelser, tilbagebetales indskydere af
 .ta row GAR on
 .ta cell 1
 .in 5mm
@@ -464,3 +338,131 @@ Tilbagebetalingsvaluta:
 .ta cell 2
 Danske kroner.
 .ta row GAR off
+.*(7) *********************************************************************
+.ta row GAR on
+.ta cell 1
+.in 5mm
+.ir 1mm
+Kontakt:
+.ta cell 2
+FINANSIEL STABILITET
+.br
+Kalvebod Brygge 43
+.br
+1560 København V
+.br
+Telefon 70 27 87 47
+.br
+mail@finansielstabilitet.dk
+.br
+www.finansielstabilitet.dk
+.ta row GAR on
+.ta cell 1
+.in 5mm
+.ir 1mm
+Yderligere oplysninger:
+.ta cell 2
+www.gii.dk
+.ta row GAR off
+.*(9) *********************************************************************
+.ta row GAR on
+.ta cell 1
+.in 5mm
+.ir 1mm
+Indskyderens kvittering for modtagelsen:
+.br
+.sp 5mm
+.ta cell 2
+&DATO.
+.sp 20mm
+.ta table off
+.sp 5mm
+:FED.
+(1) Den ordning, der er ansvarlig for beskyttelsen af dit indskud
+:SKRSLUT.
+.sp 3mm
+.kp on
+:FED.
+(2) Almindelig grænse for beskyttelse
+:SKRSLUT.
+.br
+Hvis et indskud er indisponibelt, fordi et kreditinstitut er ude af stand
+til at opfylde sine finansielle forpligtelser, tilbagebetales indskydere af
+en indskudsgarantiordning. Tilbagebetalingen dækker højst 750.000 kr. pr.
+kreditinstitut. Det betyder, at alle indskud i det samme kreditinstitut
+lægges sammen for at fastsætte dækningsniveauet. Hvis en indskyder f.eks.
+har en opsparingskonto med 670.000 kr. og en anfordringskonto med 150.000
+kr., får vedkommende kun tilbagebetalt 750.000 kr.
+.sp 3mm
+I nogle tilfælde er indskud over 750.000 kr. beskyttet:
+.br
+* ¤ Pensionskonti er beskyttet fuld ud,
+.br
+* ¤ indskud
+.in 5mm nobreak
+som har et social formål i henhold til lov samt erstatning eller
+godtgørelse i henhold til lov for skader forvoldt ved kriminalitet eller
+fejlagtig domsfældelse er beskyttet op til 1.125.000 kr. i op til 6
+måneder,
+.br
+.in 0mm
+* ¤ transaktioner
+.in 5mm nobreak
+vedr. fast ejendom er beskyttet op til 75 mio. kr. i op til 12
+måneder. Det er en forudsætning at den faste ejendom har været anvendt
+hovedsageligt ikke-erhvervsmæssigt eller er bestemt til hovedsagelig
+ikke-erhversmæssig anvendelse.
+.in 0mm
+.sp 3mm
+Flere oplysninger kan findes på www.gii.dk.
+.*Denne metode anvendes også, hvis et kreditinstitut driver
+.*virksomhed under forskellige varemærker. Pengeinstitut X driver også
+.*virksomhed under Pengeinstitut Y og Z. Det betyder, at alle indskud med
+.*et eller flere af disse varemærker tilsammen dækkes med højst 750.000 kr.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+(3) Grænse for beskyttelse af fælleskonti
+:SKRSLUT.
+.br
+I tilfælde af fælleskonti finder grænsen på 750.000 kr. anvendelse på hver
+indskyder.
+.sp 3mm
+Indskud på en konto, som to eller flere personer har adgang til som
+deltagere i et interessentskab, en sammenslutning eller en gruppering af
+tilsvarende art, som ikke har status som juridisk person, lægges dog sammen
+og behandles, som om de var foretaget af en enkelt indskyder, med henblik
+på beregningen af grænsen på 750.000 kr.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+(4) Tilbagebetaling
+:SKRSLUT.
+.br
+Den ansvarlige indskudsgarantiordning er:
+.sp 3mm
+Garantiformuen for indskydere og investorer.
+.sp 3mm
+Indskuddene (højst 750.000 kr.) tilbagebetales via ordningen senest inden
+for 7 arbejdsdage.
+.sp 3mm
+Hvis tilbagebetalingen ikke har fundet sted inden for disse frister, bør du
+rette henvendelse til indskudsgarantiordningen, idet den periode, inden for
+hvilken der kan fremsættes krav om tilbagebetaling, kan udløbe efter en vis
+frist. Yderligere oplysninger kan findes på www.gii.dk.
+.sp 5mm
+.kp on
+:FED.
+Andre vigtige oplysninger
+:SKRSLUT.
+.br
+Normalt er alle detailindskydere og virksomheder dækket af
+indskudsgarantiordninger. Undtagelser i forbindelse med visse indskud
+anføres på webstedet for den ansvarlige indskudsgarantiordning. Dit
+kreditinstitut oplyser også efter anmodning indskyderen om, hvorvidt visse
+produkter er dækket eller ej. Hvis indskuddene er dækket, bekræfter
+kreditinstituttet det også på kontoudtoget.
+.kp off
+

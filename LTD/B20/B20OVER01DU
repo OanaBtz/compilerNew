@@ -38,8 +38,6 @@ A/S &BANKNAVN.
 .el &BKBY
 .el .br
 .el T: &BKTLF
-.el .br
-.el M: &GENEMAIL
 .sp2
 .br;&DATO
 .sp
@@ -63,135 +61,57 @@ A/S &BANKNAVN.
 .if &L'&KTOLAND > 0
 .th &KTOLAND
 .*************************************************************
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-:ENY.
-.oc **B20OVER01
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-.NV PAGE DUVALG1 '%&DUVALG1.'
-.BR
-.NV PAGE DUVALG2 '%&DUVALG2.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
-.**************************************************************************
-;T.sp 2
+.** TEKST KOPI ***************
+.da KUNDKOPI 20mm 70mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KOPI:SKRSLUT.
+.ar off
+:COUR10.
+:VERDA09.
+:tiltale &TILTALEF
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B20OVER01
+.ar off
+.********************OVERSKRIFT*****************************************
+.da OVERSKR 20mm 105mm width 170mm
+.ar OVERSKR on
+:VERDA10.
+:FED.
+Konto nr. &REGNR &KTONR1
+:SKRSLUT.
+:SKRSLUT.
+.sp
+Banken har bevilget det ansøgte overtræk
+kr. &B20BELOB på ovennævnte konto.
+.sp
+Overtrækket er gældende i perioden
+&B20DATO1. - &B20DATO2..
+.sp 1
+Gebyr kr. &B20BELOB2 har vi hævet på kontoen.
+.sp
+En udskrift af bankens registre skal til enhver tid betragtes
+som gyldigt bevis for gældens størrelse.
+.sp
+Er der stillet sikkerhed for kreditaftalen, tjener denne tillige
+til sikkerhed for overtrækket.
+.sp
+Ved underskrift på medfølgende kopi beder
+vi &DIG bekræfte, at &DU er indforstået med ovennævnte.
+.if &L'&B20TEST01 > 0
+.th .sp
+.th Underskrift skal ske i henhold til selskabets tegningsregler.
+.if &L'&B20TEKST61 > 0
+.th .sp
+&B20TEKST61
+&B20TEKST62
+&B20TEKST63
+.sp 2
 .ce on
 Med venlig hilsen
 .sp
@@ -200,153 +120,8 @@ Med venlig hilsen
 .if &L'&GENMEKSP gt 0
 .th &GENMEKSP          &GENEKSP
 .el &GENEKSP
-.ce off
+.sp 3
 .ar off
-Banken har bevilget det ansøgte overtræk
-kr. &B20BELOB på ovennævnte konto.
-.sp
-Overtrækket er gældende i perioden
-&B20DATO1. - &B20DATO2..
-.sp 1
-Gebyr kr. &B20BELOB2 har vi hævet på kontoen.
-.sp
-En udskrift af bankens registre skal til enhver tid betragtes
-som gyldigt bevis for gældens størrelse.
-.sp
-Er der stillet sikkerhed for kreditaftalen, tjener denne tillige
-til sikkerhed for overtrækket.
-.sp
-Ved underskrift på medfølgende kopi beder
-vi &DIG bekræfte, at &DU er indforstået med ovennævnte.
-.if &L'&B20TEST01 > 0
-.th .sp
-.th Underskrift skal ske i henhold til selskabets tegningsregler.
-.if &L'&B20TEKST61 > 0
-.th .sp
-&B20TEKST61
-&B20TEKST62
-&B20TEKST63
-:VERDA09.
-:tiltale &TILTALEF
-.fo left
-.ti ¤ 05
-.* Brevnavn roteret
-.da VEND 7mm 270mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B20OVER01
-.ar off
-.********************OVERSKRIFT*****************************************
-.da OVERSKR 20mm 105mm width 170mm
-.ar OVERSKR on
-:VERDA10.
-:FED.
-Konto nr. &REGNR &KTONR1
-:SKRSLUT.
-:SKRSLUT.
-.sp
-.** SIDESKIFT
-.pa
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.*************************************************************
-.ar AFSENDER on
-.se bankregnr = &BANKREGNR
-:VERDA08.
-A/S &BANKNAVN.
-.br
-.if &bankregnr = 0000
-.th &AFDNAVN
-.th .br
-.th &AFDGADE
-.th .br
-.th &AFDBY
-.th .br
-.th T: &AFDTLF
-.th .br
-.th M: &GENEMAIL
-.el &BKAFD
-.el .br
-.el &BKADR
-.el .br
-.el &BKBY
-.el .br
-.el T: &BKTLF
-.sp2
-.br;&DATO
-.sp
-.ar off
-.*************************************************************
-.if &L'&KTOSTILL > 0 .an &L'&MEDNAVN = 0
-.th &KTOSTILL
-.th .br
-&KTONAVN
-.br
-.if &L'&MEDNAVN > 0
-.th &MEDNAVN
-.th .br
-.if &L'&KTOCO > 0
-.th &KTOCO
-.th .br
-&KTOGADE
-.br
-&KTOBY
-.br
-.if &L'&KTOLAND > 0
-.th &KTOLAND
-.*************************************************************
-:VERDA09.
-:tiltale &TILTALEF
-.fo left
-.ti ¤ 05
-.* Brevnavn roteret
-.da VEND 7mm 270mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B20OVER01
-.ar off
-.********************OVERSKRIFT*****************************************
-.da OVERSKR 20mm 105mm width 170mm
-.ar OVERSKR on
-:VERDA10.
-:FED.
-Konto nr. &REGNR &KTONR1
-:SKRSLUT.
-:SKRSLUT.
-.sp
-Banken har bevilget det ansøgte overtræk
-kr. &B20BELOB på ovennævnte konto.
-.sp
-Overtrækket er gældende i perioden
-&B20DATO1. - &B20DATO2..
-.sp 1
-Gebyr kr. &B20BELOB2 har vi hævet på kontoen.
-.sp
-En udskrift af bankens registre skal til enhver tid betragtes
-som gyldigt bevis for gældens størrelse.
-.sp
-Er der stillet sikkerhed for kreditaftalen, tjener denne tillige
-til sikkerhed for overtrækket.
-.sp
-Ved underskrift på medfølgende kopi beder
-vi &DIG bekræfte, at &DU er indforstået med ovennævnte.
-.if &L'&B20TEST01 > 0
-.th .sp
-.th Underskrift skal ske i henhold til selskabets tegningsregler.
-.if &L'&B20TEKST61 > 0
-.th .sp
-&B20TEKST61
-&B20TEKST62
-&B20TEKST63
-.** TEKST KOPI ***************
-.da KUNDKOPI 20mm 70mm
-.ar KUNDKOPI on
-:COUR14.
-:FED.KOPI:SKRSLUT.
-.ar off
-:COUR10.
 .da underskrift 20mm 210mm width 170mm
 .da pant 20mm 235mm width 80mm
 .da kau 20mm 235mm width 80mm
@@ -360,21 +135,21 @@ Ovennævnte accepteret:
 .br
 Underskrift som debitor/pantsætter:
 .sp
-den     /    -20 ¤_________________________________
+den     /    -20 ¤ _________________________________
 .br
 :SWISS8.
 .if &L'&B20TEST01 > 0
 .an &L'&MEDNAVN = 0
-.th ¤&B20TEKST11.
+.th ¤ &B20TEKST11.
 .if &L'&B20TEST01 > 0
 .an &L'&MEDNAVN > 0
-.th ¤&B20TEKST11.
+.th ¤ &B20TEKST11.
 .if &L'&B20TEST01 = 0
 .an &L'&MEDNAVN = 0
-.th ¤&KTONAVN
+.th ¤ &KTONAVN
 .if &L'&B20TEST01 = 0
 .an &L'&MEDNAVN > 0
-.th ¤&KTONAVN & &MEDNAVN
+.th ¤ &KTONAVN & &MEDNAVN
 :SKRSLUT.
 .if &U'&B20TEST05 = J
 .th .go PANT
@@ -465,11 +240,6 @@ den     /    -20
 ...SIDE3
 .pa
 ...SLUT
-.br
-.if &L'&KTOLAND > 0
-.th &KTOLAND
-.*************************************************************
-...SLUT
 .if &GENDUJANEJ = J .or .if &GENDUJANEJ = j
 .th .go SLUT
 .el .go SIDE3
@@ -520,6 +290,11 @@ A/S &BANKNAVN.
 &KTOGADE
 .br
 &KTOBY
+.br
+.if &L'&KTOLAND > 0
+.th &KTOLAND
+.*************************************************************
+...SLUT
 .** TEKST KOPI ***************
 .da KUNDKOPI 20mm 70mm
 .ar KUNDKOPI on
@@ -551,6 +326,35 @@ Konto nr. &REGNR &KTONR1
 :SKRSLUT.
 .sp
 ...SLUT
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
 .if &GENDUJANEJ = J .or .if &GENDUJANEJ = j
 .th .go SLUT
 .el .go SIDE3
@@ -604,21 +408,21 @@ Ovennævnte accepteret:
 .br
 Underskrift som debitor/pantsætter:
 .sp
-den     /    -20 ¤_________________________________
+den     /    -20 ¤ _________________________________
 .br
 :SWISS8.
 .if &L'&B20TEST01 > 0
 .an &L'&MEDNAVN = 0
-.th ¤&B20TEKST11.
+.th ¤ &B20TEKST11.
 .if &L'&B20TEST01 > 0
 .an &L'&MEDNAVN > 0
-.th ¤&B20TEKST11.
+.th ¤ &B20TEKST11.
 .if &L'&B20TEST01 = 0
 .an &L'&MEDNAVN = 0
-.th ¤&KTONAVN
+.th ¤ &KTONAVN
 .if &L'&B20TEST01 = 0
 .an &L'&MEDNAVN > 0
-.th ¤&KTONAVN & &MEDNAVN
+.th ¤ &KTONAVN & &MEDNAVN
 :SKRSLUT.
 .if &U'&B20TEST05 = J
 .th .go PANT
@@ -706,7 +510,7 @@ den     /    -20
 .tp 110mm
 .ar Retur on
 :SWISS10.:FED.
-¤Returneres til banken
+ ¤ Returneres til banken
 .ar off
 .*********** TEKST KOPI ************************************************
 .da KUNDKOPI 20mm 70mm
@@ -740,21 +544,21 @@ Ovennævnte accepteret:
 .br
 Underskrift som debitor/pantsætter:
 .sp
-den     /    -20 ¤_________________________________
+den     /    -20 ¤ _________________________________
 .br
 :SWISS8.
 .if &L'&B20TEST01 > 0
 .an &L'&MEDNAVN = 0
-.th ¤&B20TEKST11.
+.th ¤ &B20TEKST11.
 .if &L'&B20TEST01 > 0
 .an &L'&MEDNAVN > 0
-.th ¤&B20TEKST11.
+.th ¤ &B20TEKST11.
 .if &L'&B20TEST01 = 0
 .an &L'&MEDNAVN = 0
-.th ¤&KTONAVN
+.th ¤ &KTONAVN
 .if &L'&B20TEST01 = 0
 .an &L'&MEDNAVN > 0
-.th ¤&KTONAVN & &MEDNAVN
+.th ¤ &KTONAVN & &MEDNAVN
 :SKRSLUT.
 .if &U'&B20TEST05 = J
 .th .go PANT
@@ -842,8 +646,203 @@ den     /    -20
 .tp 110mm
 .ar Retur on
 :SWISS10.:FED.
-¤Returneres til banken
+ ¤ Returneres til banken
 .ar off
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+A/S &BANKNAVN.
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.el .br
+.el M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.if &L'&KTOSTILL > 0 .an &L'&MEDNAVN = 0
+.th &KTOSTILL
+.th .br
+&KTONAVN
+.br
+.if &L'&MEDNAVN > 0
+.th &MEDNAVN
+.th .br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.br
+.if &L'&KTOLAND > 0
+.th &KTOLAND
+.*************************************************************
+.oc **B20OVER01
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+:VERDA09.
+:tiltale &TILTALEF
+.fo left
+.ti ¤ 05
+.* Brevnavn roteret
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B20OVER01
+.ar off
+.********************OVERSKRIFT*****************************************
+.da OVERSKR 20mm 105mm width 170mm
+.ar OVERSKR on
+:VERDA10.
+:FED.
+Konto nr. &REGNR &KTONR1
+:SKRSLUT.
+:SKRSLUT.
+.sp
+Banken har bevilget det ansøgte overtræk
+kr. &B20BELOB på ovennævnte konto.
+.sp
+Overtrækket er gældende i perioden
+&B20DATO1. - &B20DATO2..
+.sp 1
+Gebyr kr. &B20BELOB2 har vi hævet på kontoen.
+.sp
+En udskrift af bankens registre skal til enhver tid betragtes
+som gyldigt bevis for gældens størrelse.
+.sp
+Er der stillet sikkerhed for kreditaftalen, tjener denne tillige
+til sikkerhed for overtrækket.
+.sp
+Ved underskrift på medfølgende kopi beder
+vi &DIG bekræfte, at &DU er indforstået med ovennævnte.
+.if &L'&B20TEST01 > 0
+.th .sp
+.th Underskrift skal ske i henhold til selskabets tegningsregler.
+.if &L'&B20TEKST61 > 0
+.th .sp
+&B20TEKST61
+&B20TEKST62
+&B20TEKST63
 .sp 2
 .ce on
 Med venlig hilsen
@@ -853,5 +852,8 @@ Med venlig hilsen
 .if &L'&GENMEKSP gt 0
 .th &GENMEKSP          &GENEKSP
 .el &GENEKSP
-.sp 3
+.ce off
 .ar off
+.** SIDESKIFT
+.pa
+

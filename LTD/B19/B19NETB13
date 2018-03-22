@@ -1,3 +1,33 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -22,11 +52,6 @@
 .NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
 .BR
 :ENY.
-E-mail &GENEMAIL
-.sp
-&DATO
-.ar off
-:VERDA10.
 .********************DEFINITION AF AREALER*************
 .da NAVN         25mm     40mm  width 80mm
 .da REG          94mm     40mm
@@ -77,36 +102,11 @@ Kontaktperson:
 .br
 Direkte &GENTLFNR
 .br
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
-.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
-.**************************************************************************
-.*               : Du skal vælge om aftalen skal sendes til kundens netbank
-.*               : i Underskriftsrum (J) eller udskrives på papir (N)
-.*
-.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
-.*               : Underskriftsrum, du vælge 1 for at komme videre.
-.*               : skal du vælge 1 for at komme videre.
-.*
-.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
-.*           --> : ved at vælge "3", inden du udskriver brevet.
-.*
-.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
-.*               : finder det i stedet i I*net under "Ubehandl. aftaler
-.*               : til underskrift" - her lægger du brevet i kuvert og
-
+E-mail &GENEMAIL
+.sp
+&DATO
+.ar off
+:VERDA10.
 .fo left
 .***********************************************************************
 .ti ¤ 05
@@ -123,18 +123,7 @@ Direkte &GENTLFNR
 .ar off
 .***********************************************************************
 :VERDA10.
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
+.*
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -185,7 +174,18 @@ Direkte &GENTLFNR
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.*
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
 .da SIDE1  25mm 95mm width 150mm
 .da SIDE2A  25mm 95mm width 150mm
 .da BUND   25mm 245mm width 150mm
@@ -205,13 +205,13 @@ og posteringer i banken, når &DU har tid og lyst.
 Der er blandt andet adgang til at:
 .sp
 .tp 5mm
-¤- Se saldo og kontobevægelser
+ ¤ - Se saldo og kontobevægelser
 .br
-¤- Overføre penge mellem &DINE egne konti eller til andre personer
+ ¤ - Overføre penge mellem &DINE egne konti eller til andre personer
 .br
-¤- Betale regninger
+ ¤ - Betale regninger
 .br
-¤- Tilmelde, afmelde og afvise Betalingsservice-betalinger
+ ¤ - Tilmelde, afmelde og afvise Betalingsservice-betalinger
 .sp
 &SDU kan eventuelt læse mere om Netbank på vores hjemmeside
 .br
@@ -286,37 +286,6 @@ vestjyskBANK
 .br
 &AFDBY
 .br
-.sp
-Vi skal bede &DIG tiltræde oprettelsen af Netbank til &B19NAVN ved at
-.if &GENDUJANEJ = J
-.th godkende aftalen i Netbank.
-.el ved at returnere kopien af dette brev med din underskrift.
-.*****************************************
-.sp
-Har &DU spørgsmål, er &DU selvfølgelig velkommen til at kontakte mig.
-.sp2
-Med venlig hilsen
-.br
-:FED.
-vestjyskBANK
-:SKRSLUT.
-.sp2
-&GENEKSP
-.br
-:KURSIV.
-&GENTITEL
-:SKRSLUT.
-.**********************************
-.ar BUND on
-.hr left right
-.sp
-Ovennævnte tiltrædes herved:
-.sp3
-____________________________________
-.br
-&NAVN
-...SLUT
-.ar off
 &AFDTLF
 .br
 &AFDFAX
@@ -352,13 +321,13 @@ og posteringer i banken, når &DU har tid og lyst.
 Der er blandt andet adgang til at:
 .sp
 .tp 5mm
-¤- Se saldo og kontobevægelser
+ ¤ - Se saldo og kontobevægelser
 .br
-¤- Overføre penge mellem &DINE egne konti eller til andre personer
+ ¤ - Overføre penge mellem &DINE egne konti eller til andre personer
 .br
-¤- Betale regninger
+ ¤ - Betale regninger
 .br
-¤- Tilmelde, afmelde og afvise Betalingsservice-betalinger
+ ¤ - Tilmelde, afmelde og afvise Betalingsservice-betalinger
 .sp
 &SDU kan eventuelt læse mere om Netbank
 på vores hjemmeside vestjyskbank.dk/selvbetjening/netbank.
@@ -367,3 +336,35 @@ BEMÆRK: Da &B19NAVN er under 18 år, er der kun adgang til
 betalingskonti i Netbank og Mobilbank. Opsparingskonti og
 depoter kan ikke ses, medmindre andet er aftalt.
 .***************************
+.sp
+Vi skal bede &DIG tiltræde oprettelsen af Netbank til &B19NAVN ved at
+.if &GENDUJANEJ = J
+.th godkende aftalen i Netbank.
+.el ved at returnere kopien af dette brev med din underskrift.
+.*****************************************
+.sp
+Har &DU spørgsmål, er &DU selvfølgelig velkommen til at kontakte mig.
+.sp2
+Med venlig hilsen
+.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
+&GENEKSP
+.br
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.**********************************
+.ar BUND on
+.hr left right
+.sp
+Ovennævnte tiltrædes herved:
+.sp3
+____________________________________
+.br
+&NAVN
+...SLUT
+.ar off
+

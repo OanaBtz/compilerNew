@@ -15,116 +15,6 @@ any other user.                     !
 Application Support Facility V3     ! Application Support Facility V1 & V2
                                     ! OfficeVision MVS R1 & R2
                                     !
-If a maintenance session for a      ! If a maintenance session for a
-document cabinet item is terminated ! document cabinet item is terminated,
-abnormally, select the item from a  ! abnormally,
-list of document cabinet items after! o  you get a DXBZSAVE document and
-signing-on again.                   !    have to merge the originally
-You are prompted to                 !    maintained document with the
-o  Recover the changes              !    information from DXBZSAVE
-   If the same user continues       !
-   maintenance, the DW/370 session  ! o  you loose changed parameters,
-   is continued at the point of     !    maintained on the parameter list
-   interruption, if session log has !
-   been active.                     !
-   For a different user continuing  !
-   maintenance of the item, the item!
-   will be updateed with all changes!
-                                    !
-   The changes made in the list of  !
-   document parameters are also     !
-   restored.                        !
-o  Discard the changes, made since  !
-   the last SAVE                    !
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
-Application Support Facility        ! Exceptional situations, for example
-controls a list of document cabinet ! abends during recursive DW/370
-items, maintained by one user and   ! sessions, can make a document no
-automaticaaly invokes DW/370 with   ! longer accessible: "Document already
-the RECOVER option, if it is        ! active, after abend use Recover".
-necessary after an abend.           ! The administrator has to close the
-                                    ! DW/370 working datasets and the ISL
-In case of exceptional situations   ! and has to make a DELETE/DEFINE.
-after abends in MRO configurations  !
-or in installations not installing  !
-the ASF Node Error Program and the  !
-Program Error Program, online means !
-are available to overcome those     !
-situations                          !
-FSNA  the command or transaction    !
-      resets a pending user session !
-      and cleans the users list of  !
-      active DW/370 documents       !
-                                    !
-CLN   A line command for the list of!
-      document cabinet items. It    !
-      causes DW/370 work datasets   !
-      to be cleaned for a specific  !
-      document cabinet item         !
-                                    !
-RCO   A line command for the list of!
-      document cabinet items. It    !
-      resumes an active DW/370,     !
-      tindicated to be pending after!
-      an abend                      !
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
-A new document has a valid name from! Composing a document or creating a
-the beginning of its creation, even ! a document from scatch, the DW/370
-if the name is not predetermined    ! text was kept in a socalled
-by parameter DXBZDOCNAM.            ! working copy with an artificial name,
-The default document name is        ! consisting of an asterisk an the
-'MEMO <date> <time>', where <date>  ! userid.
-and <time> indicate the beginning   ! A valid name for the working copy
-of the document creation.           ! was assigned AFTER the DW/370
-                                    ! session on the Document Processing
-The prefix 'MEMO' can be changed on ! panel by the user or by the system
-a user basis in the user profile    ! using parameter DXBZDOCNAM
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
-Document Cabinet items can have a   ! Document Cabinet items could not have
-a name of up to 44 characters.      ! a name of more than 16 characters.
-Any character except an asterisk    ! Use of special characters required
-is allowed.                         ! tailoring of the system.
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
- Document Cabinet items can be      ! Document Cabinet items can be
- preselected for composition with   ! preselected for composition with
- o  The "COM" line command          ! the "COM" line command.
- o  Numbers                         !
-    This is controlled by parameter !
-    DXBZNUMSEL in the ATD used to   !
-    invoke the DW feature           !
-Example: A document cabinet item,   !
-identified by parameter DXBZPNAM05, !
-will be preselected with number '5' !
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
-For composition of documents with   ! Request type 01 composes both text
-one of the request types 01, 05, 06,! and parameters of selected document
-07, or 17 you can skip the parameter! cabinet items.
-composition by passing parameter    ! For documents with many parameters,
-DXBZEWP with a value of one in the  ! where text and data have already
-invoking ATD.                       ! been merged, the limit of 330
-                                    ! parameters that cab ne passed to
-                                    ! DW/370, is soonly reached.
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
-The session log option for DW/370   ! The session log option for DW/370
-can be defined on                   ! can be defined on a system level.
-o  System level                     !
-o  User basis                       !
-o  ATD basis (parameter DXBZDWLOG)  !
-Application Support Facility V3     ! Application Support Facility V1 & V2
-                                    ! OfficeVision MVS R1 & R2
-                                    !
 The parameters DXBZDNAMxx and       ! The parameters DXBZDNAMxx cannot be
 DXBZFNAMxx can be used (in parallel)! used for ATDs with request type
 for any of the request types        ! value of 11, 12, or 31
@@ -226,6 +116,30 @@ application of your choice.         !
 Application Support Facility V3     ! Application Support Facility V1 & V2
                                     ! OfficeVision MVS R1 & R2
                                     !
+If a maintenance session for a      ! If a maintenance session for a
+document cabinet item is terminated ! document cabinet item is terminated,
+abnormally, select the item from a  ! abnormally,
+list of document cabinet items after! o  you get a DXBZSAVE document and
+signing-on again.                   !    have to merge the originally
+You are prompted to                 !    maintained document with the
+o  Recover the changes              !    information from DXBZSAVE
+   If the same user continues       !
+   maintenance, the DW/370 session  ! o  you loose changed parameters,
+   is continued at the point of     !    maintained on the parameter list
+   interruption, if session log has !
+   been active.                     !
+   For a different user continuing  !
+   maintenance of the item, the item!
+   will be updateed with all changes!
+                                    !
+   The changes made in the list of  !
+   document parameters are also     !
+   restored.                        !
+o  Discard the changes, made since  !
+   the last SAVE                    !
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
 The command "XFR - Transfer"        !
 o  Copies the selected document     !
    cabinet item to a CICS TS queue  !
@@ -303,6 +217,39 @@ next panel.                         ! suppressed.
 Assign the message text as value of ! You cannot pass a message of your
 externalized variable %DDDIAPIMSG.  ! own out of DW/370 to be shown on
                                     ! your panel.
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
+Application Support Facility        ! Exceptional situations, for example
+controls a list of document cabinet ! abends during recursive DW/370
+items, maintained by one user and   ! sessions, can make a document no
+automaticaaly invokes DW/370 with   ! longer accessible: "Document already
+the RECOVER option, if it is        ! active, after abend use Recover".
+necessary after an abend.           ! The administrator has to close the
+                                    ! DW/370 working datasets and the ISL
+In case of exceptional situations   ! and has to make a DELETE/DEFINE.
+after abends in MRO configurations  !
+or in installations not installing  !
+the ASF Node Error Program and the  !
+Program Error Program, online means !
+are available to overcome those     !
+situations                          !
+FSNA  the command or transaction    !
+      resets a pending user session !
+      and cleans the users list of  !
+      active DW/370 documents       !
+                                    !
+CLN   A line command for the list of!
+      document cabinet items. It    !
+      causes DW/370 work datasets   !
+      to be cleaned for a specific  !
+      document cabinet item         !
+                                    !
+RCO   A line command for the list of!
+      document cabinet items. It    !
+      resumes an active DW/370,     !
+      tindicated to be pending after!
+      an abend                      !
 Application Support Facility V3     ! Application Support Facility V1 & V2
                                     !
 You can authorize a user to invoke  ! To maintain DisplayWrite/370 system
@@ -394,6 +341,20 @@ o  DDDCDWV2-invoker (FSNZDDD) only  !
 Application Support Facility V3     ! Application Support Facility V1 & V2
                                     ! OfficeVision MVS R1 & R2
                                     !
+A new document has a valid name from! Composing a document or creating a
+the beginning of its creation, even ! a document from scatch, the DW/370
+if the name is not predetermined    ! text was kept in a socalled
+by parameter DXBZDOCNAM.            ! working copy with an artificial name,
+The default document name is        ! consisting of an asterisk an the
+'MEMO <date> <time>', where <date>  ! userid.
+and <time> indicate the beginning   ! A valid name for the working copy
+of the document creation.           ! was assigned AFTER the DW/370
+                                    ! session on the Document Processing
+The prefix 'MEMO' can be changed on ! panel by the user or by the system
+a user basis in the user profile    ! using parameter DXBZDOCNAM
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
 DisplayWrite/370 Version 2.2 is     ! DisplayWrite/370 Version 2.2 is
 fully supported:                    ! supported in toleration mode
                                     !
@@ -422,3 +383,43 @@ o  The concept of language dependent! not supported
    ENUV3SKL is the CLIST skeleton to!
    build the complete application   !
    CLIST document.                  !
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
+Document Cabinet items can have a   ! Document Cabinet items could not have
+a name of up to 44 characters.      ! a name of more than 16 characters.
+Any character except an asterisk    ! Use of special characters required
+is allowed.                         ! tailoring of the system.
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
+ Document Cabinet items can be      ! Document Cabinet items can be
+ preselected for composition with   ! preselected for composition with
+ o  The "COM" line command          ! the "COM" line command.
+ o  Numbers                         !
+    This is controlled by parameter !
+    DXBZNUMSEL in the ATD used to   !
+    invoke the DW feature           !
+Example: A document cabinet item,   !
+identified by parameter DXBZPNAM05, !
+will be preselected with number '5' !
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
+For composition of documents with   ! Request type 01 composes both text
+one of the request types 01, 05, 06,! and parameters of selected document
+07, or 17 you can skip the parameter! cabinet items.
+composition by passing parameter    ! For documents with many parameters,
+DXBZEWP with a value of one in the  ! where text and data have already
+invoking ATD.                       ! been merged, the limit of 330
+                                    ! parameters that cab ne passed to
+                                    ! DW/370, is soonly reached.
+Application Support Facility V3     ! Application Support Facility V1 & V2
+                                    ! OfficeVision MVS R1 & R2
+                                    !
+The session log option for DW/370   ! The session log option for DW/370
+can be defined on                   ! can be defined on a system level.
+o  System level                     !
+o  User basis                       !
+o  ATD basis (parameter DXBZDWLOG)  !
+

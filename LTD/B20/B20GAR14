@@ -10,417 +10,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.* Parameterafsnit
-.**************************************************************************
-.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
-.*for at nuv. banker kan fortsætte med at bruge disse.*********************
-.**************************************************************************
-.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
-.if &L'&GARMODADR1 = 0
-.an &L'&GARMODADR2 = 0
-.an &L'&GARMODADR3 = 0
-.an &L'&GARMODADR4 = 0
-.an &L'&GARMODADR5 = 0
-.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
-.**************************************************************************
-.if &U'X&GENJANEJ1 = XJ
-.or &U'X&GENJANEJ1 = XN
-.th
-.el .mg/T/Klausul om transport i tilbagesøgningskrav: Tast J eller N/
-.**************************************************************************
-.if &U'X&GENJANEJ2 = XJ
-.or &U'X&GENJANEJ2 = XN
-.th
-.el .mg/T/Klausul om tilbagelevering af garantibrevet: Tast J eller N/
-.**************************************************************************
-.if &U'X&GENREGARAN = XJ
-.or &U'X&GENREGARAN = XN
-.th
-.el .mg/T/Regaranti: Skriv J eller N/
-.**************************************************************************
-.if &U'X&GENJANEJ = XJ
-.or &U'X&GENJANEJ = XN
-.th
-.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
-.* Parameterafsnit - beregning
-.**************************************************************************
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 20mm 100mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Standardgaranti ved køb af nybygget fast ejendom
-:SKRSLUT.
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.sp 96mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 165mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.da SÆLGER 25mm  46mm width 150mm
-.**SÆLGER  ****************************************************************
-.ar SÆLGER on
-&GARMODADR1
-.br
-&GARMODADR2
-.br
-&GARMODADR3
-.br
-&GARMODADR4
-.br
-&GARMODADR5
-.ar off
-:SWISS8.
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-Kontonr. for garanti:
-:SKRSLUT.
-.ct  &regnr. &ktonr.
-.sp 3mm
-:SWISS8.
-Til sikkerhed for
-.if &L'&MEDNAVN > 0
-.th (købere)
-.el (køber)
-.sp 3mm
-:SKRSLUT.
-.***
-.if &L'&MEDNAVN > 0
-.th .cd 2 0mm 87mm
-.th .cl 85mm
-.***
-.if &L'&KTOLAND > 0
-.th .go EJSTILL2
-.***
-.if &L'&KTOSTILL > 0
-.th &KTOSTILL
-.th .br
-.***
-...EJSTILL2
-&KTONAVN
-.br
-.if &L'&KTOCO > 0
-.th &KTOCO
-.th .br
-&KTOGADE
-.br
-&KTOBY
-.if &L'&KTOLAND > 0
-.th .br
-.th &KTOLAND
-.***
-.if &L'&MEDNAVN > 0
-.th .go MEDNVN
-.el .go MEDNVNSL
-.***
-...MEDNVN
-.cb
-.if &L'&MEDLAND > 0
-.th .go EJSTILL3
-.***
-.if &L'&MEDSTILL > 0
-.th &MEDSTILL
-.th .br
-.***
-...EJSTILL3
-&MEDNAVN
-.br
-.if &L'&MEDCO > 0
-.th &MEDCO
-.th .br
-&MEDGADE
-.br
-&MEDBY
-.if &L'&MEDLAND > 0
-.th .br
-.th &MEDLAND
-.sc
-.***
-...MEDNVNSL
-.sp 3mm
-:SWISS8.
-opfyldelse af købsaftale af
-:SKRSLUT.
-.ct  &GENDATO
-:SWISS8.
-vedrørende køb af ejendommen matr.nr.
-:SKRSLUT.
-.ct  &GENMATRNR.,
-:SWISS8.
-beliggende
-:SKRSLUT.
-.ct  &GENADRESSE.,
-:SWISS8.
-under opførelse stilles uigenkaldelig garanti stor
-.sp 3mm
-.ce on
-kr.
-:SKRSLUT.
-.ct  &RESULTA
-.sp 3mm
-:SWISS8.
-skriver
-:SKRSLUT.
-.ct  &RESULTAT1.&RESULTAT2.
-.ce off
-.sp 5mm
-.kp on
-:SWISS8.
-:FED.
-Dækningsomfang
-:SKRSLUT.
-.br
-Garantien sidestilles med kontant deponering og dækker inden for
-garantisummen ethvert krav, som sælger har mod køber som følge af
-købsaftalen, herunder sælgers eventuelle krav på refusionssaldo og
-eventuelle erstatningskrav over for køber som følge af dennes
-misligholdelse.
-.sp 5mm
-.kp off
-.kp on
-:SWISS8.
-:FED.
-Deponering
-:SKRSLUT.
-.br
-Garantien afløses af kontant deponering i
-:SKRSLUT.
-.ct  &BKNAVN
-:SWISS8.
-(sælgers pengeinstitut) på overtagelsesdagen. Falder overtagelsesdagen
-ikke på en bankdag, skal garantibeløbet deponeres seneste bankdag
-forud for overtagelsesdagen.
-.sp 5mm
-.kp off
-.kp on
-:SWISS8.
-:FED.
-Frigivelse af garantibeløbet/det deponerede beløb ved sælgers opfyldelse
-af aftalen
-:SKRSLUT.
-.br
-Garantibeløbet/det deponerede beløb kan tidligst frigives
-til sælger på overtagelsesdagen, og når samtlige nedenstående betingelser
-er opfyldt:
-.sp 3mm
-:KURSIV.
-1. Endeligt tinglyst skøde uden præjudicerende retsanmærkninger
-:SKRSLUT.
-.br
-Køber skal have opnået endeligt tinglyst skøde uden præjudicerende
-retsanmærkninger.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-Såfremt der ikke foreligger et endeligt tinglyst skøde uden
-præjudicerende retsanmærkninger på overtagelsesdagen, og sælger ønsker
-at få udbetalt garantibeløbet/det deponerede beløb eller
-dele heraf, kan udbetaling alligevel finde sted.
-Forudsætningen herfor er, at sælger samtidig
-hermed stiller en pengeinstitutgaranti over for køber svarende til
-størrelsen af det beløb, der ønskes udbetalt. Garantien skal
-efter sit indhold garantere tilbagebetaling af det udbetalte beløb
-med renter efter rentelovens §5, hvis der ikke
-inden 12 måneder efter overtagelsesdagen foreligger et endeligt tinglyst
-skøde uden præjudicerende retsanmærkninger.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-:KURSIV.
-2. Mangler
-:SKRSLUT.
-.br
-Der skal være afholdt en afleveringsforretning, og køber skal have
-afgivet en erklæring om, at denne har overtaget ejendommen uden
-væsentlige mangler.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-Hvis der mellem køber og sælger er enighed om eksistensen af en mangel
-og størrelsen af udbedringsomkostningerne, kan dette beløb
-tilbageholdes i forbindelse med frigivelse af
-garantibeløbet/det deponerede beløb.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-Hvis køber påberåber sig en mangel ved byggeriet, og sælger ikke er
-enig i eksistensen heraf eller størrelsen af udbedringsomkostningerne, kan
-køber tilbageholde et rimeligt beløb maksimalt svarende til
-udbedringsomkostningerne.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-Køber skal herefter straks og senest inden 10 arbejdsdage foranledige, at
-der indsendes en begæring til Voldgiftsnævnet for
-bygge- og anlægsvirksomhed om at få den mulige mangel og eventuelle
-udbedringsomkostninger vurderet af en uafhængig sagkyndig. Der kan
-herefter alene tilbageholdes et beløb svarende til den sagkyndiges
-vurdering. Har køber ikke indsendt en begæring om vurdering af en
-uafhængig sagkyndig inden for 10 arbejdsdage, skal det af køber
-tilbageholdte beløb frigives til sælger i sin helhed.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-:KURSIV.
-3. Færdigmelding
-:SKRSLUT.
-.br
-De i henhold til købsaftalen fornødne anmeldelser til
-myndigheder/myndighedsgodkendelser skal foreligge.
-.sp 5mm
-.kp off
-.kp on
-:SWISS8.
-:FED.
-Frigivelse ved misligholdelse
-:SKRSLUT.
-.br
-I tilfælde af købers misligholdelse, før køber har fået et endeligt
-tinglyst skøde uden præjudicerende retsanmærkninger, kommer
-garantibeløbet/det deponerede beløb helt eller delvist til
-udbetaling til sælger, når der foreligger dokumentation for sælgers krav
-i form af en erklæring underskrevet af køber, frivilligt forlig, endelig
-dom, kendelse eller retsforlig.
-.sp 5mm
-.kp off
-.kp on
-:SWISS8.
-:FED.
-Gyldighedsperiode
-:SKRSLUT.
-.br
-Garantien er gyldig til den
-:SKRSLUT.
-&GENDATO1
-:SWISS8.
-(forventet overtagelsesdag tillagt 6 måneder). Såfremt der inden
-deponering eller - hvis deponering ikke sker - inden garantiperiodens
-udløb iværksættes retsskridt fra nogen af parterne vedrørende handlens
-opfyldelse og gennemførelse, suspenderes garantiens udløbstidspunkt til
-1 måned efter, at endelig afgørelse foreligger, eller retssagen ophæves.
-.***
-.if &U'X&GENJANEJ1 = XN
-.an &U'X&GENJANEJ2 = XN
-.th :SKRSLUT.
-.th .go PIUNDER
-.kp off
-.***
-.if &U'X&GENJANEJ1 = XJ
-.th .go KLAU1
-.el .go KLAU1SL
-.***
-...KLAU1
-.kp on
-.sp 5mm
-:SWISS8.
-:FED.
-Klausul om transport i tilbagesøgningskrav
-:SKRSLUT.
-.br
-Køber har givet
-:SKRSLUT.
-&BANKNAVN.
-:SWISS8.
-transport i sit krav på
-eventuel tilbagebetaling af købesummen
-med tillæg af renter i den situation, hvor handlen ikke
-gennemføres, eller købesummen nedsættes. En eventuel tilbagebetaling
-af købesummen med tillæg af renter kan alene med frigørende
-virkning tilbagebetales til
-:SKRSLUT.
-&BANKNAVN..
-.if &U'X&GENJANEJ2 = XN
-.th .go PIUNDER
-...KLAU1SL
-.kp off
-.***
-.kp on
-.sp 5mm
-:SWISS8.
-:FED.
-Klausul om tilbagelevering af garantibrevet
-:SKRSLUT.
-.br
-Når der er betalt under garantien, eller denne på anden måde er
-ophørt, skal garantibrevet tilbageleveres til
-:SKRSLUT.
-.ct  &BANKNAVN..
-.***
-...PIUNDER
-.sp 15mm
-.ce on
-:SWISS8.
-den
-:SKRSLUT.
-.ct  &DATO8
-.br
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ce off
-.sp 15mm
-.kp off
 .rh cancel
 .** SIDESKIFT
 .pa nostart
@@ -805,9 +394,9 @@ Regaranti ved køb af nybygget fast ejendom
 :FED.
 Erklæring regaranti
 :SKRSLUT.
-.ct ¤Underskrevne garantirekvirent(er)
+.ct ¤ Underskrevne garantirekvirent(er)
 .sp 3mm
-¤-¤anmoder
+ ¤ - ¤ anmoder
 .in 38mm nobreak
 herved &BANKNAVN om for min/vor regning
 at udfærdige en garanti af ovenstående ordlyd.
@@ -816,7 +405,7 @@ at udfærdige en garanti af ovenstående ordlyd.
 .kp off
 .kp on
 :SWISS8.
-¤-¤forpligter
+ ¤ - ¤ forpligter
 .in 38mm nobreak
 mig/os til at indbetale på anfordring til &BANKNAVN ethvert beløb, som
 &BANKNAVN måtte komme til at udrede som følge af denne garanti.
@@ -825,7 +414,7 @@ mig/os til at indbetale på anfordring til &BANKNAVN ethvert beløb, som
 .kp off
 .kp on
 :SWISS8.
-¤-¤kan
+ ¤ - ¤ kan
 .in 38mm nobreak
 ikke over for &BANKNAVN.s regreskrav i
 anledning af betaling under denne garanti fremsætte indsigelser
@@ -836,7 +425,7 @@ garantimodtager.
 .kp off
 .kp on
 :SWISS8.
-¤-¤forpligter
+ ¤ - ¤ forpligter
 .in 38mm nobreak
 mig/os til at betale &BANKNAVN.s højeste udlånsrente
 af garantibeløbet, som &BANKNAVN måtte udrede fra
@@ -849,9 +438,9 @@ indfrielsestidspunktet, til betaling sker til &BANKNAVN..
 :FED.
 Øvrige vilkår
 :SKRSLUT.
-.ct ¤For garantien gælder endvidere følgende:
+.ct ¤ For garantien gælder endvidere følgende:
 .sp 3mm
-¤1.¤&BANKNAVN
+ ¤ 1. ¤ &BANKNAVN
 .in 38mm nobreak
 er berettiget til uden forudgående
 meddelelse til garantirekvirenten/rne at modregne med ethvert
@@ -862,7 +451,7 @@ garantirekvirenten/rne måtte have hos &BANKNAVN..
 .kp off
 .kp on
 :SWISS8.
-¤2.¤&BANKNAVN
+ ¤ 2. ¤ &BANKNAVN
 .in 38mm nobreak
 kan når som helst forlange omstående
 garantibeløb deponeret som sikkerhed, selv om garantien ikke er
@@ -873,7 +462,7 @@ modregning som anført oven for i punkt 1.
 .kp off
 .kp on
 :SWISS8.
-¤3.¤Retssager
+ ¤ 3. ¤ Retssager
 .in 38mm nobreak
 vedrørende nærværende garanti kan efter
 &BANKNAVN.s ønske anlægges ved byretten i den retskreds,
@@ -881,7 +470,7 @@ hvor &BANKNAVN eller dets kontoførende filial er
 beliggende.
 .in 0mm
 .sp 3mm
-¤Dette gælder dog ikke i forbrugerforhold.
+ ¤ Dette gælder dog ikke i forbrugerforhold.
 .sp 5mm
 .kp off
 .kp on
@@ -889,7 +478,7 @@ beliggende.
 :FED.
 Uigenkaldelig transport
 :SKRSLUT.
-.ct  ¤Til
+.ct  ¤ Til
 .in 35mm nobreak
 sikkerhed for ethvert tab, &BANKNAVN måtte lide som følge af nærværende
 garantistillelse, meddeles &BANKNAVN hermed uigenkaldelig
@@ -903,15 +492,15 @@ mod garantimodtager i anledning af dennes brug af garantien.
 :FED.
 Erklæring
 :SKRSLUT.
-.ct  ¤Underskrevne
+.ct  ¤ Underskrevne
 .in 38mm nobreak
 garantirekvirent(er) erklærer samtidig:
 .sp 3mm
-¤-¤at
+ ¤ - ¤ at
 .in 38mm nobreak
 have gennemlæst og modtaget kopi af nærværende dokument.
 .in 0mm
-¤-¤at
+ ¤ - ¤ at
 .in 38mm nobreak
 være bekendt med og at have modtaget &BANKNAVN.s
 "Almindelige forretningsbetingelser", som jeg accepterer som en del af
@@ -922,18 +511,18 @@ garantiens vilkår.
 :FED.
 Underskrift
 :SKRSLUT
-.ct  ¤Som garantirekvirent:
+.ct  ¤ Som garantirekvirent:
 .sp 10mm
 .hr tynd 35mm 97mm 102mm 165mm
 .br
-¤¤¤den
+ ¤ ¤ ¤ den
 .sp 10mm
 .hr tynd 35mm 165mm
 .br
 :SKRSLUT.
 .if &L'&MEDNAVN > 0
-.th ¤&KTONAVN ¤¤&MEDNAVN
-.el ¤&KTONAVN
+.th ¤ &KTONAVN ¤ ¤ &MEDNAVN
+.el ¤ &KTONAVN
 .kp off
 .*VITTERLIGHED*********************
 .if &U'X&GENJANEJ ne XJ
@@ -944,7 +533,7 @@ Underskrift
 :FED.
 Til vitterlighed
 :SKRSLUT.
-.ct  ¤Til
+.ct  ¤ Til
 .in 35mm nobreak
 vitterlighed om ægte underskrift/underskrifter, dateringens
 rigtighed og udstederens/udstedernes myndighed.
@@ -981,6 +570,26 @@ Underskrift ¤
 .kp off
 .sc
 ...ENDVIT1
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
 .** SIDESKIFT
 .pa
 .da KOPI 182mm 32mm width 30mm
@@ -1371,9 +980,9 @@ Regaranti ved køb af nybygget fast ejendom
 :FED.
 Erklæring regaranti
 :SKRSLUT.
-.ct ¤Underskrevne garantirekvirent(er)
+.ct ¤ Underskrevne garantirekvirent(er)
 .sp 3mm
-¤-¤anmoder
+ ¤ - ¤ anmoder
 .in 38mm nobreak
 herved &BANKNAVN om for min/vor regning
 at udfærdige en garanti af ovenstående ordlyd.
@@ -1382,7 +991,7 @@ at udfærdige en garanti af ovenstående ordlyd.
 .kp off
 .kp on
 :SWISS8.
-¤-¤forpligter
+ ¤ - ¤ forpligter
 .in 38mm nobreak
 mig/os til at indbetale på anfordring til &BANKNAVN ethvert beløb, som
 &BANKNAVN måtte komme til at udrede som følge af denne garanti.
@@ -1391,7 +1000,7 @@ mig/os til at indbetale på anfordring til &BANKNAVN ethvert beløb, som
 .kp off
 .kp on
 :SWISS8.
-¤-¤kan
+ ¤ - ¤ kan
 .in 38mm nobreak
 ikke over for &BANKNAVN.s regreskrav i
 anledning af betaling under denne garanti fremsætte indsigelser
@@ -1402,7 +1011,7 @@ garantimodtager.
 .kp off
 .kp on
 :SWISS8.
-¤-¤forpligter
+ ¤ - ¤ forpligter
 .in 38mm nobreak
 mig/os til at betale &BANKNAVN.s højeste udlånsrente
 af garantibeløbet, som &BANKNAVN måtte udrede fra
@@ -1415,9 +1024,9 @@ indfrielsestidspunktet, til betaling sker til &BANKNAVN..
 :FED.
 Øvrige vilkår
 :SKRSLUT.
-.ct ¤For garantien gælder endvidere følgende:
+.ct ¤ For garantien gælder endvidere følgende:
 .sp 3mm
-¤1.¤&BANKNAVN
+ ¤ 1. ¤ &BANKNAVN
 .in 38mm nobreak
 er berettiget til uden forudgående
 meddelelse til garantirekvirenten/rne at modregne med ethvert
@@ -1428,7 +1037,7 @@ garantirekvirenten/rne måtte have hos &BANKNAVN..
 .kp off
 .kp on
 :SWISS8.
-¤2.¤&BANKNAVN
+ ¤ 2. ¤ &BANKNAVN
 .in 38mm nobreak
 kan når som helst forlange omstående
 garantibeløb deponeret som sikkerhed, selv om garantien ikke er
@@ -1439,7 +1048,7 @@ modregning som anført oven for i punkt 1.
 .kp off
 .kp on
 :SWISS8.
-¤3.¤Retssager
+ ¤ 3. ¤ Retssager
 .in 38mm nobreak
 vedrørende nærværende garanti kan efter
 &BANKNAVN.s ønske anlægges ved byretten i den retskreds,
@@ -1447,7 +1056,7 @@ hvor &BANKNAVN eller dets kontoførende filial er
 beliggende.
 .in 0mm
 .sp 3mm
-¤Dette gælder dog ikke i forbrugerforhold.
+ ¤ Dette gælder dog ikke i forbrugerforhold.
 .sp 5mm
 .kp off
 .kp on
@@ -1455,7 +1064,7 @@ beliggende.
 :FED.
 Uigenkaldelig transport
 :SKRSLUT.
-.ct  ¤Til
+.ct  ¤ Til
 .in 35mm nobreak
 sikkerhed for ethvert tab, &BANKNAVN måtte lide som følge af nærværende
 garantistillelse, meddeles &BANKNAVN hermed uigenkaldelig
@@ -1469,15 +1078,15 @@ mod garantimodtager i anledning af dennes brug af garantien.
 :FED.
 Erklæring
 :SKRSLUT.
-.ct  ¤Underskrevne
+.ct  ¤ Underskrevne
 .in 38mm nobreak
 garantirekvirent(er) erklærer samtidig:
 .sp 3mm
-¤-¤at
+ ¤ - ¤ at
 .in 38mm nobreak
 have gennemlæst og modtaget kopi af nærværende dokument.
 .in 0mm
-¤-¤at
+ ¤ - ¤ at
 .in 38mm nobreak
 være bekendt med og at have modtaget &BANKNAVN.s
 "Almindelige forretningsbetingelser", som jeg accepterer som en del af
@@ -1488,18 +1097,18 @@ garantiens vilkår.
 :FED.
 Underskrift
 :SKRSLUT
-.ct  ¤Som garantirekvirent:
+.ct  ¤ Som garantirekvirent:
 .sp 10mm
 .hr tynd 35mm 97mm 102mm 165mm
 .br
-¤¤¤den
+ ¤ ¤ ¤ den
 .sp 10mm
 .hr tynd 35mm 165mm
 .br
 :SKRSLUT.
 .if &L'&MEDNAVN > 0
-.th ¤&KTONAVN ¤¤&MEDNAVN
-.el ¤&KTONAVN
+.th ¤ &KTONAVN ¤ ¤ &MEDNAVN
+.el ¤ &KTONAVN
 .kp off
 .*VITTERLIGHED*********************
 .if &U'X&GENJANEJ ne XJ
@@ -1510,7 +1119,7 @@ Underskrift
 :FED.
 Til vitterlighed
 :SKRSLUT.
-.ct  ¤Til
+.ct  ¤ Til
 .in 35mm nobreak
 vitterlighed om ægte underskrift/underskrifter, dateringens
 rigtighed og udstederens/udstedernes myndighed.
@@ -1547,6 +1156,38 @@ Underskrift ¤
 .kp off
 .sc
 ...ENDVIT1
+.* Parameterafsnit
+.**************************************************************************
+.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
+.*for at nuv. banker kan fortsætte med at bruge disse.*********************
+.**************************************************************************
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.if &U'X&GENJANEJ1 = XJ
+.or &U'X&GENJANEJ1 = XN
+.th
+.el .mg/T/Klausul om transport i tilbagesøgningskrav: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ2 = XJ
+.or &U'X&GENJANEJ2 = XN
+.th
+.el .mg/T/Klausul om tilbagelevering af garantibrevet: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENREGARAN = XJ
+.or &U'X&GENREGARAN = XN
+.th
+.el .mg/T/Regaranti: Skriv J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ = XJ
+.or &U'X&GENJANEJ = XN
+.th
+.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
 .** SIDESKIFT
 .pa
 .da KOPI 182mm 32mm width 30mm
@@ -1587,6 +1228,376 @@ KOPI
 .rh execute
 .*LINIELÆNGDEN ************************************************************
 .ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.da SÆLGER 25mm  46mm width 150mm
+.**SÆLGER  ****************************************************************
+.ar SÆLGER on
+&GARMODADR1
+.br
+&GARMODADR2
+.br
+&GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.ar off
+:SWISS8.
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+Kontonr. for garanti:
+:SKRSLUT.
+.ct  &regnr. &ktonr.
+.sp 3mm
+:SWISS8.
+Til sikkerhed for
+.if &L'&MEDNAVN > 0
+.th (købere)
+.el (køber)
+.sp 3mm
+:SKRSLUT.
+.***
+.if &L'&MEDNAVN > 0
+.th .cd 2 0mm 87mm
+.th .cl 85mm
+.***
+.if &L'&KTOLAND > 0
+.th .go EJSTILL2
+.***
+.if &L'&KTOSTILL > 0
+.th &KTOSTILL
+.th .br
+.***
+...EJSTILL2
+&KTONAVN
+.br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.if &L'&KTOLAND > 0
+.th .br
+.th &KTOLAND
+.***
+.if &L'&MEDNAVN > 0
+.th .go MEDNVN
+.el .go MEDNVNSL
+.***
+...MEDNVN
+.cb
+.if &L'&MEDLAND > 0
+.th .go EJSTILL3
+.***
+.if &L'&MEDSTILL > 0
+.th &MEDSTILL
+.th .br
+.***
+...EJSTILL3
+&MEDNAVN
+.br
+.if &L'&MEDCO > 0
+.th &MEDCO
+.th .br
+&MEDGADE
+.br
+&MEDBY
+.if &L'&MEDLAND > 0
+.th .br
+.th &MEDLAND
+.sc
+.***
+...MEDNVNSL
+.sp 3mm
+:SWISS8.
+opfyldelse af købsaftale af
+:SKRSLUT.
+.ct  &GENDATO
+:SWISS8.
+vedrørende køb af ejendommen matr.nr.
+:SKRSLUT.
+.ct  &GENMATRNR.,
+:SWISS8.
+beliggende
+:SKRSLUT.
+.ct  &GENADRESSE.,
+:SWISS8.
+under opførelse stilles uigenkaldelig garanti stor
+.sp 3mm
+.ce on
+kr.
+:SKRSLUT.
+.ct  &RESULTA
+.sp 3mm
+:SWISS8.
+skriver
+:SKRSLUT.
+.ct  &RESULTAT1.&RESULTAT2.
+.ce off
+.sp 5mm
+.kp on
+:SWISS8.
+:FED.
+Dækningsomfang
+:SKRSLUT.
+.br
+Garantien sidestilles med kontant deponering og dækker inden for
+garantisummen ethvert krav, som sælger har mod køber som følge af
+købsaftalen, herunder sælgers eventuelle krav på refusionssaldo og
+eventuelle erstatningskrav over for køber som følge af dennes
+misligholdelse.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Deponering
+:SKRSLUT.
+.br
+Garantien afløses af kontant deponering i
+:SKRSLUT.
+.ct  &BKNAVN
+:SWISS8.
+(sælgers pengeinstitut) på overtagelsesdagen. Falder overtagelsesdagen
+ikke på en bankdag, skal garantibeløbet deponeres seneste bankdag
+forud for overtagelsesdagen.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Frigivelse af garantibeløbet/det deponerede beløb ved sælgers opfyldelse
+af aftalen
+:SKRSLUT.
+.br
+Garantibeløbet/det deponerede beløb kan tidligst frigives
+til sælger på overtagelsesdagen, og når samtlige nedenstående betingelser
+er opfyldt:
+.sp 3mm
+:KURSIV.
+1. Endeligt tinglyst skøde uden præjudicerende retsanmærkninger
+:SKRSLUT.
+.br
+Køber skal have opnået endeligt tinglyst skøde uden præjudicerende
+retsanmærkninger.
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+Såfremt der ikke foreligger et endeligt tinglyst skøde uden
+præjudicerende retsanmærkninger på overtagelsesdagen, og sælger ønsker
+at få udbetalt garantibeløbet/det deponerede beløb eller
+dele heraf, kan udbetaling alligevel finde sted.
+Forudsætningen herfor er, at sælger samtidig
+hermed stiller en pengeinstitutgaranti over for køber svarende til
+størrelsen af det beløb, der ønskes udbetalt. Garantien skal
+efter sit indhold garantere tilbagebetaling af det udbetalte beløb
+med renter efter rentelovens §5, hvis der ikke
+inden 12 måneder efter overtagelsesdagen foreligger et endeligt tinglyst
+skøde uden præjudicerende retsanmærkninger.
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+:KURSIV.
+2. Mangler
+:SKRSLUT.
+.br
+Der skal være afholdt en afleveringsforretning, og køber skal have
+afgivet en erklæring om, at denne har overtaget ejendommen uden
+væsentlige mangler.
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+Hvis der mellem køber og sælger er enighed om eksistensen af en mangel
+og størrelsen af udbedringsomkostningerne, kan dette beløb
+tilbageholdes i forbindelse med frigivelse af
+garantibeløbet/det deponerede beløb.
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+Hvis køber påberåber sig en mangel ved byggeriet, og sælger ikke er
+enig i eksistensen heraf eller størrelsen af udbedringsomkostningerne, kan
+køber tilbageholde et rimeligt beløb maksimalt svarende til
+udbedringsomkostningerne.
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+Køber skal herefter straks og senest inden 10 arbejdsdage foranledige, at
+der indsendes en begæring til Voldgiftsnævnet for
+bygge- og anlægsvirksomhed om at få den mulige mangel og eventuelle
+udbedringsomkostninger vurderet af en uafhængig sagkyndig. Der kan
+herefter alene tilbageholdes et beløb svarende til den sagkyndiges
+vurdering. Har køber ikke indsendt en begæring om vurdering af en
+uafhængig sagkyndig inden for 10 arbejdsdage, skal det af køber
+tilbageholdte beløb frigives til sælger i sin helhed.
+.sp 3mm
+.kp off
+.kp on
+:SWISS8.
+:KURSIV.
+3. Færdigmelding
+:SKRSLUT.
+.br
+De i henhold til købsaftalen fornødne anmeldelser til
+myndigheder/myndighedsgodkendelser skal foreligge.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Frigivelse ved misligholdelse
+:SKRSLUT.
+.br
+I tilfælde af købers misligholdelse, før køber har fået et endeligt
+tinglyst skøde uden præjudicerende retsanmærkninger, kommer
+garantibeløbet/det deponerede beløb helt eller delvist til
+udbetaling til sælger, når der foreligger dokumentation for sælgers krav
+i form af en erklæring underskrevet af køber, frivilligt forlig, endelig
+dom, kendelse eller retsforlig.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Gyldighedsperiode
+:SKRSLUT.
+.br
+Garantien er gyldig til den
+:SKRSLUT.
+&GENDATO1
+:SWISS8.
+(forventet overtagelsesdag tillagt 6 måneder). Såfremt der inden
+deponering eller - hvis deponering ikke sker - inden garantiperiodens
+udløb iværksættes retsskridt fra nogen af parterne vedrørende handlens
+opfyldelse og gennemførelse, suspenderes garantiens udløbstidspunkt til
+1 måned efter, at endelig afgørelse foreligger, eller retssagen ophæves.
+.***
+.if &U'X&GENJANEJ1 = XN
+.an &U'X&GENJANEJ2 = XN
+.th :SKRSLUT.
+.th .go PIUNDER
+.kp off
+.***
+.if &U'X&GENJANEJ1 = XJ
+.th .go KLAU1
+.el .go KLAU1SL
+.***
+...KLAU1
+.kp on
+.sp 5mm
+:SWISS8.
+:FED.
+Klausul om transport i tilbagesøgningskrav
+:SKRSLUT.
+.br
+Køber har givet
+:SKRSLUT.
+&BANKNAVN.
+:SWISS8.
+transport i sit krav på
+eventuel tilbagebetaling af købesummen
+med tillæg af renter i den situation, hvor handlen ikke
+gennemføres, eller købesummen nedsættes. En eventuel tilbagebetaling
+af købesummen med tillæg af renter kan alene med frigørende
+virkning tilbagebetales til
+:SKRSLUT.
+&BANKNAVN..
+.if &U'X&GENJANEJ2 = XN
+.th .go PIUNDER
+...KLAU1SL
+.kp off
+.***
+.kp on
+.sp 5mm
+:SWISS8.
+:FED.
+Klausul om tilbagelevering af garantibrevet
+:SKRSLUT.
+.br
+Når der er betalt under garantien, eller denne på anden måde er
+ophørt, skal garantibrevet tilbageleveres til
+:SKRSLUT.
+.ct  &BANKNAVN..
+.***
+...PIUNDER
+.sp 15mm
+.ce on
+:SWISS8.
+den
+:SKRSLUT.
+.ct  &DATO8
+.br
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ce off
+.sp 15mm
+.kp off
+.** SIDESKIFT
+.pa
+.da KOPI 182mm 32mm width 30mm
+.***********************************************************
+.ar KOPI on
+:COUR14.
+:FED.
+KOPI
+:SKRSLUT.
+.ar off
+.***********************************************************
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Standardgaranti ved køb af nybygget fast ejendom
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.sp 96mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.* Parameterafsnit - beregning
+.**************************************************************************
 .da VEND 7mm 270mm width 180mm rotate -90
 .**************************************************************************
 .* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
@@ -2178,122 +2189,6 @@ uafhængig sagkyndig inden for 10 arbejdsdage, skal det af køber
 tilbageholdte beløb frigives til sælger i sin helhed.
 .sp 3mm
 .kp off
-.kp on
-:SWISS8.
-:KURSIV.
-3. Færdigmelding
-:SKRSLUT.
-.br
-De i henhold til købsaftalen fornødne anmeldelser til
-myndigheder/myndighedsgodkendelser skal foreligge.
-.sp 5mm
-.kp off
-.kp on
-:SWISS8.
-:FED.
-Frigivelse ved misligholdelse
-:SKRSLUT.
-.br
-I tilfælde af købers misligholdelse, før køber har fået et endeligt
-tinglyst skøde uden præjudicerende retsanmærkninger, kommer
-garantibeløbet/det deponerede beløb helt eller delvist til
-udbetaling til sælger, når der foreligger dokumentation for sælgers krav
-i form af en erklæring underskrevet af køber, frivilligt forlig, endelig
-dom, kendelse eller retsforlig.
-.sp 5mm
-.kp off
-.kp on
-:SWISS8.
-:FED.
-Gyldighedsperiode
-:SKRSLUT.
-.br
-Garantien er gyldig til den
-:SKRSLUT.
-&GENDATO1
-:SWISS8.
-(forventet overtagelsesdag tillagt 6 måneder). Såfremt der inden
-deponering eller - hvis deponering ikke sker - inden garantiperiodens
-udløb iværksættes retsskridt fra nogen af parterne vedrørende handlens
-opfyldelse og gennemførelse, suspenderes garantiens udløbstidspunkt til
-1 måned efter, at endelig afgørelse foreligger, eller retssagen ophæves.
-.***
-.if &U'X&GENJANEJ1 = XN
-.an &U'X&GENJANEJ2 = XN
-.th :SKRSLUT.
-.th .go PIUNDER
-.kp off
-.***
-.if &U'X&GENJANEJ1 = XJ
-.th .go KLAU1
-.el .go KLAU1SL
-.***
-...KLAU1
-.kp on
-.sp 5mm
-:SWISS8.
-:FED.
-Klausul om transport i tilbagesøgningskrav
-:SKRSLUT.
-.br
-Køber har givet
-:SKRSLUT.
-&BANKNAVN.
-:SWISS8.
-transport i sit krav på
-eventuel tilbagebetaling af købesummen
-med tillæg af renter i den situation, hvor handlen ikke
-gennemføres, eller købesummen nedsættes. En eventuel tilbagebetaling
-af købesummen med tillæg af renter kan alene med frigørende
-virkning tilbagebetales til
-:SKRSLUT.
-&BANKNAVN..
-.if &U'X&GENJANEJ2 = XN
-.th .go PIUNDER
-...KLAU1SL
-.kp off
-.***
-.kp on
-.sp 5mm
-:SWISS8.
-:FED.
-Klausul om tilbagelevering af garantibrevet
-:SKRSLUT.
-.br
-Når der er betalt under garantien, eller denne på anden måde er
-ophørt, skal garantibrevet tilbageleveres til
-:SKRSLUT.
-.ct  &BANKNAVN..
-.***
-...PIUNDER
-.sp 15mm
-.ce on
-:SWISS8.
-den
-:SKRSLUT.
-.ct  &DATO8
-.br
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ce off
-.sp 15mm
-.kp off
-.** SIDESKIFT
-.pa
-.da KOPI 182mm 32mm width 30mm
-.***********************************************************
-.ar KOPI on
-:COUR14.
-:FED.
-KOPI
-:SKRSLUT.
-.ar off
-.***********************************************************
 .********************GENEREL OPSÆTNING*************************************
 :COUR10.
 .fo left
@@ -2428,6 +2323,34 @@ den
 .ce off
 .sp 15mm
 .kp off
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.da SÆLGER 25mm  46mm width 150mm
+.**SÆLGER  ****************************************************************
+.ar SÆLGER on
+&GARMODADR1
+.br
+&GARMODADR2
+.br
+&GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.ar off
 :SWISS8.
 .se regnr = substr &LANGKTONR 1 4
 .se ktonr = substr &LANGKTONR 5 21
@@ -2623,31 +2546,109 @@ uafhængig sagkyndig inden for 10 arbejdsdage, skal det af køber
 tilbageholdte beløb frigives til sælger i sin helhed.
 .sp 3mm
 .kp off
-.**************************************************************************
-.da SÆLGER 25mm  46mm width 150mm
-.**SÆLGER  ****************************************************************
-.ar SÆLGER on
-&GARMODADR1
+.kp on
+:SWISS8.
+:KURSIV.
+3. Færdigmelding
+:SKRSLUT.
 .br
-&GARMODADR2
+De i henhold til købsaftalen fornødne anmeldelser til
+myndigheder/myndighedsgodkendelser skal foreligge.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Frigivelse ved misligholdelse
+:SKRSLUT.
 .br
-&GARMODADR3
+I tilfælde af købers misligholdelse, før køber har fået et endeligt
+tinglyst skøde uden præjudicerende retsanmærkninger, kommer
+garantibeløbet/det deponerede beløb helt eller delvist til
+udbetaling til sælger, når der foreligger dokumentation for sælgers krav
+i form af en erklæring underskrevet af køber, frivilligt forlig, endelig
+dom, kendelse eller retsforlig.
+.sp 5mm
+.kp off
+.kp on
+:SWISS8.
+:FED.
+Gyldighedsperiode
+:SKRSLUT.
 .br
-&GARMODADR4
+Garantien er gyldig til den
+:SKRSLUT.
+&GENDATO1
+:SWISS8.
+(forventet overtagelsesdag tillagt 6 måneder). Såfremt der inden
+deponering eller - hvis deponering ikke sker - inden garantiperiodens
+udløb iværksættes retsskridt fra nogen af parterne vedrørende handlens
+opfyldelse og gennemførelse, suspenderes garantiens udløbstidspunkt til
+1 måned efter, at endelig afgørelse foreligger, eller retssagen ophæves.
+.***
+.if &U'X&GENJANEJ1 = XN
+.an &U'X&GENJANEJ2 = XN
+.th :SKRSLUT.
+.th .go PIUNDER
+.kp off
+.***
+.if &U'X&GENJANEJ1 = XJ
+.th .go KLAU1
+.el .go KLAU1SL
+.***
+...KLAU1
+.kp on
+.sp 5mm
+:SWISS8.
+:FED.
+Klausul om transport i tilbagesøgningskrav
+:SKRSLUT.
 .br
-&GARMODADR5
-.ar off
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+Køber har givet
+:SKRSLUT.
+&BANKNAVN.
+:SWISS8.
+transport i sit krav på
+eventuel tilbagebetaling af købesummen
+med tillæg af renter i den situation, hvor handlen ikke
+gennemføres, eller købesummen nedsættes. En eventuel tilbagebetaling
+af købesummen med tillæg af renter kan alene med frigørende
+virkning tilbagebetales til
+:SKRSLUT.
+&BANKNAVN..
+.if &U'X&GENJANEJ2 = XN
+.th .go PIUNDER
+...KLAU1SL
+.kp off
+.***
+.kp on
+.sp 5mm
+:SWISS8.
+:FED.
+Klausul om tilbagelevering af garantibrevet
+:SKRSLUT.
+.br
+Når der er betalt under garantien, eller denne på anden måde er
+ophørt, skal garantibrevet tilbageleveres til
+:SKRSLUT.
+.ct  &BANKNAVN..
+.***
+...PIUNDER
+.sp 15mm
+.ce on
+:SWISS8.
+den
+:SKRSLUT.
+.ct  &DATO8
+.br
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ce off
+.sp 15mm
+.kp off
+

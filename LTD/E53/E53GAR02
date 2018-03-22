@@ -11,190 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.* Parameterafsnit
-.* Parameterafsnit - beregning
-.* Parameterafsnit
-.**************************************************************************
-.**DETTE TEKSTAFSNIT BENYTTES OGSÅ I BECGAR02 BECGAR03 BECGAR04 BECGAR07***
-.**BECGAR11 BECGAR12   ****************************************************
-.**************************************************************************
-.* Parameterafsnit
-.*Valider at der findes data i mindst eet af Garantimodt.adresse-felterne
-.if &L'&GARMODADR1 = 0
-.an &L'&GARMODADR2 = 0
-.an &L'&GARMODADR3 = 0
-.an &L'&GARMODADR4 = 0
-.an &L'&GARMODADR5 = 0
-.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.** OVERSKRIFT (hvis BECKARAK1 = J så Anfordringsgaranti ellers Garanti)*
-.** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
-.ar OVERSKR on
-:SWISS12.:FED.
-.us
-.if .&U'&BECKARAK1 = .J
-.th Garanti i forbindelse med tvangsauktion
-.el Garanti i forbindelse med tvangsauktion
-:SKRSLUT.
-.ar off
-.*************************************************************************
-.* Garanti - incl. anfordring - Kasser og ledetekst
-.da BOX   20mm 40mm WIDTH 175mm
-.ll 174mm
-.tp 1mm 88mm 145mm 76mm
-.**********************************
-.ar BOX on
-:SWISS10.:FED.
-¤Garantinummer
-:SKRSLUT.
-.**********************************
-.bx left right
-:SWISS8.
-¤Kontonr. for garanti
-:SKRSLUT.
-.sp 6mm
-.bx off
-.**********************************
-:SWISS10.:FED.
-¤Garantianmoder
-:SWISS8.
-.bx left right
-.if X&L'&MEDNAVN gt X0
-.th ¤På foranledning af¤og
-.el ¤På foranledning af
-:SKRSLUT.
-.sp 19mm
-.bx off
-.**********************************
-:SWISS10.:FED.
-¤Betingelser
-:SWISS8.
-.bx left right
-¤indestår &BANKNAVN herved
-.sp 25mm
-¤med et beløb af indtil &GENMØNTK.
-.sp 1mm
-¤Beløb i tekst:
-:SKRSLUT.
-.bx off
-.**********************************
-.bx set left right
-:SWISS8.
-¤som garantistiller til sikkerhed for:
-.sp 49.5mm
-.bx off
-.**********************************
-.bx set left right
-:SWISS8.
-¤supplerende oplysninger
-:SKRSLUT.
-.sp 21mm
-.bx off
-.ar off
-.* Garanti - incl. anfordring - Faste betingelser
-.ti ¤ 05
-.da KASS1  20mm 206mm WIDTH 175mm
-.da BETK1  21mm 211mm WIDTH 85mm
-.da BETK2 108mm 211mm WIDTH 85mm
-.da UNDER 21mm 242.5mm WIDTH 175mm
-.******************
-.ar KASS1 on
-.tp 1mm
-:SWISS10.:FED.
-¤Pengeinstituterklæring
-:SKRSLUT.
-.bx left right
-.sp 30mm
-.bx new left right
-.sp 20mm
-.bx off
-.bx can
-.ar off
-.** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
-.ar BETK1 on
-:SWISS8.
-.if X&U'&BECKARAK1 = XJ
-.th .go ANFORF
-Såfremt garantianmoder rejser indsigelse mod udbetaling under denne
-garanti, må betaling afvente forlig eller retsafgørelse.
-.sp 2mm
-...ANFORF
-.if X&U'&BECKARAK1 = XJ
-.th Beløbet holdes til disposition på anfordring og uden rettergang.
-.th .sp 2mm
-Krav i henhold til garantien må være
-pengeinstituttet skriftligt i hænde inden
-ovennævnte garantiudløb, idet garantien i modsat fald er bortfaldet.
-.sp 2mm
-Det er en klar forudsætning for pengeinstituttets garantistillelse at
-pengeinstituttet får anmeldelsesretten i garantirekvirentens evt. bo for
-beløb, som pengeinstituttet betaler under nærværende garanti.
-.ar off
-.**********************
-.ar BETK2 on
-:SWISS8.
-.if X&U'&BECKARAK1 = XJ
-.el .go EJTILB
-:FED.Tilbagebetalingskrav. :SKRSLUT.
-.sp 1mm
-Eventuelle krav, som følge af at garantimodtager
-uberettiget måtte have fået udbetalt beløb under garantien, er
-tiltransporteret pengeinstituttet.
-...EJTILB
-.if X&U'&BECKARAK1 = XJ
-.th .go RETUR
-Såfremt
-pengeinstituttet måtte ønske det, er det berettiget til at
-kræve transport på det indfriede beløb.
-.sp 2mm
-...RETUR
-.br
-Efter garantiens bortfald bedes
-denne garantierklæring returneret til pengeinstituttet. Uanset
-originalgarantiens manglende returnering til
-pengeinstituttet kan der efter garantiens bortfald ikke gøres
-rettigheder gældende. Iøvrigt gælder pengeinstituttets almindelige
-forretningsbestemmelser.
-.of
-.ar off
-.**********************
-.ar UNDER on
-:SWISS8.
-.tp 143mm
-Pengeinstituttets underskrift¤Dato:
-.ar off
 :COUR10.
 .da PIDATO 173mm  76mm
 .da PIUSKR 25mm  80mm
@@ -268,143 +84,52 @@ Side &SIDENR1 af &IALT
 .**********************************
 .ar BOX on
 :SWISS10.:FED.
-¤Garantinummer
+ ¤ Garantinummer
 :SKRSLUT.
 .**********************************
 .bx left right
 :SWISS8.
-¤Kontonr. for garanti
+ ¤ Kontonr. for garanti
 :SKRSLUT.
 .sp 6mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Garantianmoder
+ ¤ Garantianmoder
 :SWISS8.
 .bx left right
 .if X&L'&MEDNAVN gt X0
-.th ¤På foranledning af¤og
-.el ¤På foranledning af
+.th ¤ På foranledning af ¤ og
+.el ¤ På foranledning af
 :SKRSLUT.
 .sp 19mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Betingelser
+ ¤ Betingelser
 :SWISS8.
 .bx left right
-¤indestår &BANKNAVN herved
+ ¤ indestår &BANKNAVN herved
 .sp 25mm
-¤med et beløb af indtil &GENMØNTK.
+ ¤ med et beløb af indtil &GENMØNTK.
 .sp 1mm
-¤Beløb i tekst:
+ ¤ Beløb i tekst:
 :SKRSLUT.
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤som garantistiller til sikkerhed for:
+ ¤ som garantistiller til sikkerhed for:
 .sp 49.5mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤supplerende oplysninger
+ ¤ supplerende oplysninger
 :SKRSLUT.
 .sp 21mm
 .bx off
 .ar off
-.an &L'&GARUDLDATO1 gt 0
-.th :SWISS8.
-.th .br
-.th Nærværende garanti er gældende indtil den:
-.th :SKRSLUT.
-.th .ct  &GARUDLDATO..
-.th .go SIKHED1
-.**** HER TESTES PÅ OM KUN OPSIGELSESVARSLET FINDES, OG = 1 DAG, (DAGS)
-.if &L'&GENNR1 gt 0
-.an &GENNR1 eq 1
-.an &L'&GARUDLDATO eq 0
-.th :SWISS8.
-.th Nærværende garanti er gældende indtil videre, men kan af:SKRSLUT.
-.th .ct  &BANKNAVN &ÅCONT
-.th :SWISS8.
-.th opsiges med:SKRSLUT.
-.th .ct  &GENNR1
-.th :SWISS8.
-.th .ct  dags varsel.:SKRSLUT.
-.th .go SIKHED1
-.**** HER TESTES PÅ OM KUN OPSIGELSESVARSLET FINDES, OG > 1 DAG, (DAGES)
-.if &L'&GENNR1 gt 0
-.an &L'&GARUDLDATO eq 0
-.th :SWISS8.
-.th Nærværende garanti er gældende indtil videre, men kan af:SKRSLUT.
-.th .ct  &BANKNAVN &ÅCONT
-.th :SWISS8.
-.th opsiges med:SKRSLUT.
-.th .ct  &GENNR1 &ÅCONT
-.th :SWISS8.
-.th dages varsel.:SKRSLUT.
-...SIKHED1
-.ar off
-.*******************************
-.ar SUPPLE on
- &BECTEKST03
-.br
- &BECTEKST04
-.br
- &BECTEKST05
-.ar off
-.br
-&GARMODADR4
-.br
-&GARMODADR5
-.ar off
-.*******************************
-.ar BELOB on
-.tp 13mm
-¤&RESULTA
-.sp 0.5mm
-&RESULTAT1.&RESULTAT2
-.ar off
-.*******************************
-.ar SIKKER on
- &BECTEKST10
-.br
- &BECTEKST11
-.br
- &BECTEKST12
-.br
- &BECTEKST13
-.br
- &BECTEKST14
-.br
- &BECTEKST15
-.br
- &BECTEKST16
-.br
- &BECTEKST17
-.br
- &BECTEKST18
-.br
- &BECTEKST19
-.ar off
-.*******************************
-.ar DATO on
-.**** TEST: ER BÅDE OPSIGELSESVARSEL OG UDLØBSDATO UDFYLDT = FEJL
-.if &L'&GARUDLDATO gt 0
-.an &L'&GENNR1 gt 0
-.th .mg/T/ Der må ikke indtastes både udløbsdato og opsigelsesvarsel./
-.**** TEST: ER HVERKEN OPSIGELSESVARSEL ELLER UDLØBSDATO UDFYLDT = FEJL
-.if &L'&GARUDLDATO eq 0
-.an &L'&GENNR1 eq 0
-.th .mg/T/ Enten udløbsdato eller opsigelsesvarsel SKAL udfyldes./
-.**** HER TESTES PÅ INDHOLDET i OPSIGELSESVARSLET ER = 0
-.if &L'&GENNR1 gt 0
-.an X&GENNR1 eq X0
-.th .mg/T/ Der må ikke indtastes 0 i opsigelsesvarsel./
-.**** TEST PÅ OM KUN UDLØBSDATO FINDES
-.if &L'&GENNR1 eq 0
 :COUR10.
 .da GARNR  25mm 49.5mm
 .da PFA    25mm  64mm
@@ -455,6 +180,97 @@ Side &SIDENR1 af &IALT
 &GARMODADR2
 .br
 &GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.ar off
+.*******************************
+.ar BELOB on
+.tp 13mm
+ ¤ &RESULTA
+.sp 0.5mm
+&RESULTAT1.&RESULTAT2
+.ar off
+.*******************************
+.ar SIKKER on
+ &BECTEKST10
+.br
+ &BECTEKST11
+.br
+ &BECTEKST12
+.br
+ &BECTEKST13
+.br
+ &BECTEKST14
+.br
+ &BECTEKST15
+.br
+ &BECTEKST16
+.br
+ &BECTEKST17
+.br
+ &BECTEKST18
+.br
+ &BECTEKST19
+.ar off
+.*******************************
+.ar DATO on
+.**** TEST: ER BÅDE OPSIGELSESVARSEL OG UDLØBSDATO UDFYLDT = FEJL
+.if &L'&GARUDLDATO gt 0
+.an &L'&GENNR1 gt 0
+.th .mg/T/ Der må ikke indtastes både udløbsdato og opsigelsesvarsel./
+.**** TEST: ER HVERKEN OPSIGELSESVARSEL ELLER UDLØBSDATO UDFYLDT = FEJL
+.if &L'&GARUDLDATO eq 0
+.an &L'&GENNR1 eq 0
+.th .mg/T/ Enten udløbsdato eller opsigelsesvarsel SKAL udfyldes./
+.**** HER TESTES PÅ INDHOLDET i OPSIGELSESVARSLET ER = 0
+.if &L'&GENNR1 gt 0
+.an X&GENNR1 eq X0
+.th .mg/T/ Der må ikke indtastes 0 i opsigelsesvarsel./
+.**** TEST PÅ OM KUN UDLØBSDATO FINDES
+.if &L'&GENNR1 eq 0
+.an &L'&GARUDLDATO1 gt 0
+.th :SWISS8.
+.th .br
+.th Nærværende garanti er gældende indtil den:
+.th :SKRSLUT.
+.th .ct  &GARUDLDATO..
+.th .go SIKHED1
+.**** HER TESTES PÅ OM KUN OPSIGELSESVARSLET FINDES, OG = 1 DAG, (DAGS)
+.if &L'&GENNR1 gt 0
+.an &GENNR1 eq 1
+.an &L'&GARUDLDATO eq 0
+.th :SWISS8.
+.th Nærværende garanti er gældende indtil videre, men kan af:SKRSLUT.
+.th .ct  &BANKNAVN &ÅCONT
+.th :SWISS8.
+.th opsiges med:SKRSLUT.
+.th .ct  &GENNR1
+.th :SWISS8.
+.th .ct  dags varsel.:SKRSLUT.
+.th .go SIKHED1
+.**** HER TESTES PÅ OM KUN OPSIGELSESVARSLET FINDES, OG > 1 DAG, (DAGES)
+.if &L'&GENNR1 gt 0
+.an &L'&GARUDLDATO eq 0
+.th :SWISS8.
+.th Nærværende garanti er gældende indtil videre, men kan af:SKRSLUT.
+.th .ct  &BANKNAVN &ÅCONT
+.th :SWISS8.
+.th opsiges med:SKRSLUT.
+.th .ct  &GENNR1 &ÅCONT
+.th :SWISS8.
+.th dages varsel.:SKRSLUT.
+...SIKHED1
+.ar off
+.*******************************
+.ar SUPPLE on
+ &BECTEKST03
+.br
+ &BECTEKST04
+.br
+ &BECTEKST05
+.ar off
 .** SIDESKIFT
 .pa
 .*************** GENEREL OPSÆTNING ***************************************
@@ -497,7 +313,7 @@ Side &SIDENR2 af &IALT
 .ar KASS1 on
 .tp 1mm
 :SWISS10.:FED.
-¤Pengeinstituterklæring
+ ¤ Pengeinstituterklæring
 :SKRSLUT.
 .bx left right
 .sp 30mm
@@ -557,7 +373,7 @@ forretningsbestemmelser.
 .ar UNDER on
 :SWISS8.
 .tp 143mm
-Pengeinstituttets underskrift¤Dato:
+Pengeinstituttets underskrift ¤ Dato:
 .ar off
 :COUR10.
 .da PIDATO 173mm  76mm
@@ -576,6 +392,26 @@ Pengeinstituttets underskrift¤Dato:
 &AFDBY
 .ar off
 .*******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
 .* Box/teskt (MODGARANTI)
 .** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
 .tp 1mm
@@ -587,7 +423,7 @@ Pengeinstituttets underskrift¤Dato:
 .**********************************
 .ar MODGA on
 :SWISS10.:FED.
-¤Kundeerklæring
+ ¤ Kundeerklæring
 :SKRSLUT.
 :SWISS8.
 .bx left right
@@ -599,16 +435,16 @@ Pengeinstituttets underskrift¤Dato:
 ...MED
 .bx set left 87mm right
 .tp 1mm 88mm
-¤Dato og kundens underskrift. ¤Til vitterlighed om ægte
+ ¤ Dato og kundens underskrift. ¤ Til vitterlighed om ægte
 underskrift/underskrifter, dateringens rigtig-
 .br
-¤¤hed og udstederens/udstedernes myndighed.
+ ¤ ¤ hed og udstederens/udstedernes myndighed.
 .sp 36mm
 .go SSS
 ...UDEN
 .bx set left right
 .tp 1mm
-¤Dato og kundens underskrift.
+ ¤ Dato og kundens underskrift.
 .sp 36mm
 ...SSS
 .bx off
@@ -640,7 +476,7 @@ Selv på de områder, hvor der gælder et strengere ansvar, er banken ikke
 ansvarlig for tab, som skyldes:
 .sp 3mm
 .tp 5mm
-*¤nedbrud i/manglende
+* ¤ nedbrud i/manglende
 .in 5mm nobreak
 adgang til it-systemer eller beskadigelse af data i disse systemer, der
 kan henføres til nedennævnte
@@ -652,14 +488,14 @@ kan henføres til nedennævnte
 :SWISS8.
 .** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
 .tp 5mm
-¤begivenheder,
+ ¤ begivenheder,
 .in 5mm nobreak
 uanset om det er
 pengeinstituttet selv eller en ekstern leverandør, der står for driften
 af systemerne
 .in 0mm
 .br
-*¤svigt
+* ¤ svigt
 .in 5mm nobreak
 i pengeinstituttets strømforsyning eller telekommunikation, lovindgreb
 eller forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige
@@ -667,7 +503,7 @@ uroligheder, sabotage, terror eller hærværk (herunder computervirus og
 hacking)
 .br
 .in 0mm
-*¤strejke, lockout, boykot
+* ¤ strejke, lockout, boykot
 .in 5mm nobreak
 eller blokade, uanset om konflikten er rettet mod eller iværksat af
 pengeinstituttet selv eller dens organisation, og uanset konfliktens
@@ -675,20 +511,20 @@ pengeinstituttet selv eller dens organisation, og uanset konfliktens
 pengeinstituttet
 .br
 .in 0mm
-*¤andre
+* ¤ andre
 .in 5mm nobreak
 omstændigheder, som er uden for pengeinstituttets kontrol.
 .sp
 .in 0mm
 Pengeinstituttets ansvarsfrihed gælder ikke hvis:
 .sp 3mm
-*¤pengeinstituttet
+* ¤ pengeinstituttet
 .in 5mm nobreak
 burde have forudset det forhold, som er årsag til tabet, da aftalen blev
 indgået eller burde have undgået eller overvundet årsagen til tabet
 .br
 .in 0mm
-*¤lovgivningen
+* ¤ lovgivningen
 .in 5mm nobreak
 under alle omstændigheder gør pengeinstituttet ansvarlig for det
 forhold, som er årsag til tabet.
@@ -761,48 +597,48 @@ Side &SIDENR1 af &IALT
 .**********************************
 .ar BOX on
 :SWISS10.:FED.
-¤Garantinummer
+ ¤ Garantinummer
 :SKRSLUT.
 .**********************************
 .bx left right
 :SWISS8.
-¤Kontonr. for garanti
+ ¤ Kontonr. for garanti
 :SKRSLUT.
 .sp 6mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Garantianmoder
+ ¤ Garantianmoder
 :SWISS8.
 .bx left right
 .if X&L'&MEDNAVN gt X0
-.th ¤På foranledning af¤og
-.el ¤På foranledning af
+.th ¤ På foranledning af ¤ og
+.el ¤ På foranledning af
 :SKRSLUT.
 .sp 19mm
 .bx off
 .**********************************
 :SWISS10.:FED.
-¤Betingelser
+ ¤ Betingelser
 :SWISS8.
 .bx left right
-¤indestår &BANKNAVN herved
+ ¤ indestår &BANKNAVN herved
 .sp 25mm
-¤med et beløb af indtil &GENMØNTK.
+ ¤ med et beløb af indtil &GENMØNTK.
 .sp 1mm
-¤Beløb i tekst:
+ ¤ Beløb i tekst:
 :SKRSLUT.
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤som garantistiller til sikkerhed for:
+ ¤ som garantistiller til sikkerhed for:
 .sp 49.5mm
 .bx off
 .**********************************
 .bx set left right
 :SWISS8.
-¤supplerende oplysninger
+ ¤ supplerende oplysninger
 :SKRSLUT.
 .sp 21mm
 .bx off
@@ -873,7 +709,7 @@ Side &SIDENR2 af &IALT
 .ar KASS1 on
 .tp 1mm
 :SWISS10.:FED.
-¤Pengeinstituterklæring
+ ¤ Pengeinstituterklæring
 :SKRSLUT.
 .bx left right
 .sp 30mm
@@ -933,8 +769,9 @@ forretningsbestemmelser.
 .ar UNDER on
 :SWISS8.
 .tp 143mm
-Pengeinstituttets underskrift¤Dato:
+Pengeinstituttets underskrift ¤ Dato:
 .ar off
+.* Parameterafsnit
 :COUR10.
 .da PIDATO 173mm  76mm
 .da PIUSKR 25mm  80mm
@@ -963,7 +800,7 @@ Pengeinstituttets underskrift¤Dato:
 .**********************************
 .ar MODGA on
 :SWISS10.:FED.
-¤Kundeerklæring
+ ¤ Kundeerklæring
 :SKRSLUT.
 :SWISS8.
 .bx left right
@@ -975,16 +812,16 @@ Pengeinstituttets underskrift¤Dato:
 ...MED
 .bx set left 87mm right
 .tp 1mm 88mm
-¤Dato og kundens underskrift. ¤Til vitterlighed om ægte
+ ¤ Dato og kundens underskrift. ¤ Til vitterlighed om ægte
 underskrift/underskrifter, dateringens rigtig-
 .br
-¤¤hed og udstederens/udstedernes myndighed.
+ ¤ ¤ hed og udstederens/udstedernes myndighed.
 .sp 36mm
 .go SSS
 ...UDEN
 .bx set left right
 .tp 1mm
-¤Dato og kundens underskrift.
+ ¤ Dato og kundens underskrift.
 .sp 36mm
 ...SSS
 .bx off
@@ -1016,7 +853,7 @@ Selv på de områder, hvor der gælder et strengere ansvar, er banken ikke
 ansvarlig for tab, som skyldes:
 .sp 3mm
 .tp 5mm
-*¤nedbrud i/manglende
+* ¤ nedbrud i/manglende
 .in 5mm nobreak
 adgang til it-systemer eller beskadigelse af data i disse systemer, der
 kan henføres til nedennævnte
@@ -1028,14 +865,14 @@ kan henføres til nedennævnte
 :SWISS8.
 .** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
 .tp 5mm
-¤begivenheder,
+ ¤ begivenheder,
 .in 5mm nobreak
 uanset om det er
 pengeinstituttet selv eller en ekstern leverandør, der står for driften
 af systemerne
 .in 0mm
 .br
-*¤svigt
+* ¤ svigt
 .in 5mm nobreak
 i pengeinstituttets strømforsyning eller telekommunikation, lovindgreb
 eller forvaltningsakter, naturkatastrofer, krig, oprør, borgerlige
@@ -1043,7 +880,7 @@ uroligheder, sabotage, terror eller hærværk (herunder computervirus og
 hacking)
 .br
 .in 0mm
-*¤strejke, lockout, boykot
+* ¤ strejke, lockout, boykot
 .in 5mm nobreak
 eller blokade, uanset om konflikten er rettet mod eller iværksat af
 pengeinstituttet selv eller dens organisation, og uanset konfliktens
@@ -1051,20 +888,20 @@ pengeinstituttet selv eller dens organisation, og uanset konfliktens
 pengeinstituttet
 .br
 .in 0mm
-*¤andre
+* ¤ andre
 .in 5mm nobreak
 omstændigheder, som er uden for pengeinstituttets kontrol.
 .sp
 .in 0mm
 Pengeinstituttets ansvarsfrihed gælder ikke hvis:
 .sp 3mm
-*¤pengeinstituttet
+* ¤ pengeinstituttet
 .in 5mm nobreak
 burde have forudset det forhold, som er årsag til tabet, da aftalen blev
 indgået eller burde have undgået eller overvundet årsagen til tabet
 .br
 .in 0mm
-*¤lovgivningen
+* ¤ lovgivningen
 .in 5mm nobreak
 under alle omstændigheder gør pengeinstituttet ansvarlig for det
 forhold, som er årsag til tabet.
@@ -1091,3 +928,167 @@ Underskrift ¤
 .**********************************
 ...slut
 :COUR10.
+.* Parameterafsnit - beregning
+.* Parameterafsnit
+.**************************************************************************
+.**DETTE TEKSTAFSNIT BENYTTES OGSÅ I BECGAR02 BECGAR03 BECGAR04 BECGAR07***
+.**BECGAR11 BECGAR12   ****************************************************
+.**************************************************************************
+.* Parameterafsnit
+.*Valider at der findes data i mindst eet af Garantimodt.adresse-felterne
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.** OVERSKRIFT (hvis BECKARAK1 = J så Anfordringsgaranti ellers Garanti)*
+.** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
+.ar OVERSKR on
+:SWISS12.:FED.
+.us
+.if .&U'&BECKARAK1 = .J
+.th Garanti i forbindelse med tvangsauktion
+.el Garanti i forbindelse med tvangsauktion
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.* Garanti - incl. anfordring - Kasser og ledetekst
+.da BOX   20mm 40mm WIDTH 175mm
+.ll 174mm
+.tp 1mm 88mm 145mm 76mm
+.**********************************
+.ar BOX on
+:SWISS10.:FED.
+ ¤ Garantinummer
+:SKRSLUT.
+.**********************************
+.bx left right
+:SWISS8.
+ ¤ Kontonr. for garanti
+:SKRSLUT.
+.sp 6mm
+.bx off
+.**********************************
+:SWISS10.:FED.
+ ¤ Garantianmoder
+:SWISS8.
+.bx left right
+.if X&L'&MEDNAVN gt X0
+.th ¤ På foranledning af ¤ og
+.el ¤ På foranledning af
+:SKRSLUT.
+.sp 19mm
+.bx off
+.**********************************
+:SWISS10.:FED.
+ ¤ Betingelser
+:SWISS8.
+.bx left right
+ ¤ indestår &BANKNAVN herved
+.sp 25mm
+ ¤ med et beløb af indtil &GENMØNTK.
+.sp 1mm
+ ¤ Beløb i tekst:
+:SKRSLUT.
+.bx off
+.**********************************
+.bx set left right
+:SWISS8.
+ ¤ som garantistiller til sikkerhed for:
+.sp 49.5mm
+.bx off
+.**********************************
+.bx set left right
+:SWISS8.
+ ¤ supplerende oplysninger
+:SKRSLUT.
+.sp 21mm
+.bx off
+.ar off
+.* Garanti - incl. anfordring - Faste betingelser
+.ti ¤ 05
+.da KASS1  20mm 206mm WIDTH 175mm
+.da BETK1  21mm 211mm WIDTH 85mm
+.da BETK2 108mm 211mm WIDTH 85mm
+.da UNDER 21mm 242.5mm WIDTH 175mm
+.******************
+.ar KASS1 on
+.tp 1mm
+:SWISS10.:FED.
+ ¤ Pengeinstituterklæring
+:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx new left right
+.sp 20mm
+.bx off
+.bx can
+.ar off
+.** Fast tekst skifter i overensstemmelse med garantitypen BECKARAK1 ****
+.ar BETK1 on
+:SWISS8.
+.if X&U'&BECKARAK1 = XJ
+.th .go ANFORF
+Såfremt garantianmoder rejser indsigelse mod udbetaling under denne
+garanti, må betaling afvente forlig eller retsafgørelse.
+.sp 2mm
+...ANFORF
+.if X&U'&BECKARAK1 = XJ
+.th Beløbet holdes til disposition på anfordring og uden rettergang.
+.th .sp 2mm
+Krav i henhold til garantien må være
+pengeinstituttet skriftligt i hænde inden
+ovennævnte garantiudløb, idet garantien i modsat fald er bortfaldet.
+.sp 2mm
+Det er en klar forudsætning for pengeinstituttets garantistillelse at
+pengeinstituttet får anmeldelsesretten i garantirekvirentens evt. bo for
+beløb, som pengeinstituttet betaler under nærværende garanti.
+.ar off
+.**********************
+.ar BETK2 on
+:SWISS8.
+.if X&U'&BECKARAK1 = XJ
+.el .go EJTILB
+:FED.Tilbagebetalingskrav. :SKRSLUT.
+.sp 1mm
+Eventuelle krav, som følge af at garantimodtager
+uberettiget måtte have fået udbetalt beløb under garantien, er
+tiltransporteret pengeinstituttet.
+...EJTILB
+.if X&U'&BECKARAK1 = XJ
+.th .go RETUR
+Såfremt
+pengeinstituttet måtte ønske det, er det berettiget til at
+kræve transport på det indfriede beløb.
+.sp 2mm
+...RETUR
+.br
+Efter garantiens bortfald bedes
+denne garantierklæring returneret til pengeinstituttet. Uanset
+originalgarantiens manglende returnering til
+pengeinstituttet kan der efter garantiens bortfald ikke gøres
+rettigheder gældende. Iøvrigt gælder pengeinstituttets almindelige
+forretningsbestemmelser.
+.of
+.ar off
+.**********************
+.ar UNDER on
+:SWISS8.
+.tp 143mm
+Pengeinstituttets underskrift ¤ Dato:
+.ar off
+

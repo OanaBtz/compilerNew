@@ -1,3 +1,60 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.* DENNE ER EN KOPI AF BECPENP1 TILRETTET FOR BENYTTELSE I BECPEN55 ******
+.*************************************************************************
+.*Fælles parametermodul der bruges i følgende ny penbreve:
+.*Brev BECPEN01, BECPEN20, BECPEN40, BECPEN60 og BECPEN02(§15a).
+.*Samt BECPEN45, BECPEN55, BECPEN56 OG BECPEN65.
+.*
+.*Alle brevene benytter kundenr som nøgle
+.*
+.*Alle beregninger, test og valideringer foretages af Pension I*net.
+.*Dog ikke lige i dette tilfælde!!
+.******LIGE ET PAR TESTS***************************
+.if &U'&PENVALG = J
+.an &L'&PENACVR = 0
+.th .mg/T/Arbejdsgivers CVR.nr. skal udfyldes/
+.if &U'&PENVALG = J
+.an &L'&PENANAVN = 0
+.th .mg/T/Arbejdsgivers navn skal udfyldes/
+.if &U'&PENVALG = N
+.an &L'&PENANAVN > 0
+.th .mg/T/Arbejdsgivers navn må ikke være udfyldt/
+.if &U'&PENVALG = N
+.an &L'&PENACVR > 0
+.th .mg/T/Arbejdsgivers CVR.nr. må ikke være udfyldt/
 .*********************GENEREL OPSÆTNING************************************
 :SWISS8.
 .fo left
@@ -24,63 +81,6 @@
 :SKRSLUT.
 .ar off
 .**************************************************************************
-.* DENNE ER EN KOPI AF BECPENP1 TILRETTET FOR BENYTTELSE I BECPEN55 ******
-.*************************************************************************
-.*Fælles parametermodul der bruges i følgende ny penbreve:
-.*Brev BECPEN01, BECPEN20, BECPEN40, BECPEN60 og BECPEN02(§15a).
-.*Samt BECPEN45, BECPEN55, BECPEN56 OG BECPEN65.
-.*
-.*Alle brevene benytter kundenr som nøgle
-.*
-.*Alle beregninger, test og valideringer foretages af Pension I*net.
-.*Dog ikke lige i dette tilfælde!!
-.******LIGE ET PAR TESTS***************************
-.if &U'&PENVALG = J
-.an &L'&PENACVR = 0
-.th .mg/T/Arbejdsgivers CVR.nr. skal udfyldes/
-.if &U'&PENVALG = J
-.an &L'&PENANAVN = 0
-.th .mg/T/Arbejdsgivers navn skal udfyldes/
-.if &U'&PENVALG = N
-.an &L'&PENANAVN > 0
-.th .mg/T/Arbejdsgivers navn må ikke være udfyldt/
-.if &U'&PENVALG = N
-.an &L'&PENACVR > 0
-.th .mg/T/Arbejdsgivers CVR.nr. må ikke være udfyldt/
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-:ENY.
-.pm 20mm
-.NV PAGE BANKSTED '%&KNDTILH.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .**************************************************************************
 .da KUNDEOPL   25mm     47mm     width  84mm
 .da ARBGOPL    112.5mm  47mm     width  84mm
@@ -155,10 +155,10 @@
 .ar KTOOPL on
 .tp 43mm
 .if &U'&PENVALG = J
-.th &KUNDENR ¤&PENACVR
+.th &KUNDENR ¤ &PENACVR
 .el &KUNDENR
 .sp 6mm
-&regnr &ktonr ¤&dregnr &depnr
+&regnr &ktonr ¤ &dregnr &depnr
 .ar off
 .**************************************************************************
 .**** Her starter teksten *********
@@ -206,7 +206,7 @@ jeg har forholdt mig til begunstigelsen på aldersopsparingen.
 .ar AFSL1 on
 .if &U'&PENVALG = J
 .th .tp 39mm center 126mm center
-.th ¤&NAVN.¤&PENANAVN.
+.th ¤ &NAVN. ¤ &PENANAVN.
 .el .ce &NAVN.
 .sp 7.8mm
 .ce &BANKNAVN
@@ -224,20 +224,20 @@ Parter
 .***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
 .if &U'&PENVALG = J
 .th .bx left 87.5mm right
-.th ¤Kontohaver ¤Arbejdsgiver
+.th ¤ Kontohaver ¤ Arbejdsgiver
 .el .bx left right
-.el ¤Kontohaver
+.el ¤ Kontohaver
 .sp 17.5mm
 .***** her laves kassen til pengeinstitut og regnr ************************
 .if &U'&PENVALG = J
 .th .bx new left 87.5mm 130.5mm right
-.th ¤Pengeinstitut ¤Kontohavers CPR-nr.¤Arbejdsgivers CVR-nr.
+.th ¤ Pengeinstitut ¤ Kontohavers CPR-nr. ¤ Arbejdsgivers CVR-nr.
 .el .bx new left 87.5mm right
-.el ¤Pengeinstitut ¤Kontohavers CPR-nr.
+.el ¤ Pengeinstitut ¤ Kontohavers CPR-nr.
 .sp 4.5mm
 .***** her laves kassen til kontonr og depotnr ****************************
 .bx new 87.5mm 130.5mm right
-¤¤Kontonr. ¤Depotnr.
+ ¤ ¤ Kontonr. ¤ Depotnr.
 .sp 4.5mm
 .***** her laves kassen til formål ****************************************
 .bx new left right
@@ -253,15 +253,15 @@ Indhold
 :SKRSLUT.
 .***** her laves kassen til Afregning af afgift  **************************
 .bx left right
-¤Afregning af afgift
+ ¤ Afregning af afgift
 .sp 30mm
 .***** her laves kassen til placering af opsparing*************************
 .bx new left right
-¤Pensionsudbetalingsalder
+ ¤ Pensionsudbetalingsalder
 .sp 30mm
 .***** her laves kassen til Begunstigelse *********************************
 .bx new left right
-¤Begunstigelse
+ ¤ Begunstigelse
 .sp 14mm
 .bx off
 .bx can
@@ -280,15 +280,15 @@ Underskrift
 .if &U'&PENVALG = J
 .th .bx new left 87.5mm right
 .th .tp 1mm 61mm 89mm 145mm
-.th ¤Kontohavers underskift ¤Dato: ¤Arbejdsgivers underskrift ¤Dato:
+.th ¤ Kontohavers underskift ¤ Dato: ¤ Arbejdsgivers underskrift ¤ Dato:
 .el .bx new left right
 .el .tp 1mm 145mm
-.el ¤Kontohavers underskift ¤Dato:
+.el ¤ Kontohavers underskift ¤ Dato:
 .sp 6.5mm
 .***** her laves kassen til pi- underskrift *******************************
 .tp 1mm 61mm 89mm 145mm
 .bx new left right
-¤Pengeinstituttets underskrift ¤¤¤Dato:
+ ¤ Pengeinstituttets underskrift ¤ ¤ ¤ Dato:
 .sp 6.5mm
 .bx off
 .bx can
@@ -298,3 +298,4 @@ Underskrift
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+

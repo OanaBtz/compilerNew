@@ -11,163 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%3'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-.NV PAGE REGBKSTED '%&REGBKSTED.'
-:ENY.
-.*Parametre
-.if &L'&PRIERH = 0
-.th .mg/T/Skriv P for privat eller E for erhverv/
-.*OMTALEPARAMETRE *********************************************************
-.*ERHVERV *****************************************************************
-.if &U'&PRIERH = E
-.th .se debsomt = 'We'
-.th .se deblomt = 'we'
-.th .se migos = 'us'
-.th .se min = 'mine'
-.th .se mine = 'our'
-.th .se amare = 'are'
-.th .go OMTALEND
-.*PRIVAT *************
-.if &DEBANTAL = 1
-.th .se debsomt = 'I'
-.th .se deblomt = 'I'
-.th .se migos = 'me'
-.th .se min = 'my'
-.th .se mine = 'my'
-.th .se amare = 'am'
-.el .se debsomt = 'We'
-.el .se deblomt = 'we'
-.el .se migos = 'us'
-.el .se min = 'mine'
-.el .se mine = 'our'
-.el .se amare = 'are'
-...OMTALEND
-.*Parametre, særlige betingelser
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:SWISS9.
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-Time &TID
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.if &U'&PRIERH = P
-.th .us Credit agreement Consumer
-.if &U'&PRIERH = E
-.th .us Credit agreement Business
-:SKRSLUT.
-.ar off
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.************ PARTER ******************************************************
-.ar SIDE on
-.tp 1mm 30mm 65mm 140mm
-.bx left right
-¤Branch¤Account no.¤Credit type¤Date generated
-.sp 6mm
-.bx off
-.sp 4mm
-.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
-.*LÅNTAGER ****************************************************************
-.bx left right
-.tp 1mm 88.5mm 135mm
-.if &DEBANTAL = 1
-.th ¤Borrower
-.if &DEBANTAL = 2
-.th ¤Borrower ¤Borrower
-.if &DEBANTAL > 2
-.th ¤Borrower ¤Borrower ¤More Borrower
-.sp 20mm
-.if &DEBANTAL > 1
-.th ¤Customer no. &KTOKNDNR1 ¤Customer no. &DEB2KNDNR
-.el ¤Customer no. &KTOKNDNR1
-.bx off
-.sp 4mm
-.bx left right
-.sp 184mm
-.bx off
-.ar off
-.******************************************************************
-.da BANKSTED      20mm  47mm width 175mm
-.da KUNDEOPL       25mm  61.5mm width 85mm
-.da KUNDEOPL2    112.5mm 61.5mm width 85mm
-.******************************************************************
-.ar BANKSTED on
-.tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
-.ar off
-.**************************************
-.ar KUNDEOPL on
-&DEB1ADR1
-.br
-&DEB1ADR2
-.br
-&DEB1ADR3
-.br
-&DEB1ADR4
-.br
-&DEB1ADR5
-.ar off
-.*************************************
-.ar KUNDEOPL2 on
-.if &DEBANTAL > 1
-.th &DEB2ADR1
-.th .br
-.th &DEB2ADR2
-.th .br
-.th &DEB2ADR3
-.th .br
-.th &DEB2ADR4
-.th .br
-.th &DEB2ADR5
-.ar off
-.*************************************
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 83mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
 :FED.
 Amount
 :SKRSLUT.
@@ -493,71 +336,143 @@ with regard to agreement on further payment/prolonging initially
 .sp 5mm
 ...INGDATO
 .***********************************************************************
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
-.**************************************************************************
-.sp 50mm
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-:SWISS9.
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar BOX on
-:SWISS9.
-.tp 1mm 30mm 65mm 140mm
-.bx left right
-¤Branch¤Account no.¤Credit type¤Date generated
-.sp 6mm
-.bx off
-.sp 4mm
-.bx left right
-.sp 221.5mm
-.bx off
-.ar off
-.**************************************************************************
-.ar BANKSTED on
-:SWISS9.
-.tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-Time &TID
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
+.***************
+.if &L'&AFTDATO10 = 0
+.an &L'&GENFDATO = 0
+.th .go INDFRI
 :FED.
-.if &U'&PRIERH = P
-.th .us Credit agreement Consumer
-.if &U'&PRIERH = E
-.th .us Credit agreement Business
+Renegotiation
+.br
 :SKRSLUT.
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
+.if &L'&AFTDATO10 > 0
+.th &debsomt agree on further payment or repayment with &BANKNAVN.
+.th &AFTDATO10..
+.if &L'&GENFDATO > 0
+.th .br
+.th The credit is renegotiated
+.th &GENFDATO..
+.sp 5mm
+...INDFRI
+.**************************
+.if &L'&INDFRIDATO > 0
+.th
+.el .go RENTE
+:FED.
+Closing date
+.br
+:SKRSLUT.
+Drawing rights on the credit ceases &INDFRIDATO. where outstanding
+amount, if any, is to be paid up.
+.sp 5mm
+...RENTE
+.***************
+:FED.
+Costs and interest rates
+.br
+:SKRSLUT.
+Costs and interest rates are
+.if &U'&RENTETYP = V
+.th floating
+.if &U'&RENTETYP = D
+.th differentiated
+and fixed at any time by &BANKNAVN..
+.**&BANKNAVN.'s "General Terms and Conditions of Business and Special
+.**Conditions for Loans and Credits
+.**.if &U'&PRIERH = E
+.**.th , Business Customers".
+.**.el , Consumer Customers".
+.sp 3mm
+.if &U'&RENTETYP = V
+.th .go TYPV
+.el .go TYPD
+...TYPV
+;T
+The annual interest rate is floating at the current rate of
+&RENTE..
+.*&RENTE. %, which is added to the credit
+.*.if &RTEFREK01 = 1
+.*.th every month,
+.*.if &RTEFREK01 = 3
+.*.th every quarter,
+.*.if &RTEFREK01 = 6
+.*.th every six months,
+.*.if &RTEFREK01 = 9
+.*.th every year,
+.*initially &RTEDATO01..
+...TYPD
+.if &U'&RENTETYP = D
+.th The interest rate is differentiated and is stated in the Repayment
+.th table.
+.sp 3mm
+Interest is calculated daily on the credit limit used and added to the
+credit
+.if &RTEFREK01 = 1
+.th every month
+.if &RTEFREK01 = 3
+.th every quarter
+.if &RTEFREK01 = 6
+.th every six months
+.if &RTEFREK01 = 9
+.th every year
+initially &RTEDATO01..
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.el .sp 3mm
+.el .go PROV
+.***************
+...PROV
+.if &L'&PROV > 0
+.th Commision rates is currently &PROV. % per year. &ÅCONT
+.th of the credit limit.
+.th .br
+.if &L'&PROVOVERTR > 0
+.th Overdraft commission is currently &PROVOVERTR. % per year.
+.th .br
+.if &L'&PROVBEVILG > 0
+.th Provision of granted overdraft is currently &PROVBEVILG % per year.
+.th .br
+...PROVSL
+.if &L'&PROVOVERTR > 0
+.th In the event of an overdraft or late repayment of the
+.th credit, &BANKNAVN. is entitled to charge annual floating
+.th overdraft/default interest, currently representing a variable
+.th surcharge of &PROVOVERTR % in addition to the interest.
+.************************************************
+.*nedenstående er ikke oversat!!
+.*.if &U'&PRIERH = P
+.*.th .br
+.*.th Ved &min udnyttelse af fortrydelsesretten udgør det daglige
+.*.th rentebeløb kr. &FTRRTEDAG ved fuld udnyttelse af kreditrammen.
+.if &U'&PRIERH = P
+.th .br
+.th If &deblomt exercise &mine right of withdrawal the daily amount of
+.th interest is DKK &FTRRTEDAG. by full exploitation of the credit line.
+.************************************************
+.***************
+.sp 5mm
+.if &L'&AFDYDL01 > 0
+.an &U'&AFDYDL01 = H
+.th .go FORBI
+:FED.
+Payment
+.br
+:SKRSLUT.
+.************************************************
+.if &U'&PRIERH = P
+.th &debsomt will not be advised regarding amounts withdrawn from
+.th &mine account. &debsomt &amare solely responsible that
+ &mine account balances.
+.************************************************
+.**ERHVERV *****
+.if &U'&PRIERH = E
+.th &BANKNAVN. is entitled to debit any amount from the account which may
+.th in any way be owed by &migos to &BANKNAVN..
+.sp 5mm
+.*****************************
+...FORBI
+.sp 5mm
 .***************
 .* Behandel linjer med særlige betingelser..
 .***************
@@ -809,144 +724,231 @@ Time &TID
 .sp 5mm
 ...SÆRBETSL
 .***
-.***************
-.if &L'&AFTDATO10 = 0
-.an &L'&GENFDATO = 0
-.th .go INDFRI
-:FED.
-Renegotiation
-.br
-:SKRSLUT.
-.if &L'&AFTDATO10 > 0
-.th &debsomt agree on further payment or repayment with &BANKNAVN.
-.th &AFTDATO10..
-.if &L'&GENFDATO > 0
-.th .br
-.th The credit is renegotiated
-.th &GENFDATO..
-.sp 5mm
-...INDFRI
-.**************************
-.if &L'&INDFRIDATO > 0
-.th
-.el .go RENTE
-:FED.
-Closing date
-.br
-:SKRSLUT.
-Drawing rights on the credit ceases &INDFRIDATO. where outstanding
-amount, if any, is to be paid up.
-.sp 5mm
-...RENTE
-.***************
-:FED.
-Costs and interest rates
-.br
-:SKRSLUT.
-Costs and interest rates are
-.if &U'&RENTETYP = V
-.th floating
-.if &U'&RENTETYP = D
-.th differentiated
-and fixed at any time by &BANKNAVN..
-.**&BANKNAVN.'s "General Terms and Conditions of Business and Special
-.**Conditions for Loans and Credits
-.**.if &U'&PRIERH = E
-.**.th , Business Customers".
-.**.el , Consumer Customers".
-.sp 3mm
-.if &U'&RENTETYP = V
-.th .go TYPV
-.el .go TYPD
-...TYPV
-;T.th overdraft/default interest, currently representing a variable
-.th surcharge of &PROVOVERTR % in addition to the interest.
-.************************************************
-.*nedenstående er ikke oversat!!
-.*.if &U'&PRIERH = P
-.*.th .br
-.*.th Ved &min udnyttelse af fortrydelsesretten udgør det daglige
-.*.th rentebeløb kr. &FTRRTEDAG ved fuld udnyttelse af kreditrammen.
-.if &U'&PRIERH = P
-.th .br
-.th If &deblomt exercise &mine right of withdrawal the daily amount of
-.th interest is DKK &FTRRTEDAG. by full exploitation of the credit line.
-.************************************************
-.***************
-.sp 5mm
-.if &L'&AFDYDL01 > 0
-.an &U'&AFDYDL01 = H
-.th .go FORBI
-:FED.
-Payment
-.br
-:SKRSLUT.
-.************************************************
-.if &U'&PRIERH = P
-.th &debsomt will not be advised regarding amounts withdrawn from
-.th &mine account. &debsomt &amare solely responsible that
- &mine account balances.
-.************************************************
-.**ERHVERV *****
-.if &U'&PRIERH = E
-.th &BANKNAVN. is entitled to debit any amount from the account which may
-.th in any way be owed by &migos to &BANKNAVN..
-.sp 5mm
-.*****************************
-...FORBI
-.sp 5mm
-The annual interest rate is floating at the current rate of
-&RENTE..
-.*&RENTE. %, which is added to the credit
-.*.if &RTEFREK01 = 1
-.*.th every month,
-.*.if &RTEFREK01 = 3
-.*.th every quarter,
-.*.if &RTEFREK01 = 6
-.*.th every six months,
-.*.if &RTEFREK01 = 9
-.*.th every year,
-.*initially &RTEDATO01..
-...TYPD
-.if &U'&RENTETYP = D
-.th The interest rate is differentiated and is stated in the Repayment
-.th table.
-.sp 3mm
-Interest is calculated daily on the credit limit used and added to the
-credit
-.if &RTEFREK01 = 1
-.th every month
-.if &RTEFREK01 = 3
-.th every quarter
-.if &RTEFREK01 = 6
-.th every six months
-.if &RTEFREK01 = 9
-.th every year
-initially &RTEDATO01..
-.if &L'&PROV = 0
-.an &L'&PROVOVERTR = 0
-.an &L'&PROVBEVILG = 0
-.th .go PROVSL
-.el .sp 3mm
-.el .go PROV
-.***************
-...PROV
-.if &L'&PROV > 0
-.th Commision rates is currently &PROV. % per year. &ÅCONT
-.th of the credit limit.
-.th .br
-.if &L'&PROVOVERTR > 0
-.th Overdraft commission is currently &PROVOVERTR. % per year.
-.th .br
-.if &L'&PROVBEVILG > 0
-.th Provision of granted overdraft is currently &PROVBEVILG % per year.
-.th .br
-...PROVSL
-.if &L'&PROVOVERTR > 0
-.th In the event of an overdraft or late repayment of the
-.th credit, &BANKNAVN. is entitled to charge annual floating
+.rh cancel
 .** SIDESKIFT
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
-.rh cancel
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%3'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+:ENY.
+.*Parametre
+.if &L'&PRIERH = 0
+.th .mg/T/Skriv P for privat eller E for erhverv/
+.*OMTALEPARAMETRE *********************************************************
+.*ERHVERV *****************************************************************
+.if &U'&PRIERH = E
+.th .se debsomt = 'We'
+.th .se deblomt = 'we'
+.th .se migos = 'us'
+.th .se min = 'mine'
+.th .se mine = 'our'
+.th .se amare = 'are'
+.th .go OMTALEND
+.*PRIVAT *************
+.if &DEBANTAL = 1
+.th .se debsomt = 'I'
+.th .se deblomt = 'I'
+.th .se migos = 'me'
+.th .se min = 'my'
+.th .se mine = 'my'
+.th .se amare = 'am'
+.el .se debsomt = 'We'
+.el .se deblomt = 'we'
+.el .se migos = 'us'
+.el .se min = 'mine'
+.el .se mine = 'our'
+.el .se amare = 'are'
+...OMTALEND
+.*Parametre, særlige betingelser
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:SWISS9.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Time &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.if &U'&PRIERH = P
+.th .us Credit agreement Consumer
+.if &U'&PRIERH = E
+.th .us Credit agreement Business
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+ ¤ Branch ¤ Account no. ¤ Credit type ¤ Date generated
+.sp 6mm
+.bx off
+.sp 4mm
+.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
+.*LÅNTAGER ****************************************************************
+.bx left right
+.tp 1mm 88.5mm 135mm
+.if &DEBANTAL = 1
+.th ¤ Borrower
+.if &DEBANTAL = 2
+.th ¤ Borrower ¤ Borrower
+.if &DEBANTAL > 2
+.th ¤ Borrower ¤ Borrower ¤ More Borrower
+.sp 20mm
+.if &DEBANTAL > 1
+.th ¤ Customer no. &KTOKNDNR1 ¤ Customer no. &DEB2KNDNR
+.el ¤ Customer no. &KTOKNDNR1
+.bx off
+.sp 4mm
+.bx left right
+.sp 184mm
+.bx off
+.ar off
+.******************************************************************
+.da BANKSTED      20mm  47mm width 175mm
+.da KUNDEOPL       25mm  61.5mm width 85mm
+.da KUNDEOPL2    112.5mm 61.5mm width 85mm
+.******************************************************************
+.ar BANKSTED on
+.tp 1mm 30mm 65mm 140mm
+ ¤ &BANKSTED  ¤ &IREGKTO ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
+.ar off
+.**************************************
+.ar KUNDEOPL on
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.ar off
+.*************************************
+.ar KUNDEOPL2 on
+.if &DEBANTAL > 1
+.th &DEB2ADR1
+.th .br
+.th &DEB2ADR2
+.th .br
+.th &DEB2ADR3
+.th .br
+.th &DEB2ADR4
+.th .br
+.th &DEB2ADR5
+.ar off
+.*************************************
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+:SWISS9.
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+ ¤ Branch ¤ Account no. ¤ Credit type ¤ Date generated
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 221.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BANKSTED on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+ ¤ &BANKSTED  ¤ &IREGKTO ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Time &TID
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.if &U'&PRIERH = P
+.th .us Credit agreement Consumer
+.if &U'&PRIERH = E
+.th .us Credit agreement Business
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 50mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+

@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -22,43 +35,60 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.**************************************************************************
-.**************************************************************************
-.******** Kopi af BEC's version - er ændres så det ligner vores    ********
-.******** øvrige breve - skrifttype linielængde og indrykning -    ********
-.********                                                          ********
-.******** I tekstmoduler er følgende ændret:                       ********
-.******** Tabulering til "Fødested" er ændret til 10mm 50mm        ********
-.********                                                          ********
-.******** Tabulering til "Skattemæssig hjemehøende" er ændret til  ********
-.******** 10mm 20mm 70mm                                           ********
-.********                                                          ********
-.******** Indrykningen slettet sidst i brevet og linielængden er   ********
-.******** ændret til 160mm så side 2 "Forklaring og hjælp" kan     ********
-.******** være på 1 side                                           ********
-.**************************************************************************
-.*********************GENEREL OPSÆTNING************************************
-:TILTALE &TILTALEF
-:VERDA10.
-.ll 125mm
-.in 5mm
-.fo left
 .ti ¤ 05
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.da START 20mm 110mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-.us Erklæring om skatteindberetningspligt
+:VERDA10.
+.da AFS      150mm 23mm width 50mm
+.da AREAL1    25mm 40mm width 70mm
+.da DATO      25mm 91mm width 70mm
+.*********************************
+.ar AFS on
+:VERDA09.
+.tp 15mm
+&AFDGADE
+.br
+&AFDBY
 .sp
-.**************************************************************************
+Telefon: ¤ &B55TLF1
+.br
+Telefax: ¤ &BXXBMTLF
+.sp
+Reg.nr.: ¤ 6140
+.br
+Swift: ¤ MONSDK21
+.br
+CVR-nr.: ¤ 0065746018
+.sp
+E-post: ¤ post@moensbank.dk
+.br
+Web: ¤ www.moensbank.dk
+.ar off
+.*********************************
+.ar AREAL1 on
+:VERDA10.
+&B55STIL
+.br
+&B55NAVN3
+.br
+.if &L'&B55ATT gt 0
+.th &B55ATT
+.th .br
+&B55COADR
+.br
+&B55GADE
+.br
+&B55BY
+.br
+&B55LAND
+.sp &BLANKLIN
+.ar off
+.*********************************
+.ar DATO on
+:VERDA10.
+&DATO
+.ar off
+.*********************************
+.sp 80mm
+.fo left
 .*Lige et par tests
 .*******FØDSELSDATO****
 .if &L'&FØDSELSDT > 0
@@ -122,167 +152,43 @@
 .if &L'&SKATIDNR08 > 0
 .an &L'&SKATPLA18 = 0
 .th .mg/T/Feltet skattemæssigt hjemmehørende (8) skal udfyldes/
-.ti ¤ 05
+.**************************************************************************
+.**************************************************************************
+.******** Kopi af BEC's version - er ændres så det ligner vores    ********
+.******** øvrige breve - skrifttype linielængde og indrykning -    ********
+.********                                                          ********
+.******** I tekstmoduler er følgende ændret:                       ********
+.******** Tabulering til "Fødested" er ændret til 10mm 50mm        ********
+.********                                                          ********
+.******** Tabulering til "Skattemæssig hjemehøende" er ændret til  ********
+.******** 10mm 20mm 70mm                                           ********
+.********                                                          ********
+.******** Indrykningen slettet sidst i brevet og linielængden er   ********
+.******** ændret til 160mm så side 2 "Forklaring og hjælp" kan     ********
+.******** være på 1 side                                           ********
+.**************************************************************************
+.*********************GENEREL OPSÆTNING************************************
+:TILTALE &TILTALEF
 :VERDA10.
-.da AFS      150mm 23mm width 50mm
-.da AREAL1    25mm 40mm width 70mm
-.da DATO      25mm 91mm width 70mm
-.*********************************
-.ar AFS on
-:VERDA09.
-.tp 15mm
-&AFDGADE
-.br
-&AFDBY
-.sp
-Telefon: ¤&B55TLF1
-.br
-Telefax: ¤&BXXBMTLF
-.sp
-Reg.nr.: ¤6140
-.br
-Swift: ¤MONSDK21
-.br
-CVR-nr.: ¤0065746018
-.sp
-E-post: ¤post@moensbank.dk
-.br
-Web: ¤www.moensbank.dk
-.ar off
-.*********************************
-.ar AREAL1 on
-:VERDA10.
-&B55STIL
-.br
-&B55NAVN3
-.br
-.if &L'&B55ATT gt 0
-.th &B55ATT
-.th .br
-&B55COADR
-.br
-&B55GADE
-.br
-&B55BY
-.br
-&B55LAND
-.sp &BLANKLIN
-.ar off
-.*********************************
-.ar DATO on
-:VERDA10.
-&DATO
-.ar off
-.*********************************
-.sp 80mm
+.ll 125mm
+.in 5mm
 .fo left
-.** SIDESKIFT
-.pa
-.th .br
-.th ¤&SKATPLA12.
-.th .go LIN3
-...IDNR2
-.if &L'&SKATPLA12 > 0
-.th .br
-.th ¤&SKATPLA12.¤&SKATIDNR02.
-.****Linje 3****************************
-...LIN3
-.if &L'&SKATIDNR03 > 0
-.th .go IDNR3
-.if &L'&SKATPLA13 > 0
-.th .br
-.th ¤&SKATPLA13.
-.th .go LIN4
-...IDNR3
-.if &L'&SKATPLA13 > 0
-.th .br
-.th ¤&SKATPLA13.¤&SKATIDNR03.
-.****Linje 4****************************
-...LIN4
-.if &L'&SKATIDNR04 > 0
-.th .go IDNR4
-.if &L'&SKATPLA14 > 0
-.th .br
-.th ¤&SKATPLA14.
-.th .go LIN5
-...IDNR4
-.if &L'&SKATPLA14 > 0
-.th .br
-.th ¤&SKATPLA14.¤&SKATIDNR04.
-.****Linje 5****************************
-...LIN5
-.if &L'&SKATIDNR05 > 0
-.th .go IDNR5
-.if &L'&SKATPLA15 > 0
-.th .br
-.th ¤&SKATPLA15.
-.th .go LIN6
-...IDNR5
-.if &L'&SKATPLA15 > 0
-.th .br
-.th ¤&SKATPLA15.¤&SKATIDNR05.
-.****Linje 6****************************
-...LIN6
-.if &L'&SKATIDNR06 > 0
-.th .go IDNR6
-.if &L'&SKATPLA16 > 0
-.th .br
-.th ¤&SKATPLA16.
-.*.sp
-.*(Eller signeres digitalt)
+.ti ¤ 05
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
 .ar off
-.in 0mm
-.ll 160mm
-.th .go LIN7
-...IDNR6
-.if &L'&SKATPLA16 > 0
-.th .br
-.th ¤&SKATPLA16.¤&SKATIDNR06.
-.****Linje 7****************************
-...LIN7
-.if &L'&SKATIDNR07 > 0
-.th .go IDNR7
-.if &L'&SKATPLA17 > 0
-.th .br
-.th ¤&SKATPLA17.
-.th .go LIN8
-...IDNR7
-.if &L'&SKATPLA17 > 0
-.th .br
-.th ¤&SKATPLA17.¤&SKATIDNR07.
-.****Linje 8****************************
-...LIN8
-.if &L'&SKATIDNR08 > 0
-.th .go IDNR8
-.if &L'&SKATPLA18 > 0
-.th .br
-.th ¤&SKATPLA18.
-.th .go VID
-...IDNR8
-.if &L'&SKATPLA18 > 0
-.th .br
-.th ¤&SKATPLA18.¤&SKATIDNR08.
-...VID
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+.us Erklæring om skatteindberetningspligt
 .sp
-Jeg er således ikke statsborger i eller skattemæssigt hjemmehørende i
-andre lande end ovennævnte.
-.sp
-Hvis &BANKNAVN. har behov for uddybende oplysninger, kan jeg blive
-kontaktet om dette.
-.sp
-Jeg forpligter mig til at give Møns Bank besked hurtigst muligt, hvis
-ovennævnte oplysninger ændrer sig, idet der i så fald skal udfærdiges
-en ny erklæring om skatteindberetningspligt.
-.sp 2
-.***************************
-.dr tynd weight 0.2mm
-.***************************
-.tp 5mm 65mm
-:VERDA09.
-¤Dato ¤Underskrift
-.sp 2
-:SKRSLUT.
-.hr tynd 5mm 25mm 65mm 125mm
+.**************************************************************************
 .**************************************************************************
 .******** Kopi af BEC's version - er ændres så det ligner vores    ********
 .******** øvrige breve - skrifttype linielængde og indrykning -    ********
@@ -292,7 +198,7 @@ en ny erklæring om skatteindberetningspligt.
 .******** .sp er ændret til .br                                    ********
 .********                                                          ********
 .******** Tabulering til "Skattemæssig hjemehøende" er ændret til  ********
-.******** 10mm 60mm  I indledning er .in fjernet og dobb ¤¤ er ænd-********
+.******** 10mm 60mm  I indledning er .in fjernet og dobb ¤ ¤ er ænd-********
 .******** ret til en                                               ********
 .******** Sidste afsnit "Jeg forpligter mig til at giver MB besked ********
 .******** er tilføjet den version som ikke udskrives i I-net.      ********
@@ -311,29 +217,137 @@ Undertegnede erklærer herved, at følgende oplysninger er korrekte og
 fyldestgørende:
 .sp
 .tp 10mm 50mm
-¤Fødselsdato: ¤&FØDSELSDT.
+ ¤ Fødselsdato: ¤ &FØDSELSDT.
 .br
-¤Fødeland og fødeby: ¤&FØDESTED.
+ ¤ Fødeland og fødeby: ¤ &FØDESTED.
 .br
-¤Statsborgerskab: ¤&STATBSKAB1.
+ ¤ Statsborgerskab: ¤ &STATBSKAB1.
 .if &L'&STATBSKAB2 > 0
 .th .br
-.th ¤¤&STATBSKAB2.
+.th ¤ ¤ &STATBSKAB2.
 .if &L'&STATBSKAB3 > 0
 .th .br
-.th ¤¤&STATBSKAB3.
+.th ¤ ¤ &STATBSKAB3.
 .sp
 .tp 10mm 60mm
 Lande, hvor jeg er skattemæssigt hjemmehørende:
 .sp
-¤Land:¤Skatteidentifikationsnummer:
+ ¤ Land: ¤ Skatteidentifikationsnummer:
 .br
-¤&SKATPLA11.¤&SKATIDNR01.
+ ¤ &SKATPLA11. ¤ &SKATIDNR01.
 .****Linje 2****************************
 .if &L'&SKATIDNR02 > 0
 .th .go IDNR2
 .if &L'&SKATPLA12 > 0
-;T.**************************************************************************
+;T
+.th .br
+.th ¤ &SKATPLA12.
+.th .go LIN3
+...IDNR2
+.if &L'&SKATPLA12 > 0
+.th .br
+.th ¤ &SKATPLA12. ¤ &SKATIDNR02.
+.****Linje 3****************************
+...LIN3
+.if &L'&SKATIDNR03 > 0
+.th .go IDNR3
+.if &L'&SKATPLA13 > 0
+.th .br
+.th ¤ &SKATPLA13.
+.th .go LIN4
+...IDNR3
+.if &L'&SKATPLA13 > 0
+.th .br
+.th ¤ &SKATPLA13. ¤ &SKATIDNR03.
+.****Linje 4****************************
+...LIN4
+.if &L'&SKATIDNR04 > 0
+.th .go IDNR4
+.if &L'&SKATPLA14 > 0
+.th .br
+.th ¤ &SKATPLA14.
+.th .go LIN5
+...IDNR4
+.if &L'&SKATPLA14 > 0
+.th .br
+.th ¤ &SKATPLA14. ¤ &SKATIDNR04.
+.****Linje 5****************************
+...LIN5
+.if &L'&SKATIDNR05 > 0
+.th .go IDNR5
+.if &L'&SKATPLA15 > 0
+.th .br
+.th ¤ &SKATPLA15.
+.th .go LIN6
+...IDNR5
+.if &L'&SKATPLA15 > 0
+.th .br
+.th ¤ &SKATPLA15. ¤ &SKATIDNR05.
+.****Linje 6****************************
+...LIN6
+.if &L'&SKATIDNR06 > 0
+.th .go IDNR6
+.if &L'&SKATPLA16 > 0
+.th .br
+.th ¤ &SKATPLA16.
+.th .go LIN7
+...IDNR6
+.if &L'&SKATPLA16 > 0
+.th .br
+.th ¤ &SKATPLA16. ¤ &SKATIDNR06.
+.****Linje 7****************************
+...LIN7
+.if &L'&SKATIDNR07 > 0
+.th .go IDNR7
+.if &L'&SKATPLA17 > 0
+.th .br
+.th ¤ &SKATPLA17.
+.th .go LIN8
+...IDNR7
+.if &L'&SKATPLA17 > 0
+.th .br
+.th ¤ &SKATPLA17. ¤ &SKATIDNR07.
+.****Linje 8****************************
+...LIN8
+.if &L'&SKATIDNR08 > 0
+.th .go IDNR8
+.if &L'&SKATPLA18 > 0
+.th .br
+.th ¤ &SKATPLA18.
+.th .go VID
+...IDNR8
+.if &L'&SKATPLA18 > 0
+.th .br
+.th ¤ &SKATPLA18. ¤ &SKATIDNR08.
+...VID
+.sp
+Jeg er således ikke statsborger i eller skattemæssigt hjemmehørende i
+andre lande end ovennævnte.
+.sp
+Hvis &BANKNAVN. har behov for uddybende oplysninger, kan jeg blive
+kontaktet om dette.
+.sp
+Jeg forpligter mig til at give Møns Bank besked hurtigst muligt, hvis
+ovennævnte oplysninger ændrer sig, idet der i så fald skal udfærdiges
+en ny erklæring om skatteindberetningspligt.
+.sp 2
+.***************************
+.dr tynd weight 0.2mm
+.***************************
+.tp 5mm 65mm
+:VERDA09.
+ ¤ Dato ¤ Underskrift
+.sp 2
+:SKRSLUT.
+.hr tynd 5mm 25mm 65mm 125mm
+.*.sp
+.*(Eller signeres digitalt)
+.ar off
+.in 0mm
+.ll 160mm
+.** SIDESKIFT
+.pa
+.**************************************************************************
 .**************************************************************************
 .********* Eneste ændring i dette tekstmodul er skrifttypen       *********
 .********* Ændres fra COUR12. til VERDA10.                        *********
@@ -427,16 +441,4 @@ Hvor kan jeg få hjælp?
 .br
 Hvis &DU. har spørgsmål, er &DU. velkommen til at kontakte &BANKNAVN..
 .ar off
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

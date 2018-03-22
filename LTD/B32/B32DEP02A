@@ -1,93 +1,37 @@
-.br
-&LAND
-.ar off
-.** Evt. meddepothaver*****************************************************
-.ar MDEPHAVR on
-.if X&DEP01ROLT. = X02
-.th
-.el .go FORTS1
-&DEP01ADR1.
-.br
-&DEP01ADR2.
-.br
-&DEP01ADR3.
-.br
-&DEP01ADR4.
-.br
-&DEP01ADR5.
-.if X&DEP02ROLT. = X02
-.th .br
-.th m.fl.
-...FORTS1
-.ar off
-.** Kundenr depothaver ****************************************************
-.ar KUNDENR on
-.if &dkunnr. = CPR-nr.:
-.th &dkunnr. &dcpr1.-&dcpr2.
-.el &dkunnr. &DEPKUNDENR.
-.ar off
-.** Kundenr medepothaver **************************************************
-.ar MKUNDNR on
-.if X&DEP01ROLT. = X02
-.an &L'&DEP01CPR. gt 0
-.an &mkunnr. = CPR-nr.:
-.th &mkunnr. &mcpr1.-&mcpr2
-.if X&DEP01ROLT. = X02
-.an &L'&DEP01CPR. gt 0
-.an &mkunnr. <> CPR-nr.:
-.th &mkunnr. &DEP01CPR.
-.ar off
-.**************************************************************************
-.*************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-:VERDA09.
-:omtale &OMTALEF
-.**************************************************************************
-.da FEJL      25mm 120mm width 170mm
-.da HEADER1   25mm 30mm width 155mm
-.da HEADER2   25mm 76mm width 170mm
-.da DEPHAVER  25mm 37mm width 155mm
-.da MDEPHAVR 115mm 37mm width 85mm
-.da KUNDENR   25mm 69mm width 155mm
-.da MKUNDNR  115mm 69mm width 155mm
-.**************************************************************************
-.*su off
-.*se regnr = substr &IREGKTO 1 4
-.*se ktonr = substr &IREGKTO 5 7
-.*se cpr1  = substr &KTOKNDNR1 1 6
-.*se cpr2  = substr &KTOKNDNR1 7 4
-.*se mcpr1 = substr &MEDKNDNR1 1 6
-.*se mcpr2 = substr &MEDKNDNR1 7 4
-.*su on
-.ar HEADER1 on
-:FED.
-&dep1.
-:SKRSLUT.
-.ar off
-.** Depotaftale for *******************************************************
-.ar HEADER2 on
-:FED.
-Depotaftale for &DEPOTTYPE.
-:SKRSLUT.
-.tp 65mm right 165mm right
-.sp 3mm
-Depotnr:¤&DEPREGNR. &DEPDEPNR.¤Dato: &DATO.
-.br
-VP-kontonr:¤&VPKTONR.
-.ar off
-.*** Depothaver************************************************************
-.ar DEPHAVER on
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
 .* Parametre og substrings ************************************************
 .*Initier switch til kontakt-tlfnr i B32DEP02ABUND
 .*(Ændres kun hvis CVR-nr.)
@@ -152,40 +96,96 @@ VP-kontonr:¤&VPKTONR.
 .el .se dep2 = depothaver
 .su on
 .**************************************************************************
-.*
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&DEPKUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+:omtale &OMTALEF
+.**************************************************************************
+.da FEJL      25mm 120mm width 170mm
+.da HEADER1   25mm 30mm width 155mm
+.da HEADER2   25mm 76mm width 170mm
+.da DEPHAVER  25mm 37mm width 155mm
+.da MDEPHAVR 115mm 37mm width 85mm
+.da KUNDENR   25mm 69mm width 155mm
+.da MKUNDNR  115mm 69mm width 155mm
+.**************************************************************************
+.*su off
+.*se regnr = substr &IREGKTO 1 4
+.*se ktonr = substr &IREGKTO 5 7
+.*se cpr1  = substr &KTOKNDNR1 1 6
+.*se cpr2  = substr &KTOKNDNR1 7 4
+.*se mcpr1 = substr &MEDKNDNR1 1 6
+.*se mcpr2 = substr &MEDKNDNR1 7 4
+.*su on
+.ar HEADER1 on
+:FED.
+&dep1.
+:SKRSLUT.
+.ar off
+.** Depotaftale for *******************************************************
+.ar HEADER2 on
+:FED.
+Depotaftale for &DEPOTTYPE.
+:SKRSLUT.
+.tp 65mm right 165mm right
+.sp 3mm
+Depotnr: ¤ &DEPREGNR. &DEPDEPNR. ¤ Dato: &DATO.
+.br
+VP-kontonr: ¤ &VPKTONR.
+.ar off
+.*** Depothaver************************************************************
+.ar DEPHAVER on
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+&LAND
+.ar off
+.** Evt. meddepothaver*****************************************************
+.ar MDEPHAVR on
+.if X&DEP01ROLT. = X02
+.th
+.el .go FORTS1
+&DEP01ADR1.
+.br
+&DEP01ADR2.
+.br
+&DEP01ADR3.
+.br
+&DEP01ADR4.
+.br
+&DEP01ADR5.
+.if X&DEP02ROLT. = X02
+.th .br
+.th m.fl.
+...FORTS1
+.ar off
+.** Kundenr depothaver ****************************************************
+.ar KUNDENR on
+.if &dkunnr. = CPR-nr.:
+.th &dkunnr. &dcpr1.-&dcpr2.
+.el &dkunnr. &DEPKUNDENR.
+.ar off
+.** Kundenr medepothaver **************************************************
+.ar MKUNDNR on
+.if X&DEP01ROLT. = X02
+.an &L'&DEP01CPR. gt 0
+.an &mkunnr. = CPR-nr.:
+.th &mkunnr. &mcpr1.-&mcpr2
+.if X&DEP01ROLT. = X02
+.an &L'&DEP01CPR. gt 0
+.an &mkunnr. <> CPR-nr.:
+.th &mkunnr. &DEP01CPR.
+.ar off
+.**************************************************************************
 .**************************************************************************
 .da VEND 7mm 277mm width 180mm rotate -90
 .da BUNDV   25mm 270mm width 55mm
@@ -248,13 +248,13 @@ For depotet gælder bankens til enhver tid gældende udgave af:
 .sp 3mm
 .tp 10mm
 .of 5mm
--¤Almindelige
+- ¤ Almindelige
 forretningsbetingelser for privatkunder i &BANKNAVN./Almindelige
 .br
 forretningsbetingelser for erhvervskunder.
 .of
 .br
--¤Guide for handel med værdipapirer inkl. depotbestemmelser.
+- ¤ Guide for handel med værdipapirer inkl. depotbestemmelser.
 .sp 3mm
 .*************** RENTEVILKÅR ***************
 Disse regelsæt udgør det samlede aftalegrundlag for depotet.
@@ -290,11 +290,11 @@ Kontooplysninger, afkast mv.
 :SKRSLUT.
 .tp 40mm 75mm 125mm
 .br
-Konto til rente:¤&oblregnr. &oblktonr. &ÅCONT.
-¤Konto til udtrækninger:¤&uoblregnr. &uoblktonr.
+Konto til rente: ¤ &oblregnr. &oblktonr. &ÅCONT.
+ ¤ Konto til udtrækninger: ¤ &uoblregnr. &uoblktonr.
 .br
-Konto til udbytte:¤&aktregnr. &aktktonr. &ÅCONT.
-¤Konto til depotgebyr:¤&depgregnr. &depgktonr.
+Konto til udbytte: ¤ &aktregnr. &aktktonr. &ÅCONT.
+ ¤ Konto til depotgebyr: ¤ &depgregnr. &depgktonr.
 .sp 3mm
 .*kp off
 .*kp on
@@ -328,10 +328,11 @@ jf. bankens depotbestemmelser.
 .th .go TOUNDER
 ...EENUNDER
 .hr tynd 5mm 25mm 30mm 85mm
-Dato¤&underskr.
+Dato ¤ &underskr.
 .go AFSLUT
 ...TOUNDER
 .hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
-Dato¤&underskr.¤Dato¤&DEP01ADR2.
+Dato ¤ &underskr. ¤ Dato ¤ &DEP01ADR2.
 ...AFSLUT
 .*kp off
+

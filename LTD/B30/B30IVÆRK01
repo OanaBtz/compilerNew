@@ -1,3 +1,15 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .tp _/50mm 55mm 72mm  _/170mm
 .kp on
 :FED.
@@ -21,6 +33,192 @@ Dato: ¤ ¤Underskrift: ¤¤
 .in 5mm
 .ir 5mm
 .**********************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Iværksætterkonto
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.bx left right
+ ¤ Kontohaver
+.sp 23mm
+ ¤ &kunnr
+.bx new left right
+ ¤ Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+:SWISS9.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 70.5mm width 80mm
+.da MCPR   121.5mm 70.5mm width 80mm
+.da PI        25mm 80mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.ar CPR on
+&KTOKNDNR1
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Iværksætterkonto
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.in 5mm
+.ir 1mm
 :SWISS9.
 .*************************************************************************
 .tp 55mm 80mm
@@ -29,9 +227,9 @@ Dato: ¤ ¤Underskrift: ¤¤
 Konto
 :SKRSLUT.
 .br
-Kontonr. ¤Regtype/betegnelse
+Kontonr. ¤ Regtype/betegnelse
 .br
-&IREGKTO ¤&REGTYPELNG
+&IREGKTO ¤ &REGTYPELNG
 .sp 3mm
 .sp 5mm
 .kp off
@@ -154,201 +352,4 @@ Jeg/vi har modtaget og gjort mig/os bekendt med de anførte regler forud for
 underskrivelsen af denne aftale.
 .sp 5mm
 .kp off
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.ar BOX on
-.bx left right
-.sp 229mm
-.bx off
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Iværksætterkonto
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.sp 32mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.ll 175mm
-.in 5mm
-.ir 1mm
-.********************GENEREL OPSÆTNING*************************************
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 95mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-:SWISS9.
-.**************************************************************************
-.da KUNDE     25mm 50mm width 80mm
-.da MKUNDE 112.5mm 50mm width 80mm
-.da CPR       34mm 70.5mm width 80mm
-.da MCPR   121.5mm 70.5mm width 80mm
-.da PI        25mm 80mm width 80mm
-.**************************************************************************
-.ar KUNDE on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.ar CPR on
-&KTOKNDNR1
-.ar off
-.**************************************************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-:SKRSLUT.
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.** PARTER ****************************************************************
-.ar SIDE on
-.tp 1mm 88.5mm 135mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SWISS8.
-.bx left right
-¤Kontohaver
-.sp 23mm
-¤&kunnr
-.bx new left right
-¤Pengeinstitut
-.sp 20mm
-.bx off
-.bx can
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 171mm
-.bx off
-.ar off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Iværksætterkonto
-:SKRSLUT.
-.ar off
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.'
-.**************************************************************************
-.**************************************************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-:ENY.
-.pm 20mm
-.NV PAGE BANKSTED '%&KNDTILH.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

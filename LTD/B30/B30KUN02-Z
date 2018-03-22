@@ -11,46 +11,126 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.*************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .if &U'&B30MEDSKUN ne J
-.th .go NOOPRT2
-.************ Underskrift **************************
-.sp1
-.tp _/80mm
-¤
+.th .go NOOPRP
+.su off
+.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
+.se cprcvr = substr &KUNDENR 1 2
+.su on
+.*******************
+.if &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.********************
+...NOOPRP
+.if &U'&B30MEDSKUN ne J
+.th .go NOOPRO1
+.***********
+.fo left
+.ti ¤ 05
+:CALIB10.
+.ls by 1.25
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 39,5mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da DATO 162mm 83,5mm width 42,5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar DATO on
+:CALIB9.
+&DATO
 .br
-.tp 20mm
-Dato    ¤&NAVN
-.********* SLUT   ******************************************
-...NOOPRT2
+&GENKORTREF
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+B30KUN02
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+KUNDEOPRETTELSE
+:SKRSLUT.
+.ar off
+.***************************************
+.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 41,5mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 130mm
+.in 2mm
+...NOOPRO1
+.if &U'&B30MEDSKUN ne J
+.th .go NOOPRO2
+.****************
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 32MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.****************
+.ar VEND on
+:CALIB8.
+B30KUN02
+.ar off
+.****************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...NOOPRO2
 .if &U'&B30MEDSKUN ne J
 .th .go SLUTT
 .*********************************
 .tp 24mm 87mm
 .if &cprcvr = 00
-.th Navn: ¤&NAVN  ¤CVR-nr.: &KUNDENR
+.th Navn: ¤ &NAVN  ¤ CVR-nr.: &KUNDENR
 .th .go TSTMEDK
 .if &cprcvr > 31
-.th Navn: ¤&NAVN  ¤KND-nr.: &KUNDENR
-.el Navn: ¤&NAVN  ¤CPR-nr.: &KUNDENR
+.th Navn: ¤ &NAVN  ¤ KND-nr.: &KUNDENR
+.el Navn: ¤ &NAVN  ¤ CPR-nr.: &KUNDENR
 .****
 ...TSTMEDK
 .if &L'&KTOCO > 0
 .th .br
-.th Coadr: ¤&COADR
+.th Coadr: ¤ &COADR
 .*****
 .br
-Adresse: ¤&GADE
+Adresse: ¤ &GADE
 .br
-Postnr.: ¤&BY
+Postnr.: ¤ &BY
 .if &L'&LAND > 0
 .th .br
-.th Land: ¤&LAND
+.th Land: ¤ &LAND
 .************** ekstra space ved ny kundeopret og CVRnr samt 43 nr.***
 .sp
 .*** Ved kundeoprettelse til virksomheder ***********
@@ -141,100 +221,21 @@ som legitimation.
 .th evt. mærke
 ...SLUTT
 .********************
+.*************************
 .if &U'&B30MEDSKUN ne J
-.th .go NOOPRO2
-.****************
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 32MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.****************
-.ar VEND on
-:CALIB8.
-B30KUN02
-.ar off
-.****************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-...NOOPRO2
-.if &U'&B30MEDSKUN ne J
-.th .go NOOPRO1
-.***********
-.fo left
-.ti ¤ 05
-:CALIB10.
-.ls by 1.25
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 39,5mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da DATO 162mm 83,5mm width 42,5mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar DATO on
-:CALIB9.
-&DATO
+.th .go NOOPRT2
+.************ Underskrift **************************
+.sp1
+.tp _/80mm
+¤
 .br
-&GENKORTREF
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-B30KUN02
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-KUNDEOPRETTELSE
-:SKRSLUT.
-.ar off
-.***************************************
-.* SIDEHOVED SIDE 1 (MED Y = 41,5 +13MM (TOPMARGIN) = 54.5mm ********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 41,5mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 130mm
-.in 2mm
-...NOOPRO1
-.if &U'&B30MEDSKUN ne J
-.th .go NOOPRP
-.su off
-.*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
-.se cprcvr = substr &KUNDENR 1 2
-.su on
-.*******************
-.if &cprcvr = 43
-.an &L'&B30INDCPR = 0
-.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
-.********************
-...NOOPRP
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
+.tp 20mm
+Dato    ¤ &NAVN
+.********* SLUT   ******************************************
+...NOOPRT2
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+

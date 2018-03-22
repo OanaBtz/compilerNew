@@ -1,14 +1,109 @@
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&BANKNAVN
-.sp 3
-.if &L'&GENMEKSP gt 0
-.th &GENMEKSP          &GENEKSP
-.el &GENEKSP
-.ce off
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre og test på regtype ********************************************
+.if &REGTYPE = 1021
+.or &REGTYPE = 1321
+.th .go REGOK
+.el .th .mg/T/Der skal vælges en konto med regtype 1021 eller 1321/
+...REGOK
+.**************************************************************************
+.if &GENVALG > 1
+.th .mg/T/Oplysning om ny konto skal angives ved værdien 1/
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da IDOPL 126.5mm 64.5mm
+.da MKTOHAVR 24mm 82mm width 85mm
+.**************************************************************************
+.*SUBSTRINGS **************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.su on
+.**************************************************************************
+.ar IDOPL on
+:COUR8.
+Reg.nr. &regnr
+.br
+Kontonummer &ktonr
+.br
+:FED.&REGTYPELNG.:SKRSLUT.
+.br
+CPR-nr./CVR-nr. &KTOKNDNR1.
 .ar off
+.**************************************************************************
+.ar MKTOHAVR on
+.if &L'&MEDNAVN > 0
+.th .go MEDKTO
+.el .go MEDSL
+...MEDKTO
+Medkontohaver
+.sp 3mm
+&MEDKNDNR1
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+...MEDSL
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 115mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.us Kontoaftale
+.sp
 .tp 8mm
 .**************************************************************************
 .if &L'&GENVALG > 0
@@ -62,27 +157,27 @@ Bindingen på
 Kontovilkårene følger her:
 .sp
 .of 8mm
-*¤Kontoen er en anfordringskonto, hvortil der kan knyttes Netbank (kan
+* ¤ Kontoen er en anfordringskonto, hvortil der kan knyttes Netbank (kan
 koste gebyr jævnfør bankens prisliste. Kontoen kan anvendes som NEMkonto.
 .of
 .sp
 .of 8mm
-*¤Indestående på kontoen er ikke bundet og der kan frit indsættes og hæves
+* ¤ Indestående på kontoen er ikke bundet og der kan frit indsættes og hæves
 penge på kontoen.
 .of
 .sp
 .of 8mm
-*¤Indestående forrentes p.t. med &TOTKRE1.% p.a.
+* ¤ Indestående forrentes p.t. med &TOTKRE1.% p.a.
 .of
 .sp
 .of 8mm
-*¤Rentesatserne er variable og kan til enhver tid ændres af &BANKNAVN.
+* ¤ Rentesatserne er variable og kan til enhver tid ændres af &BANKNAVN.
 jævnfør bankens almindelige forretningsbetingelser for privatkunder med
 tillæg. Renten tilskrives hvert år ultimo december.
 .of
 .sp
 .of 8mm
-*¤Kontoen føres uden bankbog. &BANKNAVN. udsender kontoudskrift, når
+* ¤ Kontoen føres uden bankbog. &BANKNAVN. udsender kontoudskrift, når
 antallet af posteringer er 40, ved rentetilskrivning og når kontoen
 opgøres. Kontoudksrifterne lægges i E.boks. Ønskes udskrifter på andre
 tidspunkter, kan dette aftales mod betaling af gebyr.
@@ -90,12 +185,12 @@ Gebyrets størrelse fremgår af bankens prisliste, som kan ses på www.brf.dk.
 .of
 .sp
 .of 8mm
-*¤&BANKNAVN. kan vælge at kontakte dig/jer via BRFnetbank for ændring
+* ¤ &BANKNAVN. kan vælge at kontakte dig/jer via BRFnetbank for ændring
 af kontovilkår.
 .of
 .sp
 .of 8mm
-*¤For kontoen gælder &BANKNAVN.s almindelige forretningsbetingelser for
+* ¤ For kontoen gælder &BANKNAVN.s almindelige forretningsbetingelser for
 privatkunder med tillæg, som
 .if &MEDKNDNR1 = 0000000000
 .th du kan se på www.brf.dk.
@@ -110,109 +205,15 @@ telefon 70 10 21 00. Kundecentret har åbent alle ugens dage kl. 9.00 -
 21.00.
 ...END
 .of
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 115mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.us Kontoaftale
+.sp 2
+.ce on
+Med venlig hilsen
 .sp
-.ti ¤ 05
-:COUR10.
-.fo left
-.**************************************************************************
-.da IDOPL 126.5mm 64.5mm
-.da MKTOHAVR 24mm 82mm width 85mm
-.**************************************************************************
-.*SUBSTRINGS **************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.su on
-.**************************************************************************
-.ar IDOPL on
-:COUR8.
-Reg.nr. &regnr
-.br
-Kontonummer &ktonr
-.br
-:FED.&REGTYPELNG.:SKRSLUT.
-.br
-CPR-nr./CVR-nr. &KTOKNDNR1.
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
 .ar off
-.**************************************************************************
-.ar MKTOHAVR on
-.if &L'&MEDNAVN > 0
-.th .go MEDKTO
-.el .go MEDSL
-...MEDKTO
-Medkontohaver
-.sp 3mm
-&MEDKNDNR1
-.br
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-...MEDSL
-.ar off
-.*Parametre og test på regtype ********************************************
-.if &REGTYPE = 1021
-.or &REGTYPE = 1321
-.th .go REGOK
-.el .th .mg/T/Der skal vælges en konto med regtype 1021 eller 1321/
-...REGOK
-.**************************************************************************
-.if &GENVALG > 1
-.th .mg/T/Oplysning om ny konto skal angives ved værdien 1/
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

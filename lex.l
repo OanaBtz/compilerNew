@@ -155,7 +155,7 @@ x\&[A-Za-z\-\.ØÆÅ0-9]+                                  { strcpy(yylval.token
 \.+                                                     { strcpy(yylval.tokens, yytext); return IDENT_T;}
 \.\.\.[A-Za-z\-ØÆÅæøå¤0-9.]+                            { strcpy(yylval.tokens, yytext); return LABEL_T;}
 "-"                                                     { strcpy(yylval.tokens, yytext); return MATHEX_T;}
-[A-Za-z\'\-ØÆÅæøå,\.\\¤0-9\*\/\_\^\(\)\:\%\<\>\[\]]+    { strcpy(yylval.tokens, yytext); return IDENT_T;}
+[A-Za-z\'\-ØÆÅæøå,\.\\¤0-9\*\§\/\_\^\(\)\:\%\<\>\[\]]+    { strcpy(yylval.tokens, yytext); return IDENT_T;}
 [\+\-\/\*]                                              { strcpy(yylval.tokens, yytext); return MATHEX_T;}
 \'\ \'                                                  { strcpy(yylval.tokens, yytext); return IDENT_T;}                  
 [Xx]\+|[Xx]\-                                           { strcpy(yylval.tokens, yytext); return IDENT_T;}

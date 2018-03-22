@@ -11,11 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.**************************************************************************
-.su off
-.se year = substr &DATO 7 4
-.su on
-.**************************************************************************
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -46,6 +41,79 @@
 .NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
 .BR
 :ENY.
+.**************************************************************************
+.su off
+.se year = substr &DATO 7 4
+.su on
+.**************************************************************************
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 8
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "BØRN01"**************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XBØRN01DU
+.th .go BØR01
+.el .go DUEXIT
+...BØR01
+.* VÆRGEOPLYSNINGEN KAN UNDVÆRES, DA DER IKKE ER UNDERSKRIFTSFELT TIL
+.* VÆRGEN PÅ DOKUMENTET!!!! Eva Brandt, d. 3-6-2014
+.*.if &L'&GENNAVN > 0
+.*.an &L'&DUROLLE2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast VAE i DUROLLE2/
+.*.if &L'&GENCPR > 0
+.*.an &L'&DUCPRNR2 = 0
+.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
+.*************************************************************
+...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -185,37 +253,6 @@ Cpr/Cvr-nummer: &KTOKNDNR1.
 .sp 34mm
 .rh off
 .* SIDEHOVEDDEFINITION SLUTTER ********************************************
-:FED.Renter og omkostninger:SKRSLUT.
-.br
-Rente og omkostninger for kontoen fastsættes til enhver tid af &BANKNAVN.
-.sp
-Kreditrenten er variabel og udgør for tiden &TOTKRE1. % p.a.
-.sp
-Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
-gang den 31-12-&year..
-.sp
-Renter af indestående i bindingsperioden er skattepligtige og skal
-medregnes i kontohavers skattepligtige indkomst.
-.sp
-I øvrigt gælder "&BANKNAVN.'s almindelige forretningsbetingelser", der
-sammen med kopi af denne aftale er udleveret til opretter.
-.sp
-Som opretter:
-.sp 6mm
-.tp 2mm 100mm
-Dato:¤¤Dato:
-.sp
-:FED.¤¤&BANKNAVN.:SKRSLUT.
-.sp 12mm
-.hr tynd 0mm 65mm 100mm 165mm
-¤&E69NAVN.
-.sp
-Som værge:
-.sp
-Dato
-.sp 15mm
-.hr tynd 0mm 65mm
-¤&E69NAVN1.
 .**************************************************************************
 .fo left
 .dr tynd weight 0.2mm
@@ -266,71 +303,35 @@ opretter.
 Der skal ved overførsel af kontoen til andet pengeinstitut træffes aftale
 med dette om videreførsel af eventuel binding mv.
 .sp
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 8
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "BØRN01"**************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XBØRN01DU
-.th .go BØR01
-.el .go DUEXIT
-...BØR01
-.* VÆRGEOPLYSNINGEN KAN UNDVÆRES, DA DER IKKE ER UNDERSKRIFTSFELT TIL
-.* VÆRGEN PÅ DOKUMENTET!!!! Eva Brandt, d. 3-6-2014
-.*.if &L'&GENNAVN > 0
-.*.an &L'&DUROLLE2 = 0
-.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast VAE i DUROLLE2/
-.*.if &L'&GENCPR > 0
-.*.an &L'&DUCPRNR2 = 0
-.*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
-.*************************************************************
-...DUEXIT
+:FED.Renter og omkostninger:SKRSLUT.
+.br
+Rente og omkostninger for kontoen fastsættes til enhver tid af &BANKNAVN.
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1. % p.a.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den 31-12-&year..
+.sp
+Renter af indestående i bindingsperioden er skattepligtige og skal
+medregnes i kontohavers skattepligtige indkomst.
+.sp
+I øvrigt gælder "&BANKNAVN.'s almindelige forretningsbetingelser", der
+sammen med kopi af denne aftale er udleveret til opretter.
+.sp
+Som opretter:
+.sp 6mm
+.tp 2mm 100mm
+Dato: ¤ ¤ Dato:
+.sp
+:FED. ¤ ¤ &BANKNAVN.:SKRSLUT.
+.sp 12mm
+.hr tynd 0mm 65mm 100mm 165mm
+ ¤ &E69NAVN.
+.sp
+Som værge:
+.sp
+Dato
+.sp 15mm
+.hr tynd 0mm 65mm
+ ¤ &E69NAVN1.
+

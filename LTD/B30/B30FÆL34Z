@@ -11,6 +11,41 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************************
+.su off
+.se medku1 = substr &MEDKUNDENR 1 6
+.se medku2 = substr &MEDKUNDENR 8 4
+.su on
+.*************************
+.if &MEDKUNDENR ne 000000-0000
+.th .go UNDMED
+.* Kun kundens Underskrift og kundenr**************************
+.sp3
+.tp _/80mm
+¤
+.br
+.tp 20mm
+Dato    ¤&KTONAVN
+.br
+¤&KTOKNDNR1
+.go UNDSLUT
+.* kunden og medkundens Underskrift og deres kundenr *******
+...UNDMED
+.sp3
+.tp _/130mm
+¤
+.br
+.tp 20mm 80mm
+Dato ¤&KTONAVN ¤&MEDNAVN
+.br
+¤&KTOKNDNR1 ¤&medku1.&medku2
+...UNDSLUT
+.********* SLUT   ******************************************
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -60,81 +95,6 @@
 .an &MEDKUNDENR = 000000-0000
 .th .mg/T/Der findes ingen medktohaver/
 .***********************
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -185,6 +145,81 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .*********************GENEREL OPSÆTNING************************************
 :CALIB10.
 .fo left
@@ -358,25 +393,6 @@ rente + 2,95 pct. på den Realkredit Danmark obligation, der ligger nærmest
 mindsterenten med en fastrenteperiode på 3 år.
 .br
 Det giver i alt en rente på p.t. &GENRENTE pct. p.a.
-.th .sp
-.kp off
-.***********
-.kp on
-:CALIB10.
-:FED.
-Ophør
-:SKRSLUT.
-.br
-Når
-.if &U'&B30SUPPANT eq P
-.th pantebrevslånet
-.if &U'&B30SUPPANT eq E
-.th lånet
-indfries, bortfalder indlånskontoen. Et eventuelt indestående
-på indlånskontoen overføres til en Multikonto i samme navn i
-&BANKNAVN..
-.sp
-.kp off
 .go RENTESL
 .**********
 ...RENTE4
@@ -427,41 +443,25 @@ Et eventuelt overtræk forrentes efter bankens regler herom.
 .th Ved underskrift på disse supplerende kontovilkår giver &JEG banken
 .th fuldmagt til at trække alle renter/ydelser, der skal betales på
 .th pantebrevslånet på denne indlånskonto.
-.*************************
-.su off
-.se medku1 = substr &MEDKUNDENR 1 6
-.se medku2 = substr &MEDKUNDENR 8 4
-.su on
-.*************************
-.if &MEDKUNDENR ne 000000-0000
-.th .go UNDMED
-.* Kun kundens Underskrift og kundenr**************************
-.sp3
-.tp _/80mm
-¤
+.th .sp
+.kp off
+.***********
+.kp on
+:CALIB10.
+:FED.
+Ophør
+:SKRSLUT.
 .br
-.tp 20mm
-Dato    ¤&KTONAVN
-.br
-¤&KTOKNDNR1
-.go UNDSLUT
-.* kunden og medkundens Underskrift og deres kundenr *******
-...UNDMED
-.sp3
-.tp _/130mm
-¤
-.br
-.tp 20mm 80mm
-Dato ¤&KTONAVN ¤&MEDNAVN
-.br
-¤&KTOKNDNR1 ¤&medku1.&medku2
-...UNDSLUT
-.********* SLUT   ******************************************
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+Når
+.if &U'&B30SUPPANT eq P
+.th pantebrevslånet
+.if &U'&B30SUPPANT eq E
+.th lånet
+indfries, bortfalder indlånskontoen. Et eventuelt indestående
+på indlånskontoen overføres til en Multikonto i samme navn i
+&BANKNAVN..
+.sp
+.kp off
 .kp on
 .if &L'&GENTEKST gt 0
 .th :CALIB10.
@@ -482,29 +482,30 @@ Udlevering af dokumenter
 .br
 &SJEG kvitterer hermed for at have modtaget:
 .sp
-¤En kopi af disse supplerende vilkår.
+ ¤ En kopi af disse supplerende vilkår.
 .br
 .********
 .if &U'&B30SUPPANT eq P
-.th ¤En kopi af pantebrevet der udgør pantebrevslånet
+.th ¤ En kopi af pantebrevet der udgør pantebrevslånet
 .th .br
 .********
 .if &U'&B30SUPPANT eq E
-.th ¤En kopi af gældsbrevet der udgør lånet, samt en kopi af
+.th ¤ En kopi af gældsbrevet der udgør lånet, samt en kopi af
 .th ejerpantebrevet
 .th .br
 .********
 .if &U'&B30SUPFORR eq J
-.th ¤Et eksemplar af "Almindelige forretningsbetingelser".
+.th ¤ Et eksemplar af "Almindelige forretningsbetingelser".
 .th .br
 .********
 .if &L'&B30SUP1 gt 1
-.th ¤&B30SUP1
+.th ¤ &B30SUP1
 .th .br
 .********
 .if &L'&B30SUP2 gt 1
-.th ¤&B30SUP2
+.th ¤ &B30SUP2
 .th .br
 .sp
 .kp off
 .********
+

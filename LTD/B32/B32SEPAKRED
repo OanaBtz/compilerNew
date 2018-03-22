@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :altprint &PRTVALG
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
@@ -21,19 +34,6 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .*
 .*Initier switch til kontakt-tlfnr i B32sepa01O2
 .*(Ændres kun hvis CVR-nr.)
@@ -61,13 +61,58 @@
 .an x&cprcvr < x32
 .th .se kunnr = 'CPR-nr.'
 .**************************************************************************
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL      21mm 60mm width 170mm
+.da KTOOPL1   21mm 80mm width 170mm
+.da KTOOPL2   21mm 75mm width 170mm
+.da KTOHAVOV  21mm 30mm width 155mm
+.da KTOHAVER  21mm 35mm width 155mm
+.da KUNDENR   21mm 70mm width 155mm
+.dr tynd weight 0.1mm
+.**************************************************************************
+.ar KTOOPL1 on
+:FED.
+Tilslutningsaftale til SEPA Direct Debit - Kreditoraftale
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOOPL2 on
+.tp 169mm right
+ ¤ Dato: &DATO.
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+Kontohaver
+:SKRSLUT.
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN.
+.br
+&KTOCO.
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.if &kunnr. = CPR-nr.
+.th &kunnr.: &cpr1.-&cpr2.
+.el &kunnr.: &KTOKNDNR1.
+.ar off
+.**************************************************************************
 .**************************************************************************
 .* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
 .* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
@@ -118,58 +163,63 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .ar off
 .sp 20mm
 .rh off
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.sp 55mm
+.in 1mm
+.hy of
 :VERDA09.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
 .**************************************************************************
-.da FEJL      21mm 60mm width 170mm
-.da KTOOPL1   21mm 80mm width 170mm
-.da KTOOPL2   21mm 75mm width 170mm
-.da KTOHAVOV  21mm 30mm width 155mm
-.da KTOHAVER  21mm 35mm width 155mm
-.da KUNDENR   21mm 70mm width 155mm
-.dr tynd weight 0.1mm
+.da TEXT1 21mm 88mm width 170mm
 .**************************************************************************
-.ar KTOOPL1 on
-:FED.
-Tilslutningsaftale til SEPA Direct Debit - Kreditoraftale
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOOPL2 on
-.tp 169mm right
-¤Dato: &DATO.
-.ar off
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-Kontohaver
-:SKRSLUT.
-.**************************************************************************
-.ar KTOHAVER on
-&KTONAVN.
+.kp on
+1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
+tilslutning til og brug af SEPA Direct Debit til
+at iværksætte betalinger fra debitorer i euro. 'Almindelige
+forretningsbetingelser for erhvervskunder i &BANKNAVN.', 'Generelle
+regler for kreditorer i SEPA Direct Debit' og tilhørende vejledninger
+gælder sammen med denne kreditoraftale for de betalinger, der gennemføres
+i henhold til denne aftale.
+.sp 5mm
+2. For at kunne benytte SEPA Direct Debit til at iværksætte betalinger i
+euro skal følgende supplerende aftaler indgås:
+.sp 5mm
+-   Aftale om brug af &B32NYKNET. Erhverv
 .br
-&KTOCO.
+-   Dataleverandøraftale med &NETS.
+.sp 5mm
+Når ovenstående aftaler er indgået, kan SEPA betalingsaftaler indgås med
+debitorer.
+.sp 5mm
+3. Aftalen omfatter følgende konto, som kan anvendes til posteringer
+relateret til SEPA Direct Debit betalinger:
+.sp 5mm
+.tp 50mm 110mm
+Kontonummer ¤ IBAN-nummer ¤ BIC-nummer
 .br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-.if &kunnr. = CPR-nr.
-.th &kunnr.: &cpr1.-&cpr2.
-.el &kunnr.: &KTOKNDNR1.
-.ar off
-.**************************************************************************
+&reg.-&kto. ¤ &IBANKTONR. ¤ NYKBDKKK
+.sp 5mm
+4. &BANKNAVN. påtager sig alene at være formidler af dataoplysninger og
+gennemførelse af betalinger under forudsætning af, at der er indgået en
+gyldig SEPA betalingsaftale med debitor.
+.sp 5mm
+.kp off
+.kp on
+5. Beløbsgrænser er angivet nedenfor i euro. Beløbsgrænserne er de beløb,
+som kreditor kan iværksætte betaling af fra debitorers konti. Det er
+kreditors pligt at holde sig inden for de aftalte beløbsgrænser. Der er
+aftalt henholdsvis en samlet opkrævningsramme og en beløbsgrænse
+pr. transaktion.
+.sp 5mm
+Følgende opkrævningsramme er gældende indtil videre: &B32MAXOPKR. euro.
+.sp 5mm
+.kp off
+.kp on
 Gennemførte transaktioner må, opgjort som beløbssummen af de seneste
 løbende 8 ugers opkrævninger (privatbetalinger) og de seneste løbende 2
 dages opkrævninger (erhvervsbetalinger), ikke overstige opkrævningsrammen.
@@ -220,56 +270,6 @@ en periode efter et eventuelt skift til et andet pengeinstitut.
 9. &BANKNAVN. kan i forbindelse med leveringen af SEPA Direct Debit
 ydelser videregive kreditoroplysninger til &NETS..
 .sp 5mm
-.sp 55mm
-.in 1mm
-.hy of
-:VERDA09.
-.**************************************************************************
-.da TEXT1 21mm 88mm width 170mm
-.**************************************************************************
-.kp on
-1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
-tilslutning til og brug af SEPA Direct Debit til
-at iværksætte betalinger fra debitorer i euro. 'Almindelige
-forretningsbetingelser for erhvervskunder i &BANKNAVN.', 'Generelle
-regler for kreditorer i SEPA Direct Debit' og tilhørende vejledninger
-gælder sammen med denne kreditoraftale for de betalinger, der gennemføres
-i henhold til denne aftale.
-.sp 5mm
-2. For at kunne benytte SEPA Direct Debit til at iværksætte betalinger i
-euro skal følgende supplerende aftaler indgås:
-.sp 5mm
--   Aftale om brug af &B32NYKNET. Erhverv
-.br
--   Dataleverandøraftale med &NETS.
-.sp 5mm
-Når ovenstående aftaler er indgået, kan SEPA betalingsaftaler indgås med
-debitorer.
-.sp 5mm
-3. Aftalen omfatter følgende konto, som kan anvendes til posteringer
-relateret til SEPA Direct Debit betalinger:
-.sp 5mm
-.tp 50mm 110mm
-Kontonummer ¤IBAN-nummer ¤BIC-nummer
-.br
-&reg.-&kto.¤&IBANKTONR.¤NYKBDKKK
-.sp 5mm
-4. &BANKNAVN. påtager sig alene at være formidler af dataoplysninger og
-gennemførelse af betalinger under forudsætning af, at der er indgået en
-gyldig SEPA betalingsaftale med debitor.
-.sp 5mm
-.kp off
-.kp on
-5. Beløbsgrænser er angivet nedenfor i euro. Beløbsgrænserne er de beløb,
-som kreditor kan iværksætte betaling af fra debitorers konti. Det er
-kreditors pligt at holde sig inden for de aftalte beløbsgrænser. Der er
-aftalt henholdsvis en samlet opkrævningsramme og en beløbsgrænse
-pr. transaktion.
-.sp 5mm
-Følgende opkrævningsramme er gældende indtil videre: &B32MAXOPKR. euro.
-.sp 5mm
-.kp off
-.kp on
 .kp off
 .kp on
 10. Gentagen eller betydelig overskridelse af de aftalte beløbsgrænser,
@@ -290,10 +290,11 @@ punkt 8, anses for væsentlig misligholdelse, der kan bevirke, at
 .tp 1mm 25mm
 .hr tynd 1mm 20mm 25mm 165mm
 .br
-¤Dato ¤&KTONAVN.
+ ¤ Dato ¤ &KTONAVN.
 .sp 9mm
 Jeg beder herved &BANKNAVN. om tilslutning som kreditor i
 SEPA Direct Debit. Samtidig erklærer jeg mig indforstået med
 vilkårene i denne kreditoraftale, 'Almindelige forretningsbetingelser for
 erhvervskunder i &BANKNAVN.' og 'Generelle regler for kreditorer i SEPA
 Direct Debit', som er vedlagt.
+

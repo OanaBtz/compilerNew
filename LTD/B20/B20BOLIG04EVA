@@ -39,24 +39,362 @@
 .BR
 :ENY.
 .*co **b20bolig04
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.**************************************************************************
 :COUR10.
-.da UNDERSKRKU 20mm 250mm width 87mm
-.da UNDERSKRPI 107mm 250mm width 87mm
+.ti ¤ 05
+.fo left
+.**************************************************************************
+.da OVERSK 20mm 32mm width 130mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us on
+Aftale om AL-Boligkøbersikring
+.us off
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BRUGERNR
+.br
+&BREVNAVN
+.ar off
+.da SIDE1 20mm 38mm width 175mm
+.ar SIDE1 on
+.tp 1mm 88.5mm
+.***********************************************************
+:SWISS10.
+:FED.
+ ¤ Parter
+:SKRSLUT.
+.***** her laves kassen til kunde og ordrenr. **************
+.bx left 87.5mm right
+:SWISS8.
+ ¤ Kunde ¤ Sagsbehandler
+.sp 9mm
+.***** her laves kassen til CPR-nr./CVR-nr. ****************
+.hr 87.5mm right
+ ¤ ¤ CPR-nr./CVR-nr.
+.sp 9mm
+.***** her laves kassen til Pengeinstitut og dato **********
+.bx new left 87.5mm right
+ ¤ Pengeinstitut ¤ Oprettelsesdato
+.sp 9mm
+.***** her laves kassen til tidspunkt **********************
+.hr 87.5mm right
+ ¤ ¤ Tidspunkt
+.sp 9mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+ ¤ Indhold
+:SKRSLUT.
+:SWISS8.
+.***** her laves kassen til Indhold  ****
+.bx left right
+.sp
+ ¤ Mellem ovennævnte parter indgås herved aftale om kurssikring
+af et kommende obligationslån i Totalkredit.
+.sp
+.bx new left right
+ ¤ Ejendommens adresse
+.sp 10mm
+.bx new left right
+ ¤ Lånetype/formål
+.sp 10mm
+.bx new left right
+ ¤ Beløb
+.sp 10mm
+.bx new left right
+ ¤ Specifikation
+.sp 10mm
+.bx new left right
+ ¤ Handelstype
+.sp 10mm
+.bx new left right
+ ¤ Salgskurs
+.sp 11mm
+.bx new left right
+ ¤ Kurtage
+.sp 9mm
+.bx new left right
+ ¤ Udbetaling/dato
+.sp 10mm
+.bx new left right
+ ¤ Gebyr
+.sp 10mm
+.bx new left right
+ ¤ Aftalen fastlåser
+.sp 10mm
+.bx new left right
+.in 1mm
+.sp
+Denne aftale betyder, at De har forpligtet Dem til, at obligationerne
+leveres til salg på udbetalingsdatoen til den aftalte kurs - uden at
+der er et bindende lånetilbud fra Totalkredit.
+.sp
+&BANKNAVN garanterer
+.us ikke,
+at De kan optage lånet i Totalkredit. Banken garanterer heller ikke,
+at De kan få tilbudt et lån på et evt. manglende beløb, hvis
+lånetilbuddet ikke bliver som forudsat.
+.sp
+.in
+.bx off
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.bx can
+.ar off
+:COUR10.
+.da KUNDE 25mm 48mm
+.da SAG   112mm 51mm
+.da CPRNR 112mm 65mm
+.da PI    25mm 76mm
+.da DATO  112mm 78mm
+.da TID   112mm 91mm
+.da INDHOLD     25mm 121mm width 170mm
+.da SPEC        25mm 160mm width 170mm
+.da HANDELSTYPE 25mm 175MM width 170mm
+.da SALGSKURS   25mm 190mm width 170mm
+.da KURTAGE     25mm 205mm width 170mm
+.da UDBETAL     25mm 220mm width 170mm
+.da GEBYR       25mm 235mm width 170mm
+.da AFTALE      25mm 248mm width 170mm
+.da BEREGNTEKST 120mm 185mm width 70mm
+.da BEREGNTAL   150mm 185mm width 15mm
 .************************
-.ar UNDERSKRPI on
-.ce on
+.ar KUNDE on
+&NAVN
+.br
+&B20NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.************************
+.ar SAG on
+&BRUGERNAVN
+.ar off
+.************************
+.ar CPRNR on
+.if &L'&DUCPRNR1 > 0
+.th &KUNDENR. / &DUCPRNR3
+.el &KUNDENR
+.ar off
+.************************
+.ar PI on
+.se bankregnr = &BANKREGNR
 &BANKNAVN
-.ce off
+.br
+.if &bankregnr = 0000
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
 .ar off
 .************************
-.ar UNDERSKRKU on
-.ce on
-.if &L'&B20NAVN > 0
-.th &NAVN     &B20NAVN
-.el &NAVN
-.ce off
+.ar DATO on
+&DATO
 .ar off
 .************************
+.ar TID on
+kl. &B20TID
+.ar off
+.************************
+.ar INDHOLD on
+&B20TEKST01
+.sp 8mm
+De ønsker at optage et obligationslån i Totalkredit i forbindelse
+med Deres køb af ovennævnte ejendom.
+.sp 10.5mm
+Nominelt kr.
+:VS. &B20KRED01
+.ar off
+.*************************
+.ar SPEC on
+Fondskode &B20TEKST03.
+.if &L'&B20KONTO03 > 0
+.th lånenr. &B20KONTO03
+.ar off
+.*************************
+.ar HANDELSTYPE on
+Strakshandel
+.if &L'&B20KRED04 > 0 .an &L'&B20KRED05 > 0
+.ar off
+.************************
+.ar SALGSKURS on
+Obligationerne sælges til som følger:
+.ar off
+.***********************
+.ar KURTAGE on
+Kurtagesats &B20TEK31., minimum kr.
+:VS. &B20KRED02
+.ar off
+.*****************************
+.ar UDBETAL on
+&B20DATO1 - nettoprovenu indsættes på kontonr. &BANKREGNR. &B20KONTO01
+.ar off
+.*****************************
+.ar GEBYR on
+.if &L'&B20KRED03. > 0
+kr.
+:VS.
+&B20KRED03
+:SKRSLUT.
+.ar off
+.************************
+.ar AFTALE on
+Med denne aftale fastlåser De kursen på obligationerne fra det
+nye lån i Totalkredit.
+.ar off
+.************************
+.ar BEREGNTEKST on
+:COUR8.
+Strakskurs
+.br
+- Terminsfradrag
+.br
+:FED.Kursværdi:SKRSLUT.
+.br
+- Kursfradrag
+.br
+:FED.Nettokurs:SKRSLUT.
+.ar off
+.*********************
+.ar BEREGNTAL on
+:COUR8.
+.ri on
+&B20KRED06
+.br
+&B20KRED04
+.br
+:FED.&RESULTB.:SKRSLUT.
+.br
+&B20KRED05
+.br
+:FED.&RESULTA.:SKRSLUT.
+.ri off
+.ar off
 .pa
 .da SIDE2 20mm 38mm width 175mm
 .ar SIDE2 on
@@ -171,362 +509,26 @@ Underskrift
 .bx left 87.5mm right
 .tp 59mm 88.5mm 146.5mm
 :SWISS8.
-Kundens underskrift¤Dato:¤Pengeinstituttets underskrift¤Dato:
+Kundens underskrift ¤ Dato: ¤ Pengeinstituttets underskrift ¤ Dato:
 .sp 28mm
 .bx off
 .ar off
-.if &L'&B20KRED03. > 0
-kr.
-:VS.
-&B20KRED03
-:SKRSLUT.
-.ar off
-.************************
-.ar AFTALE on
-Med denne aftale fastlåser De kursen på obligationerne fra det
-nye lån i Totalkredit.
-.ar off
-.************************
-.ar BEREGNTEKST on
-:COUR8.
-Strakskurs
-.br
-- Terminsfradrag
-.br
-:FED.Kursværdi:SKRSLUT.
-.br
-- Kursfradrag
-.br
-:FED.Nettokurs:SKRSLUT.
-.ar off
-.*********************
-.ar BEREGNTAL on
-:COUR8.
-.ri on
-&B20KRED06
-.br
-&B20KRED04
-.br
-:FED.&RESULTB.:SKRSLUT.
-.br
-&B20KRED05
-.br
-:FED.&RESULTA.:SKRSLUT.
-.ri off
-.ar off
 :COUR10.
-.da KUNDE 25mm 48mm
-.da SAG   112mm 51mm
-.da CPRNR 112mm 65mm
-.da PI    25mm 76mm
-.da DATO  112mm 78mm
-.da TID   112mm 91mm
-.da INDHOLD     25mm 121mm width 170mm
-.da SPEC        25mm 160mm width 170mm
-.da HANDELSTYPE 25mm 175MM width 170mm
-.da SALGSKURS   25mm 190mm width 170mm
-.da KURTAGE     25mm 205mm width 170mm
-.da UDBETAL     25mm 220mm width 170mm
-.da GEBYR       25mm 235mm width 170mm
-.da AFTALE      25mm 248mm width 170mm
-.da BEREGNTEKST 120mm 185mm width 70mm
-.da BEREGNTAL   150mm 185mm width 15mm
+.da UNDERSKRKU 20mm 250mm width 87mm
+.da UNDERSKRPI 107mm 250mm width 87mm
 .************************
-.ar KUNDE on
-&NAVN
-.br
-&B20NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.************************
-.ar SAG on
-&BRUGERNAVN
-.ar off
-.************************
-.ar CPRNR on
-.if &L'&DUCPRNR1 > 0
-.th &KUNDENR. / &DUCPRNR3
-.el &KUNDENR
-.ar off
-.************************
-.ar PI on
-.se bankregnr = &BANKREGNR
+.ar UNDERSKRPI on
+.ce on
 &BANKNAVN
-.br
-.if &bankregnr = 0000
-.th &AFDNAVN
-.th .br
-.th &AFDGADE
-.th .br
-.th &AFDBY
-.el &BKAFD
-.el .br
-.el &BKADR
-.el .br
-.el &BKBY
+.ce off
 .ar off
 .************************
-.ar DATO on
-&DATO
+.ar UNDERSKRKU on
+.ce on
+.if &L'&B20NAVN > 0
+.th &NAVN     &B20NAVN
+.el &NAVN
+.ce off
 .ar off
 .************************
-.ar TID on
-kl. &B20TID
-.ar off
-.************************
-.ar INDHOLD on
-&B20TEKST01
-.sp 8mm
-De ønsker at optage et obligationslån i Totalkredit i forbindelse
-med Deres køb af ovennævnte ejendom.
-.sp 10.5mm
-Nominelt kr.
-:VS. &B20KRED01
-.ar off
-.*************************
-.ar SPEC on
-Fondskode &B20TEKST03.
-.if &L'&B20KONTO03 > 0
-.th lånenr. &B20KONTO03
-.ar off
-.*************************
-.ar HANDELSTYPE on
-Strakshandel
-.if &L'&B20KRED04 > 0 .an &L'&B20KRED05 > 0
-.ar off
-.************************
-.ar SALGSKURS on
-Obligationerne sælges til som følger:
-.ar off
-.***********************
-.ar KURTAGE on
-Kurtagesats &B20TEK31., minimum kr.
-:VS. &B20KRED02
-.ar off
-.*****************************
-.ar UDBETAL on
-&B20DATO1 - nettoprovenu indsættes på kontonr. &BANKREGNR. &B20KONTO01
-.ar off
-.*****************************
-.ar GEBYR on
-.bx new left right
-¤Handelstype
-.sp 10mm
-.bx new left right
-¤Salgskurs
-.sp 11mm
-.bx new left right
-¤Kurtage
-.sp 9mm
-.bx new left right
-¤Udbetaling/dato
-.sp 10mm
-.bx new left right
-¤Gebyr
-.sp 10mm
-.bx new left right
-¤Aftalen fastlåser
-.sp 10mm
-.bx new left right
-.in 1mm
-.sp
-Denne aftale betyder, at De har forpligtet Dem til, at obligationerne
-leveres til salg på udbetalingsdatoen til den aftalte kurs - uden at
-der er et bindende lånetilbud fra Totalkredit.
-.sp
-&BANKNAVN garanterer
-.us ikke,
-at De kan optage lånet i Totalkredit. Banken garanterer heller ikke,
-at De kan få tilbudt et lån på et evt. manglende beløb, hvis
-lånetilbuddet ikke bliver som forudsat.
-.sp
-.in
-.bx off
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.bx can
-.ar off
-.da SIDE1 20mm 38mm width 175mm
-.ar SIDE1 on
-.tp 1mm 88.5mm
-.***********************************************************
-:SWISS10.
-:FED.
-¤Parter
-:SKRSLUT.
-.***** her laves kassen til kunde og ordrenr. **************
-.bx left 87.5mm right
-:SWISS8.
-¤Kunde ¤Sagsbehandler
-.sp 9mm
-.***** her laves kassen til CPR-nr./CVR-nr. ****************
-.hr 87.5mm right
-¤¤CPR-nr./CVR-nr.
-.sp 9mm
-.***** her laves kassen til Pengeinstitut og dato **********
-.bx new left 87.5mm right
-¤Pengeinstitut¤Oprettelsesdato
-.sp 9mm
-.***** her laves kassen til tidspunkt **********************
-.hr 87.5mm right
-¤¤Tidspunkt
-.sp 9mm
-.bx off
-.bx can
-:SWISS10.
-:FED.
-¤Indhold
-:SKRSLUT.
-:SWISS8.
-.***** her laves kassen til Indhold  ****
-.bx left right
-.sp
-¤Mellem ovennævnte parter indgås herved aftale om kurssikring
-af et kommende obligationslån i Totalkredit.
-.sp
-.bx new left right
-¤Ejendommens adresse
-.sp 10mm
-.bx new left right
-¤Lånetype/formål
-.sp 10mm
-.bx new left right
-¤Beløb
-.sp 10mm
-.bx new left right
-¤Specifikation
-.sp 10mm
-.**************************************************************************
-:COUR10.
-.ti ¤ 05
-.fo left
-.**************************************************************************
-.da OVERSK 20mm 32mm width 130mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.ar OVERSK on
-:SWISS12.
-:FED.
-.us on
-Aftale om AL-Boligkøbersikring
-.us off
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BRUGERNR
-.br
-&BREVNAVN
-.ar off
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-.NV PAGE DUVALG1 '%&DUVALG1.'
-.BR
-.NV PAGE DUVALG2 '%&DUVALG2.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
-.**************************************************************************
-;T.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
+

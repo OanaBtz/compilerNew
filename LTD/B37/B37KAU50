@@ -11,8 +11,313 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.BR
-:ENY.
+.* SLUTBOX - 3mm aht. revisionskasser 16.4.2007 es
+.*************** definer siden som et areal *******************************
+.da SIDE1 20mm 40mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE1 on
+:SWISS9.
+.tp 1mm 88.5mm
+.bx left 87.5mm right
+¤Kautionist ¤indestår herved (pengeinstitut)
+.sp 20mm
+¤Kundenummer &KAUKNDNR ¤Tlf.nr. &AFDTLF
+.bx off
+.sp 4mm
+.bx left right
+.*sp 204mm
+.sp 201mm
+.bx off
+.ar off
+.********************GENEREL OPSÆTNING*************************************
+.ti ¤ 05
+.fo left
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO
+.br
+Kl. &TID
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 63 + 13MM (TOPMARGIN) = 76MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.* HANDELSBANKEN KREDIT ***************************************************
+.hklogo
+.**************************************************************************
+.sp 63mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.in 5mm
+.ir 1mm
+.**************************************************************************
+Som
+.if &KAUTYPE = 1
+.th selvskyldnerkautionist
+.if &KAUTYPE = 2
+.th simpel kautionist
+.if &KAUTYPE = 3
+.th tabskautionist
+.***********
+.if &KAUHÆFTYPE = 1
+.or &KAUHÆFTYPE = 3
+.th hæftende solidarisk
+.if &KAUHÆFTYPE = 2
+.th hæftende pro rata
+.**********
+.if &KAUTYPE = 1
+.th for opfyldelse af nuværende og fremtidige
+.if &KAUTYPE = 2
+.th for opfyldelse af
+.if &KAUTYPE = 3
+.th for opfyldelse af
+.*********
+forpligtelser af enhver art og for betaling vedrørende
+.sp 3mm
+.********** HER TESTES PÅ TYPE LÅN-KREDIT-GARANTI *************************
+.if X&LAANTYPE lt X1
+.or X&LAANTYPE gt X3
+.th .mg/T/ Vælg lånetype 1, 2 eller 3/
+.***************
+.if &LAANTYPE eq 1
+.th Lån nr. &LANGKTONR
+.if &LAANTYPE eq 2
+.th Kredit nr. &LANGKTONR
+.if &LAANTYPE eq 3
+.th Garanti nr. &LANGKTONR
+.***********
+.if &U'X&GENBOGST1A = XM
+.th med
+.el uden
+fastsat tilbagebetalingstidspunkt
+.sp 5mm
+.**************************************************************************
+.tp 92.5mm 134mm
+:FED.
+.if &DEBANTAL = 1
+.th Låntager
+.th .sp 3mm
+.th .go DEB1
+.if &DEBANTAL = 2
+.th Låntager ¤ Låntager
+.th .sp 3mm
+.th .go DEB2
+.if &DEBANTAL > 2
+.th Låntager ¤ Låntager ¤ Flere låntagere
+.th .sp 3mm
+.th .go DEB2
+...DEB2
+.cd 2 0mm 87.5mm
+.cl 80mm
+...DEB1
+.**INGEN KOLONNEDEFINITION - HVIS DER KUN ER 1 DEBITOR ********************
+:SKRSLUT.
+&DEB1ADR1
+.br
+&DEB1ADR2
+.br
+&DEB1ADR3
+.br
+&DEB1ADR4
+.br
+&DEB1ADR5
+.**************************************************************************
+.if &DEBANTAL > 1
+.th .go MED1
+.el .go MED1SL
+...MED1
+.cb
+&DEB2ADR1
+.br
+&DEB2ADR2
+.br
+&DEB2ADR3
+.br
+&DEB2ADR4
+.br
+&DEB2ADR5
+.sc
+...MED1SL
+.sp 3mm
+.**************************************************************************
+Kundenr. &DEB1KNDNR
+.if &DEBANTAL > 1
+.th .ct ¤ Kundenr. &DEB2KNDNR
+.**************************************************************************
+.sp 3mm
+:FED.
+Maksimum
+:SKRSLUT.
+.br
+.***SOLIDARISK KAUTION *************
+.if &KAUHÆFTYPE = 1
+.th .go KTYP1
+.el .go KTYP2
+...KTYP1
+Dog for maksimum &MAXBELØB. kr.
+.***PRO RATA KAUTION *************
+...KTYP2
+.if &KAUHÆFTYPE = 2
+.th .go TYPPRO1
+.el .go KTYP3
+...TYPPRO1
+.if &L'&MAXBELØB > 0
+.th Kautionen kan højst gøres gældende med &MAXBELØB kr.
+.if &L'&MAXPROCENT > 0
+.th Kautionen kan højst gøres gældende med &MAXPROCENT %
+.th af gælden.
+.***BELØBSBEGRÆNSET KAUTION *****
+...KTYP3
+.if &KAUHÆFTYPE = 3
+.th .go HÆFBEG
+.el .go GYLDIG
+...HÆFBEG
+.if &L'&MAXBELØB > 0
+.th Kautionen kan højst andrage &MAXBELØB kr.
+.if &L'&MAXPROCENT > 0
+.th Kautionen kan højst andrage &MAXPROCENT %
+.th af gælden.
+.**********************
+...GYLDIG
+.sp 5mm
+:FED.
+Gyldighedsperiode
+:SKRSLUT.
+.br
+Nærværende kaution bortfalder &GENMDR
+måneder fra underskriftstidspunktet,
+medmindre &BANKNAVN forinden har gjort krav gældende over for
+kautionisten, eller kautionen er forlænget ved aftale mellem
+&BANKNAVN og kautionisten.
+.*SUPPLERENDE TEKST *******************************************************
+.if &L'&SUPTXT01A > 0
+.or &L'&SUPTXT01B > 0
+.or &L'&SUPTXT02A > 0
+.or &L'&SUPTXT02B > 0
+.or &L'&SUPTXT03A > 0
+.or &L'&SUPTXT03B > 0
+.or &L'&SUPTXT04A > 0
+.or &L'&SUPTXT04B > 0
+.or &L'&SUPTXT05A > 0
+.or &L'&SUPTXT05B > 0
+.or &L'&SUPTXT06A > 0
+.or &L'&SUPTXT06B > 0
+.th .go SUPL
+.el .go SUPLEND
+...SUPL
+.sp 5mm
+:FED.
+Supplerende tekst
+:SKRSLUT.
+.br
+.*FLG. "SKRSLUT" **ANNULLERER SKRIFTTYPEN SWISS9 **************************
+:SKRSLUT.
+.**************************************************************************
+:COUR10.
+&SUPTXT01A.&SUPTXT01B
+.br
+&SUPTXT02A.&SUPTXT02B
+.br
+&SUPTXT03A.&SUPTXT03B
+.br
+&SUPTXT04A.&SUPTXT04B
+.br
+&SUPTXT05A.&SUPTXT05B
+.br
+&SUPTXT06A.&SUPTXT06B
+...SUPLEND
+.**BETINGELSER ************************************************************
+:SWISS9.
+.sp 5mm
+:FED.
+For kaution gælder i øvrigt nedenstående vilkår:SKRSLUT.
+.in
+.ir
+.sp 3mm
+.cd 2 5mm 90mm
+.cl 78mm
+.**1. KOLONNE *************************************************************
+.tp 3mm
+:FED.
+1. Anvendelse af indbetalinger:SKRSLUT.
+.br
+Indbetaling fra låntager anvendes, hvis lånet/kreditten kun er
+delvis sikret ved kaution, først til nedbringelse af den usikrede del.
+.sp 3mm
+:FED.
+2. Henstand:SKRSLUT.
+.br
+&BANKNAVN kan uden tilladelse fra kautionisten give låntager henstand
+med betaling af afdrag, renter, provision og eventuelle omkostninger, dog
+med respekt af Lov om finansiel virksomhed § 48.
+.sp 3mm
+:FED.
+3. Realisation og regres:SKRSLUT.
+.br
+&BANKNAVN forbeholder sig ret til at realisere de af låntager eller
+trediemand eventuelt stillede sikkerheder og afskrive provenuet efter
+&BANKNAVN.s frie valg. Kautionisten har således ingen regresret i
+sådanne sikkerheder.
+.sp 3mm
+Det indebærer:
+.sp 3mm
+.of 3mm
+- ¤ at &BANKNAVN uden kautionistens tilladelse kan frigive andre
+sikkerheder for den kautionssikrede forpligtelse.
+.sp 3mm
+.of
+.of 3mm
+- ¤ at &BANKNAVN kan anvende pant, der tillige tjener til sikkerhed
+for andre fordringer end den kautionssikrede til forlods fyldestgørelse af
+sådanne fordringer.
+.of
+.sp 3mm
+.cb
+.**2. KOLONNE *************************************************************
+:FED.
+4. Omstødelse:SKRSLUT.
+.br
+Hvis der i forbindelse med låntagers konkurs m.v., jævnfør konkurslovens
+kapitel 8, sker omstødelse af supplerende sikkerhedsstillelse, der er
+anvendt til hel eller delvis indfrielse af den kautionssikrede fordring,
+opretholdes kautionsforpligtelsen.
+.sp 3mm
+Det samme er gældende, hvis en betaling fra låntager omstødes.
+.sp 3mm
+:FED.
+5. Værneting:SKRSLUT.
+.br
+Retsager vedrørende denne kaution kan efter &BANKNAVN.s ønske
+anlægges ved byretten i den retskreds, hvor &BANKNAVN eller dennes
+kontoførende filial er beliggende (bestemmelsen gælder ikke i
+forbrugerforhold, jævnfør retsplejelovens § 245, stk. 2).
+.*******************
+.sp 3mm
+:FED.
+6. Øvrige vilkår:SKRSLUT.
+.br
+&BANKNAVN. defineres i nærværende kautionserklæring som Handelsbanken,
+filial af Svenska Handelsbanken AB (publ), Sverige samt enhver af dennes
+koncernforbundne selskaber og afdelinger, herunder men ikke begrænset til
+Handelsbanken Finans, filial af Svenska Handelsbanken Finans AB, Sverige
+og Handelsbanken Kredit, filial af Stadshypotek AB, Sverige.
+.*******************
+.sc
+.in 5mm
+.ir 5mm
+.**************************************************************************
+.**************************************************************************
+.**************************************************************************
 .* HB Ændring til test af Handelsbanken Kredit uddatanr (skuffevalg) 4/2010
 .* REGTYPE tilføjet i parameterlisten
 .* HVIS KUNDENUMMERET er forskellig fra nedennævnte springes testen over
@@ -63,6 +368,8 @@
 .NV PAGE KONTROLLANT1 '%&KONTROL1.'
 .BR
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .* REGTYPE tilføjet for at styre dokumenter til Handels Kredit
 .* følgende test ligger i systemet ********
 .***************************************
@@ -71,106 +378,6 @@
 .*Gyldighedsperioden kan max. være 10 år
 .*.if &GENAAR eq 0
 .*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
-*********.
-..STESTSL.
-if &hitant > 1.
-th :SWISS14..
-th .sp.
-th Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEB01NAVN..
-th .sp.
-th DU MÅ IKKE INDSÆTTE TEKSTEN/BLOKKEN "&strA." mere end 1 gang.
-th :SKRSLUT..
-th .sp.
-th .qu.
-dm off.
-*** MAKRODEFINITION SLUT **** B37SAERA ********************************.
-*** MAKRODEFINITION START *** B37SAERB ********************************.
-DM B37SAERB on.
-*it all.
-* INTERNE MAKROPARAMETRE (sbtalxx er nr på den testede variabel SAERBETxx).
-se ptal   = &hitparnr    ;.* parametertæller 0-&ptalsl.
-se ptalsl = 60           ;.* Sluttal på parametertæller.
-se ptalx  = 0&ptal.      ;.* parametertal med 2 cifre 00-60.
-se tal   = 0             ;.* nr. på testet karakter i teststreng.
-se stal  = 0             ;.*karakternr indeholdende ) i teststreng.
-se sep1 = ''.
-se sep2 = ''.
-se sep3 = ''.
-if &ptal > 9.
-th .se ptalx = &ptal..
-el .se ptalx = 0&ptal..
-*if &L'&SAERBET01 = 0.
-*if x&L'&SAERBET&talx. = x0.
-*th .go EJMSLUT.
-*it sub.
-if x&E'&hitant = x0.
-or x&L'&SAERBET&ptalx.. = x0.
-th .go EJMSLUT.
-if x&ptal <> x0.
-th .se  str = '&SAERBET&ptalx..'.
-th .se lstr = &L'&str..
-el .go EJMSLUT.
-*it off.
-..IGEN.
-if &tal > &lstr.
-th .go MSLUT.
-se tal = &tal + 1.
-if &tal > 9.
-th .se talx = &tal..
-el .se talx = 0&tal..
-se ldoktst = &L'&SAERBET&ptalx...
-if x&ldoktst = x0.
-th .se ldokrst = 0
-.se ttalh = ''
-.se ttalgl = 0
-.se hitparnr  = 0
-.se hitant = 0
-.se b37saertnr = ''
-.se akort = ''
-.se strA = ''
-.* LOOPEXIT ER ET LOOP KONTROLTAL FOR AT LOOPET IKKE LØBER LØBSK
-.se LOOPEXIT = 0
-...START0
-.se LOOPEXIT = &LOOPEXIT + 1
-.if &LOOPEXIT > 99
-.th .go MCSLUT
-.if &ttal > 9
-.th .se ttalx = &ttal.
-.el .se ttalx = 0&ttal.
-.*it off
-.*it sub
-.se a1 = SUBSTR 'x&U'&a.' 2 &la1
-.se akort = SUBSTR 'x&U'&SAERBET&ttalx..' 2 &la1
-.*if x&U'&a. = x&U'&SAERBET&ttalx..
-.if x&a1. = x&akort.
-.th .se hitparnr = &ttal.
-.th .se ttalh = &ttalx.
-.th .se hitant = &hitant + 1
-.th .se  strA = '&SAERBET&ttalx..'
-.se ttalgl = &ttal.
-.se ttal = &ttal. - 1
-.if &ttal. = 0
-.th .go MCSLUT
-.el .go START0
-...MCSLUT
-.*it off
-.if x&ttal = x0
-.th .se b37saertnr = &ttalh.
-.el .se b37saertnr = &hitparnr.
-.*it off
-.if x&U'&b. = xTEST
-.el .go STESTSL
- *********
- B37SAERA TEST TEKST
- hitparnr = &hitparnr., hitant = &hitant.,
- ttal = &ttal., ttalx = &ttalx., ttalh = &ttalh.,
- LOOPEXIT = &LOOPEXIT.,  b37saertnr = &b37saertnr.,
- SAERBET&ttalh. =&SAERBET&ttalh..,
- strA =&strA.,
- a =&a., la =&la.,
- a1 =&a1., la1 =&la1.,
- akort =&akort.,
- B37SAERA TEST slut
 .********** HB DOKUMENT TEST** delt i T00A,T00A1 og T00B d.01.09.2015 ***
 .* DER DEFINERES 3 MAKROER som arbejder sammen B37SAERA,B og C
 .* INDHOLD 2 makroer i dette tekstmodul B37SAERA og B37SAERB
@@ -221,6 +428,106 @@ th .se ldokrst = 0
 .se B37saernr = 0
 .se ttal = 60
 .se ttalx = &ttal.
+.se ttalh = ''
+.se ttalgl = 0
+.se hitparnr  = 0
+.se hitant = 0
+.se b37saertnr = ''
+.se akort = ''
+.se strA = ''
+.* LOOPEXIT ER ET LOOP KONTROLTAL FOR AT LOOPET IKKE LØBER LØBSK
+.se LOOPEXIT = 0
+...START0
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 99
+.th .go MCSLUT
+.if &ttal > 9
+.th .se ttalx = &ttal.
+.el .se ttalx = 0&ttal.
+.*it off
+.*it sub
+.se a1 = SUBSTR 'x&U'&a.' 2 &la1
+.se akort = SUBSTR 'x&U'&SAERBET&ttalx..' 2 &la1
+.*if x&U'&a. = x&U'&SAERBET&ttalx..
+.if x&a1. = x&akort.
+.th .se hitparnr = &ttal.
+.th .se ttalh = &ttalx.
+.th .se hitant = &hitant + 1
+.th .se  strA = '&SAERBET&ttalx..'
+.se ttalgl = &ttal.
+.se ttal = &ttal. - 1
+.if &ttal. = 0
+.th .go MCSLUT
+.el .go START0
+...MCSLUT
+.*it off
+.if x&ttal = x0
+.th .se b37saertnr = &ttalh.
+.el .se b37saertnr = &hitparnr.
+.*it off
+.if x&U'&b. = xTEST
+.el .go STESTSL
+ *********
+ B37SAERA TEST TEKST
+ hitparnr = &hitparnr., hitant = &hitant.,
+ ttal = &ttal., ttalx = &ttalx., ttalh = &ttalh.,
+ LOOPEXIT = &LOOPEXIT.,  b37saertnr = &b37saertnr.,
+ SAERBET&ttalh. =&SAERBET&ttalh..,
+ strA =&strA.,
+ a =&a., la =&la.,
+ a1 =&a1., la1 =&la1.,
+ akort =&akort.,
+ B37SAERA TEST slut
+*********.
+..STESTSL.
+if &hitant > 1.
+th :SWISS14..
+th .sp.
+th Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEB01NAVN..
+th .sp.
+th DU MÅ IKKE INDSÆTTE TEKSTEN/BLOKKEN "&strA." mere end 1 gang.
+th :SKRSLUT..
+th .sp.
+th .qu.
+dm off.
+*** MAKRODEFINITION SLUT **** B37SAERA ********************************.
+*** MAKRODEFINITION START *** B37SAERB ********************************.
+DM B37SAERB on.
+*it all.
+* INTERNE MAKROPARAMETRE (sbtalxx er nr på den testede variabel SAERBETxx).
+se ptal   = &hitparnr    ;.* parametertæller 0-&ptalsl.
+se ptalsl = 60           ;.* Sluttal på parametertæller.
+se ptalx  = 0&ptal.      ;.* parametertal med 2 cifre 00-60.
+se tal   = 0             ;.* nr. på testet karakter i teststreng.
+se stal  = 0             ;.*karakternr indeholdende ) i teststreng.
+se sep1 = ''.
+se sep2 = ''.
+se sep3 = ''.
+if &ptal > 9.
+th .se ptalx = &ptal..
+el .se ptalx = 0&ptal..
+*if &L'&SAERBET01 = 0.
+*if x&L'&SAERBET&talx. = x0.
+*th .go EJMSLUT.
+*it sub.
+if x&E'&hitant = x0.
+or x&L'&SAERBET&ptalx.. = x0.
+th .go EJMSLUT.
+if x&ptal <> x0.
+th .se  str = '&SAERBET&ptalx..'.
+th .se lstr = &L'&str..
+el .go EJMSLUT.
+*it off.
+..IGEN.
+if &tal > &lstr.
+th .go MSLUT.
+se tal = &tal + 1.
+if &tal > 9.
+th .se talx = &tal..
+el .se talx = 0&tal..
+se ldoktst = &L'&SAERBET&ptalx...
+if x&ldoktst = x0.
+th .se ldokrst = 0
 .el .se ldokrst = &ldoktst - 1
 .*it all
 .se DOKTST = SUBSTR '&SAERBET&ptalx..' 1 1
@@ -371,150 +678,6 @@ th .se ldokrst = 0
 .*if x, = x&korkm.
 .if x&L'&KORTLAR1 = x4
 .th .se EJSTOP    = 1
-GENFDATO  = x&GENFDATO.x PRIERH = &PRIERH 
-EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP., 
-STLAN  =&STLAN., STLANDATO =&STLANDATO.,.
-ar off.
-..SLUTTEST.
-******* TEST SLUT ***.
-DM off.
-*** MAKRODEFINITION SLUT **** B37SAERB ********************************.
-*** 10 ***.
-B37SAERA '(ej1ÅrsPassus)'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 20 ***.
-B37SAERA '(AndelSikkerhed)'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 30 ***.
-B37SAERA '(Covenants)'.
-if x&hitant = x1.
-th .B37SAERB.
-**********.
-B37SAERA '(pdf)'.
-if x&hitant = x1.
-th .B37SAERB.
-**********.
-B37SAERA '(stående!'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 50 ***.
-B37SAERA '(KreditFradrag1!'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 60 ***.
-B37SAERA '(KortLån!'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 70 ***.
-B37SAERA '(DirektePant)'.
-if x&hitant = x1.
-th .B37SAERB.
-******** NÆSTE DEFINITION AF .B37SAERC T00A1 *******************.
-..TESTREG.
-* EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP.,.
-* STLAN  =&STLAN., STLANDATO =&STLANDATO.,
-.if x&U'&par1 = xDIREKTEPANT
-.el .go tekst99
- 
-.us (DirektePant)
-.sp
-   DirektePant    = Kravs TEST ord for stående lån
-   () og !        = Kravs tegn
-.sp 10mm
- 
-...tekst99
-.qu
-.**************************
-...EJMSLUT
-.******* TEST ***
-.******* TESTPARAMETRE UDSKRIVES ***
-.if x&U'&par3 ne xTEST
-.an x&U'&b ne xTEST
-.th .go SLUTTEST
-.da TESTa 20mm 50mm
-.ar TESTa on
-.*pa
-.sp
- PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
-tal = &tal stal = &stal
-.br
-Særlige betingelser:
-  1 '&SAERBET01.'x
-  2 '&SAERBET02.'x
-  3 '&SAERBET03.'x
-  4 '&SAERBET04.'x
-  5 '&SAERBET05.'x
-  6 '&SAERBET06.'x
-  7 '&SAERBET07.'x
-  8 '&SAERBET08.'x
-  9 '&SAERBET09.'x
- 10 '&SAERBET10.'x
- 11 '&SAERBET11.'x
- 12 '&SAERBET12.'x
- 13 '&SAERBET13.'x
- 14 '&SAERBET14.'x
-.*'&SÆRBET1A.' '&SÆRBET1B.'
-.br
-sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
-par1='&par1.'par2='&par2.'par3 = '&par3.'
-.br
-srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
-STLAN = '&STLAN.' STLANDATO = '&STLANDATO.' EJ1AAR = '&EJ1AAR.'
-bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
-bsep3 = &bsep3 lsep3=&lsep3
- AFTDATO10 = x&AFTDATO10.x INDFRIDATO = x&INDFRIDATO.x
-.if x&U'&par1 = xEJ1ÅRSPASSUS
-.el .go tekst20
- 
-.us (ej1årspassus)
-.sp
-   ej1årspassus = Kravs TEST ord for ingen 1 års passus erhverv
-   ()           = Kravs tegn
- 
-...tekst20
-.if x&U'&par1 = xANDELSIKKERHED
-.el .go tekst30
- 
-.us (AndelSikkerhed)
-.sp
-   AndelSikkerhed = Kravs TEST ord for andelsbolig med sik.i fast ejendom
-   ()             = Kravs tegn
- 
-...tekst30
-.if x&U'&par1 = xCOVENANTS
-.el .go tekst50
- 
-.us (Covenants)
-.sp
-   Covenants    = Kravs TEST ord for Covenants erhverv
-   ()           = Kravs tegn
- 
-...tekst50
-.if x&U'&par1 = xKREDITFRADRAG1
-.el .go tekst60
- 
-.us (KreditFradrag1!xx,xxx)
-.sp
-   KreditFradrag1    = Kravs TEST ord for stående lån
-    x,xxx el xx,xxx  = Fradrag i kreditrente 1. knæk
-                      (uden fortegn med 4 eller 5 cifre 3 dec.)
-   () og !           = Kravs tegn
- 
-...tekst60
-.if x&U'&par1 = xKORTLÅN
-.el .go tekst70
- 
-.us (KortLån!xx,x)
-.sp
-   KortLån        = Kravs TEST ord for stående lån
-    xx,x          = Beregnet afvikling over fx 04,0 år
-                    (udfyldes med 1 dec. og foranstående 0)
-   () og !        = Kravs tegn
-.sp 10mm
- 
-...tekst70
 .el .se EJSTOP    = 0
 .if x0 = x&kortd0.
 .th .se KORTLAR = SUBSTR '&KORTLAR1.' 2 3
@@ -565,56 +728,200 @@ FORMAT i Særlige betingelser er forkert:
    () og !     = Kravs tegn
  
 ...tekst10
-.th .se NORMAL   = 0
-.* PRIORITETSKREDITTER (Skal også være i PRIOVAR/FAST ovenfor)
-.if x&REGTYPE11 = x2854
-.or x&REGTYPE11 = x2856
-.or x&REGTYPE11 = x2858
-.th .se PRIOKRED = 1
-.* PRIO ANDELSBOLIGREGTYPER (Skal også være i PRIOVAR/FAST ovenfor)
-.* MED (ABF) BETINGELSE
-.if x&REGTYPE11 = x1350
-.or x&REGTYPE11 = x1351
-.or x&REGTYPE11 = x1352
-.or x&REGTYPE11 = x1353
-.or x&REGTYPE11 = x1354
-.or x&REGTYPE11 = x1355
-.or x&REGTYPE11 = x1356
-.or x&REGTYPE11 = x1357
-.or x&REGTYPE11 = x1362
-.or x&REGTYPE11 = x1363
-.or x&REGTYPE11 = x2857
-.or x&REGTYPE11 = x1370
-.or x&REGTYPE11 = x1371
-.or x&REGTYPE11 = x1372
-.or x&REGTYPE11 = x1373
-.or x&REGTYPE11 = x1374
-.th .se PRIOANDEL = 1
-.* HANDELSBANKEN KREDIT(Skal også være i PRIOVAR/FAST ovenfor)
-.se B37HYCVR = N
-.* RETTET d. 4.2.2016 es
-.*se banken = banken
-.*se Sbanken = Banken
-.se banken = Handelsbanken
-.se Sbanken = Handelsbanken
+.if x&U'&par1 = xEJ1ÅRSPASSUS
+.el .go tekst20
+ 
+.us (ej1årspassus)
+.sp
+   ej1årspassus = Kravs TEST ord for ingen 1 års passus erhverv
+   ()           = Kravs tegn
+ 
+...tekst20
+.if x&U'&par1 = xANDELSIKKERHED
+.el .go tekst30
+ 
+.us (AndelSikkerhed)
+.sp
+   AndelSikkerhed = Kravs TEST ord for andelsbolig med sik.i fast ejendom
+   ()             = Kravs tegn
+ 
+...tekst30
+.if x&U'&par1 = xCOVENANTS
+.el .go tekst50
+ 
+.us (Covenants)
+.sp
+   Covenants    = Kravs TEST ord for Covenants erhverv
+   ()           = Kravs tegn
+ 
+...tekst50
+.if x&U'&par1 = xKREDITFRADRAG1
+.el .go tekst60
+ 
+.us (KreditFradrag1!xx,xxx)
+.sp
+   KreditFradrag1    = Kravs TEST ord for stående lån
+    x,xxx el xx,xxx  = Fradrag i kreditrente 1. knæk
+                      (uden fortegn med 4 eller 5 cifre 3 dec.)
+   () og !           = Kravs tegn
+ 
+...tekst60
+.if x&U'&par1 = xKORTLÅN
+.el .go tekst70
+ 
+.us (KortLån!xx,x)
+.sp
+   KortLån        = Kravs TEST ord for stående lån
+    xx,x          = Beregnet afvikling over fx 04,0 år
+                    (udfyldes med 1 dec. og foranstående 0)
+   () og !        = Kravs tegn
+.sp 10mm
+ 
+...tekst70
+.if x&U'&par1 = xDIREKTEPANT
+.el .go tekst99
+ 
+.us (DirektePant)
+.sp
+   DirektePant    = Kravs TEST ord for stående lån
+   () og !        = Kravs tegn
+.sp 10mm
+ 
+...tekst99
+.qu
+.**************************
+...EJMSLUT
+.******* TEST ***
+.******* TESTPARAMETRE UDSKRIVES ***
+.if x&U'&par3 ne xTEST
+.an x&U'&b ne xTEST
+.th .go SLUTTEST
+.da TESTa 20mm 50mm
+.ar TESTa on
+.*pa
+.sp
+ PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
+tal = &tal stal = &stal
+.br
+Særlige betingelser:
+  1 '&SAERBET01.'x
+  2 '&SAERBET02.'x
+  3 '&SAERBET03.'x
+  4 '&SAERBET04.'x
+  5 '&SAERBET05.'x
+  6 '&SAERBET06.'x
+  7 '&SAERBET07.'x
+  8 '&SAERBET08.'x
+  9 '&SAERBET09.'x
+ 10 '&SAERBET10.'x
+ 11 '&SAERBET11.'x
+ 12 '&SAERBET12.'x
+ 13 '&SAERBET13.'x
+ 14 '&SAERBET14.'x
+.*'&SÆRBET1A.' '&SÆRBET1B.'
+.br
+sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
+par1='&par1.'par2='&par2.'par3 = '&par3.'
+.br
+srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
+STLAN = '&STLAN.' STLANDATO = '&STLANDATO.' EJ1AAR = '&EJ1AAR.'
+bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
+bsep3 = &bsep3 lsep3=&lsep3
+ AFTDATO10 = x&AFTDATO10.x INDFRIDATO = x&INDFRIDATO.x
+GENFDATO  = x&GENFDATO.x PRIERH = &PRIERH 
+EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP., 
+STLAN  =&STLAN., STLANDATO =&STLANDATO.,.
+ar off.
+..SLUTTEST.
+******* TEST SLUT ***.
+DM off.
+*** MAKRODEFINITION SLUT **** B37SAERB ********************************.
+*** 10 ***.
+B37SAERA '(ej1ÅrsPassus)'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 20 ***.
+B37SAERA '(AndelSikkerhed)'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 30 ***.
+B37SAERA '(Covenants)'.
+if x&hitant = x1.
+th .B37SAERB.
+**********.
+B37SAERA '(pdf)'.
+if x&hitant = x1.
+th .B37SAERB.
+**********.
+B37SAERA '(stående!'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 50 ***.
+B37SAERA '(KreditFradrag1!'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 60 ***.
+B37SAERA '(KortLån!'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 70 ***.
+B37SAERA '(DirektePant)'.
+if x&hitant = x1.
+th .B37SAERB.
+******** NÆSTE DEFINITION AF .B37SAERC T00A1 *******************.
+..TESTREG.
+* EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP.,.
+* STLAN  =&STLAN., STLANDATO =&STLANDATO.,
+.************** HB DOKUMENT TEST   ** delt i T00A og T00B d.22.10.2010 ***
+.* 2079      indsat 17.03.2016 PS. Cyber kredit (Privat bk)    ES
+.* FLERE STOPindsat 29.09.2015 PS. Privat                      ES
+.* Negativ rtindsat 24.03.2015 PS. Kreditter erhverv           ES
+.* FLERE STOPindsat 10.02.2015 PS. Kreditter erhverv           ES
+.* ERHVKRED  indsat 15.02.2015 PS. Kreditter erhverv           ES
+.* PMKRED    indsat 10.02.2015 PS. Kreditter erhverv (H-Bor)   ES
+.* CIKRED    indsat 10.02.2015 PS. Kreditter erhverv (Cibor)   ES
+.* 1348,1349 indsat 19.09.2014 PS. Personaleregtyper HK        ES
+.* 1028      indsat 12.06.2014 PS. Opfølgningsdato OPFDAKT (E) ES
+.* 1116,1127 indsat 02.08.2013 PS. Personaleregtyper HK        ES
+.* CITA    . indsat 28.06.2013 PS.                             ES
+.* MC      . indsat 16.05.2012 PS. Regtyp 6000-6080 MasterCard ES
+.* PRIO    . indsat 14.12.2011 PS. Regtyp 1105-09,1365-1374 ES
+.* PRIO    . indsat 27.06.2011 PS. Regtyp invkre + 3 mdr prio
+.* PRIOMIDL. fjernet08.10.2010 PS. Regtyp 1138,39,40,41,34,42 HBKREDIT ES
+.* PRIOMIDL. indsat 08.06.2010 PS. Regtyp 1135,36,37,43 ES
+.* PRIOMIDL. indsat 04.06.2010 PS. Regtyp 1138,39,40,41,42,34 ES
+.* PRIOANDL. indsat 19.03.2010 PS. Regtyp skal OGSÅ være i PRIOVAR/FAST
+.* BOLFR   . indsat 05.07.2012 PS.
+.* TEST til ERHVERV STÅENDE LÅN i 1.pos. særlige best.(stående!dd.mm.åååå)
+.* ERHVERVSLÅN OMLAGT INCL. PRIORITETS OG EJENDOMSLÅN 14.11.2012 es
+.*go TESTREG
+.**********************
 .* TESTKUNDE
-.*if x&KTOKNDNR1 = x4370274881
-.*el .go EJTSTCVR
-.if x&REGTYPE11 = x1104
-.or x&REGTYPE11 = x1110
-.or x&REGTYPE11 = x1127
-.or x&REGTYPE11 = x1112
-.or x&REGTYPE11 = x1113
-.or x&REGTYPE11 = x1114
-.or x&REGTYPE11 = x1115
-.or x&REGTYPE11 = x1116
-.or x&REGTYPE11 = x1117
-.or x&REGTYPE11 = x1118
-.or x&REGTYPE11 = x1119
-.or x&REGTYPE11 = x1120
-.or x&REGTYPE11 = x1121
-.or x&REGTYPE11 = x1135
-.or x&REGTYPE11 = x1136
+.*or x&KTOKNDNR1 = x1107771669
+.if x&KTOKNDNR1 = x4370274881
+.or x&KTOKNDNR1 = x4370560493
+.or x&KTOKNDNR1 = x4370276043
+.or x&KTOKNDNR1 = x7610070013
+.or x&KTOKNDNR1 = x7614003094
+.or x&BRUGERNR. = xB372048
+.th .se RTTEST = N
+.th .se NYTEST = N
+.th .se TESTKUNDE = N
+.*th .se alm = N
+.*th .se almk = J
+.*se TESTKUNDE = J
+.**********************
+.go DOKOK
+.if x&BRUGERNR. = xB371276
+.or x&BRUGERNR. = xB372048
+.or x&BRUGERNR. = xB373010
+.or x&BRUGERNR. = xB372591
+.or x&BRUGERNR. = xB372988
+.or x&BRUGERNR. = xB372041
+.or x&BRUGERNR. = xB373268
+.or x&BRUGERNR. = xB371520
+.or x&BRUGERNR. = xB372810
+.or x&BRUGERNR. = xB372718
 .or x&BRUGERNR. = xB372514
 .or x&BRUGERNR. = xB372233
 .or x&BRUGERNR. = xB373434
@@ -765,56 +1072,6 @@ FORMAT i Særlige betingelser er forkert:
 .if x&REGTYPE11 = x4146
 .th .se TNKRED    = 1
 .th .se DEBREF = 'Nationalbankens T/N-rente'
-.if x&REGTYPE11 = x1348
-.or x&REGTYPE11 = x1349
-.or x&REGTYPE11 = x1335
-.or x&REGTYPE11 = x1358
-.or x&REGTYPE11 = x1110
-.or x&REGTYPE11 = x1127
-.or x&REGTYPE11 = x1135
-.or x&REGTYPE11 = x1336
-.or x&REGTYPE11 = x1355
-.or x&REGTYPE11 = x1101
-.or x&REGTYPE11 = x1111
-.or x&REGTYPE11 = x1136
-.or x&REGTYPE11 = x1337
-.or x&REGTYPE11 = x1112
-.or x&REGTYPE11 = x1137
-.or x&REGTYPE11 = x1338
-.or x&REGTYPE11 = x1341
-.or x&REGTYPE11 = x1359
-.or x&REGTYPE11 = x1113
-.or x&REGTYPE11 = x1138
-.or x&REGTYPE11 = x1356
-.or x&REGTYPE11 = x1111
-.or x&REGTYPE11 = x1339
-.or x&REGTYPE11 = x1360
-.or x&REGTYPE11 = x1114
-.or x&REGTYPE11 = x1139
-.or x&REGTYPE11 = x1357
-.or x&REGTYPE11 = x1112
-.or x&REGTYPE11 = x1340
-.or x&REGTYPE11 = x1115
-.or x&REGTYPE11 = x1140
-.or x&REGTYPE11 = x1341
-.or x&REGTYPE11 = x1116
-.or x&REGTYPE11 = x1141
-.or x&REGTYPE11 = x1343
-.or x&REGTYPE11 = x1116
-.or x&REGTYPE11 = x1117
-.or x&REGTYPE11 = x1143
-.or x&REGTYPE11 = x1351
-.or x&REGTYPE11 = x1352
-.or x&REGTYPE11 = x1353
-.or x&REGTYPE11 = x1344
-.or x&REGTYPE11 = x1144
-.or x&REGTYPE11 = x1345
-.or x&REGTYPE11 = x1145
-.or x&REGTYPE11 = x1120
-.or x&REGTYPE11 = x1121
-.or x&REGTYPE11 = x1362
-.or x&REGTYPE11 = x1363
-.or x&REGTYPE11 = x1364
 .th .se KREDREF = 'Nationalbankens T/N-rente'
 .th .se PRIERH = E
 .th .se EJSTOP   = 1
@@ -865,6 +1122,56 @@ FORMAT i Særlige betingelser er forkert:
 .th .se PRIOFAST  = 1
 .th .se EJSTOP    = 1
 .th .se NORMAL   = 0
+.if x&REGTYPE11 = x1348
+.or x&REGTYPE11 = x1349
+.or x&REGTYPE11 = x1335
+.or x&REGTYPE11 = x1358
+.or x&REGTYPE11 = x1110
+.or x&REGTYPE11 = x1127
+.or x&REGTYPE11 = x1135
+.or x&REGTYPE11 = x1336
+.or x&REGTYPE11 = x1355
+.or x&REGTYPE11 = x1101
+.or x&REGTYPE11 = x1111
+.or x&REGTYPE11 = x1136
+.or x&REGTYPE11 = x1337
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1137
+.or x&REGTYPE11 = x1338
+.or x&REGTYPE11 = x1341
+.or x&REGTYPE11 = x1359
+.or x&REGTYPE11 = x1113
+.or x&REGTYPE11 = x1138
+.or x&REGTYPE11 = x1356
+.or x&REGTYPE11 = x1111
+.or x&REGTYPE11 = x1339
+.or x&REGTYPE11 = x1360
+.or x&REGTYPE11 = x1114
+.or x&REGTYPE11 = x1139
+.or x&REGTYPE11 = x1357
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1340
+.or x&REGTYPE11 = x1115
+.or x&REGTYPE11 = x1140
+.or x&REGTYPE11 = x1341
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1141
+.or x&REGTYPE11 = x1343
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1117
+.or x&REGTYPE11 = x1143
+.or x&REGTYPE11 = x1351
+.or x&REGTYPE11 = x1352
+.or x&REGTYPE11 = x1353
+.or x&REGTYPE11 = x1344
+.or x&REGTYPE11 = x1144
+.or x&REGTYPE11 = x1345
+.or x&REGTYPE11 = x1145
+.or x&REGTYPE11 = x1120
+.or x&REGTYPE11 = x1121
+.or x&REGTYPE11 = x1362
+.or x&REGTYPE11 = x1363
+.or x&REGTYPE11 = x1364
 .or x&REGTYPE11 = x2854
 .or x&REGTYPE11 = x2856
 .or x&REGTYPE11 = x1105
@@ -915,56 +1222,56 @@ FORMAT i Særlige betingelser er forkert:
 .th .se PRIERH = E
 .th .se PRIOVAR   = 1
 .th .se EJSTOP    = 1
-.************** HB DOKUMENT TEST   ** delt i T00A og T00B d.22.10.2010 ***
-.* 2079      indsat 17.03.2016 PS. Cyber kredit (Privat bk)    ES
-.* FLERE STOPindsat 29.09.2015 PS. Privat                      ES
-.* Negativ rtindsat 24.03.2015 PS. Kreditter erhverv           ES
-.* FLERE STOPindsat 10.02.2015 PS. Kreditter erhverv           ES
-.* ERHVKRED  indsat 15.02.2015 PS. Kreditter erhverv           ES
-.* PMKRED    indsat 10.02.2015 PS. Kreditter erhverv (H-Bor)   ES
-.* CIKRED    indsat 10.02.2015 PS. Kreditter erhverv (Cibor)   ES
-.* 1348,1349 indsat 19.09.2014 PS. Personaleregtyper HK        ES
-.* 1028      indsat 12.06.2014 PS. Opfølgningsdato OPFDAKT (E) ES
-.* 1116,1127 indsat 02.08.2013 PS. Personaleregtyper HK        ES
-.* CITA    . indsat 28.06.2013 PS.                             ES
-.* MC      . indsat 16.05.2012 PS. Regtyp 6000-6080 MasterCard ES
-.* PRIO    . indsat 14.12.2011 PS. Regtyp 1105-09,1365-1374 ES
-.* PRIO    . indsat 27.06.2011 PS. Regtyp invkre + 3 mdr prio
-.* PRIOMIDL. fjernet08.10.2010 PS. Regtyp 1138,39,40,41,34,42 HBKREDIT ES
-.* PRIOMIDL. indsat 08.06.2010 PS. Regtyp 1135,36,37,43 ES
-.* PRIOMIDL. indsat 04.06.2010 PS. Regtyp 1138,39,40,41,42,34 ES
-.* PRIOANDL. indsat 19.03.2010 PS. Regtyp skal OGSÅ være i PRIOVAR/FAST
-.* BOLFR   . indsat 05.07.2012 PS.
-.* TEST til ERHVERV STÅENDE LÅN i 1.pos. særlige best.(stående!dd.mm.åååå)
-.* ERHVERVSLÅN OMLAGT INCL. PRIORITETS OG EJENDOMSLÅN 14.11.2012 es
-.*go TESTREG
-.**********************
+.th .se NORMAL   = 0
+.* PRIORITETSKREDITTER (Skal også være i PRIOVAR/FAST ovenfor)
+.if x&REGTYPE11 = x2854
+.or x&REGTYPE11 = x2856
+.or x&REGTYPE11 = x2858
+.th .se PRIOKRED = 1
+.* PRIO ANDELSBOLIGREGTYPER (Skal også være i PRIOVAR/FAST ovenfor)
+.* MED (ABF) BETINGELSE
+.if x&REGTYPE11 = x1350
+.or x&REGTYPE11 = x1351
+.or x&REGTYPE11 = x1352
+.or x&REGTYPE11 = x1353
+.or x&REGTYPE11 = x1354
+.or x&REGTYPE11 = x1355
+.or x&REGTYPE11 = x1356
+.or x&REGTYPE11 = x1357
+.or x&REGTYPE11 = x1362
+.or x&REGTYPE11 = x1363
+.or x&REGTYPE11 = x2857
+.or x&REGTYPE11 = x1370
+.or x&REGTYPE11 = x1371
+.or x&REGTYPE11 = x1372
+.or x&REGTYPE11 = x1373
+.or x&REGTYPE11 = x1374
+.th .se PRIOANDEL = 1
+.* HANDELSBANKEN KREDIT(Skal også være i PRIOVAR/FAST ovenfor)
+.se B37HYCVR = N
+.* RETTET d. 4.2.2016 es
+.*se banken = banken
+.*se Sbanken = Banken
+.se banken = Handelsbanken
+.se Sbanken = Handelsbanken
 .* TESTKUNDE
-.*or x&KTOKNDNR1 = x1107771669
-.if x&KTOKNDNR1 = x4370274881
-.or x&KTOKNDNR1 = x4370560493
-.or x&KTOKNDNR1 = x4370276043
-.or x&KTOKNDNR1 = x7610070013
-.or x&KTOKNDNR1 = x7614003094
-.or x&BRUGERNR. = xB372048
-.th .se RTTEST = N
-.th .se NYTEST = N
-.th .se TESTKUNDE = N
-.*th .se alm = N
-.*th .se almk = J
-.*se TESTKUNDE = J
-.**********************
-.go DOKOK
-.if x&BRUGERNR. = xB371276
-.or x&BRUGERNR. = xB372048
-.or x&BRUGERNR. = xB373010
-.or x&BRUGERNR. = xB372591
-.or x&BRUGERNR. = xB372988
-.or x&BRUGERNR. = xB372041
-.or x&BRUGERNR. = xB373268
-.or x&BRUGERNR. = xB371520
-.or x&BRUGERNR. = xB372810
-.or x&BRUGERNR. = xB372718
+.*if x&KTOKNDNR1 = x4370274881
+.*el .go EJTSTCVR
+.if x&REGTYPE11 = x1104
+.or x&REGTYPE11 = x1110
+.or x&REGTYPE11 = x1127
+.or x&REGTYPE11 = x1112
+.or x&REGTYPE11 = x1113
+.or x&REGTYPE11 = x1114
+.or x&REGTYPE11 = x1115
+.or x&REGTYPE11 = x1116
+.or x&REGTYPE11 = x1117
+.or x&REGTYPE11 = x1118
+.or x&REGTYPE11 = x1119
+.or x&REGTYPE11 = x1120
+.or x&REGTYPE11 = x1121
+.or x&REGTYPE11 = x1135
+.or x&REGTYPE11 = x1136
 .or x&REGTYPE11 = x1137
 .or x&REGTYPE11 = x1143
 .or x&REGTYPE11 = x1105
@@ -1203,12 +1510,12 @@ Handelsbanken Kredit
 .ti ¤ 05
 .tp 2mm 91mm
 :SWISS6.
-¤Til &BANKNAVN.s noteringer (dato og initialer)
+ ¤ Til &BANKNAVN.s noteringer (dato og initialer)
 .sp 0.5mm
 .bx new tynd 25mm 50mm / 86mm 109mm / 145mm 170mm
 .sp 0.5mm
 .tp 2mm 60mm 120mm
-¤EDB-registrering ¤Evt. juridisk kontrol ¤Afsluttende kontrol
+ ¤ EDB-registrering ¤ Evt. juridisk kontrol ¤ Afsluttende kontrol
 .*br
 .*sp 1mm
 .bx off
@@ -1253,310 +1560,4 @@ Handelsbanken Kredit
 .br
 &AFDBY
 .ar off
-.* SLUTBOX - 3mm aht. revisionskasser 16.4.2007 es
-.*************** definer siden som et areal *******************************
-.da SIDE1 20mm 40mm width 175mm
-.****************** KAUTIONSERKLÆRING *************************************
-.ar SIDE1 on
-:SWISS9.
-.tp 1mm 88.5mm
-.bx left 87.5mm right
-¤Kautionist ¤indestår herved (pengeinstitut)
-.sp 20mm
-¤Kundenummer &KAUKNDNR ¤Tlf.nr. &AFDTLF
-.bx off
-.sp 4mm
-.bx left right
-.*sp 204mm
-.sp 201mm
-.bx off
-.ar off
-.********************GENEREL OPSÆTNING*************************************
-.ti ¤ 05
-.fo left
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO
-.br
-Kl. &TID
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 63 + 13MM (TOPMARGIN) = 76MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.* HANDELSBANKEN KREDIT ***************************************************
-.hklogo
-.**************************************************************************
-.sp 63mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-.**************************************************************************
-.in 5mm
-.ir 1mm
-.**************************************************************************
-Som
-.if &KAUTYPE = 1
-.th selvskyldnerkautionist
-.if &KAUTYPE = 2
-.th simpel kautionist
-.if &KAUTYPE = 3
-.th tabskautionist
-.***********
-.if &KAUHÆFTYPE = 1
-.or &KAUHÆFTYPE = 3
-.th hæftende solidarisk
-.if &KAUHÆFTYPE = 2
-.th hæftende pro rata
-.**********
-.if &KAUTYPE = 1
-.th for opfyldelse af nuværende og fremtidige
-.if &KAUTYPE = 2
-.th for opfyldelse af
-.if &KAUTYPE = 3
-.th for opfyldelse af
-.*********
-forpligtelser af enhver art og for betaling vedrørende
-.sp 3mm
-.********** HER TESTES PÅ TYPE LÅN-KREDIT-GARANTI *************************
-.if X&LAANTYPE lt X1
-.or X&LAANTYPE gt X3
-.th .mg/T/ Vælg lånetype 1, 2 eller 3/
-.***************
-.if &LAANTYPE eq 1
-.th Lån nr. &LANGKTONR
-.if &LAANTYPE eq 2
-.th Kredit nr. &LANGKTONR
-.if &LAANTYPE eq 3
-.th Garanti nr. &LANGKTONR
-.***********
-.if &U'X&GENBOGST1A = XM
-.th med
-.el uden
-fastsat tilbagebetalingstidspunkt
-.sp 5mm
-.**************************************************************************
-.tp 92.5mm 134mm
-:FED.
-.if &DEBANTAL = 1
-.th Låntager
-.th .sp 3mm
-.th .go DEB1
-.if &DEBANTAL = 2
-.th Låntager ¤Låntager
-.th .sp 3mm
-.th .go DEB2
-.if &DEBANTAL > 2
-.th Låntager ¤Låntager ¤Flere låntagere
-.th .sp 3mm
-.th .go DEB2
-...DEB2
-.cd 2 0mm 87.5mm
-.cl 80mm
-...DEB1
-.**INGEN KOLONNEDEFINITION - HVIS DER KUN ER 1 DEBITOR ********************
-:SKRSLUT.
-&DEB1ADR1
-.br
-&DEB1ADR2
-.br
-&DEB1ADR3
-.br
-&DEB1ADR4
-.br
-&DEB1ADR5
-.**************************************************************************
-.if &DEBANTAL > 1
-.th .go MED1
-.el .go MED1SL
-...MED1
-.cb
-&DEB2ADR1
-.br
-&DEB2ADR2
-.br
-&DEB2ADR3
-.br
-&DEB2ADR4
-.br
-&DEB2ADR5
-.sc
-...MED1SL
-.sp 3mm
-.**************************************************************************
-Kundenr. &DEB1KNDNR
-.if &DEBANTAL > 1
-.th .ct ¤Kundenr. &DEB2KNDNR
-.**************************************************************************
-.sp 3mm
-:FED.
-Maksimum
-:SKRSLUT.
-.br
-.***SOLIDARISK KAUTION *************
-.if &KAUHÆFTYPE = 1
-.th .go KTYP1
-.el .go KTYP2
-...KTYP1
-Dog for maksimum &MAXBELØB. kr.
-.***PRO RATA KAUTION *************
-...KTYP2
-.if &KAUHÆFTYPE = 2
-.th .go TYPPRO1
-.el .go KTYP3
-...TYPPRO1
-.if &L'&MAXBELØB > 0
-.th Kautionen kan højst gøres gældende med &MAXBELØB kr.
-.if &L'&MAXPROCENT > 0
-.th Kautionen kan højst gøres gældende med &MAXPROCENT %
-.th af gælden.
-.***BELØBSBEGRÆNSET KAUTION *****
-...KTYP3
-.if &KAUHÆFTYPE = 3
-.th .go HÆFBEG
-.el .go GYLDIG
-...HÆFBEG
-.if &L'&MAXBELØB > 0
-.th Kautionen kan højst andrage &MAXBELØB kr.
-.if &L'&MAXPROCENT > 0
-.th Kautionen kan højst andrage &MAXPROCENT %
-.th af gælden.
-.**********************
-...GYLDIG
-.sp 5mm
-:FED.
-Gyldighedsperiode
-:SKRSLUT.
-.br
-Nærværende kaution bortfalder &GENMDR
-måneder fra underskriftstidspunktet,
-medmindre &BANKNAVN forinden har gjort krav gældende over for
-kautionisten, eller kautionen er forlænget ved aftale mellem
-&BANKNAVN og kautionisten.
-.*SUPPLERENDE TEKST *******************************************************
-.if &L'&SUPTXT01A > 0
-.or &L'&SUPTXT01B > 0
-.or &L'&SUPTXT02A > 0
-.or &L'&SUPTXT02B > 0
-.or &L'&SUPTXT03A > 0
-.or &L'&SUPTXT03B > 0
-.or &L'&SUPTXT04A > 0
-.or &L'&SUPTXT04B > 0
-.or &L'&SUPTXT05A > 0
-.or &L'&SUPTXT05B > 0
-.or &L'&SUPTXT06A > 0
-.or &L'&SUPTXT06B > 0
-.th .go SUPL
-.el .go SUPLEND
-...SUPL
-.sp 5mm
-:FED.
-Supplerende tekst
-:SKRSLUT.
-.br
-.*FLG. "SKRSLUT" **ANNULLERER SKRIFTTYPEN SWISS9 **************************
-:SKRSLUT.
-.**************************************************************************
-:COUR10.
-&SUPTXT01A.&SUPTXT01B
-.br
-&SUPTXT02A.&SUPTXT02B
-.br
-&SUPTXT03A.&SUPTXT03B
-.br
-&SUPTXT04A.&SUPTXT04B
-.br
-&SUPTXT05A.&SUPTXT05B
-.br
-&SUPTXT06A.&SUPTXT06B
-...SUPLEND
-.**BETINGELSER ************************************************************
-:SWISS9.
-.sp 5mm
-:FED.
-For kaution gælder i øvrigt nedenstående vilkår:SKRSLUT.
-.in
-.ir
-.sp 3mm
-.cd 2 5mm 90mm
-.cl 78mm
-.**1. KOLONNE *************************************************************
-.tp 3mm
-:FED.
-1. Anvendelse af indbetalinger:SKRSLUT.
-.br
-Indbetaling fra låntager anvendes, hvis lånet/kreditten kun er
-delvis sikret ved kaution, først til nedbringelse af den usikrede del.
-.sp 3mm
-:FED.
-2. Henstand:SKRSLUT.
-.br
-&BANKNAVN kan uden tilladelse fra kautionisten give låntager henstand
-med betaling af afdrag, renter, provision og eventuelle omkostninger, dog
-med respekt af Lov om finansiel virksomhed § 48.
-.sp 3mm
-:FED.
-3. Realisation og regres:SKRSLUT.
-.br
-&BANKNAVN forbeholder sig ret til at realisere de af låntager eller
-trediemand eventuelt stillede sikkerheder og afskrive provenuet efter
-&BANKNAVN.s frie valg. Kautionisten har således ingen regresret i
-sådanne sikkerheder.
-.sp 3mm
-Det indebærer:
-.sp 3mm
-.of 3mm
--¤at &BANKNAVN uden kautionistens tilladelse kan frigive andre
-sikkerheder for den kautionssikrede forpligtelse.
-.sp 3mm
-.of
-.of 3mm
--¤at &BANKNAVN kan anvende pant, der tillige tjener til sikkerhed
-for andre fordringer end den kautionssikrede til forlods fyldestgørelse af
-sådanne fordringer.
-.of
-.sp 3mm
-.cb
-.**2. KOLONNE *************************************************************
-:FED.
-4. Omstødelse:SKRSLUT.
-.br
-Hvis der i forbindelse med låntagers konkurs m.v., jævnfør konkurslovens
-kapitel 8, sker omstødelse af supplerende sikkerhedsstillelse, der er
-anvendt til hel eller delvis indfrielse af den kautionssikrede fordring,
-opretholdes kautionsforpligtelsen.
-.sp 3mm
-Det samme er gældende, hvis en betaling fra låntager omstødes.
-.sp 3mm
-:FED.
-5. Værneting:SKRSLUT.
-.br
-Retsager vedrørende denne kaution kan efter &BANKNAVN.s ønske
-anlægges ved byretten i den retskreds, hvor &BANKNAVN eller dennes
-kontoførende filial er beliggende (bestemmelsen gælder ikke i
-forbrugerforhold, jævnfør retsplejelovens § 245, stk. 2).
-.*******************
-.sp 3mm
-:FED.
-6. Øvrige vilkår:SKRSLUT.
-.br
-&BANKNAVN. defineres i nærværende kautionserklæring som Handelsbanken,
-filial af Svenska Handelsbanken AB (publ), Sverige samt enhver af dennes
-koncernforbundne selskaber og afdelinger, herunder men ikke begrænset til
-Handelsbanken Finans, filial af Svenska Handelsbanken Finans AB, Sverige
-og Handelsbanken Kredit, filial af Stadshypotek AB, Sverige.
-.*******************
-.sc
-.in 5mm
-.ir 5mm
-.**************************************************************************
-.**************************************************************************
-.**************************************************************************
+

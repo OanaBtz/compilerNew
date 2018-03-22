@@ -11,6 +11,60 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.**************************************************************************
+.da BOX 20mm 41mm width 175mm
+.da OVERSKR 20mm 38mm width 170mm
+.da VEND 7mm 270mm width 85mm rotate -90
+.**************************************************************************
+.tm 18mm
+.*SIDEHOVEDDEFINITION******************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 233mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+.tp 20mm
+ ¤ &DATO.
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS10.
+:FED.
+.*&BANKNAVN.s Almindelige Forretningsbetingelser
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 28mm
+.rh off
+.rh execute
+.**************************************************************************
+.*.RH CANCEL STOPPER RUNNING HEADING I O-AFSNITTET FOR VILKÅR**************
+.*.SC = SINGLE COLUMN * STOPPER KOLONNEDEFINITIONEN************************
+.*.PA NOSTART INDSÆTTER SIDESKIFT, HVIS DER TILFØJES MERE TEKST************
+.*.RH CANCEL BENYTTES SOM FLG. FOR AT VÆRE SLÅET FRA PÅ FLG. SIDE:
+.* .RH CANCEL
+.* .PA
+.**************************************************************************
+.***** her laves kolonnedefinitionen **************************************
+.tm 18mm
+.pm 20mm
+.bm 18mm
+.cd 2 1mm 88mm
+.cl 85mm
 .* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
 .* i kundens netbank - afsnittet indsættes efter KUNDEUD1
 .**************************************************************************
@@ -52,61 +106,140 @@
 .NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
 .BR
 :ENY.
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.**************************************************************************
-.da BOX 20mm 41mm width 175mm
-.da OVERSKR 20mm 38mm width 170mm
-.da VEND 7mm 270mm width 85mm rotate -90
-.**************************************************************************
-.tm 18mm
-.*SIDEHOVEDDEFINITION******************************************************
-.rh on
-.ar BOX on
-.bx left right
-.sp 233mm
-.bx off
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da REG          94mm     40mm
+.da AFDOPL      140mm     40mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+&STILL
+.sp 1mm
+&NAVN
+.if &L'&COADR gt 0
+.th .sp 1mm
+.th &COADR
+.th .sp 1mm
+.el .sp 1mm
+&GADE
+.sp 1mm
+&BY
+.sp 1mm
+&LAND
+.sp
+.if &L'&B19TX30A gt 0
+.th Att. &B19TX30A
 .ar off
-.**************************************************************************
+.******************REGISTRERINGSNR*******************
+.ar REG on
+:VERDA06.
+&REGNR
+.ar off
+.*****************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte &GENTLFNR
+.br
+E-mail &GENEMAIL
+.sp
+&DATO
+.ar off
+:VERDA10.
+.fo left
+.***********************************************************************
+.ti ¤ 05
+:TILTALE &TILTALEM.
+.***********************************************************************
+.* navn på brev, anført i nederste venstre hjørne
+.da VEND 7mm 280mm width 180mm rotate -90
+.***********************************************************************
 .ar VEND on
 :COUR6.
 &BREVNAVN
 .br
-.tp 20mm
-¤&DATO.
+&KONTROL1
 .ar off
+.***********************************************************************
+:VERDA10.
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 5
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
 .**************************************************************************
-.ar OVERSKR on
-:SWISS10.
-:FED.
-.*&BANKNAVN.s Almindelige Forretningsbetingelser
-:SKRSLUT.
-.ar off
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
 .**************************************************************************
-.sp 28mm
-.rh off
-.rh execute
-.**************************************************************************
-.*.RH CANCEL STOPPER RUNNING HEADING I O-AFSNITTET FOR VILKÅR**************
-.*.SC = SINGLE COLUMN * STOPPER KOLONNEDEFINITIONEN************************
-.*.PA NOSTART INDSÆTTER SIDESKIFT, HVIS DER TILFØJES MERE TEKST************
-.*.RH CANCEL BENYTTES SOM FLG. FOR AT VÆRE SLÅET FRA PÅ FLG. SIDE:
-.* .RH CANCEL
-.* .PA
-.**************************************************************************
-.***** her laves kolonnedefinitionen **************************************
-.tm 18mm
-.pm 20mm
-.bm 18mm
-.cd 2 1mm 88mm
-.cl 85mm
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
 .da SIDE1  25mm 95mm width 150mm
 .da SIDE2A  25mm 95mm width 150mm
 .da BUND   25mm 245mm width 150mm
@@ -126,13 +259,13 @@ og posteringer i banken, når &DU har tid og lyst.
 Der er blandt andet adgang til at:
 .sp
 .tp 5mm
-¤- Se saldo og kontobevægelser
+ ¤ - Se saldo og kontobevægelser
 .br
-¤- Overføre penge mellem &DINE egne konti eller til andre personer
+ ¤ - Overføre penge mellem &DINE egne konti eller til andre personer
 .br
-¤- Betale regninger
+ ¤ - Betale regninger
 .br
-¤- Tilmelde, afmelde og afvise Betalingsservice-betalinger
+ ¤ - Tilmelde, afmelde og afvise Betalingsservice-betalinger
 .sp
 &SDU kan eventuelt læse mere om Netbank på vores hjemmeside
 .br
@@ -207,37 +340,6 @@ vestjyskBANK
 .br
 &AFDBY
 .br
-.sp
-Vi skal bede &DIG tiltræde oprettelsen af Netbank til &B19NAVN ved at
-.if &GENDUJANEJ = J
-.th godkende aftalen i Netbank.
-.el ved at returnere kopien af dette brev med din underskrift.
-.*****************************************
-.sp
-Har &DU spørgsmål, er &DU selvfølgelig velkommen til at kontakte mig.
-.sp2
-Med venlig hilsen
-.br
-:FED.
-vestjyskBANK
-:SKRSLUT.
-.sp2
-&GENEKSP
-.br
-:KURSIV.
-&GENTITEL
-:SKRSLUT.
-.**********************************
-.ar BUND on
-.hr left right
-.sp
-Ovennævnte tiltrædes herved:
-.sp3
-____________________________________
-.br
-&NAVN
-...SLUT
-.ar off
 &AFDTLF
 .br
 &AFDFAX
@@ -273,13 +375,13 @@ og posteringer i banken, når &DU har tid og lyst.
 Der er blandt andet adgang til at:
 .sp
 .tp 5mm
-¤- Se saldo og kontobevægelser
+ ¤ - Se saldo og kontobevægelser
 .br
-¤- Overføre penge mellem &DINE egne konti eller til andre personer
+ ¤ - Overføre penge mellem &DINE egne konti eller til andre personer
 .br
-¤- Betale regninger
+ ¤ - Betale regninger
 .br
-¤- Tilmelde, afmelde og afvise Betalingsservice-betalinger
+ ¤ - Tilmelde, afmelde og afvise Betalingsservice-betalinger
 .sp
 &SDU kan eventuelt læse mere om Netbank
 på vores hjemmeside vestjyskbank.dk/selvbetjening/netbank.
@@ -288,137 +390,36 @@ BEMÆRK: Da &B19NAVN er under 18 år, er der kun adgang til
 betalingskonti i Netbank og Mobilbank. Opsparingskonti og
 depoter kan ikke ses, medmindre andet er aftalt.
 .***************************
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 5
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "PEN55" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.*
-.fo left
-.***********************************************************************
-.ti ¤ 05
-:TILTALE &TILTALEM.
-.***********************************************************************
-.* navn på brev, anført i nederste venstre hjørne
-.da VEND 7mm 280mm width 180mm rotate -90
-.***********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-&KONTROL1
-.ar off
-.***********************************************************************
-:VERDA10.
-E-mail &GENEMAIL
 .sp
-&DATO
-.ar off
-:VERDA10.
-.********************DEFINITION AF AREALER*************
-.da NAVN         25mm     40mm  width 80mm
-.da REG          94mm     40mm
-.da AFDOPL      140mm     40mm
-.*******************NAVNEOPLYSNINGER*******************
-:VERDA10.
-.ar NAVN on
-&STILL
-.sp 1mm
-&NAVN
-.if &L'&COADR gt 0
-.th .sp 1mm
-.th &COADR
-.th .sp 1mm
-.el .sp 1mm
-&GADE
-.sp 1mm
-&BY
-.sp 1mm
-&LAND
+Vi skal bede &DIG tiltræde oprettelsen af Netbank til &B19NAVN ved at
+.if &GENDUJANEJ = J
+.th godkende aftalen i Netbank.
+.el ved at returnere kopien af dette brev med din underskrift.
+.*****************************************
 .sp
-.if &L'&B19TX30A gt 0
-.th Att. &B19TX30A
-.ar off
-.******************REGISTRERINGSNR*******************
-.ar REG on
-:VERDA06.
-&REGNR
-.ar off
-.*****************AFD.OPLYSNINGER*******************
-.ar AFDOPL on
-:VERDA08.
-&AFDNAVN
+Har &DU spørgsmål, er &DU selvfølgelig velkommen til at kontakte mig.
+.sp2
+Med venlig hilsen
 .br
-&AFDGADE
-.br
-&AFDBY
-.br
-&AFDTLF
-.br
-CVR 34631328
-.br
-SWIFT VEHODK22
-.sp
-Kontaktperson:
-.br
+:FED.
+vestjyskBANK
+:SKRSLUT.
+.sp2
 &GENEKSP
 .br
-Direkte &GENTLFNR
+:KURSIV.
+&GENTITEL
+:SKRSLUT.
+.**********************************
+.ar BUND on
+.hr left right
+.sp
+Ovennævnte tiltrædes herved:
+.sp3
+____________________________________
 .br
+&NAVN
+...SLUT
+.ar off
+.rh cancel
+

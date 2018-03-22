@@ -11,142 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.*oc **Depotoprettelse/-ændring
-.*MB-RET
-.* Ledetekster og rækkefølger er ændret
-.* B374C1 er tilføjet sammen med afsnittet B37DEP01T0 (testafsnit)
-.* og GENOBLKTO sat = værdien af DEPAFKGEB
-.* DEPOTTYPE        Spærringskode..:
-.* B374C1           Vælg reg.type..:
-.* GENSTREG1          F1=oversigt-->
-.* GENVPKTO       VP-nr. j/n.......:
-.* GENVALG        Opr.(1) Ændr.(2) :
-.* DEPAFKGEB      Depotafkast/-gebyr
-.* GENOBLKTO      Kto. for afkast..:
-.* GENUOBLKTO     Kto. udtruk. obl.:
-.* GENAKTKTO      Kto. for aktieudb:
-.* GENDEPGKTO     Kto. for depotgeb:
-.* GENPANKTO      Kto. pant.br.afk.:
-.* GENSIKDEP      Sikkerhedsdep. for
-.se GENOBLKTO = '&DEPAFKGEB.'
-.* GL med PL er tilføjet for at undgå en fejlmarkering
-:GL.
-.PL 285mm
-:EGL.
-.* TEST AF OM INDTASTNING PÅ GENVPKTO = J/N (afsnit tilføjet af MB)
-.if .&U'&GENVPKTO = .J .or .&U'&GENVPKTO = .N
-.th .go VPKTOOK
-.MG /t/  Forkert indtastning (&GENVPKTO.) i "VP-nr.(j eller n)"
-...VPKTOOK
-.* SAMMENHÆNG MELLEM REGTYPE OG SPÆRRINGSKODE (afsnit tilføjet af MB)
-.* DEPOTTYPE ER TILSYNELADENDE RETTET FRA 1 TIL 2 CIFRE D. 17/4-00 (ES 18/4
-.* OPDATERET med 0019 = Depottype 01 09/12-2003
-.if .&DEPOTTYPE = .09 .go SOK
-.if .&B374C1 = .0004 .an .&DEPOTTYPE = .00 .go SOK
-.if .&B374C1 = .0005 .an .&DEPOTTYPE = .00 .go SOK
-.if .&B374C1 = .0051 .an .&DEPOTTYPE = .00 .go SOK
-.if .&B374C1 = .0009 .an .&DEPOTTYPE = .02 .go SOK
-.if .&B374C1. ne .0010
-.th .go N0
-.if .&DEPOTTYPE = .02 .or .&DEPOTTYPE = .01 .or .&DEPOTTYPE = .06
-.th .go SOK
-...N0
-.if .&B374C1 ne .0011
-.th .go N
-.if .&DEPOTTYPE = .02 .or .&DEPOTTYPE = .01 .or .&DEPOTTYPE = .06
-.th .go SOK
-...N
-.if .&B374C1 = .0019 .an .&DEPOTTYPE = .01 .go SOK
-.if .&B374C1 = .0020 .or .&B374C1 = .0021
-.th .if .&DEPOTTYPE = .03 .or .&DEPOTTYPE = .06 ;.th .go SOK
-.if .&B374C1 = .0025 .or .&B374C1 = .0026
-.th .if .&DEPOTTYPE = .04 .or .&DEPOTTYPE = .08 ;.th .go SOK
-.if .&B374C1 = .0036 .or .&B374C1 = .0037
-.or .&B374C1 = .0038 .or .&B374C1 = .0039
-.or .&B374C1 = .0040 .or .&B374C1 = .0041
-.or .&B374C1 = .0042 .or .&B374C1 = .0044
-.or .&B374C1 = .0045 .or .&B374C1 = .0046
-.or .&B374C1 = .0047 .or .&B374C1 = .0048
-.th .if .&DEPOTTYPE = .07 ;.th .go SOK
-.* 0047 OPRETTET d.10/9-04
-.* 0049 OPRETTET d. 3/9-97
-.if .&B374C1 = .0049 .an .&DEPOTTYPE = .02 .go SOK
-.MG /i/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
-.mg /i/  REG.TYPE.................................: &B374C1.
-.mg /i/  passer ikke sammen med spærringskode.....: &DEPOTTYPE
-.mg /i/  Se evt. fremvisning på skærm  - Funktion 3 og
-.MG /t/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
-...SOK
-.if .&B374C1 = .0004
-.th .se dty 'Depot med porteføljeaftale'         ;.th .go B
-.if .&B374C1 = .0005
-.th .se dty 'Opbevaringsdepot'                   ;.th .go B
-.if .&B374C1 = .0009
-.th .se dty 'Spærret depot, Medarbejderaktier'   ;.th .go B
-.if .&B374C1 = .0010
-.th .se dty 'Depot m/dispositionsbegrænsning'    ;.th .go B
-.if .&B374C1 = .0011
-.th .se dty 'Spærret depot'                      ;.th .go B
-.if .&B374C1 = .0019
-.th .se dty 'Børneopsparings depot'              ;.th .go B
-.if .&B374C1 = .0020
-.th .se dty 'Sikkerhedsdepot (oms.)'             ;.th .go B
-.if .&B374C1 = .0021
-.th .se dty 'Sikkerhedsdepot (lånesag)'          ;.th .go B
-.if .&B374C1 = .0025
-.th .se dty 'Sikkerhedsdepot (3. mand, oms.)'    ;.th .go B
-.if .&B374C1 = .0026
-.th .se dty 'Sikkerhedsdepot (3. mand, lånesag)' ;.th .go B
-.if .&B374C1 = .0036
-.th .se dty 'Ratepens.arbejdsg.ord.unot.aktier'  ;.th .go B
-.if .&B374C1 = .0037
-.th .se dty 'Ratepens.privat ord.unot.aktier'    ;.th .go B
-.if .&B374C1 = .0038
-.th .se dty 'Kapitalpens.arbejdsg.ord.unot.akt.' ;.th .go B
-.if .&B374C1 = .0039
-.th .se dty 'Kapitalpens.privat ord.unot.aktier' ;.th .go B
-.if .&B374C1 = .0040
-.th .se dty 'Kapitalpensionsdepot arbejdsg.ord.' ;.th .go B
-.if .&B374C1 = .0041
-.th .se dty 'Kapitalpensionsdepot privatordning' ;.th .go B
-.if .&B374C1 = .0042
-.th .se dty 'Ratepensionsdepot §15B privatord.'  ;.th .go B
-.if .&B374C1 = .0044
-.th .se dty 'Ratepensionsdepot §15B arbejdsg.'   ;.th .go B
-.if .&B374C1 = .0045
-.th .se dty 'Ratepensionsdepot arbejdsgiverord.' ;.th .go B
-.if .&B374C1 = .0046
-.th .se dty 'Ratepensionsdepot privatordning'    ;.th .go B
-.if .&B374C1 = .0047
-.th .se dty 'Ratepensionsdepot §15A privatord.'  ;.th .go B
-.if .&B374C1 = .0048
-.th .se dty 'Selvpensioneringsdepot'             ;.th .go B
-.if .&B374C1 = .0049
-.th .se dty 'Etableringskontodepot'              ;.th .go B
-.if .&B374C1 = .0051
-.th .se dty 'Opbevaringsdepot bank'              ;.th .go B
-...A
-.MG /i/
-.MG /i/  Spærringskode...........................: '&DEPOTTYPE.'
-.MG /i/
-.MG /i/  Forkert REG.TYPE - Du har indtastet.....: '&B374C1.'
-.MG /i/  Se evt. fremvisning på skærm  - Funktion 3 og
-.MG /t/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
-...B
-.*MB-RET (flere valg tilladt)
-.**************************************************************
-.if &ÅPN gt 2
-.an x&GENVALG ne x1
-.th .go SLUT
-.da VEND 7mm 280mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B37DEP01(10/98)
-.ar off
-.***********************************************************************
-.*MB-RET
-:COUR10.
-...SLUT
 .*MB-RET (flere valg tilladt)
 .ti ^ 05
 .*MB-RET (COUR14 tilføjet for at skifte skriftype)
@@ -210,520 +74,7 @@ B37DEP01(10/98)
 .tp 40mm
 .if &U'&GENVALG eq 1
 .th X
-.el ^X
-.ar off
-.****************(MB-RET bruger T0 afsnit og &dty ***
-.ar DEPTYPE on
-.go MBDEP
-.if x&DEPOTTYPE = x0
-.th Opbevaringsdepot
-.if x&DEPOTTYPE = x1
-.th Dispositionsbegrænsning
-.if x&DEPOTTYPE = x2
-.th Depotet spærret
-.if x&DEPOTTYPE = x3
-.th Sikkerhedsdepot, debitor
-.if x&DEPOTTYPE = x4
-.th Sikkerhedsdepot, 3. mand
-.if x&DEPOTTYPE = x5
-.th Anvendes ikke pt.
-.if x&DEPOTTYPE = x6
-.th Særskilt sikkerhedsdepot, debitor
-.if x&DEPOTTYPE = x7
-.th Pensionsdepot
-.if x&DEPOTTYPE = x8
-.th Særskilt sikkerhedsdepot, 3. mand
-.if x&DEPOTTYPE = x9
-.th Se specielt kartotek
-.el
-...MBDEP
-&dty.
-.* MB-RET SLUT
-.ar off
-.*************************************************
-.ar OBLRENTE on
-.***** her deles kontonummer for obligationsrenter ****
-.se oblregnr = substr &GENOBLKTO 1 4
-.se oblktonr = substr &GENOBLKTO 5 7
-&oblregnr &oblktonr
-.ar off
-.*************************************************
-.ar UDTOBL on
-.***** her deles kontonummer for udtrukne obligationer ****
-.se uoblregnr = substr &GENUOBLKTO 1 4
-.se uoblktonr = substr &GENUOBLKTO 5 7
-&uoblregnr &uoblktonr
-.ar off
-.*************************************************
-.ar AKTIUDB on
-.***** her deles kontonummer for aktieudbytte ****
-.se aktregnr = substr &GENAKTKTO 1 4
-.se aktktonr = substr &GENAKTKTO 5 7
-&aktregnr &aktktonr
-.ar off
-.*************************************************
-.ar DEPGEB on
-.***** her deles kontonummer for depotgebyr  ****
-.se depgregnr = substr &GENDEPGKTO 1 4
-.se depgktonr = substr &GENDEPGKTO 5 7
-&depgregnr &depgktonr
-.ar off
-.*************************************************
-.ar PTBAFK on
-.***** her deles kontonummer for pantebrevsafkast *******
-.se panregnr = substr &GENPANKTO 1 4
-.se panktonr = substr &GENPANKTO 5 7
-&panregnr &panktonr
-.ar off
-.*************************************************
-.ar SIKDEP on
-.***** her deles kontonummer for sikkerhedsdepot *******
-.se sikregnr = substr &GENSIKDEP 1 4
-.se sikktonr = substr &GENSIKDEP 5 7
-&sikregnr &sikktonr
-.ar off
-.*************************************************
-.ar DISPFULD on
-&GENSTILL
-.br
-&GENNAVN
-.br
-&GENGADE
-.br
-&GENBY
-.ar off
-.*************************************************
-.ar DISPCPR on
-&GENCPR
-.ar off
-.*************************************************
-.ar FULDM on
-&GENSTILL1
-.br
-&GENNAVN1
-.br
-&GENGADE1
-.br
-&GENBY1
-.ar off
-.*************************************************
-.ar FULDMCPR on
-&GENCPR1
-.ar off
-.*************************************************
-.ar RETTADR on
-&GENSTILL2
-.br
-&GENNAVN2
-.br
-&GENGADE2
-.br
-&GENBY2
-.ar off
-.*************************************************
-.ar RETTCPR on
-&GENCPR2
-.ar off
-.*************************************************
-.ar RETTEKST on
-&GENRET1
-.br
-&GENRET2
-.br
-&GENRET3
-.br
-&GENRET4
-.ar off
-.*************************************************
-.ar AKTIEADR on
-&GENSTILL3
-.br
-&GENNAVN3
-.br
-&GENGADE3
-.br
-&GENBY3
-.ar off
-.*************************************************
-.ar AKTIECPR on
-&GENCPR3
-.ar off
-.*************************************************
-.ar PIDATO on
-&DATO
-.ar off
-.*************************************************
-.ar PIUND on
-&BANKNAVN
-.ar off
-.*************************************************
-.ar REF on
-&GENEKSP
-.ar off
-.*************************************************
-.ar INDEHUND on
-&NAVN
-.ar off
-.*MB-RET (flere valg tilladt)
-.da oversk 20mm 32mm width 80mm
-.da side1  20mm 34mm width 175mm
-.da pbox1 109.2mm 62mm width 10mm
-.da pbox2 149mm 62mm width 10mm
-.da pbox3 50mm 187.3mm width 100mm
-.ar oversk on
-:SWISS12.
-:FED.
-.*MB-RET START
-.if &U'&GENVALG eq 1
-.us on
-.th Depotoprettelse
-.el Depotændring
-.*us Depotoprettelse/-ændring
-.us off
-.*MB-RET SLUT
-:SKRSLUT.
-.ar off
-.ar side1 on
-.sp
-:SWISS10.
-.in 1mm
-:FED.
-Faste oplysninger
-:SKRSLUT.
-:SWISS10.
-.bx new left 87.5mm right
-.sp 8mm
-.hr 87.5mm right
-.sp 8mm
-.hr 87.5mm right
-.sp 8mm
-.hr 87.5mm right
-.sp 8mm
-.bx new left 58mm 119mm right
-.sp 7.5mm
-.hr left right
-.sp 7.5mm
-.bx off
-.bx can
-:FED.
-Fuldmagt
-:SKRSLUT.
-.bx new left 87.5mm right
-.sp 24mm
-.hr left right
-.sp 23mm
-.bx off
-:FED.
-Rettighedshaver
-:SKRSLUT.
-.bx new left 87.5mm right
-.sp 27mm
-.bx off
-:FED.
-.*MB-RET
-.*Aktiebogsnavn
-VP-ændringsmeddelelser
-:SKRSLUT.
-.*MB-RET (lodret midterstreg fjernet)
-.*bx new left 87.5mm right
-.bx new left right
-.sp 22mm
-.bx off
-:FED.
-Underskrift
-:SKRSLUT.
-.bx new left 87.5mm right
-.sp 8mm
-.hr left right
-.sp 27mm
-.bx new left right
-.sp 10mm
-.bx off
-.bx can
-.bx can
-.ar off
-.ar pbox1 on
-.bx 0mm 4mm
-.sp 2mm
-.bx off
-.ar off
-.ar pbox2 on
-.bx 0mm 4mm
-.sp 2mm
-.bx off
-.ar off
-.ar pbox3 on
-:SWISS8.
-:FED.
-.*MB-RET
-.*(hvis forskelligt fra depotindehaver)
-:SKRSLUT.
-.ar off
-.*MB-RET
-:SKRSLUT.
-:COUR10.
-.*MB-RET (flere valg tilladt)
-.*MB-RET SE rettet til CVR den 14/8-2001
-:SWISS8.
-.da DEPINDEH    21mm  42.2mm width 89mm
-.da DEPCPR      21mm  76.2mm width 89mm
-.da DEPNR    108.5mm  42.2mm width 85mm
-.da VPNR     108.5mm  51.7mm width 85mm
-.da OPRETÆND 115.5mm  63.2mm width 85mm
-.da DEPTYPE  108.5mm  70.5mm width 89mm
-.da OBLRENTE    21mm  80.2mm width 55mm
-.da UDTOBL    78.8mm  80.2mm width 60mm
-.*MB-RET
-.da AKTIUDB  139.8mm  80.2mm width 50mm
-.da DEPGEB      21mm    89mm width 55mm
-.da PTBAFK    78.8mm    89mm width 60mm
-.da SIKDEP   139.8mm    89mm width 50mm
-.da DISPFULD    21mm 103.1mm width 80mm
-.da DISPCPR     21mm 124.6mm width 80mm
-.da DISPUND  108.5mm 103.1mm width 80mm
-.da FULDM       21mm 128.6mm width 80mm
-.da FULDMCPR    21mm 149.1mm width 80mm
-.da FULDMUND 108.5mm 128.6mm width 80mm
-.da RETTADR     21mm 158.1mm width 50mm
-.da RETTCPR     21mm 183.1mm width 80mm
-.da RETTEKST 108.5mm 158.1mm width 50mm
-.*MB-RET
-.*da AKTIEADR    21mm 191.6mm width 50mm
-.da AKTIEADR    21mm 191.6mm width 170mm
-.da AKTIECPR    21mm 211.6mm width 80mm
-.da AKTIEUND 108.5mm 191.6mm width 50mm
-.da PIDATO      21mm 220.5mm width 180mm
-.da INDEHDATO 108.5mm 220.5mm width 90mm
-.da PIUND       21mm   230mm width 90mm
-.da REF         21mm 254.6mm width 90mm
-.da INDEHUND 108.5mm   230mm width 90mm
-.da UNDTEKST    21mm 258.9mm width 175mm
-.********************************************************
-.ar DEPINDEH on
-Depotindehaver
-.ar off
-.********************************************************
-.ar DEPCPR on
-CPR-nr./CVR-nr.
-.ar off
-.********************************************************
-.ar DEPNR on
-Depotnummer
-.ar off
-.********************************************************
-.ar VPNR on
-VP-kontonummer
-.ar off
-.********************************************************
-.ar OPRETÆND on
-.tp 39mm
-Oprettelse^Ændring
-.ar off
-.********************************************************
-.ar DEPTYPE on
-Depottype
-.ar off
-.********************************************************
-.ar OBLRENTE on
-.*MB-RET
-.*Konto for obligationsrenter
-Konto for afkast
-.ar off
-.********************************************************
-.ar UDTOBL on
-Konto for udtrukne obligationer
-.ar off
-.********************************************************
-.ar AKTIUDB on
-Konto for aktieudbytte
-.ar off
-.********************************************************
-.ar DEPGEB on
-Konto for depotgebyr
-.ar off
-.********************************************************
-.ar PTBAFK on
-Konto for pantebrevsafkast
-.ar off
-.********************************************************
-.ar SIKDEP on
-Sikkerhedsdepot for
-.ar off
-.********************************************************
-.ar DISPFULD on
-Dispositionsfuldmagt til
-.ar off
-.********************************************************
-.ar DISPCPR on
-CPR-nr./CVR-nr.
-.ar off
-.********************************************************
-.ar DISPUND on
-Som underskriver
-.ar off
-.********************************************************
-.ar FULDM on
-Fuldmagt til betalingsmodtagelse
-.ar off
-.********************************************************
-.ar FULDMCPR on
-CPR-nr./CVR-nr.
-.ar off
-.********************************************************
-.ar FULDMUND on
-Som underskriver
-.ar off
-.********************************************************
-.ar RETTADR on
-Navn og adresse
-.ar off
-.********************************************************
-.ar RETTCPR on
-CPR-nr./CVR-nr.
-.ar off
-.********************************************************
-.ar RETTEKST on
-Rettighedstekst
-.ar off
-.********************************************************
-.ar AKTIEADR on
-.*MB-RET (feltindhold ændret)
-.*Navn og adresse
-Ønsker depotindehaver VP-ændringsmeddelelser tilsendt (sæt x)
-.sp
-Ja  ___ (medfører øgede VP-gebyrer)
-.sp 2
-Nej ___ (meddelelse modtages kun fra banken)
-.ar off
-.********************************************************
-.ar AKTIECPR on
-.*MB-RET (feltindhold ændret)
-.*CPR-nr./CVR-nr.
-.ar off
-.********************************************************
-.ar AKTIEUND on
-.*MB-RET (feltindhold ændret)
-.*Som underskriver
-.ar off
-.********************************************************
-.ar PIDATO on
-Dato
-.ar off
-.********************************************************
-.ar INDEHDATO on
-Dato
-.ar off
-.********************************************************
-.ar PIUND on
-Pengeinstituttets underskrift
-.ar off
-.********************************************************
-.ar REF on
-Reference
-.ar off
-.********************************************************
-.ar INDEHUND on
-Depotindehavers underskrift
-.ar off
-.********************************************************
-.ar UNDTEKST on
-Med ovennævnte underskrift samtykker jeg i , at opbevaring af både mine
-danske og udenlandske værdipapirer kan ske i
-samledepot, og at
-.br
-jeg er bekendt med retsvirkningerne heraf, der er
-beskrevet i "Regler for opbevaring af værdipapirer i depot" som jeg har
-modtaget.
-.br
-Depotet vil tillige blive oprettet i Værdipapircentralen, såfremt der
-indlægges børsnoterede danske obligationer, aktier m.v. i depotet.
-.ar off
-.*MB-RET (cour10)
-:COUR10.
-.*MB-RET START
-.if x&GENVALG = x1
-.or x&GENVALG = x2
-.el .go SLUT
-.if &ÅPN le 5
-.an x&GENVALG = x1
-.th .pa
-.if &ÅPN le 2
-.an x&GENVALG = x2
-.th .pa
-.*th .pa
-...SLUT
-.*MB-RET SLUT
-.** TEKST KUNDEKOPI hvor KOPI normalt påføres
-.da KUNDKOPI 169.1mm 34.4mm
-.ar KUNDKOPI on
-:COUR14.
-:FED.KUNDEKOPI:SKRSLUT.
-.ar off
-:COUR10.
-.*MB-RET (flere valg tilladt)
-.ti ^ 05
-.*MB-RET (COUR14 tilføjet for at skifte skriftype)
-:COUR14.
-:COUR10.
-.da DEPINDEH 21mm 49.2mm width 89mm
-.da DEPCPR   45mm 75.8mm width 89mm
-.da DEPNR   108.5mm 47.2mm width 85mm
-.da VPNR    108.5mm 56.7mm width 85mm
-.da OPRETÆND 110.2mm 63.2mm width 85mm
-.da DEPTYPE 108.5mm 75.5mm width 89mm
-.da OBLRENTE 21mm 84.7mm width 55mm
-.da UDTOBL   78.8mm 84.7mm width 60mm
-.da AKTIUDB 139.8mm 84.7mm width 50mm
-.da DEPGEB   21mm 93.5mm width 55mm
-.da PTBAFK   78.8mm 93.5mm width 60mm
-.da SIKDEP  139.8mm 93.5mm width 50mm
-.da DISPFULD 21mm 109.1mm width 80mm
-.da DISPCPR  45mm 124.1mm width 80mm
-.da FULDM    21mm 133.6mm width 80mm
-.da FULDMCPR 45mm 148.6mm width 80mm
-.da RETTADR  21mm 163.1mm width 88mm
-.da RETTCPR  45mm 182.7mm width 80mm
-.da RETTEKST 108.5mm 163.1mm width 88mm
-.da AKTIEADR  21mm 196.6mm width 88mm
-.da AKTIECPR  45mm 211.2mm width 80mm
-.da PIDATO    21mm 225.5mm width 180mm
-.da PIUND     21mm 250mm width 90mm
-.da REF       36mm 254.2mm width 90mm
-.da INDEHUND 108.5mm 253.5mm width 90mm
-.*************************************************
-.ar DEPINDEH on
-.*MB-RET (COUR10)
-:COUR10.
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.*************************************************
-.ar DEPCPR on
-&DEPKUNDENR
-.ar off
-.*************************************************
-.ar DEPNR on
-.if &U'&GENVPKTO = N
-.th &DEPREGNR &DEPDEPNR
-.ar off
-.*************************************************
-.ar VPNR on
-.if &U'&GENVPKTO = J
-.th 0&DEPREGNR.&DEPDEPNR
-.ar off
-.*************************************************
-.ar OPRETÆND on
-.tp 40mm
-.if &U'&GENVALG eq 1
-.th X
-.el ^X
+.el ^ X
 .ar off
 .****************(MB-RET bruger T0 afsnit og &dty ***
 .ar DEPTYPE on
@@ -1044,7 +395,7 @@ VP-kontonummer
 .********************************************************
 .ar OPRETÆND on
 .tp 39mm
-Oprettelse^Ændring
+Oprettelse ^ Ændring
 .ar off
 .********************************************************
 .ar DEPTYPE on
@@ -1515,11 +866,11 @@ situationer:
 .*MB-RET (sp til sp 1mm)
 .tp 3mm
 .sp 1mm
-- ^Når udtrukne obligationer forfalder.
+- ^ Når udtrukne obligationer forfalder.
 .br
-- ^Når deponenten køber/sælger værdipapirer til/fra depotet.
+- ^ Når deponenten køber/sælger værdipapirer til/fra depotet.
 .br
-- ^Når der sker et fondskodeskift.
+- ^ Når der sker et fondskodeskift.
 .*MB-RET (sp til sp 1mm)
 .sp 1mm
 Deponenten har mulighed for at modtage ændringsmeddelelser i ovennævnte
@@ -1582,9 +933,9 @@ på VP-kontoen, kan vi kræve dokumentation for:
 .*MB-RET (sp til sp 1mm)
 .sp 1mm
 .tp 3mm
-- ^At anmeldelsen kommer fra rette vedkommende.
+- ^ At anmeldelsen kommer fra rette vedkommende.
 .br
-- ^At dispositionen kan registreres.
+- ^ At dispositionen kan registreres.
 .sp
 .ar off
 .*MB-RET
@@ -1621,12 +972,12 @@ afdelingen, hvor VP-kontoen skal føres.
 Indgivelse af anmeldelse kan ske på følgende måder:
 .tp 3mm
 .sp
-- ^Ved anmelders personlige henvendelse i pengeinstituttet.
+- ^ Ved anmelders personlige henvendelse i pengeinstituttet.
 .br
-- ^Pr. brevpost.
+- ^ Pr. brevpost.
 .br
 .*MB-RET (tlf.,) tilføjet
-- ^Pr. tlf., telegram, telex, telefax, datakommunikation eller
+- ^ Pr. tlf., telegram, telex, telefax, datakommunikation eller
 .in 3mm nobreak
 anden teknisk meddelelsesform.
 .in 0mm
@@ -1822,10 +1173,10 @@ For pantebreve, gældsbreve og lignende påtager vi os,
 medmindre andet er aftalt:
 .sp
 .tp 3mm
-- ^At underrette debitor om deponeringen, såfremt debitor har en
-^adresse her i landet.
+- ^ At underrette debitor om deponeringen, såfremt debitor har en
+ ^ adresse her i landet.
 .sp
-- ^At modtage fastsatte ydelser fra debitor til indsættelse på
+- ^ At modtage fastsatte ydelser fra debitor til indsættelse på
 .in 3mm nobreak
 Deres konto. Vi er på Deres vegne tilmeldt
 "Pengeinstitutternes BetalingsSystemer", som kreditor, hvorfor betalinger
@@ -1834,12 +1185,12 @@ betalingssystem, er undergivet de for systemet til enhver tid gældende
 regler, som udleveres til Dem på forlangende.
 .in 0mm
 .sp
-- ^At underrette Dem, når ydelser er betalt.
+- ^ At underrette Dem, når ydelser er betalt.
 .sp
-- ^At modtage eventuelle ejerskifteafdrag og lignende og underrette
-^Dem (deponenten) herom.
+- ^ At modtage eventuelle ejerskifteafdrag og lignende og underrette
+ ^ Dem (deponenten) herom.
 .sp
-- ^At afsende påkravsmeddelelse iht. tinglysningslovens § 42a til
+- ^ At afsende påkravsmeddelelse iht. tinglysningslovens § 42a til
 .in 3mm nobreak
 debitor, såfremt denne har adresse her i landet.
 .in 0mm
@@ -2096,7 +1447,7 @@ Att.: &GENATT
 .*el &BREVNAVN
 .*br
 .*tp 25mm
-.*^&DATO
+.* ^ &DATO
 .*ar off
 .*********************
 .ar OVERSK on
@@ -2287,19 +1638,41 @@ Såfremt jeg ønsker at kunne registrere ordrer, som skal afregnes til
 .ar UNDERSKRKU on
 :SWISS8.
 .tp 57mm
-Kundens underskrift ^Dato:
+Kundens underskrift ^ Dato:
 .ar off
 .*******************************************************
 .ar UNDERSKRPI on
 :SWISS8.
 .tp 56.5mm
-Pengeinstituttets underskrift ^Dato:
+Pengeinstituttets underskrift ^ Dato:
 .ar off
 .*******************************************************
 .*pa
 .tm 30mm
 .** SIDESKIFT
 .pa
+.*oc **Depotoprettelse/-ændring
+.*MB-RET
+.* Ledetekster og rækkefølger er ændret
+.* B374C1 er tilføjet sammen med afsnittet B37DEP01T0 (testafsnit)
+.* og GENOBLKTO sat = værdien af DEPAFKGEB
+.* DEPOTTYPE        Spærringskode..:
+.* B374C1           Vælg reg.type..:
+.* GENSTREG1          F1=oversigt-->
+.* GENVPKTO       VP-nr. j/n.......:
+.* GENVALG        Opr.(1) Ændr.(2) :
+.* DEPAFKGEB      Depotafkast/-gebyr
+.* GENOBLKTO      Kto. for afkast..:
+.* GENUOBLKTO     Kto. udtruk. obl.:
+.* GENAKTKTO      Kto. for aktieudb:
+.* GENDEPGKTO     Kto. for depotgeb:
+.* GENPANKTO      Kto. pant.br.afk.:
+.* GENSIKDEP      Sikkerhedsdep. for
+.se GENOBLKTO = '&DEPAFKGEB.'
+.* GL med PL er tilføjet for at undgå en fejlmarkering
+:GL.
+.PL 285mm
+:EGL.
 .SE B37KUDAL = 1
 .dr tynd WEIGHT 0.1mm
 .LL 175mm
@@ -2447,7 +1820,7 @@ Att.: &GENATT
 .*el &BREVNAVN
 .*br
 .*tp 25mm
-.*^&DATO
+.* ^ &DATO
 .*ar off
 .*********************
 .ar OVERSK on
@@ -2638,14 +2011,642 @@ Såfremt jeg ønsker at kunne registrere ordrer, som skal afregnes til
 .ar UNDERSKRKU on
 :SWISS8.
 .tp 57mm
-Kundens underskrift ^Dato:
+Kundens underskrift ^ Dato:
 .ar off
 .*******************************************************
 .ar UNDERSKRPI on
 :SWISS8.
 .tp 56.5mm
-Pengeinstituttets underskrift ^Dato:
+Pengeinstituttets underskrift ^ Dato:
 .ar off
 .*******************************************************
 .*pa
 .tm 30mm
+.* TEST AF OM INDTASTNING PÅ GENVPKTO = J/N (afsnit tilføjet af MB)
+.if .&U'&GENVPKTO = .J .or .&U'&GENVPKTO = .N
+.th .go VPKTOOK
+.MG /t/  Forkert indtastning (&GENVPKTO.) i "VP-nr.(j eller n)"
+...VPKTOOK
+.* SAMMENHÆNG MELLEM REGTYPE OG SPÆRRINGSKODE (afsnit tilføjet af MB)
+.* DEPOTTYPE ER TILSYNELADENDE RETTET FRA 1 TIL 2 CIFRE D. 17/4-00 (ES 18/4
+.* OPDATERET med 0019 = Depottype 01 09/12-2003
+.if .&DEPOTTYPE = .09 .go SOK
+.if .&B374C1 = .0004 .an .&DEPOTTYPE = .00 .go SOK
+.if .&B374C1 = .0005 .an .&DEPOTTYPE = .00 .go SOK
+.if .&B374C1 = .0051 .an .&DEPOTTYPE = .00 .go SOK
+.if .&B374C1 = .0009 .an .&DEPOTTYPE = .02 .go SOK
+.if .&B374C1. ne .0010
+.th .go N0
+.if .&DEPOTTYPE = .02 .or .&DEPOTTYPE = .01 .or .&DEPOTTYPE = .06
+.th .go SOK
+...N0
+.if .&B374C1 ne .0011
+.th .go N
+.if .&DEPOTTYPE = .02 .or .&DEPOTTYPE = .01 .or .&DEPOTTYPE = .06
+.th .go SOK
+...N
+.if .&B374C1 = .0019 .an .&DEPOTTYPE = .01 .go SOK
+.if .&B374C1 = .0020 .or .&B374C1 = .0021
+.th .if .&DEPOTTYPE = .03 .or .&DEPOTTYPE = .06 ;.th .go SOK
+.if .&B374C1 = .0025 .or .&B374C1 = .0026
+.th .if .&DEPOTTYPE = .04 .or .&DEPOTTYPE = .08 ;.th .go SOK
+.if .&B374C1 = .0036 .or .&B374C1 = .0037
+.or .&B374C1 = .0038 .or .&B374C1 = .0039
+.or .&B374C1 = .0040 .or .&B374C1 = .0041
+.or .&B374C1 = .0042 .or .&B374C1 = .0044
+.or .&B374C1 = .0045 .or .&B374C1 = .0046
+.or .&B374C1 = .0047 .or .&B374C1 = .0048
+.th .if .&DEPOTTYPE = .07 ;.th .go SOK
+.* 0047 OPRETTET d.10/9-04
+.* 0049 OPRETTET d. 3/9-97
+.if .&B374C1 = .0049 .an .&DEPOTTYPE = .02 .go SOK
+.MG /i/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
+.mg /i/  REG.TYPE.................................: &B374C1.
+.mg /i/  passer ikke sammen med spærringskode.....: &DEPOTTYPE
+.mg /i/  Se evt. fremvisning på skærm  - Funktion 3 og
+.MG /t/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
+...SOK
+.if .&B374C1 = .0004
+.th .se dty 'Depot med porteføljeaftale'         ;.th .go B
+.if .&B374C1 = .0005
+.th .se dty 'Opbevaringsdepot'                   ;.th .go B
+.if .&B374C1 = .0009
+.th .se dty 'Spærret depot, Medarbejderaktier'   ;.th .go B
+.if .&B374C1 = .0010
+.th .se dty 'Depot m/dispositionsbegrænsning'    ;.th .go B
+.if .&B374C1 = .0011
+.th .se dty 'Spærret depot'                      ;.th .go B
+.if .&B374C1 = .0019
+.th .se dty 'Børneopsparings depot'              ;.th .go B
+.if .&B374C1 = .0020
+.th .se dty 'Sikkerhedsdepot (oms.)'             ;.th .go B
+.if .&B374C1 = .0021
+.th .se dty 'Sikkerhedsdepot (lånesag)'          ;.th .go B
+.if .&B374C1 = .0025
+.th .se dty 'Sikkerhedsdepot (3. mand, oms.)'    ;.th .go B
+.if .&B374C1 = .0026
+.th .se dty 'Sikkerhedsdepot (3. mand, lånesag)' ;.th .go B
+.if .&B374C1 = .0036
+.th .se dty 'Ratepens.arbejdsg.ord.unot.aktier'  ;.th .go B
+.if .&B374C1 = .0037
+.th .se dty 'Ratepens.privat ord.unot.aktier'    ;.th .go B
+.if .&B374C1 = .0038
+.th .se dty 'Kapitalpens.arbejdsg.ord.unot.akt.' ;.th .go B
+.if .&B374C1 = .0039
+.th .se dty 'Kapitalpens.privat ord.unot.aktier' ;.th .go B
+.if .&B374C1 = .0040
+.th .se dty 'Kapitalpensionsdepot arbejdsg.ord.' ;.th .go B
+.if .&B374C1 = .0041
+.th .se dty 'Kapitalpensionsdepot privatordning' ;.th .go B
+.if .&B374C1 = .0042
+.th .se dty 'Ratepensionsdepot §15B privatord.'  ;.th .go B
+.if .&B374C1 = .0044
+.th .se dty 'Ratepensionsdepot §15B arbejdsg.'   ;.th .go B
+.if .&B374C1 = .0045
+.th .se dty 'Ratepensionsdepot arbejdsgiverord.' ;.th .go B
+.if .&B374C1 = .0046
+.th .se dty 'Ratepensionsdepot privatordning'    ;.th .go B
+.if .&B374C1 = .0047
+.th .se dty 'Ratepensionsdepot §15A privatord.'  ;.th .go B
+.if .&B374C1 = .0048
+.th .se dty 'Selvpensioneringsdepot'             ;.th .go B
+.if .&B374C1 = .0049
+.th .se dty 'Etableringskontodepot'              ;.th .go B
+.if .&B374C1 = .0051
+.th .se dty 'Opbevaringsdepot bank'              ;.th .go B
+...A
+.MG /i/
+.MG /i/  Spærringskode...........................: '&DEPOTTYPE.'
+.MG /i/
+.MG /i/  Forkert REG.TYPE - Du har indtastet.....: '&B374C1.'
+.MG /i/  Se evt. fremvisning på skærm  - Funktion 3 og
+.MG /t/  Forkert regtype (&B374C1.) - evt. hjælp (F1) på parameterbilledet
+...B
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+.*MB-RET (flere valg tilladt)
+.ti ^ 05
+.*MB-RET (COUR14 tilføjet for at skifte skriftype)
+:COUR14.
+:COUR10.
+.da DEPINDEH 21mm 49.2mm width 89mm
+.da DEPCPR   45mm 75.8mm width 89mm
+.da DEPNR   108.5mm 47.2mm width 85mm
+.da VPNR    108.5mm 56.7mm width 85mm
+.da OPRETÆND 110.2mm 63.2mm width 85mm
+.da DEPTYPE 108.5mm 75.5mm width 89mm
+.da OBLRENTE 21mm 84.7mm width 55mm
+.da UDTOBL   78.8mm 84.7mm width 60mm
+.da AKTIUDB 139.8mm 84.7mm width 50mm
+.da DEPGEB   21mm 93.5mm width 55mm
+.da PTBAFK   78.8mm 93.5mm width 60mm
+.da SIKDEP  139.8mm 93.5mm width 50mm
+.da DISPFULD 21mm 109.1mm width 80mm
+.da DISPCPR  45mm 124.1mm width 80mm
+.da FULDM    21mm 133.6mm width 80mm
+.da FULDMCPR 45mm 148.6mm width 80mm
+.da RETTADR  21mm 163.1mm width 88mm
+.da RETTCPR  45mm 182.7mm width 80mm
+.da RETTEKST 108.5mm 163.1mm width 88mm
+.da AKTIEADR  21mm 196.6mm width 88mm
+.da AKTIECPR  45mm 211.2mm width 80mm
+.da PIDATO    21mm 225.5mm width 180mm
+.da PIUND     21mm 250mm width 90mm
+.da REF       36mm 254.2mm width 90mm
+.da INDEHUND 108.5mm 253.5mm width 90mm
+.*************************************************
+.ar DEPINDEH on
+.*MB-RET (COUR10)
+:COUR10.
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************************
+.ar DEPCPR on
+&DEPKUNDENR
+.ar off
+.*************************************************
+.ar DEPNR on
+.if &U'&GENVPKTO = N
+.th &DEPREGNR &DEPDEPNR
+.ar off
+.*************************************************
+.ar VPNR on
+.if &U'&GENVPKTO = J
+.th 0&DEPREGNR.&DEPDEPNR
+.ar off
+.*************************************************
+.ar OPRETÆND on
+.tp 40mm
+.if &U'&GENVALG eq 1
+.th X
+.el ^ X
+.ar off
+.****************(MB-RET bruger T0 afsnit og &dty ***
+.ar DEPTYPE on
+.go MBDEP
+.if x&DEPOTTYPE = x0
+.th Opbevaringsdepot
+.if x&DEPOTTYPE = x1
+.th Dispositionsbegrænsning
+.if x&DEPOTTYPE = x2
+.th Depotet spærret
+.if x&DEPOTTYPE = x3
+.th Sikkerhedsdepot, debitor
+.if x&DEPOTTYPE = x4
+.th Sikkerhedsdepot, 3. mand
+.if x&DEPOTTYPE = x5
+.th Anvendes ikke pt.
+.if x&DEPOTTYPE = x6
+.th Særskilt sikkerhedsdepot, debitor
+.if x&DEPOTTYPE = x7
+.th Pensionsdepot
+.if x&DEPOTTYPE = x8
+.th Særskilt sikkerhedsdepot, 3. mand
+.if x&DEPOTTYPE = x9
+.th Se specielt kartotek
+.el
+...MBDEP
+&dty.
+.* MB-RET SLUT
+.ar off
+.*************************************************
+.ar OBLRENTE on
+.***** her deles kontonummer for obligationsrenter ****
+.se oblregnr = substr &GENOBLKTO 1 4
+.se oblktonr = substr &GENOBLKTO 5 7
+&oblregnr &oblktonr
+.ar off
+.*************************************************
+.ar UDTOBL on
+.***** her deles kontonummer for udtrukne obligationer ****
+.se uoblregnr = substr &GENUOBLKTO 1 4
+.se uoblktonr = substr &GENUOBLKTO 5 7
+&uoblregnr &uoblktonr
+.ar off
+.*************************************************
+.ar AKTIUDB on
+.***** her deles kontonummer for aktieudbytte ****
+.se aktregnr = substr &GENAKTKTO 1 4
+.se aktktonr = substr &GENAKTKTO 5 7
+&aktregnr &aktktonr
+.ar off
+.*************************************************
+.ar DEPGEB on
+.***** her deles kontonummer for depotgebyr  ****
+.se depgregnr = substr &GENDEPGKTO 1 4
+.se depgktonr = substr &GENDEPGKTO 5 7
+&depgregnr &depgktonr
+.ar off
+.*************************************************
+.ar PTBAFK on
+.***** her deles kontonummer for pantebrevsafkast *******
+.se panregnr = substr &GENPANKTO 1 4
+.se panktonr = substr &GENPANKTO 5 7
+&panregnr &panktonr
+.ar off
+.*************************************************
+.ar SIKDEP on
+.***** her deles kontonummer for sikkerhedsdepot *******
+.se sikregnr = substr &GENSIKDEP 1 4
+.se sikktonr = substr &GENSIKDEP 5 7
+&sikregnr &sikktonr
+.ar off
+.*************************************************
+.ar DISPFULD on
+&GENSTILL
+.br
+&GENNAVN
+.br
+&GENGADE
+.br
+&GENBY
+.ar off
+.*************************************************
+.ar DISPCPR on
+&GENCPR
+.ar off
+.*************************************************
+.ar FULDM on
+&GENSTILL1
+.br
+&GENNAVN1
+.br
+&GENGADE1
+.br
+&GENBY1
+.ar off
+.*************************************************
+.ar FULDMCPR on
+&GENCPR1
+.ar off
+.*************************************************
+.ar RETTADR on
+&GENSTILL2
+.br
+&GENNAVN2
+.br
+&GENGADE2
+.br
+&GENBY2
+.ar off
+.*************************************************
+.ar RETTCPR on
+&GENCPR2
+.ar off
+.*************************************************
+.ar RETTEKST on
+&GENRET1
+.br
+&GENRET2
+.br
+&GENRET3
+.br
+&GENRET4
+.ar off
+.*************************************************
+.ar AKTIEADR on
+&GENSTILL3
+.br
+&GENNAVN3
+.br
+&GENGADE3
+.br
+&GENBY3
+.ar off
+.*************************************************
+.ar AKTIECPR on
+&GENCPR3
+.ar off
+.*************************************************
+.ar PIDATO on
+&DATO
+.ar off
+.*************************************************
+.ar PIUND on
+&BANKNAVN
+.ar off
+.*************************************************
+.ar REF on
+&GENEKSP
+.ar off
+.*************************************************
+.ar INDEHUND on
+&NAVN
+.ar off
+.*MB-RET (flere valg tilladt)
+.da oversk 20mm 32mm width 80mm
+.da side1  20mm 34mm width 175mm
+.da pbox1 109.2mm 62mm width 10mm
+.da pbox2 149mm 62mm width 10mm
+.da pbox3 50mm 187.3mm width 100mm
+.ar oversk on
+:SWISS12.
+:FED.
+.*MB-RET START
+.if &U'&GENVALG eq 1
+.us on
+.th Depotoprettelse
+.el Depotændring
+.*us Depotoprettelse/-ændring
+.us off
+.*MB-RET SLUT
+:SKRSLUT.
+.ar off
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+Faste oplysninger
+:SKRSLUT.
+:SWISS10.
+.bx new left 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.hr 87.5mm right
+.sp 8mm
+.bx new left 58mm 119mm right
+.sp 7.5mm
+.hr left right
+.sp 7.5mm
+.bx off
+.bx can
+:FED.
+Fuldmagt
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 24mm
+.hr left right
+.sp 23mm
+.bx off
+:FED.
+Rettighedshaver
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 27mm
+.bx off
+:FED.
+.*MB-RET
+.*Aktiebogsnavn
+VP-ændringsmeddelelser
+:SKRSLUT.
+.*MB-RET (lodret midterstreg fjernet)
+.*bx new left 87.5mm right
+.bx new left right
+.sp 22mm
+.bx off
+:FED.
+Underskrift
+:SKRSLUT.
+.bx new left 87.5mm right
+.sp 8mm
+.hr left right
+.sp 27mm
+.bx new left right
+.sp 10mm
+.bx off
+.bx can
+.bx can
+.ar off
+.ar pbox1 on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar pbox2 on
+.bx 0mm 4mm
+.sp 2mm
+.bx off
+.ar off
+.ar pbox3 on
+:SWISS8.
+:FED.
+.*MB-RET
+.*(hvis forskelligt fra depotindehaver)
+:SKRSLUT.
+.ar off
+.*MB-RET
+:SKRSLUT.
+:COUR10.
+.*MB-RET (flere valg tilladt)
+.*MB-RET SE rettet til CVR den 14/8-2001
+:SWISS8.
+.da DEPINDEH    21mm  42.2mm width 89mm
+.da DEPCPR      21mm  76.2mm width 89mm
+.da DEPNR    108.5mm  42.2mm width 85mm
+.da VPNR     108.5mm  51.7mm width 85mm
+.da OPRETÆND 115.5mm  63.2mm width 85mm
+.da DEPTYPE  108.5mm  70.5mm width 89mm
+.da OBLRENTE    21mm  80.2mm width 55mm
+.da UDTOBL    78.8mm  80.2mm width 60mm
+.*MB-RET
+.da AKTIUDB  139.8mm  80.2mm width 50mm
+.da DEPGEB      21mm    89mm width 55mm
+.da PTBAFK    78.8mm    89mm width 60mm
+.da SIKDEP   139.8mm    89mm width 50mm
+.da DISPFULD    21mm 103.1mm width 80mm
+.da DISPCPR     21mm 124.6mm width 80mm
+.da DISPUND  108.5mm 103.1mm width 80mm
+.da FULDM       21mm 128.6mm width 80mm
+.da FULDMCPR    21mm 149.1mm width 80mm
+.da FULDMUND 108.5mm 128.6mm width 80mm
+.da RETTADR     21mm 158.1mm width 50mm
+.da RETTCPR     21mm 183.1mm width 80mm
+.da RETTEKST 108.5mm 158.1mm width 50mm
+.*MB-RET
+.*da AKTIEADR    21mm 191.6mm width 50mm
+.da AKTIEADR    21mm 191.6mm width 170mm
+.da AKTIECPR    21mm 211.6mm width 80mm
+.da AKTIEUND 108.5mm 191.6mm width 50mm
+.da PIDATO      21mm 220.5mm width 180mm
+.da INDEHDATO 108.5mm 220.5mm width 90mm
+.da PIUND       21mm   230mm width 90mm
+.da REF         21mm 254.6mm width 90mm
+.da INDEHUND 108.5mm   230mm width 90mm
+.da UNDTEKST    21mm 258.9mm width 175mm
+.********************************************************
+.ar DEPINDEH on
+Depotindehaver
+.ar off
+.********************************************************
+.ar DEPCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar DEPNR on
+Depotnummer
+.ar off
+.********************************************************
+.ar VPNR on
+VP-kontonummer
+.ar off
+.********************************************************
+.ar OPRETÆND on
+.tp 39mm
+Oprettelse ^ Ændring
+.ar off
+.********************************************************
+.ar DEPTYPE on
+Depottype
+.ar off
+.********************************************************
+.ar OBLRENTE on
+.*MB-RET
+.*Konto for obligationsrenter
+Konto for afkast
+.ar off
+.********************************************************
+.ar UDTOBL on
+Konto for udtrukne obligationer
+.ar off
+.********************************************************
+.ar AKTIUDB on
+Konto for aktieudbytte
+.ar off
+.********************************************************
+.ar DEPGEB on
+Konto for depotgebyr
+.ar off
+.********************************************************
+.ar PTBAFK on
+Konto for pantebrevsafkast
+.ar off
+.********************************************************
+.ar SIKDEP on
+Sikkerhedsdepot for
+.ar off
+.********************************************************
+.ar DISPFULD on
+Dispositionsfuldmagt til
+.ar off
+.********************************************************
+.ar DISPCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar DISPUND on
+Som underskriver
+.ar off
+.********************************************************
+.ar FULDM on
+Fuldmagt til betalingsmodtagelse
+.ar off
+.********************************************************
+.ar FULDMCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar FULDMUND on
+Som underskriver
+.ar off
+.********************************************************
+.ar RETTADR on
+Navn og adresse
+.ar off
+.********************************************************
+.ar RETTCPR on
+CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar RETTEKST on
+Rettighedstekst
+.ar off
+.********************************************************
+.ar AKTIEADR on
+.*MB-RET (feltindhold ændret)
+.*Navn og adresse
+Ønsker depotindehaver VP-ændringsmeddelelser tilsendt (sæt x)
+.sp
+Ja  ___ (medfører øgede VP-gebyrer)
+.sp 2
+Nej ___ (meddelelse modtages kun fra banken)
+.ar off
+.********************************************************
+.ar AKTIECPR on
+.*MB-RET (feltindhold ændret)
+.*CPR-nr./CVR-nr.
+.ar off
+.********************************************************
+.ar AKTIEUND on
+.*MB-RET (feltindhold ændret)
+.*Som underskriver
+.ar off
+.********************************************************
+.ar PIDATO on
+Dato
+.ar off
+.********************************************************
+.ar INDEHDATO on
+Dato
+.ar off
+.********************************************************
+.ar PIUND on
+Pengeinstituttets underskrift
+.ar off
+.********************************************************
+.ar REF on
+Reference
+.ar off
+.********************************************************
+.ar INDEHUND on
+Depotindehavers underskrift
+.ar off
+.********************************************************
+.ar UNDTEKST on
+Med ovennævnte underskrift samtykker jeg i , at opbevaring af både mine
+danske og udenlandske værdipapirer kan ske i
+samledepot, og at
+.br
+jeg er bekendt med retsvirkningerne heraf, der er
+beskrevet i "Regler for opbevaring af værdipapirer i depot" som jeg har
+modtaget.
+.br
+Depotet vil tillige blive oprettet i Værdipapircentralen, såfremt der
+indlægges børsnoterede danske obligationer, aktier m.v. i depotet.
+.ar off
+.*MB-RET (cour10)
+:COUR10.
+.*MB-RET START
+.if x&GENVALG = x1
+.or x&GENVALG = x2
+.el .go SLUT
+.if &ÅPN le 5
+.an x&GENVALG = x1
+.th .pa
+.if &ÅPN le 2
+.an x&GENVALG = x2
+.th .pa
+.*th .pa
+...SLUT
+.*MB-RET SLUT
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 169.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR14.
+:FED.KUNDEKOPI:SKRSLUT.
+.ar off
+:COUR10.
+

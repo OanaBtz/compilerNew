@@ -11,257 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
-.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
-.**************************************************************************
-.*               : Du skal vælge om aftalen skal sendes til kundens netbank
-.*               : i Underskriftsrum (J) eller udskrives på papir (N)
-.*
-.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
-.*               : Underskriftsrum, du vælge 1 for at komme videre.
-.*               : skal du vælge 1 for at komme videre.
-.*
-.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
-.*           --> : ved at vælge "3", inden du udskriver brevet.
-.*
-.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
-.*               : finder det i stedet i I*net under "Ubehandl. aftaler
-.*               : til underskrift" - her lægger du brevet i kuvert og
-
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.*------------------------------------------------------------
-.* Har du valgt "JA" til Underskriftsrum, er det
-.* kun regarantien, der sendes til Underskriftsrum.
-.*
-.* Har du valgt "NEJ" til Underskriftsrum, udskrives
-.* både garanti og regaranti til fysisk underskrift.
-.*------------------------------------------------------------
-.* Pfa. Mette Thomsen, Boliggruppen
-.* Kopi af modgaranti til kunden er slette, da dokumentet nu sendes til
-.* digital underskrift, hvorfor kopien er unødvendig.
-.* 26.05.2016 / hk
-.*-----------------------------------------------------------------------
-.* pfa. Bettina Koefoed, Kredit
-.* Kundenummer tilføjet; udskrives på garantien såfremt det er CVR-nr.
-.* udskrives ikke såfremt det er CPR-nr.
-.* 03.12.2014/hk
-.*-----------------------------------------------------------------------
-.* KOPI AF BECGAR13
-.*-----------------------------------------------------------------------
-.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
-.if &L'&GARMODADR1 = 0
-.an &L'&GARMODADR2 = 0
-.an &L'&GARMODADR3 = 0
-.an &L'&GARMODADR4 = 0
-.an &L'&GARMODADR5 = 0
-.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
-.**************************************************************************
-.if &U'X&GENJANEJ1 = XJ
-.or &U'X&GENJANEJ1 = XN
-.th
-.el .mg/T/Klausul om transport i tilbagesøgningskrav: Tast J eller N/
-.**************************************************************************
-.if &U'X&GENJANEJ2 = XJ
-.or &U'X&GENJANEJ2 = XN
-.th
-.el .mg/T/Klausul om tilbagelevering af garantibrevet: Tast J eller N/
-.**************************************************************************
-.if &U'X&GENREGARAN = XJ
-.or &U'X&GENREGARAN = XN
-.th
-.el .mg/T/Regaranti: Skriv J eller N/
-.**************************************************************************
-.if &U'X&GENJANEJ = XJ
-.or &U'X&GENJANEJ = XN
-.th
-.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
-.* Parameterafsnit - beregning
-.**************************************************************************
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.** TEKST KUNDEKOPI hvor KOPI normalt påføres
-.da KUNDKOPI 140.1mm 34.4mm
-.ar KUNDKOPI on
-:COUR12.
-:FED.MODGARANTI TIL BANKEN:SKRSLUT.
-.ar off
-:COUR10.
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 20mm 100mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us on
-Standardgaranti ved køb af eksisterende fast ejendom
-:SKRSLUT.
-.us off
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.sp 96mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 165mm
 .da VEND 7mm 270mm width 180mm rotate -90
 .**************************************************************************
 .* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
@@ -764,8 +513,26 @@ Underskrift ¤
 .*----------------------------------------------------------------
 .if &GENDUJANEJ = J
 .th .qu
+.rh cancel
 .** SIDESKIFT
 .pa
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
 .********************GENEREL OPSÆTNING*************************************
 :COUR10.
 .fo left
@@ -797,7 +564,41 @@ Standardgaranti ved køb af eksisterende fast ejendom
 .rh execute
 .*LINIELÆNGDEN ************************************************************
 .ll 165mm
-.rh cancel
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 140.1mm 37.4mm
+.ar KUNDKOPI on
+:COUR12.
+:FED.ORIGINAL TIL SÆLGERS BANK:SKRSLUT.
+.ar off
+:COUR10.
+.*************** AREAL-DEFINITIONER ***************************************
+.da SÆLGER 25mm  46mm width 150mm
+.*SÆLGERS ADRESSELINJER ***************************************************
+.ar SÆLGER on
+&GARMODADR1
+.br
+&GARMODADR2
+.br
+&GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.ar off
 .**************************************************************************
 .tp 3mm
 .se regnr = substr &LANGKTONR 1 4
@@ -831,7 +632,7 @@ Garantien er udstedt på foranledning af
 .tp 112mm
 .if &KTOKNDNR1 lt 0100000000
 .or &KTOKNDNR1 gt 3112999999
-.th &KTONAVN ¤CVR-nr.: &KTOKNDNR1
+.th &KTONAVN ¤ CVR-nr.: &KTOKNDNR1
 .el &KTONAVN
 .tp delete
 .tp 3mm
@@ -943,26 +744,26 @@ Den, der berigtiger handlen, eller depositar har pligt til af midlerne
 fra købesummen at foranledige betaling af følgende:
 .sp 3mm
 .of 3mm
-*¤pantegæld, der ikke skal overtages,
+* ¤ pantegæld, der ikke skal overtages,
 .of
 .of 3mm
-*¤ejerskiftegebyr og ejerskifteafdrag med rente til betalingsdagen,
+* ¤ ejerskiftegebyr og ejerskifteafdrag med rente til betalingsdagen,
 .of
 .of 3mm
-*¤restancer,
+* ¤ restancer,
 .of
 .of 3mm
-*¤forfalden refusionssaldo i købers favør,
+* ¤ forfalden refusionssaldo i købers favør,
 .of
 .of 3mm
-*¤beløb, som ifølge handlens vilkår skal betales af sælger eller
+* ¤ beløb, som ifølge handlens vilkår skal betales af sælger eller
 modregnes i købesummen,
 .of
 .of 3mm
-*¤sælgers andel af handlens omkostninger,
+* ¤ sælgers andel af handlens omkostninger,
 .of
 .of 3mm
-*¤salgsvederlag og udlæg mv. til ejendomsmægler, hvis det hos
+* ¤ salgsvederlag og udlæg mv. til ejendomsmægler, hvis det hos
 ejendomsformidleren deponerede beløb ikke er tilstrækkeligt til
 dækning heraf.
 .of
@@ -984,41 +785,6 @@ præjudicerende retsanmærkninger, dog tidligst på
 overtagelsesdagen.
 .sp 5mm
 .kp off
-.*************** AREAL-DEFINITIONER ***************************************
-.da SÆLGER 25mm  46mm width 150mm
-.*SÆLGERS ADRESSELINJER ***************************************************
-.ar SÆLGER on
-&GARMODADR1
-.br
-&GARMODADR2
-.br
-&GARMODADR3
-.br
-&GARMODADR4
-.br
-&GARMODADR5
-.ar off
-.** TEKST KUNDEKOPI hvor KOPI normalt påføres
-.da KUNDKOPI 140.1mm 37.4mm
-.ar KUNDKOPI on
-:COUR12.
-:FED.ORIGINAL TIL SÆLGERS BANK:SKRSLUT.
-.ar off
-:COUR10.
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
 .kp on
 :SWISS8.
 :FED.
@@ -1035,11 +801,11 @@ opfyldt:
 .kp on
 :SWISS8.
 .of 3mm
-1.¤Der foreligger en skriftlig erklæring fra køber om hel eller
+1. ¤ Der foreligger en skriftlig erklæring fra køber om hel eller
 delvis udbetaling.
 .of
 .of 3mm
-2.¤Der foreligger forlig eller endelig dom med angivelse af det
+2. ¤ Der foreligger forlig eller endelig dom med angivelse af det
 krav, som sælger har over for køber, som følge af misligholdelsen.
 .of
 .***
@@ -1107,3 +873,238 @@ den
 .rh cancel
 .** SIDESKIFT
 .pa
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.*------------------------------------------------------------
+.* Har du valgt "JA" til Underskriftsrum, er det
+.* kun regarantien, der sendes til Underskriftsrum.
+.*
+.* Har du valgt "NEJ" til Underskriftsrum, udskrives
+.* både garanti og regaranti til fysisk underskrift.
+.*------------------------------------------------------------
+.* Pfa. Mette Thomsen, Boliggruppen
+.* Kopi af modgaranti til kunden er slette, da dokumentet nu sendes til
+.* digital underskrift, hvorfor kopien er unødvendig.
+.* 26.05.2016 / hk
+.*-----------------------------------------------------------------------
+.* pfa. Bettina Koefoed, Kredit
+.* Kundenummer tilføjet; udskrives på garantien såfremt det er CVR-nr.
+.* udskrives ikke såfremt det er CPR-nr.
+.* 03.12.2014/hk
+.*-----------------------------------------------------------------------
+.* KOPI AF BECGAR13
+.*-----------------------------------------------------------------------
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.if &U'X&GENJANEJ1 = XJ
+.or &U'X&GENJANEJ1 = XN
+.th
+.el .mg/T/Klausul om transport i tilbagesøgningskrav: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ2 = XJ
+.or &U'X&GENJANEJ2 = XN
+.th
+.el .mg/T/Klausul om tilbagelevering af garantibrevet: Tast J eller N/
+.**************************************************************************
+.if &U'X&GENREGARAN = XJ
+.or &U'X&GENREGARAN = XN
+.th
+.el .mg/T/Regaranti: Skriv J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ = XJ
+.or &U'X&GENJANEJ = XN
+.th
+.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
+.* Parameterafsnit - beregning
+.**************************************************************************
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+.** TEKST KUNDEKOPI hvor KOPI normalt påføres
+.da KUNDKOPI 140.1mm 34.4mm
+.ar KUNDKOPI on
+:COUR12.
+:FED.MODGARANTI TIL BANKEN:SKRSLUT.
+.ar off
+:COUR10.
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us on
+Standardgaranti ved køb af eksisterende fast ejendom
+:SKRSLUT.
+.us off
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.sp 96mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+

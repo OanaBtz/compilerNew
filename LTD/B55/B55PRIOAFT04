@@ -11,14 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
-.*** Areal til brevnavn i nederste venstre hjørne **********
-.da VEND 6,5mm 275mm width 180mm rotate -90
-.*****
-.ar VEND on
-:VERDA06.
-&BREVNAVN
-.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -44,82 +36,15 @@
 .BR
 .NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
 :ENY.
+.*** Areal til brevnavn i nederste venstre hjørne **********
+.da VEND 6,5mm 275mm width 180mm rotate -90
+.*****
+.ar VEND on
+:VERDA06.
+&BREVNAVN
+.ar off
 .****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
+.****** PRIORITERINGSAFTALE - KØB AF EJENDOM *********
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -170,6 +95,81 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 :omtale &OMTALEF
 :tiltale &TILTALE
 .VERDA09.
@@ -186,9 +186,9 @@ Deponeringskonto
 :SKRSLUT.
 :VERDA08.
 .br
-Dato ¤: &DATO.
+Dato ¤ : &DATO.
 .br
-Kontonr. ¤: &IREGKTO.
+Kontonr. ¤ : &IREGKTO.
 .ar off
 .**********************************
 .ar oversk on
@@ -204,9 +204,9 @@ Salg af ejendom - uden indfrielser
 .bx left 87,5mm right
 :VERDA07.
 .tp 1mm 88,5mm
-¤Kontohaver ¤Evt. Medkontohaver
+ ¤ Kontohaver ¤ Evt. Medkontohaver
 .sp 22mm
-¤CPR-/CVR nr.: ¤CPR-/CVR nr.:
+ ¤ CPR-/CVR nr.: ¤ CPR-/CVR nr.:
 .bx off
 .bx new left right
 .sp 133mm
@@ -235,7 +235,7 @@ Salg af ejendom - uden indfrielser
 .ar CPR on
 :VERDA09.
 .tp 20mm
-¤&KTOKUNDENR.
+ ¤ &KTOKUNDENR.
 :SKRSLUT
 .ar off
 .***********************************************************
@@ -257,7 +257,7 @@ Salg af ejendom - uden indfrielser
 .tp 20mm
 .if &L'&MEDNAVN eq 0
 .th .go NÆST
-.el ¤&MEDKUNDENR.
+.el ¤ &MEDKUNDENR.
 ...NÆST
 :SKRSLUT
 .ar off
@@ -303,11 +303,11 @@ Vi giver &BANKNAVN. uigenkaldelig fuldmagt til at gennemføre sælgersagen
 i enhver henseende, herunder
 .tp 8mm
 .sp 2mm
-- ¤digitalisere og påtegne ejerpantebreve der skal overtages af køber
+- ¤ digitalisere og påtegne ejerpantebreve der skal overtages af køber
 .br
-- ¤aflyse ejerpantebreve som ikke skal overtages af køber
+- ¤ aflyse ejerpantebreve som ikke skal overtages af køber
 .br
-- ¤betale nødvendige gebyrer herunder salær og refusionssaldo
+- ¤ betale nødvendige gebyrer herunder salær og refusionssaldo
 .sp
 :FED.
 Omkostninger i forbindelse med indfrielse:
@@ -317,46 +317,33 @@ Til &BANKNAVN.
 :SKRSLUT.
 .tp 110mm 143mm char ,
 .sp
-&B55FRI17. ¤kr. ¤&B55BELØB9A.
+&B55FRI17. ¤ kr. ¤ &B55BELØB9A.
 .if &B55BELØB9E. = 0,00
-.in 0mm
-.sp 22mm
-.bx off
-.ar off
-.*******************************************************
-.ar PÅFØRTTK on
-.tp 20mm 105mm
-¤&KTONAVN ¤&MEDNAVN
-.sp 24,8mm
-.tp 77mm
-¤&BANKNAVN.
-.ar off
-.pa
 .th
 .el .br
-.el Garantiprovision ¤kr. ¤&B55BELØB9E.
+.el Garantiprovision ¤ kr. ¤ &B55BELØB9E.
 .if &B55BELØB9B. = 0,00
 .th
 .el .br
-.el Kurskontrakt ¤kr. ¤&B55BELØB9B.
+.el Kurskontrakt ¤ kr. ¤ &B55BELØB9B.
 .if &B55BELØB9C. = 0,00
 .th
 .el .br
-.el &B55FRI4. ¤kr. ¤&B55BELØB9C.
+.el &B55FRI4. ¤ kr. ¤ &B55BELØB9C.
 .if &B55BELØB9D. = 0,00
 .th
 .el .br
-.el &B55FRI5. ¤kr.  ¤- &B55BELØB9D.
+.el &B55FRI5. ¤ kr.  ¤ - &B55BELØB9D.
 .br
 .tp 130mm
-¤--------------
+ ¤ --------------
 .br
 :FED.
 .tp 110mm 143mm char ,
-I alt omkostninger til &BANKNAVN. ¤kr. ¤&RESULTA.
+I alt omkostninger til &BANKNAVN. ¤ kr. ¤ &RESULTA.
 .br
 .tp 130mm
-¤-------------
+ ¤ -------------
 :SKRSLUT
 .ar off
 .**********************************************************************
@@ -375,10 +362,24 @@ I øvrigt gælder &BANKNAVN.s almindelige forretningsbestemmelser.
 .tp 60mm 88,5mm 145mm
 .bx left 87,5mm right
 .in 1mm
-Kontohavers underskrift ¤den ¤Evt. medkontohavers underskrift ¤den
+Kontohavers underskrift ¤ den ¤ Evt. medkontohavers underskrift ¤ den
 .in 0mm
 .sp 22mm
 .bx off
 .bx new left right
 .in 1mm
-Bankens underskrift ¤¤¤den
+Bankens underskrift ¤ ¤ ¤ den
+.in 0mm
+.sp 22mm
+.bx off
+.ar off
+.*******************************************************
+.ar PÅFØRTTK on
+.tp 20mm 105mm
+ ¤ &KTONAVN ¤ &MEDNAVN
+.sp 24,8mm
+.tp 77mm
+ ¤ &BANKNAVN.
+.ar off
+.pa
+

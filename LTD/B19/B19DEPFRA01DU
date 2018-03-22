@@ -11,24 +11,23 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&DEPKUNDENR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -57,23 +56,24 @@
 .NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
 .BR
 :ENY.
-.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
-.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
-.**************************************************************************
-.*               : Du skal vælge om aftalen skal sendes til kundens netbank
-.*               : i Underskriftsrum (J) eller udskrives på papir (N)
-.*
-.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
-.*               : Underskriftsrum, du vælge 1 for at komme videre.
-.*               : skal du vælge 1 for at komme videre.
-.*
-.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
-.*           --> : ved at vælge "3", inden du udskriver brevet.
-.*
-.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
-.*               : finder det i stedet i I*net under "Ubehandl. aftaler
-.*               : til underskrift" - her lægger du brevet i kuvert og
-
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .fo left
 .***********************************************************************
 .ti ¤ 05
@@ -89,18 +89,15 @@
 .ar off
 .***********************************************************************
 :VERDA10.
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th .go VALJA
-.el .go DUEXIT
-...VALJA
-.if &U'X&brev = XPEN55
-.th .go PEN55
-.el .go DUEXIT
-...PEN55
-.if &U'X&PENVALG = XJ
-.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
-...DUEXIT
+.*-----------------------------------------------------------------------
+.* Tilføjet (BØR IKKE FRAVÆLGES) ved "Tegningsindbydelse" og
+.* "Konverteringsindbydelse i forbindelse med konvertible obligationer"
+.* pfa Ronni Vilhelmsen, Back Office Markets
+.* 13.10.2015 / Helle Kruse
+.*-----------------------------------------------------------------------
+.* Godkendt 11.02.2010, SI-gruppen, Lone Kruse
+.* 9910/hk
+.*-----------------------------------------------------------------------
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -151,15 +148,18 @@
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.*-----------------------------------------------------------------------
-.* Tilføjet (BØR IKKE FRAVÆLGES) ved "Tegningsindbydelse" og
-.* "Konverteringsindbydelse i forbindelse med konvertible obligationer"
-.* pfa Ronni Vilhelmsen, Back Office Markets
-.* 13.10.2015 / Helle Kruse
-.*-----------------------------------------------------------------------
-.* Godkendt 11.02.2010, SI-gruppen, Lone Kruse
-.* 9910/hk
-.*-----------------------------------------------------------------------
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th .go VALJA
+.el .go DUEXIT
+...VALJA
+.if &U'X&brev = XPEN55
+.th .go PEN55
+.el .go DUEXIT
+...PEN55
+.if &U'X&PENVALG = XJ
+.th .mg/T/Arbejdsgiverpensioner kan ikke sendes til Digital Underskrift/
+...DUEXIT
 .da SIDE1 20mm 36mm width 175mm
 .da SIDE1A 20mm 28mm width 30mm
 .da side1x  20mm 48mm width 175mm
@@ -168,9 +168,9 @@
 :VERDA10.
 .tp 40mm
 :FED.
-Depotindehaver: ¤&NAVN
+Depotindehaver: ¤ &NAVN
 .br
-VP-kontonummer: ¤&DEPOTNR
+VP-kontonummer: ¤ &DEPOTNR
 :SKRSLUT.
 .ar side1x on
 .bx left right
@@ -190,7 +190,7 @@ vedrørende mit depot i Værdipapircentralen, som jeg hermed er gjort
 bekendt med:
 .br
 .tp 170mm right
-¤Ved fravalg sæt "X"
+ ¤ Ved fravalg sæt "X"
 .sp 1mm
 .bx new 5mm 155mm 170mm
 .in +5mm
@@ -242,8 +242,8 @@ Underskrift
 :SWISS8.
 .tp 50mm 88.5mm 138.5mm
 .bx new left 87.5mm right
-Pengeinstituttets underskrift: ¤Dato: ¤Depotindehavers
-underskrift: ¤Dato:
+Pengeinstituttets underskrift: ¤ Dato: ¤ Depotindehavers
+underskrift: ¤ Dato:
 .sp 25mm
 Reference:
 .bx new left right
@@ -271,3 +271,4 @@ Reference:
 &NAVN
 .ar off
 .pa
+

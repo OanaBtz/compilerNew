@@ -11,185 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&DEPKUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*MB-RET
-.* GL med PL er tilføjet for at undgå en fejlmarkering
-:GL.
-.PL 285mm
-:EGL.
-.**************************************************************************
-.* FAST Dato øverst til højre
-.go SLUT
-.da DATO 154mm 61.9mm
-.**************************************************************************
-.ar DATO on
-:COUR10.
-.*tp 33.6mm
-.*November 1998
-.&DATO.
-.*SKRSLUT.
-.ar off
-...SLUT
-.***********************************************************************
-.SE B37KUDAL = 1
-.dr tynd WEIGHT 0.1mm
-.LL 175mm
-.fo left
-.PM 0
-.******************* Evt. ALTERNATIV PRINTER ******
-.* Til alternativ print skal bruges parametrene
-.* PRTVALG        (J/N/alt.printer):
-.* ALTPRINTER     Brugerafh.printer:
-.if &E'&PRTVALG = 0 .go EJALT
-:altprint &PRTVALG
-...EJALT
-.**************************************************
-.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
-.th .se TILTALEM = &TILTALEF
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
-.th .se TILTALEM = du
-:TILTALE &TILTALEM
-...EJTILT
-.******************* ATT FELT I ADR. **************
-.if &E'&GENATT = 0
-.th .go EJATT
-.if &L'&GENATT = 0
-.th .go EJATT
-.* Att placeret i adresseruden mellem adresse og evt. KOPI
-.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
-.if .&U'&UDSKRSTED = .D
-.th .da ATT 24mm 68.5mm width 180mm
-.el .da ATT 20mm 68.5mm width 180mm
-.ar ATT on
-:COUR10.
-Att.: &GENATT
-.ar off
-...EJATT
-.********************ROTERET BREVNAVN**************
-.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
-.th .se B37BREV = '&BREVNAVN.'
-.if &E'&B37BREV = 0
-.th .go EJROT
-.if &L'&B37BREV = 0
-.th .go EJROT
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 277mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-&B37BREV.
-.ar off
-...EJROT
-.**************************************************
-.ti ^ 05
-:COUR10.
-.**************************************************
-.* PM og TM virker først fra side 2
-.PM 20mm
-.TM 35mm
-.**************************************************
-.DA BRTXT 20mm 100mm WIDTH 195mm
-.AR BRTXT on
-.*ir 25mm
-.* ÆNDRET d. 1/12.99 jvf. Standard for breve.
-.ir 20mm
-.* Årstal ved underskrift slettet d. 30/7-99 es
-.* Fremsendelsesbrev med samtykkeerklæring fra kunden vedhæftet depotbet.
-.ir 30mm
-Nye depotvilkår - samtykke til opbevaring af Deres
-udenlandske værdipapirer i samledepot - eksempelvis
-Rentenbank-obligationer.
-.sx //_//
- 
-På baggrund af en ændring af Værdipapirhandelsloven har Midtbank
-ændret sine depotvilkår. De nye vilkår er vedlagt i form af
-"Regler for opbevaring af værdipapirer i depot", som De bedes
-gøre Dem bekendt med. Navnlig henvises til afsnittet
-"Retsvirkning af samledepot".
- 
-De væsentligste ændringer af depotvilkårene vedrører
-opbevaringen af Deres udenlandske værdipapirer. For fremtiden
-kræves Deres samtykke til, at Midtbank opbevarer Deres
-udenlandske værdipapirer i et såkaldt samledepot.
- 
-Med henblik på at give vore kunder den bedst mulige service med
-så lave omkostninger som muligt har Midtbank - som andre banker
-- hidtil opbevaret alle vore kunders udenlandske værdipapirer i
-et samledepot, hvilket vil sige, at alle kunders værdipapirer
-opbevares i samme depot. Da denne opbevaringsform også efter
-ændringen af Værdipapirhandelsloven vil være den mest
-fordelagtige for Dem, vil Midtbank fortsætte med at opbevare
-Deres udenlandske værdipapirer på denne måde. Der vil ikke ske
-nogen ændring i den information (depotudskrifter m.m.), som De
-modtager fra Midtbank.
- 
-Som nævnt kræver anvendelsen af samledepot Deres samtykke, og vi
-anmoder Dem derfor venligst om at give dette samtykke ved at
-underskrive og returnere nedennævnte talon.
- 
-Såfremt De skulle have spørgsmål vedrørende ovenstående, er De
-naturligvis velkommen til at kontakte os.
- 
- 
-.ce Med venlig hilsen
- 
-.ce &GENEKSP.
- 
- 
-.sx //-//
- 
-&DEPKUNDENR &NAVN
- 
-Jeg giver hermed samtykke til, at mine udenlandske værdipapirer
-opbevares i samledepot.
-
-_
-_
-_
-_
-___________, den                   ____________________________________    
-                                                  underskrift
-.** Stopper et areal
-.ar off
-.** SIDESKIFT
-.pa
-.*MB-RET (flere valg tilladt)
-.**************************************************************
-.if &ÅPN gt 2
-.an x&GENVALG ne x1
-.th .go SLUT
-.da VEND 7mm 280mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-B37DEP01(10/98)
-.ar off
-.***********************************************************************
-.*MB-RET
-:COUR10.
-...SLUT
 .*MB-RET START
 .if &E'&GENVALG = 0
 .th .se GENVALG = 1
@@ -617,12 +438,12 @@ afdelingen, hvor VP-kontoen skal føres.
 Indgivelse af anmeldelse kan ske på følgende måder:
 .tp 3mm
 .sp
-- ^Ved anmelders personlige henvendelse i pengeinstituttet.
+- ^ Ved anmelders personlige henvendelse i pengeinstituttet.
 .br
-- ^Pr. brevpost.
+- ^ Pr. brevpost.
 .br
 .*MB-RET (tlf.,) tilføjet
-- ^Pr. tlf., telegram, telex, telefax, datakommunikation eller
+- ^ Pr. tlf., telegram, telex, telefax, datakommunikation eller
 .in 3mm nobreak
 anden teknisk meddelelsesform.
 .in 0mm
@@ -818,10 +639,10 @@ For pantebreve, gældsbreve og lignende påtager vi os,
 medmindre andet er aftalt:
 .sp
 .tp 3mm
-- ^At underrette debitor om deponeringen, såfremt debitor har en
-^adresse her i landet.
+- ^ At underrette debitor om deponeringen, såfremt debitor har en
+ ^ adresse her i landet.
 .sp
-- ^At modtage fastsatte ydelser fra debitor til indsættelse på
+- ^ At modtage fastsatte ydelser fra debitor til indsættelse på
 .in 3mm nobreak
 Deres konto. Vi er på Deres vegne tilmeldt
 "Pengeinstitutternes BetalingsSystemer", som kreditor, hvorfor betalinger
@@ -830,12 +651,12 @@ betalingssystem, er undergivet de for systemet til enhver tid gældende
 regler, som udleveres til Dem på forlangende.
 .in 0mm
 .sp
-- ^At underrette Dem, når ydelser er betalt.
+- ^ At underrette Dem, når ydelser er betalt.
 .sp
-- ^At modtage eventuelle ejerskifteafdrag og lignende og underrette
-^Dem (deponenten) herom.
+- ^ At modtage eventuelle ejerskifteafdrag og lignende og underrette
+ ^ Dem (deponenten) herom.
 .sp
-- ^At afsende påkravsmeddelelse iht. tinglysningslovens § 42a til
+- ^ At afsende påkravsmeddelelse iht. tinglysningslovens § 42a til
 .in 3mm nobreak
 debitor, såfremt denne har adresse her i landet.
 .in 0mm
@@ -945,3 +766,183 @@ disposition fra den udenlandske forretningsforbindelse.
 .ar off
 .*MB-RET
 ...SLUT
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&DEPKUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*MB-RET
+.* GL med PL er tilføjet for at undgå en fejlmarkering
+:GL.
+.PL 285mm
+:EGL.
+.**************************************************************************
+.* FAST Dato øverst til højre
+.go SLUT
+.da DATO 154mm 61.9mm
+.**************************************************************************
+.ar DATO on
+:COUR10.
+.*tp 33.6mm
+.*November 1998
+.&DATO.
+.*SKRSLUT.
+.ar off
+...SLUT
+.***********************************************************************
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.******************* Evt. ALTERNATIV PRINTER ******
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.**************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.**************************************************
+.ti ^ 05
+:COUR10.
+.**************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.**************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.*ir 25mm
+.* ÆNDRET d. 1/12.99 jvf. Standard for breve.
+.ir 20mm
+.* Årstal ved underskrift slettet d. 30/7-99 es
+.* Fremsendelsesbrev med samtykkeerklæring fra kunden vedhæftet depotbet.
+.ir 30mm
+Nye depotvilkår - samtykke til opbevaring af Deres
+udenlandske værdipapirer i samledepot - eksempelvis
+Rentenbank-obligationer.
+.sx //_//
+ 
+På baggrund af en ændring af Værdipapirhandelsloven har Midtbank
+ændret sine depotvilkår. De nye vilkår er vedlagt i form af
+"Regler for opbevaring af værdipapirer i depot", som De bedes
+gøre Dem bekendt med. Navnlig henvises til afsnittet
+"Retsvirkning af samledepot".
+ 
+De væsentligste ændringer af depotvilkårene vedrører
+opbevaringen af Deres udenlandske værdipapirer. For fremtiden
+kræves Deres samtykke til, at Midtbank opbevarer Deres
+udenlandske værdipapirer i et såkaldt samledepot.
+ 
+Med henblik på at give vore kunder den bedst mulige service med
+så lave omkostninger som muligt har Midtbank - som andre banker
+- hidtil opbevaret alle vore kunders udenlandske værdipapirer i
+et samledepot, hvilket vil sige, at alle kunders værdipapirer
+opbevares i samme depot. Da denne opbevaringsform også efter
+ændringen af Værdipapirhandelsloven vil være den mest
+fordelagtige for Dem, vil Midtbank fortsætte med at opbevare
+Deres udenlandske værdipapirer på denne måde. Der vil ikke ske
+nogen ændring i den information (depotudskrifter m.m.), som De
+modtager fra Midtbank.
+ 
+Som nævnt kræver anvendelsen af samledepot Deres samtykke, og vi
+anmoder Dem derfor venligst om at give dette samtykke ved at
+underskrive og returnere nedennævnte talon.
+ 
+Såfremt De skulle have spørgsmål vedrørende ovenstående, er De
+naturligvis velkommen til at kontakte os.
+ 
+ 
+.ce Med venlig hilsen
+ 
+.ce &GENEKSP.
+ 
+ 
+.sx //-//
+ 
+&DEPKUNDENR &NAVN
+ 
+Jeg giver hermed samtykke til, at mine udenlandske værdipapirer
+opbevares i samledepot.
+
+_
+_
+_
+_
+___________, den                   ____________________________________    
+                                                  underskrift
+.** Stopper et areal
+.ar off
+.** SIDESKIFT
+.pa
+.*MB-RET (flere valg tilladt)
+.**************************************************************
+.if &ÅPN gt 2
+.an x&GENVALG ne x1
+.th .go SLUT
+.da VEND 7mm 280mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+B37DEP01(10/98)
+.ar off
+.***********************************************************************
+.*MB-RET
+:COUR10.
+...SLUT
+

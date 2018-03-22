@@ -11,157 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.OC  Låneaftale-fast rente privat
-.se ts = 8
-.se kopi = 0
-.if &U'&MIBJN1 = G
-.th .go FAFOA1
-.* ************ springer over header og fooder se S afsnit ******
-.go FAFOA1
-...FAFOA1
-.ti ^ 05
-.dm FAFOA1 on
-.cl 0
-.ll 171mm
-.cd 1 0 71
-.in 2mm
-.tp 62 RIGHT
-.fo left
-.sp 40mm
-.if .&MEDKUNDENR. = .000000-0000 .sp 5
- 
-:FED.
-.ce LÅNEAFTALE - FASTRENTELÅN FORBRUG
-:SKRSLUT.
-.ce (Gældsbrev)
- 
-Kontonr. : &REGNR.-&KTONR1.      Reg.type: &REGTYPE
-.sp 2
-.if .&MEDKUNDENR. = .000000-0000
-.th .se deb 'låntager'
-.el .se deb 'låntagere'
-Undertegnede (&deb.):
- 
-                         &KTOKUNDENR.
-                         &KTOSTILL
-                         &KTONAVN
-.if .&L'&KTOCO = .0 .go GADE
-                         &KTOCO
-...GADE
-                         &KTOGADE
-                         &KTOBY
-.if .&MEDKUNDENR. = .000000-0000 .go SKYLD
- 
-og
-                         &MEDKUNDENR.
-                         &MEDSTILL
-                         &MEDNAVN
-.if .&L'&MEDCO = .0 .go MEDGADE
-                         &MEDCO
-...MEDGADE
-                         &MEDGADE
-                         &MEDBY
-...SKYLD
-.sp
-erkender herved at skylde
- 
-       A/S Midtbank (kreditor/panthaver)
- 
-nedenstående lån som forrentes og afdrages på følgende vilkår:
- 
-       Beløb............................... kr. ^&RESULTA.^
-.if .&RESULTB = .0,00 .go RENTE
-       Kvartårlig ydelse ved annuitetslån.. kr. ^&RESULTB.^
-...RENTE
-       Rente p.a. i %......................     ^&MIBB5.^ *)
-.if .&RESULTB ne .0,00 .go TERM
-       Forfaldsdato ved stående lån........     ^&MIBPRDAT.^
-...TERM
-       Første termin den...................     ^&MIBPRDAT1.^
-.if x&RESULTC. = x0,00
-.th .se RESULTC ' '
-.th .go TERMDAT
-       Terminsprovision.................... kr. ^&RESULTC.^
-...TERMDAT
- 
-       Terminsdatoer........... 31/3, 30/6, 30/9 og 31/12
- 
-.**** TEST PÅ OM PRIVAT / ERHVERV (RESULTD kun ved privat) ***
-.if &E'&RESULTD = 0
-.th *) Renten er foreløbig ansat og fastsættes på udbetalingsdagen.
-.th .go SLUT
- 
-.of 3
-*) Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
-og betales kvartalsvis bagud.
-.of
- 
-.* Indføjes altid
-.if .&L'&MIBPRDAT = .0 .go ANKTO
-Rentesatsen er fast og gældende til den &MIBPRDAT..
- 
-...ANKTO
-.uc
-BETALING.
-.br
-Banken bedes ved forfald hæve ydelser på
-konto &MIBEM181..
-.sk 2
-BEMÆRK, DER ER TALE OM ET FASTRENTELÅN MED SÆRLIGE INDFRIELSESVILKÅR
-.br
-- SE SIDE 3 OG 4.
-.br
-...SLUT
-.*pa
-.dm off
-.* Valgfri tekst begynder i LINIE 4. Linie 1-3 MÅ IKKE ÆNDRES
-.dm FAFOA2A on ;.fo off ;.*. TEKSTEN BLIVER IKKE TRUKKET SAMMEN
-.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7--<<
-.*Her anføres evt. individuelle SÆRLIGE BETINGELSER:
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-.* ----(Denne linie må højest have nr. 020)-----Tekst slut--------------
-.* Ekstra/sletning af linier (I,II,D i 006) se MINIBRUGER 20.10.00
-.dm off;.* DENNE LINIE MÅ IKKE SLETTES
 .dm FAFOA1A on
 .in
 .da SIK 20mm 47mm WIDTH 175mm
@@ -541,7 +390,7 @@ Eksempler på indfrielseskurser på fastforrentet lån i Midtbank
 :SWISS8.
 .in
 .tp 14mm 21mm 55mm 84mm 97mm
-Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+Regnr. ¤ Afd. ¤ Kontonr. ¤ Kundenr. ¤ Regtype ¤ Kundenr.
 .bx left 13mm 20mm 54mm 83mm 97mm 124mm
 .sp 4mm
 .bx off
@@ -560,28 +409,28 @@ Lånebeløb/afvikling
 .tp 2mm 128mm
 .sp 0,5mm
 :SWISS8.
-¤kr.¤Hvilket beløb med tillæg af renter
+ ¤ kr. ¤ Hvilket beløb med tillæg af renter
 .br
-¤¤afvikles ved betaling af
+ ¤ ¤ afvikles ved betaling af
 .bx new left 97mm 126mm right
 .tp 2mm 54mm 99mm 128mm
 :SWISS6.
-¤Termin¤¤Hver ¤Første gang den
+ ¤ Termin ¤ ¤ Hver ¤ Første gang den
 .sp 2mm
-¤¤kr.
+ ¤ ¤ kr.
 .bx new left 53mm 97mm 126mm 156mm right
 .tp 2mm 55mm 99mm 128mm 158mm
-¤Dato for aftale/indfrielse ¤Ekstraordinært afdrag ¤Hver &ÅCONT
-¤Første gang den ¤Antal gange
+ ¤ Dato for aftale/indfrielse ¤ Ekstraordinært afdrag ¤ Hver &ÅCONT
+ ¤ Første gang den ¤ Antal gange
 .sp 1.5mm
-¤¤kr.
+ ¤ ¤ kr.
 .sp 1mm
 .bx new left 32mm 62mm 97mm 126mm right
 .tp 2mm 34mm 64mm 99mm 128mm
-¤Rente- og provisions- ¤Rente ¤Provision &ÅCONT
-¤Terminsprovision ¤
+ ¤ Rente- og provisions- ¤ Rente ¤ Provision &ÅCONT
+¤ Terminsprovision ¤
 .sp 1.5mm
-¤satser p.a. ¤¤¤kr.
+ ¤ satser p.a. ¤ ¤ ¤ kr.
 .sp 1mm
 .bx new left right
 :SWISS8.
@@ -633,19 +482,19 @@ Særlige betingelser
 .bx off
 .*tp 111mm
 .*SWISS10.
-.*¤Beregnet stempel af:
+.* ¤ Beregnet stempel af:
 .*.bx 111mm right
 .*SWISS8.
 .*.sp 1mm
 .*.tp 113mm 148mm
-.*¤Dette dokument: ¤kr.
+.* ¤ Dette dokument: ¤ kr.
 .*.sp 2mm
-.*¤Tidligere dokument: ¤kr.
+.* ¤ Tidligere dokument: ¤ kr.
 .*.sp 2mm
-.*¤I alt: ¤kr.
+.* ¤ I alt: ¤ kr.
 .*.hr 111mm right
 .*.sp 2mm
-.*¤Ikke stemplede beløb: ¤kr.
+.* ¤ Ikke stemplede beløb: ¤ kr.
 .*.bx off
 .ar off
 .dm off
@@ -667,7 +516,7 @@ Særlige betingelser
 .ar REGNR on
 .se AFDNR ''
 .tp 11mm 20mm 53mm 82mm 97mm
-&REGNR ¤&AFDNR ¤&REGNR.-&KTONR1 ¤&KTOKUNDENR ¤&REGTYPE ¤&MEDKUNDENR.
+&REGNR ¤ &AFDNR ¤ &REGNR.-&KTONR1 ¤ &KTOKUNDENR ¤ &REGTYPE ¤ &MEDKUNDENR.
 .ar off
 .**************************************************************************
 .ar UNDERT1 on
@@ -709,7 +558,7 @@ Særlige betingelser
 .el .se AFDR1 = &RESULTB
 .se TERMIN1 'Kvartal'
 .tp 93mm right 95mm 124mm
-&AFDTEKST ¤&AFDR1 ¤&TERMIN1 ¤&MIBPRDAT1
+&AFDTEKST ¤ &AFDR1 ¤ &TERMIN1 ¤ &MIBPRDAT1
 .ar off
 .**************************************************************************
 .ar DATOINDF on
@@ -718,7 +567,7 @@ Særlige betingelser
 .se DATO11 ''
 .se ANTGANGE ''
 .tp 53mm 95mm 124mm 154mm
-&MIBPRDAT ¤&AFDR2 ¤&TERMIN2 ¤&DATO11 ¤&ANTGANGE
+&MIBPRDAT ¤ &AFDR2 ¤ &TERMIN2 ¤ &DATO11 ¤ &ANTGANGE
 .ar off
 .**************************************************************************
 .ar RTSATS on
@@ -729,9 +578,9 @@ Særlige betingelser
 .el .se TERMPROV '&RESULTC.'
 .se BVOVTRPROV ''
 .tp 26mm RIGHT 92mm RIGHT
-¤&NOMRENTE %¤&TERMPROV ¤
+¤ &NOMRENTE % ¤ &TERMPROV ¤
 .*tp 25mm 30mm 58mm 65mm 88mm 94mm 130mm
-.*&NOMRENTE ¤% ¤&PROV ¤% ¤&OVTRPROV ¤% ¤&BVOVTRPROV ¤%
+.*&NOMRENTE ¤ % ¤ &PROV ¤ % ¤ &OVTRPROV ¤ % ¤ &BVOVTRPROV ¤ %
 .ar off
 .**************************************************************************
 .ar SRBET on
@@ -739,7 +588,7 @@ Særlige betingelser
 .th .go ERHVR
 .tp 5mm
 .of 5mm
-*) ¤Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
+*) ¤ Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
 og betales kvartalsvis bagud.
 .of
  
@@ -794,7 +643,7 @@ forfald fra en anden konto i Midtbank.
 .ar KTORAM on
 :SWISS8.
 .tp 14mm 21mm 55mm 84mm 97mm
-Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+Regnr. ¤ Afd. ¤ Kontonr. ¤ Kundenr. ¤ Regtype ¤ Kundenr.
 .bx left 13mm 20mm 54mm 83mm 97mm 124mm
 .sp 4mm
 .bx off
@@ -808,11 +657,37 @@ Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
 .ar OREGNR on
 .se AFDNR ''
 .tp 11mm 20mm 53mm 82mm 97mm
-:COUR10.&REGNR ¤&AFDNR ¤&REGNR.-&KTONR1 ¤&KTOKUNDENR ¤&REGTYPE ¤&MEDKUNDENR
+:COUR10.&REGNR ¤ &AFDNR ¤ &REGNR.-&KTONR1 ¤ &KTOKUNDENR ¤ &REGTYPE ¤ &MEDKUNDENR
 .ar off
 .**************************************************************************
 .dm off
 .KTOOP
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .* VEND rettet fra 270mm til 277mm d. 23.1.2001 es
 .*************** GENEREL OPSÆTNING ***************************************
 .*ti ¤ 05
@@ -1036,7 +911,7 @@ særligt aftalt for lånet/kreditten.
 .ar ALM1 on
 :SWISS10.
 .tp 6mm
-1. ¤Opsigelse
+1. ¤ Opsigelse
 :SWISS8.
 .sp 2mm
 Pengeinstituttet og debitor kan opsige aftalen helt eller delvist uden
@@ -1046,7 +921,7 @@ med 3 måneders varsel, jævnfør dog punkt 14.
 Debitor er berettiget til når som helst at indfri aftalen uden varsel.
 .sp 4mm
 :SWISS10.
-2. ¤Rente og provision
+2. ¤ Rente og provision
 .sp 2mm
 :SWISS8.
 Rente og provision, der er variabel, beregnes efter de af pengeinstituttet
@@ -1067,7 +942,7 @@ med brev eller ved annoncering i dagspressen få et varsel på mindst 1
 måned.
 .sp 4mm
 :SWISS10.
-3. ¤Modregning
+3. ¤ Modregning
 .sp 2mm
 :SWISS8.
 Pengeinstituttet kan uden forudgående meddelelse til debitor modregne
@@ -1082,7 +957,7 @@ Pengeinstituttet modregner ikke i indestående på konti, så længe de
 efter lovgivningen er sikret mod kreditorforfølgning.
 .sp 4mm
 :SWISS10.
-4. ¤Ændring af aftalevilkårene, herunder renten
+4. ¤ Ændring af aftalevilkårene, herunder renten
 .sp 2mm
 :SWISS8.
 Ved fastsættelse af vilkår for det mellem debitor og pengeinstituttet
@@ -1094,14 +969,14 @@ med pengeinstituttet, forbeholder pengeinstituttet sig ret til samtidig at
 ændre aftalevilkårene, herunder renten.
 .sp 4mm
 :SWISS10.
-5. ¤Regulering af ydelsen
+5. ¤ Regulering af ydelsen
 .sp 2mm
 :SWISS8.
 Pengeinstituttet er berettiget - men ikke forpligtet - til at forhøje
 ydelsen i takt med stigende renteniveau, provision eller lignende.
 .sp 4mm
 :SWISS10.
-6. ¤Renteberegninger og rentetilskrivning
+6. ¤ Renteberegninger og rentetilskrivning
 .sp 2mm
 :SWISS8.
 Pengeinstituttets regler for valør og renteberegning fremgår af en
@@ -1124,7 +999,7 @@ Lør-, søn- og helligdage, grundlovs- og juleaftensdag er ikke
 ekspeditionsdage i pengeinstituttet.
 .sp 4mm
 :SWISS10.
-7. ¤Overtræksrente og andre omkostninger
+7. ¤ Overtræksrente og andre omkostninger
 .sp 2mm
 :SWISS8.
 Debitor er forpligtet til efter pengeinstituttets fastsættelse at betale
@@ -1134,7 +1009,7 @@ kommer i overtræk, i restance eller udnyttes i strid med de indgåede
 aftaler med pengeinstituttet.
 .sp 4mm
 :SWISS10.
-8. ¤Gebyrer
+8. ¤ Gebyrer
 .sp 2mm
 :SWISS8.
 Pengeinstituttet tager gebyrer for serviceydelser, der udføres for debitor,
@@ -1159,14 +1034,14 @@ Varslet kan være kortere, hvis ændringen er fastsat af andre end
 pengeinstituttet.
 .sp 4mm
 :SWISS10.
-9. ¤Udskrifter
+9. ¤ Udskrifter
 .sp 2mm
 :SWISS8.
 En udskrift fra pengeinstituttets registre skal til enhver tid betragtes
 som gyldigt bevis for gældens størrelse.
 .sp 4mm
 :SWISS10.
-10. ¤Forbehold for dækning
+10. ¤ Forbehold for dækning
 .sp 2mm
 :SWISS8.
 Indbetalinger på aftalen, der ikke sker kontant, indsættes med det
@@ -1177,7 +1052,7 @@ Hvis der ikke er dækning på den konto, hvor ydelsen til aftalen hæves, kan
 pengeinstituttet undlade at overføre ydelsen eller tilbageføre den.
 .sp 4mm
 :SWISS10.
-11. ¤Anvendelse af indbetalinger
+11. ¤ Anvendelse af indbetalinger
 .sp 2mm
 :SWISS8.
 Enhver indbetaling på aftalen, herunder beløb, som hidrører fra sikkerhed
@@ -1188,7 +1063,7 @@ kautionister, anvendes først til dækning af rente og provision.
 .tp 6mm
 .sp 4mm
 :SWISS10.
-12. ¤Værneting
+12. ¤ Værneting
 :SWISS8.
 .sp 2mm
 Retssager vedrørende nærværende aftale kan efter pengeinstituttets ønske
@@ -1230,6 +1105,7 @@ Kl. &TID
 :SKRSLUT.
 .ar off
 .*************************************************************************
+.* Parameterafsnit
 .********************************
 .da RAMME 20mm 40mm width 175mm
 .da ALM3 22mm 45mm width 80mm
@@ -1243,7 +1119,7 @@ Kl. &TID
 .ar ALM3 on
 :SWISS10.
 .tp 6mm
-13.¤Tvangsfuldbyrdelse
+13. ¤ Tvangsfuldbyrdelse
 :SWISS8.
 .SP 2MM
 Nærværende aftale, som er et gældsbrev, kan tjene som grundlag
@@ -1251,7 +1127,7 @@ for umiddelbar fuldbyrdelse i henhold til Retsplejelovens § 478, stk. 1,
 nr. 5.
 .sp 4mm
 :SWISS10.
-14.¤Misligholdelse og andre forfaldsgrunde
+14. ¤ Misligholdelse og andre forfaldsgrunde
 :SWISS8.
 .SP 2MM
 I følgende særlige situationer er pengeinstituttet berettiget til at
@@ -1313,7 +1189,7 @@ lånet/kreditten med 3 måneders varsel, såfremt der ikke inden 1 måned
 stilles anden sikkerhed, som pengeinstituttet kan godkende.
 .sp 4mm
 :SWISS10.
-15.¤Force Majeure
+15. ¤ Force Majeure
 :SWISS8.
 .SP 2MM
 Pengeinstituttet er ikke ansvarlig for tab, der skyldes lovforskrifter,
@@ -1328,7 +1204,7 @@ pengeinstituttet.
 :SWISS10.
 Særligt om kaution
 .sp 2mm
-1.¤Anvendelse af indbetalinger
+1. ¤ Anvendelse af indbetalinger
 .sp 2mm
 :SWISS8.
 Indbetaling fra kautionister anvendes først til dækning af renter,
@@ -1357,7 +1233,7 @@ pengeinstituttet har ingen pligt til forlods at søge sig fyldestgjort i
 sådanne.
 .sp 4mm
 :SWISS10.
-3. ¤Tvangsfuldbyrdelse
+3. ¤ Tvangsfuldbyrdelse
 .sp 2mm
 :SWISS8.
 Hvis kautionen tjener til sikkerhed for et lån, kan lånedokumentet med
@@ -1367,7 +1243,7 @@ kautionisten i henhold til Retsplejelovens §478, stk. 1, nr. 5.
 :SWISS10.
 Særligt om pant
 .sp 4mm
-1. ¤Forringelse af pantet
+1. ¤ Forringelse af pantet
 .sp 2mm
 :SWISS8.
 Hvis pantets værdi forringes væsentligt, kan pengeinstituttet stille krav
@@ -1383,7 +1259,7 @@ nedbringelse eller yderligere sikkerhed, med mindre forringelsen skyldes
 vanrøgt.
 .sp 4mm
 :SWISS10.
-2. ¤Pengeinstituttets rettigheder over det pantsatte
+2. ¤ Pengeinstituttets rettigheder over det pantsatte
 .sp 2mm
 :SWISS8.
 Pengeinstituttet kan udnytte alle pantsætters rettigheder over det
@@ -1414,7 +1290,7 @@ stillede pant, ligesom pengeinstituttet har valgfrihed med hensyn til
 anvendelsen i forhold til debitors samlede engagement.
 .sp 4mm
 :SWISS10.
-3. ¤Udgifter angående pantet
+3. ¤ Udgifter angående pantet
 .sp 2mm
 :SWISS8.
 Pengeinstituttet kan forlange betaling af gebyr for pantsatte effekter.
@@ -1471,7 +1347,7 @@ Kl. &TID
 .ar ALM5 on
 :SWISS10.
 .tp 6mm
-4. ¤Afkast af pantet
+4. ¤ Afkast af pantet
 :SWISS8.
 .sp 2mm
 Under pantsætningen er indbefattet rente og udbytte af enhver art af det
@@ -1484,14 +1360,14 @@ til kautionister), til at oppebære renter og udbytte til betaling af
 afdrag, renter og omkostninger.
 .sp 3mm
 :SWISS10.
-5. ¤Meddelelser
+5. ¤ Meddelelser
 .sp 2mm
 :SWISS8.
 Alle meddelelser, som pantsætteren måtte modtage vedrørende de pantsatte
 effekter, er denne pligtig omgående at tilstille pengeinstituttet.
 .sp 3mm
 :SWISS10.
-6. ¤Udtrækning af obligationer
+6. ¤ Udtrækning af obligationer
 .sp 2mm
 :SWISS8.
 Hvis pantsatte obligationer udtrækkes, og der købes andre i stedet for de
@@ -1499,7 +1375,7 @@ udtrukne, er pengeinstituttet bemyndiget til over for Værdipapircentralen
 at begære registrering af panteret over disse.
 .sp 3mm
 :SWISS10.
-7. ¤Tvangsfuldbyrdelse
+7. ¤ Tvangsfuldbyrdelse
 .sp 2mm
 :SWISS8.
 Eventuel realisation af panterettigheder sker efter forudgående varsel til
@@ -1520,7 +1396,7 @@ eller begrænse et tab.
 :SWISS10.
 Fælles bestemmelser
 .sp 3mm
-1. ¤Henstand
+1. ¤ Henstand
 .sp 2mm
 :SWISS8.
 Pengeinstituttet kan uden tilladelse fra kautionist eller
@@ -1530,7 +1406,7 @@ renter, provision og eventuelle omkostninger, dog med respekt af Bank- og
 Sparekasselovens § 41.
 .sp 3mm
 :SWISS10.
-2. ¤Sikkerhedsstillelsens omfang
+2. ¤ Sikkerhedsstillelsens omfang
 .sp 2mm
 :SWISS8.
 Pant samt kaution tjener til sikkerhed for betaling af kapital, renter,
@@ -1542,7 +1418,7 @@ debitor nu har eller senere måtte få over for pengeinstituttet, herunder
 dettes filialer og afdelinger.
 .sp 3mm
 :SWISS10.
-3. ¤Omstødelse
+3. ¤ Omstødelse
 .sp 2mm
 :SWISS8.
 Hvis der i forbindelse med debitors konkurs m.v., jævnfør Konkurslovens
@@ -1556,7 +1432,7 @@ pengeinstituttets panteret, uanset om pengeinstituttet har frigivet pantet
 i forbindelse med omstødelige indbetalinger.
 .sp 3mm
 :SWISS10.
-4. ¤Værneting
+4. ¤ Værneting
 .sp 2mm
 :SWISS8.
 Retssager vedrørende denne kaution eller håndpantsætningserklæring kan
@@ -1659,17 +1535,142 @@ Postnr./by
 .bx left 89mm right
 .tp 2mm 91mm
 :SWISS8.
-¤Forevist legitimation ¤Initialer
+ ¤ Forevist legitimation ¤ Initialer
 .bx new 32mm 42mm / 77mm 87mm / 120mm 130mm / 163mm 173mm
 .sp 1mm
 .tp 2mm 48mm 91mm 133mm
-¤Kendt ¤Kørekort ¤EDB-registrering ¤Afsluttende kontrol
+ ¤ Kendt ¤ Kørekort ¤ EDB-registrering ¤ Afsluttende kontrol
 .sp 1mm
 .bx new 32mm 42mm / 77mm 87mm / 120mm 130mm / 163mm 173mm
 .sp 1mm
-¤Dankort, ID-kort ¤Andet: ¤Kontrol før underskrift ¤Afsender
+ ¤ Dankort, ID-kort ¤ Andet: ¤ Kontrol før underskrift ¤ Afsender
 .sp 1mm
 .bx off
 .bx can
 .bx off
 .ar off
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.OC  Låneaftale-fast rente privat
+.se ts = 8
+.se kopi = 0
+.if &U'&MIBJN1 = G
+.th .go FAFOA1
+.* ************ springer over header og fooder se S afsnit ******
+.go FAFOA1
+...FAFOA1
+.ti ^ 05
+.dm FAFOA1 on
+.cl 0
+.ll 171mm
+.cd 1 0 71
+.in 2mm
+.tp 62 RIGHT
+.fo left
+.sp 40mm
+.if .&MEDKUNDENR. = .000000-0000 .sp 5
+ 
+:FED.
+.ce LÅNEAFTALE - FASTRENTELÅN FORBRUG
+:SKRSLUT.
+.ce (Gældsbrev)
+ 
+Kontonr. : &REGNR.-&KTONR1.      Reg.type: &REGTYPE
+.sp 2
+.if .&MEDKUNDENR. = .000000-0000
+.th .se deb 'låntager'
+.el .se deb 'låntagere'
+Undertegnede (&deb.):
+ 
+                         &KTOKUNDENR.
+                         &KTOSTILL
+                         &KTONAVN
+.if .&L'&KTOCO = .0 .go GADE
+                         &KTOCO
+...GADE
+                         &KTOGADE
+                         &KTOBY
+.if .&MEDKUNDENR. = .000000-0000 .go SKYLD
+ 
+og
+                         &MEDKUNDENR.
+                         &MEDSTILL
+                         &MEDNAVN
+.if .&L'&MEDCO = .0 .go MEDGADE
+                         &MEDCO
+...MEDGADE
+                         &MEDGADE
+                         &MEDBY
+...SKYLD
+.sp
+erkender herved at skylde
+ 
+       A/S Midtbank (kreditor/panthaver)
+ 
+nedenstående lån som forrentes og afdrages på følgende vilkår:
+ 
+       Beløb............................... kr. ^ &RESULTA. ^
+.if .&RESULTB = .0,00 .go RENTE
+       Kvartårlig ydelse ved annuitetslån.. kr. ^ &RESULTB. ^
+...RENTE
+       Rente p.a. i %......................     ^ &MIBB5. ^ *)
+.if .&RESULTB ne .0,00 .go TERM
+       Forfaldsdato ved stående lån........     ^ &MIBPRDAT. ^
+...TERM
+       Første termin den...................     ^ &MIBPRDAT1. ^
+.if x&RESULTC. = x0,00
+.th .se RESULTC ' '
+.th .go TERMDAT
+       Terminsprovision.................... kr. ^ &RESULTC. ^
+...TERMDAT
+ 
+       Terminsdatoer........... 31/3, 30/6, 30/9 og 31/12
+ 
+.**** TEST PÅ OM PRIVAT / ERHVERV (RESULTD kun ved privat) ***
+.if &E'&RESULTD = 0
+.th *) Renten er foreløbig ansat og fastsættes på udbetalingsdagen.
+.th .go SLUT
+ 
+.of 3
+*) Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
+og betales kvartalsvis bagud.
+.of
+ 
+.* Indføjes altid
+.if .&L'&MIBPRDAT = .0 .go ANKTO
+Rentesatsen er fast og gældende til den &MIBPRDAT..
+ 
+...ANKTO
+.uc
+BETALING.
+.br
+Banken bedes ved forfald hæve ydelser på
+konto &MIBEM181..
+.sk 2
+BEMÆRK, DER ER TALE OM ET FASTRENTELÅN MED SÆRLIGE INDFRIELSESVILKÅR
+.br
+- SE SIDE 3 OG 4.
+.br
+...SLUT
+.*pa
+.dm off
+.* Valgfri tekst begynder i LINIE 4. Linie 1-3 MÅ IKKE ÆNDRES
+.dm FAFOA2A on ;.fo off ;.*. TEKSTEN BLIVER IKKE TRUKKET SAMMEN
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7--<<
+.*Her anføres evt. individuelle SÆRLIGE BETINGELSER:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.* ----(Denne linie må højest have nr. 020)-----Tekst slut--------------
+.* Ekstra/sletning af linier (I,II,D i 006) se MINIBRUGER 20.10.00
+.dm off;.* DENNE LINIE MÅ IKKE SLETTES
+

@@ -11,208 +11,43 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*
-.*TEST PÅ UDBETALINGSÅRSAG
-.if &GENVALG = 1
-.or &GENVALG = 2
-.th .go VALGOK
-.el .mg/T/Valg af udbetalingsårsag skal være enten 1 eller 2./
-...VALGOK
-.sp 3mm
-Der er fundet nedenstående fejl i formatteringen af standardbrev
-&BREVNAVN.
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et kontonr. med ugyldig
-reg.type, &REGTYPE./&REGTYPELNG.
-.sp 3mm
-.hr left right
-.qu
-...DOKTXT
-.*************** ROTERET BREVNAVN ****************************************
+.ti ¤ 05
+:SWISS10.
+.fo left
+.*******************************************
+.*O-AFSNIT MED RH
+.*******************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da TEKST 20mm 32mm width 170mm
+.*******************************************
+:SWISS8.
+.rh on
+.*******************************************
 .ar VEND on
 :COUR6.
-&BREVNAVN
+&BREVNAVN.
 .ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
+.*******************************************
+.ar TEKST on
 :SWISS12.:FED.
-.ce Udbetaling af &pentp.
+.us Vejledning ved udbetaling af &pentp
 :SKRSLUT.
 .ar off
-.*************************************************************************
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da FEJL      25mm 120mm width 170mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** REGLER VEDR BREVNAVN *************************************
+.*******************************************
+.sp 28mm
+.rh off
+.rh execute
+.*************** REGLER VEDR BREVNAVN ************************************
 .if &BREVNAVN = B37KAP09
-.or &BREVNAVN = B37KAP09-DU
 .******* KAPITALPENSION ********************
 .th .se pentp = 'kapitalpension'
 .th .se regl = KAP
-.th .se afgift = 'til gældende statsafgift'
 .th .se udbt = 'til normal statsafgift'
-.th .go REGKAP
 .if &BREVNAVN = B37ALD09
-.or &BREVNAVN = B37ALD09-DU
 .******* ALDERSOPSPARING *******************
 .th .se pentp = 'aldersopsparing'
 .th .se regl = ALD
-.th .se afgift = 'uden afgift til staten'
-.th .se udbt = 'uden afgift til staten'
-.th .go REGALD
-...REGKAP
-.*TJEK REGTYPE KAPITALPENSION *********************************************
-.if &REGTYPE = 8111
-.or &REGTYPE = 8122
-.or &REGTYPE = 8123
-.or &REGTYPE = 8127
-.or &REGTYPE = 8129
-.or &REGTYPE = 8412
-.or &REGTYPE = 8414
-.th .go DOKTXT
-.el .go FEJL1
-...REGALD
-.*TJEK REGTYPE ALDERSOPSPARING*********************************************
-.if &REGTYPE = 8251
-.or &REGTYPE = 8253
-.or &REGTYPE = 8255
-.or &REGTYPE = 8257
-.th .go DOKTXT
-.el .go FEJL1
-...FEJL1
-.*************** FEJLHÅNDTERING REGTYPE ***********************************
-.ar FEJL on
-.sp 3mm
-Der er fundet nedenstående fejl i formatteringen af standardbrev
-&BREVNAVN.
-.**AREALER*****************************************************************
-.da SIDE    20mm  40mm width 175mm
-.*KUNDE/KONTO OPLYSNINGER ************************************************
-.ar SIDE on
-.bx left 87.5mm right
-:SWISS9.
-.tp 1mm 88.5mm
-¤Kontohavers navn ¤Kontohavers cpr.nr.
-.sp 3mm
-¤&KTONAVN ¤&KTOKNDNR1
-.sp 3mm
-.bx left 87.5mm right
-¤Kontonr. på &pentp. ¤Udbetalingen skal indsættes på kontonr.
-.sp 3mm
-¤&LANGKTONR ¤&APFKTONR
-.sp 3mm
-.tp
-.bx off
-.sp 3mm
-.************ ERKLÆRING****************************************************
-.bx left right
-:SWISS9.
-:FED.
-.sp 3mm
-.tp 2mm
-¤Jeg ønsker hele værdien af ovennævnte &pentp. udbetalt
-.tp
-:SKRSLUT.
-.sp 3mm
-.bx off
-.sp 3mm
-.ar off
-.**************************************************************************
-.if X&GENVALG = X2
-.th X
-.ar off
-.** HER LAVES DE SMÅ AFKRYDSNINGSKASSER **********************************
-.ar BOX2STK
-:SWISS10.
-.*1 ks *******
-.bx thin 5mm 8mm
-.sp 1.5mm
-.bx off
-.sp 2mm
-.*2 ks *******
-.bx thin 5mm 8mm
-.sp 1.5mm
-.bx off
-.sp 15mm
-.ar off
-.**************************************************************************
-.**AREALER*****************************************************************
-.da UDBT     20mm 88mm width 175mm
-.da AFKRYDS 25mm 101.5mm width 168mm
-.da BOX2STK  20mm 101mm width  10mm
-.da BOX2STKX 25.5mm 101.2mm width 169mm
-.dr thin weight 0.2mm
-.**************************************************************************
-.ar UDBT
-:SWISS9.
-.bx left right
-.sp 3mm
-.tp 1mm
-¤Udbetalingen skal ske, fordi jeg:
-.sp 30mm
-.bx off
-.ar off
-.*********************************************************************
-.ar AFKRYDS on
-:SWISS9.
-.tp 5mm
-.if &regl = ALD
-.th .go ALDERS
-.el
-¤har opnået min pensionsudbetalingsalder (udbetalingen fratrækkes
-.in 5mm nobreak
-:FED.gældende afgift til staten:SKRSLUT.)
-.sp 3mm
-¤ønsker min &pentp. udbetalt :FED.før:SKRSLUT. jeg har opnået min
-.in 5mm nobreak
-pensionsudbetalingsalder/i utide (udbetalingen fratrækkes
-:FED.52 % i afgift til staten:SKRSLUT.)
-.sp 3mm
-.go VIDERE
-...ALDERS
-¤har opnået min pensionsudbetalingsalder (udbetalingen sker
-.in 5mm nobreak
-:FED.uden afgift til staten:SKRSLUT.)
-.sp 3mm
-¤ønsker min &pentp. udbetalt :FED.før:SKRSLUT. jeg har opnået min
-.in 5mm nobreak
-pensionsudbetalingsalder/i utide (udbetalingen fratrækkes
-:FED.20 % i afgift til staten:SKRSLUT.)
-.sp 3mm
-...VIDERE
-.ar off
-.*********************************************************************
-.ar BOX2STKX on
-.if X&GENVALG = X1
-.th X
-.el .sp 6.2mm
+.th .se udbt = 'uden statsafgift'
 :SWISS9.
 Nedenfor kan du læse mere om de regler, der gælder i forbindelse med din
 valgte udbetalingssituation.
@@ -338,6 +173,212 @@ godkendte lavere pensionsalder.
 Ønsker du din &pentp. udbetalt på grund af en af ovenstående
 situationer, skal du underskrive en anden blanket, som du kan få udleveret
 af din rådgiver.
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*TEST PÅ UDBETALINGSÅRSAG
+.if &GENVALG = 1
+.or &GENVALG = 2
+.th .go VALGOK
+.el .mg/T/Valg af udbetalingsårsag skal være enten 1 eller 2./
+...VALGOK
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da FEJL      25mm 120mm width 170mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** REGLER VEDR BREVNAVN *************************************
+.if &BREVNAVN = B37KAP09
+.or &BREVNAVN = B37KAP09-DU
+.******* KAPITALPENSION ********************
+.th .se pentp = 'kapitalpension'
+.th .se regl = KAP
+.th .se afgift = 'til gældende statsafgift'
+.th .se udbt = 'til normal statsafgift'
+.th .go REGKAP
+.if &BREVNAVN = B37ALD09
+.or &BREVNAVN = B37ALD09-DU
+.******* ALDERSOPSPARING *******************
+.th .se pentp = 'aldersopsparing'
+.th .se regl = ALD
+.th .se afgift = 'uden afgift til staten'
+.th .se udbt = 'uden afgift til staten'
+.th .go REGALD
+...REGKAP
+.*TJEK REGTYPE KAPITALPENSION *********************************************
+.if &REGTYPE = 8111
+.or &REGTYPE = 8122
+.or &REGTYPE = 8123
+.or &REGTYPE = 8127
+.or &REGTYPE = 8129
+.or &REGTYPE = 8412
+.or &REGTYPE = 8414
+.th .go DOKTXT
+.el .go FEJL1
+...REGALD
+.*TJEK REGTYPE ALDERSOPSPARING*********************************************
+.if &REGTYPE = 8251
+.or &REGTYPE = 8253
+.or &REGTYPE = 8255
+.or &REGTYPE = 8257
+.th .go DOKTXT
+.el .go FEJL1
+...FEJL1
+.*************** FEJLHÅNDTERING REGTYPE ***********************************
+.ar FEJL on
+.sp 3mm
+Der er fundet nedenstående fejl i formatteringen af standardbrev
+&BREVNAVN.
+.sp 3mm
+Der er fundet nedenstående fejl i formatteringen af standardbrev
+&BREVNAVN.
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et kontonr. med ugyldig
+reg.type, &REGTYPE./&REGTYPELNG.
+.sp 3mm
+.hr left right
+.qu
+...DOKTXT
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.ce Udbetaling af &pentp.
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.**AREALER*****************************************************************
+.da SIDE    20mm  40mm width 175mm
+.*KUNDE/KONTO OPLYSNINGER ************************************************
+.ar SIDE on
+.bx left 87.5mm right
+:SWISS9.
+.tp 1mm 88.5mm
+ ¤ Kontohavers navn ¤ Kontohavers cpr.nr.
+.sp 3mm
+ ¤ &KTONAVN ¤ &KTOKNDNR1
+.sp 3mm
+.bx left 87.5mm right
+ ¤ Kontonr. på &pentp. ¤ Udbetalingen skal indsættes på kontonr.
+.sp 3mm
+ ¤ &LANGKTONR ¤ &APFKTONR
+.sp 3mm
+.tp
+.bx off
+.sp 3mm
+.************ ERKLÆRING****************************************************
+.bx left right
+:SWISS9.
+:FED.
+.sp 3mm
+.tp 2mm
+ ¤ Jeg ønsker hele værdien af ovennævnte &pentp. udbetalt
+.tp
+:SKRSLUT.
+.sp 3mm
+.bx off
+.sp 3mm
+.ar off
+.**************************************************************************
+.**AREALER*****************************************************************
+.da UDBT     20mm 88mm width 175mm
+.da AFKRYDS 25mm 101.5mm width 168mm
+.da BOX2STK  20mm 101mm width  10mm
+.da BOX2STKX 25.5mm 101.2mm width 169mm
+.dr thin weight 0.2mm
+.**************************************************************************
+.ar UDBT
+:SWISS9.
+.bx left right
+.sp 3mm
+.tp 1mm
+ ¤ Udbetalingen skal ske, fordi jeg:
+.sp 30mm
+.bx off
+.ar off
+.*********************************************************************
+.ar AFKRYDS on
+:SWISS9.
+.tp 5mm
+.if &regl = ALD
+.th .go ALDERS
+.el
+ ¤ har opnået min pensionsudbetalingsalder (udbetalingen fratrækkes
+.in 5mm nobreak
+:FED.gældende afgift til staten:SKRSLUT.)
+.sp 3mm
+ ¤ ønsker min &pentp. udbetalt :FED.før:SKRSLUT. jeg har opnået min
+.in 5mm nobreak
+pensionsudbetalingsalder/i utide (udbetalingen fratrækkes
+:FED.52 % i afgift til staten:SKRSLUT.)
+.sp 3mm
+.go VIDERE
+...ALDERS
+ ¤ har opnået min pensionsudbetalingsalder (udbetalingen sker
+.in 5mm nobreak
+:FED.uden afgift til staten:SKRSLUT.)
+.sp 3mm
+ ¤ ønsker min &pentp. udbetalt :FED.før:SKRSLUT. jeg har opnået min
+.in 5mm nobreak
+pensionsudbetalingsalder/i utide (udbetalingen fratrækkes
+:FED.20 % i afgift til staten:SKRSLUT.)
+.sp 3mm
+...VIDERE
+.ar off
+.*********************************************************************
+.ar BOX2STKX on
+.if X&GENVALG = X1
+.th X
+.el .sp 6.2mm
+.if X&GENVALG = X2
+.th X
+.ar off
+.** HER LAVES DE SMÅ AFKRYDSNINGSKASSER **********************************
+.ar BOX2STK
+:SWISS10.
+.*1 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 2mm
+.*2 ks *******
+.bx thin 5mm 8mm
+.sp 1.5mm
+.bx off
+.sp 15mm
+.ar off
+.**************************************************************************
 .**AREALER*****************************************************************
 .da UNDER   20mm 133mm width 175mm
 .*UNDERSKRIFT ************************************************************
@@ -358,62 +399,21 @@ Underskrift
 :FED.
 .bx left right
 .sp 3mm
-¤Jeg har i forbindelse med denne udbetaling læst vedlagte "Vejledning ved
+ ¤ Jeg har i forbindelse med denne udbetaling læst vedlagte "Vejledning ved
 udbetaling af &pentp.", som
 .br
-¤fremgår af side 2.
+ ¤ fremgår af side 2.
 :SKRSLUT.
 :SWISS9.
 .sp 3mm
 .bx left 87.5mm right
 .tp 1mm 88.5mm
-¤Dato: ¤Kontohavers underskrift
+ ¤ Dato: ¤ Kontohavers underskrift
 .sp 11mm
 .tp 87.5mm
-.ce ¤&KTONAVN
+.ce ¤ &KTONAVN
 .bx off
 .ar off
-.ti ¤ 05
-:SWISS10.
-.fo left
-.*******************************************
-.*O-AFSNIT MED RH
-.*******************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da TEKST 20mm 32mm width 170mm
-.*******************************************
-:SWISS8.
-.rh on
-.*******************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.ar off
-.*******************************************
-.ar TEKST on
-:SWISS12.:FED.
-.us Vejledning ved udbetaling af &pentp
-:SKRSLUT.
-.ar off
-.*******************************************
-.sp 28mm
-.rh off
-.rh execute
-.*************** REGLER VEDR BREVNAVN ************************************
-.if &BREVNAVN = B37KAP09
-.******* KAPITALPENSION ********************
-.th .se pentp = 'kapitalpension'
-.th .se regl = KAP
-.th .se udbt = 'til normal statsafgift'
-.if &BREVNAVN = B37ALD09
-.******* ALDERSOPSPARING *******************
-.th .se pentp = 'aldersopsparing'
-.th .se regl = ALD
-.th .se udbt = 'uden statsafgift'
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
 .da DOKKT 20mm 277mm width 175mm
 .**************************************************************************
 .*go SLUT
@@ -422,12 +422,12 @@ udbetaling af &pentp.", som
 .ti ¤ 05
 .tp 2mm 91mm
 :SWISS6.
-¤Til &BANKNAVN.s noteringer (dato og initialer)
+ ¤ Til &BANKNAVN.s noteringer (dato og initialer)
 .br
 .bx new tynd 55mm 79mm
 .sp 2mm
 .tp 2mm 60mm 120mm
-¤Underskrift i forhold til instruktion er tjekket
+ ¤ Underskrift i forhold til instruktion er tjekket
 .*br
 .*sp 1mm
 .bx off
@@ -438,3 +438,4 @@ udbetaling af &pentp.", som
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+

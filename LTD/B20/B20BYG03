@@ -11,6 +11,897 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:VERDA09.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.tm 20mm
+.ll 175mm
+.da START 20mm 100mm width 170mm
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.ar VEND on
+:COUR6.
+&BRUGERNR
+.br
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+:VERDA10.
+:FED.
+Tilsagn om finansiering af &DIT byggeri.
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.da ADRESSE 20mm 50mm width 170mm
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+.if &bankregnr = 0000
+A/S &BANKNAVN
+.th .br
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.ar ADRESSE on
+.if &L'&STILL > 0 .an &L'&B20TEKST61 = 0
+.th &STILL
+.th .br
+&NAVN
+.br
+.if &L'&B20TEKST02 > 0
+.th &B20TEKST02
+.th .br
+.if &L'&COADR > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+.ar off
+.*************************************************************
+.sp 48mm
+Vi har hermed fornøjelsen at tilbyde &DIG finansiering i
+forbindelse med
+.if x&B20TEST06 = x1
+.th nybyggeri
+.if x&B20TEST06 = x2
+.th ombygning
+.if &L'&B20TEKST01 gt 0 .an &L'&B20TEKST51 gt 0
+.th &B20TEKST01 &B20TEKST51., beliggende &B20TEKST03..
+.el &B20TEKST01., beliggende &B20TEKST03..
+.sp
+Vi kan tilbyde følgende:
+.sp
+.if &L'&B20TEST20 gt 0
+.th .go bygge
+.el .go forhånd
+...bygge
+.tp 50mm 80mm
+.ct
+:FED.Byggelån: ¤ ¤
+Kr. :VS.&B20BELOB1
+:SKRSLUT.
+.sp
+incl. renter, provisioner og øvrige omkostninger.
+.sp
+Debetrente for tiden ¤ &B20DEBET01.% p.a.
+.br
+Kreditrente for tiden ¤ &B20DEBET02.% p.a.
+.br
+.if &L'&B20DEBET03 gt 0
+.th Provision for tiden ¤ &B20DEBET03.% p.a.
+.th .sp
+.th Rente og provision er variabel og tilskrives kvartalsvis bagud.
+.th Provisionen beregnes af gælden på byggelånet.
+.el .sp
+.el Renten er variabel og tilskrives kvartalsvis bagud.
+.sp
+Byggelånet indfries efter byggeriets afslutning
+senest den &B20DATO1..
+.sp
+...forhånd
+.if &L'&B20TEST21 gt 0
+.el .go bolig
+.ct
+.SP
+:FED.Garanti for forhåndslån: ¤ ¤
+Kr. :VS.&B20BELOB2
+:SKRSLUT.
+.sp
+anslået nominelt.
+.sp
+Provision for tiden
+:VS.&B20DEBET04.%
+pr. kvartal,
+dog minimum kr. :VS.&B20KRED22..
+.sp
+Provisionen er variabel og tilskrives kvartalsvis forud.
+.sp
+Provenuet fra forhåndslånet skal indsættes på byggekonto nr. &B20KTONR01.,
+som håndpantsættes til banken. Kontoen forrentes p.t. med
+:VS.&B20KRED20.%
+p.a. Renten er
+variabel og tilskrives årligt bagud.
+.sp
+.if &U'&B20TEST26 = J
+.th Byggelånet nedskrives med provenu af forhåndslånet.
+.th .sp
+Forhåndslånsgarantien frigives af realkreditinstituttet, når byggeriet er
+færdigmeldt, hvilket forventes at ske senest den &B20DATO2..
+.sp
+...bolig
+.if &L'&B20TEST22 gt 0
+.el .go pante
+.ct
+.SP
+:FED.Boliglån: ¤ ¤
+Kr. &ÅCONT
+:VS.&B20BELOB3
+:SKRSLUT.
+.sp
+Debetrente for tiden
+:VS.&B20DEBET05.%
+p.a.
+.sp
+Renten er variabel og tilskrives kvartalsvis bagud.
+.sp
+.if &L'&B20KRED23 gt 0
+.th Omkostninger til etablering af boliglånet kr. &ÅCONT :VS.&B20KRED23
+.th er indregnet i lånets hovedstol.
+.th .sp
+Lånet tilbagebetales med lige store ydelser over &B20TID år.
+Ved det nuværende renteniveau udgør den månedlige ydelse kr. &ÅCONT
+:VS.&B20DEBET06..
+.sp
+...pante
+.if &L'&B20TEST23 gt 0
+.el .go prio
+.ct
+.SP
+.KP ON
+:FED.Pantebrevslån: ¤ ¤
+Kr. &ÅCONT
+:VS.&B20BELOB4
+:SKRSLUT.
+.sp
+Særskilt tilbud vedlægges.
+.sp
+.KP OFF
+...prio
+.if &L'&B20TEST24 gt 0
+.el .go videre
+.ct
+.tp 80mm
+.kp on
+.sp
+:FED.SDO-lignende lån: ¤
+Kr. &ÅCONT
+:VS.&B20KRED01
+:SKRSLUT.
+.sp
+Særskilt tilbud vedlægges.
+.sp
+I byggeperioden gælder følgende: Provenuet fra det SDO-lignende
+forhåndslån skal indsættes på byggekonto &B20KTONR01., som håndpantsættes
+til banken. Kontoen forrentes med p.t.
+:VS.&B20KRED20.%
+p.a. Renten er variabel og tilskrives årligt bagud.
+.sp
+Såfremt ejendommen ved byggeriets afslutning ikke frembyder den
+fornødne værdi, kan banken kræve lånet nedbragt.
+.sp
+Rentevilkår for det SDO-lignende lån og den tilhørende indlånskonto
+genforhandles, når byggeriet er afsluttet og ejendommen er vurderet.
+.kp off
+...videre
+.sp
+:FED.Sikkerheder:
+.sp
+:SKRSLUT.
+Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
+.sp
+.tp 6mm
+.if &L'&B20TEST07 gt 0
+.th - ¤ Ejerpantebrev stort kr. &B20TEK32 udstedt med pant i
+.th .in 6mm nobreak
+.th ejendommen matr. nr. &B20TEKST53. næstefter foranstående
+.th prioriteter kr. &ÅCONT
+.th :VS.&B20KRED17..
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST08 gt 0
+.th - ¤ Pantebrev opr. stort kr. &B20TEK34 udstedt til banken med pant i
+.th .in 6mm nobreak
+.th ejendommen matr. nr. &B20TEKST04 på vilkår efter nærmere aftale.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST09 gt 0
+.th - ¤ Transport i og fuldmagt til at hjemtage provenu af
+.th .in 6mm nobreak
+.th realkreditlån opr. kr. &ÅCONT
+.th :VS. &B20KRED19
+.th fra &B20TEKST52.
+.th .sp
+.th .in 0mm
+.***************
+.if &L'&B20TEST10 gt 0
+.an &B20KRED03 gt 0,00
+.an &B20KRED02 = 0,00
+.th .go EJEFIN
+.el .go EJEFINSL
+...EJEFIN
+- ¤ Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
+.in 6mm nobreak
+forhåndslån realkredit eller SDO-lignende lån ca. kr. &ÅCONT
+:VS.&B20KRED03
+indbetales.
+.sp
+.in 0mm
+...EJEFINSL
+.**************
+.if &L'&B20TEST10 gt 0
+.an &B20KRED03 gt 0,00
+.an &B20KRED02 gt 0,00
+.th .go EGFIN
+.el .go EGFINSL
+...EGFIN
+- ¤ Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
+.in 6mm nobreak
+forhåndslån ca. kr. &ÅCONT
+:VS.&B20KRED03
+og egenfinansiering ca. kr. &ÅCONT
+:VS.&B20KRED02
+indbetales.
+.sp
+.in 0mm
+...EGFINSL
+.************************
+.if &L'&B20TEST11 gt 0
+.th - ¤ Transport i bygherrens rettigheder i henhold til
+.th .in 6mm nobreak
+.th entreprisekontrakten med dertil hørende sikkerheder, herunder
+.th garantier.
+.th .in 0mm
+.th .sp
+.if &L'&B20TEK37 gt 0
+.th - ¤ &B20TEK37
+.th .in 6mm nobreak
+.th &B20TEK33
+.th &B20TEK35
+.th .in 0mm
+.th .sp
+.if &L'&B20KRED25 gt 0
+.th Der stilles følgende sikkerheder for boliglånet:
+.th .sp
+.th .tp 6mm
+.th - ¤ Ejerpantebrev stort kr. &ÅCONT
+.th :VS.&B20KRED25
+.th .in 6mm nobreak
+.th udstedt med pant i ejendommen matr. nr. &B20TEKST54. næstefter
+.th foranstående prioriteter kr. &ÅCONT
+.th :VS.&B20KRED24..
+.th .sp
+.th .in 0mm
+.if &L'&B20TEK38 gt 0
+.th - ¤ &B20TEK38
+.th &B20TEK39
+.th &B20TEK40
+.th .in 0mm
+.sp
+:FED.Udbetaling:
+.sp
+:SKRSLUT.
+Udbetaling fra byggelån/byggekonto sker
+.if x&B20TEST02 = x2
+.th ved forevisning af regninger.
+.th .sp
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt
+.th af bygherren.
+.if x&B20TEST02 = x1
+.th i følgende rater:
+.th .sp
+.tp 110mm
+.th .if &L'&B20TEKST30 > 0 .an &L'&B20KRED15 > 0
+.th &B20TEKST30 ¤ kr.&B20KRED15
+.th .br
+.th .if &L'&B20TEKST31 > 0 .an &L'&B20KRED04 > 0
+.th &B20TEKST31 ¤ kr.&B20KRED04
+.th .br
+.th .if &L'&B20TEKST32 > 0 .an &L'&B20KRED05 > 0
+.th &B20TEKST32 ¤ kr.&B20KRED05
+.th .br
+.th .if &L'&B20TEKST33 > 0 .an &L'&B20KRED06 > 0
+.th &B20TEKST33 ¤ kr.&B20KRED06
+.th .br
+.th .if &L'&B20TEKST34 > 0 .an &L'&B20KRED07 > 0
+.th &B20TEKST34 ¤ kr.&B20KRED07
+.th .br
+.th .if &L'&B20TEKST35 > 0 .an &L'&B20KRED08 > 0
+.th &B20TEKST35 ¤ kr.&B20KRED08
+.th .br
+.th .if &L'&B20TEKST36 > 0 .an &L'&B20KRED09 > 0
+.th &B20TEKST36 ¤ kr.&B20KRED09
+.th .br
+.th .if &L'&B20TEKST37 > 0 .an &L'&B20KRED10 > 0
+.th &B20TEKST37 ¤ kr.&B20KRED10
+.th .br
+.th .if &L'&B20TEKST38 > 0 .an &L'&B20KRED11 > 0
+.th &B20TEKST38 ¤ kr.&B20KRED11
+.th .br
+.th .if &L'&B20TEKST39 > 0 .an &L'&B20KRED12 > 0
+.th &B20TEKST39 ¤ kr.&B20KRED12
+.th .br
+.th .if &L'&B20TEKST40 > 0 .an &L'&B20KRED13 > 0
+.th &B20TEKST40 ¤ kr.&B20KRED13
+.th .br
+.th .if &L'&B20TEKST41 > 0 .an &L'&B20KRED14 > 0
+.th &B20TEKST41 ¤ kr.&B20KRED14
+.th .sp
+.if x&B20TEST02 = x1
+.th .sp
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
+.th bygherren.
+.sp
+.if &L'&B20TEST25 gt 0
+.th Udbetaling sker efter
+.th besigtigelse foretaget af byggesagkyndig for bygherrens regning.
+.th .br
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
+.th den byggesagkyndige.
+.th .sp
+.if &L'&B20TEST12 gt 0
+.th Udbetaling sker efter besigtigelse foretaget af bygherretilsyn for
+.th bygherrens regning.
+.th .br
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
+.th bygherretilsynet. Den tilsynsførende er &B20TEKST05..
+.th .sp
+.if &L'&B20TEST25 = 0
+.an &L'&B20TEST12 = 0
+.th Banken har rådgivet om og anbefalet bygherren, at der tilknyttes et
+.th uvildigt tilsyn med byggeriet. Bygherren har fravalgt dette.
+.th .sp
+Forinden udbetalinger fra byggelånet/byggekontoen kan finde sted skal
+samtlige betingelser for byggelånet være opfyldt, alle dokumenter være
+underskrevet, og alle sikkerheder være etableret.
+.sp
+.if &L'&B20KRED16 gt 0
+.th Bygherrens eget indskud, kr. &ÅCONT
+.th :VS.&B20KRED16.
+.th .ct,
+.th anvendes forinden der udbetales fra byggelån/byggekonto.
+.th .sp
+&B20TEKST45 &B20TEKST46 &B20TEKST47 &B20TEKST48 &B20TEKST50
+.sp
+.kp on
+:FED.Omkostninger:
+.sp
+:SKRSLUT.
+.if &L'&B20KRED21 gt 0
+.th Tinglysningsafgift til det offentlige udgør kr. &ÅCONT
+.th :VS.&B20KRED21..
+.th .sp
+.kp off
+Der beregnes et samlet lånesagsgebyr kr. &ÅCONT
+:VS.&B20KRED18..
+Herudover vil blive beregnet gebyr, i henhold til,
+bankens sædvanlige gebyrregler for udført arbejde under lånesagens
+forløb.
+.sp
+.kp on
+:FED.Generelt:
+.sp
+:SKRSLUT.
+Byggelån/byggekonto er i øvrigt bevilget på bankens almindelige
+betingelser for byggelån, hvoraf et eksemplar vedlægges, samt bankens
+almindelige forretningsbetingelser for privatkunder.
+.sp
+.kp off
+Vi håber, at vort tilbud, som er gældende 3 måneder fra d.d., vil have
+&DIN interesse og ser frem til at høre fra &DIG..
+.sp
+.kp on
+Ved accept af lånetilbuddet bedes medfølgende kopi returneret i
+underskrevet stand.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.sp 10mm
+Herved kvitteres for modtagelsen, idet jeg/vi erklærer mig/os
+indforstået med brevets indhold.
+.sp 10mm
+.tp 85mm
+.se streg = '________________________'
+.se streg1 = '______________________________________'
+&streg ¤ , den &streg
+.sp 20mm
+.if &L'&B20TEKST02 > 0
+.th &streg1 ¤ &streg1
+.th .br
+.th &NAVN ¤ &B20TEKST02
+.el &streg
+.el .br
+.el &NAVN
+.kp off
+.pa
+:VERDA09.
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.tm 20mm
+.ll 175mm
+.da START 20mm 100mm width 170mm
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.ar VEND on
+:COUR6.
+&BRUGERNR
+.br
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+:VERDA10.
+:FED.
+Tilsagn om finansiering af &DIT byggeri.
+:SKRSLUT.
+:SKRSLUT.
+.ar off
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.da ADRESSE 20mm 50mm width 170mm
+.*************************************************************
+.ar AFSENDER on
+.se bankregnr = &BANKREGNR
+:VERDA08.
+.if &bankregnr = 0000
+A/S &BANKNAVN
+.th .br
+.th &AFDNAVN
+.th .br
+.th &AFDGADE
+.th .br
+.th &AFDBY
+.th .br
+.th T: &AFDTLF
+.th .br
+.th M: &GENEMAIL
+.el &BKAFD
+.el .br
+.el &BKADR
+.el .br
+.el &BKBY
+.el .br
+.el T: &BKTLF
+.sp2
+.br;&DATO
+.sp
+.ar off
+.*************************************************************
+.ar ADRESSE on
+.if &L'&STILL > 0 .an &L'&B20TEKST61 = 0
+.th &STILL
+.th .br
+&NAVN
+.br
+.if &L'&B20TEKST02 > 0
+.th &B20TEKST02
+.th .br
+.if &L'&COADR > 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.br
+.ar off
+.*************************************************************
+.sp 48mm
+Vi har hermed fornøjelsen at tilbyde &DIG finansiering i
+forbindelse med
+.if x&B20TEST06 = x1
+.th nybyggeri
+.if x&B20TEST06 = x2
+.th ombygning
+.if &L'&B20TEKST01 gt 0 .an &L'&B20TEKST51 gt 0
+.th &B20TEKST01 &B20TEKST51., beliggende &B20TEKST03..
+.el &B20TEKST01., beliggende &B20TEKST03..
+.sp
+Vi kan tilbyde følgende:
+.sp
+.if &L'&B20TEST20 gt 0
+.th .go bygge
+.el .go forhånd
+...bygge
+.tp 50mm 80mm
+.ct
+:FED.Byggelån: ¤ ¤
+Kr. :VS.&B20BELOB1
+:SKRSLUT.
+.sp
+incl. renter, provisioner og øvrige omkostninger.
+.sp
+Debetrente for tiden ¤ &B20DEBET01.% p.a.
+.br
+Kreditrente for tiden ¤ &B20DEBET02.% p.a.
+.br
+.if &L'&B20DEBET03 gt 0
+.th Provision for tiden ¤ &B20DEBET03.% p.a.
+.th .sp
+.th Rente og provision er variabel og tilskrives kvartalsvis bagud.
+.th Provisionen beregnes af gælden på byggelånet.
+.el .sp
+.el Renten er variabel og tilskrives kvartalsvis bagud.
+.sp
+Byggelånet indfries efter byggeriets afslutning
+senest den &B20DATO1..
+.sp
+...forhånd
+.if &L'&B20TEST21 gt 0
+.el .go bolig
+.ct
+.SP
+:FED.Garanti for forhåndslån: ¤ ¤
+Kr. :VS.&B20BELOB2
+:SKRSLUT.
+.sp
+anslået nominelt.
+.sp
+Provision for tiden
+:VS.&B20DEBET04.%
+pr. kvartal,
+dog minimum kr. :VS.&B20KRED22..
+.sp
+Provisionen er variabel og tilskrives kvartalsvis forud.
+.sp
+Provenuet fra forhåndslånet skal indsættes på byggekonto nr. &B20KTONR01.,
+som håndpantsættes til banken. Kontoen forrentes p.t. med
+:VS.&B20KRED20.%
+p.a. Renten er
+variabel og tilskrives årligt bagud.
+.sp
+.if &U'&B20TEST26 = J
+.th Byggelånet nedskrives med provenu af forhåndslånet.
+.th .sp
+Forhåndslånsgarantien frigives af realkreditinstituttet, når byggeriet er
+færdigmeldt, hvilket forventes at ske senest den &B20DATO2..
+.sp
+...bolig
+.if &L'&B20TEST22 gt 0
+.el .go pante
+.ct
+.SP
+:FED.Boliglån: ¤ ¤
+Kr. &ÅCONT
+:VS.&B20BELOB3
+:SKRSLUT.
+.sp
+Debetrente for tiden
+:VS.&B20DEBET05.%
+p.a.
+.sp
+Renten er variabel og tilskrives kvartalsvis bagud.
+.sp
+.if &L'&B20KRED23 gt 0
+.th Omkostninger til etablering af boliglånet kr. &ÅCONT :VS.&B20KRED23
+.th er indregnet i lånets hovedstol.
+.th .sp
+Lånet tilbagebetales med lige store ydelser over &B20TID år.
+Ved det nuværende renteniveau udgør den månedlige ydelse kr. &ÅCONT
+:VS.&B20DEBET06..
+.sp
+...pante
+.if &L'&B20TEST23 gt 0
+.el .go prio
+.ct
+.SP
+.KP ON
+:FED.Pantebrevslån: ¤ ¤
+Kr. &ÅCONT
+:VS.&B20BELOB4
+:SKRSLUT.
+.sp
+Særskilt tilbud vedlægges.
+.sp
+.KP OFF
+...prio
+.if &L'&B20TEST24 gt 0
+.el .go videre
+.ct
+.tp 80mm
+.kp on
+.sp
+:FED.SDO-lignende lån: ¤
+Kr. &ÅCONT
+:VS.&B20KRED01
+:SKRSLUT.
+.sp
+Særskilt tilbud vedlægges.
+.sp
+I byggeperioden gælder følgende: Provenuet fra det SDO-lignende
+forhåndslån skal indsættes på byggekonto &B20KTONR01., som håndpantsættes
+til banken. Kontoen forrentes med p.t.
+:VS.&B20KRED20.%
+p.a. Renten er variabel og tilskrives årligt bagud.
+.sp
+Såfremt ejendommen ved byggeriets afslutning ikke frembyder den
+fornødne værdi, kan banken kræve lånet nedbragt.
+.sp
+Rentevilkår for det SDO-lignende lån og den tilhørende indlånskonto
+genforhandles, når byggeriet er afsluttet og ejendommen er vurderet.
+.kp off
+...videre
+.sp
+:FED.Sikkerheder:
+.sp
+:SKRSLUT.
+Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
+.sp
+.tp 6mm
+.if &L'&B20TEST07 gt 0
+.th - ¤ Ejerpantebrev stort kr. &B20TEK32 udstedt med pant i
+.th .in 6mm nobreak
+.th ejendommen matr. nr. &B20TEKST53. næstefter foranstående
+.th prioriteter kr. &ÅCONT
+.th :VS.&B20KRED17..
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST08 gt 0
+.th - ¤ Pantebrev opr. stort kr. &B20TEK34 udstedt til banken med pant i
+.th .in 6mm nobreak
+.th ejendommen matr. nr. &B20TEKST04 på vilkår efter nærmere aftale.
+.th .sp
+.th .in 0mm
+.if &L'&B20TEST09 gt 0
+.th - ¤ Transport i og fuldmagt til at hjemtage provenu af
+.th .in 6mm nobreak
+.th realkreditlån opr. kr. &ÅCONT
+.th :VS. &B20KRED19
+.th fra &B20TEKST52.
+.th .sp
+.th .in 0mm
+.***************
+.if &L'&B20TEST10 gt 0
+.an &B20KRED03 gt 0,00
+.an &B20KRED02 = 0,00
+.th .go EJEFIN
+.el .go EJEFINSL
+...EJEFIN
+- ¤ Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
+.in 6mm nobreak
+forhåndslån realkredit eller SDO-lignende lån ca. kr. &ÅCONT
+:VS.&B20KRED03
+indbetales.
+.sp
+.in 0mm
+...EJEFINSL
+.**************
+.if &L'&B20TEST10 gt 0
+.an &B20KRED03 gt 0,00
+.an &B20KRED02 gt 0,00
+.th .go EGFIN
+.el .go EGFINSL
+...EGFIN
+- ¤ Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
+.in 6mm nobreak
+forhåndslån ca. kr. &ÅCONT
+:VS.&B20KRED03
+og egenfinansiering ca. kr. &ÅCONT
+:VS.&B20KRED02
+indbetales.
+.sp
+.in 0mm
+...EGFINSL
+.************************
+.if &L'&B20TEST11 gt 0
+.th - ¤ Transport i bygherrens rettigheder i henhold til
+.th .in 6mm nobreak
+.th entreprisekontrakten med dertil hørende sikkerheder, herunder
+.th garantier.
+.th .in 0mm
+.th .sp
+.if &L'&B20TEK37 gt 0
+.th - ¤ &B20TEK37
+.th .in 6mm nobreak
+.th &B20TEK33
+.th &B20TEK35
+.th .in 0mm
+.th .sp
+.if &L'&B20KRED25 gt 0
+.th Der stilles følgende sikkerheder for boliglånet:
+.th .sp
+.th .tp 6mm
+.th - ¤ Ejerpantebrev stort kr. &ÅCONT
+.th :VS.&B20KRED25
+.th .in 6mm nobreak
+.th udstedt med pant i ejendommen matr. nr. &B20TEKST54. næstefter
+.th foranstående prioriteter kr. &ÅCONT
+.th :VS.&B20KRED24..
+.th .sp
+.th .in 0mm
+.if &L'&B20TEK38 gt 0
+.th - ¤ &B20TEK38
+.th &B20TEK39
+.th &B20TEK40
+.th .in 0mm
+.sp
+:FED.Udbetaling:
+.sp
+:SKRSLUT.
+Udbetaling fra byggelån/byggekonto sker
+.if x&B20TEST02 = x2
+.th ved forevisning af regninger.
+.th .sp
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt
+.th af bygherren.
+.if x&B20TEST02 = x1
+.th i følgende rater:
+.th .sp
+.tp 110mm
+.th .if &L'&B20TEKST30 > 0 .an &L'&B20KRED15 > 0
+.th &B20TEKST30 ¤ kr.&B20KRED15
+.th .br
+.th .if &L'&B20TEKST31 > 0 .an &L'&B20KRED04 > 0
+.th &B20TEKST31 ¤ kr.&B20KRED04
+.th .br
+.th .if &L'&B20TEKST32 > 0 .an &L'&B20KRED05 > 0
+.th &B20TEKST32 ¤ kr.&B20KRED05
+.th .br
+.th .if &L'&B20TEKST33 > 0 .an &L'&B20KRED06 > 0
+.th &B20TEKST33 ¤ kr.&B20KRED06
+.th .br
+.th .if &L'&B20TEKST34 > 0 .an &L'&B20KRED07 > 0
+.th &B20TEKST34 ¤ kr.&B20KRED07
+.th .br
+.th .if &L'&B20TEKST35 > 0 .an &L'&B20KRED08 > 0
+.th &B20TEKST35 ¤ kr.&B20KRED08
+.th .br
+.th .if &L'&B20TEKST36 > 0 .an &L'&B20KRED09 > 0
+.th &B20TEKST36 ¤ kr.&B20KRED09
+.th .br
+.th .if &L'&B20TEKST37 > 0 .an &L'&B20KRED10 > 0
+.th &B20TEKST37 ¤ kr.&B20KRED10
+.th .br
+.th .if &L'&B20TEKST38 > 0 .an &L'&B20KRED11 > 0
+.th &B20TEKST38 ¤ kr.&B20KRED11
+.th .br
+.th .if &L'&B20TEKST39 > 0 .an &L'&B20KRED12 > 0
+.th &B20TEKST39 ¤ kr.&B20KRED12
+.th .br
+.th .if &L'&B20TEKST40 > 0 .an &L'&B20KRED13 > 0
+.th &B20TEKST40 ¤ kr.&B20KRED13
+.th .br
+.th .if &L'&B20TEKST41 > 0 .an &L'&B20KRED14 > 0
+.th &B20TEKST41 ¤ kr.&B20KRED14
+.th .sp
+.if x&B20TEST02 = x1
+.th .sp
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
+.th bygherren.
+.sp
+.if &L'&B20TEST25 gt 0
+.th Udbetaling sker efter
+.th besigtigelse foretaget af byggesagkyndig for bygherrens regning.
+.th .br
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
+.th den byggesagkyndige.
+.th .sp
+.if &L'&B20TEST12 gt 0
+.th Udbetaling sker efter besigtigelse foretaget af bygherretilsyn for
+.th bygherrens regning.
+.th .br
+.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
+.th bygherretilsynet. Den tilsynsførende er &B20TEKST05..
+.th .sp
+.if &L'&B20TEST25 = 0
+.an &L'&B20TEST12 = 0
+.th Banken har rådgivet om og anbefalet bygherren, at der tilknyttes et
+.th uvildigt tilsyn med byggeriet. Bygherren har fravalgt dette.
+.th .sp
+Forinden udbetalinger fra byggelånet/byggekontoen kan finde sted skal
+samtlige betingelser for byggelånet være opfyldt, alle dokumenter være
+underskrevet, og alle sikkerheder være etableret.
+.sp
+.if &L'&B20KRED16 gt 0
+.th Bygherrens eget indskud, kr. &ÅCONT
+.th :VS.&B20KRED16.
+.th .ct,
+.th anvendes forinden der udbetales fra byggelån/byggekonto.
+.th .sp
+&B20TEKST45 &B20TEKST46 &B20TEKST47 &B20TEKST48 &B20TEKST50
+.sp
+.kp on
+:FED.Omkostninger:
+.sp
+:SKRSLUT.
+.if &L'&B20KRED21 gt 0
+.th Tinglysningsafgift til det offentlige udgør kr. &ÅCONT
+.th :VS.&B20KRED21..
+.th .sp
+.kp off
+Der beregnes et samlet lånesagsgebyr kr. &ÅCONT
+:VS.&B20KRED18..
+Herudover vil blive beregnet gebyr, i henhold til,
+bankens sædvanlige gebyrregler for udført arbejde under lånesagens
+forløb.
+.sp
+.kp on
+:FED.Generelt:
+.sp
+:SKRSLUT.
+Byggelån/byggekonto er i øvrigt bevilget på bankens almindelige
+betingelser for byggelån, hvoraf et eksemplar vedlægges, samt bankens
+almindelige forretningsbetingelser for privatkunder.
+.sp
+.kp off
+Vi håber, at vort tilbud, som er gældende 3 måneder fra d.d., vil have
+&DIN interesse og ser frem til at høre fra &DIG..
+.sp
+.kp on
+Ved accept af lånetilbuddet bedes medfølgende kopi returneret i
+underskrevet stand.
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.sp 3
+.if &L'&GENMEKSP gt 0
+.th &GENMEKSP          &GENEKSP
+.el &GENEKSP
+.ce off
+.sp 10mm
+Herved kvitteres for modtagelsen, idet jeg/vi erklærer mig/os
+indforstået med brevets indhold.
+.sp 10mm
+.tp 85mm
+.se streg = '________________________'
+.se streg1 = '______________________________________'
+&streg ¤ , den &streg
+.sp 20mm
+.if &L'&B20TEKST02 > 0
+.th &streg1 ¤ &streg1
+.th .br
+.th &NAVN ¤ &B20TEKST02
+.el &streg
+.el .br
+.el &NAVN
+.kp off
 :altprint &PRTVALG
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
@@ -131,18 +1022,18 @@ Vi kan tilbyde følgende:
 ...bygge
 .tp 50mm 80mm
 .ct
-:FED.Byggelån: ¤¤
+:FED.Byggelån: ¤ ¤
 Kr. :VS.&B20BELOB1
 :SKRSLUT.
 .sp
 incl. renter, provisioner og øvrige omkostninger.
 .sp
-Debetrente for tiden ¤&B20DEBET01.% p.a.
+Debetrente for tiden ¤ &B20DEBET01.% p.a.
 .br
-Kreditrente for tiden ¤&B20DEBET02.% p.a.
+Kreditrente for tiden ¤ &B20DEBET02.% p.a.
 .br
 .if &L'&B20DEBET03 gt 0
-.th Provision for tiden ¤&B20DEBET03.% p.a.
+.th Provision for tiden ¤ &B20DEBET03.% p.a.
 .th .sp
 .th Rente og provision er variabel og tilskrives kvartalsvis bagud.
 .th Provisionen beregnes af gælden på byggelånet.
@@ -157,7 +1048,7 @@ senest den &B20DATO1..
 .el .go bolig
 .ct
 .SP
-:FED.Garanti for forhåndslån: ¤¤
+:FED.Garanti for forhåndslån: ¤ ¤
 Kr. :VS.&B20BELOB2
 :SKRSLUT.
 .sp
@@ -187,7 +1078,7 @@ færdigmeldt, hvilket forventes at ske senest den &B20DATO2..
 .el .go pante
 .ct
 .SP
-:FED.Boliglån: ¤¤
+:FED.Boliglån: ¤ ¤
 Kr. &ÅCONT
 :VS.&B20BELOB3
 :SKRSLUT.
@@ -212,7 +1103,7 @@ Ved det nuværende renteniveau udgør den månedlige ydelse kr. &ÅCONT
 .ct
 .SP
 .KP ON
-:FED.Pantebrevslån: ¤¤
+:FED.Pantebrevslån: ¤ ¤
 Kr. &ÅCONT
 :VS.&B20BELOB4
 :SKRSLUT.
@@ -255,7 +1146,7 @@ Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
 .sp
 .tp 6mm
 .if &L'&B20TEST07 gt 0
-.th -¤Ejerpantebrev stort kr. &B20TEK32 udstedt med pant i
+.th - ¤ Ejerpantebrev stort kr. &B20TEK32 udstedt med pant i
 .th .in 6mm nobreak
 .th ejendommen matr. nr. &B20TEKST53. næstefter foranstående
 .th prioriteter kr. &ÅCONT
@@ -263,13 +1154,13 @@ Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
 .th .sp
 .th .in 0mm
 .if &L'&B20TEST08 gt 0
-.th -¤Pantebrev opr. stort kr. &B20TEK34 udstedt til banken med pant i
+.th - ¤ Pantebrev opr. stort kr. &B20TEK34 udstedt til banken med pant i
 .th .in 6mm nobreak
 .th ejendommen matr. nr. &B20TEKST04 på vilkår efter nærmere aftale.
 .th .sp
 .th .in 0mm
 .if &L'&B20TEST09 gt 0
-.th -¤Transport i og fuldmagt til at hjemtage provenu af
+.th - ¤ Transport i og fuldmagt til at hjemtage provenu af
 .th .in 6mm nobreak
 .th realkreditlån opr. kr. &ÅCONT
 .th :VS. &B20KRED19
@@ -283,7 +1174,7 @@ Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
 .th .go EJEFIN
 .el .go EJEFINSL
 ...EJEFIN
--¤Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
+- ¤ Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
 .in 6mm nobreak
 forhåndslån realkredit eller SDO-lignende lån ca. kr. &ÅCONT
 :VS.&B20KRED03
@@ -298,7 +1189,7 @@ indbetales.
 .th .go EGFIN
 .el .go EGFINSL
 ...EGFIN
--¤Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
+- ¤ Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
 .in 6mm nobreak
 forhåndslån ca. kr. &ÅCONT
 :VS.&B20KRED03
@@ -310,14 +1201,14 @@ indbetales.
 ...EGFINSL
 .************************
 .if &L'&B20TEST11 gt 0
-.th -¤Transport i bygherrens rettigheder i henhold til
+.th - ¤ Transport i bygherrens rettigheder i henhold til
 .th .in 6mm nobreak
 .th entreprisekontrakten med dertil hørende sikkerheder, herunder
 .th garantier.
 .th .in 0mm
 .th .sp
 .if &L'&B20TEK37 gt 0
-.th -¤ &B20TEK37
+.th - ¤ &B20TEK37
 .th .in 6mm nobreak
 .th &B20TEK33
 .th &B20TEK35
@@ -327,7 +1218,7 @@ indbetales.
 .th Der stilles følgende sikkerheder for boliglånet:
 .th .sp
 .th .tp 6mm
-.th -¤Ejerpantebrev stort kr. &ÅCONT
+.th - ¤ Ejerpantebrev stort kr. &ÅCONT
 .th :VS.&B20KRED25
 .th .in 6mm nobreak
 .th udstedt med pant i ejendommen matr. nr. &B20TEKST54. næstefter
@@ -336,7 +1227,7 @@ indbetales.
 .th .sp
 .th .in 0mm
 .if &L'&B20TEK38 gt 0
-.th -¤ &B20TEK38
+.th - ¤ &B20TEK38
 .th &B20TEK39
 .th &B20TEK40
 .th .in 0mm
@@ -355,40 +1246,40 @@ Udbetaling fra byggelån/byggekonto sker
 .th .sp
 .tp 110mm
 .th .if &L'&B20TEKST30 > 0 .an &L'&B20KRED15 > 0
-.th &B20TEKST30 ¤kr.&B20KRED15
+.th &B20TEKST30 ¤ kr.&B20KRED15
 .th .br
 .th .if &L'&B20TEKST31 > 0 .an &L'&B20KRED04 > 0
-.th &B20TEKST31 ¤kr.&B20KRED04
+.th &B20TEKST31 ¤ kr.&B20KRED04
 .th .br
 .th .if &L'&B20TEKST32 > 0 .an &L'&B20KRED05 > 0
-.th &B20TEKST32 ¤kr.&B20KRED05
+.th &B20TEKST32 ¤ kr.&B20KRED05
 .th .br
 .th .if &L'&B20TEKST33 > 0 .an &L'&B20KRED06 > 0
-.th &B20TEKST33 ¤kr.&B20KRED06
+.th &B20TEKST33 ¤ kr.&B20KRED06
 .th .br
 .th .if &L'&B20TEKST34 > 0 .an &L'&B20KRED07 > 0
-.th &B20TEKST34 ¤kr.&B20KRED07
+.th &B20TEKST34 ¤ kr.&B20KRED07
 .th .br
 .th .if &L'&B20TEKST35 > 0 .an &L'&B20KRED08 > 0
-.th &B20TEKST35 ¤kr.&B20KRED08
+.th &B20TEKST35 ¤ kr.&B20KRED08
 .th .br
 .th .if &L'&B20TEKST36 > 0 .an &L'&B20KRED09 > 0
-.th &B20TEKST36 ¤kr.&B20KRED09
+.th &B20TEKST36 ¤ kr.&B20KRED09
 .th .br
 .th .if &L'&B20TEKST37 > 0 .an &L'&B20KRED10 > 0
-.th &B20TEKST37 ¤kr.&B20KRED10
+.th &B20TEKST37 ¤ kr.&B20KRED10
 .th .br
 .th .if &L'&B20TEKST38 > 0 .an &L'&B20KRED11 > 0
-.th &B20TEKST38 ¤kr.&B20KRED11
+.th &B20TEKST38 ¤ kr.&B20KRED11
 .th .br
 .th .if &L'&B20TEKST39 > 0 .an &L'&B20KRED12 > 0
-.th &B20TEKST39 ¤kr.&B20KRED12
+.th &B20TEKST39 ¤ kr.&B20KRED12
 .th .br
 .th .if &L'&B20TEKST40 > 0 .an &L'&B20KRED13 > 0
-.th &B20TEKST40 ¤kr.&B20KRED13
+.th &B20TEKST40 ¤ kr.&B20KRED13
 .th .br
 .th .if &L'&B20TEKST41 > 0 .an &L'&B20KRED14 > 0
-.th &B20TEKST41 ¤kr.&B20KRED14
+.th &B20TEKST41 ¤ kr.&B20KRED14
 .th .sp
 .if x&B20TEST02 = x1
 .th .sp
@@ -466,894 +1357,4 @@ Med venlig hilsen
 .ce off
 .kp off
 .pa
-:VERDA09.
-.fo left
-.ti ¤ 05
-:tiltale &TILTALE
-.tm 20mm
-.ll 175mm
-.da START 20mm 100mm width 170mm
-.da VEND 7mm 275mm width 180mm rotate -90
-.****************************************
-.ar VEND on
-:COUR6.
-&BRUGERNR
-.br
-&BREVNAVN
-.ar off
-.****************************************
-.ar START on
-:VERDA10.
-:FED.
-Tilsagn om finansiering af &DIT byggeri.
-:SKRSLUT.
-:SKRSLUT.
-.ar off
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.da ADRESSE 20mm 50mm width 170mm
-.*************************************************************
-.ar AFSENDER on
-.se bankregnr = &BANKREGNR
-:VERDA08.
-.if &bankregnr = 0000
-A/S &BANKNAVN
-.th .br
-.th &AFDNAVN
-.th .br
-.th &AFDGADE
-.th .br
-.th &AFDBY
-.th .br
-.th T: &AFDTLF
-.th .br
-.th M: &GENEMAIL
-.el &BKAFD
-.el .br
-.el &BKADR
-.el .br
-.el &BKBY
-.el .br
-.el T: &BKTLF
-.sp2
-.br;&DATO
-.sp
-.ar off
-.*************************************************************
-.ar ADRESSE on
-.if &L'&STILL > 0 .an &L'&B20TEKST61 = 0
-.th &STILL
-.th .br
-&NAVN
-.br
-.if &L'&B20TEKST02 > 0
-.th &B20TEKST02
-.th .br
-.if &L'&COADR > 0
-.th &COADR
-.th .br
-&GADE
-.br
-&BY
-.br
-.ar off
-.*************************************************************
-.sp 48mm
-Vi har hermed fornøjelsen at tilbyde &DIG finansiering i
-forbindelse med
-.if x&B20TEST06 = x1
-.th nybyggeri
-.if x&B20TEST06 = x2
-.th ombygning
-.if &L'&B20TEKST01 gt 0 .an &L'&B20TEKST51 gt 0
-.th &B20TEKST01 &B20TEKST51., beliggende &B20TEKST03..
-.el &B20TEKST01., beliggende &B20TEKST03..
-.sp
-Vi kan tilbyde følgende:
-.sp
-.if &L'&B20TEST20 gt 0
-.th .go bygge
-.el .go forhånd
-...bygge
-.tp 50mm 80mm
-.ct
-:FED.Byggelån: ¤¤
-Kr. :VS.&B20BELOB1
-:SKRSLUT.
-.sp
-incl. renter, provisioner og øvrige omkostninger.
-.sp
-Debetrente for tiden ¤&B20DEBET01.% p.a.
-.br
-Kreditrente for tiden ¤&B20DEBET02.% p.a.
-.br
-.if &L'&B20DEBET03 gt 0
-.th Provision for tiden ¤&B20DEBET03.% p.a.
-.th .sp
-.th Rente og provision er variabel og tilskrives kvartalsvis bagud.
-.th Provisionen beregnes af gælden på byggelånet.
-.el .sp
-.el Renten er variabel og tilskrives kvartalsvis bagud.
-.sp
-Byggelånet indfries efter byggeriets afslutning
-senest den &B20DATO1..
-.sp
-...forhånd
-.if &L'&B20TEST21 gt 0
-.el .go bolig
-.ct
-.SP
-:FED.Garanti for forhåndslån: ¤¤
-Kr. :VS.&B20BELOB2
-:SKRSLUT.
-.sp
-anslået nominelt.
-.sp
-Provision for tiden
-:VS.&B20DEBET04.%
-pr. kvartal,
-dog minimum kr. :VS.&B20KRED22..
-.sp
-Provisionen er variabel og tilskrives kvartalsvis forud.
-.sp
-Provenuet fra forhåndslånet skal indsættes på byggekonto nr. &B20KTONR01.,
-som håndpantsættes til banken. Kontoen forrentes p.t. med
-:VS.&B20KRED20.%
-p.a. Renten er
-variabel og tilskrives årligt bagud.
-.sp
-.if &U'&B20TEST26 = J
-.th Byggelånet nedskrives med provenu af forhåndslånet.
-.th .sp
-Forhåndslånsgarantien frigives af realkreditinstituttet, når byggeriet er
-færdigmeldt, hvilket forventes at ske senest den &B20DATO2..
-.sp
-...bolig
-.if &L'&B20TEST22 gt 0
-.el .go pante
-.ct
-.SP
-:FED.Boliglån: ¤¤
-Kr. &ÅCONT
-:VS.&B20BELOB3
-:SKRSLUT.
-.sp
-Debetrente for tiden
-:VS.&B20DEBET05.%
-p.a.
-.sp
-Renten er variabel og tilskrives kvartalsvis bagud.
-.sp
-.if &L'&B20KRED23 gt 0
-.th Omkostninger til etablering af boliglånet kr. &ÅCONT :VS.&B20KRED23
-.th er indregnet i lånets hovedstol.
-.th .sp
-Lånet tilbagebetales med lige store ydelser over &B20TID år.
-Ved det nuværende renteniveau udgør den månedlige ydelse kr. &ÅCONT
-:VS.&B20DEBET06..
-.sp
-...pante
-.if &L'&B20TEST23 gt 0
-.el .go prio
-.ct
-.SP
-.KP ON
-:FED.Pantebrevslån: ¤¤
-Kr. &ÅCONT
-:VS.&B20BELOB4
-:SKRSLUT.
-.sp
-Særskilt tilbud vedlægges.
-.sp
-.KP OFF
-...prio
-.if &L'&B20TEST24 gt 0
-.el .go videre
-.ct
-.tp 80mm
-.kp on
-.sp
-:FED.SDO-lignende lån: ¤
-Kr. &ÅCONT
-:VS.&B20KRED01
-:SKRSLUT.
-.sp
-Særskilt tilbud vedlægges.
-.sp
-I byggeperioden gælder følgende: Provenuet fra det SDO-lignende
-forhåndslån skal indsættes på byggekonto &B20KTONR01., som håndpantsættes
-til banken. Kontoen forrentes med p.t.
-:VS.&B20KRED20.%
-p.a. Renten er variabel og tilskrives årligt bagud.
-.sp
-Såfremt ejendommen ved byggeriets afslutning ikke frembyder den
-fornødne værdi, kan banken kræve lånet nedbragt.
-.sp
-Rentevilkår for det SDO-lignende lån og den tilhørende indlånskonto
-genforhandles, når byggeriet er afsluttet og ejendommen er vurderet.
-.kp off
-...videre
-.sp
-:FED.Sikkerheder:
-.sp
-:SKRSLUT.
-Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
-.sp
-.tp 6mm
-.if &L'&B20TEST07 gt 0
-.th -¤Ejerpantebrev stort kr. &B20TEK32 udstedt med pant i
-.th .in 6mm nobreak
-.th ejendommen matr. nr. &B20TEKST53. næstefter foranstående
-.th prioriteter kr. &ÅCONT
-.th :VS.&B20KRED17..
-.th .sp
-.th .in 0mm
-.if &L'&B20TEST08 gt 0
-.th -¤Pantebrev opr. stort kr. &B20TEK34 udstedt til banken med pant i
-.th .in 6mm nobreak
-.th ejendommen matr. nr. &B20TEKST04 på vilkår efter nærmere aftale.
-.th .sp
-.th .in 0mm
-.if &L'&B20TEST09 gt 0
-.th -¤Transport i og fuldmagt til at hjemtage provenu af
-.th .in 6mm nobreak
-.th realkreditlån opr. kr. &ÅCONT
-.th :VS. &B20KRED19
-.th fra &B20TEKST52.
-.th .sp
-.th .in 0mm
-.***************
-.if &L'&B20TEST10 gt 0
-.an &B20KRED03 gt 0,00
-.an &B20KRED02 = 0,00
-.th .go EJEFIN
-.el .go EJEFINSL
-...EJEFIN
--¤Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
-.in 6mm nobreak
-forhåndslån realkredit eller SDO-lignende lån ca. kr. &ÅCONT
-:VS.&B20KRED03
-indbetales.
-.sp
-.in 0mm
-...EJEFINSL
-.**************
-.if &L'&B20TEST10 gt 0
-.an &B20KRED03 gt 0,00
-.an &B20KRED02 gt 0,00
-.th .go EGFIN
-.el .go EGFINSL
-...EGFIN
--¤Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
-.in 6mm nobreak
-forhåndslån ca. kr. &ÅCONT
-:VS.&B20KRED03
-og egenfinansiering ca. kr. &ÅCONT
-:VS.&B20KRED02
-indbetales.
-.sp
-.in 0mm
-...EGFINSL
-.************************
-.if &L'&B20TEST11 gt 0
-.th -¤Transport i bygherrens rettigheder i henhold til
-.th .in 6mm nobreak
-.th entreprisekontrakten med dertil hørende sikkerheder, herunder
-.th garantier.
-.th .in 0mm
-.th .sp
-.if &L'&B20TEK37 gt 0
-.th -¤ &B20TEK37
-.th .in 6mm nobreak
-.th &B20TEK33
-.th &B20TEK35
-.th .in 0mm
-.th .sp
-.if &L'&B20KRED25 gt 0
-.th Der stilles følgende sikkerheder for boliglånet:
-.th .sp
-.th .tp 6mm
-.th -¤Ejerpantebrev stort kr. &ÅCONT
-.th :VS.&B20KRED25
-.th .in 6mm nobreak
-.th udstedt med pant i ejendommen matr. nr. &B20TEKST54. næstefter
-.th foranstående prioriteter kr. &ÅCONT
-.th :VS.&B20KRED24..
-.th .sp
-.th .in 0mm
-.if &L'&B20TEK38 gt 0
-.th -¤ &B20TEK38
-.th &B20TEK39
-.th &B20TEK40
-.th .in 0mm
-.sp
-:FED.Udbetaling:
-.sp
-:SKRSLUT.
-Udbetaling fra byggelån/byggekonto sker
-.if x&B20TEST02 = x2
-.th ved forevisning af regninger.
-.th .sp
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt
-.th af bygherren.
-.if x&B20TEST02 = x1
-.th i følgende rater:
-.th .sp
-.tp 110mm
-.th .if &L'&B20TEKST30 > 0 .an &L'&B20KRED15 > 0
-.th &B20TEKST30 ¤kr.&B20KRED15
-.th .br
-.th .if &L'&B20TEKST31 > 0 .an &L'&B20KRED04 > 0
-.th &B20TEKST31 ¤kr.&B20KRED04
-.th .br
-.th .if &L'&B20TEKST32 > 0 .an &L'&B20KRED05 > 0
-.th &B20TEKST32 ¤kr.&B20KRED05
-.th .br
-.th .if &L'&B20TEKST33 > 0 .an &L'&B20KRED06 > 0
-.th &B20TEKST33 ¤kr.&B20KRED06
-.th .br
-.th .if &L'&B20TEKST34 > 0 .an &L'&B20KRED07 > 0
-.th &B20TEKST34 ¤kr.&B20KRED07
-.th .br
-.th .if &L'&B20TEKST35 > 0 .an &L'&B20KRED08 > 0
-.th &B20TEKST35 ¤kr.&B20KRED08
-.th .br
-.th .if &L'&B20TEKST36 > 0 .an &L'&B20KRED09 > 0
-.th &B20TEKST36 ¤kr.&B20KRED09
-.th .br
-.th .if &L'&B20TEKST37 > 0 .an &L'&B20KRED10 > 0
-.th &B20TEKST37 ¤kr.&B20KRED10
-.th .br
-.th .if &L'&B20TEKST38 > 0 .an &L'&B20KRED11 > 0
-.th &B20TEKST38 ¤kr.&B20KRED11
-.th .br
-.th .if &L'&B20TEKST39 > 0 .an &L'&B20KRED12 > 0
-.th &B20TEKST39 ¤kr.&B20KRED12
-.th .br
-.th .if &L'&B20TEKST40 > 0 .an &L'&B20KRED13 > 0
-.th &B20TEKST40 ¤kr.&B20KRED13
-.th .br
-.th .if &L'&B20TEKST41 > 0 .an &L'&B20KRED14 > 0
-.th &B20TEKST41 ¤kr.&B20KRED14
-.th .sp
-.if x&B20TEST02 = x1
-.th .sp
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
-.th bygherren.
-.sp
-.if &L'&B20TEST25 gt 0
-.th Udbetaling sker efter
-.th besigtigelse foretaget af byggesagkyndig for bygherrens regning.
-.th .br
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
-.th den byggesagkyndige.
-.th .sp
-.if &L'&B20TEST12 gt 0
-.th Udbetaling sker efter besigtigelse foretaget af bygherretilsyn for
-.th bygherrens regning.
-.th .br
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
-.th bygherretilsynet. Den tilsynsførende er &B20TEKST05..
-.th .sp
-.if &L'&B20TEST25 = 0
-.an &L'&B20TEST12 = 0
-.th Banken har rådgivet om og anbefalet bygherren, at der tilknyttes et
-.th uvildigt tilsyn med byggeriet. Bygherren har fravalgt dette.
-.th .sp
-Forinden udbetalinger fra byggelånet/byggekontoen kan finde sted skal
-samtlige betingelser for byggelånet være opfyldt, alle dokumenter være
-underskrevet, og alle sikkerheder være etableret.
-.sp
-.if &L'&B20KRED16 gt 0
-.th Bygherrens eget indskud, kr. &ÅCONT
-.th :VS.&B20KRED16.
-.th .ct,
-.th anvendes forinden der udbetales fra byggelån/byggekonto.
-.th .sp
-&B20TEKST45 &B20TEKST46 &B20TEKST47 &B20TEKST48 &B20TEKST50
-.sp
-.kp on
-:FED.Omkostninger:
-.sp
-:SKRSLUT.
-.if &L'&B20KRED21 gt 0
-.th Tinglysningsafgift til det offentlige udgør kr. &ÅCONT
-.th :VS.&B20KRED21..
-.th .sp
-.kp off
-Der beregnes et samlet lånesagsgebyr kr. &ÅCONT
-:VS.&B20KRED18..
-Herudover vil blive beregnet gebyr, i henhold til,
-bankens sædvanlige gebyrregler for udført arbejde under lånesagens
-forløb.
-.sp
-.kp on
-:FED.Generelt:
-.sp
-:SKRSLUT.
-Byggelån/byggekonto er i øvrigt bevilget på bankens almindelige
-betingelser for byggelån, hvoraf et eksemplar vedlægges, samt bankens
-almindelige forretningsbetingelser for privatkunder.
-.sp
-.kp off
-Vi håber, at vort tilbud, som er gældende 3 måneder fra d.d., vil have
-&DIN interesse og ser frem til at høre fra &DIG..
-.sp
-.kp on
-Ved accept af lånetilbuddet bedes medfølgende kopi returneret i
-underskrevet stand.
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&BANKNAVN
-.sp 3
-.if &L'&GENMEKSP gt 0
-.th &GENMEKSP          &GENEKSP
-.el &GENEKSP
-.ce off
-.sp 10mm
-Herved kvitteres for modtagelsen, idet jeg/vi erklærer mig/os
-indforstået med brevets indhold.
-.sp 10mm
-.tp 85mm
-.se streg = '________________________'
-.se streg1 = '______________________________________'
-&streg ¤, den &streg
-.sp 20mm
-.if &L'&B20TEKST02 > 0
-.th &streg1 ¤&streg1
-.th .br
-.th &NAVN ¤&B20TEKST02
-.el &streg
-.el .br
-.el &NAVN
-.kp off
-.pa
-:VERDA09.
-.fo left
-.ti ¤ 05
-:tiltale &TILTALE
-.tm 20mm
-.ll 175mm
-.da START 20mm 100mm width 170mm
-.da VEND 7mm 275mm width 180mm rotate -90
-.****************************************
-.ar VEND on
-:COUR6.
-&BRUGERNR
-.br
-&BREVNAVN
-.ar off
-.****************************************
-.ar START on
-:VERDA10.
-:FED.
-Tilsagn om finansiering af &DIT byggeri.
-:SKRSLUT.
-:SKRSLUT.
-.ar off
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.da ADRESSE 20mm 50mm width 170mm
-.*************************************************************
-.ar AFSENDER on
-.se bankregnr = &BANKREGNR
-:VERDA08.
-.if &bankregnr = 0000
-A/S &BANKNAVN
-.th .br
-.th &AFDNAVN
-.th .br
-.th &AFDGADE
-.th .br
-.th &AFDBY
-.th .br
-.th T: &AFDTLF
-.th .br
-.th M: &GENEMAIL
-.el &BKAFD
-.el .br
-.el &BKADR
-.el .br
-.el &BKBY
-.el .br
-.el T: &BKTLF
-.sp2
-.br;&DATO
-.sp
-.ar off
-.*************************************************************
-.ar ADRESSE on
-.if &L'&STILL > 0 .an &L'&B20TEKST61 = 0
-.th &STILL
-.th .br
-&NAVN
-.br
-.if &L'&B20TEKST02 > 0
-.th &B20TEKST02
-.th .br
-.if &L'&COADR > 0
-.th &COADR
-.th .br
-&GADE
-.br
-&BY
-.br
-.ar off
-.*************************************************************
-.sp 48mm
-Vi har hermed fornøjelsen at tilbyde &DIG finansiering i
-forbindelse med
-.if x&B20TEST06 = x1
-.th nybyggeri
-.if x&B20TEST06 = x2
-.th ombygning
-.if &L'&B20TEKST01 gt 0 .an &L'&B20TEKST51 gt 0
-.th &B20TEKST01 &B20TEKST51., beliggende &B20TEKST03..
-.el &B20TEKST01., beliggende &B20TEKST03..
-.sp
-Vi kan tilbyde følgende:
-.sp
-.if &L'&B20TEST20 gt 0
-.th .go bygge
-.el .go forhånd
-...bygge
-.tp 50mm 80mm
-.ct
-:FED.Byggelån: ¤¤
-Kr. :VS.&B20BELOB1
-:SKRSLUT.
-.sp
-incl. renter, provisioner og øvrige omkostninger.
-.sp
-Debetrente for tiden ¤&B20DEBET01.% p.a.
-.br
-Kreditrente for tiden ¤&B20DEBET02.% p.a.
-.br
-.if &L'&B20DEBET03 gt 0
-.th Provision for tiden ¤&B20DEBET03.% p.a.
-.th .sp
-.th Rente og provision er variabel og tilskrives kvartalsvis bagud.
-.th Provisionen beregnes af gælden på byggelånet.
-.el .sp
-.el Renten er variabel og tilskrives kvartalsvis bagud.
-.sp
-Byggelånet indfries efter byggeriets afslutning
-senest den &B20DATO1..
-.sp
-...forhånd
-.if &L'&B20TEST21 gt 0
-.el .go bolig
-.ct
-.SP
-:FED.Garanti for forhåndslån: ¤¤
-Kr. :VS.&B20BELOB2
-:SKRSLUT.
-.sp
-anslået nominelt.
-.sp
-Provision for tiden
-:VS.&B20DEBET04.%
-pr. kvartal,
-dog minimum kr. :VS.&B20KRED22..
-.sp
-Provisionen er variabel og tilskrives kvartalsvis forud.
-.sp
-Provenuet fra forhåndslånet skal indsættes på byggekonto nr. &B20KTONR01.,
-som håndpantsættes til banken. Kontoen forrentes p.t. med
-:VS.&B20KRED20.%
-p.a. Renten er
-variabel og tilskrives årligt bagud.
-.sp
-.if &U'&B20TEST26 = J
-.th Byggelånet nedskrives med provenu af forhåndslånet.
-.th .sp
-Forhåndslånsgarantien frigives af realkreditinstituttet, når byggeriet er
-færdigmeldt, hvilket forventes at ske senest den &B20DATO2..
-.sp
-...bolig
-.if &L'&B20TEST22 gt 0
-.el .go pante
-.ct
-.SP
-:FED.Boliglån: ¤¤
-Kr. &ÅCONT
-:VS.&B20BELOB3
-:SKRSLUT.
-.sp
-Debetrente for tiden
-:VS.&B20DEBET05.%
-p.a.
-.sp
-Renten er variabel og tilskrives kvartalsvis bagud.
-.sp
-.if &L'&B20KRED23 gt 0
-.th Omkostninger til etablering af boliglånet kr. &ÅCONT :VS.&B20KRED23
-.th er indregnet i lånets hovedstol.
-.th .sp
-Lånet tilbagebetales med lige store ydelser over &B20TID år.
-Ved det nuværende renteniveau udgør den månedlige ydelse kr. &ÅCONT
-:VS.&B20DEBET06..
-.sp
-...pante
-.if &L'&B20TEST23 gt 0
-.el .go prio
-.ct
-.SP
-.KP ON
-:FED.Pantebrevslån: ¤¤
-Kr. &ÅCONT
-:VS.&B20BELOB4
-:SKRSLUT.
-.sp
-Særskilt tilbud vedlægges.
-.sp
-.KP OFF
-...prio
-.if &L'&B20TEST24 gt 0
-.el .go videre
-.ct
-.tp 80mm
-.kp on
-.sp
-:FED.SDO-lignende lån: ¤
-Kr. &ÅCONT
-:VS.&B20KRED01
-:SKRSLUT.
-.sp
-Særskilt tilbud vedlægges.
-.sp
-I byggeperioden gælder følgende: Provenuet fra det SDO-lignende
-forhåndslån skal indsættes på byggekonto &B20KTONR01., som håndpantsættes
-til banken. Kontoen forrentes med p.t.
-:VS.&B20KRED20.%
-p.a. Renten er variabel og tilskrives årligt bagud.
-.sp
-Såfremt ejendommen ved byggeriets afslutning ikke frembyder den
-fornødne værdi, kan banken kræve lånet nedbragt.
-.sp
-Rentevilkår for det SDO-lignende lån og den tilhørende indlånskonto
-genforhandles, når byggeriet er afsluttet og ejendommen er vurderet.
-.kp off
-...videre
-.sp
-:FED.Sikkerheder:
-.sp
-:SKRSLUT.
-Der stilles følgende sikkerheder for byggelånet/garanti for forhåndslån:
-.sp
-.tp 6mm
-.if &L'&B20TEST07 gt 0
-.th -¤Ejerpantebrev stort kr. &B20TEK32 udstedt med pant i
-.th .in 6mm nobreak
-.th ejendommen matr. nr. &B20TEKST53. næstefter foranstående
-.th prioriteter kr. &ÅCONT
-.th :VS.&B20KRED17..
-.th .sp
-.th .in 0mm
-.if &L'&B20TEST08 gt 0
-.th -¤Pantebrev opr. stort kr. &B20TEK34 udstedt til banken med pant i
-.th .in 6mm nobreak
-.th ejendommen matr. nr. &B20TEKST04 på vilkår efter nærmere aftale.
-.th .sp
-.th .in 0mm
-.if &L'&B20TEST09 gt 0
-.th -¤Transport i og fuldmagt til at hjemtage provenu af
-.th .in 6mm nobreak
-.th realkreditlån opr. kr. &ÅCONT
-.th :VS. &B20KRED19
-.th fra &B20TEKST52.
-.th .sp
-.th .in 0mm
-.***************
-.if &L'&B20TEST10 gt 0
-.an &B20KRED03 gt 0,00
-.an &B20KRED02 = 0,00
-.th .go EJEFIN
-.el .go EJEFINSL
-...EJEFIN
--¤Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
-.in 6mm nobreak
-forhåndslån realkredit eller SDO-lignende lån ca. kr. &ÅCONT
-:VS.&B20KRED03
-indbetales.
-.sp
-.in 0mm
-...EJEFINSL
-.**************
-.if &L'&B20TEST10 gt 0
-.an &B20KRED03 gt 0,00
-.an &B20KRED02 gt 0,00
-.th .go EGFIN
-.el .go EGFINSL
-...EGFIN
--¤Håndpant i byggekonto nr. &B20KTONR02., hvor provenu af
-.in 6mm nobreak
-forhåndslån ca. kr. &ÅCONT
-:VS.&B20KRED03
-og egenfinansiering ca. kr. &ÅCONT
-:VS.&B20KRED02
-indbetales.
-.sp
-.in 0mm
-...EGFINSL
-.************************
-.if &L'&B20TEST11 gt 0
-.th -¤Transport i bygherrens rettigheder i henhold til
-.th .in 6mm nobreak
-.th entreprisekontrakten med dertil hørende sikkerheder, herunder
-.th garantier.
-.th .in 0mm
-.th .sp
-.if &L'&B20TEK37 gt 0
-.th -¤ &B20TEK37
-.th .in 6mm nobreak
-.th &B20TEK33
-.th &B20TEK35
-.th .in 0mm
-.th .sp
-.if &L'&B20KRED25 gt 0
-.th Der stilles følgende sikkerheder for boliglånet:
-.th .sp
-.th .tp 6mm
-.th -¤Ejerpantebrev stort kr. &ÅCONT
-.th :VS.&B20KRED25
-.th .in 6mm nobreak
-.th udstedt med pant i ejendommen matr. nr. &B20TEKST54. næstefter
-.th foranstående prioriteter kr. &ÅCONT
-.th :VS.&B20KRED24..
-.th .sp
-.th .in 0mm
-.if &L'&B20TEK38 gt 0
-.th -¤ &B20TEK38
-.th &B20TEK39
-.th &B20TEK40
-.th .in 0mm
-.sp
-:FED.Udbetaling:
-.sp
-:SKRSLUT.
-Udbetaling fra byggelån/byggekonto sker
-.if x&B20TEST02 = x2
-.th ved forevisning af regninger.
-.th .sp
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt
-.th af bygherren.
-.if x&B20TEST02 = x1
-.th i følgende rater:
-.th .sp
-.tp 110mm
-.th .if &L'&B20TEKST30 > 0 .an &L'&B20KRED15 > 0
-.th &B20TEKST30 ¤kr.&B20KRED15
-.th .br
-.th .if &L'&B20TEKST31 > 0 .an &L'&B20KRED04 > 0
-.th &B20TEKST31 ¤kr.&B20KRED04
-.th .br
-.th .if &L'&B20TEKST32 > 0 .an &L'&B20KRED05 > 0
-.th &B20TEKST32 ¤kr.&B20KRED05
-.th .br
-.th .if &L'&B20TEKST33 > 0 .an &L'&B20KRED06 > 0
-.th &B20TEKST33 ¤kr.&B20KRED06
-.th .br
-.th .if &L'&B20TEKST34 > 0 .an &L'&B20KRED07 > 0
-.th &B20TEKST34 ¤kr.&B20KRED07
-.th .br
-.th .if &L'&B20TEKST35 > 0 .an &L'&B20KRED08 > 0
-.th &B20TEKST35 ¤kr.&B20KRED08
-.th .br
-.th .if &L'&B20TEKST36 > 0 .an &L'&B20KRED09 > 0
-.th &B20TEKST36 ¤kr.&B20KRED09
-.th .br
-.th .if &L'&B20TEKST37 > 0 .an &L'&B20KRED10 > 0
-.th &B20TEKST37 ¤kr.&B20KRED10
-.th .br
-.th .if &L'&B20TEKST38 > 0 .an &L'&B20KRED11 > 0
-.th &B20TEKST38 ¤kr.&B20KRED11
-.th .br
-.th .if &L'&B20TEKST39 > 0 .an &L'&B20KRED12 > 0
-.th &B20TEKST39 ¤kr.&B20KRED12
-.th .br
-.th .if &L'&B20TEKST40 > 0 .an &L'&B20KRED13 > 0
-.th &B20TEKST40 ¤kr.&B20KRED13
-.th .br
-.th .if &L'&B20TEKST41 > 0 .an &L'&B20KRED14 > 0
-.th &B20TEKST41 ¤kr.&B20KRED14
-.th .sp
-.if x&B20TEST02 = x1
-.th .sp
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
-.th bygherren.
-.sp
-.if &L'&B20TEST25 gt 0
-.th Udbetaling sker efter
-.th besigtigelse foretaget af byggesagkyndig for bygherrens regning.
-.th .br
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
-.th den byggesagkyndige.
-.th .sp
-.if &L'&B20TEST12 gt 0
-.th Udbetaling sker efter besigtigelse foretaget af bygherretilsyn for
-.th bygherrens regning.
-.th .br
-.th Udbetalingsanmodninger/regninger skal være attesterede og godkendt af
-.th bygherretilsynet. Den tilsynsførende er &B20TEKST05..
-.th .sp
-.if &L'&B20TEST25 = 0
-.an &L'&B20TEST12 = 0
-.th Banken har rådgivet om og anbefalet bygherren, at der tilknyttes et
-.th uvildigt tilsyn med byggeriet. Bygherren har fravalgt dette.
-.th .sp
-Forinden udbetalinger fra byggelånet/byggekontoen kan finde sted skal
-samtlige betingelser for byggelånet være opfyldt, alle dokumenter være
-underskrevet, og alle sikkerheder være etableret.
-.sp
-.if &L'&B20KRED16 gt 0
-.th Bygherrens eget indskud, kr. &ÅCONT
-.th :VS.&B20KRED16.
-.th .ct,
-.th anvendes forinden der udbetales fra byggelån/byggekonto.
-.th .sp
-&B20TEKST45 &B20TEKST46 &B20TEKST47 &B20TEKST48 &B20TEKST50
-.sp
-.kp on
-:FED.Omkostninger:
-.sp
-:SKRSLUT.
-.if &L'&B20KRED21 gt 0
-.th Tinglysningsafgift til det offentlige udgør kr. &ÅCONT
-.th :VS.&B20KRED21..
-.th .sp
-.kp off
-Der beregnes et samlet lånesagsgebyr kr. &ÅCONT
-:VS.&B20KRED18..
-Herudover vil blive beregnet gebyr, i henhold til,
-bankens sædvanlige gebyrregler for udført arbejde under lånesagens
-forløb.
-.sp
-.kp on
-:FED.Generelt:
-.sp
-:SKRSLUT.
-Byggelån/byggekonto er i øvrigt bevilget på bankens almindelige
-betingelser for byggelån, hvoraf et eksemplar vedlægges, samt bankens
-almindelige forretningsbetingelser for privatkunder.
-.sp
-.kp off
-Vi håber, at vort tilbud, som er gældende 3 måneder fra d.d., vil have
-&DIN interesse og ser frem til at høre fra &DIG..
-.sp
-.kp on
-Ved accept af lånetilbuddet bedes medfølgende kopi returneret i
-underskrevet stand.
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&BANKNAVN
-.sp 3
-.if &L'&GENMEKSP gt 0
-.th &GENMEKSP          &GENEKSP
-.el &GENEKSP
-.ce off
-.sp 10mm
-Herved kvitteres for modtagelsen, idet jeg/vi erklærer mig/os
-indforstået med brevets indhold.
-.sp 10mm
-.tp 85mm
-.se streg = '________________________'
-.se streg1 = '______________________________________'
-&streg ¤, den &streg
-.sp 20mm
-.if &L'&B20TEKST02 > 0
-.th &streg1 ¤&streg1
-.th .br
-.th &NAVN ¤&B20TEKST02
-.el &streg
-.el .br
-.el &NAVN
-.kp off
+

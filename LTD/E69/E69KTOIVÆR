@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -20,35 +33,63 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa
-.*UNDERSKRIFT *************************************************************
-.tp _/50mm
-.sp 5mm
-Dato¤
-.sp 14mm
-.hr tynd 0mm 80mm
+.*
+.if &L'MEDNAVN = 0
+.th .se min = 'min'
+.th .se mine = 'mine'
+.th .se jeg = 'Jeg'
+.el .se min = 'vores'
+.el .se mine = 'vores'
+.el .se jeg = 'Vi'
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.dr tynd weight 0.2mm
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 80mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Brevhoved adresseoplysninger
+.da KUNDEOPL  20mm   50mm width 80mm
+.da BREVOPL   90mm   50mm width 80mm
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.ar KUNDEOPL on
+.if &L'&STILL = 0
+.th &ÅRB
+.el &STILL.
 .br
 &NAVN.
-.sp 10mm
-Dato¤
-.sp 14mm
-.hr tynd 0mm 80mm
 .br
-&BANKNAVN.
+&COADR.
+.br
+&GADE.
+.br
+&BY.
+&LAND
+.ar off
+.ar BREVOPL on
+.ri 8
+:FED.
+INDLÅNSAFTALE
+.br
+Iværksætterkonto
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.br
+Dato: &DATO.
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.**************************************************************************
 .*************************************************************************
 har i dag indgået aftale med &BANKNAVN. om oprettelse af en
 "Iværksætterkonto". Kontoen, der er omfattet af lovreglerne for
@@ -111,60 +152,20 @@ Jeg har derudover gjort mig bekendt med &BANKNAVN.'s almindelige
 forretningsbetingelser, som gælder for aftalen. De gældende Almindelige
 forretningsbetingelser kan til enhver tid findes på &BANKNAVN.'s
 hjemmeside &WWWBANK..
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.dr tynd weight 0.2mm
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 80mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.* Brevhoved adresseoplysninger
-.da KUNDEOPL  20mm   50mm width 80mm
-.da BREVOPL   90mm   50mm width 80mm
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.ar KUNDEOPL on
-.if &L'&STILL = 0
-.th &ÅRB
-.el &STILL.
+.*UNDERSKRIFT *************************************************************
+.tp _/50mm
+.sp 5mm
+Dato ¤
+.sp 14mm
+.hr tynd 0mm 80mm
 .br
 &NAVN.
+.sp 10mm
+Dato ¤
+.sp 14mm
+.hr tynd 0mm 80mm
 .br
-&COADR.
-.br
-&GADE.
-.br
-&BY.
-&LAND
-.ar off
-.ar BREVOPL on
-.ri 8
-:FED.
-INDLÅNSAFTALE
-.br
-Iværksætterkonto
-:SKRSLUT.
-.br
-Kontonummer: &LANGKTONR.
-.br
-Cpr/Cvr-nummer: &KTOKNDNR1.
-.br
-Dato: &DATO.
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.**************************************************************************
-.*
-.if &L'MEDNAVN = 0
-.th .se min = 'min'
-.th .se mine = 'mine'
-.th .se jeg = 'Jeg'
-.el .se min = 'vores'
-.el .se mine = 'vores'
-.el .se jeg = 'Vi'
+&BANKNAVN.
+.** SIDESKIFT
+.pa
+

@@ -11,6 +11,37 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
 .**************************************************************************
 .* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
 .* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
@@ -73,39 +104,65 @@ reg.type, &REGTYPE./&REGTYPELNG.
 &KTOLAND
 .ar off
 .ar OVSKRIFT on
-:FED.&SDIT. &REGTYPELNG. er på vej.:SKRSLUT.¤&DATO.
+:FED.&SDIT. &REGTYPELNG. er på vej.:SKRSLUT. ¤ &DATO.
 .ar off
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.su on
-.if x&cprcvr = x00
-.th .se tlfnr = 'Erhverv'
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
 .**************************************************************************
 .sp 39mm
 :VERDA09.
@@ -193,60 +250,4 @@ tager ganske kort tid, og &DU. kan tage den i brug med det samme.
 Med venlig hilsen
 .br
 &B32NYK
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
-.**************************************************************************
-.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
-.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
-.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  160mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = Erhverv
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.sp 20mm
-.rh off
+

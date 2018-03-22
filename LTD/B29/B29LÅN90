@@ -11,232 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*
-.*
-.*PARAMETRE OG TESTS*******************************************************
-.if &L'&GENKRYDS1 > 0
-.an &L'&GENKRYDS2 > 0
-.th .mg/T/Der er sat X både i 'Ingen rådgivning' og 'Ingen Økon. oplysn.'/
-.**************************************************************************
-.if &L'&GENKRYDS1 = 0
-.an &L'&GENKRYDS2 = 0
-.th .go TEST
-.el .go ENDTEST
-...TEST
-.if x&GENERFAR < x1
-.or x&GENERFAR > x3
-.th .mg/T/Erfaring med at optage lån: Tast 1, 2 eller 3/
-.**************************************************************************
-.if &U'X&GENØKOFOR = XA
-.or &U'X&GENØKOFOR = XB
-.or &U'X&GENØKOFOR = XC
-.th .go OKFORH
-.el .mg/T/Om mine økonomiske forhold: Tast A, B eller C/
-...OKFORH
-.**************************************************************************
-.if x&GENVALG < x1
-.or x&GENVALG > x3
-.th .mg/T/Om min risikovillighed: Tast 1, 2 eller 3/
-.**************************************************************************
-.if x&GENLØBETID < x1
-.or x&GENLØBETID > x3
-.th .mg/T/Om lånets løbetid: Tast 1, 2 eller 3/
-.**************************************************************************
-.if &U'X&GENRENTETP = XF
-.or &U'X&GENRENTETP = XV
-.or &U'X&GENRENTETP = XD
-.th .go RTEOK
-.el .mg/T/De væsentligste vilkår: Rente, tast F, V eller D/
-...RTEOK
-.**************************************************************************
-.if &L'&GENRTELAV = 0
-.th .mg/T/Instituttets normale vilkår: Skriv laveste rente ud fra 80%-met./
-.if &L'&GENRTEHØJ = 0
-.th .mg/T/Instituttets normale vilkår: Skriv højeste rente ud fra 80%-met./
-.**************************************************************************
-.if &U'X&GENLÅNVILK = XA
-.or &U'X&GENLÅNVILK = XB
-.or &U'X&GENLÅNVILK = XC
-.th .go VILKOK
-.el .mg/T/Vilkår i forbindelse med optagelse: Tast A, B eller C/
-...VILKOK
-.**************************************************************************
-.if &U'X&GENTYPEPE = XP
-.or &U'X&GENTYPEPE = XE
-.th .go TPOK
-.el .mg/T/Kunden er Privatkunde=P eller Erhverskunde=E/
-...TPOK
-.**************************************************************************
-.if &U'X&GENLÅNOML = XJ
-.or &U'X&GENLÅNOML = XN
-.th .go OMLOK
-.el .mg/T/Er det muligt at foretage låneomlægning: Tast J(a) eller N(ej)/
-...OMLOK
-.**************************************************************************
-.if x&GENLÅNOMK < x1
-.or x&GENLÅNOMK > x5
-.th .mg/T/Låneomkostninger: Tast 1, 2, 3, 4 eller 5/
-.**************************************************************************
-.if &L'&GENLÅNGR1 = 0
-.an &L'&GENLÅNGR2 = 0
-.an &L'&GENLÅNGR3 = 0
-.an &L'&GENLÅNGR4 = 0
-.an &L'&GENLÅNGR5 = 0
-.an &L'&GENLÅNGR6 = 0
-.an &L'&GENLÅNGR7 = 0
-.an &L'&GENLÅNGR8 = 0
-.an &L'&GENLÅNGR9 = 0
-.an &L'&GENLÅNGR10 = 0
-.th .mg/T/Indtast begrundelse for valg af lånet/
-.**************************************************************************
-.if &L'&GENALTLN1 = 0
-.an &L'&GENALTLN2 = 0
-.an &L'&GENALTLN3 = 0
-.an &L'&GENALTLN4 = 0
-.an &L'&GENALTLN5 = 0
-.an &L'&GENALTLN6 = 0
-.an &L'&GENALTLN7 = 0
-.an &L'&GENALTLN8 = 0
-.an &L'&GENALTLN9 = 0
-.an &L'&GENALTLN10 = 0
-.th .mg/T/Indtast beskrivelse for alternativt lån/
-.**************************************************************************
-.if &U'X&B29SIKPCT = XJ
-.or &U'X&B29SIKPCT = XN
-.th .go SIKOK
-.el .mg/T/Indtast j eller n for sikkerhed/
-...SIKOK
-.if x&B29LÅNTYPE eq X1
-.or x&B29LYNTYPE eq X2
-.th .go LANTOK
-.el .mg/T/Indtast 1 for Boliglån eller 2 for Boligkredit/
-...LANTOK
-.***** if &L'&GENLÅN1 = 0 *****
-.***** an &L'&GENLÅN2 = 0 *****
-.***** an &L'&GENLÅN3 = 0 *****
-.***** an &L'&GENLÅN4 = 0 *****
-.***** an &L'&GENLÅN5 = 0 *****
-.***** an &L'&GENLÅN6 = 0 *****
-.***** an &L'&GENLÅN7 = 0 *****
-.***** an &L'&GENLÅN8 = 0 *****
-.***** an &L'&GENLÅN9 = 0 *****
-.***** an &L'&GENLÅN10 = 0 *****
-.***** th .mg/T/Indtast beskrivelse for optagne lån/ *****
-.**************************************************************************
-.if &L'&GENALTÅOP = 0
-.th .mg/T/Indtast ÅOP for det alternative lån/
-.**************************************************************************
-.if &L'&GENOPTÅOP = 0
-.th .mg/T/Indtast ÅOP for det optagne lån/
-.**************************************************************************
-...ENDTEST
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-:omtale &OMTALEF
-:tiltale &TILTALEF
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Dokumentation for rådgivning i forbindelse med en boligkreditaftale
-:SKRSLUT.
-.ar off
-.*************************************************************************
-.******************************************************************
-.da KUNDEOPL    25mm  48mm width 80mm
-.da PI         112.5mm 48mm width 80mm
-.da CPRSENR     43mm 70.5mm width 80mm
-.******************************************************************
-.ar KUNDEOPL on
-&STILL
-.br
-&NAVN
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.*************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*************************************
-.ar CPRSENR on
-&KUNDENR
-.ar off
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.** PARTER ****************************************************************
-.ar SIDE on
-.tp 1mm 88.5mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SWISS8.
-.bx left 87.5mm right
-¤Kunde ¤Pengeinstitut
-.sp 23mm
-¤CPR-nr./CVR-nr.
-.bx off
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 196mm
-.bx off
-.ar off
-.******************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 70 + 13MM (TOPMARGIN) = 83MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 70mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
 .**************************************************************************
 .da OVERSKR 20mm 32mm width 175mm
 .da BOX 20mm 43mm width 175mm
@@ -737,3 +511,230 @@ Den ¤
 .br
 &NAVN
 .kp off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*
+.*PARAMETRE OG TESTS*******************************************************
+.if &L'&GENKRYDS1 > 0
+.an &L'&GENKRYDS2 > 0
+.th .mg/T/Der er sat X både i 'Ingen rådgivning' og 'Ingen Økon. oplysn.'/
+.**************************************************************************
+.if &L'&GENKRYDS1 = 0
+.an &L'&GENKRYDS2 = 0
+.th .go TEST
+.el .go ENDTEST
+...TEST
+.if x&GENERFAR < x1
+.or x&GENERFAR > x3
+.th .mg/T/Erfaring med at optage lån: Tast 1, 2 eller 3/
+.**************************************************************************
+.if &U'X&GENØKOFOR = XA
+.or &U'X&GENØKOFOR = XB
+.or &U'X&GENØKOFOR = XC
+.th .go OKFORH
+.el .mg/T/Om mine økonomiske forhold: Tast A, B eller C/
+...OKFORH
+.**************************************************************************
+.if x&GENVALG < x1
+.or x&GENVALG > x3
+.th .mg/T/Om min risikovillighed: Tast 1, 2 eller 3/
+.**************************************************************************
+.if x&GENLØBETID < x1
+.or x&GENLØBETID > x3
+.th .mg/T/Om lånets løbetid: Tast 1, 2 eller 3/
+.**************************************************************************
+.if &U'X&GENRENTETP = XF
+.or &U'X&GENRENTETP = XV
+.or &U'X&GENRENTETP = XD
+.th .go RTEOK
+.el .mg/T/De væsentligste vilkår: Rente, tast F, V eller D/
+...RTEOK
+.**************************************************************************
+.if &L'&GENRTELAV = 0
+.th .mg/T/Instituttets normale vilkår: Skriv laveste rente ud fra 80%-met./
+.if &L'&GENRTEHØJ = 0
+.th .mg/T/Instituttets normale vilkår: Skriv højeste rente ud fra 80%-met./
+.**************************************************************************
+.if &U'X&GENLÅNVILK = XA
+.or &U'X&GENLÅNVILK = XB
+.or &U'X&GENLÅNVILK = XC
+.th .go VILKOK
+.el .mg/T/Vilkår i forbindelse med optagelse: Tast A, B eller C/
+...VILKOK
+.**************************************************************************
+.if &U'X&GENTYPEPE = XP
+.or &U'X&GENTYPEPE = XE
+.th .go TPOK
+.el .mg/T/Kunden er Privatkunde=P eller Erhverskunde=E/
+...TPOK
+.**************************************************************************
+.if &U'X&GENLÅNOML = XJ
+.or &U'X&GENLÅNOML = XN
+.th .go OMLOK
+.el .mg/T/Er det muligt at foretage låneomlægning: Tast J(a) eller N(ej)/
+...OMLOK
+.**************************************************************************
+.if x&GENLÅNOMK < x1
+.or x&GENLÅNOMK > x5
+.th .mg/T/Låneomkostninger: Tast 1, 2, 3, 4 eller 5/
+.**************************************************************************
+.if &L'&GENLÅNGR1 = 0
+.an &L'&GENLÅNGR2 = 0
+.an &L'&GENLÅNGR3 = 0
+.an &L'&GENLÅNGR4 = 0
+.an &L'&GENLÅNGR5 = 0
+.an &L'&GENLÅNGR6 = 0
+.an &L'&GENLÅNGR7 = 0
+.an &L'&GENLÅNGR8 = 0
+.an &L'&GENLÅNGR9 = 0
+.an &L'&GENLÅNGR10 = 0
+.th .mg/T/Indtast begrundelse for valg af lånet/
+.**************************************************************************
+.if &L'&GENALTLN1 = 0
+.an &L'&GENALTLN2 = 0
+.an &L'&GENALTLN3 = 0
+.an &L'&GENALTLN4 = 0
+.an &L'&GENALTLN5 = 0
+.an &L'&GENALTLN6 = 0
+.an &L'&GENALTLN7 = 0
+.an &L'&GENALTLN8 = 0
+.an &L'&GENALTLN9 = 0
+.an &L'&GENALTLN10 = 0
+.th .mg/T/Indtast beskrivelse for alternativt lån/
+.**************************************************************************
+.if &U'X&B29SIKPCT = XJ
+.or &U'X&B29SIKPCT = XN
+.th .go SIKOK
+.el .mg/T/Indtast j eller n for sikkerhed/
+...SIKOK
+.if x&B29LÅNTYPE eq X1
+.or x&B29LYNTYPE eq X2
+.th .go LANTOK
+.el .mg/T/Indtast 1 for Boliglån eller 2 for Boligkredit/
+...LANTOK
+.***** if &L'&GENLÅN1 = 0 *****
+.***** an &L'&GENLÅN2 = 0 *****
+.***** an &L'&GENLÅN3 = 0 *****
+.***** an &L'&GENLÅN4 = 0 *****
+.***** an &L'&GENLÅN5 = 0 *****
+.***** an &L'&GENLÅN6 = 0 *****
+.***** an &L'&GENLÅN7 = 0 *****
+.***** an &L'&GENLÅN8 = 0 *****
+.***** an &L'&GENLÅN9 = 0 *****
+.***** an &L'&GENLÅN10 = 0 *****
+.***** th .mg/T/Indtast beskrivelse for optagne lån/ *****
+.**************************************************************************
+.if &L'&GENALTÅOP = 0
+.th .mg/T/Indtast ÅOP for det alternative lån/
+.**************************************************************************
+.if &L'&GENOPTÅOP = 0
+.th .mg/T/Indtast ÅOP for det optagne lån/
+.**************************************************************************
+...ENDTEST
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+:omtale &OMTALEF
+:tiltale &TILTALEF
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Dokumentation for rådgivning i forbindelse med en boligkreditaftale
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.******************************************************************
+.da KUNDEOPL    25mm  48mm width 80mm
+.da PI         112.5mm 48mm width 80mm
+.da CPRSENR     43mm 70.5mm width 80mm
+.******************************************************************
+.ar KUNDEOPL on
+&STILL
+.br
+&NAVN
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.*************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************
+.ar CPRSENR on
+&KUNDENR
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+ ¤ Kunde ¤ Pengeinstitut
+.sp 23mm
+ ¤ CPR-nr./CVR-nr.
+.bx off
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 196mm
+.bx off
+.ar off
+.******************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 70 + 13MM (TOPMARGIN) = 83MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 70mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+

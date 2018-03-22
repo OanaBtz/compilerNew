@@ -1,20 +1,48 @@
 #include "string.h"
 #include <stack>
-string generateString(Node* currentNode, string result, int tabs, queue<string> &tp , string input, string fontAlign, stack<string> font, stack<string> fontSize, string &tabPosition)
+
+string transformInNr(string tab){
+    string nrLocal = "";
+    char flag[1000];
+	strcpy(flag, tab.c_str() );
+	int j=0;
+	char returned[1000];
+	for(int i=0; i<strlen(flag); i++){
+		if(tab[i]>='0' && tab[i]<='9'){
+			returned[j]=flag[i];
+			j++;
+		}
+	}
+	returned[j]='\0';
+
+    nrLocal = returned;
+	return nrLocal;
+	// printf("%s\n", size);
+}
+
+
+
+string generateString(Node* currentNode, string result, int tabs, queue<string> &tp, queue<string> &tpCopy , string input, string fontAlign, stack<string> font, stack<string> fontSize, string &tabPosition)
 {
     string strings = "";
     if(currentNode->getData() == input){
-        if(tp.empty()){
-            if(tabPosition == "")
-                tabPosition = "1";
-            else{
-                int posNr = stoi(tabPosition);
-                posNr++;
-                tabPosition = to_string(posNr);
-            }
+    
+        if(tpCopy.empty()){
+            tpCopy = tp;
+        }
+        
+        if(tabPosition != ""){
+            int posNr = stoi(transformInNr(tabPosition));
+            
+            tabPosition = tpCopy.front();
+            tpCopy.pop();
+
+            posNr += stoi(transformInNr(tabPosition));
+            tabPosition = to_string(posNr);
+            tabPosition += "mm";
         }else{
-            tabPosition = tp.front();
-            tp.pop();
+            tabPosition = tpCopy.front();
+            tpCopy.pop();
         }
     }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == US || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == OR){
 

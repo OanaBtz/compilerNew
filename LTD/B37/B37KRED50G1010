@@ -11,6 +11,627 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+:SWISS9.
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.**************************************************************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+.* RETTET D.9.11.2011 vedr. UNDERSKRIFTSRUM es
+.* ¤Banksted¤Kontonummer¤Kontotype¤Udskrivningsdato
+¤Banksted¤Kontonummer¤Kontotype¤Dannelsesdato
+.sp 6mm
+.bx off
+.sp 4mm
+.bx left right
+.sp 221.5mm
+.bx off
+.ar off
+.**************************************************************************
+.ar BANKSTED on
+:SWISS9.
+.tp 1mm 30mm 65mm 140mm
+¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.*if &U'&PRIERH = P
+.*th .us Kreditaftale Forbruger
+.*if &U'&PRIERH = E
+.*th .us Kreditaftale Erhverv
+.us &lovskr
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
+.**************************************************************************
+.sp 50mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.**********
+:SWISS9.
+.if x&PRIOANDEL = x1
+.el .go EJANDL
+&BANKNAVN. (&Sbanken.)
+har ydet lånet og fastlagt en rentesats, der er baseret på brug af
+andelsboligforeningens (ABF)
+standardvedtægter. Såfremt denne vedtægt eller andre juridiske vilkår
+ændres af andelsboligforeningen, så
+&banken.s retsstilling og mulighed for at indtræde i, eller realisere, den
+stillede sikkerhed forringes derved, kan
+&banken kræve supplerende sikkerhed stillet for lånet, opsige lånet eller
+forhøje rentesatsen på lånet med det
+varsel, som til enhver tid er gældende efter &BANKNAVN.s almindelige
+forretningsbestemmelser.
+.sp 5mm
+...EJANDL
+.**********
+:FED.
+Beløb
+:SKRSLUT.
+.br
+.*** test på revolverende kredit OG ****
+.*** test på kaution og sikkerheder i dokumentet *******
+.if &U'&KAUANTAL > 0
+.an &U'&PANTANTAL > 0
+.an &U'&REVOLV = J
+.*an &L'&AFTDATO10.> 0
+.el .go OKTEST
+:SWISS16.
+KREDITDOKUMENTET forsøges udskrevet
+.br
+.*if &L'&AFTDATO10.> 0
+.*th UDEN AFTALEDATO på en ERHVERVSKREDIT
+.if &U'&KAUANTAL > 0
+.or &U'&PANTANTAL > 0
+.th .go KAUPANT
+.el .go KAUPANT0
+...KAUPANT
+med KAUTIONSOPLYSNINGER og/eller PANTSÆTTERE
+.br
+Disse sikkerheder håndteres på selvstændige dokumenter i &BANKNAVN..
+.sp
+...KAUPANT0
+.if &U'&REVOLV = J
+.th KREDITTEN er markeret som REVOLVERENDE
+.th .br
+.th denne type benyttes IKKE i &BANKNAVN.
+.sp
+Resten af udskriften GENNEMFØRES MEN MÅ IKKE UDLEVERES - RDUS
+.qu
+...OKTEST
+.**********
+.if &U'&REVOLV = J
+.th .go REVOL
+.el .go NOREVOL
+...REVOL
+:SWISS9.
+&BANKNAVN åbner en løbende kredit på &LÅNBEL kr. til &migos..
+.go AFVIKL
+...NOREVOL
+&debsomt har aftalt med &BANKNAVN., at &deblomt kan trække op til
+&LÅNTOT kr. på denne kredit inklusive rente og provision.
+...AFVIKL
+.if &U'&AFDYDL01 = H .an x&U'&PRIERH = xE
+.th .go UAFV
+.if &L'&AFDYDL01 = 0 .an x&U'&PRIERH = xE
+.th .go UAFV
+.sp 5mm
+:FED.
+Afvikling
+:SKRSLUT.
+.br
+...UAFV
+.****
+.if &U'&REVOLV = J
+.th .go REVOLAFV
+.el .go AFVIKL1
+.***
+...REVOLAFV
+Inden for kreditrammen afvikler &deblomt de trukne beløb med tillæg
+af renter ved betaling af afdrag på &REVOLPCT. % af
+.if &L'&REVOLMINB > 0
+.th udlånssaldoen,
+.th dog mindst
+.th :VS. &REVOLMINB
+.th kr. &ÅCONT
+.el udlånssaldoen.
+.br
+.if &L'&REVOLSALST > 0
+.th .br
+.th &debsomt påbegynder afvikling når udlånssaldoen er større end
+.th eller lig med
+.th :VS. &REVOLSALST
+.th kr.
+.* SLUTDATO **********
+.if &L'&REVOLSALSL > 0
+.th .br
+.th Afvikling ophører, når udlånssaldoen er mindre end eller lig med
+.th :VS. &REVOLSALSL
+.th kr.
+.th .br
+&Sbanken beregner afdragene pr. den 15., eller førstkommende
+bankdag derefter, i måneden før beløbet skal betales.
+.br
+.go SLUTAFV
+...AFVIKL1
+.*1. AFVIKLING ***********
+.*ERHVERV SPECIAL*********
+.if x&U'&PRIERH = xE
+.el .go ERHSL
+.*if x&KTOKNDNR1 = x0011352332 .or x&KTOKNDNR1 = x4370276043
+.*th x&AFDYDL01.x
+.th .br
+.if &U'&AFDYDL01 = A .or &U'&AFDYDL01 = Y
+.th Nærværende kredit forfalder til endelig indfrielse senest den
+.th &AFTDATO10.
+.th .sp
+.th .go ERHSL
+.if &U'&AFDYDL01 = H .or &L'&AFDYDL01 = 0
+.th .go SLUTAFV
+.*ERHVERV SPECIAL SLUT****
+...ERHSL
+.if &L'&AFDYDL01 = 0
+.th .go SLUTAFV
+.if &U'&AFDYDL01 = A
+.th Kreditten afdrages med
+.if &U'&AFDYDL01 = Y
+.th Ydelsen er
+.if &U'&AFDYDL01 = H
+.th Kreditten er gældende indtil videre.
+.th .go SLUTAFV
+.if &U'&AFDYDL01 = T
+.th Se afviklingstabel.
+.th .go SLUTAFV
+:VS. &AFVBEL01
+kr., som &deblomt betaler
+.if &AFVFREK01 = 1
+.th hver måned,
+.if &AFVFREK01 = 3
+.th hvert kvartal,
+.if &AFVFREK01 = 4
+.th hver 2. måned,
+.if &AFVFREK01 = 6
+.th hvert halvår,
+.if &AFVFREK01 = 7
+.th hver uge,
+.if &AFVFREK01 = 9
+.th hvert år,
+.if &AFVFREK01 = 14
+.th hver 14. dag,
+.if &AFVFREK01 = 15
+.th hver den 15. og sidste i måneden,
+første gang den &AFVDATO01.. &ÅCONT
+.if x&AFVANT01 = x99
+.th .go 2AFVIKL
+.if &U'&AFDYDL01 = A
+.th .go AFV01A
+.el .go AFV01Y
+...AFV01A
+.if &AFVANT01 > 1
+.th Dette afdrag betales &AFVANT01 gange.
+.el Dette afdrag betales &AFVANT01 gang.
+.go 2AFVIKL
+...AFV01Y
+.if &AFVANT01 > 1
+.th Denne ydelse betales &AFVANT01 gange.
+.el Denne ydelse betales &AFVANT01 gang.
+.*2. AFVIKLING ***********
+...2AFVIKL
+.if &L'&AFDYDL02 = 0
+.th .go SLUTAFV
+.el .br
+.if &U'&AFDYDL02 = A
+.th Ekstraordinært afdrag på
+.if &U'&AFDYDL02 = Y
+.th Ekstraordinær ydelse på
+:VS. &AFVBEL02
+kr., som &deblomt betaler
+.if &AFVFREK02 = 1
+.th hver måned,
+.if &AFVFREK02 = 3
+.th hvert kvartal,
+.if &AFVFREK02 = 4
+.th hver 2. måned,
+.if &AFVFREK02 = 6
+.th hvert halvår,
+.if &AFVFREK02 = 7
+.th hver uge,
+.if &AFVFREK02 = 9
+.th hvert år,
+.if &AFVFREK02 = 14
+.th hver 14. dag,
+.if &AFVFREK02 = 15
+.th hver den 15. og den sidste i måneden,
+første gang den &AFVDATO02.. &ÅCONT
+.if x&AFVANT02 = x99
+.th .go SLUTAFV
+.if &U'&AFDYDL02 = A
+.th .go AFV02A
+.el .go AFV02Y
+...AFV02A
+.if &AFVANT02 > 1
+.th Dette afdrag betales &AFVANT02 gange.
+.el Dette afdrag betales &AFVANT02 gang.
+.go SLUTAFV
+...AFV02Y
+.if &AFVANT02 > 1
+.th Denne ydelse betales &AFVANT02 gange.
+.el Denne ydelse betales &AFVANT02 gang.
+...SLUTAFV
+.sp 5mm
+.********************
+.* FORTRYDELSESRET vedr. PRIVATE indsat d.10.6.2010 Es
+.***************
+.if x&u'&PRIERH = xE ;.*an x&KTOKNDNR1 = x4370276043
+.el .go EJERHV
+.th :FED.
+.th Aftaledato
+.th.br
+.th :SKRSLUT.
+.th Nærværende kredit forfalder &AFTDATO10., idet vilkårene for
+.th kreditten inden denne dato skal genforhandles på grundlag af
+.th indleveret årsregnskab. Dette gælder uanset aftalt afvikling af
+.th kreditten.
+.th .sp 3mm
+.go RENTE
+...EJERHV
+.***************
+.if &L'&AFTDATO10 = 0
+.an &L'&GENFDATO = 0
+.th .go RENTE
+:FED.
+Genforhandling
+.br
+:SKRSLUT.
+.if &L'&AFTDATO10 > 0
+.th &debsomt aftaler den videre afvikling eller indfrielse med &BANKNAVN
+.th senest den &AFTDATO10..
+.if &L'&GENFDATO > 0
+.th .br
+.th Kreditten genforhandles
+.th &GENFDATO..
+.sp 5mm
+...RENTE
+.***************
+:FED.
+Rente og provision
+.br
+:SKRSLUT.
+Rente og provision er
+.if &U'&RENTETYP = V
+.th variabel
+.if &U'&RENTETYP = D
+.th differentieret
+og fastsættes til enhver tid af
+&BANKNAVN., jf. &BANKNAVN.s
+"Almindelige forretningsbestemmelser for
+.if &U'&PRIERH = E
+.TH erhverv".
+.el privatkunder (forbrugere)".
+.sp 3mm
+.if &U'&RENTETYP = V
+;T
+.th .go TYPV
+.el .go TYPD
+...TYPV
+Udlånsrenten er for tiden &RENTE % årligt og tilskrives kreditten
+.if &RTEFREK01 = 1
+.th hver måned,
+.if &RTEFREK01 = 3
+.th hvert kvartal,
+.if &RTEFREK01 = 6
+.th hvert halvår,
+.if &RTEFREK01 = 9
+.th hvert år,
+første gang den &RTEDATO01..
+...TYPD
+.if &U'&RENTETYP = D
+.th Renten er differentieret og fremgår af kreditoplysningerne.
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.el .sp 3mm
+.el .go PROV
+.***************
+...PROV
+.if &L'&PROV > 0
+.th Provisionen er for tiden &PROV % årligt &ÅCONT
+.th .br
+.if &L'&PROVOVERTR > 0
+.th Overtræksprovision er for tiden &PROVOVERTR % årligt.
+.th .br
+.if &L'&PROVBEVILG > 0
+.th Provision af bevilget overtræk er for tiden &PROVBEVILG % årligt.
+.th .br
+...PROVSL
+.***************
+.sp 5mm
+.if &U'&AFDYDL01 = H
+.th .go OPSIGEL
+:FED.
+Betaling
+.br
+:SKRSLUT.
+.**PRIVAT ******
+.if &U'&PRIERH = P
+.th &debsomt får ikke separat meddelelse om beløb, der er
+.th hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.**ERHVERV *****
+.if &U'&PRIERH = E
+.th &BANKNAVN er berettiget til at debitere kontoen for ethvert beløb, som
+.th &deblomt på en hvilken som helst måde måtte blive &BANKNAVN skyldig.
+.sp 5mm
+.***************
+...OPSIGEL
+.if &U'&PRIERH = E
+.th .go OPSSLUT
+:FED.
+Opsigelse
+.br
+:SKRSLUT.
+&debsomt
+kan opsige kreditten uden varsel og indbetale det skyldige beløb inklusive
+rente, provision og eventuelle andre omkostninger til
+indfrielsesdagen. &BANKNAVN kan opsige kreditten med 3 måneders varsel og
+forlange, at
+&deblomt
+betaler det skyldige beløb inklusive rente, provision og eventuelle andre
+omkostninger pr. opsigelsesdagen. &ÅCONT
+&BANKNAVN kan i særlige tilfælde opsige kreditten uden varsel,
+jf. "Almindelige bestemmelser for lån og kreditter til
+.if &U'&PRIERH = P
+.th privatkunder (forbrugere)".
+.el erhvervsmæssige formål".
+...OPSSLUT
+.* INDSAT
+.if x&PRIOFAST = x1
+.or x&PRIOVAR  = x1
+.el .go SÆRBET0
+.sp 5mm
+:FED.
+Særlige rentevilkår:SKRSLUT.
+.br
+...SALTID1
+Banken foretager en daglig beregning af renten på følgende måde:
+.br
+Rentesaldo x pålydende rente / 360.
+.br
+Den daglige beregning sker
+iflg. kalenderdage (365 eller 366).
+.sp 5mm
+...SÆRBET0
+.*SÆRLIGE BETINGELSER *****************************************************
+.if &L'&SAERBET01 gt 0
+.or &L'&SAERBET02 gt 0
+.or &L'&SAERBET03 gt 0
+.or &L'&SAERBET04 gt 0
+.or &L'&SAERBET05 gt 0
+.or &L'&SAERBET06 gt 0
+.or &L'&SAERBET07 gt 0
+.or &L'&SAERBET08 gt 0
+.or &L'&SAERBET09 gt 0
+;T
+.or &L'&SAERBET10 gt 0
+.or &L'&SAERBET11 gt 0
+.or &L'&SAERBET12 gt 0
+.th .go SÆRBET
+.el .go SÆRBETSL
+...SÆRBET
+.sp 5mm
+:FED.Særlige betingelser:SKRSLUT.
+.br
+&SAERBET01.
+.if &U'&LINSKIP01 = J
+.th .br
+&SAERBET02.
+.if &U'&LINSKIP02 = J
+.th .br
+&SAERBET03.
+.if &U'&LINSKIP03 = J
+.th .br
+&SAERBET04.
+.if &U'&LINSKIP04 = J
+.th .br
+&SAERBET05.
+.if &U'&LINSKIP05 = J
+.th .br
+&SAERBET06.
+.if &U'&LINSKIP06 = J
+.th .br
+&SAERBET07.
+.if &U'&LINSKIP07 = J
+.th .br
+&SAERBET08.
+.if &U'&LINSKIP08 = J
+.th .br
+&SAERBET09.
+.if &U'&LINSKIP09 = J
+.th .br
+&SAERBET10.
+.if &U'&LINSKIP10 = J
+.th .br
+&SAERBET11.
+.if &U'&LINSKIP11 = J
+.th .br
+&SAERBET12.
+...SÆRBETSL
+.sp 5mm
+.* TEST kunde(Ole Carlsen)
+.*if x&KTOKNDNR1 ne x4370274881
+.*th .go FORTSLUT
+.* FORTRYDELSESRET (Gælder kun for private)
+.if &U'&PRIERH = E
+.th .go FORTSLUT
+.* FORTRYDELSESRET (Gælder altid for pivate prio kreditter)
+.if x&PRIOKRED = x1
+.th .go FORTNORM
+.*if x&PRIOFAST = x1
+.*or x&PRIOVAR  = x1
+.*el .go FORTNORM
+.* HVIS 3 og flere debitorer flyttes Prioundtagelse til b37undkr50
+.*if &DEBANTAL < 3
+.*el .go FORTNORM
+.*if x&PRIOFAST = x1
+.*or x&PRIOVAR  = x1
+.* HVIS 3 og flere debitorer flyttes Prioundtagelse til b37undkr50
+.*if &DEBANTAL < 3
+.*th :FED.
+.*th Nærværende PrioritetsLån er ikke omfattet af fortrydelsesretten
+.*th i henhold til kreditaftaleloven.
+.*th :SKRSLUT.
+.*th .sp 5mm
+.*th .go FORTSLUT
+.*el .go FORTNORM
+...FORTNORM
+:FED.
+Fortrydelsesret:SKRSLUT.
+.br
+Låntager har ret til at fortryde kreditaftalen inden for 14 dage fra
+lånet/kreditten stilles til låntagers disposition. Det gælder dog kun, hvis
+du har modtaget de oplysninger, der kræves efter kreditaftaleloven. Ellers
+regnes fristen fra den dag, hvor du modtager oplysningerne. Hvis
+fortrydelsesfristens sidste dag falder på en lørdag, søndag, helligdag,
+grundlovsdag, fredag efter Kristi Himmelfartsdag, juleaftensdag eller
+nytårsaftensdag, udløber fristen den følgende hverdag.
+.sp 3mm
+Ønsker låntager at benytte din ret til at fortryde skal låntager skrive
+eller elektronisk (bortset fra telefoni) rette henvendelse til låntagers
+afdeling inden fristen udløber. Desuden skal låntager tilbagebetale det
+modtagne beløb/trækket på kreditten og eventuelle omkostninger, som banken
+måtte have betalt til offentlige myndigheder og som ikke kan refunderes.
+.sp 3mm
+Derudover skal låntager betale de renter, der er påløbet fra den dag
+lånet/kreditten blev stillet til låntagers disposition indtil beløbet
+tilbagebetales.
+.sp 3mm
+Rentebeløbet, der påløber pr. dag, udgør &FTRRTEDAG. kr. Rentebeløbet
+er beregnet
+på baggrund af renteforholdene på aftaletidspunktet, ligesom der ikke er
+taget højde for renters rente. Det rentebeløb, der skal betales ved
+udnyttelse af fortrydelsesretten, er de påløbne renter beregnet på grundlag
+af den aftalte debitorrente.
+.sp 3mm
+Det samlede beløb skal tilbagebetales uden unødig forsinkelse og senest 30
+dage efter du har givet besked om udøvelsen af fortrydelsesretten.
+.*sp 5mm
+...FORTSLUT
+.if &DEBANTAL < 3
+.an &KAUANTAL = 0
+.an &PANANTAL = 0
+.th .go DEBUND
+.el .go DEBSLUT
+...DEBUND
+.tp 87.5mm
+.kp on
+:FED.Underskrift:SKRSLUT.
+.br
+.**************************************************************************
+.if &DEBANTAL > 2
+.or &U'&SIKKERHED = J
+.or &U'&KROPL = J
+.th .go BILAG
+.el .go BILAGSL
+.***************
+...BILAG
+Kreditaftalen omfatter også følgende bilag, der er en integreret del af
+kreditaftalen:
+.sp 3mm
+.if &DEBANTAL > 2
+.th * Øvrige låntagere
+.th .br
+.if &U'&SIKKERHED = J
+.th * Sikkerheder
+.th .br
+.if &U'&KROPL = J
+.th * Kreditaftaleoplysninger
+.sp 3mm
+...BILAGSL
+.***************
+.if &U'&PRIERH = E
+.th .go ERHBET
+.el .go BETBEG
+.****ERHVERV *******
+...ERHBET
+&debsomt erklærer ved &min underskrift, at kassekreditten er til
+erhvervsmæssigt formål.
+.sp 3mm
+Det er en forudsætning for denne kredit, at vi og eventuelle kautionister
+indleverer vores regnskab til &BANKNAVN hvert år senest 6 måneder efter
+regnskabsårets afslutning, og at dette ikke giver grund til
+bemærkninger.
+.sp 3mm
+...BETBEG
+.**GÆLDER FOR BÅDE FORBRUGERE OG ERHVERVSKUNDER ***************************
+&debsomt er bekendt med og accepterer, at &BANKNAVN.s "Almindelige
+bestemmelser for lån og kreditter til
+.if &U'&PRIERH = P
+;T
+.th privatkunder (forbrugere)"
+.if &U'&PRIERH = E
+.th erhvervsmæssige formål"
+er en del af denne aftale, og &deblomt har fået en kopi af aftalen.
+.sp 5mm
+.*****************************
+:FED.
+.if &DEBANTAL = 2
+.th Låntager ¤Låntager
+.el Låntager
+:SKRSLUT.
+.sp 5mm
+.********************
+.tp _/50mm 87.5mm _/137.5mm
+.if &DEBANTAL = 2
+.th Den ¤ ¤Den ¤
+.el Den ¤
+.sp 14mm
+.if &DEBANTAL = 2
+.th .hr tynd 5mm 80mm 87.5mm 167.5mm
+.el .hr tynd 5mm 80mm
+.br
+.tp 87.5mm
+.if &DEBANTAL = 2
+.th &DEB01NAVN ¤&DEB02NAVN
+.el &DEB01NAVN
+.kp off
+...DEBSLUT
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -406,12 +1027,12 @@ bsep3 = &bsep3 lsep3=&lsep3
 .ti ¤ 05
 .tp 2mm 91mm
 :SWISS8.
-¤Til bankens noteringer (dato og initialer)
+ ¤ Til bankens noteringer (dato og initialer)
 .sp 1mm
 .bx new tynd 25mm 50mm / 86mm 109mm / 145mm 170mm
 .sp 1mm
 .tp 2mm 60mm 120mm
-¤EDB-registrering ¤Evt. juridisk kontrol ¤Afsluttende kontrol
+ ¤ EDB-registrering ¤ Evt. juridisk kontrol ¤ Afsluttende kontrol
 .sp 1mm
 .bx off
 .*bx off
@@ -467,8 +1088,8 @@ Kl. &TID
 .tp 1mm 30mm 65mm 140mm
 .bx left right
 .* RETTET D.9.11.2011 vedr. UNDERSKRIFTSRUM es
-.*¤Banksted¤Kontonummer¤Kontotype¤Udskrivningsdato
-¤Banksted¤Kontonummer¤Kontotype¤Dannelsesdato
+.* ¤ Banksted ¤ Kontonummer ¤ Kontotype ¤ Udskrivningsdato
+ ¤ Banksted ¤ Kontonummer ¤ Kontotype ¤ Dannelsesdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -477,15 +1098,15 @@ Kl. &TID
 .bx left right
 .tp 1mm 88.5mm 135mm
 .if &DEBANTAL = 1
-.th ¤Låntager
+.th ¤ Låntager
 .if &DEBANTAL = 2
-.th ¤Låntager ¤Låntager
+.th ¤ Låntager ¤ Låntager
 .if &DEBANTAL > 2
-.th ¤Låntager ¤Låntager ¤Flere låntagere
+.th ¤ Låntager ¤ Låntager ¤ Flere låntagere
 .sp 20mm
 .if &DEBANTAL > 1
-.th ¤Kundenummer &KTOKNDNR1 ¤Kundenummer &DEB2KNDNR
-.el ¤Kundenummer &KTOKNDNR1
+.th ¤ Kundenummer &KTOKNDNR1 ¤ Kundenummer &DEB2KNDNR
+.el ¤ Kundenummer &KTOKNDNR1
 .bx off
 .sp 4mm
 .bx left right
@@ -499,7 +1120,7 @@ Kl. &TID
 .******************************************************************
 .ar BANKSTED on
 .tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+ ¤ &BANKSTED  ¤ &LANGKTONR ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
 .ar off
 .**************************************
 .ar KUNDEOPL on
@@ -541,621 +1162,4 @@ Kl. &TID
 .rh execute
 .*LINIELÆNGDEN ************************************************************
 .ll 175mm
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-:SWISS9.
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar BOX on
-:SWISS9.
-.tp 1mm 30mm 65mm 140mm
-.bx left right
-.* RETTET D.9.11.2011 vedr. UNDERSKRIFTSRUM es
-.* ¤Banksted¤Kontonummer¤Kontotype¤Udskrivningsdato
-¤Banksted¤Kontonummer¤Kontotype¤Dannelsesdato
-.sp 6mm
-.bx off
-.sp 4mm
-.bx left right
-.sp 221.5mm
-.bx off
-.ar off
-.**************************************************************************
-.ar BANKSTED on
-:SWISS9.
-.tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&IREGKTO ¤&REGTYPE11 &REGTYPELNG ¤&DATO
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-Kl. &TID
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.*if &U'&PRIERH = P
-.*th .us Kreditaftale Forbruger
-.*if &U'&PRIERH = E
-.*th .us Kreditaftale Erhverv
-.us &lovskr
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 50mm + 13mm (TOPMARGIN) = 83mm
-.**************************************************************************
-.sp 50mm
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.**********
-:SWISS9.
-.if x&PRIOANDEL = x1
-.el .go EJANDL
-&BANKNAVN. (&Sbanken.)
-har ydet lånet og fastlagt en rentesats, der er baseret på brug af
-andelsboligforeningens (ABF)
-standardvedtægter. Såfremt denne vedtægt eller andre juridiske vilkår
-ændres af andelsboligforeningen, så
-&banken.s retsstilling og mulighed for at indtræde i, eller realisere, den
-stillede sikkerhed forringes derved, kan
-&banken kræve supplerende sikkerhed stillet for lånet, opsige lånet eller
-forhøje rentesatsen på lånet med det
-varsel, som til enhver tid er gældende efter &BANKNAVN.s almindelige
-forretningsbestemmelser.
-.sp 5mm
-...EJANDL
-.**********
-:FED.
-Beløb
-:SKRSLUT.
-.br
-.*** test på revolverende kredit OG ****
-.*** test på kaution og sikkerheder i dokumentet *******
-.if &U'&KAUANTAL > 0
-.an &U'&PANTANTAL > 0
-.an &U'&REVOLV = J
-.*an &L'&AFTDATO10.> 0
-.el .go OKTEST
-:SWISS16.
-KREDITDOKUMENTET forsøges udskrevet
-.br
-.*if &L'&AFTDATO10.> 0
-.*th UDEN AFTALEDATO på en ERHVERVSKREDIT
-.if &U'&KAUANTAL > 0
-.or &U'&PANTANTAL > 0
-.th .go KAUPANT
-.el .go KAUPANT0
-...KAUPANT
-med KAUTIONSOPLYSNINGER og/eller PANTSÆTTERE
-.br
-Disse sikkerheder håndteres på selvstændige dokumenter i &BANKNAVN..
-.sp
-...KAUPANT0
-.if &U'&REVOLV = J
-.th KREDITTEN er markeret som REVOLVERENDE
-.th .br
-.th denne type benyttes IKKE i &BANKNAVN.
-.sp
-Resten af udskriften GENNEMFØRES MEN MÅ IKKE UDLEVERES - RDUS
-.qu
-...OKTEST
-.**********
-.if &U'&REVOLV = J
-.th .go REVOL
-.el .go NOREVOL
-...REVOL
-:SWISS9.
-&BANKNAVN åbner en løbende kredit på &LÅNBEL kr. til &migos..
-.go AFVIKL
-...NOREVOL
-&debsomt har aftalt med &BANKNAVN., at &deblomt kan trække op til
-&LÅNTOT kr. på denne kredit inklusive rente og provision.
-...AFVIKL
-.if &U'&AFDYDL01 = H .an x&U'&PRIERH = xE
-.th .go UAFV
-.if &L'&AFDYDL01 = 0 .an x&U'&PRIERH = xE
-.th .go UAFV
-.sp 5mm
-:FED.
-Afvikling
-:SKRSLUT.
-.br
-...UAFV
-.****
-.if &U'&REVOLV = J
-.th .go REVOLAFV
-.el .go AFVIKL1
-.***
-...REVOLAFV
-Inden for kreditrammen afvikler &deblomt de trukne beløb med tillæg
-af renter ved betaling af afdrag på &REVOLPCT. % af
-.if &L'&REVOLMINB > 0
-.th udlånssaldoen,
-.th dog mindst
-.th :VS. &REVOLMINB
-.th kr. &ÅCONT
-.el udlånssaldoen.
-.br
-.if &L'&REVOLSALST > 0
-.th .br
-.th &debsomt påbegynder afvikling når udlånssaldoen er større end
-.th eller lig med
-.th :VS. &REVOLSALST
-.th kr.
-.* SLUTDATO **********
-.if &L'&REVOLSALSL > 0
-.th .br
-.th Afvikling ophører, når udlånssaldoen er mindre end eller lig med
-.th :VS. &REVOLSALSL
-.th kr.
-.th .br
-&Sbanken beregner afdragene pr. den 15., eller førstkommende
-bankdag derefter, i måneden før beløbet skal betales.
-.br
-.go SLUTAFV
-...AFVIKL1
-.*1. AFVIKLING ***********
-.*ERHVERV SPECIAL*********
-.if x&U'&PRIERH = xE
-.el .go ERHSL
-.*if x&KTOKNDNR1 = x0011352332 .or x&KTOKNDNR1 = x4370276043
-.*th x&AFDYDL01.x
-.th .br
-.if &U'&AFDYDL01 = A .or &U'&AFDYDL01 = Y
-.th Nærværende kredit forfalder til endelig indfrielse senest den
-.th &AFTDATO10.
-.th .sp
-.th .go ERHSL
-.if &U'&AFDYDL01 = H .or &L'&AFDYDL01 = 0
-.th .go SLUTAFV
-.*ERHVERV SPECIAL SLUT****
-...ERHSL
-.if &L'&AFDYDL01 = 0
-.th .go SLUTAFV
-.if &U'&AFDYDL01 = A
-.th Kreditten afdrages med
-.if &U'&AFDYDL01 = Y
-.th Ydelsen er
-.if &U'&AFDYDL01 = H
-.th Kreditten er gældende indtil videre.
-.th .go SLUTAFV
-.if &U'&AFDYDL01 = T
-.th Se afviklingstabel.
-.th .go SLUTAFV
-:VS. &AFVBEL01
-kr., som &deblomt betaler
-.if &AFVFREK01 = 1
-.th hver måned,
-.if &AFVFREK01 = 3
-.th hvert kvartal,
-.if &AFVFREK01 = 4
-.th hver 2. måned,
-.if &AFVFREK01 = 6
-.th hvert halvår,
-.if &AFVFREK01 = 7
-.th hver uge,
-.if &AFVFREK01 = 9
-.th hvert år,
-.if &AFVFREK01 = 14
-.th hver 14. dag,
-.if &AFVFREK01 = 15
-.th hver den 15. og sidste i måneden,
-første gang den &AFVDATO01.. &ÅCONT
-.if x&AFVANT01 = x99
-.th .go 2AFVIKL
-.if &U'&AFDYDL01 = A
-.th .go AFV01A
-.el .go AFV01Y
-...AFV01A
-.if &AFVANT01 > 1
-.th Dette afdrag betales &AFVANT01 gange.
-.el Dette afdrag betales &AFVANT01 gang.
-.go 2AFVIKL
-...AFV01Y
-.if &AFVANT01 > 1
-.th Denne ydelse betales &AFVANT01 gange.
-.el Denne ydelse betales &AFVANT01 gang.
-.*2. AFVIKLING ***********
-...2AFVIKL
-.if &L'&AFDYDL02 = 0
-.th .go SLUTAFV
-.el .br
-.if &U'&AFDYDL02 = A
-.th Ekstraordinært afdrag på
-.if &U'&AFDYDL02 = Y
-.th Ekstraordinær ydelse på
-:VS. &AFVBEL02
-kr., som &deblomt betaler
-.if &AFVFREK02 = 1
-.th hver måned,
-.if &AFVFREK02 = 3
-.th hvert kvartal,
-.if &AFVFREK02 = 4
-.th hver 2. måned,
-.if &AFVFREK02 = 6
-.th hvert halvår,
-.if &AFVFREK02 = 7
-.th hver uge,
-.if &AFVFREK02 = 9
-.th hvert år,
-.if &AFVFREK02 = 14
-.th hver 14. dag,
-.if &AFVFREK02 = 15
-.th hver den 15. og den sidste i måneden,
-første gang den &AFVDATO02.. &ÅCONT
-.if x&AFVANT02 = x99
-.th .go SLUTAFV
-.if &U'&AFDYDL02 = A
-.th .go AFV02A
-.el .go AFV02Y
-...AFV02A
-.if &AFVANT02 > 1
-.th Dette afdrag betales &AFVANT02 gange.
-.el Dette afdrag betales &AFVANT02 gang.
-.go SLUTAFV
-...AFV02Y
-.if &AFVANT02 > 1
-.th Denne ydelse betales &AFVANT02 gange.
-.el Denne ydelse betales &AFVANT02 gang.
-...SLUTAFV
-.sp 5mm
-.********************
-.* FORTRYDELSESRET vedr. PRIVATE indsat d.10.6.2010 Es
-.***************
-.if x&u'&PRIERH = xE ;.*an x&KTOKNDNR1 = x4370276043
-.el .go EJERHV
-.th :FED.
-.th Aftaledato
-.th.br
-.th :SKRSLUT.
-.th Nærværende kredit forfalder &AFTDATO10., idet vilkårene for
-.th kreditten inden denne dato skal genforhandles på grundlag af
-.th indleveret årsregnskab. Dette gælder uanset aftalt afvikling af
-.th kreditten.
-.th .sp 3mm
-.go RENTE
-...EJERHV
-.***************
-.if &L'&AFTDATO10 = 0
-.an &L'&GENFDATO = 0
-.th .go RENTE
-:FED.
-Genforhandling
-.br
-:SKRSLUT.
-.if &L'&AFTDATO10 > 0
-.th &debsomt aftaler den videre afvikling eller indfrielse med &BANKNAVN
-.th senest den &AFTDATO10..
-.if &L'&GENFDATO > 0
-.th .br
-.th Kreditten genforhandles
-.th &GENFDATO..
-.sp 5mm
-...RENTE
-.***************
-:FED.
-Rente og provision
-.br
-:SKRSLUT.
-Rente og provision er
-.if &U'&RENTETYP = V
-.th variabel
-.if &U'&RENTETYP = D
-.th differentieret
-og fastsættes til enhver tid af
-&BANKNAVN., jf. &BANKNAVN.s
-"Almindelige forretningsbestemmelser for
-.if &U'&PRIERH = E
-.TH erhverv".
-.el privatkunder (forbrugere)".
-.sp 3mm
-.if &U'&RENTETYP = V
-;T.th .go TYPV
-.el .go TYPD
-...TYPV
-Udlånsrenten er for tiden &RENTE % årligt og tilskrives kreditten
-.if &RTEFREK01 = 1
-.th hver måned,
-.if &RTEFREK01 = 3
-.th hvert kvartal,
-.if &RTEFREK01 = 6
-.th hvert halvår,
-.if &RTEFREK01 = 9
-.th hvert år,
-første gang den &RTEDATO01..
-...TYPD
-.if &U'&RENTETYP = D
-.th Renten er differentieret og fremgår af kreditoplysningerne.
-.if &L'&PROV = 0
-.an &L'&PROVOVERTR = 0
-.an &L'&PROVBEVILG = 0
-.th .go PROVSL
-.el .sp 3mm
-.el .go PROV
-.***************
-...PROV
-.if &L'&PROV > 0
-.th Provisionen er for tiden &PROV % årligt &ÅCONT
-.th .br
-.if &L'&PROVOVERTR > 0
-.th Overtræksprovision er for tiden &PROVOVERTR % årligt.
-.th .br
-.if &L'&PROVBEVILG > 0
-.th Provision af bevilget overtræk er for tiden &PROVBEVILG % årligt.
-.th .br
-...PROVSL
-.***************
-.sp 5mm
-.if &U'&AFDYDL01 = H
-.th .go OPSIGEL
-:FED.
-Betaling
-.br
-:SKRSLUT.
-.**PRIVAT ******
-.if &U'&PRIERH = P
-.th &debsomt får ikke separat meddelelse om beløb, der er
-.th hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
-.**ERHVERV *****
-.if &U'&PRIERH = E
-.th &BANKNAVN er berettiget til at debitere kontoen for ethvert beløb, som
-.th &deblomt på en hvilken som helst måde måtte blive &BANKNAVN skyldig.
-.sp 5mm
-.***************
-...OPSIGEL
-.if &U'&PRIERH = E
-.th .go OPSSLUT
-:FED.
-Opsigelse
-.br
-:SKRSLUT.
-&debsomt
-kan opsige kreditten uden varsel og indbetale det skyldige beløb inklusive
-rente, provision og eventuelle andre omkostninger til
-indfrielsesdagen. &BANKNAVN kan opsige kreditten med 3 måneders varsel og
-forlange, at
-&deblomt
-betaler det skyldige beløb inklusive rente, provision og eventuelle andre
-omkostninger pr. opsigelsesdagen. &ÅCONT
-&BANKNAVN kan i særlige tilfælde opsige kreditten uden varsel,
-jf. "Almindelige bestemmelser for lån og kreditter til
-.if &U'&PRIERH = P
-.th privatkunder (forbrugere)".
-.el erhvervsmæssige formål".
-...OPSSLUT
-.* INDSAT
-.if x&PRIOFAST = x1
-.or x&PRIOVAR  = x1
-.el .go SÆRBET0
-.sp 5mm
-:FED.
-Særlige rentevilkår:SKRSLUT.
-.br
-...SALTID1
-Banken foretager en daglig beregning af renten på følgende måde:
-.br
-Rentesaldo x pålydende rente / 360.
-.br
-Den daglige beregning sker
-iflg. kalenderdage (365 eller 366).
-.sp 5mm
-...SÆRBET0
-.*SÆRLIGE BETINGELSER *****************************************************
-.if &L'&SAERBET01 gt 0
-.or &L'&SAERBET02 gt 0
-.or &L'&SAERBET03 gt 0
-.or &L'&SAERBET04 gt 0
-.or &L'&SAERBET05 gt 0
-.or &L'&SAERBET06 gt 0
-.or &L'&SAERBET07 gt 0
-.or &L'&SAERBET08 gt 0
-.or &L'&SAERBET09 gt 0
-;T.or &L'&SAERBET10 gt 0
-.or &L'&SAERBET11 gt 0
-.or &L'&SAERBET12 gt 0
-.th .go SÆRBET
-.el .go SÆRBETSL
-...SÆRBET
-.sp 5mm
-:FED.Særlige betingelser:SKRSLUT.
-.br
-&SAERBET01.
-.if &U'&LINSKIP01 = J
-.th .br
-&SAERBET02.
-.if &U'&LINSKIP02 = J
-.th .br
-&SAERBET03.
-.if &U'&LINSKIP03 = J
-.th .br
-&SAERBET04.
-.if &U'&LINSKIP04 = J
-.th .br
-&SAERBET05.
-.if &U'&LINSKIP05 = J
-.th .br
-&SAERBET06.
-.if &U'&LINSKIP06 = J
-.th .br
-&SAERBET07.
-.if &U'&LINSKIP07 = J
-.th .br
-&SAERBET08.
-.if &U'&LINSKIP08 = J
-.th .br
-&SAERBET09.
-.if &U'&LINSKIP09 = J
-.th .br
-&SAERBET10.
-.if &U'&LINSKIP10 = J
-.th .br
-&SAERBET11.
-.if &U'&LINSKIP11 = J
-.th .br
-&SAERBET12.
-...SÆRBETSL
-.sp 5mm
-.* TEST kunde(Ole Carlsen)
-.*if x&KTOKNDNR1 ne x4370274881
-.*th .go FORTSLUT
-.* FORTRYDELSESRET (Gælder kun for private)
-.if &U'&PRIERH = E
-.th .go FORTSLUT
-.* FORTRYDELSESRET (Gælder altid for pivate prio kreditter)
-.if x&PRIOKRED = x1
-.th .go FORTNORM
-.*if x&PRIOFAST = x1
-.*or x&PRIOVAR  = x1
-.*el .go FORTNORM
-.* HVIS 3 og flere debitorer flyttes Prioundtagelse til b37undkr50
-.*if &DEBANTAL < 3
-.*el .go FORTNORM
-.*if x&PRIOFAST = x1
-.*or x&PRIOVAR  = x1
-.* HVIS 3 og flere debitorer flyttes Prioundtagelse til b37undkr50
-.*if &DEBANTAL < 3
-.*th :FED.
-.*th Nærværende PrioritetsLån er ikke omfattet af fortrydelsesretten
-.*th i henhold til kreditaftaleloven.
-.*th :SKRSLUT.
-.*th .sp 5mm
-.*th .go FORTSLUT
-.*el .go FORTNORM
-...FORTNORM
-:FED.
-Fortrydelsesret:SKRSLUT.
-.br
-Låntager har ret til at fortryde kreditaftalen inden for 14 dage fra
-lånet/kreditten stilles til låntagers disposition. Det gælder dog kun, hvis
-du har modtaget de oplysninger, der kræves efter kreditaftaleloven. Ellers
-regnes fristen fra den dag, hvor du modtager oplysningerne. Hvis
-fortrydelsesfristens sidste dag falder på en lørdag, søndag, helligdag,
-grundlovsdag, fredag efter Kristi Himmelfartsdag, juleaftensdag eller
-nytårsaftensdag, udløber fristen den følgende hverdag.
-.sp 3mm
-Ønsker låntager at benytte din ret til at fortryde skal låntager skrive
-eller elektronisk (bortset fra telefoni) rette henvendelse til låntagers
-afdeling inden fristen udløber. Desuden skal låntager tilbagebetale det
-modtagne beløb/trækket på kreditten og eventuelle omkostninger, som banken
-måtte have betalt til offentlige myndigheder og som ikke kan refunderes.
-.sp 3mm
-Derudover skal låntager betale de renter, der er påløbet fra den dag
-lånet/kreditten blev stillet til låntagers disposition indtil beløbet
-tilbagebetales.
-.sp 3mm
-Rentebeløbet, der påløber pr. dag, udgør &FTRRTEDAG. kr. Rentebeløbet
-er beregnet
-på baggrund af renteforholdene på aftaletidspunktet, ligesom der ikke er
-taget højde for renters rente. Det rentebeløb, der skal betales ved
-udnyttelse af fortrydelsesretten, er de påløbne renter beregnet på grundlag
-af den aftalte debitorrente.
-.sp 3mm
-Det samlede beløb skal tilbagebetales uden unødig forsinkelse og senest 30
-dage efter du har givet besked om udøvelsen af fortrydelsesretten.
-.*sp 5mm
-...FORTSLUT
-.if &DEBANTAL < 3
-.an &KAUANTAL = 0
-.an &PANANTAL = 0
-.th .go DEBUND
-.el .go DEBSLUT
-...DEBUND
-.tp 87.5mm
-.kp on
-:FED.Underskrift:SKRSLUT.
-.br
-.**************************************************************************
-.if &DEBANTAL > 2
-.or &U'&SIKKERHED = J
-.or &U'&KROPL = J
-.th .go BILAG
-.el .go BILAGSL
-.***************
-...BILAG
-Kreditaftalen omfatter også følgende bilag, der er en integreret del af
-kreditaftalen:
-.sp 3mm
-.if &DEBANTAL > 2
-.th * Øvrige låntagere
-.th .br
-.if &U'&SIKKERHED = J
-.th * Sikkerheder
-.th .br
-.if &U'&KROPL = J
-.th * Kreditaftaleoplysninger
-.sp 3mm
-...BILAGSL
-.***************
-.if &U'&PRIERH = E
-.th .go ERHBET
-.el .go BETBEG
-.****ERHVERV *******
-...ERHBET
-&debsomt erklærer ved &min underskrift, at kassekreditten er til
-erhvervsmæssigt formål.
-.sp 3mm
-Det er en forudsætning for denne kredit, at vi og eventuelle kautionister
-indleverer vores regnskab til &BANKNAVN hvert år senest 6 måneder efter
-regnskabsårets afslutning, og at dette ikke giver grund til
-bemærkninger.
-.sp 3mm
-...BETBEG
-.**GÆLDER FOR BÅDE FORBRUGERE OG ERHVERVSKUNDER ***************************
-&debsomt er bekendt med og accepterer, at &BANKNAVN.s "Almindelige
-bestemmelser for lån og kreditter til
-.if &U'&PRIERH = P
-;T.th privatkunder (forbrugere)"
-.if &U'&PRIERH = E
-.th erhvervsmæssige formål"
-er en del af denne aftale, og &deblomt har fået en kopi af aftalen.
-.sp 5mm
-.*****************************
-:FED.
-.if &DEBANTAL = 2
-.th Låntager ¤Låntager
-.el Låntager
-:SKRSLUT.
-.sp 5mm
-.********************
-.tp _/50mm 87.5mm _/137.5mm
-.if &DEBANTAL = 2
-.th Den ¤ ¤Den ¤
-.el Den ¤
-.sp 14mm
-.if &DEBANTAL = 2
-.th .hr tynd 5mm 80mm 87.5mm 167.5mm
-.el .hr tynd 5mm 80mm
-.br
-.tp 87.5mm
-.if &DEBANTAL = 2
-.th &DEB01NAVN ¤&DEB02NAVN
-.el &DEB01NAVN
-.kp off
-...DEBSLUT
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+

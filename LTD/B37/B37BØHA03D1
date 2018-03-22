@@ -58,6 +58,87 @@ Att.: &GENATT
 .DA BRTXT 20mm 100mm WIDTH 195mm
 .*AR BRTXT on
 .*ir 20mm
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
+.**********************************************************
+.da SIDENR 155mm 33.5mm width 60mm
+.**********************************************************
+.if .&B37EJSIDE = .1 ;.th .go EJSIDE
+.ar SIDENR on
+:COUR6.
+:COUR10.
+Side &ÅPN. af &B37AFSIDE.
+.ar off
+...EJSIDE
+.*************** ROTERET BREVNAVN *********
+.if .&B37EJTID = .1 ;.th .go EJTID
+.da MBVEND 7mm 250mm width 180mm rotate -90
+.ar MBVEND on
+:COUR6.
+.*B37
+.sp
+&DATO
+.ar off
+...EJTID
+.**********************************************************
 .**********************************************************
 .da SIDENR 155mm 33.5mm width 60mm
 .**********************************************************
@@ -107,7 +188,7 @@ Vejledning Børshandel
 .el &BREVNAVN
 .br
 .tp 25mm
-^&DATO
+ ^ &DATO
 .ar off
 .*******
 .if .&B37EJSIDE = .1 ;.th .go EJSIDE
@@ -524,10 +605,10 @@ gælder kun inden for den pågældende børsdag. Ordren indlægges kl.
 Handelsposten for Midtbank-aktier er 10 stk., og i eksemplet
 handles Børsordren således på Børsen:
  
- ^30 stk. handles til kurs 239 kl. 12.39
- ^10 stk. handles til kurs 240 kl. 13.05
- ^30 stk. handles til kurs 240 kl. 13.09
- ^30 stk. handles til kurs 240 kl. 16.45
+ ^ 30 stk. handles til kurs 239 kl. 12.39
+ ^ 10 stk. handles til kurs 240 kl. 13.05
+ ^ 30 stk. handles til kurs 240 kl. 13.09
+ ^ 30 stk. handles til kurs 240 kl. 16.45
  
 Kunden vil løbende i WEBbank (via oversigterne "Uafviklede
 handler"/"Ordrer på Børsen") kunne se, hvor stor en del af ordren,
@@ -538,12 +619,12 @@ kl. 14.00 angive
 .of 6mm
 .cl -5mm
  
- ^*^at den oprindelige ordre var på 100 stk. Midtbank-aktier
+ ^ * ^ at den oprindelige ordre var på 100 stk. Midtbank-aktier
 .sp &b
- ^*^at der er handlet 70 stk. Midtbank-aktier på Børsen (disse papirer
+ ^ * ^ at der er handlet 70 stk. Midtbank-aktier på Børsen (disse papirer
 er endnu ikke afregnet mellem kunden og banken)
 .sp &b
- ^*^at der stadig ligger 30 stk. Midtbank-aktier til handel på Børsen
+ ^ * ^ at der stadig ligger 30 stk. Midtbank-aktier til handel på Børsen
 .cl +5mm
 .of
  
@@ -566,8 +647,8 @@ gælder pågældende børsdag og børsdagen efter. Ordren indlægges kl.
 Handelsposten for Midtbank-aktier er 10 stk., og i eksemplet
 handles Børsordren således på Børsen:
  
- ^30 stk. handles til kurs 240 kl. 16.00
- ^60 stk. handles til kurs 240 kl. 16.45
+ ^ 30 stk. handles til kurs 240 kl. 16.00
+ ^ 60 stk. handles til kurs 240 kl. 16.45
  
 Ved børsdagens afslutning er der handlet 90 stk. aktier, og der
 findes en restordre på 10 stk. Den handlede del af ordren (90
@@ -577,7 +658,7 @@ Børsen næste børsdag kl. 9.00.
  
 Næste børsdag handles de sidste:
  
- ^10 stk. handles til kurs 240 kl. 10.03
+ ^ 10 stk. handles til kurs 240 kl. 10.03
  
 og efterfølgende afregnes de sidste 10 stk. selvstændigt mellem
 kunde og bank.
@@ -595,8 +676,8 @@ indlægges kl. 12.39.
 Handelsposten for Midtbank-aktier er 10 stk., og i eksemplet
 handles Børsordren således på Børsen:
  
- ^30 stk. til kurs 240 kl. 12.39
- ^10 stk. til kurs 240 kl. 13.05
+ ^ 30 stk. til kurs 240 kl. 12.39
+ ^ 10 stk. til kurs 240 kl. 13.05
  
 Herefter resterer der 3 stk. aktier af kundens købsordre. Denne
 mængde er mindre end handelsposten og vil ligge på Børsen som en
@@ -613,84 +694,4 @@ ikke bliver handlet på Børsen dagen efter, bliver restordren
 slettet.
 .BSLUT
 ...ASLUT
-.SE B37KUDAL = 1
-.dr tynd WEIGHT 0.1mm
-.LL 175mm
-.fo left
-.PM 0
-.***************** Evt. ALTERNATIV PRENTER ***********
-.* Til alternativ print skal bruges parametrene
-.* PRTVALG        (J/N/alt.printer):
-.* ALTPRINTER     Brugerafh.printer:
-.if &E'&PRTVALG = 0 .go EJALT
-:altprint &PRTVALG
-...EJALT
-.*****************************************************
-.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
-.th .se TILTALEM = &TILTALEF
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
-.th .se TILTALEM = du
-:TILTALE &TILTALEM
-...EJTILT
-.******************* ATT FELT I ADR. **************
-.if &E'&GENATT = 0
-.th .go EJATT
-.if &L'&GENATT = 0
-.th .go EJATT
-.* Att placeret i adresseruden mellem adresse og evt. KOPI
-.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
-.if .&U'&UDSKRSTED = .D
-.th .da ATT 24mm 68.5mm width 180mm
-.el .da ATT 20mm 68.5mm width 180mm
-.ar ATT on
-:COUR10.
-Att.: &GENATT
-.ar off
-...EJATT
-.********************ROTERET BREVNAVN**************
-.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
-.th .se B37BREV = '&BREVNAVN.'
-.if &E'&B37BREV = 0
-.th .go EJROT
-.if &L'&B37BREV = 0
-.th .go EJROT
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 277mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-&B37BREV.
-.ar off
-...EJROT
-.*****************************************************
-.ti ^ 05
-:COUR10.
-.*****************************************************
-.* PM og TM virker først fra side 2
-.PM 20mm
-.TM 35mm
-.*****************************************************
-.DA BRTXT 20mm 100mm WIDTH 195mm
-.*AR BRTXT on
-.*ir 20mm
-.**********************************************************
-.da SIDENR 155mm 33.5mm width 60mm
-.**********************************************************
-.if .&B37EJSIDE = .1 ;.th .go EJSIDE
-.ar SIDENR on
-:COUR6.
-:COUR10.
-Side &ÅPN. af &B37AFSIDE.
-.ar off
-...EJSIDE
-.*************** ROTERET BREVNAVN *********
-.if .&B37EJTID = .1 ;.th .go EJTID
-.da MBVEND 7mm 250mm width 180mm rotate -90
-.ar MBVEND on
-:COUR6.
-.*B37
-.sp
-&DATO
-.ar off
-...EJTID
-.**********************************************************
+

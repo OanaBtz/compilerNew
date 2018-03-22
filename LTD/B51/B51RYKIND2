@@ -11,6 +11,64 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+:tiltale &TILTALEM
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 182mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
+.us Kontonr. &regnr &ktonr
+.sp
+.**************************************************************************
+Vi har tidligere skrevet til dig om overtræk på din konto.
+.sp
+Overtrækket er nu
+&OVERTRÆK. kr.
+.sp
+Vi beder dig inddække overtrækket omgående.
+.if &L'&RYKGEBYR eq 0
+.th .go RYKGEB
+.if &L'&RYKGEBYR eq 4
+.an X&RYKGEBYR eq X0,00
+.th .go RYKGEB
+.if &L'&RYKGEBYR eq 5
+.an X&RYKGEBYR eq X00,00
+.th .go RYKGEB
+.if &L'&RYKGEBYR eq 6
+.an X&RYKGEBYR eq X000,00
+.th .go RYKGEB
+.if &L'&RYKGEBYR eq 8
+.an X&RYKGEBYR eq X0.000,00
+.th .go RYKGEB
+Ekspeditionsgebyret for denne nye rykker er &RYKGEBYR. kr., som er
+inkluderet i beløbet.
+.sp
+.if &L'&MEDNAVN gt 0
+.th (Medkontohaver modtager enslydende brev. Ekspeditionsgebyret opkræves
+.th dog kun én gang.)
+...RYKGEB
+.sp
+&RYKTXTL1A.&RYKTXTL1B.&RYKTXTL2A.&RYKTXTL2B.
+.sp3
+Venlig hilsen
+.sp3
+&GENEKSP
+
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -205,61 +263,4 @@
 :COUR8.
 &DATO.
 .ar off
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-:tiltale &TILTALEM
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 100mm width 182mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
-.us Kontonr. &regnr &ktonr
-.sp
-.**************************************************************************
-Vi har tidligere skrevet til dig om overtræk på din konto.
-.sp
-Overtrækket er nu
-&OVERTRÆK. kr.
-.sp
-Vi beder dig inddække overtrækket omgående.
-.if &L'&RYKGEBYR eq 0
-.th .go RYKGEB
-.if &L'&RYKGEBYR eq 4
-.an X&RYKGEBYR eq X0,00
-.th .go RYKGEB
-.if &L'&RYKGEBYR eq 5
-.an X&RYKGEBYR eq X00,00
-.th .go RYKGEB
-.if &L'&RYKGEBYR eq 6
-.an X&RYKGEBYR eq X000,00
-.th .go RYKGEB
-.if &L'&RYKGEBYR eq 8
-.an X&RYKGEBYR eq X0.000,00
-.th .go RYKGEB
-Ekspeditionsgebyret for denne nye rykker er &RYKGEBYR. kr., som er
-inkluderet i beløbet.
-.sp
-.if &L'&MEDNAVN gt 0
-.th (Medkontohaver modtager enslydende brev. Ekspeditionsgebyret opkræves
-.th dog kun én gang.)
-...RYKGEB
-.sp
-&RYKTXTL1A.&RYKTXTL1B.&RYKTXTL2A.&RYKTXTL2B.
-.sp3
-Venlig hilsen
-.sp3
-&GENEKSP
 

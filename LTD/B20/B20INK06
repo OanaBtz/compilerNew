@@ -11,6 +11,72 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.da VAU      22mm 48mm width 170mm
+.da ÅRSAG    22mm 71mm width 170mm
+.da SAG      22mm 87mm width 170mm
+.da KONTI    22mm 149mm width 170mm
+.da UNDER    20mm 194mm width 170mm
+.***** VÆRDIANSÆTTELSE AF UDLÅN (VAU) *************************************
+.ar VAU on
+- Backtestingskoder
+.br
+- OEI
+.sp
+.if &L'&B20DATO1 > 0
+.th Nedskrevet den &B20DATO1. med kr. &B20KRED01..
+.el Der er ikke foretaget nedskrivning.
+.ar off
+.***** ÅRSAG TIL OVERFØRSEL TIL INKASSO ***********************************
+.ar ÅRSAG on
+.if &L'&B20TEST13 > 0
+.th Død
+.if &L'&B20TEkST03 > 0
+.th &B20TEKST03
+.if &L'&B20TEST10 > 0
+.th Rekonstruktion
+.if &L'&B20TEST11 > 0
+.th Konkurs
+.if &L'&B20TEST12 > 0
+.th Likvidation
+.ar off
+.***** SAGSFORLØBET HEREFTER **********************************************
+.ar SAG on
+&B20TEKST30. &B20TEKST31. &B20TEKST32. &B20TEKST33. &B20TEKST34.
+&B20TEKST35. &B20TEKST36. &B20TEKST37. &B20TEKST38. &B20TEKST39.
+&B20TEKST40. &B20TEKST41. &B20TEKST42. &B20TEKST43. &B20TEKST44.
+&B20TEKST45.
+.ar off
+.***** FØLGENDE KONTI BEDES OVERFØRT TIL 5306 *****************************
+.ar KONTI on
+.tp 15mm 62mm char , 110mm
+&B20REGNR01 ¤&B20KTONR01
+.ct ¤&B20KRED06
+.ct ¤&B20DATO7
+.BR
+&B20REGNR04 ¤&B20KTONR02
+.ct ¤&B20KRED07
+.ct ¤&B20DATO8
+.BR
+&B20REGNR03 ¤&B20KTONR03
+.ct ¤&B20KRED08
+.ct ¤&B20DATO9
+.br
+&B20REGNR05 ¤&B20KTONR04
+.ct ¤&B20KRED09
+.ct ¤&B20DATO10
+.br
+&B20REGNR06 ¤&B20KTONR05
+.ct ¤&B20KRED10
+.ct ¤&B20DATO11
+.sp
+I alt
+.ct ¤¤&RESULTA
+.ar off
+.***** UNDERSKRIFT ********************************************************
+.ar UNDER on
+.ce &AFDNAVN
+.ar off
+.**************************************************************************
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -82,21 +148,21 @@ Redegørelse (erhverv):
 .***** KONTOHAVER *********************************************************
 .bx left 87.5mm right
 :SWISS8.
-Kontohaver¤Evt. medkontohaver
+Kontohaver ¤ Evt. medkontohaver
 .sp 20mm
-Cpr.nr.¤Cpr.nr.
+Cpr.nr. ¤ Cpr.nr.
 .***** KAUTIONIST *********************************************************
 .if &L'&B20CPR01 > 0
 .th .bx new left 87.5mm right
-.th Kautionist¤Kautionist
+.th Kautionist ¤ Kautionist
 .th .sp 20mm
-.th Cpr.nr. ¤Cpr.nr.
+.th Cpr.nr. ¤ Cpr.nr.
 .***** DEPONENT ***********************************************************
 .if &L'&B20CPR02 > 0
 .th .bx new left 87.5mm right
-.th Deponent¤Deponent
+.th Deponent ¤ Deponent
 .th .sp 20mm
-.th Cpr.nr. ¤Cpr.nr.
+.th Cpr.nr. ¤ Cpr.nr.
 .bx off
 .bx can
 .bx can
@@ -162,13 +228,13 @@ Sikkerheder
 .ar START on
 .tp 7mm 87mm 92mm
 .if &L'&B20CPR01 > 0 .an &L'&B20CPR04 > 0
-.th &B20NAVNE ¤¤&B20NAVNE01
+.th &B20NAVNE ¤ ¤ &B20NAVNE01
 .th .br
-.th &B20GADE01 ¤¤&B20GADE02
+.th &B20GADE01 ¤ ¤ &B20GADE02
 .th .br
-.th &B20BY01 ¤¤&B20BY02
+.th &B20BY01 ¤ ¤ &B20BY02
 .th .sp 6mm
-.th ¤&B20CPR01 ¤¤¤&B20CPR04
+.th ¤ &B20CPR01 ¤ ¤ ¤ &B20CPR04
 .if &L'&B20CPR01 > 0 .an &L'&B20CPR04 = 0
 .th &B20NAVNE
 .th .br
@@ -176,18 +242,18 @@ Sikkerheder
 .th .br
 .th &B20BY01
 .th .sp 6mm
-.th ¤&B20CPR01
+.th ¤ &B20CPR01
 .***** DEPONENT(ER) *******************************************************
 .if &L'&B20CPR02 > 0 .an &L'&B20CPR05 > 0 .an &L'&B20CPR01 > 0
 .th .sp 8mm
 .if &L'&B20CPR02 > 0 .an &L'&B20CPR05 > 0
-.th &B20TEKST12 ¤¤&B20NAVN1
+.th &B20TEKST12 ¤ ¤ &B20NAVN1
 .th .br
-.th &B20GADE1 ¤¤&B20GADE2
+.th &B20GADE1 ¤ ¤ &B20GADE2
 .th .br
-.th &B20BY1 ¤¤&B20BY2
+.th &B20BY1 ¤ ¤ &B20BY2
 .th .sp 6mm
-.th ¤&B20CPR02 ¤¤¤&B20CPR05
+.th ¤ &B20CPR02 ¤ ¤ ¤ &B20CPR05
 .if &L'&B20CPR02 > 0 .an &L'&B20CPR05 = 0 .an &L'&B20CPR01 > 0
 .th .sp 8mm
 .if &L'&B20CPR02 > 0 .an &L'&B20CPR05 = 0
@@ -197,7 +263,7 @@ Sikkerheder
 .th .br
 .th &B20BY1
 .th .sp 6mm
-.th ¤&B20CPR02
+.th ¤ &B20CPR02
 .***** VEDLAGT FØLGER *****************************************************
 .if &L'&B20CPR01 > 0 .or &L'&B20CPR02 > 0
 .th .sp 8mm
@@ -250,22 +316,22 @@ Der er foretaget vurdering af følgende den &B20DATO12.
 .if &L'&B20TEKST10 > 0
 .th Ejendommen beliggende:
 .th .br
-.th &B20TEKST10. ¤Værdi kr. &B20BELØB10.
+.th &B20TEKST10. ¤ Værdi kr. &B20BELØB10.
 .th .br
 .if &L'&B20TEKST56 > 0
-.th &B20TEKST56. ¤Værdi kr. &B20BELØB14.
+.th &B20TEKST56. ¤ Værdi kr. &B20BELØB14.
 .th .br
 .if &L'&B20TEKST58 > 0
-.th &B20TEKST58. ¤Værdi kr. &B20BELØB15.
+.th &B20TEKST58. ¤ Værdi kr. &B20BELØB15.
 .if &L'&B20TEKST55 > 0
 .th .sp
-.th &B20TEKST55 ¤Værdi kr. &B20BELØB11.
+.th &B20TEKST55 ¤ Værdi kr. &B20BELØB11.
 .th .br
 .if &L'&B20TEKST59 > 0
-.th &B20TEKST59 ¤Værdi kr. &B20BELØB16.
+.th &B20TEKST59 ¤ Værdi kr. &B20BELØB16.
 .th .br
 .if &L'&B20TEKST60 > 0
-.th &B20TEKST60 ¤Værdi kr. &B20BELØB17.
+.th &B20TEKST60 ¤ Værdi kr. &B20BELØB17.
 .ar off
 .** SIDESKIFT
 .pa
@@ -303,7 +369,7 @@ Følgende konti bedes overført til 5306
 .bx left right
 .tp 20mm 64mm 110mm
 .sp 2mm
-:USENKEL.Regtype ¤Kontonr. ¤Kr. ¤Sidste rentetilskrivning:SKRSLUT.
+:USENKEL.Regtype ¤ Kontonr. ¤ Kr. ¤ Sidste rentetilskrivning:SKRSLUT.
 .sp 28mm
 .bx off
 .***** SLUT ***************************************************************
@@ -315,69 +381,4 @@ stedfortræder
 .sp 17mm
 .bx off
 .ar off
-.da VAU      22mm 48mm width 170mm
-.da ÅRSAG    22mm 71mm width 170mm
-.da SAG      22mm 87mm width 170mm
-.da KONTI    22mm 149mm width 170mm
-.da UNDER    20mm 194mm width 170mm
-.***** VÆRDIANSÆTTELSE AF UDLÅN (VAU) *************************************
-.ar VAU on
-- Backtestingskoder
-.br
-- OEI
-.sp
-.if &L'&B20DATO1 > 0
-.th Nedskrevet den &B20DATO1. med kr. &B20KRED01..
-.el Der er ikke foretaget nedskrivning.
-.ar off
-.***** ÅRSAG TIL OVERFØRSEL TIL INKASSO ***********************************
-.ar ÅRSAG on
-.if &L'&B20TEST13 > 0
-.th Død
-.if &L'&B20TEkST03 > 0
-.th &B20TEKST03
-.if &L'&B20TEST10 > 0
-.th Rekonstruktion
-.if &L'&B20TEST11 > 0
-.th Konkurs
-.if &L'&B20TEST12 > 0
-.th Likvidation
-.ar off
-.***** SAGSFORLØBET HEREFTER **********************************************
-.ar SAG on
-&B20TEKST30. &B20TEKST31. &B20TEKST32. &B20TEKST33. &B20TEKST34.
-&B20TEKST35. &B20TEKST36. &B20TEKST37. &B20TEKST38. &B20TEKST39.
-&B20TEKST40. &B20TEKST41. &B20TEKST42. &B20TEKST43. &B20TEKST44.
-&B20TEKST45.
-.ar off
-.***** FØLGENDE KONTI BEDES OVERFØRT TIL 5306 *****************************
-.ar KONTI on
-.tp 15mm 62mm char , 110mm
-&B20REGNR01 ¤&B20KTONR01
-.ct ¤&B20KRED06
-.ct ¤&B20DATO7
-.BR
-&B20REGNR04 ¤&B20KTONR02
-.ct ¤&B20KRED07
-.ct ¤&B20DATO8
-.BR
-&B20REGNR03 ¤&B20KTONR03
-.ct ¤&B20KRED08
-.ct ¤&B20DATO9
-.br
-&B20REGNR05 ¤&B20KTONR04
-.ct ¤&B20KRED09
-.ct ¤&B20DATO10
-.br
-&B20REGNR06 ¤&B20KTONR05
-.ct ¤&B20KRED10
-.ct ¤&B20DATO11
-.sp
-I alt
-.ct ¤¤&RESULTA
-.ar off
-.***** UNDERSKRIFT ********************************************************
-.ar UNDER on
-.ce &AFDNAVN
-.ar off
-.**************************************************************************
+

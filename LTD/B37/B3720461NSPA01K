@@ -11,146 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.* Parameterafsnit
-.* Param. BANKNAVN er tilføjet og B37BREV er slettet d. 23/1-01 es
-.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
-.th .se B37BREV = '&BREVNAVN.'
-.if &E'&B37BREV = 1 .an &E'&BREVNAVN = 0
-.th .se BREVNAVN = '&B37BREV.'
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.OC  Låneaftale-Bolignedsparing
-.ti ^ 05
-.se ts = 7
-.se kopi = 0
-.if .&MEDKUNDENR. = .000000-0000
-.th .se deb 'låntager'
-.el .se deb 'låntagere'
-.if &U'&MIBJN1 = G
-.th .go FAFOA1
-.* ************ springer over header og fooder se S afsnit ******
-.go FAFOA1
-...FAFOA1
-.dm FAFOA1 on
-.cl 0
-.ll 171mm
-.cd 1 0 71
-.in 2mm
-.tp 62 RIGHT
-.fo left
-.sp 40mm
-.if .&MEDKUNDENR. = .000000-0000 .sp 5
- 
-:FED.
-.ce LÅNEAFTALE - FASTRENTELÅN FORBRUG
-:SKRSLUT.
-.ce (Gældsbrev)
- 
-Kontonr. : &REGNR.-&KTONR1.      Reg.type: &REGTYPE
-.sp 2
-Undertegnede (&deb.):
- 
-                         &KTOKUNDENR.
-                         &KTOSTILL
-                         &KTONAVN
-.if .&L'&KTOCO = .0 .go GADE
-                         &KTOCO
-...GADE
-                         &KTOGADE
-                         &KTOBY
-.if .&MEDKUNDENR. = .000000-0000 .go SKYLD
- 
-og
-                         &MEDKUNDENR.
-                         &MEDSTILL
-                         &MEDNAVN
-.if .&L'&MEDCO = .0 .go MEDGADE
-                         &MEDCO
-...MEDGADE
-                         &MEDGADE
-                         &MEDBY
-...SKYLD
-.sp
-erkender herved at skylde
- 
-       A/S Midtbank (kreditor/panthaver)
- 
-nedenstående lån som forrentes og afdrages på følgende vilkår:
- 
-       Beløb............................... kr. ^&RESULTA.^
-.if .&RESULTB = .0,00 .go RENTE
-       Kvartårlig ydelse ved annuitetslån.. kr. ^&RESULTB.^
-...RENTE
-       Rente p.a. i %......................     ^&MIBB5.^ *)
-.if .&RESULTB ne .0,00 .go TERM
-       Forfaldsdato ved stående lån........     ^&MIBPRDAT.^
-...TERM
-       Første termin den...................     ^&MIBPRDAT1.^
-.if x&RESULTC. = x0,00
-.th .se RESULTC ' '
-.th .go TERMDAT
-       Terminsprovision.................... kr. ^&RESULTC.^
-...TERMDAT
- 
-       Terminsdatoer........... 31/3, 30/6, 30/9 og 31/12
- 
-.**** TEST PÅ OM PRIVAT / ERHVERV (RESULTD kun ved privat) ***
-.if &E'&RESULTD = 0
-.th *) Renten er foreløbig ansat og fastsættes på udbetalingsdagen.
-.th .go SLUT
- 
-.of 3
-*) Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
-og betales kvartalsvis bagud.
-.of
- 
-.* Indføjes altid
-.if .&L'&MIBPRDAT = .0 .go ANKTO
-Rentesatsen er fast og gældende til den &MIBPRDAT..
- 
-...ANKTO
-.uc
-BETALING.
-.br
-Banken bedes ved forfald hæve ydelser på
-konto &MIBEM181..
-.sk 2
-BEMÆRK, DER ER TALE OM ET FASTRENTELÅN MED SÆRLIGE INDFRIELSESVILKÅR
-.br
-- SE SIDE 3 OG 4.
-.br
-...SLUT
-.*pa
-.dm off
 .dm FAFOA1A on
 .in
 .da SIK 20mm 47mm WIDTH 175mm
@@ -530,7 +390,7 @@ Eksempler på indfrielseskurser på fastforrentet lån i Midtbank
 :SWISS8.
 .in
 .tp 14mm 21mm 55mm 84mm 97mm
-Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+Regnr. ¤ Afd. ¤ Kontonr. ¤ Kundenr. ¤ Regtype ¤ Kundenr.
 .bx left 13mm 20mm 54mm 83mm 97mm 124mm
 .sp 4mm
 .bx off
@@ -549,29 +409,29 @@ Låneramme
 .tp 2mm 128mm
 .sp 0,5mm
 :SWISS8.
-¤kr.¤Hvilket beløb incl. renter debitor
+ ¤ kr. ¤ Hvilket beløb incl. renter debitor
 .br
-¤¤kan låne på følgende betingelser
+ ¤ ¤ kan låne på følgende betingelser
 .bx new left 53mm 97mm 126mm right
 .tp 2mm 55mm 99mm 128mm
 :SWISS6.
-¤Udbetaling¤¤Hver ¤Første gang den
+ ¤ Udbetaling ¤ ¤ Hver ¤ Første gang den
 .sp 1.5mm
-¤¤kr.
+ ¤ ¤ kr.
 .sp 0.5mm
 .bx new left 53mm 97mm 126mm 156mm right
 .tp 2mm 55mm 99mm 128mm 158mm
-¤Ekstraordinær udbetaling ¤¤Hver &ÅCONT
-¤Første gang den ¤Antal gange
+ ¤ Ekstraordinær udbetaling ¤ ¤ Hver &ÅCONT
+ ¤ Første gang den ¤ Antal gange
 .sp 1.5mm
-¤¤kr.
+ ¤ ¤ kr.
 .sp 1mm
 .bx new left 32mm 62mm 97mm 126mm right
 .tp 2mm 34mm 64mm 99mm 128mm
-¤Rente- og provisions- ¤Rente for tiden ¤Provision for tiden &ÅCONT
-¤ ¤Dato for aftale/indfrielse
+ ¤ Rente- og provisions- ¤ Rente for tiden ¤ Provision for tiden &ÅCONT
+ ¤ ¤ Dato for aftale/indfrielse
 .sp 1.5mm
-¤satser p.a. ¤¤¤
+¤ satser p.a. ¤ ¤ ¤
 .sp 1mm
 .bx new left right
 :SWISS8.
@@ -614,19 +474,19 @@ Særlige betingelser
 .* STEMPELTEKST INAKTIVERET d. 22/2-00 af ES
 .*tp 111mm
 .*SWISS10.
-.*¤Beregnet stempel af:
+.* ¤ Beregnet stempel af:
 .*.bx 111mm right
 .*SWISS8.
 .*sp 1mm
 .*tp 113mm 148mm
-.*¤Dette dokument: ¤kr.
+.* ¤ Dette dokument: ¤ kr.
 .*sp 2mm
-.*¤Tidligere dokument: ¤kr.
+.* ¤ Tidligere dokument: ¤ kr.
 .*sp 2mm
-.*¤I alt: ¤kr.
+.* ¤ I alt: ¤ kr.
 .*hr 111mm right
 .*sp 2mm
-.*¤Ikke stemplede beløb: ¤kr.
+.* ¤ Ikke stemplede beløb: ¤ kr.
 .*bx off
 .ar off
 .dm off
@@ -648,7 +508,7 @@ Særlige betingelser
 .ar REGNR on
 .se AFDNR ''
 .tp 11mm 20mm 53mm 82mm 97mm
-&REGNR ¤&AFDNR ¤&REGNR.-&KTONR1 ¤&KTOKUNDENR ¤&REGTYPE ¤&MEDKUNDENR.
+&REGNR ¤ &AFDNR ¤ &REGNR.-&KTONR1 ¤ &KTOKUNDENR ¤ &REGTYPE ¤ &MEDKUNDENR.
 .ar off
 .**************************************************************************
 .ar UNDERT1 on
@@ -687,7 +547,7 @@ Særlige betingelser
 .el .se AFDR1 = &RESULTB
 .se TERMIN1 '&MIBEM121.'
 .tp 93mm right 95mm 124mm
-&AFDTEKST ¤&AFDR1 ¤&TERMIN1 ¤&MIBPRDAT1
+&AFDTEKST ¤ &AFDR1 ¤ &TERMIN1 ¤ &MIBPRDAT1
 .ar off
 .**************************************************************************
 .ar DATOINDF on
@@ -696,7 +556,7 @@ Særlige betingelser
 .se DATO11 '&MIBPRDAT2.'
 .se ANTGANGE '&MIBB4.'
 .tp 93mm RIGHT 95mm 124mm 154mm
-¤&AFDR2 ¤&TERMIN2 ¤&DATO11 ¤&ANTGANGE
+ ¤ &AFDR2 ¤ &TERMIN2 ¤ &DATO11 ¤ &ANTGANGE
 .ar off
 .**************************************************************************
 .ar RTSATS on
@@ -707,15 +567,15 @@ Særlige betingelser
 .el .se PROV '&RESULTC.'
 .se BVOVTRPROV ''
 .tp 26mm RIGHT 62mm RIGHT 93mm RIGHT 94mm
-¤&NOMRENTE %¤&PROV %¤&TERMPROV ¤&MIBPRDAT.
+ ¤ &NOMRENTE % ¤ &PROV % ¤ &TERMPROV ¤ &MIBPRDAT.
 .*tp 25mm 30mm 58mm 65mm 88mm 94mm 130mm
-.*&NOMRENTE ¤% ¤&PROV ¤% ¤&OVTRPROV ¤% ¤&BVOVTRPROV ¤%
+.*&NOMRENTE ¤ % ¤ &PROV ¤ % ¤ &OVTRPROV ¤ % ¤ &BVOVTRPROV ¤ %
 .ar off
 .**************************************************************************
 .ar SRBET on
 .tp 5mm
 .of 5mm
-.**) ¤Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
+.**) ¤ Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
 .*og betales kvartalsvis bagud.
 .of
 .ar off
@@ -754,7 +614,7 @@ for lån og kreditter.
 .ar KTORAM on
 :SWISS8.
 .tp 14mm 21mm 55mm 84mm 97mm
-Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
+Regnr. ¤ Afd. ¤ Kontonr. ¤ Kundenr. ¤ Regtype ¤ Kundenr.
 .bx left 13mm 20mm 54mm 83mm 97mm 124mm
 .sp 4mm
 .bx off
@@ -768,11 +628,37 @@ Regnr. ¤Afd. ¤Kontonr. ¤Kundenr. ¤Regtype ¤Kundenr.
 .ar OREGNR on
 .se AFDNR ''
 .tp 11mm 20mm 53mm 82mm 97mm
-:COUR10.&REGNR ¤&AFDNR ¤&REGNR.-&KTONR1 ¤&KTOKUNDENR ¤&REGTYPE ¤&MEDKUNDENR
+:COUR10.&REGNR ¤ &AFDNR ¤ &REGNR.-&KTONR1 ¤ &KTOKUNDENR ¤ &REGTYPE ¤ &MEDKUNDENR
 .ar off
 .**************************************************************************
 .dm off
 .KTOOP
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .* VEND rettet fra 270mm til 277mm d. 23.1.2001 es
 .*************** GENEREL OPSÆTNING ***************************************
 .*ti ¤ 05
@@ -945,3 +831,118 @@ Kl. &KLOKKESLET  &DATO
 .ir 0
 .** SIDESKIFT
 .pa
+.* Parameterafsnit
+.* Param. BANKNAVN er tilføjet og B37BREV er slettet d. 23/1-01 es
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 1 .an &E'&BREVNAVN = 0
+.th .se BREVNAVN = '&B37BREV.'
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.OC  Låneaftale-Bolignedsparing
+.ti ^ 05
+.se ts = 7
+.se kopi = 0
+.if .&MEDKUNDENR. = .000000-0000
+.th .se deb 'låntager'
+.el .se deb 'låntagere'
+.if &U'&MIBJN1 = G
+.th .go FAFOA1
+.* ************ springer over header og fooder se S afsnit ******
+.go FAFOA1
+...FAFOA1
+.dm FAFOA1 on
+.cl 0
+.ll 171mm
+.cd 1 0 71
+.in 2mm
+.tp 62 RIGHT
+.fo left
+.sp 40mm
+.if .&MEDKUNDENR. = .000000-0000 .sp 5
+ 
+:FED.
+.ce LÅNEAFTALE - FASTRENTELÅN FORBRUG
+:SKRSLUT.
+.ce (Gældsbrev)
+ 
+Kontonr. : &REGNR.-&KTONR1.      Reg.type: &REGTYPE
+.sp 2
+Undertegnede (&deb.):
+ 
+                         &KTOKUNDENR.
+                         &KTOSTILL
+                         &KTONAVN
+.if .&L'&KTOCO = .0 .go GADE
+                         &KTOCO
+...GADE
+                         &KTOGADE
+                         &KTOBY
+.if .&MEDKUNDENR. = .000000-0000 .go SKYLD
+ 
+og
+                         &MEDKUNDENR.
+                         &MEDSTILL
+                         &MEDNAVN
+.if .&L'&MEDCO = .0 .go MEDGADE
+                         &MEDCO
+...MEDGADE
+                         &MEDGADE
+                         &MEDBY
+...SKYLD
+.sp
+erkender herved at skylde
+ 
+       A/S Midtbank (kreditor/panthaver)
+ 
+nedenstående lån som forrentes og afdrages på følgende vilkår:
+ 
+       Beløb............................... kr. ^ &RESULTA. ^
+.if .&RESULTB = .0,00 .go RENTE
+       Kvartårlig ydelse ved annuitetslån.. kr. ^ &RESULTB. ^
+...RENTE
+       Rente p.a. i %......................     ^ &MIBB5. ^ *)
+.if .&RESULTB ne .0,00 .go TERM
+       Forfaldsdato ved stående lån........     ^ &MIBPRDAT. ^
+...TERM
+       Første termin den...................     ^ &MIBPRDAT1. ^
+.if x&RESULTC. = x0,00
+.th .se RESULTC ' '
+.th .go TERMDAT
+       Terminsprovision.................... kr. ^ &RESULTC. ^
+...TERMDAT
+ 
+       Terminsdatoer........... 31/3, 30/6, 30/9 og 31/12
+ 
+.**** TEST PÅ OM PRIVAT / ERHVERV (RESULTD kun ved privat) ***
+.if &E'&RESULTD = 0
+.th *) Renten er foreløbig ansat og fastsættes på udbetalingsdagen.
+.th .go SLUT
+ 
+.of 3
+*) Hvilket svarer til, at den effektive årlige rente udgør &RESULTD.%
+og betales kvartalsvis bagud.
+.of
+ 
+.* Indføjes altid
+.if .&L'&MIBPRDAT = .0 .go ANKTO
+Rentesatsen er fast og gældende til den &MIBPRDAT..
+ 
+...ANKTO
+.uc
+BETALING.
+.br
+Banken bedes ved forfald hæve ydelser på
+konto &MIBEM181..
+.sk 2
+BEMÆRK, DER ER TALE OM ET FASTRENTELÅN MED SÆRLIGE INDFRIELSESVILKÅR
+.br
+- SE SIDE 3 OG 4.
+.br
+...SLUT
+.*pa
+.dm off
+

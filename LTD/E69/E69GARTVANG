@@ -11,273 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.* Parameterafsnit
-.**************************************************************************
-.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
-.*for at nuv. banker kan fortsætte med at bruge disse.*********************
-.**************************************************************************
-.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
-.if &L'&GARMODADR1 = 0
-.an &L'&GARMODADR2 = 0
-.an &L'&GARMODADR3 = 0
-.an &L'&GARMODADR4 = 0
-.an &L'&GARMODADR5 = 0
-.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
-.**************************************************************************
-.if &U'X&GENJANEJ1 = XJ
-.th .go XBLA
-.if X&GENKRYDS  = X1
-.or X&GENKRYDS  = X2
-.or X&GENKRYDS  = X3
-.th
-.el .mg/T/Felt f. håndpantsætter skal være udfyldt m. 1, 2 eller 3/
-...XBLA
-.**************************************************************************
-.* ER SAGEN EN BLANCO-SAG?
-.**************************************************************************
-.if &U'X&GENJANEJ1 = XJ
-.or &U'X&GENJANEJ1 = XN
-.th
-.el .mg/T/Blanco: Skriv J eller N/
-.**************************************************************************
-.if &U'X&GENREGARAN = XJ
-.or &U'X&GENREGARAN = XN
-.th
-.el .mg/T/Regaranti: Skriv J eller N/
-.**************************************************************************
-.if &U'X&GENJANEJ = XJ
-.or &U'X&GENJANEJ = XN
-.th
-.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
-.**************************************************************************
-.* Parameterafsnit - beregning
-.**************************************************************************
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 20mm 90mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Garanti - Tvangsauktion
-:SKRSLUT.
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.sp 86mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 165mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.da SÆLGER 25mm  46mm width 150mm
-.**SÆLGER  ****************************************************************
-.ar SÆLGER on
-&GARMODADR1
-.br
-&GARMODADR2
-.br
-&GARMODADR3
-.br
-&GARMODADR4
-.br
-&GARMODADR5
-.ar off
-:SKRSLUT.
-&KTONAVN.
-:SWISS8.
-bliver højstbydende på auktionen.
-.sp
-Garantien er gyldig indtil auktionsskøde er udstedt og garantien er
-frigivet af fogedretten.
-.sp
-Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
-garantikreditor med urette måtte foranledige udbetalt under garantien er
-samtidig hermed overdraget til &BANKNAVN. til sikkerhed for garantien.
-.sp
-Det er en klar forudsætning for &BANKNAVN.s garantistillelse at &BANKNAVN.
-får anmeldelsesretten i garantirekvirentens evt. bo for beløb, som
-&BANKNAVN., betaler under nærværende garanti.
-.sp
-&BANKNAVN. er ikke ansvarlig for skade, der skyldes lovforskrifter,
-myndighedsforanstaltninger eller lignende, indtruffet eller truende krig,
-oprør, borgerlige uroligheder, naturkatastrofer, strejke, lock-out,
-boykot og blokade, uanset om &BANKNAVN. selv er part i konflikten,
-herunder at denne kun rammer dele af &BANKNAVN.s funktioner og uanset
-årsagen.
-.sp
-Efter garantiens bortfald bedes denne garantierklæring returneret til
-&BANKNAVN.. Uanset originalgarantiens manglende returnering til &BANKNAVN.
-kan der efter garantiens bortfald ikke gøres rettigheder gældende.
-.sp
-Iøvrigt gælder &BANKNAVN.s almindelige forretningsbetingelser.
-.sp
-:SKRSLUT.
-.br
-.if &L'&MEDCO > 0
-.th &MEDCO
-.th .br
-&MEDGADE
-.br
-&MEDBY
-.if &L'&MEDLAND > 0
-.th .br
-.th &MEDLAND
-.sc
-.***
-...MEDNVNSL
-.sp 3mm
-:SWISS8.
-På foranledning af ovennævnte indestår underskrevne &BANKNAVN. som
-garantistiller hermed for et beløb af indtil
-.sp 3mm
-.ce on
-kr.
-:SKRSLUT.
-.ct  &RESULTA
-.sp 3mm
-:SWISS8.
-skriver
-:SKRSLUT.
-.ct  &RESULTAT1.&RESULTAT2.
-.ce off
-.sp 5mm
-:SWISS8.
-Overfor
-:SKRSLUT.
-&GARMODADR1., &GARMODADR2., &GARMODADR3., &GARMODADR4., &GARMODADR5.
-:SWISS8.
-til sikkerhed for
-:SKRSLUT.
-&KTONAVN.s
-:SWISS8.
-opfyldelse af auktionsvilkårene i forbindelse med
-tvangsauktionen over ejendommen matr.nr.
-:SKRSLUT.
-.ct  &GENMATRNR.,
-:SWISS8.
-beliggende
-:SKRSLUT.
-.ct  &GENADRESSE.,
-.ct  den &GENDATO..
-:SWISS8.
-Garantien stilles i henhold til Justitsministeriets
-tvangsauktionsvilkår. Garantien er gældende, såfremt
-:SWISS8.
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-Kontonr. for garanti:
-:SKRSLUT.
-.ct  &regnr. &ktonr.
-.sp 3mm
-:SWISS8.
-Til sikkerhed for
-:SKRSLUT.
-.sp 3mm
-.if &L'&MEDNAVN > 0
-.th .cd 2 0mm 87mm
-.th .cl 85mm
-.***
-.if &L'&KTOLAND > 0
-.th .go EJSTILL2
-.***
-.if &L'&KTOSTILL > 0
-.th &KTOSTILL
-.th .br
-.***
-...EJSTILL2
-&KTONAVN
-.br
-.if &L'&KTOCO > 0
-.th &KTOCO
-.th .br
-&KTOGADE
-.br
-&KTOBY
-.if &L'&KTOLAND > 0
-.th .br
-.th &KTOLAND
-.***
-.if &L'&MEDNAVN > 0
-.th .go MEDNVN
-.el .go MEDNVNSL
-.***
-...MEDNVN
-.cb
-.if &L'&MEDLAND > 0
-.th .go EJSTILL3
-.***
-.if &L'&MEDSTILL > 0
-.th &MEDSTILL
-.th .br
-.***
-...EJSTILL3
-&MEDNAVN
-.ce on
-:SWISS8.
-den
-:SKRSLUT.
-.ct  &DATO8
-.sp
-:SWISS8.
-.ct  Som garantistiller:
-.sp
-:SKRSLUT.
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ce off
-.sp 15mm
 .rh cancel
 .*TEST PÅ OM REGARANTIEN SKAL UDSKRIVES ***********************************
 .*HVIS DER IKKE STÅR J I FELTET, STOPPER AL UDSKRIVNING *******************
@@ -344,86 +77,6 @@ den
 .br
 &GARMODADR5
 .ar off
-:SKRSLUT.
-&KTONAVN.
-:SWISS8.
-bliver højstbydende på auktionen.
-.sp
-Garantien er gyldig indtil auktionsskøde er udstedt og garantien er
-frigivet af fogedretten.
-.sp
-Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
-garantikreditor med urette måtte foranledige udbetalt under garantien er
-samtidig hermed overdraget til &BANKNAVN. til sikkerhed for garantien.
-.sp
-Det er en klar forudsætning for &BANKNAVN.s garantistillelse at &BANKNAVN.
-får anmeldelsesretten i garantirekvirentens evt. bo for beløb, som
-&BANKNAVN., betaler under nærværende garanti.
-.sp
-&BANKNAVN. er ikke ansvarlig for skade, der skyldes lovforskrifter,
-myndighedsforanstaltninger eller lignende, indtruffet eller truende krig,
-oprør, borgerlige uroligheder, naturkatastrofer, strejke, lock-out,
-boykot og blokade, uanset om &BANKNAVN. selv er part i konflikten,
-herunder at denne kun rammer dele af &BANKNAVN.s funktioner og uanset
-årsagen.
-.sp
-Efter garantiens bortfald bedes denne garantierklæring returneret til
-&BANKNAVN.. Uanset originalgarantiens manglende returnering til &BANKNAVN.
-kan der efter garantiens bortfald ikke gøres rettigheder gældende.
-.sp
-Iøvrigt gælder &BANKNAVN.s almindelige forretningsbetingelser.
-.sp
-:SKRSLUT.
-.br
-.if &L'&MEDCO > 0
-.th &MEDCO
-.th .br
-&MEDGADE
-.br
-&MEDBY
-.if &L'&MEDLAND > 0
-.th .br
-.th &MEDLAND
-.sc
-.***
-...MEDNVNSL
-.sp 3mm
-:SWISS8.
-På foranledning af ovennævnte indestår underskrevne &BANKNAVN. som
-garantistiller hermed for et beløb af indtil
-.sp 3mm
-.ce on
-kr.
-:SKRSLUT.
-.ct  &RESULTA
-.sp 3mm
-:SWISS8.
-skriver
-:SKRSLUT.
-.ct  &RESULTAT1.&RESULTAT2.
-.ce off
-.sp 5mm
-:SWISS8.
-Overfor
-:SKRSLUT.
-&GARMODADR1., &GARMODADR2., &GARMODADR3., &GARMODADR4., &GARMODADR5.
-:SWISS8.
-til sikkerhed for
-:SKRSLUT.
-&KTONAVN.s
-:SWISS8.
-opfyldelse af auktionsvilkårene i forbindelse med
-tvangsauktionen over ejendommen matr.nr.
-:SKRSLUT.
-.ct  &GENMATRNR.,
-:SWISS8.
-beliggende
-:SKRSLUT.
-.ct  &GENADRESSE.,
-.ct  den &GENDATO..
-:SWISS8.
-Garantien stilles i henhold til Justitsministeriets
-tvangsauktionsvilkår. Garantien er gældende, såfremt
 :SWISS8.
 .se regnr = substr &LANGKTONR 1 4
 .se ktonr = substr &LANGKTONR 5 21
@@ -474,6 +127,86 @@ Til sikkerhed for
 .***
 ...EJSTILL3
 &MEDNAVN
+.br
+.if &L'&MEDCO > 0
+.th &MEDCO
+.th .br
+&MEDGADE
+.br
+&MEDBY
+.if &L'&MEDLAND > 0
+.th .br
+.th &MEDLAND
+.sc
+.***
+...MEDNVNSL
+.sp 3mm
+:SWISS8.
+På foranledning af ovennævnte indestår underskrevne &BANKNAVN. som
+garantistiller hermed for et beløb af indtil
+.sp 3mm
+.ce on
+kr.
+:SKRSLUT.
+.ct  &RESULTA
+.sp 3mm
+:SWISS8.
+skriver
+:SKRSLUT.
+.ct  &RESULTAT1.&RESULTAT2.
+.ce off
+.sp 5mm
+:SWISS8.
+Overfor
+:SKRSLUT.
+&GARMODADR1., &GARMODADR2., &GARMODADR3., &GARMODADR4., &GARMODADR5.
+:SWISS8.
+til sikkerhed for
+:SKRSLUT.
+&KTONAVN.s
+:SWISS8.
+opfyldelse af auktionsvilkårene i forbindelse med
+tvangsauktionen over ejendommen matr.nr.
+:SKRSLUT.
+.ct  &GENMATRNR.,
+:SWISS8.
+beliggende
+:SKRSLUT.
+.ct  &GENADRESSE.,
+.ct  den &GENDATO..
+:SWISS8.
+Garantien stilles i henhold til Justitsministeriets
+tvangsauktionsvilkår. Garantien er gældende, såfremt
+:SKRSLUT.
+&KTONAVN.
+:SWISS8.
+bliver højstbydende på auktionen.
+.sp
+Garantien er gyldig indtil auktionsskøde er udstedt og garantien er
+frigivet af fogedretten.
+.sp
+Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
+garantikreditor med urette måtte foranledige udbetalt under garantien er
+samtidig hermed overdraget til &BANKNAVN. til sikkerhed for garantien.
+.sp
+Det er en klar forudsætning for &BANKNAVN.s garantistillelse at &BANKNAVN.
+får anmeldelsesretten i garantirekvirentens evt. bo for beløb, som
+&BANKNAVN., betaler under nærværende garanti.
+.sp
+&BANKNAVN. er ikke ansvarlig for skade, der skyldes lovforskrifter,
+myndighedsforanstaltninger eller lignende, indtruffet eller truende krig,
+oprør, borgerlige uroligheder, naturkatastrofer, strejke, lock-out,
+boykot og blokade, uanset om &BANKNAVN. selv er part i konflikten,
+herunder at denne kun rammer dele af &BANKNAVN.s funktioner og uanset
+årsagen.
+.sp
+Efter garantiens bortfald bedes denne garantierklæring returneret til
+&BANKNAVN.. Uanset originalgarantiens manglende returnering til &BANKNAVN.
+kan der efter garantiens bortfald ikke gøres rettigheder gældende.
+.sp
+Iøvrigt gælder &BANKNAVN.s almindelige forretningsbetingelser.
+.sp
+:SKRSLUT.
 .** SIDESKIFT
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
@@ -618,17 +351,17 @@ kautionist ingen forventning har om regres mod pantet
 Dato:
 :SKRSLUT.
 :SKRSLUT.
-¤&DATO8.
+ ¤ &DATO8.
 :SWISS8.
 .sp 10mm
 .*UNDERSKRIFTER********************
 .if &L'&MEDNAVN > 0
 .th .hr tynd 35mm 97mm 102mm 165mm
 .th .br
-.th ¤&KTONAVN ¤¤&MEDNAVN
+.th ¤ &KTONAVN ¤ ¤ &MEDNAVN
 .el .hr tynd 35mm 165mm
 .el .br
-.el ¤&KTONAVN
+.el ¤ &KTONAVN
 .sp 10mm
 .*UNDERSKRIFT 1-4 *********************************************************
 .kp on
@@ -645,7 +378,7 @@ Dato:
 .el .go UNSKRS
 ...2UNDSK
 .hr tynd 5mm 85mm 90mm 170mm
-¤&E69USKRT1.¤&E69USKRT2.
+ ¤ &E69USKRT1. ¤ &E69USKRT2.
 .sp 10mm
 .if x&E69USKRV1 = x4
 .th .go 4UNDSK
@@ -654,17 +387,17 @@ Dato:
 .el .go UNSKRS
 ...1UNDSK
 .hr tynd 5mm 85mm
-¤&E69USKRT1.
+ ¤ &E69USKRT1.
 .sp 10mm
 .go UNSKRS
 ...4UNDSK
 .hr tynd 5mm 85mm 90mm 170mm
-¤&E69USKRT3.¤&E69USKRT4.
+ ¤ &E69USKRT3. ¤ &E69USKRT4.
 .sp 10mm
 .go UNSKRS
 ...3UNDSK
 .hr tynd 5mm 85mm
-¤&E69USKRT3.
+ ¤ &E69USKRT3.
 .sp 10mm
 .go UNSKRS
 ...UNSKRS
@@ -676,37 +409,37 @@ Dato:
 :SKRSLUT.
 .if &GENKRYDS. = 1
 .th .hr tynd 35mm 165mm
-.th ¤&KTONAVN
+.th ¤ &KTONAVN
 .th .sp 10mm
 .if &GENKRYDS. = 2
 .th .hr tynd 35mm 165mm
-.th ¤&MEDNAVN
+.th ¤ &MEDNAVN
 .th .sp 10mm
 .if &GENKRYDS. = 3
 .th .hr tynd 35mm 165mm
-.th ¤&KTONAVN
+.th ¤ &KTONAVN
 .th .sp 10mm
 .th .hr tynd 35mm 165mm
-.th ¤&MEDNAVN
+.th ¤ &MEDNAVN
 .th .sp 10mm
 .if &L'&DEP03CPR > 0
 .th .hr tynd 35mm 165mm
-.th ¤&DEB03ADR1.
+.th ¤ &DEB03ADR1.
 .th .sp 10mm
 .if &L'&DEP04CPR > 0
 .th .hr tynd 35mm 165mm
-.th ¤&DEB04ADR1.
+.th ¤ &DEB04ADR1.
 .th .sp 5mm
 :FED.Selvskyldnerkautionister: :SKRSLUT.
 .sp 5mm
 .if &L'&KAUKNDNR01. > 0
 .th .hr tynd 35mm 165mm
-.th ¤&KAUADR101.
+.th ¤ &KAUADR101.
 .th .sp 5mm
 .if &L'&KAUKNDNR02. > 0
 .th .sp 5mm
 .th .hr tynd 35mm 165mm
-.th ¤&KAUADR201.
+.th ¤ &KAUADR201.
 .th .sp 5mm
 ...YBLA
 .*VITTERLIGHED*********************
@@ -717,7 +450,7 @@ Dato:
 :FED.
 Til vitterlighed
 :SKRSLUT.
-.ct  ¤Til
+.ct  ¤ Til
 .in 35mm nobreak
 vitterlighed om ægte underskrift/underskrifter, dateringens
 rigtighed og udstederens/udstedernes myndighed.
@@ -754,3 +487,271 @@ Underskrift ¤
 .kp off
 .sc
 ...ENDVIT1
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.* Parameterafsnit
+.**************************************************************************
+.*REGNR og KTONR1 er med i brevet men bruges ikke længere. De er bibeholdet
+.*for at nuv. banker kan fortsætte med at bruge disse.*********************
+.**************************************************************************
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.if &U'X&GENJANEJ1 = XJ
+.th .go XBLA
+.if X&GENKRYDS  = X1
+.or X&GENKRYDS  = X2
+.or X&GENKRYDS  = X3
+.th
+.el .mg/T/Felt f. håndpantsætter skal være udfyldt m. 1, 2 eller 3/
+...XBLA
+.**************************************************************************
+.* ER SAGEN EN BLANCO-SAG?
+.**************************************************************************
+.if &U'X&GENJANEJ1 = XJ
+.or &U'X&GENJANEJ1 = XN
+.th
+.el .mg/T/Blanco: Skriv J eller N/
+.**************************************************************************
+.if &U'X&GENREGARAN = XJ
+.or &U'X&GENREGARAN = XN
+.th
+.el .mg/T/Regaranti: Skriv J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ = XJ
+.or &U'X&GENJANEJ = XN
+.th
+.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
+.**************************************************************************
+.* Parameterafsnit - beregning
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Garanti - Tvangsauktion
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.sp 86mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.**************************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.da SÆLGER 25mm  46mm width 150mm
+.**SÆLGER  ****************************************************************
+.ar SÆLGER on
+&GARMODADR1
+.br
+&GARMODADR2
+.br
+&GARMODADR3
+.br
+&GARMODADR4
+.br
+&GARMODADR5
+.ar off
+:SWISS8.
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+Kontonr. for garanti:
+:SKRSLUT.
+.ct  &regnr. &ktonr.
+.sp 3mm
+:SWISS8.
+Til sikkerhed for
+:SKRSLUT.
+.sp 3mm
+.if &L'&MEDNAVN > 0
+.th .cd 2 0mm 87mm
+.th .cl 85mm
+.***
+.if &L'&KTOLAND > 0
+.th .go EJSTILL2
+.***
+.if &L'&KTOSTILL > 0
+.th &KTOSTILL
+.th .br
+.***
+...EJSTILL2
+&KTONAVN
+.br
+.if &L'&KTOCO > 0
+.th &KTOCO
+.th .br
+&KTOGADE
+.br
+&KTOBY
+.if &L'&KTOLAND > 0
+.th .br
+.th &KTOLAND
+.***
+.if &L'&MEDNAVN > 0
+.th .go MEDNVN
+.el .go MEDNVNSL
+.***
+...MEDNVN
+.cb
+.if &L'&MEDLAND > 0
+.th .go EJSTILL3
+.***
+.if &L'&MEDSTILL > 0
+.th &MEDSTILL
+.th .br
+.***
+...EJSTILL3
+&MEDNAVN
+.br
+.if &L'&MEDCO > 0
+.th &MEDCO
+.th .br
+&MEDGADE
+.br
+&MEDBY
+.if &L'&MEDLAND > 0
+.th .br
+.th &MEDLAND
+.sc
+.***
+...MEDNVNSL
+.sp 3mm
+:SWISS8.
+På foranledning af ovennævnte indestår underskrevne &BANKNAVN. som
+garantistiller hermed for et beløb af indtil
+.sp 3mm
+.ce on
+kr.
+:SKRSLUT.
+.ct  &RESULTA
+.sp 3mm
+:SWISS8.
+skriver
+:SKRSLUT.
+.ct  &RESULTAT1.&RESULTAT2.
+.ce off
+.sp 5mm
+:SWISS8.
+Overfor
+:SKRSLUT.
+&GARMODADR1., &GARMODADR2., &GARMODADR3., &GARMODADR4., &GARMODADR5.
+:SWISS8.
+til sikkerhed for
+:SKRSLUT.
+&KTONAVN.s
+:SWISS8.
+opfyldelse af auktionsvilkårene i forbindelse med
+tvangsauktionen over ejendommen matr.nr.
+:SKRSLUT.
+.ct  &GENMATRNR.,
+:SWISS8.
+beliggende
+:SKRSLUT.
+.ct  &GENADRESSE.,
+.ct  den &GENDATO..
+:SWISS8.
+Garantien stilles i henhold til Justitsministeriets
+tvangsauktionsvilkår. Garantien er gældende, såfremt
+:SKRSLUT.
+&KTONAVN.
+:SWISS8.
+bliver højstbydende på auktionen.
+.sp
+Garantien er gyldig indtil auktionsskøde er udstedt og garantien er
+frigivet af fogedretten.
+.sp
+Garantirekvirentens eventuelle krav på tilbagebetaling af beløb, som
+garantikreditor med urette måtte foranledige udbetalt under garantien er
+samtidig hermed overdraget til &BANKNAVN. til sikkerhed for garantien.
+.sp
+Det er en klar forudsætning for &BANKNAVN.s garantistillelse at &BANKNAVN.
+får anmeldelsesretten i garantirekvirentens evt. bo for beløb, som
+&BANKNAVN., betaler under nærværende garanti.
+.sp
+&BANKNAVN. er ikke ansvarlig for skade, der skyldes lovforskrifter,
+myndighedsforanstaltninger eller lignende, indtruffet eller truende krig,
+oprør, borgerlige uroligheder, naturkatastrofer, strejke, lock-out,
+boykot og blokade, uanset om &BANKNAVN. selv er part i konflikten,
+herunder at denne kun rammer dele af &BANKNAVN.s funktioner og uanset
+årsagen.
+.sp
+Efter garantiens bortfald bedes denne garantierklæring returneret til
+&BANKNAVN.. Uanset originalgarantiens manglende returnering til &BANKNAVN.
+kan der efter garantiens bortfald ikke gøres rettigheder gældende.
+.sp
+Iøvrigt gælder &BANKNAVN.s almindelige forretningsbetingelser.
+.sp
+:SKRSLUT.
+.ce on
+:SWISS8.
+den
+:SKRSLUT.
+.ct  &DATO8
+.sp
+:SWISS8.
+.ct  Som garantistiller:
+.sp
+:SKRSLUT.
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ce off
+.sp 15mm
+

@@ -1,119 +1,313 @@
-.if &L'&B30J gt 0
-.th &B30J &B30K &B30S &B30T
-.th .sp
-.if &L'&B30X gt 4
-.th Ratepensionsaftalen er en videreførsel af aftale fra &B30X.,
-.th kontonummer &B30U..
-.th .sp
-:FED.Andre aftaler
-:SKRSLUT.
-.br
-.if &L'&B30P eq 2 .an &FRIDATO ne 00.00.0000
-.th Kontoens indestående kan frigives den &FRIDATO.,
-.th og udbetalingsperioden er fastsat til &B30P år.
-.th .sp
-.if &L'&B30P le 1 .an &FRIDATO ne 00.00.0000
-.th Kontoens indestående kan frigives den &FRIDATO.,
-.th og udbetales i rater over minimum 10 år.
-.th .sp
-.if &L'&B30P eq 2 .an &FRIDATO eq 00.00.0000
-.th Kontoens indestående kan udbetales over &B30P år.
-.th .sp
-.if &L'&B30P eq 1 .an &FRIDATO eq 00.00.0000
-.th Kontoens indestående udbetales over &B30P år.
-.th .sp
-.if &L'&B30P eq 0 .an &FRIDATO eq 00.00.0000
-.th Kontoens indestående kan udbetales over minimum 10 år.
-.th .sp
-Udbetaling ved død sker direkte til "nærmeste pårørende" medmindre
-kontohaver har indsat en anden som begunstiget.
-.sp
-Indsættelse af begunstiget (der kan indsættes flere):
-.sp
-Begunstigedes CPR.nr.___________ Begunstigedes navn___________________
-.sp
-.br
-:FED.Udbetaling
-:SKRSLUT. (jf. omstående paragraf 3)
-.br
-.su off
-.se rente = substr &KRESATS 1 4
-.su on
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje og &B30AKTIER %
-.th i dansk aktiepulje.
+.th &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje, &B30AKTIER % i dansk aktiepulje og
+.th &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver med hele saldoen
-.th i kort obligationspulje.
-.th .br
-.th Der er samtidig udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje og &B30UDL %
-.th i udenlandsk aktiepulje.
+.th &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30OBLI % i lang obligationspulje og
+.th &B30INDEKS % i indekspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje og &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje, &B30AKTIER % i dansk aktiepulje
+.th og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30OBLI % i lang obligationspulje
+.th og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver med hele saldoen i
+.th lang obligationspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
 .th &B30OBLI % i lang obligationspulje
 .th og &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje, &B30INDEKS % i indekspulje,
+.th &B30INDEKS % i indekspulje,
 .th &B30AKTIER % i dansk aktiepulje og &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje, &B30INDEKS % i indekspulje og
+.th &B30INDEKS % i indekspulje og
 .th &B30AKTIER % i dansk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KORTE % i kort obligationspulje og &B30INDEKS % i indekspulje.
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver
+.th med hele saldoen i indekspuljen.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje, &B30INDEKS % i indekspulje og
+.th &B30INDEKS % i indekspulje og
 .th &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30AKTIER % i dansk aktiepulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.su off
+.se rente = substr &KRESATS 1 4
+.su on
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver med hele saldoen
+.th i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.an &L'&B30V gt 0
+.th Med virkning fra &B30V forrentes hele kontoens indestående med
+.th den af banken fastsatte rente
+.th p.t. &rente pct.
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.an &L'&B30V eq 0
+.th Hele kontoens indestående forrentes med
+.th den af banken fastsatte rente,
+.th .br
+.th p.t. &rente pct.
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver med hele saldoen
+.th i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje
+.th og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
 .an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KORTE % i kort obligationspulje, &B30AKTIER % i dansk aktiepulje og
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30INDEKS % i indekspulje,
+.th &B30AKTIER % i dansk aktiepulje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30INDEKS % i indekspulje og
+.th &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
+.th &B30INDEKS % i indekspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30INDEKS % i indekspulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30AKTIER % i dansk aktiepulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje, &B30AKTIER % i dansk aktiepulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspuljen og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje og
+.th &B30INDEKS % i indekspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje,
+.th &B30AKTIER % i dansk aktiepuje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30OBLI % i lang obligationspulje
+.th og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
+.th &B30OBLI % i lang obligationspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
+.th &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje og &B30KORTE % i kort obligationspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
 .th &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
@@ -188,157 +382,56 @@ Begunstigedes CPR.nr.___________ Begunstigedes navn___________________
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
-.th &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje og &B30KORTE % i kort obligationspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
 .an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje, &B30AKTIER % i dansk aktiepulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspuljen og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30OBLI % i lang obligationspulje og
-.th &B30INDEKS % i indekspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30OBLI % i lang obligationspulje,
-.th &B30AKTIER % i dansk aktiepuje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30OBLI % i lang obligationspulje
-.th og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
-.th &B30OBLI % i lang obligationspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
+.th &B30KORTE % i kort obligationspulje,
 .th &B30OBLI % i lang obligationspulje
 .th og &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
 .an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30INDEKS % i indekspulje,
+.th &B30KORTE % i kort obligationspulje, &B30INDEKS % i indekspulje,
 .th &B30AKTIER % i dansk aktiepulje og &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 &L'&B30KORTE gt 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30INDEKS % i indekspulje og
+.th &B30KORTE % i kort obligationspulje, &B30INDEKS % i indekspulje og
 .th &B30AKTIER % i dansk aktiepulje.
 .th .br
-.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
 .an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje og
-.th &B30INDEKS % i indekspulje.
+.th &B30KORTE % i kort obligationspulje og &B30INDEKS % i indekspulje.
 .th .br
-.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
 .an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30INDEKS % i indekspulje og
+.th &B30KORTE % i kort obligationspulje, &B30INDEKS % i indekspulje og
 .th &B30UDL % i udenlandsk aktiepulje.
 .th .br
-.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
 .an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th &B30KONTANT % i kontantpulje, &B30KORTE % i kort obligationspulje,
-.th &B30AKTIER % i dansk aktiepulje og
+.th &B30KORTE % i kort obligationspulje, &B30AKTIER % i dansk aktiepulje og
 .th &B30UDL % i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
@@ -347,312 +440,174 @@ Begunstigedes CPR.nr.___________ Begunstigedes navn___________________
 .se rente = substr &KRESATS 1 4
 .su on
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver med hele saldoen
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KORTE % i kort obligationspulje og &B30AKTIER %
 .th i dansk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
 .if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.an &L'&B30V gt 0
-.th Med virkning fra &B30V forrentes hele kontoens indestående med
-.th den af banken fastsatte rente
-.th p.t. &rente pct.
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.an &L'&B30V eq 0
-.th Hele kontoens indestående forrentes med
-.th den af banken fastsatte rente,
-.th .br
-.th p.t. &rente pct.
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE gt 0
 .th Med virkning fra &B30V deltager kontohaver med hele saldoen
+.th i kort obligationspulje.
+.th .br
+.th Der er samtidig udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE gt 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KORTE % i kort obligationspulje og &B30UDL %
 .th i udenlandsk aktiepulje.
 .th .br
 .th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.br
+:FED.Udbetaling
+:SKRSLUT. (jf. omstående paragraf 3)
+.br
+.fo left
+.*** SÆT SKÆRM/PRINT-FORMAT ***
+.ti > 05
+:GL..PM 4:EGL.
+:GL..LL 71:EGL.
+.sp 5
+:GL..TP 3 42:EGL.
+:NY..TP 8MM 107MM:ENY.
+.*** BREVSTART ***
+:GL.&&??#:EGL.
+##1B5B3479#
+.br
+:HALVRET.
+.sp
+ > &NAVN > &KTOKUNDENR
+.br
+.if &L'&COADR gt 0
+.th > &COADR
 .th .br
-.th &B30OBLI % i lang obligationspulje
-.th og &B30UDL % i udenlandsk aktiepulje.
+.th > &GADE > 6771 &KTONR
 .th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th > &BY
+.if &L'&COADR eq 0
+.th > &GADE
+.th .br
+.th > &BY > 6771 &KTONR
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30INDEKS % i indekspulje,
-.th &B30AKTIER % i dansk aktiepulje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.sp
+ > Lægernes Pensionsbank
+.br
+ > Esplanaden 8 A
+.br
+ > 1263  København K
+.sp 4
+.if &L'&B30P eq 2 .an &FRIDATO ne 00.00.0000
+.th Kontoens indestående kan frigives den &FRIDATO.,
+.th og udbetalingsperioden er fastsat til &B30P år.
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30INDEKS % i indekspulje og
-.th &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.if &L'&B30P le 1 .an &FRIDATO ne 00.00.0000
+.th Kontoens indestående kan frigives den &FRIDATO.,
+.th og udbetales i rater over minimum 10 år.
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver
-.th med hele saldoen i indekspuljen.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.if &L'&B30P eq 2 .an &FRIDATO eq 00.00.0000
+.th Kontoens indestående kan udbetales over &B30P år.
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30INDEKS % i indekspulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.if &L'&B30P eq 1 .an &FRIDATO eq 00.00.0000
+.th Kontoens indestående udbetales over &B30P år.
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30AKTIER % i dansk aktiepulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.if &L'&B30P eq 0 .an &FRIDATO eq 00.00.0000
+.th Kontoens indestående kan udbetales over minimum 10 år.
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje, &B30AKTIER % i dansk aktiepulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+Udbetaling ved død sker direkte til "nærmeste pårørende" medmindre
+kontohaver har indsat en anden som begunstiget.
+.sp
+Indsættelse af begunstiget (der kan indsættes flere):
+.sp
+Begunstigedes CPR.nr.___________ Begunstigedes navn___________________
+.sp
+:FED.Andre aftaler
+:SKRSLUT.
+.br
+.if &L'&B30J gt 0
+.th &B30J &B30K &B30S &B30T
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.if &L'&B30X gt 4
+.th Ratepensionsaftalen er en videreførsel af aftale fra &B30X.,
+.th kontonummer &B30U..
 .th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30OBLI % i lang obligationspulje og
-.th &B30INDEKS % i indekspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30OBLI % i lang obligationspulje, &B30AKTIER % i dansk aktiepulje
-.th og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30OBLI % i lang obligationspulje
-.th og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT eq 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver med hele saldoen i
-.th lang obligationspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
+.se antlin = &ÅLC. - 13
+.sp &antlin
+:GL..TP 46:EGL.
+:NY..TP 117MM:ENY.
 .su off
-.se sats1 = substr &KRESATS 1 4
-.se sats2 = substr &KRESATS 1 5
+.se byen = substr &BY 6
 .su on
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.an &L'&B30V gt 0 .an &L'&KRESATS eq 5
-.th Med virkning fra &B30V forrentes hele kontoens indestående
-.th med den af banken fastsatte rente, p.t. &sats1 %.
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.an &L'&B30V eq 0 .an &L'&KRESATS eq 5
-.th Hele kontoens indestående forrentes
-.th med den af banken fastsatte rente, p.t. &sats1 %.
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.an &L'&B30V gt 0 .an &L'&KRESATS gt 5
-.th Med virkning fra &B30V forrentes hele kontoens indestående
-.th med den af banken fastsatte rente, p.t. &sats2 %.
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.an &L'&B30V eq 0 .an &L'&KRESATS gt 5
-.th Hele kontoens indestående forrentes
-.th med den af banken fastsatte rente, p.t. &sats2 %.
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje, &B30AKTIER % i dansk aktiepulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspuljen og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje og
-.th &B30INDEKS % i indekspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
-.th &B30INDEKS % i indekspulje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
-.th &B30AKTIER % i dansk aktiepuje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje
-.th og &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje og &B30OBLI % i lang obligationspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje
-.th og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30INDEKS % i indekspulje,
-.th &B30AKTIER % i dansk aktiepulje og &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30INDEKS % i indekspulje og
-.th &B30AKTIER % i dansk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for puljepensionerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje og &B30INDEKS % i indekspulje.
-.th .br
-.th Der er udleveret "Retningslinjer for puljepensionerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
-.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30INDEKS % i indekspulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for puljepensionerne".
-.th .sp
-.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
-.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
-.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
-.th .br
-.th &B30KONTANT % i kontantpulje, &B30AKTIER % i dansk aktiepulje og
-.th &B30UDL % i udenlandsk aktiepulje.
-.th .br
-.th Der er udleveret "Retningslinjer for pensionspuljerne".
-.th .sp
+.ce &byen., den
+.sp 2
+.ce ______________________________
 .br
-:FED.Placering af opsparing
-:SKRSLUT. (jf. omstående paragraf 2)
+.ce &NAVN
+.sp 2
+:HALVLIN.
+ > København, den &DATO6
+.sp 2
+ > Lægernes Pensionsbank
+.oc *** denne linie benyttes ikke
+:GL.:BECFORM.B30105:EGL.
+:FED.Indbetaling
+:SKRSLUT. (jf. omstående paragraf 1)
 .br
+.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq - .an &U'&B309 eq N
+.th Det aftales, at der indtil kontohaver fylder 55 år
+.th kan indbetales op til det til enhver tid
+.th gældende opfyldningsfradrag.
+.th .sp
+.th Opfyldningsfradraget for &B30Z udgør &B30Y kr.
+.th .sp
+.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq - .an &U'&B309 eq J
+.th Det aftales, at der for &B30Z indbetales &B30Y kr. Beløbet reguleres
+.th efter det af Finansministeriet opgjorte reguleringstal. Beløbet
+.th svarer til maksimal indskud på en kapitalpension.
+.th .sp
+.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq 1
+.th .br
+.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq 3
+.th .br
+.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq 9
+.th .br
+.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq -
+.th Det aftales, at kontohaver indbetaler &B30D kr.
+.th på ratepensionskontoen.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq 1
+.th Det aftales, at kontohaver indbetaler &B30D kr. til
+.th ratepensionskontoen hver måned.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq 3
+.th Det aftales, at kontohaver indbetaler &B30D kr. til
+.th ratepensionskontoen hvert kvartal.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq 9
+.th Det aftales, at kontohaver indbetaler &B30D kr. til
+.th ratepensionskontoen hvert år.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq -
+.th Med virkning fra &B30E indbetaler kontohaver
+.th &B30D kr. på ratepensionskontoen.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq 1
+.th Med virkning fra &B30E indbetales af kontohaver &B30D kr.
+.th til ratepensionskontoen hver måned.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq 3
+.th Med virkning fra &B30E indbetales af kontohaver &B30D kr.
+.th til ratepensionskontoen hvert kvartal.
+.th .sp
+.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq 9
+.th Med virkning fra &B30E indbetales af kontohaver &B30D kr.
+.th til ratepensionskontoen hvert år.
+.th .sp
 .if &L'&B30D gt 0 .an &L'&B30O eq 2
 .th Indbetalingsperioden er fastsat til &B30O år. De indbetalte
 .th beløb kan fratrækkes fuldt ud på selvangivelsen.
@@ -734,122 +689,168 @@ Begunstigedes CPR.nr.___________ Begunstigedes navn___________________
 .th Det indbetalte beløb er et engangsindskud. Der gælder særlige
 .th regler for fradragsmulighederne på selvangivelsen.
 .th .sp
-.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq - .an &U'&B309 eq N
-.th Det aftales, at der indtil kontohaver fylder 55 år
-.th kan indbetales op til det til enhver tid
-.th gældende opfyldningsfradrag.
-.th .sp
-.th Opfyldningsfradraget for &B30Z udgør &B30Y kr.
-.th .sp
-.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq - .an &U'&B309 eq J
-.th Det aftales, at der for &B30Z indbetales &B30Y kr. Beløbet reguleres
-.th efter det af Finansministeriet opgjorte reguleringstal. Beløbet
-.th svarer til maksimal indskud på en kapitalpension.
-.th .sp
-.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq 1
-.th .br
-.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq 3
-.th .br
-.if &L'&B30D eq 0 .an &L'&B30E eq 0 .an &U'&B30F eq 9
-.th .br
-.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq -
-.th Det aftales, at kontohaver indbetaler &B30D kr.
-.th på ratepensionskontoen.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq 1
-.th Det aftales, at kontohaver indbetaler &B30D kr. til
-.th ratepensionskontoen hver måned.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq 3
-.th Det aftales, at kontohaver indbetaler &B30D kr. til
-.th ratepensionskontoen hvert kvartal.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E eq 0 .an &U'&B30F eq 9
-.th Det aftales, at kontohaver indbetaler &B30D kr. til
-.th ratepensionskontoen hvert år.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq -
-.th Med virkning fra &B30E indbetaler kontohaver
-.th &B30D kr. på ratepensionskontoen.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq 1
-.th Med virkning fra &B30E indbetales af kontohaver &B30D kr.
-.th til ratepensionskontoen hver måned.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq 3
-.th Med virkning fra &B30E indbetales af kontohaver &B30D kr.
-.th til ratepensionskontoen hvert kvartal.
-.th .sp
-.if &L'&B30D gt 0 .an &L'&B30E gt 0 .an &U'&B30F eq 9
-.th Med virkning fra &B30E indbetales af kontohaver &B30D kr.
-.th til ratepensionskontoen hvert år.
-.th .sp
-:FED.Indbetaling
-:SKRSLUT. (jf. omstående paragraf 1)
 .br
-.fo left
-.*** SÆT SKÆRM/PRINT-FORMAT ***
-.ti > 05
-:GL..PM 4:EGL.
-:GL..LL 71:EGL.
-.sp 5
-:GL..TP 3 42:EGL.
-:NY..TP 8MM 107MM:ENY.
-.*** BREVSTART ***
-:GL.&&??#:EGL.
-##1B5B3479#
+:FED.Placering af opsparing
+:SKRSLUT. (jf. omstående paragraf 2)
 .br
-:HALVRET.
-.sp
->&NAVN >&KTOKUNDENR
-.br
-.if &L'&COADR gt 0
-.th >&COADR
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
 .th .br
-.th >&GADE >6771 &KTONR
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje
+.th og &B30UDL % i udenlandsk aktiepulje.
 .th .br
-.th >&BY
-.if &L'&COADR eq 0
-.th >&GADE
-.th .br
-.th >&BY >6771 &KTONR
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
 .th .sp
-.sp
->Lægernes Pensionsbank
-.br
->Esplanaden 8 A
-.br
->1263  København K
-.sp 4
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.se antlin = &ÅLC. - 13
-.sp &antlin
-:GL..TP 46:EGL.
-:NY..TP 117MM:ENY.
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30INDEKS % i indekspulje,
+.th &B30AKTIER % i dansk aktiepulje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30INDEKS % i indekspulje og
+.th &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje og &B30INDEKS % i indekspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30INDEKS % i indekspulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for puljepensionerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30AKTIER % i dansk aktiepulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje, &B30AKTIER % i dansk aktiepulje og
+.th &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspuljen og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje og
+.th &B30INDEKS % i indekspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS gt 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
+.th &B30INDEKS % i indekspulje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje,
+.th &B30AKTIER % i dansk aktiepuje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje, &B30OBLI % i lang obligationspulje
+.th og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI gt 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje og &B30OBLI % i lang obligationspulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER gt 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje og &B30AKTIER % i dansk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
 .su off
-.se byen = substr &BY 6
+.se sats1 = substr &KRESATS 1 4
+.se sats2 = substr &KRESATS 1 5
 .su on
-.ce &byen., den
-.sp 2
-.ce ______________________________
-.br
-.ce &NAVN
-.sp 2
-:HALVLIN.
->København, den &DATO6
-.sp 2
->Lægernes Pensionsbank
-.oc *** denne linie benyttes ikke
-:GL.:BECFORM.B30105:EGL.
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.an &L'&B30V gt 0 .an &L'&KRESATS eq 5
+.th Med virkning fra &B30V forrentes hele kontoens indestående
+.th med den af banken fastsatte rente, p.t. &sats1 %.
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.an &L'&B30V eq 0 .an &L'&KRESATS eq 5
+.th Hele kontoens indestående forrentes
+.th med den af banken fastsatte rente, p.t. &sats1 %.
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.an &L'&B30V gt 0 .an &L'&KRESATS gt 5
+.th Med virkning fra &B30V forrentes hele kontoens indestående
+.th med den af banken fastsatte rente, p.t. &sats2 %.
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL eq 0 .an &L'&B30KORTE eq 0
+.an &L'&B30V eq 0 .an &L'&KRESATS gt 5
+.th Hele kontoens indestående forrentes
+.th med den af banken fastsatte rente, p.t. &sats2 %.
+.th .sp
+.if &L'&B30KONTANT gt 0 .an &L'&B30OBLI eq 0 .an &L'&B30INDEKS eq 0
+.an &L'&B30AKTIER eq 0 .an &L'&B30UDL gt 0 .an &L'&B30KORTE eq 0
+.th Med virkning fra &B30V deltager kontohaver i følgende puljer:
+.th .br
+.th &B30KONTANT % i kontantpulje og &B30UDL % i udenlandsk aktiepulje.
+.th .br
+.th Der er udleveret "Retningslinjer for pensionspuljerne".
+.th .sp
+

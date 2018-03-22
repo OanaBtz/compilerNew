@@ -1,194 +1,339 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .rh cancel
-.**************************************************************************
-.dr tynd weight 0.2mm
-.tp 02mm 72mm
-.***************************
-.* .tp 2mm
-.* .in 0mm
-.********kontohaver og medunderskriver/medkontohaver
-.if &L'&MEDNAVN > 0
-.th .go MEDNV1
-.el .go MEDNV0
-...MEDNV0
-.kp on
-.sp 15mm
-¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm
-¤&KTONAVN.
-.kp off
-.go SNBUND
-...MEDNV1
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&KTONAVN ¤&MEDNAVN
-.kp off
-.********2. og/eller 3. medunderskriver/medkontohaver
-.if &L'&MEDNAVN2 > 0
-.an &L'&MEDNAVN3 > 0
-.th .go MEDNV3
-.el .go MEDNV2
-...MEDNV2
-.if &L'&MEDNAVN2 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN2
-.th .kp off
-.go SNBUND
-...MEDNV3
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN2. ¤&MEDNAVN3.
-.kp off
-.********4. og/eller 5. medunderskriver/medkontohaver
-.if &L'&MEDNAVN4 > 0
-.an &L'&MEDNAVN5 > 0
-.th .go MEDNV5
-.el .go MEDNV4
-...MEDNV4
-.if &L'&MEDNAVN4 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN4
-.th .kp off
-.go SNBUND
-...MEDNV5
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN4. ¤&MEDNAVN5.
-.kp off
-.********6. og/eller 7. medunderskriver/medkontohaver
-.if &L'&MEDNAVN6 > 0
-.an &L'&MEDNAVN7 > 0
-.th .go MEDNV7
-.el .go MEDNV6
-...MEDNV6
-.if &L'&MEDNAVN6 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN6.
-.th .kp off
-.go SNBUND
-...MEDNV7
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN6. ¤&MEDNAVN7.
-.kp off
-.********8. og/eller 9. medunderskriver/medkontohaver
-.if &L'&MEDNAVN8 > 0
-.an &L'&MEDNAVN9 > 0
-.th .go MEDNV9
-.el .go MEDNV8
-...MEDNV8
-.if &L'&MEDNAVN8 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN8
-.th .kp off
-.go SNBUND
-...MEDNV9
-.kp on
-.sp 15mm
-¤Dato:¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm 70mm 135mm
-¤&MEDNAVN8. ¤&MEDNAVN9.
-.kp off
-.********10. medunderskriver/medkontohaver
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.* .BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*
+.su off
+.se year = substr &DATO 7 4
+.su on
+.*TEST PÅ UDFYLDELSE AF ALLE MEDUNDERSKRIVER I FORTLØBENDE RÆKKEFØLGE    *
+.*10. medunderskriver/medkontohaver må ikke være udfyldt, hvis 9. ikke er*
+.************************************************************************
 .if &L'&MEDNAVN10 > 0
-.th .kp on
-.th .sp 15mm
-.th ¤Dato:
-.th .br
-.th .sp 15mm
-.th .hr tynd 0mm 65mm
-.th ¤&MEDNAVN10
-.th .kp off
-... SNBUND
-.kp on
-.sp 15mm
-¤Dato:
-.br
-.sp 15mm
-.hr tynd 0mm 65mm
-:FED.
-¤&BANKNAVN.
-.kp off
-:SKRSLUT.
+.an &L'&MEDNAVN9 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN9 > 0
+.an &L'&MEDNAVN8 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN8 > 0
+.an &L'&MEDNAVN7 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN7 > 0
+.an &L'&MEDNAVN6 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN6 > 0
+.an &L'&MEDNAVN5 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN5 > 0
+.an &L'&MEDNAVN4 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN4 > 0
+.an &L'&MEDNAVN3 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN3 > 0
+.an &L'&MEDNAVN2 = 0
+.th .go INDFEJL
+.if &L'&MEDNAVN2 > 0
+.an &L'&MEDNAVN = 0
+.th .go INDFEJL
+.go INDOK
+...INDFEJL
+.mg/T/Medunderskrivere skal udfyldes i fortløbende rækkefølge/
+...INDOK
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
 .**************************************************************************
-Jeg ønsker at frigøre et beløb på &E69FRITXT1. kr. og bekræfter,
-at Spar Nords Kapitalforvaltning skal sælge de nødvendige
-papirer fra mit fuldmagtsdepot &E69FRITXT2. for at frigøre beløbet.
-.sp 2mm
-Når de nødvendige papirer er solgt, ønskes beløbet overført fra min
-fuldmagtskonto &E69FRITXT3. til kontonummer &E69FRITXT4.
-til min fri disposition.
-.sp 2mm
-Jeg er bekendt med, at udbetaling vil ske indenfor 10 bankdage.
-.da VEND 7mm 270mm width 180mm rotate -90
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
 .**************************************************************************
-.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
 .**************************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
 .**************************************************************************
-.sp 34mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.if &L'&MEDNAVN > 0
-.th .sp 92mm
-.el .sp 76mm
-.*.sp 76mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 165mm
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
 .********************GENEREL OPSÆTNING*************************************
 :VERDA10.
 .fo left
@@ -239,338 +384,194 @@ Cpr/Cvr-nummer: &KTOKNDNR1.
 .ar off
 .* SIDEHOVED SIDE 1 (MED Y = 96 + 13MM (TOPMARGIN) = 109MM ****************
 .* SIDEHOVEDDEFINITION STARTER ********************************************
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
+.rh on
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
 .**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.if &L'&MEDNAVN > 0
+.th .sp 92mm
+.el .sp 76mm
+.*.sp 76mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+.da VEND 7mm 270mm width 180mm rotate -90
 .**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
+.* SIDEHOVED SIDE 2 (MED Y = 34 + 13MM (TOPMARGIN) = 47MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
 .**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
 .**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.*
-.su off
-.se year = substr &DATO 7 4
-.su on
-.*TEST PÅ UDFYLDELSE AF ALLE MEDUNDERSKRIVER I FORTLØBENDE RÆKKEFØLGE    *
-.*10. medunderskriver/medkontohaver må ikke være udfyldt, hvis 9. ikke er*
-.************************************************************************
-.if &L'&MEDNAVN10 > 0
-.an &L'&MEDNAVN9 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN9 > 0
-.an &L'&MEDNAVN8 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN8 > 0
-.an &L'&MEDNAVN7 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN7 > 0
-.an &L'&MEDNAVN6 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN6 > 0
-.an &L'&MEDNAVN5 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN5 > 0
-.an &L'&MEDNAVN4 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN4 > 0
-.an &L'&MEDNAVN3 = 0
-.th .go INDFEJL
-.if &L'&MEDNAVN3 > 0
-.an &L'&MEDNAVN2 = 0
-.th .go INDFEJL
+.sp 34mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+Jeg ønsker at frigøre et beløb på &E69FRITXT1. kr. og bekræfter,
+at Spar Nords Kapitalforvaltning skal sælge de nødvendige
+papirer fra mit fuldmagtsdepot &E69FRITXT2. for at frigøre beløbet.
+.sp 2mm
+Når de nødvendige papirer er solgt, ønskes beløbet overført fra min
+fuldmagtskonto &E69FRITXT3. til kontonummer &E69FRITXT4.
+til min fri disposition.
+.sp 2mm
+Jeg er bekendt med, at udbetaling vil ske indenfor 10 bankdage.
+.**************************************************************************
+.dr tynd weight 0.2mm
+.tp 02mm 72mm
+.***************************
+.* .tp 2mm
+.* .in 0mm
+.********kontohaver og medunderskriver/medkontohaver
+.if &L'&MEDNAVN > 0
+.th .go MEDNV1
+.el .go MEDNV0
+...MEDNV0
+.kp on
+.sp 15mm
+ ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm
+ ¤ &KTONAVN.
+.kp off
+.go SNBUND
+...MEDNV1
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &KTONAVN ¤ &MEDNAVN
+.kp off
+.********2. og/eller 3. medunderskriver/medkontohaver
 .if &L'&MEDNAVN2 > 0
-.an &L'&MEDNAVN = 0
-.th .go INDFEJL
-.go INDOK
-...INDFEJL
-.mg/T/Medunderskrivere skal udfyldes i fortløbende rækkefølge/
-...INDOK
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.* .NV PAGE ID-OPL_01 '% '
-.* .BR
-.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
-.* .BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+.an &L'&MEDNAVN3 > 0
+.th .go MEDNV3
+.el .go MEDNV2
+...MEDNV2
+.if &L'&MEDNAVN2 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN2
+.th .kp off
+.go SNBUND
+...MEDNV3
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN2. ¤ &MEDNAVN3.
+.kp off
+.********4. og/eller 5. medunderskriver/medkontohaver
+.if &L'&MEDNAVN4 > 0
+.an &L'&MEDNAVN5 > 0
+.th .go MEDNV5
+.el .go MEDNV4
+...MEDNV4
+.if &L'&MEDNAVN4 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN4
+.th .kp off
+.go SNBUND
+...MEDNV5
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN4. ¤ &MEDNAVN5.
+.kp off
+.********6. og/eller 7. medunderskriver/medkontohaver
+.if &L'&MEDNAVN6 > 0
+.an &L'&MEDNAVN7 > 0
+.th .go MEDNV7
+.el .go MEDNV6
+...MEDNV6
+.if &L'&MEDNAVN6 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN6.
+.th .kp off
+.go SNBUND
+...MEDNV7
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN6. ¤ &MEDNAVN7.
+.kp off
+.********8. og/eller 9. medunderskriver/medkontohaver
+.if &L'&MEDNAVN8 > 0
+.an &L'&MEDNAVN9 > 0
+.th .go MEDNV9
+.el .go MEDNV8
+...MEDNV8
+.if &L'&MEDNAVN8 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN8
+.th .kp off
+.go SNBUND
+...MEDNV9
+.kp on
+.sp 15mm
+ ¤ Dato: ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm 70mm 135mm
+ ¤ &MEDNAVN8. ¤ &MEDNAVN9.
+.kp off
+.********10. medunderskriver/medkontohaver
+.if &L'&MEDNAVN10 > 0
+.th .kp on
+.th .sp 15mm
+.th ¤ Dato:
+.th .br
+.th .sp 15mm
+.th .hr tynd 0mm 65mm
+.th ¤ &MEDNAVN10
+.th .kp off
+... SNBUND
+.kp on
+.sp 15mm
+ ¤ Dato:
+.br
+.sp 15mm
+.hr tynd 0mm 65mm
+:FED.
+ ¤ &BANKNAVN.
+.kp off
+:SKRSLUT.
+

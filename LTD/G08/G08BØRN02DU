@@ -11,65 +11,92 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.da oversk 20mm 35mm width 175mm
-.da side1 20mm 42mm width 175mm
-.**********************************
-.ar oversk on
-:SWISS12
-:FED.
-Børneopsparing, forlængelse af bindingsperioden
-.sp 0mm
-.hr left 101mm
-:SKRSLUT.
-.ar off
-.**********************************
-.ar side1 on
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-.**** Her laves kassen til kontohaver og opretter ********
-.bx left 87,5mm right
-.sp 28mm
-.**** Her laves kassen til pengeinstitut og regnr ********
-.bx new left 87,5mm right
-.sp 10mm
-.**** Her laves kassen til kontonummer *******************
-.hr 87,5mm right
-.sp 10mm
-.**** Her laves kassen til periodeudløb ******************
-.bx new left right
-.sp 5mm
-.bx off
-.bx can
-.bx can
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.**** Her laves kassen til indhold ***************
-.bx left right
-.sp 23mm
-.bx off
-:SWISS10.
-:FED.
-Underskrift
-:SKRSLUT.
-.**** Her laves kassen til opretters underskrift **
-.bx left right
-.sp31mm
-.bx off
-.ar off
-.ti ¤ 05
-.***********************************************************************
-.* Brevnavn, roteret i nederste venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.**********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.***********************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
+.*
+.***** HER TESTES PÅ AT BINDINGSPERIODEN ER MINDST 7 ÅR *******************
+.su off
+.se baar = substr &DATO1 7 4
+.se bmdr = substr &DATO1 4 2
+.se bdag = substr &DATO1 1 2
+.se paar = substr &GENDATO2 7 4
+.se pmdr = substr &GENDATO2 4 2
+.se pdag = substr &GENDATO2 1 2
+.se baar1 = &baar + 7
+.su on
+.if x&paar < x&baar1
+.th .go GOD
+.if x&paar > x&baar1
+.th .go GOD
+.if x&pmdr < x&bmdr
+.th .go GOD
+.if x&pmdr > x&bmdr
+.th .go GOD
+.if x&pdag < x&bdag
+.th .go GOD
+.el .go GOD
+...FEJL
+...GOD
+.***** HER TESTES PÅ OM KONTOEN OPHÆVES INDEN FOR DET 14 OG 21 ÅR *********
+.***** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
+.su off
+.se faar = substr &KTOKNDNR1 5 2
+.se fmdr = substr &KTOKNDNR1 3 2
+.se fdag = substr &KTOKNDNR1 1 2
+.su on
+.if x&faar < x50
+.th .se faar1 = &faar + 2000
+.el .se faar1 = &faar + 1900
+.***** HER SÆTTES MIN. OG MAX ALDER VED OPHÆVELSE AF KONTO ****************
+.se minaar = &faar1 + 14
+.se maxaar = &faar1 + 21
+.***** HER TESTES PÅ OM KONTOHAVER ER ÆLDRE END 21 ÅR *********************
+.su on
+.if x&paar > x&maxaar
+.th .go FEJL1
+.if x&paar < x&maxaar
+.th .go OK
+.***** HER TESTES PÅ ON KONTOHAVER ER YNGRE END 14 ÅR *********************
+...OK
+.if x&paar < x&minaar
+.th .go FEJL1
+.if x&paar > x&minaar
+.th .go OK1
+.***** HER TESTES OM ÅRSTAL ER RIGTIGT MEN AT MÅNEDERNE GØR AT KONTOHAVER *
+.***** ER FYLDT 14 ÅR *****************************************************
+.if x&pmdr < x&fmdr
+.th .go FEJL1
+.if x&pmdr > x&fmdr
+.th .go OK1
+.if x&pdag < x&fdag
+.th .go FEJL1
+.el .go OK1
+.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
+...FEJL1
+.mg/T/ Udløbsdatoen skal være mellem barnets 14 - 21 år./
+...OK1
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -138,120 +165,65 @@ Underskrift
 .*.th .mg/T/DU - Værgeoplysning er indtastet, indtast cpr-nr i DU-cprnr2/
 .*************************************************************
 ...DUEXIT
-.***** ER FYLDT 14 ÅR *****************************************************
-.if x&pmdr < x&fmdr
-.th .go FEJL1
-.if x&pmdr > x&fmdr
-.th .go OK1
-.if x&pdag < x&fdag
-.th .go FEJL1
-.el .go OK1
-.***** HER AFSLUTTES TESTEN PÅ UDLØBSDATOEN *******************************
-...FEJL1
-.mg/T/ Udløbsdatoen skal være mellem barnets 14 - 21 år./
-...OK1
-.*
-.***** HER TESTES PÅ AT BINDINGSPERIODEN ER MINDST 7 ÅR *******************
-.su off
-.se baar = substr &DATO1 7 4
-.se bmdr = substr &DATO1 4 2
-.se bdag = substr &DATO1 1 2
-.se paar = substr &GENDATO2 7 4
-.se pmdr = substr &GENDATO2 4 2
-.se pdag = substr &GENDATO2 1 2
-.se baar1 = &baar + 7
-.su on
-.if x&paar < x&baar1
-.th .go GOD
-.if x&paar > x&baar1
-.th .go GOD
-.if x&pmdr < x&bmdr
-.th .go GOD
-.if x&pmdr > x&bmdr
-.th .go GOD
-.if x&pdag < x&bdag
-.th .go GOD
-.el .go GOD
-...FEJL
-...GOD
-.***** HER TESTES PÅ OM KONTOEN OPHÆVES INDEN FOR DET 14 OG 21 ÅR *********
-.***** HER DELES KUNDENR OP I DATO, MÅNED OG ÅR ***************************
-.su off
-.se faar = substr &KTOKNDNR1 5 2
-.se fmdr = substr &KTOKNDNR1 3 2
-.se fdag = substr &KTOKNDNR1 1 2
-.su on
-.if x&faar < x50
-.th .se faar1 = &faar + 2000
-.el .se faar1 = &faar + 1900
-.***** HER SÆTTES MIN. OG MAX ALDER VED OPHÆVELSE AF KONTO ****************
-.se minaar = &faar1 + 14
-.se maxaar = &faar1 + 21
-.***** HER TESTES PÅ OM KONTOHAVER ER ÆLDRE END 21 ÅR *********************
-.su on
-.if x&paar > x&maxaar
-.th .go FEJL1
-.if x&paar < x&maxaar
-.th .go OK
-.***** HER TESTES PÅ ON KONTOHAVER ER YNGRE END 14 ÅR *********************
-...OK
-.if x&paar < x&minaar
-.th .go FEJL1
-.if x&paar > x&minaar
-.th .go OK1
-.***** HER TESTES OM ÅRSTAL ER RIGTIGT MEN AT MÅNEDERNE GØR AT KONTOHAVER *
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-:ENY.
-.br
-&AFDGADE
-.br
-&AFDBY
+.ti ¤ 05
+.***********************************************************************
+.* Brevnavn, roteret i nederste venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.**********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
 .ar off
-.*************************************************
-.ar OPRDATO on
-&KOPRETDATO
+.***********************************************************************
+.da oversk 20mm 35mm width 175mm
+.da side1 20mm 42mm width 175mm
+.**********************************
+.ar oversk on
+:SWISS12
+:FED.
+Børneopsparing, forlængelse af bindingsperioden
+.sp 0mm
+.hr left 101mm
+:SKRSLUT.
 .ar off
-.*************************************************
-.ar KONTONR on
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-&regnr &ktonr.
+.**********************************
+.ar side1 on
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+.**** Her laves kassen til kontohaver og opretter ********
+.bx left 87,5mm right
+.sp 28mm
+.**** Her laves kassen til pengeinstitut og regnr ********
+.bx new left 87,5mm right
+.sp 10mm
+.**** Her laves kassen til kontonummer *******************
+.hr 87,5mm right
+.sp 10mm
+.**** Her laves kassen til periodeudløb ******************
+.bx new left right
+.sp 5mm
+.bx off
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.**** Her laves kassen til indhold ***************
+.bx left right
+.sp 23mm
+.bx off
+:SWISS10.
+:FED.
+Underskrift
+:SKRSLUT.
+.**** Her laves kassen til opretters underskrift **
+.bx left right
+.sp31mm
+.bx off
 .ar off
-.*************************************************
-.ar BINDPER on
-&FRIDATO
-.ar off
-.*************************************************
-.ar INDHOLD on
-.th &GENDATO2.
-.ar off
-.*************************************************
-.ar UNDSKR on
-.ce &INDNAVN
-.ar off
-.*************************************************
 :COUR10.
 .da KONTOHAV 25mm 51mm width 80mm
 .da KONTOCPR 32mm 71,5mm width 80mm
@@ -302,6 +274,34 @@ Underskrift
 &BANKNAVN
 .br
 &AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*************************************************
+.ar OPRDATO on
+&KOPRETDATO
+.ar off
+.*************************************************
+.ar KONTONR on
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+&regnr &ktonr.
+.ar off
+.*************************************************
+.ar BINDPER on
+&FRIDATO
+.ar off
+.*************************************************
+.ar INDHOLD on
+.th &GENDATO2.
+.ar off
+.*************************************************
+.ar UNDSKR on
+.ce &INDNAVN
+.ar off
+.*************************************************
 :SWISS8.
 .da KONTOHAV 21mm 47mm width 80mm
 .da KONTOCPR 21mm 72mm width 80mm
@@ -364,3 +364,4 @@ Opretters underskrift
 Dato:
 .ar off
 .**************************************************
+

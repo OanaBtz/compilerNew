@@ -11,41 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* .or &APFUDBVALG = 4
-.* .or &APFUDBVALG = 7
-.* .th .go TEST70
-.* .el .go OK70
-...TEST70
-.* .if &alder1 > 70
-.* .th .mg/T/Ved udbetaling, må kunden ikke være over 70 år/
-...OK70
-.* .th .mg/T/Ved udbetaling over 60 år, SKAL kunden være fyldt 60 år/
-.* TEST PÅ VALG AF UDBETALINGSTYPE ********************
-.**************************************************************************
-.if &APFUDBVALG = 3
-.th .go INVATEST
-.el .go INVSLUT
-...INVATEST
-.if x&APFPENS < x1
-.or x&APFPENS > x2
-.th .mg/T/Vælg 1 for førtidspension eller 2 for invaliditetsydelse/
-...INVSLUT
-.**************************************************************************
-.if &L'&APFKTONR = 0
-.th .mg/T/Udbetalingsform: Skriv regnr. og kontonr./
-.**************************************************************************
-.if &U'&APFARBPENS = J
-.an &APFUDBVALG = 7
-.an &L'&GENNAVN = 0
-.an &L'&GENGADE = 0
-.an &L'&GENBY = 0
-.th .mg/T/Der mangler oplysninger om arbejdsgiver/
-.************************************************************
-.if &U'&GENJANEJ = J
-.or &U'&GENJANEJ = N
-.th
-.el .mg/T/OPR. PENSION OPRETTET FØR 1. MAJ 2007, VÆLG J ELLER N/
-.************************************************************
 .*Parametre, substrings og tests ******************************************
 .su off
 .se fdag = substr &KTOKNDNR1 1 2
@@ -96,6 +61,41 @@
 .* .if &APFUDBVALG = 1
 .* .or &APFUDBVALG = 2
 .* .or &APFUDBVALG = 3
+.* .or &APFUDBVALG = 4
+.* .or &APFUDBVALG = 7
+.* .th .go TEST70
+.* .el .go OK70
+...TEST70
+.* .if &alder1 > 70
+.* .th .mg/T/Ved udbetaling, må kunden ikke være over 70 år/
+...OK70
+.* .th .mg/T/Ved udbetaling over 60 år, SKAL kunden være fyldt 60 år/
+.* TEST PÅ VALG AF UDBETALINGSTYPE ********************
+.**************************************************************************
+.if &APFUDBVALG = 3
+.th .go INVATEST
+.el .go INVSLUT
+...INVATEST
+.if x&APFPENS < x1
+.or x&APFPENS > x2
+.th .mg/T/Vælg 1 for førtidspension eller 2 for invaliditetsydelse/
+...INVSLUT
+.**************************************************************************
+.if &L'&APFKTONR = 0
+.th .mg/T/Udbetalingsform: Skriv regnr. og kontonr./
+.**************************************************************************
+.if &U'&APFARBPENS = J
+.an &APFUDBVALG = 7
+.an &L'&GENNAVN = 0
+.an &L'&GENGADE = 0
+.an &L'&GENBY = 0
+.th .mg/T/Der mangler oplysninger om arbejdsgiver/
+.************************************************************
+.if &U'&GENJANEJ = J
+.or &U'&GENJANEJ = N
+.th
+.el .mg/T/OPR. PENSION OPRETTET FØR 1. MAJ 2007, VÆLG J ELLER N/
+.************************************************************
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -146,11 +146,11 @@
 .ar off
 .******************************************************************
 .ar CPR on
-&KTOKNDNR1 ¤&GENEKSP
+&KTOKNDNR1 ¤ &GENEKSP
 .ar off
 .******************************************************************
 .ar KTONR on
-&regnr &ktonr ¤&AFDTLF
+&regnr &ktonr ¤ &AFDTLF
 .ar off
 .*************************************
 .ar UNDER on
@@ -446,3 +446,4 @@ først kan udbetales mod 40 % afgift,
 .********************
 ...LIVSSL
 .*AREALET FORTSÆTTER I BECKAP04T3 *****************************************
+

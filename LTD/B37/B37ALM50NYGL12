@@ -11,6 +11,8 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.rh cancel
+.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -67,106 +69,6 @@
 .tm 48mm
 .*sp 12mm
 .se B37BREV = '&BREVNAVN.&REGTYPE11.'
-*********.
-..STESTSL.
-if &hitant > 1.
-th :SWISS14..
-th .sp.
-th Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEB01NAVN..
-th .sp.
-th DU MÅ IKKE INDSÆTTE TEKSTEN/BLOKKEN "&strA." mere end 1 gang.
-th :SKRSLUT..
-th .sp.
-th .qu.
-dm off.
-*** MAKRODEFINITION SLUT **** B37SAERA ********************************.
-*** MAKRODEFINITION START *** B37SAERB ********************************.
-DM B37SAERB on.
-*it all.
-* INTERNE MAKROPARAMETRE (sbtalxx er nr på den testede variabel SAERBETxx).
-se ptal   = &hitparnr    ;.* parametertæller 0-&ptalsl.
-se ptalsl = 60           ;.* Sluttal på parametertæller.
-se ptalx  = 0&ptal.      ;.* parametertal med 2 cifre 00-60.
-se tal   = 0             ;.* nr. på testet karakter i teststreng.
-se stal  = 0             ;.*karakternr indeholdende ) i teststreng.
-se sep1 = ''.
-se sep2 = ''.
-se sep3 = ''.
-if &ptal > 9.
-th .se ptalx = &ptal..
-el .se ptalx = 0&ptal..
-*if &L'&SAERBET01 = 0.
-*if x&L'&SAERBET&talx. = x0.
-*th .go EJMSLUT.
-*it sub.
-if x&E'&hitant = x0.
-or x&L'&SAERBET&ptalx.. = x0.
-th .go EJMSLUT.
-if x&ptal <> x0.
-th .se  str = '&SAERBET&ptalx..'.
-th .se lstr = &L'&str..
-el .go EJMSLUT.
-*it off.
-..IGEN.
-if &tal > &lstr.
-th .go MSLUT.
-se tal = &tal + 1.
-if &tal > 9.
-th .se talx = &tal..
-el .se talx = 0&tal..
-se ldoktst = &L'&SAERBET&ptalx...
-if x&ldoktst = x0.
-th .se ldokrst = 0
-.se ttalh = ''
-.se ttalgl = 0
-.se hitparnr  = 0
-.se hitant = 0
-.se b37saertnr = ''
-.se akort = ''
-.se strA = ''
-.* LOOPEXIT ER ET LOOP KONTROLTAL FOR AT LOOPET IKKE LØBER LØBSK
-.se LOOPEXIT = 0
-...START0
-.se LOOPEXIT = &LOOPEXIT + 1
-.if &LOOPEXIT > 99
-.th .go MCSLUT
-.if &ttal > 9
-.th .se ttalx = &ttal.
-.el .se ttalx = 0&ttal.
-.*it off
-.*it sub
-.se a1 = SUBSTR 'x&U'&a.' 2 &la1
-.se akort = SUBSTR 'x&U'&SAERBET&ttalx..' 2 &la1
-.*if x&U'&a. = x&U'&SAERBET&ttalx..
-.if x&a1. = x&akort.
-.th .se hitparnr = &ttal.
-.th .se ttalh = &ttalx.
-.th .se hitant = &hitant + 1
-.th .se  strA = '&SAERBET&ttalx..'
-.se ttalgl = &ttal.
-.se ttal = &ttal. - 1
-.if &ttal. = 0
-.th .go MCSLUT
-.el .go START0
-...MCSLUT
-.*it off
-.if x&ttal = x0
-.th .se b37saertnr = &ttalh.
-.el .se b37saertnr = &hitparnr.
-.*it off
-.if x&U'&b. = xTEST
-.el .go STESTSL
- *********
- B37SAERA TEST TEKST
- hitparnr = &hitparnr., hitant = &hitant.,
- ttal = &ttal., ttalx = &ttalx., ttalh = &ttalh.,
- LOOPEXIT = &LOOPEXIT.,  b37saertnr = &b37saertnr.,
- SAERBET&ttalh. =&SAERBET&ttalh..,
- strA =&strA.,
- a =&a., la =&la.,
- a1 =&a1., la1 =&la1.,
- akort =&akort.,
- B37SAERA TEST slut
 .********** HB DOKUMENT TEST** delt i T00A,T00A1 og T00B d.01.09.2015 ***
 .* DER DEFINERES 3 MAKROER som arbejder sammen B37SAERA,B og C
 .* INDHOLD 2 makroer i dette tekstmodul B37SAERA og B37SAERB
@@ -217,6 +119,106 @@ th .se ldokrst = 0
 .se B37saernr = 0
 .se ttal = 60
 .se ttalx = &ttal.
+.se ttalh = ''
+.se ttalgl = 0
+.se hitparnr  = 0
+.se hitant = 0
+.se b37saertnr = ''
+.se akort = ''
+.se strA = ''
+.* LOOPEXIT ER ET LOOP KONTROLTAL FOR AT LOOPET IKKE LØBER LØBSK
+.se LOOPEXIT = 0
+...START0
+.se LOOPEXIT = &LOOPEXIT + 1
+.if &LOOPEXIT > 99
+.th .go MCSLUT
+.if &ttal > 9
+.th .se ttalx = &ttal.
+.el .se ttalx = 0&ttal.
+.*it off
+.*it sub
+.se a1 = SUBSTR 'x&U'&a.' 2 &la1
+.se akort = SUBSTR 'x&U'&SAERBET&ttalx..' 2 &la1
+.*if x&U'&a. = x&U'&SAERBET&ttalx..
+.if x&a1. = x&akort.
+.th .se hitparnr = &ttal.
+.th .se ttalh = &ttalx.
+.th .se hitant = &hitant + 1
+.th .se  strA = '&SAERBET&ttalx..'
+.se ttalgl = &ttal.
+.se ttal = &ttal. - 1
+.if &ttal. = 0
+.th .go MCSLUT
+.el .go START0
+...MCSLUT
+.*it off
+.if x&ttal = x0
+.th .se b37saertnr = &ttalh.
+.el .se b37saertnr = &hitparnr.
+.*it off
+.if x&U'&b. = xTEST
+.el .go STESTSL
+ *********
+ B37SAERA TEST TEKST
+ hitparnr = &hitparnr., hitant = &hitant.,
+ ttal = &ttal., ttalx = &ttalx., ttalh = &ttalh.,
+ LOOPEXIT = &LOOPEXIT.,  b37saertnr = &b37saertnr.,
+ SAERBET&ttalh. =&SAERBET&ttalh..,
+ strA =&strA.,
+ a =&a., la =&la.,
+ a1 =&a1., la1 =&la1.,
+ akort =&akort.,
+ B37SAERA TEST slut
+*********.
+..STESTSL.
+if &hitant > 1.
+th :SWISS14..
+th .sp.
+th Udskrevet af &BRUGERNR &BRUGERNAVN. for kunde: &DEB01NAVN..
+th .sp.
+th DU MÅ IKKE INDSÆTTE TEKSTEN/BLOKKEN "&strA." mere end 1 gang.
+th :SKRSLUT..
+th .sp.
+th .qu.
+dm off.
+*** MAKRODEFINITION SLUT **** B37SAERA ********************************.
+*** MAKRODEFINITION START *** B37SAERB ********************************.
+DM B37SAERB on.
+*it all.
+* INTERNE MAKROPARAMETRE (sbtalxx er nr på den testede variabel SAERBETxx).
+se ptal   = &hitparnr    ;.* parametertæller 0-&ptalsl.
+se ptalsl = 60           ;.* Sluttal på parametertæller.
+se ptalx  = 0&ptal.      ;.* parametertal med 2 cifre 00-60.
+se tal   = 0             ;.* nr. på testet karakter i teststreng.
+se stal  = 0             ;.*karakternr indeholdende ) i teststreng.
+se sep1 = ''.
+se sep2 = ''.
+se sep3 = ''.
+if &ptal > 9.
+th .se ptalx = &ptal..
+el .se ptalx = 0&ptal..
+*if &L'&SAERBET01 = 0.
+*if x&L'&SAERBET&talx. = x0.
+*th .go EJMSLUT.
+*it sub.
+if x&E'&hitant = x0.
+or x&L'&SAERBET&ptalx.. = x0.
+th .go EJMSLUT.
+if x&ptal <> x0.
+th .se  str = '&SAERBET&ptalx..'.
+th .se lstr = &L'&str..
+el .go EJMSLUT.
+*it off.
+..IGEN.
+if &tal > &lstr.
+th .go MSLUT.
+se tal = &tal + 1.
+if &tal > 9.
+th .se talx = &tal..
+el .se talx = 0&tal..
+se ldoktst = &L'&SAERBET&ptalx...
+if x&ldoktst = x0.
+th .se ldokrst = 0
 .el .se ldokrst = &ldoktst - 1
 .*it all
 .se DOKTST = SUBSTR '&SAERBET&ptalx..' 1 1
@@ -367,150 +369,6 @@ th .se ldokrst = 0
 .*if x, = x&korkm.
 .if x&L'&KORTLAR1 = x4
 .th .se EJSTOP    = 1
-GENFDATO  = x&GENFDATO.x PRIERH = &PRIERH 
-EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP., 
-STLAN  =&STLAN., STLANDATO =&STLANDATO.,.
-ar off.
-..SLUTTEST.
-******* TEST SLUT ***.
-DM off.
-*** MAKRODEFINITION SLUT **** B37SAERB ********************************.
-*** 10 ***.
-B37SAERA '(ej1ÅrsPassus)'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 20 ***.
-B37SAERA '(AndelSikkerhed)'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 30 ***.
-B37SAERA '(Covenants)'.
-if x&hitant = x1.
-th .B37SAERB.
-**********.
-B37SAERA '(pdf)'.
-if x&hitant = x1.
-th .B37SAERB.
-**********.
-B37SAERA '(stående!'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 50 ***.
-B37SAERA '(KreditFradrag1!'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 60 ***.
-B37SAERA '(KortLån!'.
-if x&hitant = x1.
-th .B37SAERB.
-*** 70 ***.
-B37SAERA '(DirektePant)'.
-if x&hitant = x1.
-th .B37SAERB.
-******** NÆSTE DEFINITION AF .B37SAERC T00A1 *******************.
-..TESTREG.
-* EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP.,.
-* STLAN  =&STLAN., STLANDATO =&STLANDATO.,
-.if x&U'&par1 = xDIREKTEPANT
-.el .go tekst99
- 
-.us (DirektePant)
-.sp
-   DirektePant    = Kravs TEST ord for stående lån
-   () og !        = Kravs tegn
-.sp 10mm
- 
-...tekst99
-.qu
-.**************************
-...EJMSLUT
-.******* TEST ***
-.******* TESTPARAMETRE UDSKRIVES ***
-.if x&U'&par3 ne xTEST
-.an x&U'&b ne xTEST
-.th .go SLUTTEST
-.da TESTa 20mm 50mm
-.ar TESTa on
-.*pa
-.sp
- PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
-tal = &tal stal = &stal
-.br
-Særlige betingelser:
-  1 '&SAERBET01.'x
-  2 '&SAERBET02.'x
-  3 '&SAERBET03.'x
-  4 '&SAERBET04.'x
-  5 '&SAERBET05.'x
-  6 '&SAERBET06.'x
-  7 '&SAERBET07.'x
-  8 '&SAERBET08.'x
-  9 '&SAERBET09.'x
- 10 '&SAERBET10.'x
- 11 '&SAERBET11.'x
- 12 '&SAERBET12.'x
- 13 '&SAERBET13.'x
- 14 '&SAERBET14.'x
-.*'&SÆRBET1A.' '&SÆRBET1B.'
-.br
-sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
-par1='&par1.'par2='&par2.'par3 = '&par3.'
-.br
-srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
-STLAN = '&STLAN.' STLANDATO = '&STLANDATO.' EJ1AAR = '&EJ1AAR.'
-bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
-bsep3 = &bsep3 lsep3=&lsep3
- AFTDATO10 = x&AFTDATO10.x INDFRIDATO = x&INDFRIDATO.x
-.if x&U'&par1 = xEJ1ÅRSPASSUS
-.el .go tekst20
- 
-.us (ej1årspassus)
-.sp
-   ej1årspassus = Kravs TEST ord for ingen 1 års passus erhverv
-   ()           = Kravs tegn
- 
-...tekst20
-.if x&U'&par1 = xANDELSIKKERHED
-.el .go tekst30
- 
-.us (AndelSikkerhed)
-.sp
-   AndelSikkerhed = Kravs TEST ord for andelsbolig med sik.i fast ejendom
-   ()             = Kravs tegn
- 
-...tekst30
-.if x&U'&par1 = xCOVENANTS
-.el .go tekst50
- 
-.us (Covenants)
-.sp
-   Covenants    = Kravs TEST ord for Covenants erhverv
-   ()           = Kravs tegn
- 
-...tekst50
-.if x&U'&par1 = xKREDITFRADRAG1
-.el .go tekst60
- 
-.us (KreditFradrag1!xx,xxx)
-.sp
-   KreditFradrag1    = Kravs TEST ord for stående lån
-    x,xxx el xx,xxx  = Fradrag i kreditrente 1. knæk
-                      (uden fortegn med 4 eller 5 cifre 3 dec.)
-   () og !           = Kravs tegn
- 
-...tekst60
-.if x&U'&par1 = xKORTLÅN
-.el .go tekst70
- 
-.us (KortLån!xx,x)
-.sp
-   KortLån        = Kravs TEST ord for stående lån
-    xx,x          = Beregnet afvikling over fx 04,0 år
-                    (udfyldes med 1 dec. og foranstående 0)
-   () og !        = Kravs tegn
-.sp 10mm
- 
-...tekst70
 .el .se EJSTOP    = 0
 .if x0 = x&kortd0.
 .th .se KORTLAR = SUBSTR '&KORTLAR1.' 2 3
@@ -561,6 +419,150 @@ FORMAT i Særlige betingelser er forkert:
    () og !     = Kravs tegn
  
 ...tekst10
+.if x&U'&par1 = xEJ1ÅRSPASSUS
+.el .go tekst20
+ 
+.us (ej1årspassus)
+.sp
+   ej1årspassus = Kravs TEST ord for ingen 1 års passus erhverv
+   ()           = Kravs tegn
+ 
+...tekst20
+.if x&U'&par1 = xANDELSIKKERHED
+.el .go tekst30
+ 
+.us (AndelSikkerhed)
+.sp
+   AndelSikkerhed = Kravs TEST ord for andelsbolig med sik.i fast ejendom
+   ()             = Kravs tegn
+ 
+...tekst30
+.if x&U'&par1 = xCOVENANTS
+.el .go tekst50
+ 
+.us (Covenants)
+.sp
+   Covenants    = Kravs TEST ord for Covenants erhverv
+   ()           = Kravs tegn
+ 
+...tekst50
+.if x&U'&par1 = xKREDITFRADRAG1
+.el .go tekst60
+ 
+.us (KreditFradrag1!xx,xxx)
+.sp
+   KreditFradrag1    = Kravs TEST ord for stående lån
+    x,xxx el xx,xxx  = Fradrag i kreditrente 1. knæk
+                      (uden fortegn med 4 eller 5 cifre 3 dec.)
+   () og !           = Kravs tegn
+ 
+...tekst60
+.if x&U'&par1 = xKORTLÅN
+.el .go tekst70
+ 
+.us (KortLån!xx,x)
+.sp
+   KortLån        = Kravs TEST ord for stående lån
+    xx,x          = Beregnet afvikling over fx 04,0 år
+                    (udfyldes med 1 dec. og foranstående 0)
+   () og !        = Kravs tegn
+.sp 10mm
+ 
+...tekst70
+.if x&U'&par1 = xDIREKTEPANT
+.el .go tekst99
+ 
+.us (DirektePant)
+.sp
+   DirektePant    = Kravs TEST ord for stående lån
+   () og !        = Kravs tegn
+.sp 10mm
+ 
+...tekst99
+.qu
+.**************************
+...EJMSLUT
+.******* TEST ***
+.******* TESTPARAMETRE UDSKRIVES ***
+.if x&U'&par3 ne xTEST
+.an x&U'&b ne xTEST
+.th .go SLUTTEST
+.da TESTa 20mm 50mm
+.ar TESTa on
+.*pa
+.sp
+ PRØVEDOK ldoktst= &ldoktst ldokrst= &ldokrst DOKTST= '&DOKTST.'
+tal = &tal stal = &stal
+.br
+Særlige betingelser:
+  1 '&SAERBET01.'x
+  2 '&SAERBET02.'x
+  3 '&SAERBET03.'x
+  4 '&SAERBET04.'x
+  5 '&SAERBET05.'x
+  6 '&SAERBET06.'x
+  7 '&SAERBET07.'x
+  8 '&SAERBET08.'x
+  9 '&SAERBET09.'x
+ 10 '&SAERBET10.'x
+ 11 '&SAERBET11.'x
+ 12 '&SAERBET12.'x
+ 13 '&SAERBET13.'x
+ 14 '&SAERBET14.'x
+.*'&SÆRBET1A.' '&SÆRBET1B.'
+.br
+sep1=&sep1 sep2=&sep2 sep3=&sep3 stal=&stal
+par1='&par1.'par2='&par2.'par3 = '&par3.'
+.br
+srstr = &srstr str = '&str.' PRIOPF = '&PRIOPF.' PRIOFAST = '&PRIOFAST.'
+STLAN = '&STLAN.' STLANDATO = '&STLANDATO.' EJ1AAR = '&EJ1AAR.'
+bsep1 = &bsep1 lsep1=&lsep1 bsep2 = &bsep2 lsep2=&lsep2
+bsep3 = &bsep3 lsep3=&lsep3
+ AFTDATO10 = x&AFTDATO10.x INDFRIDATO = x&INDFRIDATO.x
+GENFDATO  = x&GENFDATO.x PRIERH = &PRIERH 
+EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP., 
+STLAN  =&STLAN., STLANDATO =&STLANDATO.,.
+ar off.
+..SLUTTEST.
+******* TEST SLUT ***.
+DM off.
+*** MAKRODEFINITION SLUT **** B37SAERB ********************************.
+*** 10 ***.
+B37SAERA '(ej1ÅrsPassus)'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 20 ***.
+B37SAERA '(AndelSikkerhed)'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 30 ***.
+B37SAERA '(Covenants)'.
+if x&hitant = x1.
+th .B37SAERB.
+**********.
+B37SAERA '(pdf)'.
+if x&hitant = x1.
+th .B37SAERB.
+**********.
+B37SAERA '(stående!'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 50 ***.
+B37SAERA '(KreditFradrag1!'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 60 ***.
+B37SAERA '(KortLån!'.
+if x&hitant = x1.
+th .B37SAERB.
+*** 70 ***.
+B37SAERA '(DirektePant)'.
+if x&hitant = x1.
+th .B37SAERB.
+******** NÆSTE DEFINITION AF .B37SAERC T00A1 *******************.
+..TESTREG.
+* EJ1AAR =&EJ1AAR., B37PDF =&B37PDF., EJSTOP =&EJSTOP.,.
+* STLAN  =&STLAN., STLANDATO =&STLANDATO.,
 .* Almindelige bestemmelser Privat HB (opsætn.mv.)
 .if x&almk = xP
 .or x&FAST = xP
@@ -600,7 +602,7 @@ for privatkunder (Forbrugere)
 &B37BREV
 .br
 .tp 25mm
-^11062012
+ ^ 11062012
 .ar off
 .*******
 .if .&B37EJSIDE = .1 ;.th .go EJSIDE
@@ -742,5 +744,4 @@ INGEN TEKST TIL DENNE SIDE
 .sp 220mm
 .vr off
 ...ASLUT
-.rh cancel
-.ar off
+

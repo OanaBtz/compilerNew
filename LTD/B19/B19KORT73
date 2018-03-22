@@ -1,64 +1,118 @@
-den &GENDATO. har modtaget &DIN meddelelse om at udgå kontoen til
-ovennævnte kort.
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* Parameter UDDATA ændret til: 0752411EBOKS
+.* Følgende linjer er slettet i forhold til BECs K15 afsnit:
+.* .BR
+.* .NV PAGE ID-OPL_01 '% '
+.* .BR
+.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
+.*********************************************************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&B11KTKNDNR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*Parametre
+.*******************************
+.su off
+.se knr1 = substr &B11KTNR 1 4
+.se knr2 = substr &B11KTNR 6 4
+.se knr3 = substr &B11KTNR 11 4
+.se knr4 = substr &B11KTNR 16 4
+.su on
+.*******************************
+.********************DEFINITION AF AREALER*************
+.da NAVN         25mm     40mm  width 80mm
+.da AFDOPL      140mm     40mm
+.*******************NAVNEOPLYSNINGER*******************
+:VERDA10.
+.ar NAVN on
+&B11KTADR1
+.sp 1mm
+&B11KTADR2
+.sp 1mm
+&B11KTADR3
+.sp 1mm
+&B11KTADR4
+.sp 1mm
+&B11KTADR5
 .sp
-Da vi ikke har modtaget kortet fra &DIG., er kortet straks spærret, både
-hos os og i det internationale system.
-.if &KTFORSIK = J
-.th .sp
-.th &SDU. skal være opmærksom på, at når &DIT. MasterCard
-.th spærres, bortfalder
-.th tillægsydelserne, herunder &DIN. rejseforsikring.
-...SLUT
-.go FORS
-.**** HER SKRIVES RESTEN AF BREVET TIL EJ MODTAGET (2) ****
-...KORT2
-.sp 3mm
-Hvis der er tale om et fornyelseskort, med ny udløbsdato, skal vi gøre
-opmærksom på, at det gamle kort ikke må benyttes, da det har samme nummer
-som det fornyelseskort, vi har spærret.
-.sp 3mm
-Hvis &DU alligevel skulle modtage det spærrede kort, bedes &DU venligst
-kontakte &BANKNAVN på telefon &AFDTLF..
-.go SLUT
-...FORS
-.*** HER SKRIVES TEKSTEN TIL DE ØVRIGE SPÆRREÅRSAGER (1,3,4,5)*******
-Af forsikringsmæssige årsager er vi nødt til at hæve disse udbetalinger
-på din konto, således at &DU herefter, på tro og love, kan
-fraskrive &DIG ansvaret for forbruget.
-.sp 3mm
-.*** HER SKRIVES 3.AFSNIT FOR FALSK KORT (3) **************
-.if x&GENVALG = x3
-.th Opstår der således misbrug på &DIT kort, vil vi
-.th fremsende &DIG en oversigt over de udbetalinger, som er
-.th dateret efter spærringen.
-.th .go BEDER
-.*** HER SKRIVES 3.AFSNIT FOR BORTKOMMET OG STJÅLET (1,4,5)**********
-Skulle det mistede kort således blive misbrugt, vil vi 1-2 dage efter
-at beløbene er hævet fra din konto
-fremsende &DIG en oversigt over de betalinger, som er dateret
-på tabsdatoen eller senere.
-...BEDER
-.sp 3mm
-.*** HER SKRIVES 4.AFSNIT TIL DE ØVRIGE SPÆRREÅRSAGER (1,3,4,5)*******
-Vi beder &DIG venligst have ulejlighed med, på kopien af oversigten, at
-angive hvilke udbetalinger &DU ikke kan godkende, og returnere denne til os
-i underskrevet stand.
-.************** FRAVALGT I EGEN VB-VERSION **************************
-.* Umiddelbart efter modtagelsen af &DIN erklæring,
-.* vil beløbet blive indsat på &DIN konto.
-.********************************************************************
-.sp 3mm
-.*** TEKST VEDRØRENDE MASTERCARD **************************************
-.if X&U'&KTFORSIK = XJ
-.th Har &DU ikke bestilt et nyt &B11KTTYPT., bedes &DU henvende &DIG i
-.th &BANKNAVN for at få et nyt kort. Herved sikrer &DU., at &DU fortsat er
-.th dækket af forsikringerne på &DIT &B11KTTYPT..
-.th .sp 3mm
-.*** TEKST FORTSAT ****************************************************
-Hvis det spærrede kort kommer til veje igen, bedes &DU kontakte &BANKNAVN
-på &AFDTLF..
-.go SLUT
-...VALG6
+.if &L'&B19ATT1 gt 0
+.th Att. &B19ATT1
+.ar off
+.******************AFD.OPLYSNINGER*******************
+.ar AFDOPL on
+:VERDA08.
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.br
+&AFDTLF
+.br
+CVR 34631328
+.br
+SWIFT VEHODK22
+.sp
+Kontaktperson:
+.br
+&GENEKSP
+.br
+Direkte &GENTLFNR
+.br
+E-mail &GENEMAIL
+.sp
+&DATO
+.ar off
+.*************************************************************
+.* Understregning af overskriften ændret til FED i linje 20
+.*
+.*********************GENEREL OPSÆTNING************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+:TILTALE &TILTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevstart, incl. overskrift
+.da START 20mm 110mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
+.ar START on
+:FED.&BANKNAVN. &B11KTTYPT. nr. &knr1. XXXX XXXX &knr4. :SKRSLUT.
+.sp
 .**************************************************************************
 .****** HER TESTES PÅ OM DET ER DEN RIGTIGE KORTTYPE ****
 .if &B11KTTYPE gt 10
@@ -109,121 +163,67 @@ straks spærret, både hos os og i det internationale system.
 .ct  Men det forhindrer desværre ikke, at køb på kortet i en kortere
 periode kan blive præsenteret til betaling.
 .sp 3mm
-.* Understregning af overskriften ændret til FED i linje 20
-.*
-.*********************GENEREL OPSÆTNING************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-:TILTALE &TILTALEF
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevstart, incl. overskrift
-.da START 20mm 110mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT************
-.ar START on
-:FED.&BANKNAVN. &B11KTTYPT. nr. &knr1. XXXX XXXX &knr4. :SKRSLUT.
+.go FORS
+.**** HER SKRIVES RESTEN AF BREVET TIL EJ MODTAGET (2) ****
+...KORT2
+.sp 3mm
+Hvis der er tale om et fornyelseskort, med ny udløbsdato, skal vi gøre
+opmærksom på, at det gamle kort ikke må benyttes, da det har samme nummer
+som det fornyelseskort, vi har spærret.
+.sp 3mm
+Hvis &DU alligevel skulle modtage det spærrede kort, bedes &DU venligst
+kontakte &BANKNAVN på telefon &AFDTLF..
+.go SLUT
+...FORS
+.*** HER SKRIVES TEKSTEN TIL DE ØVRIGE SPÆRREÅRSAGER (1,3,4,5)*******
+Af forsikringsmæssige årsager er vi nødt til at hæve disse udbetalinger
+på din konto, således at &DU herefter, på tro og love, kan
+fraskrive &DIG ansvaret for forbruget.
+.sp 3mm
+.*** HER SKRIVES 3.AFSNIT FOR FALSK KORT (3) **************
+.if x&GENVALG = x3
+.th Opstår der således misbrug på &DIT kort, vil vi
+.th fremsende &DIG en oversigt over de udbetalinger, som er
+.th dateret efter spærringen.
+.th .go BEDER
+.*** HER SKRIVES 3.AFSNIT FOR BORTKOMMET OG STJÅLET (1,4,5)**********
+Skulle det mistede kort således blive misbrugt, vil vi 1-2 dage efter
+at beløbene er hævet fra din konto
+fremsende &DIG en oversigt over de betalinger, som er dateret
+på tabsdatoen eller senere.
+...BEDER
+.sp 3mm
+.*** HER SKRIVES 4.AFSNIT TIL DE ØVRIGE SPÆRREÅRSAGER (1,3,4,5)*******
+Vi beder &DIG venligst have ulejlighed med, på kopien af oversigten, at
+angive hvilke udbetalinger &DU ikke kan godkende, og returnere denne til os
+i underskrevet stand.
+.************** FRAVALGT I EGEN VB-VERSION **************************
+.* Umiddelbart efter modtagelsen af &DIN erklæring,
+.* vil beløbet blive indsat på &DIN konto.
+.********************************************************************
+.sp 3mm
+.*** TEKST VEDRØRENDE MASTERCARD **************************************
+.if X&U'&KTFORSIK = XJ
+.th Har &DU ikke bestilt et nyt &B11KTTYPT., bedes &DU henvende &DIG i
+.th &BANKNAVN for at få et nyt kort. Herved sikrer &DU., at &DU fortsat er
+.th dækket af forsikringerne på &DIT &B11KTTYPT..
+.th .sp 3mm
+.*** TEKST FORTSAT ****************************************************
+Hvis det spærrede kort kommer til veje igen, bedes &DU kontakte &BANKNAVN
+på &AFDTLF..
+.go SLUT
+...VALG6
+den &GENDATO. har modtaget &DIN meddelelse om at udgå kontoen til
+ovennævnte kort.
 .sp
-.********************DEFINITION AF AREALER*************
-.da NAVN         25mm     40mm  width 80mm
-.da AFDOPL      140mm     40mm
-.*******************NAVNEOPLYSNINGER*******************
-:VERDA10.
-.ar NAVN on
-&B11KTADR1
-.sp 1mm
-&B11KTADR2
-.sp 1mm
-&B11KTADR3
-.sp 1mm
-&B11KTADR4
-.sp 1mm
-&B11KTADR5
-.sp
-.if &L'&B19ATT1 gt 0
-.th Att. &B19ATT1
-.ar off
-.******************AFD.OPLYSNINGER*******************
-.ar AFDOPL on
-:VERDA08.
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.br
-&AFDTLF
-.br
-CVR 34631328
-.br
-SWIFT VEHODK22
-.sp
-Kontaktperson:
-.br
-&GENEKSP
-.br
-Direkte &GENTLFNR
-.br
-E-mail &GENEMAIL
-.sp
-&DATO
-.ar off
-.*************************************************************
-.*Parametre
-.*******************************
-.su off
-.se knr1 = substr &B11KTNR 1 4
-.se knr2 = substr &B11KTNR 6 4
-.se knr3 = substr &B11KTNR 11 4
-.se knr4 = substr &B11KTNR 16 4
-.su on
-.*******************************
-.* Parameter UDDATA ændret til: 0752411EBOKS
-.* Følgende linjer er slettet i forhold til BECs K15 afsnit:
-.* .BR
-.* .NV PAGE ID-OPL_01 '% '
-.* .BR
-.* .NV PAGE ID-OPL_02 '%&GENEKSP.'
-.*********************************************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&B11KTKNDNR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+Da vi ikke har modtaget kortet fra &DIG., er kortet straks spærret, både
+hos os og i det internationale system.
+.if &KTFORSIK = J
+.th .sp
+.th &SDU. skal være opmærksom på, at når &DIT. MasterCard
+.th spærres, bortfalder
+.th tillægsydelserne, herunder &DIN. rejseforsikring.
+...SLUT
 .sp
 :VERDA10.
 Med venlig hilsen
@@ -238,3 +238,4 @@ vestjyskBANK
 &GENTITEL
 :SKRSLUT.
 .ar off
+

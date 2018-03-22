@@ -11,247 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%9999999999'
-.BR
-.NV PAGE ADRESSENØGLE '% '
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.SE B37KUDAL = 1
-.dr tynd WEIGHT 0.1mm
-.LL 175mm
-.fo left
-.PM 0
-.***************** Evt. ALTERNATIV PRENTER ***********
-.* Til alternativ print skal bruges parametrene
-.* PRTVALG        (J/N/alt.printer):
-.* ALTPRINTER     Brugerafh.printer:
-.if &E'&PRTVALG = 0 .go EJALT
-:altprint &PRTVALG
-...EJALT
-.*****************************************************
-.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
-.th .se TILTALEM = &TILTALEF
-.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
-.th .se TILTALEM = du
-:TILTALE &TILTALEM
-...EJTILT
-.******************* ATT FELT I ADR. **************
-.if &E'&GENATT = 0
-.th .go EJATT
-.if &L'&GENATT = 0
-.th .go EJATT
-.* Att placeret i adresseruden mellem adresse og evt. KOPI
-.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
-.if .&U'&UDSKRSTED = .D
-.th .da ATT 24mm 68.5mm width 180mm
-.el .da ATT 20mm 68.5mm width 180mm
-.ar ATT on
-:COUR10.
-Att.: &GENATT
-.ar off
-...EJATT
-.********************ROTERET BREVNAVN**************
-.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
-.th .se B37BREV = '&BREVNAVN.'
-.if &E'&B37BREV = 0
-.th .go EJROT
-.if &L'&B37BREV = 0
-.th .go EJROT
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 277mm width 180mm rotate -90
-.ar VEND on
-:COUR6.
-&B37BREV.
-.ar off
-...EJROT
-.*****************************************************
-.ti ^ 05
-:COUR10.
-.*****************************************************
-.* PM og TM virker først fra side 2
-.PM 20mm
-.TM 35mm
-.*****************************************************
-.DA BRTXT 20mm 100mm WIDTH 195mm
-.*AR BRTXT on
-.*ir 20mm
-.* Parameterafsnit
-.* ÆNDRING AF BELØB
-.* Her ændres skærmbilledet Parameter: MIBSTREG1 og MIBSTREG2
-.* Værdi på udskrift ændres i TESTafsnit: B37FORST05V?A/B
-.* Parameterafsnit
-.* Parameterafsnit
-.* Parameterafsnit
-.* V8A1 (V8A OPDELT I V8A1 og A2 d. 2.3.2004) ES
-.du add for-sik-rings-af-ta-le-lo-ven ri-si-ko-op-lys-nin-ger del-ta-gel-se
-.du add grup-pe-med-lem-met u-fuld-stæn-di-ge fa-re-for-ø-gel-sens
-.du add for-sik-rings-be-gi-ven-he-der in-va-li-de-ren-te o-ver-sti-ger
-.du add er-hvervs-ev-ne for-ti-el-se for-sik-rings-sel-ska-ber
-.du add til-slut-nings-kra-ve-ne ad-mi-ni-stra-ti-ons-ge-byr ind-træ-der
-.du add hel-breds-for-hold grup-pe-in-va-li-de-ren-te-for-sik-rin-gen
-.du add an-mel-des for-sik-rings-be-lø-bet ar-bejds-ev-nen med-min-dre
-.du add e-la-stik-spring halv-pro-fes-sio-nel-le læ-ge-be-hand-ling
-.du add for-sik-rings-ta-ge-ren An-ke-navns-be-hand-ling
-.du add ud-be-ta-lings-pe-ri-o-den af-gø-rel-se stør-rel-se
-.du add ar-bejds-le-dig-hed
-.TM 32mm
-.se fejl0 ''
-.se fejl1 ''
-.se fejl2 ''
-.se fejl3 ''
-.se fejl4 ''
-.se fejl5 ''
-.se fejl6 ''
-.se fejl7 ''
-.if .&RESULTA. = .0 .an .&RESULTB. = .0 .an .&RESULTC. = .0
-.th .se fejl = 1
-.th .se fejl0 'Alle beløb er.......:  0'
-.if .&RESULTA. = .9 .an .&RESULTB. = .9
-.th .se blank  = 1
-.th .go LIV
-.el .se blank  = 0
-.if .&RESULTC. = .9
-.th .se blank  = 1
-.el .se blank  = 0
-...LIV
-.*** NÆSTE V8A2 ****
-.* V8A1 (V8A OPDELT I V8A1 og A2 d. 2.3.2004) ES
-.* TEGNERNR FOR REG 0899 og 6500 tilføjet 21.8.2008 ES
-.if .&E'&GENNAVN. = .1
-.th .se kryliv = K
-.el .se kryliv = ''
-.if .&RESULTA. = .0
-.th .se gruliv = 0
-.el .se gruliv = 1
-.th .go LAN
-.if .&RESULTA. = .1 .th .se RESULTA = 428.000 ;.th .go LAN
-.if .&RESULTA. = .2 .th .se RESULTA = 856.000 ;.th .go LAN
-.if .&blank. = .1 ;.th .go LAN
-.se fejl = 1
-.se fejl1 'Gruppeliv...........:  &RESULTA.'
-...LAN
-.if .&RESULTB. = .0
-.th .se lansik = 0
-.el .se lansik = 1
-.th .go INV
-.if .&RESULTB. = .1 .th .se RESULTB = 107.000 ;.th .go INV
-.if .&RESULTB. = .2 .th .se RESULTB = 214.000 ;.th .go INV
-.if .&RESULTB. = .3 .th .se RESULTB = 428.000 ;.th .go INV
-.if .&RESULTB. = .4 .th .se RESULTB = 642.000 ;.th .go INV
-.if .&RESULTB. = .5 .th .se RESULTB = 856.000 ;.th .go INV
-.if .&blank. = .1 ;.th .go INV
-.se fejl = 1
-.se fejl2 'Lånesikring ........:  &RESULTB.'
-...INV
-.if .&RESULTC. = .0
-.th .se gruinv = 0
-.el .se gruinv = 1
-.th .go REG
-.if .&RESULTC. = .1 .th .se RESULTC = 55.006  ;.th .go REG
-.if .&RESULTC. = .2 .th .se RESULTC = 110.012
-.* TILFØJET 01.10.2004 es (max70 til H.ATT for 2 og 3)
-.th .se max70 = J  ;.th .go REG
-.if .&RESULTC. = .3 .th .se RESULTC = 165.018
-.th .se max70 = J
-.* RETTET 30.10.2001 es (S=UDLV af H.ATT)  th .se MIBJN3 = J  ;.th .go REG
-.th .se MIBJN3 = S  ;.th .go REG
-.if .&RESULTC. = .4 .th .se RESULTC = 220.024
-.* TILFØJET 22.11.2001 es (max70 til H.ATT)
-.th .se max70 = J
-.* RETTET 30.10.2001 es (S=UDLV af H.ATT)  th .se MIBJN3 = J  ;.th .go REG
-.th .se MIBJN3 = S  ;.th .go REG
-.if .&blank. = .1 ;.th .go REG
-.se fejl = 1
-.se fejl3 'Gruppeinvaliderenten:  &RESULTC.'
-...REG
-.if .&BANKREGNR. = .0890
-.th .se BKADR 'Amaliegade 3'
-.th .se BKBY '1256  København K'
-.if .&BANKREGNR. = .7631
-.th .se BKADR 'Arne Jacobsens Allè 17'
-.th .se BKBY '2300  København S'
-.if .&BANKREGNR. = .0895
-.th .se BKBY '2800 Kgs.Lyngby'
-.if .&BANKREGNR. = .7611 .th .se tegnnr = 17070010 ;.th .go BEGSK
-.if .&BANKREGNR. = .7612 .th .se tegnnr = 17070096 ;.th .go BEGSK
-.if .&BANKREGNR. = .7613 .th .se tegnnr = 17070177 ;.th .go BEGSK
-.if .&BANKREGNR. = .7614 .th .se tegnnr = 17070029 ;.th .go BEGSK
-.if .&BANKREGNR. = .7616 .th .se tegnnr = 17070185 ;.th .go BEGSK
-.if .&BANKREGNR. = .7617 .th .se tegnnr = 17070037 ;.th .go BEGSK
-.if .&BANKREGNR. = .7620 .th .se tegnnr = 17070100 ;.th .go BEGSK
-.if .&BANKREGNR. = .7621 .th .se tegnnr = 17070045 ;.th .go BEGSK
-.if .&BANKREGNR. = .7622 .th .se tegnnr = 17070126 ;.th .go BEGSK
-.if .&BANKREGNR. = .7623 .th .se tegnnr = 17070207 ;.th .go BEGSK
-.if .&BANKREGNR. = .7624 .th .se tegnnr = 17511483 ;.th .go BEGSK
-.if .&BANKREGNR. = .7625 .th .se tegnnr = 17070053 ;.th .go BEGSK
-.if .&BANKREGNR. = .7630 .th .se tegnnr = 17070223 ;.th .go BEGSK
-.if .&BANKREGNR. = .7631 .th .se tegnnr = 17511440 ;.th .go BEGSK
-.if .&BANKREGNR. = .7632 .th .se tegnnr = 17511432 ;.th .go BEGSK
-.if .&BANKREGNR. = .7633 .th .se tegnnr = 17070070 ;.th .go BEGSK
-.if .&BANKREGNR. = .7635 .th .se tegnnr = 17070150 ;.th .go BEGSK
-.if .&BANKREGNR. = .7636 .th .se tegnnr = 17511246 ;.th .go BEGSK
-.if .&BANKREGNR. = .7637 .th .se tegnnr = 17511300 ;.th .go BEGSK
-.if .&BANKREGNR. = .7638 .th .se tegnnr = 17511572 ;.th .go BEGSK
-.if .&BANKREGNR. = .7639 .th .se tegnnr = 17070231 ;.th .go BEGSK
-.if .&BANKREGNR. = .7640 .th .se tegnnr = 17070088 ;.th .go BEGSK
-.if .&BANKREGNR. = .7641 .th .se tegnnr = 17070169 ;.th .go BEGSK
-.if .&BANKREGNR. = .7642 .th .se tegnnr = 17509055 ;.th .go BEGSK
-.if .&BANKREGNR. = .7643 .th .se tegnnr = 17070304 ;.th .go BEGSK
-.if .&BANKREGNR. = .7644 .th .se tegnnr = 17070240 ;.th .go BEGSK
-.if .&BANKREGNR. = .7646 .th .se tegnnr = 17511629 ;.th .go BEGSK
-.if .&BANKREGNR. = .7647 .th .se tegnnr = 17070282 ;.th .go BEGSK
-.if .&BANKREGNR. = .7648 .th .se tegnnr = 17070312 ;.th .go BEGSK
-.if .&BANKREGNR. = .7649 .th .se tegnnr = 17070266 ;.th .go BEGSK
-.if .&BANKREGNR. = .0890 .th .se tegnnr = 17511157 ;.th .go BEGSK
-.if .&BANKREGNR. = .0891 .th .se tegnnr = 17511165 ;.th .go BEGSK
-.if .&BANKREGNR. = .0892 .th .se tegnnr = 17511173 ;.th .go BEGSK
-.if .&BANKREGNR. = .0893 .th .se tegnnr = 17511181 ;.th .go BEGSK
-.if .&BANKREGNR. = .0894 .th .se tegnnr = 17511190 ;.th .go BEGSK
-.if .&BANKREGNR. = .0895 .th .se tegnnr = 17511203 ;.th .go BEGSK
-.if .&BANKREGNR. = .0896 .th .se tegnnr = 17511211 ;.th .go BEGSK
-.if .&BANKREGNR. = .0897 .th .se tegnnr = 17511343 ;.th .go BEGSK
-.if .&BANKREGNR. = .0898 .th .se tegnnr = 17511319 ;.th .go BEGSK
-.if .&BANKREGNR. = .0899 .th .se tegnnr = 17511750 ;.th .go BEGSK
-.if .&BANKREGNR. = .6500 .th .se tegnnr = 17511769 ;.th .go BEGSK
-.if .&BANKREGNR. = .7610 .th .se tegnnr = '' ;.th .go BEG1
-...BEG1
-.if .&blank. = .1 .an .&BANKREGNR. = .7610
-.*th .se BKADR ''
-.*th .se BKBY ''
-.th .go BEGSK
-.se fejl = 1
-.se fejl4 'Reg.nr. ............:  &BANKREGNR.'
-...BEGSK
-.if .&blank. = .1 ;.th .go BEG
-.if &E'&MIBSTK. = 0 ;.th .go BEG
-.if .&MIBSTK. ne .0 ;.an .&RESULTA. = .0 ;.th .go BEGF
-.if .&MIBSTK. = .0 ;.an .&RESULTA. = .0 ;.th .go BEG
-.if .&MIBSTK. = .2 ;.or .&MIBSTK. = .3 ;.or .&MIBSTK. = .5 ;.th .go BEG
-...BEGF
-.se fejl = 1
-.se fejl5 'GR.LIV. / Skattekode:  &RESULTA. / &MIBSTK.'
-...BEG
-.*** NÆSTE Ægteskabsstatus -> Indkomstkrav ****
 .*** Ægteskabsstatus -> Indkomstkrav ****
 .*** Ægt.status MIBB7 -> Indkomstkrav MIBB5 ****
 .if .&blank. = .1 ;.th .go AEG
@@ -375,27 +134,27 @@ Att.: &GENATT
 ...ERKL
 .tp 7mm 11mm 22mm ./180mm 181mm
 .sp 2mm
-1. ^Har De indenfor de sidste 3 år lidt af nogen alvorlig sygdom?
-  ^^Nej    ^Ja - Hvis ja: Hvilken lidelse, hvornår, hvor længe, følger ? ^
+1. ^ Har De indenfor de sidste 3 år lidt af nogen alvorlig sygdom?
+  ^ ^ Nej    ^ Ja - Hvis ja: Hvilken lidelse, hvornår, hvor længe, følger ? ^
 .sp 2mm
-2. ^Har De indenfor de sidste 3 år været undersøgt/behandlet af læge,
+2. ^ Har De indenfor de sidste 3 år været undersøgt/behandlet af læge,
 kiropraktor, fysioterapeut eller anden
- ^behandler, fået foretaget laboratorieundersøgelse eller været
+ ^ behandler, fået foretaget laboratorieundersøgelse eller været
 indlagt/undersøgt på sygehus, ambulatorium el.lign.?
- ^^Nej    ^Ja - Hvis ja: Hvilken lidelse, hvornår, hvor længe, følger ? ^
+ ^ ^ Nej    ^ Ja - Hvis ja: Hvilken lidelse, hvornår, hvor længe, følger ? ^
 .sp 2mm
-3. ^Har De nogensinde været syg eller sygemeldt i længere tid end 1 måned ?
- ^^Nej    ^Ja - Hvis ja: Hvilken lidelse, hvornår, hvor længe, følger ? ^
+3. ^ Har De nogensinde været syg eller sygemeldt i længere tid end 1 måned ?
+ ^ ^ Nej    ^ Ja - Hvis ja: Hvilken lidelse, hvornår, hvor længe, følger ? ^
 .sp 2mm
-4. ^Er De for tiden fuldstændig rask og arbejdsdygtig ?
- ^^Ja     ^Nej - Hvis nej: Hvilken sygdom ? ^
+4. ^ Er De for tiden fuldstændig rask og arbejdsdygtig ?
+ ^ ^ Ja     ^ Nej - Hvis nej: Hvilken sygdom ? ^
 .tp 7mm 90mm
 .sp 2mm
-5. ^Hvad er Deres højde ................. cm
-.ct ^Hvad er Deres vægt ................. kg
+5. ^ Hvad er Deres højde ................. cm
+.ct ^ Hvad er Deres vægt ................. kg
 .tp 7mm ./180mm 181mm
 .sp 2mm
-6. ^Hvem er Deres læge ? (navn og adresse): ^
+6. ^ Hvem er Deres læge ? (navn og adresse): ^
 :DUTCH10.
 .ar off
 .da HELB1 22mm 208mm WIDTH 87mm DEPTH 50mm
@@ -475,16 +234,16 @@ forsikring/er.
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -509,31 +268,31 @@ forsikring/er.
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -548,13 +307,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -564,7 +323,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -575,38 +334,38 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -795,7 +554,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -816,7 +575,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -825,7 +584,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -841,7 +600,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -857,7 +616,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -867,11 +626,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -912,16 +671,16 @@ Dato og underskrift:
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -946,31 +705,31 @@ Dato og underskrift:
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -985,13 +744,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -1001,7 +760,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -1012,38 +771,38 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -1232,7 +991,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -1253,7 +1012,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -1262,7 +1021,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -1278,7 +1037,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -1294,7 +1053,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -1304,11 +1063,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -1349,16 +1108,16 @@ Dato og underskrift:
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -1383,31 +1142,31 @@ Dato og underskrift:
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -1422,13 +1181,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -1438,7 +1197,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -1449,38 +1208,536 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+hvert år.
+...TYPESL
+.sp 1mm
+.hr left right
+.br
+:FED.
+.if .&skema. = .2
+.th Nedenstående oplysninger
+.el Helbredsoplysningerne
+er afgivet og påført begæringen af den forsikrede personligt
+:SKRSLUT.
+.sp 30mm
+.if .&U'&MIBJN3 = .J
+.th .se helerk = 0
+.th .go UNSK
+.if .&helerk = .1
+.th .go ERKL
+Helbredsoplysninger påføres kun
+forsikringsselskabets og kundens eksemplar.
+.go UNSK
+...ERKL
+...UNSK
+.ar off
+.ar USK on
+.in 2mm
+:DUTCH8:FED.
+.*sp 12mm
+.sp 4.0mm
+:DUTCH10:FED.
+Jeg har fået udleveret og har læst kundevejledning om helbredsoplysninger.
+.sp 4.5mm
+Dato og underskrift:
+:SKRSLUT.
+.ar off
+...F05SL
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*********** Test om BEGÆRINGSSKEMA ********************
+.if .&skema. = .1 .or .&skema. = .2
+.th .go LKS
+.go LKSSL
+.*********** OPSÆTNINGER *******************************
+...LKS
+.dr tynd WEIGHT 0.1mm
+.da PENS1 126mm 70.5mm
+.da PENS2 182mm 77.8mm
+.da HEL1 20mm 152mm
+.da HEL2 20mm 115mm
+.da HEL2A 20mm 105mm
+.da BOXK 20mm 30.5mm WIDTH 184mm
+.*********** YDERRAMMM *********************************
+.ar BOXK on
+.bx left right
+.*sp 243mm
+.if .&skema. ne .1
+.th .sp 243mm
+.th .go BXSL
+.sp 58.5mm
+.hr tynd left right
+.sp 31mm
+.hr tynd left right
+.sp 150.5mm
+...BXSL
+.bx off
+.ar off
+.*********** PENSION ***********************************
+.if .&skema. ne .1 ;.th .go PSK2
+.ar PENS1 on
+:NY.
+:SWISS10.
+.bx tynd 0mm 3mm
+.sp 2mm
+.bx off
+.br
+.bx tynd 0mm 3mm
+.sp 2mm
+.bx off
+.br
+.bx tynd 0mm 3mm
+.sp 2mm
+.bx off
+:ENY.
+.ar off
+...PSK2
+.if .&skema. ne .2 ;.th .go PSKSL
+.ar PENS2 on
+:NY.
+:SWISS10.
+.bx tynd 0mm 3mm / 10mm 13mm
+.sp 2mm
+.bx off
+:ENY.
+.ar off
+...PSKSL
+.*********** HELBREDSATTEST ****************************
+.if .&skema. ne .2
+.th .go ATSL
+.if .&U'&MIBJN3. ne .J
+.th .go ATSL
+.ar HEL2A on
+:NY.
+:SWISS10.
+.sp 9mm
+.bx tynd 7mm 10mm
+.sp 2mm
+.bx off
+:ENY.
+.ar off
+...ATSL
+.*********** HELBRED skema 1 ***************************
+.if .&helerk. ne .1
+.th .go LKSSL
+.if .&skema. ne .1
+.th .go SKEMA2
+.ar HEL1 on
+:NY.
+:SWISS10.
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 10mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+:ENY
+.ar off
+...SKEMA2
+.*********** HELBRED skema 2 ***************************
+.if .&skema. ne .2
+.th .go LKSSL
+.ar HEL2 on
+:NY.
+:SWISS10.
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 10mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+.sp 6mm
+.bx tynd 7mm 10mm / 18mm 21mm
+.sp 2mm
+.bx off
+:ENY
+.ar off
+...LKSSL
+.HELSK1
+.HELSK2
+.** Stempel til AFD. og ADM vedr. APF
+.if &E'&fejl = 1 ;.th .go ADMSLUT
+.dr tynd weight 0.1mm
+.da APFBOX 20mm 185mm
+.ar APFBOX on
+:SWISS10.
+.tp 25mm 92mm center 120mm center 147mm center
+.bx new 20mm 165mm
+.vr tynd 110mm 130mm
+.sp 2mm
+:SWISS12.:FED.
+ ^ ^ ^ ^ Brugernr. ^
+.sp 2mm
+ ^ Bankens registreringer ^ ^ Dato ^ (B90/B37xxxx) ^
+:SKRSLUT.:SWISS10.
+.sp 2mm
+.hr 20mm 165mm
+.sp
+ ^ Registreret i APF
+.if x&karski = x1
+.th (må KUN foretages af ADM.AFD.)
+.sp
+.hr tynd 20mm 165mm
+.sp
+ ^ Fremsendt til Topdanmark og Administrationsafd.
+.sp
+.bx off
+.vr off
+.bx set 20mm 165mm
+:FED.
+.sp
+ ^ ^ Det er vigtigt at DATO er korrekt udfyldt!
+.sp
+:SKRSLUT.
+.bx off
+.ar off
+...ADMSLUT
+.* Banknavn og adresse delt i 2 linier d. 8.7.2003
+.if .&skema. ne .1 .an .&skema. ne .2
+.th .go A05SL
+.ll 199mm
+.da TEG 169mm 35mm
+.da TXT 54mm 41mm
+.da HATT 27mm 121mm
+.da JOBB 123mm 45.5mm
+.da KTOX 126.5mm 71.0mm
+.AR TEG on
+:COUR10.
+ &tegnnr
+.br
+.ar off
+.AR JOBB on
+:COUR10.
+.tp 30mm
+ ^ &MIBEM241.
+.sp 1mm
+ &MIBEM371.
+.sp 1mm
+ &MIBEM372.
+.br
+.ar off
+.****** Gruppeliv og Lånesikring (kontonr)*********
+.if .&skema. ne .1
+.th .go TXTIG
+.ar KTOX on
+.tp 40.0mm
+.if .&MIBSTK. = .3
+.th X
+.el .sp 4.5mm
+.if .&MIBSTK. = .2
+.th X
+.el .sp 4.5mm
+.if .&MIBSTK. = .5
+.th X
+.sp 3mm
+  ^ ^ ^ &MIBB2.
+.ar off
+.****** Gruppeliv og Lånesikring (kontonr) SLUT****
+...TXTIG
+.ar TXT on
+:COUR10.
+.tp 71mm 99mm 128mm 138mm 102mm
+.se kun = SUBSTR &KUNDENR. 1 6
+.se enr = SUBSTR &KUNDENR. 7 4
+ &NAVN ^ ^ &kun.-&enr.
+.sp 1mm
+ &STILL
+.sp 1mm
+ &GADE
+.sp 1mm
+ &BY
+.*sp 5.5mm
+.sp 2.8mm
+.is 1
+.if .&BANKREGNR. = .7610 .an .&blank. = .1
+.th .br
+.th .sp
+.el &BKNAVN.
+.el .br
+.el .is 1
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
+.*sp 3mm
+.sp 2mm
+.****** Gruppeliv og Lånesikring ******************
+.if .&skema. ne .1
+.th .go GRUINV
+.sp 1.5mm
+ &RESULTA.
+.sp 5.0mm
+ &MIBEM301.
+ &MIBEM302.
+ &MIBEM303.
+.sp 3mm
+.tp 116.5mm
+ &RESULTB.
+.sp 7mm
+ ^ &MIBB4.
+.sp  5.0mm
+ &MIBEM305.
+ &MIBEM306.
+ &MIBEM307.
+...GRUINV
+.****** Gruppeinvalid ******************
+.if .&skema. ne .2
+.th .go ARSL
+.sp 9mm
+   &RESULTC. ^ &MIBB6.
+.if .&U'&MIBJN2. = .J
+.th .ct ^ ^ X
+.if .&U'&MIBJN2. = .N
+.th .ct ^ ^ ^ X
+...ARSL
+.ar off
+.ar HATT on
+.if .&skema. = .2
+.an .&U'&MIBJN3. = .J
+.th X
+.ar off
+.PA NOSTART
+...A05SL
+.* Sendes til felt rettet 7.3.05
+.* Banknavn og adresse er delt på 2 linier d. 8.7.2003ES A/S fjernet 5.7.04
+.* Top adr. ændret 28.06.2000
+.* Versionsnr.ændret 28.12.2000
+.********** SKEMA     TEST **************
+.if .&skema1. = .u
+.an .&gruinv. = .1
+.th .se skema = 2
+.if .&skema1. = .u
+.an .&gruinv. = .0
+.th .se skema = 0
+.if .&skema1. = .u
+.an .&skema2. = .u
+.th .se skema = 0
+.if .&skema. = .1
+.or .&skema. = .2
+.el .go F05SL
+.*th .sp
+.********** OPSÆTNING *******************
+.if .&ÅPN. = .4
+.th .PN 1
+.ti ^ 05
+.da OVSK 105mm 10mm WIDTH 99mm
+.da BOX  20mm 33.5mm WIDTH 184mm
+.da USK  20mm 250mm
+.da EJR  20mm 277mm WIDTH 184mm
+.********** EKSELPLAR TEST **************
+.ar EJR  on
+.tp 92mm center
+:DUTCH10.:FED.
+.if .&ÅPN = .1
+.th ^ Forsikringsselskabets eksemplar ^
+.th .se helerk = 1
+.if .&ÅPN = .2
+.th ^ Kundens eksemplar ^
+.th .se helerk = 1
+.if .&ÅPN = .3
+.th ^ Afdelingens eksemplar ^
+.th .se helerk = 0
+.if .&ÅPN = .4
+.th ^ RDUAs eksemplar ^
+.th .se helerk = 0
+.ar off
+.if .&ÅPN = .4
+.an .&skema. = .1
+.th .se skema1 'u'
+.if .&ÅPN = .4
+.an .&skema. = .2
+.th .se skema2 'u'
+.rf on
+.ir
+:DUTCH8.
+.ll 185mm
+.sx /1.1.2001//  Skema &skema. /
+.sp 2mm
+.rf off
+.rf execute
+.**************** Overskrift TOPDANMARK ************
+.ar OVSK on
+.bx left right
+.in 2mm
+.ir 2mm
+.tp 20mm
+:DUTCH14.:FED.
+Til:
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
+.sp 0.5mm
+.if .&ÅPN ne .1
+.th .go O2
+:DUTCH8.:FED.
+Sendes af
+:DUTCH10.:FED.
+ ^ Firma Pension Gruppeordninger
+.br
+:DUTCH6.:FED.
+banken
+:DUTCH10.:FED.
+ ^ Borupvang 4
+ ^ 2750  Ballerup
+.go O5
+...O2
+.if .&ÅPN ne .4
+.th .go O3
+:DUTCH10.:FED.
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
+.go O5
+...O3
+.sp 12.3mm
+...O5
+.bx off
+.ar off
+.*************************
+.AR BOX ON
+.in 2mm
+.ir 2mm
+:DUTCH10.
+.tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
+:DUTCH14.:FED.
+.if .&skema. = .2
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
+:DUTCH10.
+.sp 2mm
+For- og efternavn: ^ ^ ^ Cpr. nr.:
+.br
+Stilling: ^ ^ ^ Jobbeskrivelse:
+.br
+Adresse:
+.br
+Postnr. og by:
+.*sp 2mm
+.sp 1mm
+.hr left right
+.*sp 1mm
+.sp 2mm
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
+.sp 1mm
+.hr left right
+.br
+.* SKATTEKODE
+.if .&MIBSTK. = .2
+.th .se ratkom 'Beløbet udbetales over 10 årlige rater'
+.el .se ratkom ''
+.if .&skema. = .1
+.th .go SKE1
+.tp 36mm 60mm 105mm 162mm 167mm 177mm
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
+.sp 4mm
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
+.go TYPESL
+...SKE1
+.*tp 36mm 55mm 112mm 145mm 167mm 177mm
+.tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
+.br
+.sp 1mm
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
+.br
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
+.br
+Begunstigelse:
+.ct ^ ^ ^ Uden fradragsret
+.tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
+.sp 9mm
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
+.br
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
+.br
+ ^ hed for de forpligtigelser forsikrede måtte have
+påtaget sig overfor banken.
+.sp 2mm
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
+.sp 14mm
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+50. år.
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -1663,27 +1920,27 @@ Dato og underskrift:
 .vr tynd 110mm 130mm
 .sp 2mm
 :SWISS12.:FED.
- ^^^^Brugernr.^
+ ^ ^ ^ ^ Brugernr. ^
 .sp 2mm
- ^Bankens registreringer^^Dato^(B90/B37xxxx)^
+ ^ Bankens registreringer ^ ^ Dato ^ (B90/B37xxxx) ^
 :SKRSLUT.:SWISS10.
 .sp 2mm
 .hr 20mm 165mm
 .sp
- ^Registreret i APF
+ ^ Registreret i APF
 .if x&karski = x1
 .th (må KUN foretages af ADM.AFD.)
 .sp
 .hr tynd 20mm 165mm
 .sp
- ^Fremsendt til Topdanmark og Administrationsafd.
+ ^ Fremsendt til Topdanmark og Administrationsafd.
 .sp
 .bx off
 .vr off
 .bx set 20mm 165mm
 :FED.
 .sp
- ^^Det er vigtigt at DATO er korrekt udfyldt!
+ ^ ^ Det er vigtigt at DATO er korrekt udfyldt!
 .sp
 :SKRSLUT.
 .bx off
@@ -1706,7 +1963,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -1727,7 +1984,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -1736,7 +1993,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -1752,7 +2009,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -1768,7 +2025,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -1778,11 +2035,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -1823,16 +2080,16 @@ Dato og underskrift:
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -1857,31 +2114,31 @@ Dato og underskrift:
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -1896,13 +2153,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -1912,7 +2169,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -1923,512 +2180,38 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
-.br
-Begunstigelse:
-.ct ^^^Uden fradragsret
-.tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
-.sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
-.br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
-.br
-^hed for de forpligtigelser forsikrede måtte have
-påtaget sig overfor banken.
-.sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
-.sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
-50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
-hvert år.
-...TYPESL
-.sp 1mm
-.hr left right
-.br
-:FED.
-.if .&skema. = .2
-.th Nedenstående oplysninger
-.el Helbredsoplysningerne
-er afgivet og påført begæringen af den forsikrede personligt
-:SKRSLUT.
-.sp 30mm
-.if .&U'&MIBJN3 = .J
-.th .se helerk = 0
-.th .go UNSK
-.if .&helerk = .1
-.th .go ERKL
-Helbredsoplysninger påføres kun
-forsikringsselskabets og kundens eksemplar.
-.go UNSK
-...ERKL
-...UNSK
-.ar off
-.ar USK on
-.in 2mm
-:DUTCH8:FED.
-.*sp 12mm
-.sp 4.0mm
-:DUTCH10:FED.
-Jeg har fået udleveret og har læst kundevejledning om helbredsoplysninger.
-.sp 4.5mm
-Dato og underskrift:
-:SKRSLUT.
-.ar off
-...F05SL
-.*********** Test om BEGÆRINGSSKEMA ********************
-.if .&skema. = .1 .or .&skema. = .2
-.th .go LKS
-.go LKSSL
-.*********** OPSÆTNINGER *******************************
-...LKS
-.dr tynd WEIGHT 0.1mm
-.da PENS1 126mm 70.5mm
-.da PENS2 182mm 77.8mm
-.da HEL1 20mm 152mm
-.da HEL2 20mm 115mm
-.da HEL2A 20mm 105mm
-.da BOXK 20mm 30.5mm WIDTH 184mm
-.*********** YDERRAMMM *********************************
-.ar BOXK on
-.bx left right
-.*sp 243mm
-.if .&skema. ne .1
-.th .sp 243mm
-.th .go BXSL
-.sp 58.5mm
-.hr tynd left right
-.sp 31mm
-.hr tynd left right
-.sp 150.5mm
-...BXSL
-.bx off
-.ar off
-.*********** PENSION ***********************************
-.if .&skema. ne .1 ;.th .go PSK2
-.ar PENS1 on
-:NY.
-:SWISS10.
-.bx tynd 0mm 3mm
-.sp 2mm
-.bx off
-.br
-.bx tynd 0mm 3mm
-.sp 2mm
-.bx off
-.br
-.bx tynd 0mm 3mm
-.sp 2mm
-.bx off
-:ENY.
-.ar off
-...PSK2
-.if .&skema. ne .2 ;.th .go PSKSL
-.ar PENS2 on
-:NY.
-:SWISS10.
-.bx tynd 0mm 3mm / 10mm 13mm
-.sp 2mm
-.bx off
-:ENY.
-.ar off
-...PSKSL
-.*********** HELBREDSATTEST ****************************
-.if .&skema. ne .2
-.th .go ATSL
-.if .&U'&MIBJN3. ne .J
-.th .go ATSL
-.ar HEL2A on
-:NY.
-:SWISS10.
-.sp 9mm
-.bx tynd 7mm 10mm
-.sp 2mm
-.bx off
-:ENY.
-.ar off
-...ATSL
-.*********** HELBRED skema 1 ***************************
-.if .&helerk. ne .1
-.th .go LKSSL
-.if .&skema. ne .1
-.th .go SKEMA2
-.ar HEL1 on
-:NY.
-:SWISS10.
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 10mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-:ENY
-.ar off
-...SKEMA2
-.*********** HELBRED skema 2 ***************************
-.if .&skema. ne .2
-.th .go LKSSL
-.ar HEL2 on
-:NY.
-:SWISS10.
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 10mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-.sp 6mm
-.bx tynd 7mm 10mm / 18mm 21mm
-.sp 2mm
-.bx off
-:ENY
-.ar off
-...LKSSL
-.HELSK1
-.HELSK2
-.** Stempel til AFD. og ADM vedr. APF
-.if &E'&fejl = 1 ;.th .go ADMSLUT
-.dr tynd weight 0.1mm
-.da APFBOX 20mm 185mm
-.ar APFBOX on
-:SWISS10.
-.tp 25mm 92mm center 120mm center 147mm center
-.bx new 20mm 165mm
-.vr tynd 110mm 130mm
-.sp 2mm
-:SWISS12.:FED.
- ^^^^Brugernr.^
-.sp 2mm
- ^Bankens registreringer^^Dato^(B90/B37xxxx)^
-:SKRSLUT.:SWISS10.
-.sp 2mm
-.hr 20mm 165mm
-.sp
- ^Registreret i APF
-.if x&karski = x1
-.th (må KUN foretages af ADM.AFD.)
-.sp
-.hr tynd 20mm 165mm
-.sp
- ^Fremsendt til Topdanmark og Administrationsafd.
-.sp
-.bx off
-.vr off
-.bx set 20mm 165mm
-:FED.
-.sp
- ^^Det er vigtigt at DATO er korrekt udfyldt!
-.sp
-:SKRSLUT.
-.bx off
-.ar off
-...ADMSLUT
-.* Banknavn og adresse delt i 2 linier d. 8.7.2003
-.if .&skema. ne .1 .an .&skema. ne .2
-.th .go A05SL
-.ll 199mm
-.da TEG 169mm 35mm
-.da TXT 54mm 41mm
-.da HATT 27mm 121mm
-.da JOBB 123mm 45.5mm
-.da KTOX 126.5mm 71.0mm
-.AR TEG on
-:COUR10.
- &tegnnr
-.br
-.ar off
-.AR JOBB on
-:COUR10.
-.tp 30mm
- ^&MIBEM241.
-.sp 1mm
- &MIBEM371.
-.sp 1mm
- &MIBEM372.
-.br
-.ar off
-.****** Gruppeliv og Lånesikring (kontonr)*********
-.if .&skema. ne .1
-.th .go TXTIG
-.ar KTOX on
-.tp 40.0mm
-.if .&MIBSTK. = .3
-.th X
-.el .sp 4.5mm
-.if .&MIBSTK. = .2
-.th X
-.el .sp 4.5mm
-.if .&MIBSTK. = .5
-.th X
-.sp 3mm
-  ^^^&MIBB2.
-.ar off
-.****** Gruppeliv og Lånesikring (kontonr) SLUT****
-...TXTIG
-.ar TXT on
-:COUR10.
-.tp 71mm 99mm 128mm 138mm 102mm
-.se kun = SUBSTR &KUNDENR. 1 6
-.se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
-.sp 1mm
- &STILL
-.sp 1mm
- &GADE
-.sp 1mm
- &BY
-.*sp 5.5mm
-.sp 2.8mm
-.is 1
-.if .&BANKREGNR. = .7610 .an .&blank. = .1
-.th .br
-.th .sp
-.el &BKNAVN.
-.el .br
-.el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
-.*sp 3mm
-.sp 2mm
-.****** Gruppeliv og Lånesikring ******************
-.if .&skema. ne .1
-.th .go GRUINV
-.sp 1.5mm
- &RESULTA.
-.sp 5.0mm
- &MIBEM301.
- &MIBEM302.
- &MIBEM303.
-.sp 3mm
-.tp 116.5mm
- &RESULTB.
-.sp 7mm
- ^&MIBB4.
-.sp  5.0mm
- &MIBEM305.
- &MIBEM306.
- &MIBEM307.
-...GRUINV
-.****** Gruppeinvalid ******************
-.if .&skema. ne .2
-.th .go ARSL
-.sp 9mm
-   &RESULTC.^&MIBB6.
-.if .&U'&MIBJN2. = .J
-.th .ct ^^X
-.if .&U'&MIBJN2. = .N
-.th .ct ^^^X
-...ARSL
-.ar off
-.ar HATT on
-.if .&skema. = .2
-.an .&U'&MIBJN3. = .J
-.th X
-.ar off
-.PA NOSTART
-...A05SL
-.* Sendes til felt rettet 7.3.05
-.* Banknavn og adresse er delt på 2 linier d. 8.7.2003ES A/S fjernet 5.7.04
-.* Top adr. ændret 28.06.2000
-.* Versionsnr.ændret 28.12.2000
-.********** SKEMA     TEST **************
-.if .&skema1. = .u
-.an .&gruinv. = .1
-.th .se skema = 2
-.if .&skema1. = .u
-.an .&gruinv. = .0
-.th .se skema = 0
-.if .&skema1. = .u
-.an .&skema2. = .u
-.th .se skema = 0
-.if .&skema. = .1
-.or .&skema. = .2
-.el .go F05SL
-.*th .sp
-.********** OPSÆTNING *******************
-.if .&ÅPN. = .4
-.th .PN 1
-.ti ^ 05
-.da OVSK 105mm 10mm WIDTH 99mm
-.da BOX  20mm 33.5mm WIDTH 184mm
-.da USK  20mm 250mm
-.da EJR  20mm 277mm WIDTH 184mm
-.********** EKSELPLAR TEST **************
-.ar EJR  on
-.tp 92mm center
-:DUTCH10.:FED.
-.if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
-.th .se helerk = 1
-.if .&ÅPN = .2
-.th ^Kundens eksemplar^
-.th .se helerk = 1
-.if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
-.th .se helerk = 0
-.if .&ÅPN = .4
-.th ^RDUAs eksemplar^
-.th .se helerk = 0
-.ar off
-.if .&ÅPN = .4
-.an .&skema. = .1
-.th .se skema1 'u'
-.if .&ÅPN = .4
-.an .&skema. = .2
-.th .se skema2 'u'
-.rf on
-.ir
-:DUTCH8.
-.ll 185mm
-.sx /1.1.2001//  Skema &skema. /
-.sp 2mm
-.rf off
-.rf execute
-.**************** Overskrift TOPDANMARK ************
-.ar OVSK on
-.bx left right
-.in 2mm
-.ir 2mm
-.tp 20mm
-:DUTCH14.:FED.
-Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
-.sp 0.5mm
-.if .&ÅPN ne .1
-.th .go O2
-:DUTCH8.:FED.
-Sendes af
-:DUTCH10.:FED.
-^Firma Pension Gruppeordninger
-.br
-:DUTCH6.:FED.
-banken
-:DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
-.go O5
-...O2
-.if .&ÅPN ne .4
-.th .go O3
-:DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
-.go O5
-...O3
-.sp 12.3mm
-...O5
-.bx off
-.ar off
-.*************************
-.AR BOX ON
-.in 2mm
-.ir 2mm
-:DUTCH10.
-.tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
-:DUTCH14.:FED.
-.if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
-:DUTCH10.
-.sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
-.br
-Stilling: ^^^Jobbeskrivelse:
-.br
-Adresse:
-.br
-Postnr. og by:
-.*sp 2mm
-.sp 1mm
-.hr left right
-.*sp 1mm
-.sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
-.sp 1mm
-.hr left right
-.br
-.* SKATTEKODE
-.if .&MIBSTK. = .2
-.th .se ratkom 'Beløbet udbetales over 10 årlige rater'
-.el .se ratkom ''
-.if .&skema. = .1
-.th .go SKE1
-.tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
-.sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
-.go TYPESL
-...SKE1
-.*tp 36mm 55mm 112mm 145mm 167mm 177mm
-.tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
-.br
-.sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
-.br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -2617,7 +2400,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -2638,7 +2421,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -2647,7 +2430,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -2663,7 +2446,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -2679,7 +2462,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -2689,11 +2472,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -2703,6 +2486,66 @@ Dato og underskrift:
 .ar off
 .PA NOSTART
 ...A05SL
+.SE B37KUDAL = 1
+.dr tynd WEIGHT 0.1mm
+.LL 175mm
+.fo left
+.PM 0
+.***************** Evt. ALTERNATIV PRENTER ***********
+.* Til alternativ print skal bruges parametrene
+.* PRTVALG        (J/N/alt.printer):
+.* ALTPRINTER     Brugerafh.printer:
+.if &E'&PRTVALG = 0 .go EJALT
+:altprint &PRTVALG
+...EJALT
+.*****************************************************
+.* Standardparam plus kode rettet fra TILTALEF til TILTALEM d.19.1.2001es
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 1
+.th .se TILTALEM = &TILTALEF
+.if &E'&TILTALEM = 0 .an &E'&TILTALEF = 0
+.th .se TILTALEM = du
+:TILTALE &TILTALEM
+...EJTILT
+.******************* ATT FELT I ADR. **************
+.if &E'&GENATT = 0
+.th .go EJATT
+.if &L'&GENATT = 0
+.th .go EJATT
+.* Att placeret i adresseruden mellem adresse og evt. KOPI
+.* Att korrigeret for flytning af adresefelt D / C d. 13.10.2000
+.if .&U'&UDSKRSTED = .D
+.th .da ATT 24mm 68.5mm width 180mm
+.el .da ATT 20mm 68.5mm width 180mm
+.ar ATT on
+:COUR10.
+Att.: &GENATT
+.ar off
+...EJATT
+.********************ROTERET BREVNAVN**************
+.if &E'&B37BREV = 0 .an &E'&BREVNAVN = 1
+.th .se B37BREV = '&BREVNAVN.'
+.if &E'&B37BREV = 0
+.th .go EJROT
+.if &L'&B37BREV = 0
+.th .go EJROT
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 277mm width 180mm rotate -90
+.ar VEND on
+:COUR6.
+&B37BREV.
+.ar off
+...EJROT
+.*****************************************************
+.ti ^ 05
+:COUR10.
+.*****************************************************
+.* PM og TM virker først fra side 2
+.PM 20mm
+.TM 35mm
+.*****************************************************
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.*AR BRTXT on
+.*ir 20mm
 .* Sendes til felt rettet 7.3.05
 .* Banknavn og adresse er delt på 2 linier d. 8.7.2003ES A/S fjernet 5.7.04
 .* Top adr. ændret 28.06.2000
@@ -2734,16 +2577,16 @@ Dato og underskrift:
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -2768,31 +2611,31 @@ Dato og underskrift:
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -2807,13 +2650,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -2823,7 +2666,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -2834,38 +2677,38 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -3054,7 +2897,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -3075,7 +2918,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -3084,7 +2927,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -3100,7 +2943,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -3116,7 +2959,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -3126,11 +2969,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -3171,16 +3014,16 @@ Dato og underskrift:
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -3205,31 +3048,31 @@ Dato og underskrift:
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -3244,13 +3087,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -3260,7 +3103,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -3271,38 +3114,38 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -3491,7 +3334,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -3512,7 +3355,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -3521,7 +3364,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -3537,7 +3380,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -3553,7 +3396,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -3563,11 +3406,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -3608,16 +3451,16 @@ Dato og underskrift:
 .tp 92mm center
 :DUTCH10.:FED.
 .if .&ÅPN = .1
-.th ^Forsikringsselskabets eksemplar^
+.th ^ Forsikringsselskabets eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .2
-.th ^Kundens eksemplar^
+.th ^ Kundens eksemplar ^
 .th .se helerk = 1
 .if .&ÅPN = .3
-.th ^Afdelingens eksemplar^
+.th ^ Afdelingens eksemplar ^
 .th .se helerk = 0
 .if .&ÅPN = .4
-.th ^RDUAs eksemplar^
+.th ^ RDUAs eksemplar ^
 .th .se helerk = 0
 .ar off
 .if .&ÅPN = .4
@@ -3642,31 +3485,31 @@ Dato og underskrift:
 .tp 20mm
 :DUTCH14.:FED.
 Til:
-.if .&ÅPN = .1 ;.th .ct ^Topdanmark Livsforsikring A/S
-.if .&ÅPN = .2 ;.th .ct ^Forsikringstager
-.if .&ÅPN = .3 ;.th .ct ^Opbevares i afdelingen
-.if .&ÅPN = .4 ;.th .ct ^&BANKNAVN.
+.if .&ÅPN = .1 ;.th .ct ^ Topdanmark Livsforsikring A/S
+.if .&ÅPN = .2 ;.th .ct ^ Forsikringstager
+.if .&ÅPN = .3 ;.th .ct ^ Opbevares i afdelingen
+.if .&ÅPN = .4 ;.th .ct ^ &BANKNAVN.
 .sp 0.5mm
 .if .&ÅPN ne .1
 .th .go O2
 :DUTCH8.:FED.
 Sendes af
 :DUTCH10.:FED.
-^Firma Pension Gruppeordninger
+ ^ Firma Pension Gruppeordninger
 .br
 :DUTCH6.:FED.
 banken
 :DUTCH10.:FED.
-^Borupvang 4
- ^2750  Ballerup
+ ^ Borupvang 4
+ ^ 2750  Ballerup
 .go O5
 ...O2
 .if .&ÅPN ne .4
 .th .go O3
 :DUTCH10.:FED.
-^RDUA
- ^Østergade 2
- ^7400  Herning
+ ^ RDUA
+ ^ Østergade 2
+ ^ 7400  Herning
 .go O5
 ...O3
 .sp 12.3mm
@@ -3681,13 +3524,13 @@ banken
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 :DUTCH14.:FED.
 .if .&skema. = .2
-.th Begæring om gruppeinvaliderente ^^^Tegnernummer:
-.el Begæring om gruppeliv/lånesikring ^^^Tegnernummer:
+.th Begæring om gruppeinvaliderente ^ ^ ^ Tegnernummer:
+.el Begæring om gruppeliv/lånesikring ^ ^ ^ Tegnernummer:
 :DUTCH10.
 .sp 2mm
-For- og efternavn: ^^^Cpr. nr.:
+For- og efternavn: ^ ^ ^ Cpr. nr.:
 .br
-Stilling: ^^^Jobbeskrivelse:
+Stilling: ^ ^ ^ Jobbeskrivelse:
 .br
 Adresse:
 .br
@@ -3697,7 +3540,7 @@ Postnr. og by:
 .hr left right
 .*sp 1mm
 .sp 2mm
-Pengeinstitut: ^^^^                ^Reg.nr.
+Pengeinstitut: ^ ^ ^ ^                ^ Reg.nr.
 .sp 1mm
 .hr left right
 .br
@@ -3708,38 +3551,38 @@ Pengeinstitut: ^^^^                ^Reg.nr.
 .if .&skema. = .1
 .th .go SKE1
 .tp 36mm 60mm 105mm 162mm 167mm 177mm
-^^^Præmien hæves på kontonr.: ^Pension:
+ ^ ^ ^ Præmien hæves på kontonr.: ^ Pension:
 .sp 4mm
-:FED.Gruppeinvaliderente: :SKRSLUT. ^^kr.^^^Ja   ^Nej
+:FED.Gruppeinvaliderente: :SKRSLUT. ^ ^ kr. ^ ^ ^ Ja   ^ Nej
 .go TYPESL
 ...SKE1
 .*tp 36mm 55mm 112mm 145mm 167mm 177mm
 .tp 36mm 55mm 112mm 145mm 151mm 167mm 177mm
 .br
 .sp 1mm
-:FED.Gruppeliv: :SKRSLUT. ^^kr. ^Kapitalpension ^^Præmien hæves
+:FED.Gruppeliv: :SKRSLUT. ^ ^ kr. ^ Kapitalpension ^ ^ Præmien hæves
 .br
-^&ratkom.
-.ct ^^Ratepension ^^på kontonr.:
+ ^ &ratkom.
+.ct ^ ^ Ratepension ^ ^ på kontonr.:
 .br
 Begunstigelse:
-.ct ^^^Uden fradragsret
+.ct ^ ^ ^ Uden fradragsret
 .tp 36mm 55mm 105mm 135mm 151mm 167mm 177mm
 .sp 9mm
-:FED.Lånesikring: :SKRSLUT. ^^kr.^^^Præmien hæves
+:FED.Lånesikring: :SKRSLUT. ^ ^ kr. ^ ^ ^ Præmien hæves
 .br
-Begunstigelse: ^Forsikringen er primært pantsat til
-&BANKNAVN., som sikker- ^^^^på kontonr.:
-.*Handelsbanken Midtbank, som sikker- ^^^^på kontonr.:
+Begunstigelse: ^ Forsikringen er primært pantsat til
+&BANKNAVN., som sikker- ^ ^ ^ ^ på kontonr.:
+.*Handelsbanken Midtbank, som sikker- ^ ^ ^ ^ på kontonr.:
 .br
-^hed for de forpligtigelser forsikrede måtte have
+ ^ hed for de forpligtigelser forsikrede måtte have
 påtaget sig overfor banken.
 .sp 2mm
-^Evt. overskydende beløb udbetales til: ^^^^(Uden fradragsret)
+ ^ Evt. overskydende beløb udbetales til: ^ ^ ^ ^ (Uden fradragsret)
 .sp 14mm
-BEMÆRK: ^Ovennævnte dækningssum(mer) er gældende til og med det fyldte
+BEMÆRK: ^ Ovennævnte dækningssum(mer) er gældende til og med det fyldte
 50. år.
-^Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
+ ^ Fra og med det fyldte 51. år nedsættes dækningssummen(erne) med 1/10
 hvert år.
 ...TYPESL
 .sp 1mm
@@ -3928,7 +3771,7 @@ Dato og underskrift:
 .AR JOBB on
 :COUR10.
 .tp 30mm
- ^&MIBEM241.
+ ^ &MIBEM241.
 .sp 1mm
  &MIBEM371.
 .sp 1mm
@@ -3949,7 +3792,7 @@ Dato og underskrift:
 .if .&MIBSTK. = .5
 .th X
 .sp 3mm
-  ^^^&MIBB2.
+  ^ ^ ^ &MIBB2.
 .ar off
 .****** Gruppeliv og Lånesikring (kontonr) SLUT****
 ...TXTIG
@@ -3958,7 +3801,7 @@ Dato og underskrift:
 .tp 71mm 99mm 128mm 138mm 102mm
 .se kun = SUBSTR &KUNDENR. 1 6
 .se enr = SUBSTR &KUNDENR. 7 4
- &NAVN ^^&kun.-&enr.
+ &NAVN ^ ^ &kun.-&enr.
 .sp 1mm
  &STILL
 .sp 1mm
@@ -3974,7 +3817,7 @@ Dato og underskrift:
 .el &BKNAVN.
 .el .br
 .el .is 1
-.el &BKADR., &BKBY.                 ^^^^&BANKREGNR.
+.el &BKADR., &BKBY.                 ^ ^ ^ ^ &BANKREGNR.
 .*sp 3mm
 .sp 2mm
 .****** Gruppeliv og Lånesikring ******************
@@ -3990,7 +3833,7 @@ Dato og underskrift:
 .tp 116.5mm
  &RESULTB.
 .sp 7mm
- ^&MIBB4.
+ ^ &MIBB4.
 .sp  5.0mm
  &MIBEM305.
  &MIBEM306.
@@ -4000,11 +3843,11 @@ Dato og underskrift:
 .if .&skema. ne .2
 .th .go ARSL
 .sp 9mm
-   &RESULTC.^&MIBB6.
+   &RESULTC. ^ &MIBB6.
 .if .&U'&MIBJN2. = .J
-.th .ct ^^X
+.th .ct ^ ^ X
 .if .&U'&MIBJN2. = .N
-.th .ct ^^^X
+.th .ct ^ ^ ^ X
 ...ARSL
 .ar off
 .ar HATT on
@@ -4160,7 +4003,7 @@ usD
 efinition af erhvervsevnetab 
 .
 of 5mma
-. ^Ret til præmiefritagelse har den forsikrede, der påg
+. ^ Ret til præmiefritagelse har den forsikrede, der påg
 rund af sygdom eller ulykkestilfælde mister sine
 rhvervsevne uden at det skyldes forsæt, således ate
 rhvervsevnen er nedsat til 1/3 eller derunder af
@@ -4168,7 +4011,7 @@ den fulde erhvervsevne.
 .of
  
 .of 5mm
-b. ^Nedsættelse af erhvervsevnen (jvf.  pkt.  a.), der
+b. ^ Nedsættelse af erhvervsevnen (jvf.  pkt.  a.), der
 berettiger til præmiefritagelse foreligger, når den
 forsikrede ikke længere skønnes at være i stand
 til
@@ -4185,13 +4028,17 @@ lignende uddannelse og alder.
 .us Anmeldelse af erhvervsevnetab
  
 .of 5mm
-c. ^Anmeldelse af erhvervsevnetab sker på en særlig
+c. ^ Anmeldelse af erhvervsevnetab sker på en særlig
 blanket, der fås ved henvendelse til Topdanmark.
 Blanketten udfyldes af forsikrede og egen
 læge.
 .of
 .*r off
 ...LIVB1SL
+.* Parameterafsnit
+.* ÆNDRING AF BELØB
+.* Her ændres skærmbilledet Parameter: MIBSTREG1 og MIBSTREG2
+.* Værdi på udskrift ændres i TESTafsnit: B37FORST05V?A/B
 .* TEKST FLYTTET og omdøbt fra AV2T
 .PA NOSTART
 .TM 32mm
@@ -4227,7 +4074,7 @@ lignende uddannelse og alder.
 .us Anmeldelse af erhvervsevnetab
  
 .of 5mm
-c. ^Anmeldelse af erhvervsevnetab sker på en særlig
+c. ^ Anmeldelse af erhvervsevnetab sker på en særlig
 blanket, der fås ved henvendelse til Topdanmark.
 Blanketten udfyldes af forsikrede og egen
 læge.
@@ -4238,7 +4085,7 @@ læge.
 Dokumentation
  
 .of 5mm
-d. ^Topdanmark kan til enhver tid kræve dokumentation
+d. ^ Topdanmark kan til enhver tid kræve dokumentation
 for at forsikredes erhvervsevne er nedsat til 1/3 eller
 derunder.  Selskabet kan forlange de oplysninger, det
 anser for nødvendige.
@@ -4248,13 +4095,13 @@ anser for nødvendige.
 Præmiefritagelsens ikrafttræden og ophør
  
 .of 5mm
-e. ^Ret til præmiefritagelse får virkning fra den dag,
+e. ^ Ret til præmiefritagelse får virkning fra den dag,
 nedsættelsen af erhvervsevnen har varet uafbrudt i 3
 måneder.
 .of
  
 .of 5mm
-f. ^Genvindes erhvervsevnen i en sådan grad, at
+f. ^ Genvindes erhvervsevnen i en sådan grad, at
 forudsætningen for ydelserne ikke er til stede,
 genoptages præmiebetalingen.
 .of
@@ -4332,12 +4179,12 @@ for hinanden.
 Er forsikringen tilknyttet en pensionsordning gælder endvidere:
  
 .of 5mm
-- ^forsikringsdækningen ophører ved udgangen af det kalenderår, hvori
+- ^ forsikringsdækningen ophører ved udgangen af det kalenderår, hvori
 pensionskontoen ophæves.
 .of
  
 .of 5mm
-- ^forsikringsdækningen ophører ved udgangen af det kalenderår, hvor
+- ^ forsikringsdækningen ophører ved udgangen af det kalenderår, hvor
 indbetaling til pensionskontoen ophører - eller de skattemæssige
 indbetalinger er mindre end 1.200 kr. årligt ud over de forsikringspræmier,
 der hæves på pensionskontoen.
@@ -4407,7 +4254,7 @@ meddelelsen om forhøjelsen.
 .* TEKST OVENFOR FLYTTET FRA SIDE 2
 :DUTCH14.:FED.
 .of 10mm
-14. ^^Utilfredshed med Topdanmarks afgørelse?
+14. ^ ^ Utilfredshed med Topdanmarks afgørelse?
 :DUTCH10.
 .of
  
@@ -4415,29 +4262,29 @@ Hvis forsikringstageren/den berettigede ikke er tilfreds
 med med behandlingen af en
 forsikringssag, kan sagen forelægges:
 ^
-^Ankenævnet for Forsikring  ^
-^Anker Heegaards Gade 2  ^
-^1572  København K  ^
-^Tlf.  nr.  33 15 89 00 - mellem kl. 10.00 og 13.00.of
+^ Ankenævnet for Forsikring  ^
+^ Anker Heegaards Gade 2  ^
+^ 1572  København K  ^
+ ^ Tlf.  nr.  33 15 89 00 - mellem kl. 10.00 og 13.00.of
  .o
 f
  5mma. 
-  ^Ankenævnet kan dog kun behandle klager, hvisfor
+  ^ Ankenævnet kan dog kun behandle klager, hvisfor
 sikringstageren/den berettigede:.of
  .o
 f
- 10mm^1.
- ^Forgæves har prøvet at få en tilfredsstillende ordning medTop
+ 10mm ^ 1.
+ ^ Forgæves har prøvet at få en tilfredsstillende ordning medTop
 danmark..of
  .o
 f
- 10mm^2.
- ^Ikke inden 3 uger har fået svar på en skriftlig henvendelse tilTop
+ 10mm ^ 2.
+ ^ Ikke inden 3 uger har fået svar på en skriftlig henvendelse tilTop
 danmark..of
  .o
 f
- 10mm^3.
- ^Til Ankenævnet betales et gebyr, som er fastsat af Ankenævnet.Geb
+ 10mm ^ 3.
+ ^ Til Ankenævnet betales et gebyr, som er fastsat af Ankenævnet.Geb
 yret betales tilbage, hvis forsikringstageren/den berettigede heltell
 er delvistfår
  medhold i klagen, hvis klagen afvises eller tilbagekaldes affor
@@ -4445,15 +4292,15 @@ sikringstageren/den berettigede..of
  .o
 f
  5mmb. 
-^Klagen skal sendes til Ankenævnet på et særligt klageskema, somudl
+ ^ Klagen skal sendes til Ankenævnet på et særligt klageskema, somudl
 everes ved henvendelse til:.of
- ^1
+ ^ 1
 .
-  ^Topdanmark. ^2
+  ^ Topdanmark. ^ 2
 .
- ^Forbrugerrådet ^^
-Købmagergade 7 ^^
-1150 København K ^^
+ ^ Forbrugerrådet ^ ^
+Købmagergade 7 ^ ^
+1150 København K ^ ^
 Tlf.  nr.  33 13 63 11.**
 **** Slutning *****.cd
 .cl
@@ -4625,7 +4472,7 @@ Skadebehandling varetages af Topdanmark.
 Definition af erhvervsevnetab
  
 .of 5mm
-a. ^Ret til præmiefritagelse har den forsikrede, der på grund af
+a. ^ Ret til præmiefritagelse har den forsikrede, der på grund af
 sygdom eller ulykkestilfælde mister sin erhvervsevne uden at det
 skyldes forsæt, således at erhvervsevnen er nedsat til 1/3 eller
 derunder af den fulde erhvervsevne.
@@ -4679,7 +4526,7 @@ Skadebehandling varetages af Topdanmark.
 .us
 Definition af erhvervsevnetab
 .of 5mm
-a. ^Ret til præmiefritagelse har den forsikrede, der på grund af
+a. ^ Ret til præmiefritagelse har den forsikrede, der på grund af
 sygdom eller ulykkestilfælde mister sin erhvervsevne uden at det
 skyldes forsæt, således at erhvervsevnen er nedsat til 1/3 eller
 derunder af den fulde erhvervsevne.
@@ -4687,7 +4534,7 @@ derunder af den fulde erhvervsevne.
 .* TEKST OVENFOR FLYTTET FRA SIDE 1
 :DUTCH10.
 .of 5mm
-b. ^Nedsættelse af erhvervsevnen (jf. pkt. a.), der berettiger til
+b. ^ Nedsættelse af erhvervsevnen (jf. pkt. a.), der berettiger til
 præmiefritagelse foreligger, når den forsikrede ikke længere skønnes
 at være i stand til - bedømt under hensyn til hans nuværende
 tilstand, hans uddannelse og tidligere virksomhed - at tjene
@@ -4699,7 +4546,7 @@ arbejdsdygtige personer med lignende uddannelse og alder.
 Anmeldelse af erhvervsevnetab
 .sp 1.5mm
 .of 5mm
-c. ^Anmeldelse af erhvervsevnetab
+c. ^ Anmeldelse af erhvervsevnetab
 sker på en særlig blanket, der fås ved henvendelse til
 Topdanmark. Blanketten udfyldes af forsikrede og egen læge.
 .of
@@ -4708,7 +4555,7 @@ Topdanmark. Blanketten udfyldes af forsikrede og egen læge.
 Dokumentation
 .sp 1.5mm
 .of 5mm
-d. ^Topdanmark kan til enhver tid kræve dokumentation for at
+d. ^ Topdanmark kan til enhver tid kræve dokumentation for at
 forsikredes erhvervsevne er nedsat til 1/3 eller derunder. Selskabet
 kan forlange de oplysninger, det anser for nødvendige.
 .of
@@ -4717,12 +4564,12 @@ kan forlange de oplysninger, det anser for nødvendige.
 Præmiefritagelsens ikrafttræden og ophør
 .sp 1.5mm
 .of 5mm
-e. ^Ret til præmiefritagelse får virkning fra den dag, nedsættelsen
+e. ^ Ret til præmiefritagelse får virkning fra den dag, nedsættelsen
 af erhvervsevnen har varet uafbrudt i 3 måneder.
 .of
 .sp 1.5mm
 .of 5mm
-f. ^Genvindes erhvervsevnen i en sådan grad, at forudsætningen
+f. ^ Genvindes erhvervsevnen i en sådan grad, at forudsætningen
 for ydelserne ikke er til stede, genoptages præmiebetalingen.
 .of
 .sp 1.5mm
@@ -4854,7 +4701,7 @@ med 30 dages varsel efter meddelelsen om forhøjelsen.
  
 :DUTCH14.:FED.
 .of 10mm
-15. ^^Utilfredshed med Topdanmarks afgørelse?
+15. ^ ^ Utilfredshed med Topdanmarks afgørelse?
 :DUTCH10.
 .of
  
@@ -4862,29 +4709,29 @@ Hvis forsikringstageren/den berettigede ikke er tilfreds
 med med behandlingen af en
 forsikringssag, kan sagen forelægges:
  
-  ^^Ankenævnet for Forsikring
-^^Anker Heegaards Gade 2  
-^^1572  København K  
-^^Tlf.  nr.  33 15 89 00 - mellem kl. 10.00 og 13.00.o
+  ^ ^ Ankenævnet for Forsikring
+^ ^ Anker Heegaards Gade 2  
+^ ^ 1572  København K  
+ ^ ^ Tlf.  nr.  33 15 89 00 - mellem kl. 10.00 og 13.00.o
 f .
 o
 f 5mma.
-   ^Ankenævnet kan dog kun behandle klager, hvisfo
+   ^ Ankenævnet kan dog kun behandle klager, hvisfo
 rsikringstageren/den berettigede:.o
 f .
 o
-f 10mm^1
-. ^Forgæves har prøvet at få en tilfredsstillende ordning medTo
+f 10mm ^ 1
+. ^ Forgæves har prøvet at få en tilfredsstillende ordning medTo
 pdanmark..o
 f .
 o
-f 10mm^2
-. ^Ikke inden 3 uger har fået svar på en skriftlig henvendelse tilTo
+f 10mm ^ 2
+. ^ Ikke inden 3 uger har fået svar på en skriftlig henvendelse tilTo
 pdanmark..o
 f .
 o
-f 10mm^3
-. ^Til Ankenævnet betales et gebyr, som er fastsat af Ankenævnet.Ge
+f 10mm ^ 3
+. ^ Til Ankenævnet betales et gebyr, som er fastsat af Ankenævnet.Ge
 byret betales tilbage, hvis forsikringstageren/den berettigede heltel
 ler delvistfå
 r medhold i klagen, hvis klagen afvises eller tilbagekaldes affo
@@ -4892,16 +4739,16 @@ rsikringstageren/den berettigede..o
 f .
 o
 f 5mmb.
- ^Klagen skal sendes til Ankenævnet på et særligt klageskema, somud
+ ^ Klagen skal sendes til Ankenævnet på et særligt klageskema, somud
 leveres ved henvendelse til:.o
 f ^
 1
-.  ^Topdanmark. ^
+.  ^ Topdanmark. ^
 2
-. ^Forbrugerrådet ^
-^Købmagergade 7 ^
-^1150 København K ^
-^Tlf.  nr.  33 13 63 11.*
+. ^ Forbrugerrådet ^
+^ Købmagergade 7 ^
+^ 1150 København K ^
+ ^ Tlf.  nr.  33 13 63 11.*
 ***** Slutning *****.c
 d.c
 l..
@@ -4955,7 +4802,7 @@ Topdanmark Livsforsikring A/S
  
 :DUTCH12.:FED.
 .of 5mm
-1. ^Hvorfor skal du give oplysning om dit
+1. ^ Hvorfor skal du give oplysning om dit
 .br
 helbred?
 :DUTCH10.
@@ -4999,17 +4846,17 @@ at skemaerne udfyldes rigtigt, er dit og dit alene.
 Når du udfylder helbredserklæringen og de andre spørgeskemaer, er
 det meget vigtigt:
  
--  ^at du besvarer alle spørgsmål
+-  ^ at du besvarer alle spørgsmål
 .br
--  ^at du giver oplysning om nuværende sygdomme
+-  ^ at du giver oplysning om nuværende sygdomme
 .br
--  ^at du giver oplysning om tidligere sygdomme
+-  ^ at du giver oplysning om tidligere sygdomme
 .of 5mm
--  ^at du giver oplysning om varigt eller midlertidigt forbrug af
+-  ^ at du giver oplysning om varigt eller midlertidigt forbrug af
 medicin
 .of
 .of 5mm
--  ^at du giver oplysning om alle undersøgelser og behandlinger
+-  ^ at du giver oplysning om alle undersøgelser og behandlinger
 hos læger, kiropraktorer, fysioterapeuter eller lignende.
 .of
  
@@ -5049,7 +4896,7 @@ arveanlæg og deraf følgende risiko for fremtidige sygdomme.
 .tp 8mm
 :DUTCH12.:FED.
 .of 8mm
-3.1. ^Hvad sker der med dine helbredsoplys-
+3.1. ^ Hvad sker der med dine helbredsoplys-
 .br
 ninger?
 :DUTCH10.
@@ -5123,7 +4970,7 @@ har oplysninger om din helbredstilstand.
 .tp 8mm
 :DUTCH12.:FED.
 .of 8mm
-3.2. ^Hvordan er du dækket, mens dine
+3.2. ^ Hvordan er du dækket, mens dine
 .br
 helbredsoplysninger bliver vurderet?
 :DUTCH10.
@@ -5169,3 +5016,157 @@ af erstatningen.
 .cl
 ...INVB3SL
 .****** Slutning *****
+.* Parameterafsnit
+.* Parameterafsnit
+.* Parameterafsnit
+.* V8A1 (V8A OPDELT I V8A1 og A2 d. 2.3.2004) ES
+.du add for-sik-rings-af-ta-le-lo-ven ri-si-ko-op-lys-nin-ger del-ta-gel-se
+.du add grup-pe-med-lem-met u-fuld-stæn-di-ge fa-re-for-ø-gel-sens
+.du add for-sik-rings-be-gi-ven-he-der in-va-li-de-ren-te o-ver-sti-ger
+.du add er-hvervs-ev-ne for-ti-el-se for-sik-rings-sel-ska-ber
+.du add til-slut-nings-kra-ve-ne ad-mi-ni-stra-ti-ons-ge-byr ind-træ-der
+.du add hel-breds-for-hold grup-pe-in-va-li-de-ren-te-for-sik-rin-gen
+.du add an-mel-des for-sik-rings-be-lø-bet ar-bejds-ev-nen med-min-dre
+.du add e-la-stik-spring halv-pro-fes-sio-nel-le læ-ge-be-hand-ling
+.du add for-sik-rings-ta-ge-ren An-ke-navns-be-hand-ling
+.du add ud-be-ta-lings-pe-ri-o-den af-gø-rel-se stør-rel-se
+.du add ar-bejds-le-dig-hed
+.TM 32mm
+.se fejl0 ''
+.se fejl1 ''
+.se fejl2 ''
+.se fejl3 ''
+.se fejl4 ''
+.se fejl5 ''
+.se fejl6 ''
+.se fejl7 ''
+.if .&RESULTA. = .0 .an .&RESULTB. = .0 .an .&RESULTC. = .0
+.th .se fejl = 1
+.th .se fejl0 'Alle beløb er.......:  0'
+.if .&RESULTA. = .9 .an .&RESULTB. = .9
+.th .se blank  = 1
+.th .go LIV
+.el .se blank  = 0
+.if .&RESULTC. = .9
+.th .se blank  = 1
+.el .se blank  = 0
+...LIV
+.*** NÆSTE V8A2 ****
+.* V8A1 (V8A OPDELT I V8A1 og A2 d. 2.3.2004) ES
+.* TEGNERNR FOR REG 0899 og 6500 tilføjet 21.8.2008 ES
+.if .&E'&GENNAVN. = .1
+.th .se kryliv = K
+.el .se kryliv = ''
+.if .&RESULTA. = .0
+.th .se gruliv = 0
+.el .se gruliv = 1
+.th .go LAN
+.if .&RESULTA. = .1 .th .se RESULTA = 428.000 ;.th .go LAN
+.if .&RESULTA. = .2 .th .se RESULTA = 856.000 ;.th .go LAN
+.if .&blank. = .1 ;.th .go LAN
+.se fejl = 1
+.se fejl1 'Gruppeliv...........:  &RESULTA.'
+...LAN
+.if .&RESULTB. = .0
+.th .se lansik = 0
+.el .se lansik = 1
+.th .go INV
+.if .&RESULTB. = .1 .th .se RESULTB = 107.000 ;.th .go INV
+.if .&RESULTB. = .2 .th .se RESULTB = 214.000 ;.th .go INV
+.if .&RESULTB. = .3 .th .se RESULTB = 428.000 ;.th .go INV
+.if .&RESULTB. = .4 .th .se RESULTB = 642.000 ;.th .go INV
+.if .&RESULTB. = .5 .th .se RESULTB = 856.000 ;.th .go INV
+.if .&blank. = .1 ;.th .go INV
+.se fejl = 1
+.se fejl2 'Lånesikring ........:  &RESULTB.'
+...INV
+.if .&RESULTC. = .0
+.th .se gruinv = 0
+.el .se gruinv = 1
+.th .go REG
+.if .&RESULTC. = .1 .th .se RESULTC = 55.006  ;.th .go REG
+.if .&RESULTC. = .2 .th .se RESULTC = 110.012
+.* TILFØJET 01.10.2004 es (max70 til H.ATT for 2 og 3)
+.th .se max70 = J  ;.th .go REG
+.if .&RESULTC. = .3 .th .se RESULTC = 165.018
+.th .se max70 = J
+.* RETTET 30.10.2001 es (S=UDLV af H.ATT)  th .se MIBJN3 = J  ;.th .go REG
+.th .se MIBJN3 = S  ;.th .go REG
+.if .&RESULTC. = .4 .th .se RESULTC = 220.024
+.* TILFØJET 22.11.2001 es (max70 til H.ATT)
+.th .se max70 = J
+.* RETTET 30.10.2001 es (S=UDLV af H.ATT)  th .se MIBJN3 = J  ;.th .go REG
+.th .se MIBJN3 = S  ;.th .go REG
+.if .&blank. = .1 ;.th .go REG
+.se fejl = 1
+.se fejl3 'Gruppeinvaliderenten:  &RESULTC.'
+...REG
+.if .&BANKREGNR. = .0890
+.th .se BKADR 'Amaliegade 3'
+.th .se BKBY '1256  København K'
+.if .&BANKREGNR. = .7631
+.th .se BKADR 'Arne Jacobsens Allè 17'
+.th .se BKBY '2300  København S'
+.if .&BANKREGNR. = .0895
+.th .se BKBY '2800 Kgs.Lyngby'
+.if .&BANKREGNR. = .7611 .th .se tegnnr = 17070010 ;.th .go BEGSK
+.if .&BANKREGNR. = .7612 .th .se tegnnr = 17070096 ;.th .go BEGSK
+.if .&BANKREGNR. = .7613 .th .se tegnnr = 17070177 ;.th .go BEGSK
+.if .&BANKREGNR. = .7614 .th .se tegnnr = 17070029 ;.th .go BEGSK
+.if .&BANKREGNR. = .7616 .th .se tegnnr = 17070185 ;.th .go BEGSK
+.if .&BANKREGNR. = .7617 .th .se tegnnr = 17070037 ;.th .go BEGSK
+.if .&BANKREGNR. = .7620 .th .se tegnnr = 17070100 ;.th .go BEGSK
+.if .&BANKREGNR. = .7621 .th .se tegnnr = 17070045 ;.th .go BEGSK
+.if .&BANKREGNR. = .7622 .th .se tegnnr = 17070126 ;.th .go BEGSK
+.if .&BANKREGNR. = .7623 .th .se tegnnr = 17070207 ;.th .go BEGSK
+.if .&BANKREGNR. = .7624 .th .se tegnnr = 17511483 ;.th .go BEGSK
+.if .&BANKREGNR. = .7625 .th .se tegnnr = 17070053 ;.th .go BEGSK
+.if .&BANKREGNR. = .7630 .th .se tegnnr = 17070223 ;.th .go BEGSK
+.if .&BANKREGNR. = .7631 .th .se tegnnr = 17511440 ;.th .go BEGSK
+.if .&BANKREGNR. = .7632 .th .se tegnnr = 17511432 ;.th .go BEGSK
+.if .&BANKREGNR. = .7633 .th .se tegnnr = 17070070 ;.th .go BEGSK
+.if .&BANKREGNR. = .7635 .th .se tegnnr = 17070150 ;.th .go BEGSK
+.if .&BANKREGNR. = .7636 .th .se tegnnr = 17511246 ;.th .go BEGSK
+.if .&BANKREGNR. = .7637 .th .se tegnnr = 17511300 ;.th .go BEGSK
+.if .&BANKREGNR. = .7638 .th .se tegnnr = 17511572 ;.th .go BEGSK
+.if .&BANKREGNR. = .7639 .th .se tegnnr = 17070231 ;.th .go BEGSK
+.if .&BANKREGNR. = .7640 .th .se tegnnr = 17070088 ;.th .go BEGSK
+.if .&BANKREGNR. = .7641 .th .se tegnnr = 17070169 ;.th .go BEGSK
+.if .&BANKREGNR. = .7642 .th .se tegnnr = 17509055 ;.th .go BEGSK
+.if .&BANKREGNR. = .7643 .th .se tegnnr = 17070304 ;.th .go BEGSK
+.if .&BANKREGNR. = .7644 .th .se tegnnr = 17070240 ;.th .go BEGSK
+.if .&BANKREGNR. = .7646 .th .se tegnnr = 17511629 ;.th .go BEGSK
+.if .&BANKREGNR. = .7647 .th .se tegnnr = 17070282 ;.th .go BEGSK
+.if .&BANKREGNR. = .7648 .th .se tegnnr = 17070312 ;.th .go BEGSK
+.if .&BANKREGNR. = .7649 .th .se tegnnr = 17070266 ;.th .go BEGSK
+.if .&BANKREGNR. = .0890 .th .se tegnnr = 17511157 ;.th .go BEGSK
+.if .&BANKREGNR. = .0891 .th .se tegnnr = 17511165 ;.th .go BEGSK
+.if .&BANKREGNR. = .0892 .th .se tegnnr = 17511173 ;.th .go BEGSK
+.if .&BANKREGNR. = .0893 .th .se tegnnr = 17511181 ;.th .go BEGSK
+.if .&BANKREGNR. = .0894 .th .se tegnnr = 17511190 ;.th .go BEGSK
+.if .&BANKREGNR. = .0895 .th .se tegnnr = 17511203 ;.th .go BEGSK
+.if .&BANKREGNR. = .0896 .th .se tegnnr = 17511211 ;.th .go BEGSK
+.if .&BANKREGNR. = .0897 .th .se tegnnr = 17511343 ;.th .go BEGSK
+.if .&BANKREGNR. = .0898 .th .se tegnnr = 17511319 ;.th .go BEGSK
+.if .&BANKREGNR. = .0899 .th .se tegnnr = 17511750 ;.th .go BEGSK
+.if .&BANKREGNR. = .6500 .th .se tegnnr = 17511769 ;.th .go BEGSK
+.if .&BANKREGNR. = .7610 .th .se tegnnr = '' ;.th .go BEG1
+...BEG1
+.if .&blank. = .1 .an .&BANKREGNR. = .7610
+.*th .se BKADR ''
+.*th .se BKBY ''
+.th .go BEGSK
+.se fejl = 1
+.se fejl4 'Reg.nr. ............:  &BANKREGNR.'
+...BEGSK
+.if .&blank. = .1 ;.th .go BEG
+.if &E'&MIBSTK. = 0 ;.th .go BEG
+.if .&MIBSTK. ne .0 ;.an .&RESULTA. = .0 ;.th .go BEGF
+.if .&MIBSTK. = .0 ;.an .&RESULTA. = .0 ;.th .go BEG
+.if .&MIBSTK. = .2 ;.or .&MIBSTK. = .3 ;.or .&MIBSTK. = .5 ;.th .go BEG
+...BEGF
+.se fejl = 1
+.se fejl5 'GR.LIV. / Skattekode:  &RESULTA. / &MIBSTK.'
+...BEG
+.*** NÆSTE Ægteskabsstatus -> Indkomstkrav ****
+

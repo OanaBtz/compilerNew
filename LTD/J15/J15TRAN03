@@ -1,3 +1,35 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.* Parameterafsnit
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -17,38 +49,6 @@
 :SKRSLUT.
 .ar off
 .*************************************************************************
-.* Parameterafsnit
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .**************************************************************************
 .da SIK   20mm 45mm width 175mm
 .da PIAFD 20mm 81mm width 175mm
@@ -76,7 +76,7 @@ Pengeinstitut:
 .**************************************************************************
 .ar BOX on
 :SWISS10.:FED.
-¤Parter :SKRSLUT.
+ ¤ Parter :SKRSLUT.
 .**** FORDRINGSHAVER **************
 .bx left right
 :SWISS8.
@@ -84,7 +84,7 @@ Pengeinstitut:
 .sp 7mm
 .tp 88.5mm
 .if &L'&MEDNAVN gt 0
-.th Forsikringstager ¤og
+.th Forsikringstager ¤ og
 .el Forsikringstager
 .*SKIFT AF SKRIFTTYPE TIL COUR10. ***********
 :SKRSLUT.
@@ -99,41 +99,56 @@ Pengeinstitut:
 .br
 &NAVN
 .br
-.**********************************
-.bx new left 87mm right
-.tp 57mm 88.5mm
-.ir 88mm
-Jeg giver hermed samtykke til, at &BANKNAVN og det til enhver tid
-værende forsikringsselskab må udveksle alle typer oplysninger om
-forsikringsforholdet til brug for administrative formål.
-.ir 0mm
-.sp 3mm
-Transportgiver (den/de der stiller sikkerhed) ¤Dato:
-:SKRSLUT.
-.ct  &GENDATO.
-.sp 23mm
-.tp 45.5mm center
-¤&NAVN
-.sp 1mm
-.bx off
-.ar off
-.**** VITTERLIGHED ********************
-.ar VITT on
+&COADR
+.br
+&GADE
+.br
+&BY
+.br
+CPR. nr.: &KUNDENR
+.go PIINS
+...UNDER
+&STILL. ¤ &GENSTILL
+.br
+&NAVN. ¤ &GENNAVN
+.br
+&COADR. ¤ &GENCO
+.br
+&GADE. ¤ &GENGADE
+.br
+&BY. ¤ &GENBY
+.br
+CPR. nr.: &KUNDENR. ¤ CPR. nr.: &GENKUNDENR
+...PIINS
+.sp 2mm
+.in 0mm
+.****** PENGEINSTITUT *************
+.bx new left right
+.in 5mm
+.sp 12mm
+&BANKNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.in 0mm
 :SWISS8.
-.tp _/83mm
-Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
-og udstederens/udstedernes myndighed.
 .sp 3mm
-Navn ¤
-.sp 4mm
-Stilling ¤
-.sp 4mm
-Adresse ¤
-.sp 4mm
-Postnr./by ¤
-.sp 4mm
-Underskrift ¤
-.ar off
+.****** DEBITOR *******************
+.bx new left right
+.in 1mm
+giver underskrevne hermed uigenkaldelig transport i forsikringssummen på
+.br
+Policenr.:
+:SKRSLUT.
+.ct  &GENPOLNR1.,
+:SWISS8.
+hos:
+:SKRSLUT.
+.*SKIFT AF SKRIFTTYPE TIL COUR10. ***********
+.sp 3mm
+.in 5mm
+&B11FORSNV
 .br
 &B11FORSAD1
 .br
@@ -177,60 +192,46 @@ Registreringsnr.: &GENREGNR3
 :SWISS8.
 .in 1mm
 Jeg/vi bekræfter, at jeg/vi ikke tidligere har afgivet nogen bedre
-eller¤Denne transport anmeldes overfor forsikringsselskabet i forbindelse
+eller ¤ Denne transport anmeldes overfor forsikringsselskabet i forbindelse
 .br
-sideordnet berettiget transport eller har givet nogen panteret i det¤med
+sideordnet berettiget transport eller har givet nogen panteret i det ¤ med
 anmeldelse af finansieringsdeklarationen i forsikringsselskabet.
 .br
 forsikrede løsøre.
 .sp 1mm
-&COADR
-.br
-&GADE
-.br
-&BY
-.br
-CPR. nr.: &KUNDENR
-.go PIINS
-...UNDER
-&STILL.¤&GENSTILL
-.br
-&NAVN.¤&GENNAVN
-.br
-&COADR.¤&GENCO
-.br
-&GADE.¤&GENGADE
-.br
-&BY.¤&GENBY
-.br
-CPR. nr.: &KUNDENR.¤CPR. nr.: &GENKUNDENR
-...PIINS
-.sp 2mm
-.in 0mm
-.****** PENGEINSTITUT *************
-.bx new left right
-.in 5mm
-.sp 12mm
-&BANKNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.in 0mm
-:SWISS8.
+.**********************************
+.bx new left 87mm right
+.tp 57mm 88.5mm
+.ir 88mm
+Jeg giver hermed samtykke til, at &BANKNAVN og det til enhver tid
+værende forsikringsselskab må udveksle alle typer oplysninger om
+forsikringsforholdet til brug for administrative formål.
+.ir 0mm
 .sp 3mm
-.****** DEBITOR *******************
-.bx new left right
-.in 1mm
-giver underskrevne hermed uigenkaldelig transport i forsikringssummen på
-.br
-Policenr.:
+Transportgiver (den/de der stiller sikkerhed) ¤ Dato:
 :SKRSLUT.
-.ct  &GENPOLNR1.,
+.ct  &GENDATO.
+.sp 23mm
+.tp 45.5mm center
+ ¤ &NAVN
+.sp 1mm
+.bx off
+.ar off
+.**** VITTERLIGHED ********************
+.ar VITT on
 :SWISS8.
-hos:
-:SKRSLUT.
-.*SKIFT AF SKRIFTTYPE TIL COUR10. ***********
+.tp _/83mm
+Til vitterlighed om ægte underskrift/underskrifter, dateringens rigtighed
+og udstederens/udstedernes myndighed.
 .sp 3mm
-.in 5mm
-&B11FORSNV
+Navn ¤
+.sp 4mm
+Stilling ¤
+.sp 4mm
+Adresse ¤
+.sp 4mm
+Postnr./by ¤
+.sp 4mm
+Underskrift ¤
+.ar off
+

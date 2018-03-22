@@ -11,6 +11,217 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* MODULUSKONTROL
+.bkmo &B37REGKTO
+.bkmo &B37REGKTO1
+.bkmo &B37REGKTO2
+.bkmo &B37REGKTO3
+.bkmo &B37REGKTO4
+.bkmo &B37REGKTO5
+.bkmo &B37REGKTO6
+.bkmo &B37REGKTO7
+.*if x&fejl ne x1
+.*th .go BKMOOK
+.*mg /t/  rettes før brevet kan udskrives
+...BKMOOK
+.IBAN &B37REGKTO &B37N20
+.IBAN &B37REGKTO1 &B37N21
+.IBAN &B37REGKTO2 &B37N22
+.IBAN &B37REGKTO3 &B37N23
+.IBAN &B37REGKTO4 &B37N24
+.IBAN &B37REGKTO5 &B37N25
+.IBAN &B37REGKTO6 &B37N26
+.IBAN &B37REGKTO7 &B37N27
+.if x&fejl ne x1
+.th .go IBANOK
+.mg /t/  rettes før brevet kan udskrives
+...IBANOK
+.DA BRTXT 20mm 100mm WIDTH 195mm
+.AR BRTXT on
+.ir 20mm
+:FED.
+Handel med udlandet og nye regler vedr. IBAN - International Bank
+Account Number og BIC - Bank Identifier Code (SWIFT adresse)
+:SKRSLUT.
+.hr left 173mm
+ 
+.us Fra 1. juli 2003
+vil &DIT. IBAN og bankens BIC (SWIFT
+adresse) fremgå af &DIT. kontoudtog, og fra denne dag er bankerne
+- iflg. EU-reglerne - berettiget til at opkræve ekstra gebyr for
+en overførsel, hvis IBAN og BIC ikke er opgivet.
+ 
+:FED.
+.us Hvad er IBAN
+:SKRSLUT.
+.sp 2mm
+IBAN er et internationalt kontonummer og tager sit udgangspunkt i
+virksomhedens nuværende registrerings- og
+kontonummer. IBAN anvendes p.t. kun i Europa.
+ 
+Ud fra nummeret er det muligt entydigt at identificere
+beløbmodtagers konto, pengeinstitut, afdeling samt land. Det er
+gratis for virksomhederne at få et IBAN-nummer.
+ 
+:FED.
+.us Fordele
+:SKRSLUT.
+.sp 2mm
+ * Er med til at sikre, at kontonummeret er korrekt angivet
+ * Er med til at sikre hurtig, pålidelig og effektiv håndtering af
+internationale
+   betalinger
+ * Er med til at reducere omkostninger og tab af valørdage
+ 
+:FED.
+.us Sådan anvendes IBAN
+ 
+.in +7mm
+Betalinger TIL udlandet
+:SKRSLUT.
+.sp 1mm
+Ved betalinger til udlandet skal IBAN på den
+udenlandske forretningsforbindelse anvendes.
+ 
+:FED.
+Betalinger FRA udlandet
+:SKRSLUT.
+.sp 1mm
+Ved fakturering og indgåelse af kontrakter med udlandet, skal
+&DU. - tillige med bankens BIC - anføre &DIT. IBAN
+på den konto, hvorpå beløbet ønskes indsat.
+.in -7mm
+.sp 10mm
+.ri fortsættes
+.ar off
+.pa
+:FED.
+.us Sådan ser IBAN ud
+:SKRSLUT.
+.sp 2mm
+IBAN er elektronisk opbygget og består af max. 34 alfanumeriske
+karakterer. I Danmark er IBAN-standarden dog på kun i alt
+:FED.
+.us 18 karakterer:
+:SKRSLUT.
+ 
+ *  2 bogstaver for landekoden DK
+.sp 1mm
+ *  2 tal, der er en kontrolnøgle
+.sp 1mm
+.of 7mm
+ * 14 tal, der svarer til virksomhedens nuværende kontonummer i
+&BANKNAVN.. De fire første tal er registreringsnummer,
+de sidste ti cifre er afsat til kontonummeret, og da
+bankens kontonummer består af syv cifre, er der foranstillet
+tre nuller.
+.of
+ 
+&SDIT. elektroniske IBAN skrives som følger her:
+ 
+.in +47mm
+:FED.
+Reg. Konto   = IBAN
+:SKRSLUT.
+.sp 2mm
+&IBAN1
+.sp 1mm
+&IBAN2
+.sp 1mm
+&IBAN3
+.sp 1mm
+&IBAN4
+.sp 1mm
+&IBAN5
+.sp 1mm
+&IBAN6
+.sp 1mm
+&IBAN7
+.sp 1mm
+&IBAN8
+.in -47mm
+ 
+Har &DU. behov for at få IBAN-numre på andre konti, eller har &DU.
+spørgsmål i denne forbindelse, er &DU. velkommen til at kontakte
+undertegnede.
+.* GENEKSP      MIBAFSU1
+.* GENTITEL     MIBAFSSU1
+.* GENMEKSP     MIBAFSU2
+.* GENMTITEL    MIBAFSSU2
+.se brevs = (B37HILS)
+.se B37HILS = 1
+.* HVIS parametren  B37MTIT = J medtages titler
+.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
+.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
+.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
+.if &E'&B37ANTUSK = 0
+.th .se B37ANTUSK = 1
+.if .&B37ANTUSK = .9 .go EJ9
+.ti ^ 05
+.* HVIS parametren  B37MTIT = J medtages titler
+.if &E'&B37MTIT = 0
+.th .go TIT
+.if &U'&B37MTIT = J
+.th .go MTIT
+.el .go TIT
+...TIT
+.se GENTITEL ''
+.se GENMTITEL ''
+...MTIT
+.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
+.if .&ÅLC < .17
+.th .se T = 1
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.* OMREGN COURIER 12 til mm
+.se mmt = 25
+.if &E'&fixk = 0
+.th .se fixk = 43
+.if &E'&mmd  = 0
+.th .se mmd  = 12
+.se fixmm = &fixk.*&mmt./&mmd
+.tp &fixmm.mm center
+ ^ Med venlig hilsen
+.*sk
+.* ^ M i d t b a n k
+.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
+.th .sk
+.th ^ &AFDNAVN
+.if .&T = .1
+.th .sk 3
+.el .sk 4
+.if .&B37ANTUSK ne .1 .go EJ1
+ ^ &GENEKSP
+.br
+ ^ &GENTITEL
+...EJ1
+.if .&B37ANTUSK ne .2 .go EJ2
+.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
+.if &MIBTAB1 > 0
+.th .se mibl2 = &L'&GENMEKSP
+.el .se mibl2 = &L'&GENMTITEL
+.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
+.if &MIBTAB2 > 0
+.th .se mibl1 = &L'&GENEKSP
+.el .se mibl1 = &L'&GENTITEL
+.if &mibl2 > &mibl1
+.th .se mibdiff = &mibl2 - &mibl1
+.th .se mibtab1 = &fixk - &mibl2 - 2
+.th .se mibtab2 = &fixk + &mibdiff + 2
+.el .se mibdiff = &mibl1 - &mibl2
+.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
+.el .se mibtab2 = &fixk + 2
+.se mibtab1m = &mibtab1 * &mmt / &mmd
+.se mibtab2m = &mibtab2 * &mmt / &mmd
+.tp set &mibtab1m.mm &mibtab2m.mm
+ ^ &GENMEKSP ^ &GENEKSP
+.br
+ ^ &GENMTITEL ^ &GENTITEL
+...EJ2
+.tp
+.br
+...EJ9
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -386,214 +597,4 @@ NR (tilrettet) = &NR ;.br
 ...IBANSL
 .dm off
 ...TSTSL
-.* MODULUSKONTROL
-.bkmo &B37REGKTO
-.bkmo &B37REGKTO1
-.bkmo &B37REGKTO2
-.bkmo &B37REGKTO3
-.bkmo &B37REGKTO4
-.bkmo &B37REGKTO5
-.bkmo &B37REGKTO6
-.bkmo &B37REGKTO7
-.*if x&fejl ne x1
-.*th .go BKMOOK
-.*mg /t/  rettes før brevet kan udskrives
-...BKMOOK
-.IBAN &B37REGKTO &B37N20
-.IBAN &B37REGKTO1 &B37N21
-.IBAN &B37REGKTO2 &B37N22
-.IBAN &B37REGKTO3 &B37N23
-.IBAN &B37REGKTO4 &B37N24
-.IBAN &B37REGKTO5 &B37N25
-.IBAN &B37REGKTO6 &B37N26
-.IBAN &B37REGKTO7 &B37N27
-.if x&fejl ne x1
-.th .go IBANOK
-.mg /t/  rettes før brevet kan udskrives
-...IBANOK
-.DA BRTXT 20mm 100mm WIDTH 195mm
-.AR BRTXT on
-.ir 20mm
-:FED.
-Handel med udlandet og nye regler vedr. IBAN - International Bank
-Account Number og BIC - Bank Identifier Code (SWIFT adresse)
-:SKRSLUT.
-.hr left 173mm
- 
-.us Fra 1. juli 2003
-vil &DIT. IBAN og bankens BIC (SWIFT
-adresse) fremgå af &DIT. kontoudtog, og fra denne dag er bankerne
-- iflg. EU-reglerne - berettiget til at opkræve ekstra gebyr for
-en overførsel, hvis IBAN og BIC ikke er opgivet.
- 
-:FED.
-.us Hvad er IBAN
-:SKRSLUT.
-.sp 2mm
-IBAN er et internationalt kontonummer og tager sit udgangspunkt i
-virksomhedens nuværende registrerings- og
-kontonummer. IBAN anvendes p.t. kun i Europa.
- 
-Ud fra nummeret er det muligt entydigt at identificere
-beløbmodtagers konto, pengeinstitut, afdeling samt land. Det er
-gratis for virksomhederne at få et IBAN-nummer.
- 
-:FED.
-.us Fordele
-:SKRSLUT.
-.sp 2mm
- * Er med til at sikre, at kontonummeret er korrekt angivet
- * Er med til at sikre hurtig, pålidelig og effektiv håndtering af
-internationale
-   betalinger
- * Er med til at reducere omkostninger og tab af valørdage
- 
-:FED.
-.us Sådan anvendes IBAN
- 
-.in +7mm
-Betalinger TIL udlandet
-:SKRSLUT.
-.sp 1mm
-Ved betalinger til udlandet skal IBAN på den
-udenlandske forretningsforbindelse anvendes.
- 
-:FED.
-Betalinger FRA udlandet
-:SKRSLUT.
-.sp 1mm
-Ved fakturering og indgåelse af kontrakter med udlandet, skal
-&DU. - tillige med bankens BIC - anføre &DIT. IBAN
-på den konto, hvorpå beløbet ønskes indsat.
-.in -7mm
-.sp 10mm
-.ri fortsættes
-.ar off
-.pa
-:FED.
-.us Sådan ser IBAN ud
-:SKRSLUT.
-.sp 2mm
-IBAN er elektronisk opbygget og består af max. 34 alfanumeriske
-karakterer. I Danmark er IBAN-standarden dog på kun i alt
-:FED.
-.us 18 karakterer:
-:SKRSLUT.
- 
- *  2 bogstaver for landekoden DK
-.sp 1mm
- *  2 tal, der er en kontrolnøgle
-.sp 1mm
-.of 7mm
- * 14 tal, der svarer til virksomhedens nuværende kontonummer i
-&BANKNAVN.. De fire første tal er registreringsnummer,
-de sidste ti cifre er afsat til kontonummeret, og da
-bankens kontonummer består af syv cifre, er der foranstillet
-tre nuller.
-.of
- 
-&SDIT. elektroniske IBAN skrives som følger her:
- 
-.in +47mm
-:FED.
-Reg. Konto   = IBAN
-:SKRSLUT.
-.sp 2mm
-&IBAN1
-.sp 1mm
-&IBAN2
-.sp 1mm
-&IBAN3
-.sp 1mm
-&IBAN4
-.sp 1mm
-&IBAN5
-.sp 1mm
-&IBAN6
-.sp 1mm
-&IBAN7
-.sp 1mm
-&IBAN8
-.in -47mm
- 
-Har &DU. behov for at få IBAN-numre på andre konti, eller har &DU.
-spørgsmål i denne forbindelse, er &DU. velkommen til at kontakte
-undertegnede.
-.* GENEKSP      MIBAFSU1
-.* GENTITEL     MIBAFSSU1
-.* GENMEKSP     MIBAFSU2
-.* GENMTITEL    MIBAFSSU2
-.se brevs = (B37HILS)
-.se B37HILS = 1
-.* HVIS parametren  B37MTIT = J medtages titler
-.* HVIS parametrene AFDNAVN og afdnavn EKSISTERER MEDTAGES AFDELINGSNAVN
-.* PARAMETREN fixk JUSTERER MVH PÅ SIDEN - standard 43
-.* ANTAL UNDERSKRIFTER (B37ANTUSK) - standard 1 (9 = ingen afslutning)
-.if &E'&B37ANTUSK = 0
-.th .se B37ANTUSK = 1
-.if .&B37ANTUSK = .9 .go EJ9
-.ti ^ 05
-.* HVIS parametren  B37MTIT = J medtages titler
-.if &E'&B37MTIT = 0
-.th .go TIT
-.if &U'&B37MTIT = J
-.th .go MTIT
-.el .go TIT
-...TIT
-.se GENTITEL ''
-.se GENMTITEL ''
-...MTIT
-.* JUSTERING AF AFSTAND VED UNDERSKRIFTER
-.if .&ÅLC < .17
-.th .se T = 1
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.* OMREGN COURIER 12 til mm
-.se mmt = 25
-.if &E'&fixk = 0
-.th .se fixk = 43
-.if &E'&mmd  = 0
-.th .se mmd  = 12
-.se fixmm = &fixk.*&mmt./&mmd
-.tp &fixmm.mm center
-^Med venlig hilsen
-.*sk
-.*^M i d t b a n k
-.if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
-.th .sk
-.th ^&AFDNAVN
-.if .&T = .1
-.th .sk 3
-.el .sk 4
-.if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
-.br
-^&GENTITEL
-...EJ1
-.if .&B37ANTUSK ne .2 .go EJ2
-.se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
-.if &MIBTAB1 > 0
-.th .se mibl2 = &L'&GENMEKSP
-.el .se mibl2 = &L'&GENMTITEL
-.se MIBTAB2 = &L'&GENEKSP - &L'&GENTITEL
-.if &MIBTAB2 > 0
-.th .se mibl1 = &L'&GENEKSP
-.el .se mibl1 = &L'&GENTITEL
-.if &mibl2 > &mibl1
-.th .se mibdiff = &mibl2 - &mibl1
-.th .se mibtab1 = &fixk - &mibl2 - 2
-.th .se mibtab2 = &fixk + &mibdiff + 2
-.el .se mibdiff = &mibl1 - &mibl2
-.el .se mibtab1 = &fixk - &mibl2 - &mibdiff - 2
-.el .se mibtab2 = &fixk + 2
-.se mibtab1m = &mibtab1 * &mmt / &mmd
-.se mibtab2m = &mibtab2 * &mmt / &mmd
-.tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
-.br
-^&GENMTITEL ^&GENTITEL
-...EJ2
-.tp
-.br
-...EJ9
+

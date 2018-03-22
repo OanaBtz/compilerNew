@@ -11,280 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.************************
-.su off
-.se ktocif2 = substr &IREGKTO 5 2
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKUNDENR 1 2
-.se mktoh1 = substr &MEDKUNDENR 1 6
-.se mktoh2 = substr &MEDKUNDENR 8 4
-.su on
-.*********************
-.if &B303 < 1
-.or &B303 > 3
-.th .mg/T/ Indtast kontaktform 1, 2 eller 3/
-.******************************
-.if &L'&B30MEDSKUN gt 0
-.an &U'X&B30MEDSKUN ne XJ
-.an &U'X&B30MEDSKUN ne XN
-.th .mg/T/ Skriv J eller N til kundeoprettelse/
-.******************************
-.if &U'&B30MEDSKUN = N
-.th .go TSTBET
-.***************
-.if &cprcvr = 43
-.an &L'&B30INDCPR = 0
-.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
-.*********************
-...TSTBET
-.******************************
-.if &U'&B30MEDSKUN = J
-.an &U'&SAMPLAC = J
-.th. mg/T/Ved ny kunde kan ikke vælges samme placering som tidligere/
-.******************************
-.if &U'&SAMPLAC = N
-.an &U'&PPINFO = J
-.th .mg/T/Info om Porteføljepleje kan kun vælges ved uændret placering/
-.******************************
-.*** pulje test ********
-.if &U'&B301 = J
-.an &U'&B30UDPULJE = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Tilknyttet pulje og udtræde af pulje kan ikke begge være Ja/
-.****
-.if &U'&B301 = J
-.an &U'&B305 = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Tilknyttet pulje og kontant plac. kan ikke begge være Ja/
-.****
-.if &U'&B301 = J
-.an &U'&PPVALGT = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være i pulje og porteføljepleje/
-.****
-.if &U'&B301 = J
-.an &U'&PPKOMMER = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være i pulje og porteføljepleje/
-.****
-.if &U'&B305 = J
-.an &U'&PPVALGT = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være kontant og i porteføljepleje/
-.****
-.if &U'&B305 = J
-.an &U'&PPKOMMER = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være kontant og i porteføljepleje/
-.****
-.if &U'&PPVALGT = J
-.an &U'&PPKOMMER = J
-.an &U'&SAMPLAC = N
-.th .mg/T/Vælg J til enten Porteføljepleje er valgt eller eftersendes/
-.****
-.if &U'&B301 = N
-.an &U'&B30UDPULJE = N
-.an &U'&PPVALGT = N
-.an &U'&PPKOMMER = N
-.an &U'&B305 = N
-.an &L'&B30DEPNR = 0
-.an &U'&SAMPLAC = N
-.th .mg/T/På kontantkonto skal kontant plac. med vejledning om PP være = J/
-.****
-.if &U'&B301 = J
-.an x&GENIDTOVIR = x01.01.1800
-.an &U'&SAMPLAC = N
-.th .mg/T/Ved tilknyttet pulje = J, skal 'med virkning fra' udfyldes/
-.***********
-.if &U'&B30UDPULJE = J
-.an x&GENIDTOVIR = x01.01.1800
-.an &U'&SAMPLAC = N
-.th .mg/T/Ved udtræde af pulje = J, skal 'med virkning fra' indtastes/
-.***************************
-.if &U'&B301 = J
-.an &L'&B30DEPNR > 0
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være i depot og tilknyttet pulje/
-.***************************
-.if &U'&PPVALGT = J
-.an &L'&B30DEPNR > 0
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være i depot og Porteføljepleje/
-.****
-.if &U'&PPKOMMER = J
-.an &L'&B30DEPNR > 0
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være i depot og Porteføljepleje/
-.****
-.if &U'&B30UDPULJE = J
-.an &L'&B30DEPNR > 0
-.an &U'&SAMPLAC = N
-.th .mg/T/Kontoen kan ikke både være i depot og udtræde af pulje/
-.***************************
-.if &U'&B305 = J
-.an &L'&B30DEPNR > 0
-.an &U'&SAMPLAC = N
-.th .mg/T/Ved depot skal der vælges N til kontant plac. med vejl./
-.***************************
-.if &U'&B305 = J
-.an &U'&SAMPLAC = J
-.th .mg/T/Ved samme placering som tidligere, skal der vælges N til kontant/
-.***************************
-.if &U'&B30UDPULJE = J
-.an &U'&SAMPLAC = J
-.th .mg/T/Ved samme placering som tidligere, kan man ikke udtræde af pulje/
-.***************************
-.if &U'&B301 = J
-.an &U'&SAMPLAC = J
-.th .mg/T/Ved samme placering som tidligere, skal der vælges N til pulje/
-.***************************
-.if &L'&B30DEPNR > 0
-.an &U'&SAMPLAC = J
-.th .mg/T/Ved samme placering som tidligere, skal der ikke angives depot/
-.***************************
-.if &U'&PPVALGT = J
-.an &U'&SAMPLAC = J
-.th .mg/T/Ved samme placering som tidligere, vælg N til Porteføljepleje/
-.***********
-.if &U'&PPKOMMER = J
-.an &U'&SAMPLAC = J
-.th .mg/T/Ved samme placering som tidligere, vælg N til Porteføljepleje/
-.***********
-.if &L'&B30BETMED gt 0
-.an &U'X&B30BETMED ne XJ
-.an &U'X&B30BETMED ne XN
-.th .mg/T/ Skriv J eller N i betalingsanmodning lån/
-.******************************
-.if &U'&B30BETMED = N
-.th .go NOBETP
-.*********************
-.if &L'&B30LÅNKRE > 0
-.th .go VIDRP
-.el .mg/T/Vælg L for 1pensionskonto eller D for 2pensionskonti/
-...VIDRP
-.if &U'X&B30LÅNKRE eq XL
-.or &U'X&B30LÅNKRE eq XD
-.th .go OKP
-.el .mg/T/Vælg L for 1pensionskonto eller D for 2pensionskonti/
-.****************
-...OKP
-.if &L'&B30YDL > 0
-.an x&GENIDTO001 ne x01.01.1800
-.an &L'&B30FREK1 > 0
-.th .go OKBETANM
-.el .mg/T/Alle parametre til betalingsanmodning skal indtastes/
-.**********
-...OKBETANM
-.if &L'&B30FREK1 = 0
-.th .mg/T/Frekvens på kap.pensionkonto skal vælges/
-.if &B30FREK1 < 1
-.or &B30FREK1 > 5
-.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
-.*****************************
-.if &U'X&B30LÅNKRE eq XL
-.th .go NOBETP
-.*****************************
-.if &L'&B30BELÅN2 > 0
-.an x&GENIDTOFØR ne x01.01.1800
-.an &L'&B30FREK2 > 0
-.th .go OKBETAN2
-.el .mg/T/Alle parametre til betalingsanmodning2 skal indtastes/
-.*****************************
-...OKBETAN2
-.if &L'&B30FREK2 = 0
-.th .mg/T/Frekvens på 2.pensionskonto skal vælges/
-.if &B30FREK2 < 1
-.or &B30FREK2 > 5
-.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
-.******************************
-...NOBETP
-.*********************
-.* omregning af datoen GENIDTOFØR til andet format ********
-.********
-.********
-.*********************GENEREL OPSÆTNING************************************
-:CALIB10.
-.fo left
-.ti ¤ 05
-.ls by 1.25
-.************ arealer *****************************************************
-.da KUNDE 22mm 38.5mm width 85mm
-.da DATO 160mm 83.5mm width 42.5mm
-.**************************************************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.*******************************
-.ar KUNDE on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 105mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-ALDERSPENSION NR. &IREGKTO
-.if &L'&B30LÅNKRE2 gt 0
-.th OG RATEPENSION NR. &B30LÅNKRE2
-:SKRSLUT.
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 103mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-:tiltale &TILTALE
-.in 2mm
-.ll 130mm
 .* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
 .* SIDEHOVEDDEFINITION STARTER ********************************************
 .rh on
@@ -536,6 +262,32 @@ Venlig hilsen
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
 .rh cancel
 .** SIDESKIFT
 .pa nostart
@@ -546,3 +298,252 @@ Venlig hilsen
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+.************************
+.su off
+.se ktocif2 = substr &IREGKTO 5 2
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKUNDENR 1 2
+.se mktoh1 = substr &MEDKUNDENR 1 6
+.se mktoh2 = substr &MEDKUNDENR 8 4
+.su on
+.*********************
+.if &B303 < 1
+.or &B303 > 3
+.th .mg/T/ Indtast kontaktform 1, 2 eller 3/
+.******************************
+.if &L'&B30MEDSKUN gt 0
+.an &U'X&B30MEDSKUN ne XJ
+.an &U'X&B30MEDSKUN ne XN
+.th .mg/T/ Skriv J eller N til kundeoprettelse/
+.******************************
+.if &U'&B30MEDSKUN = N
+.th .go TSTBET
+.***************
+.if &cprcvr = 43
+.an &L'&B30INDCPR = 0
+.th .mg/T/ Indb.pligtigt kundenr skal indtastes på 43xxxxxxx kunder/
+.*********************
+...TSTBET
+.******************************
+.if &U'&B30MEDSKUN = J
+.an &U'&SAMPLAC = J
+.th. mg/T/Ved ny kunde kan ikke vælges samme placering som tidligere/
+.******************************
+.if &U'&SAMPLAC = N
+.an &U'&PPINFO = J
+.th .mg/T/Info om Porteføljepleje kan kun vælges ved uændret placering/
+.******************************
+.*** pulje test ********
+.if &U'&B301 = J
+.an &U'&B30UDPULJE = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Tilknyttet pulje og udtræde af pulje kan ikke begge være Ja/
+.****
+.if &U'&B301 = J
+.an &U'&B305 = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Tilknyttet pulje og kontant plac. kan ikke begge være Ja/
+.****
+.if &U'&B301 = J
+.an &U'&PPVALGT = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i pulje og porteføljepleje/
+.****
+.if &U'&B301 = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i pulje og porteføljepleje/
+.****
+.if &U'&B305 = J
+.an &U'&PPVALGT = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være kontant og i porteføljepleje/
+.****
+.if &U'&B305 = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være kontant og i porteføljepleje/
+.****
+.if &U'&PPVALGT = J
+.an &U'&PPKOMMER = J
+.an &U'&SAMPLAC = N
+.th .mg/T/Vælg J til enten Porteføljepleje er valgt eller eftersendes/
+.****
+.if &U'&B301 = N
+.an &U'&B30UDPULJE = N
+.an &U'&PPVALGT = N
+.an &U'&PPKOMMER = N
+.an &U'&B305 = N
+.an &L'&B30DEPNR = 0
+.an &U'&SAMPLAC = N
+.th .mg/T/På kontantkonto skal kontant plac. med vejledning om PP være = J/
+.****
+.if &U'&B301 = J
+.an x&GENIDTOVIR = x01.01.1800
+.an &U'&SAMPLAC = N
+.th .mg/T/Ved tilknyttet pulje = J, skal 'med virkning fra' udfyldes/
+.***********
+.if &U'&B30UDPULJE = J
+.an x&GENIDTOVIR = x01.01.1800
+.an &U'&SAMPLAC = N
+.th .mg/T/Ved udtræde af pulje = J, skal 'med virkning fra' indtastes/
+.***************************
+.if &U'&B301 = J
+.an &L'&B30DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og tilknyttet pulje/
+.***************************
+.if &U'&PPVALGT = J
+.an &L'&B30DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og Porteføljepleje/
+.****
+.if &U'&PPKOMMER = J
+.an &L'&B30DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og Porteføljepleje/
+.****
+.if &U'&B30UDPULJE = J
+.an &L'&B30DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Kontoen kan ikke både være i depot og udtræde af pulje/
+.***************************
+.if &U'&B305 = J
+.an &L'&B30DEPNR > 0
+.an &U'&SAMPLAC = N
+.th .mg/T/Ved depot skal der vælges N til kontant plac. med vejl./
+.***************************
+.if &U'&B305 = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, skal der vælges N til kontant/
+.***************************
+.if &U'&B30UDPULJE = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, kan man ikke udtræde af pulje/
+.***************************
+.if &U'&B301 = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, skal der vælges N til pulje/
+.***************************
+.if &L'&B30DEPNR > 0
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, skal der ikke angives depot/
+.***************************
+.if &U'&PPVALGT = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, vælg N til Porteføljepleje/
+.***********
+.if &U'&PPKOMMER = J
+.an &U'&SAMPLAC = J
+.th .mg/T/Ved samme placering som tidligere, vælg N til Porteføljepleje/
+.***********
+.if &L'&B30BETMED gt 0
+.an &U'X&B30BETMED ne XJ
+.an &U'X&B30BETMED ne XN
+.th .mg/T/ Skriv J eller N i betalingsanmodning lån/
+.******************************
+.if &U'&B30BETMED = N
+.th .go NOBETP
+.*********************
+.if &L'&B30LÅNKRE > 0
+.th .go VIDRP
+.el .mg/T/Vælg L for 1pensionskonto eller D for 2pensionskonti/
+...VIDRP
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.th .go OKP
+.el .mg/T/Vælg L for 1pensionskonto eller D for 2pensionskonti/
+.****************
+...OKP
+.if &L'&B30YDL > 0
+.an x&GENIDTO001 ne x01.01.1800
+.an &L'&B30FREK1 > 0
+.th .go OKBETANM
+.el .mg/T/Alle parametre til betalingsanmodning skal indtastes/
+.**********
+...OKBETANM
+.if &L'&B30FREK1 = 0
+.th .mg/T/Frekvens på kap.pensionkonto skal vælges/
+.if &B30FREK1 < 1
+.or &B30FREK1 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
+.*****************************
+.if &U'X&B30LÅNKRE eq XL
+.th .go NOBETP
+.*****************************
+.if &L'&B30BELÅN2 > 0
+.an x&GENIDTOFØR ne x01.01.1800
+.an &L'&B30FREK2 > 0
+.th .go OKBETAN2
+.el .mg/T/Alle parametre til betalingsanmodning2 skal indtastes/
+.*****************************
+...OKBETAN2
+.if &L'&B30FREK2 = 0
+.th .mg/T/Frekvens på 2.pensionskonto skal vælges/
+.if &B30FREK2 < 1
+.or &B30FREK2 > 5
+.th .mg/T/Vælg frekvens 1, 2, 3, 4 eller 5/
+.******************************
+...NOBETP
+.*********************
+.* omregning af datoen GENIDTOFØR til andet format ********
+.********
+.********
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+ALDERSPENSION NR. &IREGKTO
+.if &L'&B30LÅNKRE2 gt 0
+.th OG RATEPENSION NR. &B30LÅNKRE2
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+

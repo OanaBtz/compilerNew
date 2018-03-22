@@ -58,6 +58,56 @@
 :SKRSLUT.
 .ar off
 .**************************************************************************
+.**************************************************************************
+.da KUNDEOPL   25mm     47mm     width  84mm
+.da ARBGOPL    112.5mm  47mm     width  84mm
+.da PIOPL      25mm     69mm     width  84mm
+.da KTOOPL     112.5mm  69.5mm   width  80mm
+.da TEKST      21mm     83mm     width 173mm
+.da AFGIFT     21mm     102mm    width 173mm
+.da PENALDER   21mm     171.5mm  width 173mm
+.da BEGUN      21mm     191mm    width 173mm
+.**************************************************************************
+.*****  Kundeoplysninger
+.**************************************************************************
+.ar KUNDEOPL on
+&PENKADR1.
+.br
+&PENKADR2.
+.br
+&PENKADR3.
+.br
+&PENKADR4.
+.br
+&PENKADR5.
+.ar off
+.**************************************************************************
+.*****  Arbejdsgiveroplysninger
+.**************************************************************************
+.ar ARBGOPL on
+.if &U'&PENVALG = N
+.th .go ARBX
+&PENANAVN
+.br
+&PENADR1
+.br
+&PENADR2
+.br
+&PENADR3
+.br
+&PENADR4
+...ARBX
+.ar off
+.**************************************************************************
+.*****  Pengeinstituttets oplysninger
+.**************************************************************************
+.ar PIOPL on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
 &AFDBY
 .ar off
 .**************************************************************************
@@ -74,10 +124,10 @@
 .ar KTOOPL on
 .tp 43mm
 .if &U'&PENVALG = J
-.th &KUNDENR ¤&PENACVR
+.th &KUNDENR ¤ &PENACVR
 .el &KUNDENR
 .sp 6mm
-&regnr &ktonr ¤&dregnr &depnr
+&regnr &ktonr ¤ &dregnr &depnr
 .ar off
 .**************************************************************************
 .**** Her starter teksten *********
@@ -132,56 +182,6 @@ begunstigelse, der følger af kapitalpensionen.
 .br
 Den nuværende begunstigelse videreføres.
 .ar off
-.**************************************************************************
-.da KUNDEOPL   25mm     47mm     width  84mm
-.da ARBGOPL    112.5mm  47mm     width  84mm
-.da PIOPL      25mm     69mm     width  84mm
-.da KTOOPL     112.5mm  69.5mm   width  80mm
-.da TEKST      21mm     83mm     width 173mm
-.da AFGIFT     21mm     102mm    width 173mm
-.da PENALDER   21mm     171.5mm  width 173mm
-.da BEGUN      21mm     191mm    width 173mm
-.**************************************************************************
-.*****  Kundeoplysninger
-.**************************************************************************
-.ar KUNDEOPL on
-&PENKADR1.
-.br
-&PENKADR2.
-.br
-&PENKADR3.
-.br
-&PENKADR4.
-.br
-&PENKADR5.
-.ar off
-.**************************************************************************
-.*****  Arbejdsgiveroplysninger
-.**************************************************************************
-.ar ARBGOPL on
-.if &U'&PENVALG = N
-.th .go ARBX
-&PENANAVN
-.br
-&PENADR1
-.br
-&PENADR2
-.br
-&PENADR3
-.br
-&PENADR4
-...ARBX
-.ar off
-.**************************************************************************
-.*****  Pengeinstituttets oplysninger
-.**************************************************************************
-.ar PIOPL on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
 .da UNDTEKST1  21mm 211mm    width 170mm
 .da AFSL1      25mm 231.5mm  width 170mm
 .*******************************
@@ -197,12 +197,62 @@ jeg har forholdt mig til begunstigelsen på aldersopsparingen.
 .ar AFSL1 on
 .if &U'&PENVALG = J
 .th .tp 39mm center 126mm center
-.th ¤&PENKNAVN.¤&PENANAVN.
+.th ¤ &PENKNAVN. ¤ &PENANAVN.
 .el .ce &PENKNAVN.
 .sp 7.8mm
 .ce &BANKNAVN
 .ar off
-¤Begunstigelse
+.**************************************************************************
+.da SIDE1  20mm 38mm width 175mm
+.**************************************************************************
+.ar SIDE1 on
+.tp 1mm 88.5mm 131.5mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
+.if &U'&PENVALG = J
+.th .bx left 87.5mm right
+.th ¤ Kontohaver ¤ Arbejdsgiver
+.el .bx left right
+.el ¤ Kontohaver
+.sp 17.5mm
+.***** her laves kassen til pengeinstitut og regnr ************************
+.if &U'&PENVALG = J
+.th .bx new left 87.5mm 130.5mm right
+.th ¤ Pengeinstitut ¤ Kontohavers CPR-nr. ¤ Arbejdsgivers CVR-nr.
+.el .bx new left 87.5mm right
+.el ¤ Pengeinstitut ¤ Kontohavers CPR-nr.
+.sp 4.5mm
+.***** her laves kassen til kontonr og depotnr ****************************
+.bx new 87.5mm 130.5mm right
+ ¤ ¤ Kontonr. ¤ Depotnr.
+.sp 4.5mm
+.***** her laves kassen til formål ****************************************
+.bx new left right
+.sp 9.5mm
+.bx off
+.bx can
+.bx can
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+:SKRSLUT.
+.***** her laves kassen til Afregning af afgift  **************************
+.bx left right
+ ¤ Afregning af afgift
+.sp 65mm
+.***** her laves kassen til placering af opsparing*************************
+.bx new left right
+ ¤ Pensionsudbetalingsalder
+.sp 15mm
+.***** her laves kassen til Begunstigelse *********************************
+.bx new left right
+ ¤ Begunstigelse
 .sp 14mm
 .bx off
 .bx can
@@ -221,67 +271,18 @@ Underskrift
 .if &U'&PENVALG = J
 .th .bx new left 87.5mm right
 .th .tp 1mm 61mm 89mm 145mm
-.th ¤Kontohavers underskift ¤Dato: ¤Arbejdsgivers underskrift ¤Dato:
+.th ¤ Kontohavers underskift ¤ Dato: ¤ Arbejdsgivers underskrift ¤ Dato:
 .el .bx new left right
 .el .tp 1mm 145mm
-.el ¤Kontohavers underskift ¤Dato:
+.el ¤ Kontohavers underskift ¤ Dato:
 .sp 6.5mm
 .***** her laves kassen til pi- underskrift *******************************
 .tp 1mm 61mm 89mm 145mm
 .bx new left right
-¤Pengeinstituttets underskrift ¤¤¤Dato:
+ ¤ Pengeinstituttets underskrift ¤ ¤ ¤ Dato:
 .sp 6.5mm
 .bx off
 .bx can
 .bx can
 .ar off
-.**************************************************************************
-.da SIDE1  20mm 38mm width 175mm
-.**************************************************************************
-.ar SIDE1 on
-.tp 1mm 88.5mm 131.5mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SKRSLUT.
-.***** her laves kassen til kontohaver og evt.arbejdsgiver ****************
-.if &U'&PENVALG = J
-.th .bx left 87.5mm right
-.th ¤Kontohaver ¤Arbejdsgiver
-.el .bx left right
-.el ¤Kontohaver
-.sp 17.5mm
-.***** her laves kassen til pengeinstitut og regnr ************************
-.if &U'&PENVALG = J
-.th .bx new left 87.5mm 130.5mm right
-.th ¤Pengeinstitut ¤Kontohavers CPR-nr.¤Arbejdsgivers CVR-nr.
-.el .bx new left 87.5mm right
-.el ¤Pengeinstitut ¤Kontohavers CPR-nr.
-.sp 4.5mm
-.***** her laves kassen til kontonr og depotnr ****************************
-.bx new 87.5mm 130.5mm right
-¤¤Kontonr. ¤Depotnr.
-.sp 4.5mm
-.***** her laves kassen til formål ****************************************
-.bx new left right
-.sp 9.5mm
-.bx off
-.bx can
-.bx can
-.bx can
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-:SKRSLUT.
-.***** her laves kassen til Afregning af afgift  **************************
-.bx left right
-¤Afregning af afgift
-.sp 65mm
-.***** her laves kassen til placering af opsparing*************************
-.bx new left right
-¤Pensionsudbetalingsalder
-.sp 15mm
-.***** her laves kassen til Begunstigelse *********************************
-.bx new left right
+

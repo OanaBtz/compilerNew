@@ -11,376 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '% '
-.BR
-.NV PAGE ADRESSELINIE1 '%&BKNAVN.'
-.if &L'&GENATT gt 0
-.th .BR
-.th .NV PAGE ADRESSELINIE2 '%Att.: &GENATT.'
-.BR
-.NV PAGE ADRESSELINIE3 '%&BKAFD.'
-.BR
-.NV PAGE ADRESSELINIE4 '%&BKADR.'
-.BR
-.NV PAGE ADRESSELINIE5 '%&BKBY.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-:ENY.
-.*
-.**************************************************************************
-.* Test af overførsel af alle konti *********
-.********************************************
-.if &L'&GENALLEKTO = 0
-.th .go TSTKTOSL
-.***********************
-.if &U'X&GENALLEKTO ne XJ
-.an &U'X&GENALLEKTO ne XN
-.th .mg/T/Ved valg af alle konti ovf. - vælg J eller N/
-...TSTKTOSL
-.********************************************
-.* Test af overførsel af depoter ************
-.********************************************
-.if &L'&GENALLEDEP = 0
-.th .go TSTDEPSL
-.***********************
-.if &U'X&GENALLEDEP ne XJ
-.an &U'X&GENALLEDEP ne XN
-.th .mg/T/Ved valg af alle depoter ovf. - vælg J eller N/
-...TSTDEPSL
-.*******************************************
-.* Test af overførsel af alle forsikringer *
-.*******************************************
-.if &L'&GENALLEFOR = 0
-.th .go TSTFORSL
-.***********************
-.if &U'X&GENALLEFOR ne XJ
-.an &U'X&GENALLEFOR ne XN
-.th .mg/T/Ved valg af alle forsikringer ovf. - vælg J eller N/
-.************************
-...TSTFORSL
-.*
-.***********************************************************************
-:TILTALE &TILTALE
-.ti ¤ 05
-:COUR10.
-.fo left
-.*****************************
-.tm 30mm
-.ll 165mm
-.* Uddata-overskrift
-.da OVERSKR 20mm 100mm width 150mm
-.* Brevnavn, roteret i nederste venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.***********************************************************************
-.ar OVERSKR on
-:SWISS14.
-:FED.
-Anmodning om overførsel af konti
-:SKRSLUT.
-.ar off
-.***********************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.***********************************************************************
-.***********************************************************
-.* Deres reference øverst til højre
-.da DERES 126.45mm 61.9mm
-.************************************************************
-.ar DERES on
-:COUR8.
-.tp 33.6mm
-.if &L'&GENDERREF gt 0
-.th Deres reference ¤&GENDERREF
-.th .br
-Reference ¤&GENEKSP
-.if &L'&GENEMAIL gt 0
-.th .br
-.th &GENEMAIL
-.th .br
-.if &L'&AFDFAX gt 0
-.th Telefax ¤&AFDFAX
-.th .br
-:SKRSLUT.
-.ar off
-.***************************************************************
-.da TEKST 20mm 108mm width 75mm
-.da KUNDE 20mm 117mm width 75mm
-.da MEDKTO 115mm 117mm width 75mm
-.da KUNDENR 20mm 139mm width 175mm
-.*********************************
-.ar TEKST on
-På foranledning af
-.ar off
-.********************************
-.ar KUNDE on
-.if &L'&STILL gt 0
-.th &STILL
-.th .br
-&NAVN
-.br
-.if &L'&COADR gt 0
-.th &COADR
-.th .br
-&GADE
-.br
-&BY
-.sp
-.ar off
-.*******************************
-.ar MEDKTO on
-.if &L'&GENSTILL1 gt 0
-.th &GENSTILL1
-.th .br
-&GENNAVN1
-.br
-.if &L'&GENCOADR1 gt 0
-.th &GENCOADR1
-.th .br
-&GENGADE1
-.br
-&GENBY1
-.ar off
-.********************************
-.ar KUNDENR on
-.tp 95mm
-.if &L'&GENKUNDENR gt 0
-.an &L'&GENNAVN1 gt 0
-.th Cpr.nr. &KUNDENR.¤Cpr.nr. &GENKUNDENR
-.el Cpr.nr. &KUNDENR
-.ar off
-.********************************
-.dr thin weight 0.1mm
-.tp 95mm
-.sp 124mm
-.*****************************
-*¤opsige/ophæve/overføre/ændre
-.in 9mm nobreak
-til fripolice nedenstående forsikringer. Hvis
-engagementet omfatter andre forsikringer, betinget af et kundeforhold
-hos &DIG., bedes &DU meddele os det og undlade at slette sådanne
-forsikringer, forinden godkendelse foreligger fra os.
-.if &U'X&GENJANEJ eq XJ
-.th .in 0mm
-.th .sp
-.th *¤meddele os
-.th .in 9mm nobreak
-.th om kunden er FI-kreditor og undlade at slette/flytte kreditor, før
-.th godkendelse foreligger fra os.
-.in 0mm
-.kp on
-.if &U'X&GENALLEKTO eq XJ
-.th .sp
-.th Alle konti bedes overført.
-.th .go ENDKTO
-.*Afsnit fra kontonr.- kontotype- Understregning
-.**************************************************************
-.tp 44mm 112mm 132mm
-.**************************************************************
-.if &L'&GENKTO1 gt 0
-.or &L'&GENKTO2 gt 0
-.or &L'&GENKTO3 gt 0
-.or &L'&GENKTO4 gt 0
-.or &L'&GENKTO5 gt 0
-.th .sp
-.th .hr left right
-.th .br
-.th Kontonr. ¤Kontotype og evt. mærke ¤Saldo ¤Nyt kontonr.
-.th .hr left right
-.**************************************************************
-.*Afsnit med ktonr. og ktotyper, linier med mærke skal kun med såfremt
-.*der er mærke, øvrige linier kun hvis de er udfyldt
-.********************
-.tp 44mm 117mm char , 135mm
-.******************** SUBSTRINGS TIL KONTONUMRE ****************
-.fo off
-.se regnr1 = substr &GENKTO1 1 4
-.se ktonr1 = substr &GENKTO1 5 10
-.se regnr2 = substr &GENKTO2 1 4
-.se ktonr2 = substr &GENKTO2 5 10
-.se regnr3 = substr &GENKTO3 1 4
-.se ktonr3 = substr &GENKTO3 5 10
-.se regnr4 = substr &GENKTO4 1 4
-.se ktonr4 = substr &GENKTO4 5 10
-.se regnr5 = substr &GENKTO5 1 4
-.se ktonr5 = substr &GENKTO5 5 10
-.* Afsnit med de anmodes om tekst  *****************
-.tp 9mm
-anmodes &DU om at
-.sp
-*¤opgøre
-.in 9mm nobreak
-og overføre følgende konti med renter til opgørelsesdagen,
-og snarest muligt
-overføre beløbet til, eller trække beløbet hos os
-(Reg.nr. &REGNR.). Hvis
-engagementet er betinget af særlige indfrielsesvilkår, bedes dette
-meddelt os inden overførslen.
-.in 0mm
-.sp
-*¤overføre
-.in 9mm nobreak
-nedenstående
-.us on
-Pensionsordninger
-.us off
-efter reglerne i pensionsbeskatningslovens §41.
-:FED.
-Alt vedrørende overførsel af pensionkonti herunder beløb, skemaer
-07.008, 07.015, 07.009 samt øvrige nødvendige informationer/kontrakter
-bedes venligst overført/sendt til &BANKNAVN., &AFDNAVN., &AFDGADE.,
-&AFDBY..
-.us on
-Dette gælder kun for pensionskonti.
-.us off
-Det øvrige engagement overføres som nævnt nedenfor i denne
-overførelsesanmodning.
-:SKRSLUT.
-.in 0mm
-.sp
-*¤overføre
-.in 9mm nobreak
-de i depot værende effekter til ny VP-konto
-.in 0mm
-.sp
-*¤samtlige
-.in 9mm nobreak
-stillede sikkerheder overføres. Ejerpantebreve bedes i relevant omfang
-digitaliseres, idet vi samtidig beder Dem danne og signere
-aflysningspåtegning af underpant Med &BANKNAVN som anmelder. Anmeldelsens
-referencenummer bedes venligst oplyst. Herudover bedes De orientere os om
-.us on
-panthaverdeklarationsnummer.
-.us off
-.in 0mm
-.sp
-.if &L'&GENMÆRKE10 gt 0
-.th ¤Mærke: &GENMÆRKE10
-.if &L'&GENKTO1 gt 0
-.or &L'&GENKTO2 gt 0
-.or &L'&GENKTO3 gt 0
-.or &L'&GENKTO4 gt 0
-.or &L'&GENKTO5 gt 0
-.th .hr left right
-.kp off
-.************************************************
-...ENDKTO
-.th .br
-.if &L'&GENMÆRKE3 gt 0
-.th ¤Mærke: &GENMÆRKE3
-.th .br
-.if &L'&GENKTOTYP4 gt 0
-.or &L'&GENKTO4 gt 0
-.th &regnr4 &ktonr4.¤&GENKTOTYP4.¤&GENSALDO4.¤&rgnr4 &ktnr4
-.th .br
-.if &L'&GENMÆRKE4 gt 0
-.th ¤Mærke: &GENMÆRKE4
-.th .br
-.if &L'&GENKTOTYP5 gt 0
-.or &L'&GENKTO5 gt 0
-.th &regnr5 &ktonr5.¤&GENKTOTYP5.¤&GENSALDO5.¤&rgnr5 &ktnr5
-.th .br
-.if &L'&GENMÆRKE5 gt 0
-.th ¤Mærke: &GENMÆRKE5
-.th .br
-.if &L'&GENKTOTYP6 gt 0
-.or &L'&GENKTO6 gt 0
-.th &regnr6 &ktonr6.¤&GENKTOTYP6.¤&GENSALDO6.¤&rgnr6 &ktnr6
-.th .br
-.if &L'&GENMÆRKE6 gt 0
-.th ¤Mærke: &GENMÆRKE6
-.th .br
-.if &L'&GENKTOTYP7 gt 0
-.or &L'&GENKTO7 gt 0
-.th &regnr7 &ktonr7.¤&GENKTOTYP7.¤&GENSALDO7.¤&rgnr7 &ktnr7
-.th .br
-.if &L'&GENMÆRKE7 gt 0
-.th ¤Mærke: &GENMÆRKE7
-.th .br
-.if &L'&GENKTOTYP8 gt 0
-.or &L'&GENKTO8 gt 0
-.th &regnr8 &ktonr8.¤&GENKTOTYP8.¤&GENSALDO8.¤&rgnr8 &ktnr8
-.th .br
-.if &L'&GENMÆRKE8 gt 0
-.th ¤Mærke: &GENMÆRKE8
-.th .br
-.if &L'&GENKTOTYP9 gt 0
-.or &L'&GENKTO9 gt 0
-.th &regnr9 &ktonr9.¤&GENKTOTYP9.¤&GENSALDO9.¤&rgnr9 &ktnr9
-.th .br
-.if &L'&GENMÆRKE9 gt 0
-.th ¤Mærke: &GENMÆRKE9
-.th .br
-.if &L'&GENKTOTY10 gt 0
-.or &L'&GENKTO10 gt 0
-.th &regnr10 &ktonr10.¤&GENKTOTY10.¤&GENSALDO10.¤&rgnr10 &ktnr10
-.th .br
-.se regnr6 = substr &GENKTO6 1 4
-.se ktonr6 = substr &GENKTO6 5 10
-.se regnr7 = substr &GENKTO7 1 4
-.se ktonr7 = substr &GENKTO7 5 10
-.se regnr8 = substr &GENKTO8 1 4
-.se ktonr8 = substr &GENKTO8 5 10
-.se regnr9 = substr &GENKTO9 1 4
-.se ktonr9 = substr &GENKTO9 5 10
-.se regnr10 = substr &GENKTO10 1 4
-.se ktonr10 = substr &GENKTO10 5 10
-.************************** SUBSTRINGS TIL NYT KONTONR ***********
-.se rgnr1 = substr &GENKTONY1 1 4
-.se ktnr1 = substr &GENKTONY1 5 7
-.se rgnr2 = substr &GENKTONY2 1 4
-.se ktnr2 = substr &GENKTONY2 5 7
-.se rgnr3 = substr &GENKTONY3 1 4
-.se ktnr3 = substr &GENKTONY3 5 7
-.se rgnr4 = substr &GENKTONY4 1 4
-.se ktnr4 = substr &GENKTONY4 5 7
-.se rgnr5 = substr &GENKTONY5 1 4
-.se ktnr5 = substr &GENKTONY5 5 7
-.se rgnr6 = substr &GENKTONY6 1 4
-.se ktnr6 = substr &GENKTONY6 5 7
-.se rgnr7 = substr &GENKTONY7 1 4
-.se ktnr7 = substr &GENKTONY7 5 7
-.se rgnr8 = substr &GENKTONY8 1 4
-.se ktnr8 = substr &GENKTONY8 5 7
-.se rgnr9 = substr &GENKTONY9 1 4
-.se ktnr9 = substr &GENKTONY9 5 7
-.se rgnr10 = substr &GENKTONY10 1 4
-.se ktnr10 = substr &GENKTONY10 5 7
-.fo left
-.*************************************
-.if &L'&GENKTOTYP1 gt 0
-.or &L'&GENKTO1 gt 0
-.th &regnr1 &ktonr1.¤&GENKTOTYP1.¤&GENSALDO1.¤&rgnr1 &ktnr1
-.th .br
-.if &L'&GENMÆRKE1 gt 0
-.th ¤Mærke: &GENMÆRKE1
-.th .br
-.if &L'&GENKTOTYP2 gt 0
-.or &L'&GENKTO2 gt 0
-.th &regnr2 &ktonr2.¤&GENKTOTYP2.¤&GENSALDO2.¤&rgnr2 &ktnr2
-.th .br
-.if &L'&GENMÆRKE2 gt 0
-.th ¤Mærke: &GENMÆRKE2
-.th .br
-.if &L'&GENKTOTYP3 gt 0
-.or &L'&GENKTO3 gt 0
-.th &regnr3 &ktonr3.¤&GENKTOTYP3.¤&GENSALDO3.¤&rgnr3 &ktnr3
 .***************
 .*Afsnit med depotnr. - skal kun med hvis udfyldt
 .***************
@@ -705,3 +335,374 @@ Dato
 ¤&BANKNAVN
 .kp off
 .**********************************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE ADRESSELINIE1 '%&BKNAVN.'
+.if &L'&GENATT gt 0
+.th .BR
+.th .NV PAGE ADRESSELINIE2 '%Att.: &GENATT.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&BKAFD.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&BKADR.'
+.BR
+.NV PAGE ADRESSELINIE5 '%&BKBY.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+:ENY.
+.*
+.**************************************************************************
+.* Test af overførsel af alle konti *********
+.********************************************
+.if &L'&GENALLEKTO = 0
+.th .go TSTKTOSL
+.***********************
+.if &U'X&GENALLEKTO ne XJ
+.an &U'X&GENALLEKTO ne XN
+.th .mg/T/Ved valg af alle konti ovf. - vælg J eller N/
+...TSTKTOSL
+.********************************************
+.* Test af overførsel af depoter ************
+.********************************************
+.if &L'&GENALLEDEP = 0
+.th .go TSTDEPSL
+.***********************
+.if &U'X&GENALLEDEP ne XJ
+.an &U'X&GENALLEDEP ne XN
+.th .mg/T/Ved valg af alle depoter ovf. - vælg J eller N/
+...TSTDEPSL
+.*******************************************
+.* Test af overførsel af alle forsikringer *
+.*******************************************
+.if &L'&GENALLEFOR = 0
+.th .go TSTFORSL
+.***********************
+.if &U'X&GENALLEFOR ne XJ
+.an &U'X&GENALLEFOR ne XN
+.th .mg/T/Ved valg af alle forsikringer ovf. - vælg J eller N/
+.************************
+...TSTFORSL
+.*
+.***********************************************************************
+:TILTALE &TILTALE
+.ti ¤ 05
+:COUR10.
+.fo left
+.*****************************
+.tm 30mm
+.ll 165mm
+.* Uddata-overskrift
+.da OVERSKR 20mm 100mm width 150mm
+.* Brevnavn, roteret i nederste venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.***********************************************************************
+.ar OVERSKR on
+:SWISS14.
+:FED.
+Anmodning om overførsel af konti
+:SKRSLUT.
+.ar off
+.***********************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.***********************************************************************
+.***********************************************************
+.* Deres reference øverst til højre
+.da DERES 126.45mm 61.9mm
+.************************************************************
+.ar DERES on
+:COUR8.
+.tp 33.6mm
+.if &L'&GENDERREF gt 0
+.th Deres reference ¤ &GENDERREF
+.th .br
+Reference ¤ &GENEKSP
+.if &L'&GENEMAIL gt 0
+.th .br
+.th &GENEMAIL
+.th .br
+.if &L'&AFDFAX gt 0
+.th Telefax ¤ &AFDFAX
+.th .br
+:SKRSLUT.
+.ar off
+.***************************************************************
+.da TEKST 20mm 108mm width 75mm
+.da KUNDE 20mm 117mm width 75mm
+.da MEDKTO 115mm 117mm width 75mm
+.da KUNDENR 20mm 139mm width 175mm
+.*********************************
+.ar TEKST on
+På foranledning af
+.ar off
+.********************************
+.ar KUNDE on
+.if &L'&STILL gt 0
+.th &STILL
+.th .br
+&NAVN
+.br
+.if &L'&COADR gt 0
+.th &COADR
+.th .br
+&GADE
+.br
+&BY
+.sp
+.ar off
+.*******************************
+.ar MEDKTO on
+.if &L'&GENSTILL1 gt 0
+.th &GENSTILL1
+.th .br
+&GENNAVN1
+.br
+.if &L'&GENCOADR1 gt 0
+.th &GENCOADR1
+.th .br
+&GENGADE1
+.br
+&GENBY1
+.ar off
+.********************************
+.ar KUNDENR on
+.tp 95mm
+.if &L'&GENKUNDENR gt 0
+.an &L'&GENNAVN1 gt 0
+.th Cpr.nr. &KUNDENR. ¤ Cpr.nr. &GENKUNDENR
+.el Cpr.nr. &KUNDENR
+.ar off
+.********************************
+.dr thin weight 0.1mm
+.tp 95mm
+.sp 124mm
+.*****************************
+.* Afsnit med de anmodes om tekst  *****************
+.tp 9mm
+anmodes &DU om at
+.sp
+* ¤ opgøre
+.in 9mm nobreak
+og overføre følgende konti med renter til opgørelsesdagen,
+og snarest muligt
+overføre beløbet til, eller trække beløbet hos os
+(Reg.nr. &REGNR.). Hvis
+engagementet er betinget af særlige indfrielsesvilkår, bedes dette
+meddelt os inden overførslen.
+.in 0mm
+.sp
+* ¤ overføre
+.in 9mm nobreak
+nedenstående
+.us on
+Pensionsordninger
+.us off
+efter reglerne i pensionsbeskatningslovens §41.
+:FED.
+Alt vedrørende overførsel af pensionkonti herunder beløb, skemaer
+07.008, 07.015, 07.009 samt øvrige nødvendige informationer/kontrakter
+bedes venligst overført/sendt til &BANKNAVN., &AFDNAVN., &AFDGADE.,
+&AFDBY..
+.us on
+Dette gælder kun for pensionskonti.
+.us off
+Det øvrige engagement overføres som nævnt nedenfor i denne
+overførelsesanmodning.
+:SKRSLUT.
+.in 0mm
+.sp
+* ¤ overføre
+.in 9mm nobreak
+de i depot værende effekter til ny VP-konto
+.in 0mm
+.sp
+* ¤ samtlige
+.in 9mm nobreak
+stillede sikkerheder overføres. Ejerpantebreve bedes i relevant omfang
+digitaliseres, idet vi samtidig beder Dem danne og signere
+aflysningspåtegning af underpant Med &BANKNAVN som anmelder. Anmeldelsens
+referencenummer bedes venligst oplyst. Herudover bedes De orientere os om
+.us on
+panthaverdeklarationsnummer.
+.us off
+.in 0mm
+.sp
+* ¤ opsige/ophæve/overføre/ændre
+.in 9mm nobreak
+til fripolice nedenstående forsikringer. Hvis
+engagementet omfatter andre forsikringer, betinget af et kundeforhold
+hos &DIG., bedes &DU meddele os det og undlade at slette sådanne
+forsikringer, forinden godkendelse foreligger fra os.
+.if &U'X&GENJANEJ eq XJ
+.th .in 0mm
+.th .sp
+.th * ¤ meddele os
+.th .in 9mm nobreak
+.th om kunden er FI-kreditor og undlade at slette/flytte kreditor, før
+.th godkendelse foreligger fra os.
+.in 0mm
+.kp on
+.if &U'X&GENALLEKTO eq XJ
+.th .sp
+.th Alle konti bedes overført.
+.th .go ENDKTO
+.*Afsnit fra kontonr.- kontotype- Understregning
+.**************************************************************
+.tp 44mm 112mm 132mm
+.**************************************************************
+.if &L'&GENKTO1 gt 0
+.or &L'&GENKTO2 gt 0
+.or &L'&GENKTO3 gt 0
+.or &L'&GENKTO4 gt 0
+.or &L'&GENKTO5 gt 0
+.th .sp
+.th .hr left right
+.th .br
+.th Kontonr. ¤ Kontotype og evt. mærke ¤ Saldo ¤ Nyt kontonr.
+.th .hr left right
+.**************************************************************
+.*Afsnit med ktonr. og ktotyper, linier med mærke skal kun med såfremt
+.*der er mærke, øvrige linier kun hvis de er udfyldt
+.********************
+.tp 44mm 117mm char , 135mm
+.******************** SUBSTRINGS TIL KONTONUMRE ****************
+.fo off
+.se regnr1 = substr &GENKTO1 1 4
+.se ktonr1 = substr &GENKTO1 5 10
+.se regnr2 = substr &GENKTO2 1 4
+.se ktonr2 = substr &GENKTO2 5 10
+.se regnr3 = substr &GENKTO3 1 4
+.se ktonr3 = substr &GENKTO3 5 10
+.se regnr4 = substr &GENKTO4 1 4
+.se ktonr4 = substr &GENKTO4 5 10
+.se regnr5 = substr &GENKTO5 1 4
+.se ktonr5 = substr &GENKTO5 5 10
+.se regnr6 = substr &GENKTO6 1 4
+.se ktonr6 = substr &GENKTO6 5 10
+.se regnr7 = substr &GENKTO7 1 4
+.se ktonr7 = substr &GENKTO7 5 10
+.se regnr8 = substr &GENKTO8 1 4
+.se ktonr8 = substr &GENKTO8 5 10
+.se regnr9 = substr &GENKTO9 1 4
+.se ktonr9 = substr &GENKTO9 5 10
+.se regnr10 = substr &GENKTO10 1 4
+.se ktonr10 = substr &GENKTO10 5 10
+.************************** SUBSTRINGS TIL NYT KONTONR ***********
+.se rgnr1 = substr &GENKTONY1 1 4
+.se ktnr1 = substr &GENKTONY1 5 7
+.se rgnr2 = substr &GENKTONY2 1 4
+.se ktnr2 = substr &GENKTONY2 5 7
+.se rgnr3 = substr &GENKTONY3 1 4
+.se ktnr3 = substr &GENKTONY3 5 7
+.se rgnr4 = substr &GENKTONY4 1 4
+.se ktnr4 = substr &GENKTONY4 5 7
+.se rgnr5 = substr &GENKTONY5 1 4
+.se ktnr5 = substr &GENKTONY5 5 7
+.se rgnr6 = substr &GENKTONY6 1 4
+.se ktnr6 = substr &GENKTONY6 5 7
+.se rgnr7 = substr &GENKTONY7 1 4
+.se ktnr7 = substr &GENKTONY7 5 7
+.se rgnr8 = substr &GENKTONY8 1 4
+.se ktnr8 = substr &GENKTONY8 5 7
+.se rgnr9 = substr &GENKTONY9 1 4
+.se ktnr9 = substr &GENKTONY9 5 7
+.se rgnr10 = substr &GENKTONY10 1 4
+.se ktnr10 = substr &GENKTONY10 5 7
+.fo left
+.*************************************
+.if &L'&GENKTOTYP1 gt 0
+.or &L'&GENKTO1 gt 0
+.th &regnr1 &ktonr1. ¤ &GENKTOTYP1. ¤ &GENSALDO1. ¤ &rgnr1 &ktnr1
+.th .br
+.if &L'&GENMÆRKE1 gt 0
+.th ¤ Mærke: &GENMÆRKE1
+.th .br
+.if &L'&GENKTOTYP2 gt 0
+.or &L'&GENKTO2 gt 0
+.th &regnr2 &ktonr2. ¤ &GENKTOTYP2. ¤ &GENSALDO2. ¤ &rgnr2 &ktnr2
+.th .br
+.if &L'&GENMÆRKE2 gt 0
+.th ¤ Mærke: &GENMÆRKE2
+.th .br
+.if &L'&GENKTOTYP3 gt 0
+.or &L'&GENKTO3 gt 0
+.th &regnr3 &ktonr3. ¤ &GENKTOTYP3. ¤ &GENSALDO3. ¤ &rgnr3 &ktnr3
+.th .br
+.if &L'&GENMÆRKE3 gt 0
+.th ¤ Mærke: &GENMÆRKE3
+.th .br
+.if &L'&GENKTOTYP4 gt 0
+.or &L'&GENKTO4 gt 0
+.th &regnr4 &ktonr4. ¤ &GENKTOTYP4. ¤ &GENSALDO4. ¤ &rgnr4 &ktnr4
+.th .br
+.if &L'&GENMÆRKE4 gt 0
+.th ¤ Mærke: &GENMÆRKE4
+.th .br
+.if &L'&GENKTOTYP5 gt 0
+.or &L'&GENKTO5 gt 0
+.th &regnr5 &ktonr5. ¤ &GENKTOTYP5. ¤ &GENSALDO5. ¤ &rgnr5 &ktnr5
+.th .br
+.if &L'&GENMÆRKE5 gt 0
+.th ¤ Mærke: &GENMÆRKE5
+.th .br
+.if &L'&GENKTOTYP6 gt 0
+.or &L'&GENKTO6 gt 0
+.th &regnr6 &ktonr6. ¤ &GENKTOTYP6. ¤ &GENSALDO6. ¤ &rgnr6 &ktnr6
+.th .br
+.if &L'&GENMÆRKE6 gt 0
+.th ¤ Mærke: &GENMÆRKE6
+.th .br
+.if &L'&GENKTOTYP7 gt 0
+.or &L'&GENKTO7 gt 0
+.th &regnr7 &ktonr7. ¤ &GENKTOTYP7. ¤ &GENSALDO7. ¤ &rgnr7 &ktnr7
+.th .br
+.if &L'&GENMÆRKE7 gt 0
+.th ¤ Mærke: &GENMÆRKE7
+.th .br
+.if &L'&GENKTOTYP8 gt 0
+.or &L'&GENKTO8 gt 0
+.th &regnr8 &ktonr8. ¤ &GENKTOTYP8. ¤ &GENSALDO8. ¤ &rgnr8 &ktnr8
+.th .br
+.if &L'&GENMÆRKE8 gt 0
+.th ¤ Mærke: &GENMÆRKE8
+.th .br
+.if &L'&GENKTOTYP9 gt 0
+.or &L'&GENKTO9 gt 0
+.th &regnr9 &ktonr9. ¤ &GENKTOTYP9. ¤ &GENSALDO9. ¤ &rgnr9 &ktnr9
+.th .br
+.if &L'&GENMÆRKE9 gt 0
+.th ¤ Mærke: &GENMÆRKE9
+.th .br
+.if &L'&GENKTOTY10 gt 0
+.or &L'&GENKTO10 gt 0
+.th &regnr10 &ktonr10. ¤ &GENKTOTY10. ¤ &GENSALDO10. ¤ &rgnr10 &ktnr10
+.th .br
+.if &L'&GENMÆRKE10 gt 0
+.th ¤ Mærke: &GENMÆRKE10
+.if &L'&GENKTO1 gt 0
+.or &L'&GENKTO2 gt 0
+.or &L'&GENKTO3 gt 0
+.or &L'&GENKTO4 gt 0
+.or &L'&GENKTO5 gt 0
+.th .hr left right
+.kp off
+.************************************************
+...ENDKTO
+

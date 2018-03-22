@@ -11,6 +11,317 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*********** kopislut*********
+.da ORDREG 116mm 52mm
+.da KONTAK 135mm 70.7mm
+.da TLF    120mm 74.2mm
+.da FAX    165mm 74.2mm
+.*******************
+.da KUNDN 171mm 47.5mm
+.da FAVØR 25mm 52mm
+.da BELØB 24.5mm 82.5mm
+.da TRANS 125.5mm 79.5mm
+.da DISPO 126mm 93.5mm
+.da BETAL 36.5mm  99mm
+.*************************
+.ti ^ 05
+.*************************
+.ar ORDREG on
+:COUR10.
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.*******************
+.ar KONTAK on
+:COUR10.
+&BECNAVN2
+.ar off
+.*******************
+.ar TLF on
+:COUR10.
+&MIBEM163
+.ar off
+.*******************
+.ar FAX on
+:COUR10.
+&MIBEM164
+.ar off
+.*******************
+.* Korrektion vedr. fejl i konverterede dato længder 8 til 10 kar
+.* i parametrene MIBPRDAT og MIBPRDAT1 erstattes af
+.* 6-15 i MIBBEL1 for MIBPRDAT og 20-29 for MIBPRDAT1
+.if &L'&MIBBEL1. < 6 ;.th .go EJDKOR
+.se kor0 '&MIBBEL1.'
+.se MIBBEL1 = SUBSTR '&MIBBEL1.' 1 5
+.se kor1 = SUBSTR '&kor0.' 6 10
+.se kor2 = SUBSTR '&kor0.' 20 10
+.se kor1 = &kor1.
+.se kor2 = &kor2.
+.if .&kor1 ne .
+.th .se MIBPRDAT = '&kor1.'
+.if .&kor2 ne .
+.th .se MIBPRDAT1 = '&kor2.'
+...EJDKOR
+.se MIBBEL1 = &MIBBEL1.
+.* Macro som adskiller x i første position fra tekst
+.dm KRYDS on
+.se v = '&&*1..'
+.se l = &L'&v.
+.se l = &l - 1
+.se f = SUBSTR '&v.' 1 1
+.if &U'&f. = X
+.th .se n = SUBSTR '&v.' 2 &l
+.el .se f = ' '
+.el .se n = '&v.'
+.se &*1 = '&U'&f. &n.'
+.dm off
+.********************
+.ar KUNDN on
+:COUR10.
+.if .&L'&KUNDENR = .0
+.th &KTOKNDNR1.
+.el &KUNDENR.
+.ar OFF
+.********************
+.ar FAVØR on
+:COUR10.
+&MIBEMNE4
+.br
+&MIBEMNE5
+.br
+&MIBEMNE6
+.br
+&MIBEMNE7
+.br
+&MIBEMNE8
+.br
+&MIBEMNE9
+.ar off
+.********************
+.ar BELØB on
+:COUR10.
+.TP 16MM 33MM
+.if &U'&MIBJN5 = J
+.th .se ca = 'XXXX 5%)' ;.el .se ca = ' '
+.if &U'&MIBJN2 = J
+.th .sp
+.th X ^ ^ &MIBEM301
+.th .br
+.el X ^ &ca ^ &MIBEM301
+.el .sp
+.TP 8MM 63.5MM
+.if .&MIBSTK2 = . .or .&MIBSTK2 = .21 ;.th .se MIBSTK2 = ' '
+   ^ &MIBPRDAT               ^ &MIBSTK2
+.ar off
+.********************
+.ar DISPO on
+:COUR10.
+&MIBEM281
+.ar off
+.*********************
+.ar TRANS on
+:COUR10.
+.if &U'&MIBJN3 = J
+.th X
+.th .br
+.el .sp
+.if &U'&MIBJN4 = J
+.th X
+.ar off
+.*********************
+.ar BETAL on
+:COUR10.
+.TP 20.0mm 29.0mm RIGHT 39.5mm
+.if &MIBBEL1. > 0
+.th ^ X ^ &MIBBEL1. ^ &MIBEM302
+.el X
+.ar OFF
+.da LISTE 20.5mm 104.0mm WIDTH 184mm
+.da LEVER 29mm 167.5mm
+.da DELLE 67.5mm 168mm
+.da OMLAD 113.5mm 171.5mm
+.da BESKR1 33mm 183mm
+.da BESKR2 33mm 43mm
+.da BESKR3 33mm 216mm
+.da DEBIT 113mm 270mm
+.da BEVIL 144mm 277mm WIDTH 60mm
+.***************
+.ar LISTE on
+:COUR10.
+.TP 4mm 31mm 50mm 78mm RIGHT 76mm 117mm
+.if &MIBSTK > 0
+.th ^ X ^ ^ &MIBSTK
+.el .sp
+.if &L'&MIBOBJK1 > 0
+.th .KRYDS MIBOBJK1
+.th ^ &MIBOBJK1 &B37EM201
+.el .sp
+.if &L'&MIBOBJK2 > 0
+.th .KRYDS MIBOBJK2
+.th ^ &MIBOBJK2 &B37EM202
+.el .sp
+.if &L'&MIBOBJK3 > 0
+.th .KRYDS MIBOBJK3
+.th ^ &MIBOBJK3 &B37EM203
+.el .sp
+.if &L'&MIBOBJK4 > 0
+.th .KRYDS MIBOBJK4
+.th ^ &MIBOBJK4 &B37EM204
+.el .sp
+.if &L'&MIBOBJK5 > 0
+.th .KRYDS MIBOBJK5
+.th ^ &MIBOBJK5 &B37EM205
+.el .sp
+.if &L'&MIBOBJK6 > 0
+.th .KRYDS MIBOBJK6
+.th ^ &MIBOBJK6 &B37EM206
+.el .sp
+.if .&MIBBEL2 = .0 .or .&MIBBEL2 = .
+.th .sp
+.el ^ X ^ ^ ^ &MIBBEL2 ^ ^ &MIBEM282
+.if &L'&MIBOBJK7 > 0
+.th ^  &MIBOBJK7 &B37EM207
+.el .sp
+.if &U'&MIBJN8 = J
+.th ^ X ^ ^ &MIBOBJK8
+.el .sp
+.if &U'&MIBJN13 = J
+.th ^ X ^ ^ &MIBOBJK16
+.el .sp
+.if &L'&MIBOBJK9 > 0
+.th ^  &MIBOBJK9 &MIBEM201
+.el .sp
+.if &L'&MIBOBJK10 > 0
+.th ^  &MIBOBJK10 &MIBEM202
+.el .sp
+.if &U'&MIBJN9 = J
+.th ^ X ^  &MIBOBJK11
+.el .sp
+.if &U'&MIBJN10 = J
+.th ^ X ^  &MIBOBJK12
+.el .sp
+.if &L'&MIBOBJK13 > 0
+.th .KRYDS MIBOBJK13
+.th ^ &MIBOBJK13 &B37EM208
+.el .sp
+.if &L'&MIBOBJK14 > 0
+.th .KRYDS MIBOBJK14
+.th ^ &MIBOBJK14 &B37EM209
+.el .sp
+.if &L'&MIBOBJK15 > 0
+.th .KRYDS MIBOBJK15
+.th ^ &MIBOBJK15 &B37EM2010
+.ar off
+.***************
+.ar LEVER on
+.tp 20mm
+:COUR10.
+.if &L'&B37EM071 = 0
+.th .sp
+.el ^ &B37EM071
+.br
+ &MIBEM161
+.br
+ &MIBEM162
+.ar off
+.*****************
+.ar DELLE on
+:COUR10.
+.tp 11mm
+.if &L'&MIBPRDAT1 = 0
+.th .sp
+.el ^ &MIBPRDAT1
+.br
+.if .&U'&MIBJN11 = . .or .&U'&MIBJN11 = .B ;.th .GO DELLEOF
+.if .&U'&MIBJN11 = .J
+.th X
+.el .sp
+.el X
+...DELLEOF
+.ar off
+.***************
+.ar OMLAD on
+:COUR10.
+.if .&U'&MIBJN12 = .J
+.th X
+.el .sp
+.el X
+.ar off
+.ar DEBIT on
+.sp 11mm
+:COUR10.
+&REGNR./&KTONR
+.ar off
+.*************
+.ar BEVIL on
+.in 10mm
+:COUR10.
+&MIBEM221
+.br
+&MIBEM222
+.in
+.ar off
+.ar BESKR1 on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 29 er SIDSTE linie
+:COUR10.
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
+.* BEGYND DIN BESKRIVELSE - 25 linier tekst ialt.
+.** Stopper et areal
+.ar off
+.** SIDESKIFT
+.pa
+.ti ¤ 05
+.pn off
+.da OVERSK 21mm 33mm
+.da SIDENR 170mm 36.5mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.ar OVERSK on
+:SWISS14.:FED.
+.us Rembursbegæring :SKRSLUT.:SWISS10. - Rembursnr. 7610/&MIBEM51.
+:SWISS8.
+.ar off
+.**********
+.ar SIDENR on
+:cour8
+Side &ÅPN. af 2
+.ar off
+.**********
+.ar VEND on
+:cour6
+B37RMBU01
+.br
+&DATO. kl. &KLOKKESLET - &GENKORTREF
+.ar off
+.da BOX02 20mm 41mm WIDTH 184mm
+.ar BOX02 on
+.bx left right
+.sp 58mm
+.bx left right
+.sp 107mm
+.bx left right
+.sp 37mm
+.bx left 92mm right
+.sp 35mm
+.bx off
+.bx off
+.vr off
+.ar off
+.ar BESKR2 on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 21 er SIDSTE linie
+:COUR10.
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
+.* FORTSÆT DIN BESKRIVELSE - 17 linier tekst ialt.
+.** Stopper et areal
+.ar off
+.ar BESKR3 on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 14 er SIDSTE linie
+:COUR10.
+.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
+.* SÆRLIGE BEMÆRKNINGER - 10 linier tekst ialt.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
 .NV PAGE SENDKUNDE '%&SANTKUNDE.'
@@ -31,6 +342,142 @@
 .BR
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
+.** Stopper et areal
+.ar off
+.******************* AREALDEFINITIONER ********
+.da VAREBESKR 21mm 43mm width 183mm
+.da ALMBESTEM1 22mm 103mm width 89mm
+.da ALMBESTEM2 113mm 108.5mm width 89mm
+.da SÆRBESTEM 21mm 212mm width 230mm
+.da PÅTEGNING 113mm 251mm width 255mm
+.da DATOSTED 21mm 251,5mm width 255mm
+.**************************************
+.ar VAREBESKR ON
+:swiss8.
+.*Varebeskrivelse anføres på det pågældende sprog med så få detaljer som
+.*muligt, gerne med henvisning til ordrebekræftelse,
+.*proformafaktura -
+fortsat
+:skrslut
+.ar off
+.************************************
+.ar ALMBESTEM1 ON
+:swiss10.
+Almindelige bestemmelser
+:skrslut.
+.sp 2mm
+:swiss8.
+1.
+.br
+Denne remburs er underkastet "Ensartede regler og sædvaner vedrørende
+remburser" i henhold til Det Internationale Handelskammers publikationer
+(seneste udgave), almindeligvis benævnt "Internationale Rembursregler"
+(Dansk oversættelse af disse regler udleveres af pengeinstituttet på
+forlangende), for så vidt og i det omfang disse kommer til anvendelse
+på den plads, hvor
+rembursen er disponibel.
+.sp 1mm
+2.
+.br
+Dækkes assurancen i følge omstående tekst af ordregiveren, forpligter denne
+sig til på anfordring at aflevere police(r)/certifikat(er) til
+pengeinstituttet.
+.sp 1mm
+3.
+.br
+Alle inddækkede valutabeløb eller beløb overført til dækning af rembursen,
+optagne rembursdokumenter samt de varer, som rembursen angår, disses
+forsikringssummer,
+og hvad der i øvrigt ved salg eller på anden måde træder i
+stedet for de nævnte, varer, tjener
+pengeinstituttet som håndpant for ethvert mellemværende, som
+pengeinstituttet
+måtte have eller få med ordregiveren, og pengeinstituttet er befuldmægtiget
+til med bindende virkning for ordregiveren at forsyne dokumenterne
+med endossement eller kvittering. Realisation af varerne kan om fornødent
+ske ved offentlig auktion eller ved salg underhånden for ordregiverens
+regning uden iagttagelse af reglerne om håndpant.
+.sp 1mm
+4.
+.br
+Ordregiveren forpligter sig til at undersøge optagne dokumenter straks
+efter modtagelsen. I tilfælde af, at dokumenterne måtte udvise afvigelse
+eller mangler, som ordregiveren ikke mener at kunne godkende, forpligter
+denne sig til omgående at underrette pengeinstituttet herom og ikke uden
+dettes samtykke at disponere over dokumenterne eller over de pågældende
+varer.
+.ar off
+.**********
+.ar ALMBESTEM2 on
+:swiss8.
+5.
+.br
+Ordregiveren er forpligtet til at dække
+pengeinstituttet i henhold til dets afregning efter opgave
+fra pengeinstituttets korrespondent, også selv om rembursdokumenterne
+ikke er kommet
+pengeinstituttet i hænde, hvadenten dette skyldes forsinkelse eller
+andre forhold, herunder at rembursdokumenterne er gået tabt. Ordregiver er
+forpligtet til på anfordring at dække
+pengeinstituttet for rembursbeløbet, hvis pengeinstituttets
+korrespondent kræver dækning overført i forbindelse med rembursens
+åbning eller på et evt. senere tidspunkt.
+.sp 1mm
+6.
+.br
+Enhver overførsel af rembursbeløbet - herunder overførsel gennem Danmarks
+Nationalbank - sker for ordregiverens regning og risiko, og
+pengeinstituttet har intet
+ansvar for beløbets fremkomst i udlandet eller for eventuelt opståede
+kursdifferencer i forbindelse med overførslen. Dersom rembursen
+ikke udnyttes, eller kun udnyttes delvis, har
+pengeinstituttet intet ansvar for tilbageførsel af
+ikke udnyttede beløb eller for eventuelle kursdifferencer i forbindelse med
+tilbageførsel heraf.
+.sp 1mm
+7.
+.br
+Tilgodehavender på konti i fremmed valuta indestår i
+pengeinstituttets navn hos
+dettes korrespondenter i de pågældende lande for ordregivers risiko i
+enhver henseende, og ordregiveren er med hensyn til dispositioner over
+disse konti undergivet samme begrænsning, som til enhver tid er gældende
+for pengeinstituttet.
+.sp 1mm
+8.
+.br
+Udløber eller annulleres rembursen helt eller delvis ubenyttet, er
+pengeinstituttet
+berettiget til at foranledige inddækkede eller overførte beløb solgt eller
+tilbageført, men
+pengeinstituttet påtager sig ikke nogen pligt hertil, før
+instruktioner herom  er modtaget fra ordregiveren.
+.sp 1mm
+9.
+.br
+I tilfælde af ikke udnyttelse af rembursen frigør
+pengeinstituttet ikke ordregiveren, før pengeinstituttet er
+frigjort af sin korrespondent.
+.ar off
+.******************* TEKST FORTSAT FRA BECRMB01T6 ******************
+.ar SÆRBESTEM ON
+:swiss10.
+Særlige bemærkninger
+.ar off
+.*********************************
+.ar PÅTEGNING ON
+:swiss8.
+Til bankens påtegning:
+.ar off
+.**************************************************************************
+.ar DATOSTED ON
+:swiss8.
+.tp 46MM CENTER
+Dato:
+.sp 29,5mm
+^Ordregivers forpligtende underskrift(er)^
+.ar off
+.**********
 .* Parameterafsnit
 .* parameterafsn.
 .* parameterafsnit
@@ -256,11 +703,11 @@ B37RMBU01
 Midtbank anmodes herved om for vor regning at åbne uigenkaldelig remburs
 pr. telex/swift
 .sp 2mm
-I favør af ^Ordregiver: ^Cpr./SE-nr.
+I favør af ^ Ordregiver: ^ Cpr./SE-nr.
 .sp 20mm
-^Kontaktperson:
+ ^ Kontaktperson:
 .sp 0.5mm
-^Tlf: ^Fax:
+ ^ Tlf: ^ Fax:
 .ar off
 .**************
 .ar BELT1 on
@@ -294,8 +741,8 @@ Disponibel hos (udfyldes kun hvis bestemt bank ønskes)
 .ar BETAL on
 :SWISS8.
 .tp 20mm 40mm 52mm ./118mm
-Betalbar: ^a vista ^......
-d/s ^^ mod
+Betalbar: ^ a vista ^ ......
+d/s ^ ^ mod
 indlevering af følgende dokumenter:
 .sp 1.5mm
 .in 8mm
@@ -314,12 +761,12 @@ Luftfragtbrev
 .sp 11.5mm
 .in
 .tp 46mm
-Leveringsbetingelser: ^Senest:
+Leveringsbetingelser: ^ Senest:
 .tp 2mm 51mm 97mm
 .sp 0.5mm
-^Fra: ^Dellevering tilladt ^Omladning tilladt
+ ^ Fra: ^ Dellevering tilladt ^ Omladning tilladt
 .sp 0.5mm
-^Til: ^Dellevering forbudt ^Omladning forbudt
+ ^ Til: ^ Dellevering forbudt ^ Omladning forbudt
 .sp 1mm
 Varebeskrivelsen anføres på det pågældende sprog med så få detaljer som
 muligt, gerne med henvisning til ordrebekræftelse eller proformafaktura
@@ -339,11 +786,11 @@ Alle bankomkostninger udenfor Danmark er for beneficiantens regning.
 :SWISS8.
 .tp 20mm
 DEBITERING:
-.ct ^Fakturabeløbet bedes debiteret vor konto når De har fået meddelelse
+.ct ^ Fakturabeløbet bedes debiteret vor konto når De har fået meddelelse
 .br
-^om dispositioner under rembursen henholdsvis ved forfald.
+ ^ om dispositioner under rembursen henholdsvis ved forfald.
 .sp
-^Beløb samt Deres omkostninger debiteres:
+ ^ Beløb samt Deres omkostninger debiteres:
 KONTO NR. ...............................................
 .ar off
 .**********
@@ -351,450 +798,4 @@ KONTO NR. ...............................................
 :SWISS8.
 Bevilget:
 .ar off
-.*********** kopislut*********
-.da ORDREG 116mm 52mm
-.da KONTAK 135mm 70.7mm
-.da TLF    120mm 74.2mm
-.da FAX    165mm 74.2mm
-.*******************
-.da KUNDN 171mm 47.5mm
-.da FAVØR 25mm 52mm
-.da BELØB 24.5mm 82.5mm
-.da TRANS 125.5mm 79.5mm
-.da DISPO 126mm 93.5mm
-.da BETAL 36.5mm  99mm
-.*************************
-.ti ^ 05
-.*************************
-.ar ORDREG on
-:COUR10.
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.*******************
-.ar KONTAK on
-:COUR10.
-&BECNAVN2
-.ar off
-.*******************
-.ar TLF on
-:COUR10.
-&MIBEM163
-.ar off
-.*******************
-.ar FAX on
-:COUR10.
-&MIBEM164
-.ar off
-.*******************
-.* Korrektion vedr. fejl i konverterede dato længder 8 til 10 kar
-.* i parametrene MIBPRDAT og MIBPRDAT1 erstattes af
-.* 6-15 i MIBBEL1 for MIBPRDAT og 20-29 for MIBPRDAT1
-.if &L'&MIBBEL1. < 6 ;.th .go EJDKOR
-.se kor0 '&MIBBEL1.'
-.se MIBBEL1 = SUBSTR '&MIBBEL1.' 1 5
-.se kor1 = SUBSTR '&kor0.' 6 10
-.se kor2 = SUBSTR '&kor0.' 20 10
-.se kor1 = &kor1.
-.se kor2 = &kor2.
-.if .&kor1 ne .
-.th .se MIBPRDAT = '&kor1.'
-.if .&kor2 ne .
-.th .se MIBPRDAT1 = '&kor2.'
-...EJDKOR
-.se MIBBEL1 = &MIBBEL1.
-.* Macro som adskiller x i første position fra tekst
-.dm KRYDS on
-.se v = '&&*1..'
-.se l = &L'&v.
-.se l = &l - 1
-.se f = SUBSTR '&v.' 1 1
-.if &U'&f. = X
-.th .se n = SUBSTR '&v.' 2 &l
-.el .se f = ' '
-.el .se n = '&v.'
-.se &*1 = '&U'&f. &n.'
-.dm off
-.********************
-.ar KUNDN on
-:COUR10.
-.if .&L'&KUNDENR = .0
-.th &KTOKNDNR1.
-.el &KUNDENR.
-.ar OFF
-.********************
-.ar FAVØR on
-:COUR10.
-&MIBEMNE4
-.br
-&MIBEMNE5
-.br
-&MIBEMNE6
-.br
-&MIBEMNE7
-.br
-&MIBEMNE8
-.br
-&MIBEMNE9
-.ar off
-.********************
-.ar BELØB on
-:COUR10.
-.TP 16MM 33MM
-.if &U'&MIBJN5 = J
-.th .se ca = 'XXXX 5%)' ;.el .se ca = ' '
-.if &U'&MIBJN2 = J
-.th .sp
-.th X ^^&MIBEM301
-.th .br
-.el X ^&ca ^&MIBEM301
-.el .sp
-.TP 8MM 63.5MM
-.if .&MIBSTK2 = . .or .&MIBSTK2 = .21 ;.th .se MIBSTK2 = ' '
-   ^&MIBPRDAT               ^&MIBSTK2
-.ar off
-.********************
-.ar DISPO on
-:COUR10.
-&MIBEM281
-.ar off
-.*********************
-.ar TRANS on
-:COUR10.
-.if &U'&MIBJN3 = J
-.th X
-.th .br
-.el .sp
-.if &U'&MIBJN4 = J
-.th X
-.ar off
-.*********************
-.ar BETAL on
-:COUR10.
-.TP 20.0mm 29.0mm RIGHT 39.5mm
-.if &MIBBEL1. > 0
-.th ^X ^&MIBBEL1.^&MIBEM302
-.el X
-.ar OFF
-.da LISTE 20.5mm 104.0mm WIDTH 184mm
-.da LEVER 29mm 167.5mm
-.da DELLE 67.5mm 168mm
-.da OMLAD 113.5mm 171.5mm
-.da BESKR1 33mm 183mm
-.da BESKR2 33mm 43mm
-.da BESKR3 33mm 216mm
-.da DEBIT 113mm 270mm
-.da BEVIL 144mm 277mm WIDTH 60mm
-.***************
-.ar LISTE on
-:COUR10.
-.TP 4mm 31mm 50mm 78mm RIGHT 76mm 117mm
-.if &MIBSTK > 0
-.th ^X ^^&MIBSTK
-.el .sp
-.if &L'&MIBOBJK1 > 0
-.th .KRYDS MIBOBJK1
-.th ^&MIBOBJK1 &B37EM201
-.el .sp
-.if &L'&MIBOBJK2 > 0
-.th .KRYDS MIBOBJK2
-.th ^&MIBOBJK2 &B37EM202
-.el .sp
-.if &L'&MIBOBJK3 > 0
-.th .KRYDS MIBOBJK3
-.th ^&MIBOBJK3 &B37EM203
-.el .sp
-.if &L'&MIBOBJK4 > 0
-.th .KRYDS MIBOBJK4
-.th ^&MIBOBJK4 &B37EM204
-.el .sp
-.if &L'&MIBOBJK5 > 0
-.th .KRYDS MIBOBJK5
-.th ^&MIBOBJK5 &B37EM205
-.el .sp
-.if &L'&MIBOBJK6 > 0
-.th .KRYDS MIBOBJK6
-.th ^&MIBOBJK6 &B37EM206
-.el .sp
-.if .&MIBBEL2 = .0 .or .&MIBBEL2 = .
-.th .sp
-.el ^X ^^^&MIBBEL2 ^^&MIBEM282
-.if &L'&MIBOBJK7 > 0
-.th ^  &MIBOBJK7 &B37EM207
-.el .sp
-.if &U'&MIBJN8 = J
-.th ^X ^^ &MIBOBJK8
-.el .sp
-.if &U'&MIBJN13 = J
-.th ^X ^^ &MIBOBJK16
-.el .sp
-.if &L'&MIBOBJK9 > 0
-.th ^  &MIBOBJK9 &MIBEM201
-.el .sp
-.if &L'&MIBOBJK10 > 0
-.th ^  &MIBOBJK10 &MIBEM202
-.el .sp
-.if &U'&MIBJN9 = J
-.th ^X ^  &MIBOBJK11
-.el .sp
-.if &U'&MIBJN10 = J
-.th ^X ^  &MIBOBJK12
-.el .sp
-.if &L'&MIBOBJK13 > 0
-.th .KRYDS MIBOBJK13
-.th ^&MIBOBJK13 &B37EM208
-.el .sp
-.if &L'&MIBOBJK14 > 0
-.th .KRYDS MIBOBJK14
-.th ^&MIBOBJK14 &B37EM209
-.el .sp
-.if &L'&MIBOBJK15 > 0
-.th .KRYDS MIBOBJK15
-.th ^&MIBOBJK15 &B37EM2010
-.ar off
-.***************
-.ar LEVER on
-.tp 20mm
-:COUR10.
-.if &L'&B37EM071 = 0
-.th .sp
-.el ^&B37EM071
-.br
- &MIBEM161
-.br
- &MIBEM162
-.ar off
-.*****************
-.ar DELLE on
-:COUR10.
-.tp 11mm
-.if &L'&MIBPRDAT1 = 0
-.th .sp
-.el ^&MIBPRDAT1
-.br
-.if .&U'&MIBJN11 = . .or .&U'&MIBJN11 = .B ;.th .GO DELLEOF
-.if .&U'&MIBJN11 = .J
-.th X
-.el .sp
-.el X
-...DELLEOF
-.ar off
-.***************
-.ar OMLAD on
-:COUR10.
-.if .&U'&MIBJN12 = .J
-.th X
-.el .sp
-.el X
-.ar off
-.ar DEBIT on
-.sp 11mm
-:COUR10.
-&REGNR./&KTONR
-.ar off
-.*************
-.ar BEVIL on
-.in 10mm
-:COUR10.
-&MIBEM221
-.br
-&MIBEM222
-.in
-.ar off
-.ar BESKR1 on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 29 er SIDSTE linie
-:COUR10.
-.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
-.* BEGYND DIN BESKRIVELSE - 25 linier tekst ialt.
-.** Stopper et areal
-.ar off
-.** SIDESKIFT
-.pa
-.ti ¤ 05
-.pn off
-.da OVERSK 21mm 33mm
-.da SIDENR 170mm 36.5mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.ar OVERSK on
-:SWISS14.:FED.
-.us Rembursbegæring :SKRSLUT.:SWISS10. - Rembursnr. 7610/&MIBEM51.
-:SWISS8.
-.ar off
-.**********
-.ar SIDENR on
-:cour8
-Side &ÅPN. af 2
-.ar off
-.**********
-.ar VEND on
-:cour6
-B37RMBU01
-.br
-&DATO. kl. &KLOKKESLET - &GENKORTREF
-.ar off
-.da BOX02 20mm 41mm WIDTH 184mm
-.ar BOX02 on
-.bx left right
-.sp 58mm
-.bx left right
-.sp 107mm
-.bx left right
-.sp 37mm
-.bx left 92mm right
-.sp 35mm
-.bx off
-.bx off
-.vr off
-.ar off
-.ar BESKR2 on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 21 er SIDSTE linie
-:COUR10.
-.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
-.* FORTSÆT DIN BESKRIVELSE - 17 linier tekst ialt.
-.** Stopper et areal
-.ar off
-.ar BESKR3 on;.fo off;.*. TEKSTEN TRÆKKES IKKE SAMMEN- 14 er SIDSTE linie
-:COUR10.
-.*.-.----1----.----2----.----3----.----4----.----5----.----6----.----7----.
-.* SÆRLIGE BEMÆRKNINGER - 10 linier tekst ialt.
-.** Stopper et areal
-.ar off
-.******************* AREALDEFINITIONER ********
-.da VAREBESKR 21mm 43mm width 183mm
-.da ALMBESTEM1 22mm 103mm width 89mm
-.da ALMBESTEM2 113mm 108.5mm width 89mm
-.da SÆRBESTEM 21mm 212mm width 230mm
-.da PÅTEGNING 113mm 251mm width 255mm
-.da DATOSTED 21mm 251,5mm width 255mm
-.**************************************
-.ar VAREBESKR ON
-:swiss8.
-.*Varebeskrivelse anføres på det pågældende sprog med så få detaljer som
-.*muligt, gerne med henvisning til ordrebekræftelse,
-.*proformafaktura -
-fortsat
-:skrslut
-.ar off
-.************************************
-.ar ALMBESTEM1 ON
-:swiss10.
-Almindelige bestemmelser
-:skrslut.
-.sp 2mm
-:swiss8.
-1.
-.br
-Denne remburs er underkastet "Ensartede regler og sædvaner vedrørende
-remburser" i henhold til Det Internationale Handelskammers publikationer
-(seneste udgave), almindeligvis benævnt "Internationale Rembursregler"
-(Dansk oversættelse af disse regler udleveres af pengeinstituttet på
-forlangende), for så vidt og i det omfang disse kommer til anvendelse
-på den plads, hvor
-rembursen er disponibel.
-.sp 1mm
-2.
-.br
-Dækkes assurancen i følge omstående tekst af ordregiveren, forpligter denne
-sig til på anfordring at aflevere police(r)/certifikat(er) til
-pengeinstituttet.
-.sp 1mm
-3.
-.br
-Alle inddækkede valutabeløb eller beløb overført til dækning af rembursen,
-optagne rembursdokumenter samt de varer, som rembursen angår, disses
-forsikringssummer,
-og hvad der i øvrigt ved salg eller på anden måde træder i
-stedet for de nævnte, varer, tjener
-pengeinstituttet som håndpant for ethvert mellemværende, som
-pengeinstituttet
-måtte have eller få med ordregiveren, og pengeinstituttet er befuldmægtiget
-til med bindende virkning for ordregiveren at forsyne dokumenterne
-med endossement eller kvittering. Realisation af varerne kan om fornødent
-ske ved offentlig auktion eller ved salg underhånden for ordregiverens
-regning uden iagttagelse af reglerne om håndpant.
-.sp 1mm
-4.
-.br
-Ordregiveren forpligter sig til at undersøge optagne dokumenter straks
-efter modtagelsen. I tilfælde af, at dokumenterne måtte udvise afvigelse
-eller mangler, som ordregiveren ikke mener at kunne godkende, forpligter
-denne sig til omgående at underrette pengeinstituttet herom og ikke uden
-dettes samtykke at disponere over dokumenterne eller over de pågældende
-varer.
-.ar off
-.**********
-.ar ALMBESTEM2 on
-:swiss8.
-5.
-.br
-Ordregiveren er forpligtet til at dække
-pengeinstituttet i henhold til dets afregning efter opgave
-fra pengeinstituttets korrespondent, også selv om rembursdokumenterne
-ikke er kommet
-pengeinstituttet i hænde, hvadenten dette skyldes forsinkelse eller
-andre forhold, herunder at rembursdokumenterne er gået tabt. Ordregiver er
-forpligtet til på anfordring at dække
-pengeinstituttet for rembursbeløbet, hvis pengeinstituttets
-korrespondent kræver dækning overført i forbindelse med rembursens
-åbning eller på et evt. senere tidspunkt.
-.sp 1mm
-6.
-.br
-Enhver overførsel af rembursbeløbet - herunder overførsel gennem Danmarks
-Nationalbank - sker for ordregiverens regning og risiko, og
-pengeinstituttet har intet
-ansvar for beløbets fremkomst i udlandet eller for eventuelt opståede
-kursdifferencer i forbindelse med overførslen. Dersom rembursen
-ikke udnyttes, eller kun udnyttes delvis, har
-pengeinstituttet intet ansvar for tilbageførsel af
-ikke udnyttede beløb eller for eventuelle kursdifferencer i forbindelse med
-tilbageførsel heraf.
-.sp 1mm
-7.
-.br
-Tilgodehavender på konti i fremmed valuta indestår i
-pengeinstituttets navn hos
-dettes korrespondenter i de pågældende lande for ordregivers risiko i
-enhver henseende, og ordregiveren er med hensyn til dispositioner over
-disse konti undergivet samme begrænsning, som til enhver tid er gældende
-for pengeinstituttet.
-.sp 1mm
-8.
-.br
-Udløber eller annulleres rembursen helt eller delvis ubenyttet, er
-pengeinstituttet
-berettiget til at foranledige inddækkede eller overførte beløb solgt eller
-tilbageført, men
-pengeinstituttet påtager sig ikke nogen pligt hertil, før
-instruktioner herom  er modtaget fra ordregiveren.
-.sp 1mm
-9.
-.br
-I tilfælde af ikke udnyttelse af rembursen frigør
-pengeinstituttet ikke ordregiveren, før pengeinstituttet er
-frigjort af sin korrespondent.
-.ar off
-.******************* TEKST FORTSAT FRA BECRMB01T6 ******************
-.ar SÆRBESTEM ON
-:swiss10.
-Særlige bemærkninger
-.ar off
-.*********************************
-.ar PÅTEGNING ON
-:swiss8.
-Til bankens påtegning:
-.ar off
-.**************************************************************************
-.ar DATOSTED ON
-:swiss8.
-.tp 46MM CENTER
-Dato:
-.sp 29,5mm
-^Ordregivers forpligtende underskrift(er)^
-.ar off
-.**********
+

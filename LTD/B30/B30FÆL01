@@ -11,6 +11,501 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.if &U'&B30BREV eq B
+.th I forlængelse af &DIT brev
+.if &U'&B30BREV eq T
+.th Som telefonisk aftalt
+.if &U'&B30BREV eq M
+.th I forlængelse af &DIN mail
+sendes vedlagt en række dokumenter, der
+skal underskrives af &DIG.. Materialet, der skal returneres til
+banken, vil være hæftet sammen med vedlagte svarkuvert.
+.sp
+&B30TEKST7.
+&B30TEKST8.
+&B30TEKST9.
+&B30TEKST10.
+&B30TEKST11.
+&B30TEKST12.
+&B30TEKST13.
+&B30TEKST14.
+.if &L'&B30TEKST7 > 0
+.or &L'&B30TEKST8 > 0
+.or &L'&B30TEKST9 > 0
+.or &L'&B30TEKST10 > 0
+.or &L'&B30TEKST11 > 0
+.or &L'&B30TEKST12 > 0
+.or &L'&B30TEKST13 > 0
+.or &L'&B30TEKST14 > 0
+.th .sp
+.kp on
+Vedlagt er følgende:
+.sp
+.if &U'&B30LÅNKRE eq L
+.th * Låneaftale
+.th .br
+.if &U'&B30LÅNKRE eq D
+.th * Låneaftaler
+.th .br
+.if &U'&B30LÅNKRE eq K
+.th * Kreditaftale
+.th .br
+.if &U'&B30LÅNKRE eq B
+.th * Låne- og kreditaftale
+.th .br
+.if &U'&B30NYGLEP eq J
+.th * Ejerpantebrev
+.th .br
+.if &U'&B30ETING eq J
+.th * Aftale om elektronisk tinglysning
+.th .br
+.if &U'&B30BOLHPE eq J
+.th * Håndpantsætningserklæring
+.th .br
+.if &U'&B30UNDERP eq J
+.th * Aftale om underpantsætning
+.th .br
+.if &U'&B30BOLALL eq J
+.th * Allonge til ejerpantebrev
+.th .br
+.if &U'&B30VALG8 eq J
+.th * Dokumentation for rådgivning om lån med sikkerhed i fast ejendom
+.th .br
+.if &U'&KONTOOPR eq J
+.th * Kontooprettelse/ændring
+.th .br
+.sp
+.*TEST PÅ OM DER ER VEDLAGT MERE END 1 DOKUMENT FOR TYPE K + L ************
+.if &U'&B30LÅNKRE eq K
+.or &U'&B30LÅNKRE eq L
+.th .go TSTDOK
+.el .go TSTDOKSL
+...TSTDOK
+.if &U'&B30BOLHPE eq N
+.an &U'&B30NYGLEP eq N
+.an &U'&B30BOLALL eq N
+.an &U'&B30ETING eq N
+.an &U'&B30UNDERP eq N
+.an &U'&B30VALG8 eq N
+.an &U'&KONTOOPR eq N
+.th Dokumentet
+.el Dokumenterne
+bedes venligst underskrevet af &DIG
+og returneret til os.
+.sp
+.if &U'X&B30VALG eq N
+.go VITTER
+...TSTDOKSL
+.*TEKST FOR TYPE B + D ***** - ALTID FLERE DOKUMENTER *********************
+Dokumenterne bedes venligst underskrevet af &DIG
+og returneret til os.
+.if &U'X&B30VALG eq N
+.sp
+.go VITTER
+.**************************************************************************
+...VITTER
+.kp off
+.** OPLYSNINGSSKEMA FOR LÅN OG KREDITTER **********************************
+.if &U'&SKEMA eq J
+.th Endvidere er vedlagt oplysningsskema til &DIT brug i henhold til
+.th kreditaftaleloven.
+.th .sp
+.if &U'&SKEMAER eq J
+.th Endvidere er vedlagt oplysningsskemaer til &DIT brug i henhold til
+.th kreditaftaleloven.
+.th .sp
+.** VITTERLIGHEDSVIDNER ***************************************************
+.kp on
+.if &U'X&B30VALG = XJ
+.th Vi beder &DIG indhente underskrift af to vitterlighedsvidner, der ikke
+.th må være i familie/samboende med &DIG..
+.th .sp
+.kp off
+.*********************
+.kp on
+.if &U'&B30BOSKØDE eq J
+.th For at kunne tinglyse ejerpantebrevet beder vi &DIG sende os det
+.th originale skøde.
+.th .sp
+.kp off
+.*********************
+.kp on
+.if &U'&B30REGATT eq J
+.th Snarest muligt efter &DU har modtaget registreringsattesten bedes
+.th &DU faxe/sende kopi heraf til os. Ekstra svarkuvert vedlægges.
+.th .sp
+.kp off
+.*********************
+.kp on
+.if &L'&B30TEKSTP1 gt 0
+.th &B30TEKSTP1. &B30TEKSTP2. &B30TEKSTP3.
+.th &B30TEKSTP4.
+.th .sp
+.kp off
+.** NY GRUPPELIV **************************
+.kp on
+.if &U'&B30NYGRUP eq J
+.th :FED.
+.th Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
+.th &BANKNAVN..
+.th .br
+.th :SKRSLUT.
+.th Gruppelivsforsikring Modul
+.**********************
+.th &U'&B30MODUL
+.**********************
+.th skal i henhold til aftale tegnes og pantsættes.
+.th Gruppelivsforsikringen bedes du tegne via
+.th www.laeger.dk/ansoeg_gruppeliv.
+.th .sp
+.th &SDU bedes underskrive
+.th vedlagte pantsætning og returnere den til
+.th banken. Bemærk at der ikke kan ske udbetaling før
+.th gruppelivsforsikringen er antaget.
+.th .sp
+.kp off
+.**************************
+.*** GL GRUPPELIV *********
+.kp on
+.if &U'&B30GLGRUP = N
+.th .go EJGRPLIV
+.if &U'&B30GLGRUP = J
+.th :FED.
+.th Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
+.th &BANKNAVN..
+.th .br
+.th :SKRSLUT.
+.th Som aftalt pantsættes din eksisterende gruppelivsforsikring til
+.th banken. Du bedes underskrive pantsætningen og returnere den til
+.th banken.
+.th .sp
+...EJGRPLIV
+.kp off
+.***** STADIG GAMMEL GRUPPELIV **************************
+.**** ÆNDRING AF MODUL FORTSÆTTER HER *****************
+.kp on
+.if &U'&B30ÆMODUL = N
+.th .go EJGRPLIW
+.if &U'&B30ÆMODUL = J
+.th :FED.
+.th Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
+.th &BANKNAVN..
+.th .br
+.th :SKRSLUT.
+.th Din nuværende gruppelivsforsikring Modul
+.th &U'&B30FMODUL.
+.************
+.th skal som aftalt ændres til Modul
+.***********
+.th &U'&B30TMODUL..
+.**************
+.**************
+.th Ændring af din gruppelivsforsikring skal ske via linket til
+.th lægeforeningen www.laeger.dk/ansoeg_gruppeliv.
+.***********
+.th .sp
+.th Som aftalt pantsættes denne
+.th gruppelivsforsikring til banken. &SDU bedes
+.th underskrive pantsætningen og returnere den til banken.
+.th .sp
+.kp off
+.************************
+...EJGRPLIW
+.kp off
+.kp on
+.if &U'&B30MEDSKUN eq J
+.th :CALIB10.
+.th :FED.
+.th Kundeoprettelse
+.th :SKRSLUT.
+.th .br
+.th &SDU bedes udfylde blanketten og returnere den sammen med kopi af
+.th billedlegitimation.
+.th Bankens almindelige forretningsbetingelser vedlægges.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq L
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodning
+.th :SKRSLUT.
+.th .br
+.th De månedlige ydelser på lånet skal trækkes via PBS på en konto i et
+.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanket og
+.th returnere den til banken.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq D
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodninger
+.th :SKRSLUT.
+.th .br
+.th De månedlige ydelser på lånene skal trækkes via PBS på en konto i et
+.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanketter og
+.th returnere dem til banken.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq K
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodning
+.th :SKRSLUT.
+.th .br
+.th Renterne der tilskrives hvert kvartal skal trækkes via PBS på
+.th en konto i et pengeinstitut. Derfor bedes &DU udfylde vedlagte
+.th blanket og returnere den til banken.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq B
+.th :CALIB10.
+.th :FED.
+.th Betalingsanmodninger
+.th :SKRSLUT.
+.th .br
+.th De månedlige ydelser på lånet og renterne der tilskrives hvert
+.th kvartal på kreditten, skal trækkes via PBS på en konto i et
+.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanketter og
+.th returnere dem til banken.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30BETI eq J
+.th :CALIB10.
+.th :FED.
+.th Betalingsinstruks
+.th :SKRSLUT.
+.th .br
+.th Vedlagte betalingsinstruks bedes venligst returneret i udfyldt
+.th og underskrevet stand.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30PRAKDK eq J
+.th :CALIB10.
+.th :FED.
+.th Bestilling af VISA/Dankort
+.th :SKRSLUT.
+.th .br
+.th Vedlagt er bestillingsblanket til VISA/Dankort, der
+.th venligst bedes underskrevet og returneret til os.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&GENNEMKTO eq J
+.th :CALIB10.
+.th :FED.
+.th Nemkonto
+.th :SKRSLUT.
+.th .br
+.th Vi har tilmeldt &DIN konto til Nemkonto.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30KTOFULD eq J
+.th :CALIB10.
+.th :FED.
+.th Kontofuldmagt
+.th :SKRSLUT.
+.th .br
+.th &SDU bedes venligst udfylde
+.th blanketten og returnere det ene eksemplar i
+.th underskrevet stand.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30WEBSELV eq J
+.th :CALIB10.
+.th :FED.
+.th Webbank
+.th :SKRSLUT.
+.th .br
+.th &SDU har selv oprettet &DIG som bruger i Webbank. &SDU kan logge
+.th på med &DIT nuværende NemID.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30WEBGL eq J
+.th :CALIB10.
+.th :FED.
+.th Webbank
+.th :SKRSLUT.
+.th .br
+.th &SDIN tidligere tilmelding til Webbank kan fortsat anvendes.
+.th .sp
+.***************
+.if &U'&B30SVARKU eq J
+.th :CALIB10.
+.th :FED.
+.th Webbank
+.th :SKRSLUT.
+.th .br
+.th &SDU kan få gratis adgang til &DIN konto via Webbank. Oprettelse
+.th kan ske on-line på bankens hjemmeside www.lpk.dk.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30WEB eq J
+.th :CALIB10.
+.th :FED.
+.th Webbank
+.th :SKRSLUT.
+.th .br
+.th Vi har oprettet &DIG som bruger
+.th i Webbank. Brev fra NemID med bruger-id og adgangskode vil
+.th blive fremsendt snarest.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30WEBID eq J
+.th :CALIB10.
+.th :FED.
+.th Webbank
+.th :SKRSLUT.
+.th .br
+.th Vi har oprettet &DIG som bruger
+.th i Webbank, og &DU kan logge på med &DIT nuværende NemID.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30TLFWEB eq J
+.th :CALIB10.
+.th :FED.
+.th Webbank og telefonservice
+.th :SKRSLUT.
+.th .br
+.th Tilmelding til TelefonService vedlægges.
+.th .sp
+.th Vi har også oprettet &DIG som bruger
+.th i Webbank, og &DU kan logge på med &DIT nuværende NemID.
+.th .sp
+.****************
+.if &U'&B30TLFS eq J
+.th :CALIB10.
+.th :FED.
+.th Telefonservice
+.th :SKRSLUT.
+.th .br
+.th Tilmelding til TelefonService vedlægges.
+.th .sp
+.kp off
+.******
+.kp on
+.if &U'&B30FLYTLØN eq J
+.th :CALIB10.
+.th :FED.
+.th Brev til lønkontoret
+.th :SKRSLUT.
+.th .br
+.th Brev til lønkontoret vedlægges. Brevet afleveres på
+.th lønkontoret, således at lønnen fremover kan indgå på
+.th &DIN konto hos os.
+.th .sp
+.kp off
+.******
+.kp on
+.*********
+.if &U'&B30PRIVPBS eq J
+.th .go PBS1
+.el .go PBS1END
+.**********
+...PBS1
+:CALIB10.
+:FED.
+Overførsel af betalingsservice
+:SKRSLUT.
+.br
+&SDINE PBS-betalinger vil blive flyttet
+.********
+.if &U'&B30PRIVPBS eq J
+.th til konto nr. 6771 &B30KTOPBS., når vi anmoder &B30FBANK om
+.th overførsel af konti.
+.th .sp
+.el .ct .
+.********
+...PBS1END
+.kp off
+.*******
+.kp on
+.if &L'&B30FBANK > 0
+.th Når ovennævnte er på plads, vil vi anmode &B30FBANK om at overføre
+.th &DIT engagement til os jf. tidligere indsendt svarkupon.
+.th .sp
+.th Vær opmærksom på, at &DIT tidligere pengeinstitut kan have en vis
+.th ekspeditionstid på at flytte &DINE konti til os. Eksempelvis kan
+.th pensionskonti være op til 8 uger undervejs.
+.th .sp
+.kp off
+.************
+.kp on
+.if &U'&B30GLDKK = J
+.th .sp
+.th :FED.
+.th Når du har aktiveret dit nye kort, skal du huske at sende os en
+.th besked, så vi ved at du er klar til at få overført dine konti.
+.th Du markulerer selv dine gamle kort.
+.th :SKRSLUT.
+.th .sp
+.kp off
+.*******************
+.kp on
+.if &L'&B30FBANK > 0
+.th &SDU kan allerede nu flytte penge fra &B30FBANK til os,
+.th til dækning af forbrug samt PBS-betalinger.
+.th .sp
+.kp off
+.********
+.kp on
+.if &L'&B30TEKST1 gt 1
+.th &B30TEKST1 &B30TEKST2 &B30TEKST3
+.th &B30TEKST4
+.th .sp
+.********
+.if &L'&B30TEKST5 gt 1
+.th &B30TEKST5 &B30TEKST6
+.th .sp
+.**********
+Har &DU nogen spørgsmål, er &DU velkommen til at kontakte os.
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -37,8 +532,58 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
 .**************************************************************************
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 .***
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 .***
 .**************************************************************************
 .*** her laves en midlertidig parameter af de 2 første cifre fra kundenr
@@ -328,548 +873,4 @@
 :tiltale &TILTALE
 .in 2mm
 .ll 130mm
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.**************************************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.if &U'&B30BREV eq B
-.th I forlængelse af &DIT brev
-.if &U'&B30BREV eq T
-.th Som telefonisk aftalt
-.if &U'&B30BREV eq M
-.th I forlængelse af &DIN mail
-sendes vedlagt en række dokumenter, der
-skal underskrives af &DIG.. Materialet, der skal returneres til
-banken, vil være hæftet sammen med vedlagte svarkuvert.
-.sp
-&B30TEKST7.
-&B30TEKST8.
-&B30TEKST9.
-&B30TEKST10.
-&B30TEKST11.
-&B30TEKST12.
-&B30TEKST13.
-&B30TEKST14.
-.if &L'&B30TEKST7 > 0
-.or &L'&B30TEKST8 > 0
-.or &L'&B30TEKST9 > 0
-.or &L'&B30TEKST10 > 0
-.or &L'&B30TEKST11 > 0
-.or &L'&B30TEKST12 > 0
-.or &L'&B30TEKST13 > 0
-.or &L'&B30TEKST14 > 0
-.th .sp
-.kp on
-Vedlagt er følgende:
-.sp
-.if &U'&B30LÅNKRE eq L
-.th * Låneaftale
-.th .br
-.if &U'&B30LÅNKRE eq D
-.th * Låneaftaler
-.th .br
-.if &U'&B30LÅNKRE eq K
-.th * Kreditaftale
-.th .br
-.if &U'&B30LÅNKRE eq B
-.th * Låne- og kreditaftale
-.th .br
-.if &U'&B30NYGLEP eq J
-.th * Ejerpantebrev
-.th .br
-.if &U'&B30ETING eq J
-.th * Aftale om elektronisk tinglysning
-.th .br
-.if &U'&B30BOLHPE eq J
-.th * Håndpantsætningserklæring
-.th .br
-.if &U'&B30UNDERP eq J
-.th * Aftale om underpantsætning
-.th .br
-.if &U'&B30BOLALL eq J
-.th * Allonge til ejerpantebrev
-.th .br
-.if &U'&B30VALG8 eq J
-.th * Dokumentation for rådgivning om lån med sikkerhed i fast ejendom
-.th .br
-.if &U'&KONTOOPR eq J
-.th * Kontooprettelse/ændring
-.th .br
-.sp
-.*TEST PÅ OM DER ER VEDLAGT MERE END 1 DOKUMENT FOR TYPE K + L ************
-.if &U'&B30LÅNKRE eq K
-.or &U'&B30LÅNKRE eq L
-.th .go TSTDOK
-.el .go TSTDOKSL
-...TSTDOK
-.if &U'&B30BOLHPE eq N
-.an &U'&B30NYGLEP eq N
-.an &U'&B30BOLALL eq N
-.an &U'&B30ETING eq N
-.an &U'&B30UNDERP eq N
-.an &U'&B30VALG8 eq N
-.an &U'&KONTOOPR eq N
-.th Dokumentet
-.el Dokumenterne
-bedes venligst underskrevet af &DIG
-og returneret til os.
-.sp
-.if &U'X&B30VALG eq N
-.go VITTER
-...TSTDOKSL
-.*TEKST FOR TYPE B + D ***** - ALTID FLERE DOKUMENTER *********************
-Dokumenterne bedes venligst underskrevet af &DIG
-og returneret til os.
-.if &U'X&B30VALG eq N
-.sp
-.go VITTER
-.**************************************************************************
-...VITTER
-.kp off
-.** OPLYSNINGSSKEMA FOR LÅN OG KREDITTER **********************************
-.if &U'&SKEMA eq J
-.th Endvidere er vedlagt oplysningsskema til &DIT brug i henhold til
-.th kreditaftaleloven.
-.th .sp
-.if &U'&SKEMAER eq J
-.th Endvidere er vedlagt oplysningsskemaer til &DIT brug i henhold til
-.th kreditaftaleloven.
-.th .sp
-.** VITTERLIGHEDSVIDNER ***************************************************
-.kp on
-.if &U'X&B30VALG = XJ
-.th Vi beder &DIG indhente underskrift af to vitterlighedsvidner, der ikke
-.th må være i familie/samboende med &DIG..
-.th .sp
-.kp off
-.*********************
-.kp on
-.if &U'&B30BOSKØDE eq J
-.th For at kunne tinglyse ejerpantebrevet beder vi &DIG sende os det
-.th originale skøde.
-.th .sp
-.kp off
-.*********************
-.kp on
-.if &U'&B30REGATT eq J
-.th Snarest muligt efter &DU har modtaget registreringsattesten bedes
-.th &DU faxe/sende kopi heraf til os. Ekstra svarkuvert vedlægges.
-.th .sp
-.kp off
-.*********************
-.kp on
-.if &L'&B30TEKSTP1 gt 0
-.th &B30TEKSTP1. &B30TEKSTP2. &B30TEKSTP3.
-.th &B30TEKSTP4.
-.th .sp
-.kp off
-.** NY GRUPPELIV **************************
-.kp on
-.if &U'&B30NYGRUP eq J
-.th :FED.
-.th Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
-.th &BANKNAVN..
-.th .br
-.th :SKRSLUT.
-.th Gruppelivsforsikring Modul
-.**********************
-.th &U'&B30MODUL
-.**********************
-.th skal i henhold til aftale tegnes og pantsættes.
-.th Gruppelivsforsikringen bedes du tegne via
-.th www.laeger.dk/ansoeg_gruppeliv.
-.th .sp
-.th &SDU bedes underskrive
-.th vedlagte pantsætning og returnere den til
-.th banken. Bemærk at der ikke kan ske udbetaling før
-.th gruppelivsforsikringen er antaget.
-.th .sp
-.kp off
-.**************************
-.*** GL GRUPPELIV *********
-.kp on
-.if &U'&B30GLGRUP = N
-.th .go EJGRPLIV
-.if &U'&B30GLGRUP = J
-.th :FED.
-.th Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
-.th &BANKNAVN..
-.th .br
-.th :SKRSLUT.
-.th Som aftalt pantsættes din eksisterende gruppelivsforsikring til
-.th banken. Du bedes underskrive pantsætningen og returnere den til
-.th banken.
-.th .sp
-...EJGRPLIV
-.kp off
-.***** STADIG GAMMEL GRUPPELIV **************************
-.**** ÆNDRING AF MODUL FORTSÆTTER HER *****************
-.kp on
-.if &U'&B30ÆMODUL = N
-.th .go EJGRPLIW
-.if &U'&B30ÆMODUL = J
-.th :FED.
-.th Pantsætning af gruppelivsforsikring i Forenede Gruppeliv til
-.th &BANKNAVN..
-.th .br
-.th :SKRSLUT.
-.th Din nuværende gruppelivsforsikring Modul
-.th &U'&B30FMODUL.
-.************
-.th skal som aftalt ændres til Modul
-.***********
-.th &U'&B30TMODUL..
-.**************
-.**************
-.th Ændring af din gruppelivsforsikring skal ske via linket til
-.th lægeforeningen www.laeger.dk/ansoeg_gruppeliv.
-.***********
-.th .sp
-.th Som aftalt pantsættes denne
-.th gruppelivsforsikring til banken. &SDU bedes
-.th underskrive pantsætningen og returnere den til banken.
-.th .sp
-.kp off
-.************************
-...EJGRPLIW
-.kp off
-.th :SKRSLUT.
-.th .br
-.th Brev til lønkontoret vedlægges. Brevet afleveres på
-.th lønkontoret, således at lønnen fremover kan indgå på
-.th &DIN konto hos os.
-.th .sp
-.kp off
-.******
-.th :FED.
-.th Webbank
-.th :SKRSLUT.
-.th .br
-.th Vi har oprettet &DIG som bruger
-.th i Webbank. Brev fra NemID med bruger-id og adgangskode vil
-.th blive fremsendt snarest.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30WEBID eq J
-.th :CALIB10.
-.th :FED.
-.th Webbank
-.th :SKRSLUT.
-.th .br
-.th Vi har oprettet &DIG som bruger
-.th i Webbank, og &DU kan logge på med &DIT nuværende NemID.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30TLFWEB eq J
-.th :CALIB10.
-.th :FED.
-.th Webbank og telefonservice
-.th :SKRSLUT.
-.th .br
-.th Tilmelding til TelefonService vedlægges.
-.th .sp
-.th Vi har også oprettet &DIG som bruger
-.th i Webbank, og &DU kan logge på med &DIT nuværende NemID.
-.th .sp
-.****************
-.if &U'&B30TLFS eq J
-.th :CALIB10.
-.th :FED.
-.th Telefonservice
-.th :SKRSLUT.
-.th .br
-.th Tilmelding til TelefonService vedlægges.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30FLYTLØN eq J
-.th :CALIB10.
-.th :FED.
-.th Brev til lønkontoret
-.******
-.kp on
-.if &U'&B30KTOFULD eq J
-.th :CALIB10.
-.th :FED.
-.th Kontofuldmagt
-.th :SKRSLUT.
-.th .br
-.th &SDU bedes venligst udfylde
-.th blanketten og returnere det ene eksemplar i
-.th underskrevet stand.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30WEBSELV eq J
-.th :CALIB10.
-.th :FED.
-.th Webbank
-.th :SKRSLUT.
-.th .br
-.th &SDU har selv oprettet &DIG som bruger i Webbank. &SDU kan logge
-.th på med &DIT nuværende NemID.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30WEBGL eq J
-.th :CALIB10.
-.th :FED.
-.th Webbank
-.th :SKRSLUT.
-.th .br
-.th &SDIN tidligere tilmelding til Webbank kan fortsat anvendes.
-.th .sp
-.***************
-.if &U'&B30SVARKU eq J
-.th :CALIB10.
-.th :FED.
-.th Webbank
-.th :SKRSLUT.
-.th .br
-.th &SDU kan få gratis adgang til &DIN konto via Webbank. Oprettelse
-.th kan ske on-line på bankens hjemmeside www.lpk.dk.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30WEB eq J
-.th :CALIB10.
-.kp off
-.******
-.kp on
-.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq B
-.th :CALIB10.
-.th :FED.
-.th Betalingsanmodninger
-.th :SKRSLUT.
-.th .br
-.th De månedlige ydelser på lånet og renterne der tilskrives hvert
-.th kvartal på kreditten, skal trækkes via PBS på en konto i et
-.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanketter og
-.th returnere dem til banken.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30BETI eq J
-.th :CALIB10.
-.th :FED.
-.th Betalingsinstruks
-.th :SKRSLUT.
-.th .br
-.th Vedlagte betalingsinstruks bedes venligst returneret i udfyldt
-.th og underskrevet stand.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30PRAKDK eq J
-.th :CALIB10.
-.th :FED.
-.th Bestilling af VISA/Dankort
-.th :SKRSLUT.
-.th .br
-.th Vedlagt er bestillingsblanket til VISA/Dankort, der
-.th venligst bedes underskrevet og returneret til os.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&GENNEMKTO eq J
-.th :CALIB10.
-.th :FED.
-.th Nemkonto
-.th :SKRSLUT.
-.th .br
-.th Vi har tilmeldt &DIN konto til Nemkonto.
-.th .sp
-.kp off
-.kp on
-.if &U'&B30MEDSKUN eq J
-.th :CALIB10.
-.th :FED.
-.th Kundeoprettelse
-.th :SKRSLUT.
-.th .br
-.th &SDU bedes udfylde blanketten og returnere den sammen med kopi af
-.th billedlegitimation.
-.th Bankens almindelige forretningsbetingelser vedlægges.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq L
-.th :CALIB10.
-.th :FED.
-.th Betalingsanmodning
-.th :SKRSLUT.
-.th .br
-.th De månedlige ydelser på lånet skal trækkes via PBS på en konto i et
-.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanket og
-.th returnere den til banken.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq D
-.th :CALIB10.
-.th :FED.
-.th Betalingsanmodninger
-.th :SKRSLUT.
-.th .br
-.th De månedlige ydelser på lånene skal trækkes via PBS på en konto i et
-.th pengeinstitut. Derfor bedes &DU udfylde vedlagte blanketter og
-.th returnere dem til banken.
-.th .sp
-.kp off
-.******
-.kp on
-.if &U'&B30BETMED eq J .an &U'&B30LÅNKRE eq K
-.th :CALIB10.
-.th :FED.
-.th Betalingsanmodning
-.th :SKRSLUT.
-.th .br
-.th Renterne der tilskrives hvert kvartal skal trækkes via PBS på
-.th en konto i et pengeinstitut. Derfor bedes &DU udfylde vedlagte
-.th blanket og returnere den til banken.
-.th .sp
-.kp off
-.********
-.kp on
-.if &L'&B30TEKST1 gt 1
-.th &B30TEKST1 &B30TEKST2 &B30TEKST3
-.th &B30TEKST4
-.th .sp
-.********
-.if &L'&B30TEKST5 gt 1
-.th &B30TEKST5 &B30TEKST6
-.th .sp
-.**********
-Har &DU nogen spørgsmål, er &DU velkommen til at kontakte os.
-.kp on
-.*********
-.if &U'&B30PRIVPBS eq J
-.th .go PBS1
-.el .go PBS1END
-.**********
-...PBS1
-:CALIB10.
-:FED.
-Overførsel af betalingsservice
-:SKRSLUT.
-.br
-&SDINE PBS-betalinger vil blive flyttet
-.********
-.if &U'&B30PRIVPBS eq J
-.th til konto nr. 6771 &B30KTOPBS., når vi anmoder &B30FBANK om
-.th overførsel af konti.
-.th .sp
-.el .ct .
-.********
-...PBS1END
-.kp off
-.*******
-.kp on
-.if &L'&B30FBANK > 0
-.th Når ovennævnte er på plads, vil vi anmode &B30FBANK om at overføre
-.th &DIT engagement til os jf. tidligere indsendt svarkupon.
-.th .sp
-.th Vær opmærksom på, at &DIT tidligere pengeinstitut kan have en vis
-.th ekspeditionstid på at flytte &DINE konti til os. Eksempelvis kan
-.th pensionskonti være op til 8 uger undervejs.
-.th .sp
-.kp off
-.************
-.kp on
-.if &U'&B30GLDKK = J
-.th .sp
-.th :FED.
-.th Når du har aktiveret dit nye kort, skal du huske at sende os en
-.th besked, så vi ved at du er klar til at få overført dine konti.
-.th Du markulerer selv dine gamle kort.
-.th :SKRSLUT.
-.th .sp
-.kp off
-.*******************
-.kp on
-.if &L'&B30FBANK > 0
-.th &SDU kan allerede nu flytte penge fra &B30FBANK til os,
-.th til dækning af forbrug samt PBS-betalinger.
-.th .sp
-.sp2
-Venlig hilsen
-.sp2
-&GENEKSP
-.kp off
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+

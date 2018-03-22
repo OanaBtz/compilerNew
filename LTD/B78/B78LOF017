@@ -1,9 +1,36 @@
-.*****************Reg.nr. i sidemargin*************************************
-.da VEND 9mm 180mm width 180mm rotate -90
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:COUR6.
-9947
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.********************AREAL-DEFINITIONER************************************
+.da INDB  12mm 216mm
+.da BELOB 10mm 263mm width 200mm
+.**************************************************************************
+.**** Betalings-ID og Indbetaler ******************************************
+.ar INDB on
+&ADR1.
+.br
+&ADR2.
+.br
+&ADR3.
+.br
+&ADR4.
+.br
+&ADR5.
+.ar off
+.**** Beløb og betalingsdato ***********************************
+.ar BELOB on
+.tp 40mm right 100mm right 179mm right
+¤&FIBELØB.¤&FORFDATO1.¤&FIBELØB.
 .ar off
 .********************AREAL-DEFINITIONER************************************
 .*FI-kort skabelon
@@ -71,12 +98,88 @@
 :OCRB10.
 +&GENOCRNR1.<&GENOCRNR2.+&GENOCRNR3.<
 .ar off
-.********************AREAL-DEFINITIONER************************************
-.da INDB  12mm 216mm
-.da BELOB 10mm 263mm width 200mm
+.*****************Reg.nr. i sidemargin*************************************
+.da VEND 9mm 180mm width 180mm rotate -90
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:COUR6.
+9947
+.ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+:ENY.
+.*
+.** Dette P-afsnit skal anvende når der påtrykkes FI-kort
+.**
+.** Indhold: Parametre til betalingsID og kreditorID samt
+.**          rubrikkerne 'Tilmelding til BetalingsService'
+.**          Desuden parametre til OCR-linien, som er den
+.**          maskinlæsbare linie nederst på FI-Kortet. (Font = OCRB10)
+.**
+.** Flg. param. skal have bankens egne std.værdier: FIKREDNR
+.**                                                 PBSNR
+.**                                                 PBSDEBGRP
+.**                                                 GENOCRNR1
+.**                                                 GENOCRNR3
+.** Flg. param. skal leveres af kald. system (LOF): BETALID
+.**                                                 PBSKUNDENR
+.**                                                 GENOCRNR2
 .**************************************************************************
-.**** Betalings-ID og Indbetaler ******************************************
-.ar INDB on
+.* ændring af tiltale, så det følger anviste LOF-regler, som er:
+.* 1. Kunder med CPR.NR. skal tiltales efter deres tiltaleform hentet fra
+.*    kunderegisteret.
+.* 2. Alle kunder med CVR.NR (Første 2 cifre er 00) skal tiltales med I.
+.**************************************************************************
+.su off
+.se cpr1 = substr &KUNDENR 1 2
+.su on
+.***TEST om det er CVR-NR eller CPR-NR*************************************
+.if x&cpr1 = x00
+.th .go CVR
+.el .go ENDCVR
+.**************************************************************************
+...CVR
+.se DU = &I
+.se SDU = &I
+.se DIG = &JER
+.se SDIG = &SJER
+.se DIN = &JERES
+.se SDIN = &SJERES
+.se DIT =  &JERES
+.se SDIT = &SJERES
+.se DINE = &JERES
+.se SDINE = &SJERES
+...ENDCVR
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+.ti ¤ 05
+.**************************************************************************
+.da LOFADR   23mm 48mm
+.**************************************************************************
+.**** Adressefelter *******************************************************
+.ar LOFADR on
+&EAN
+.br
 &ADR1.
 .br
 &ADR2.
@@ -87,32 +190,40 @@
 .br
 &ADR5.
 .ar off
-.**** Beløb og betalingsdato ***********************************
-.ar BELOB on
-.tp 40mm right 100mm right 179mm right
-¤&FIBELØB.¤&FORFDATO1.¤&FIBELØB.
+.***********************************************************************
+.********************AREAL-DEFINITIONER************************************
+.da TOPTXT 59mm 26mm
+.**************************************************************************
+.ar TOPTXT on
+:SWISS8.
+:FED.
+.if &GENEKS = Mickey Madsen
+.th Kontaktperson i denne henvendelse:
+.th Mickey Madsen, dir. tlf. 43 24 49 81, mm@al-finans.dk
+.el Opkrævningsafdelingen
+.el dir. tlf. 43 24 49 37, debitor@al-finans.dk
+:SKRSLUT.
+:SKRSLUT.
 .ar off
-.th kr. &YDLRYK1.
-.*********************************
-.if &GENVALGA. = 2
-.an &U'&GENVALGB. = E
-.th kr. &YDLRYK2.
-.*********************************
-.if &GENVALGA. = 2
-.an &U'&GENVALGB. = P
-.th kr. &YDLRYK2.
-.*********************************
-på næste fakturering jf. kontraktens bestemmelser.
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 20mm 100mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 180mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+:omtale &OMTALEF
+:tiltale &TILTALEF
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.******************* START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+.us on
+RYKKER
+.us off
 .sp
-Ved henvendelse kan &DU. kontakte &GENEKSP. på telefon :FED. &GENTLFNR.
-:SKRSLUT.. Hvis &DU. allerede har indbetalt beløbet, beder &JEG. &DIG.
-se bort fra denne henvendelse.
-.sp
-Alle beløb er i DKK.
-.sp
-Venlig hilsen
-.br
-AL Finans A/S - CVR-nr. 31433428
+.ar off
 .********************AREAL-DEFINITIONER************************************
 .*Rykker
 .da RYKKER 20mm 108mm
@@ -163,135 +274,25 @@ et gebyr på
 .*********************************
 .if &GENVALGA. = 1
 .an &U'&GENVALGB. = P
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 20mm 100mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 180mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-:omtale &OMTALEF
-:tiltale &TILTALEF
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.******************* START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-.us on
-RYKKER
-.us off
+.th kr. &YDLRYK1.
+.*********************************
+.if &GENVALGA. = 2
+.an &U'&GENVALGB. = E
+.th kr. &YDLRYK2.
+.*********************************
+.if &GENVALGA. = 2
+.an &U'&GENVALGB. = P
+.th kr. &YDLRYK2.
+.*********************************
+på næste fakturering jf. kontraktens bestemmelser.
 .sp
-.ar off
-.********************AREAL-DEFINITIONER************************************
-.da TOPTXT 59mm 26mm
-.**************************************************************************
-.ar TOPTXT on
-:SWISS8.
-:FED.
-.if &GENEKS = Mickey Madsen
-.th Kontaktperson i denne henvendelse:
-.th Mickey Madsen, dir. tlf. 43 24 49 81, mm@al-finans.dk
-.el Opkrævningsafdelingen
-.el dir. tlf. 43 24 49 37, debitor@al-finans.dk
-:SKRSLUT.
-:SKRSLUT.
-.ar off
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-.ti ¤ 05
-.**************************************************************************
-.da LOFADR   23mm 48mm
-.**************************************************************************
-.**** Adressefelter *******************************************************
-.ar LOFADR on
-&EAN
+Ved henvendelse kan &DU. kontakte &GENEKSP. på telefon :FED. &GENTLFNR.
+:SKRSLUT.. Hvis &DU. allerede har indbetalt beløbet, beder &JEG. &DIG.
+se bort fra denne henvendelse.
+.sp
+Alle beløb er i DKK.
+.sp
+Venlig hilsen
 .br
-&ADR1.
-.br
-&ADR2.
-.br
-&ADR3.
-.br
-&ADR4.
-.br
-&ADR5.
-.ar off
-.***********************************************************************
-.**************************************************************************
-.* ændring af tiltale, så det følger anviste LOF-regler, som er:
-.* 1. Kunder med CPR.NR. skal tiltales efter deres tiltaleform hentet fra
-.*    kunderegisteret.
-.* 2. Alle kunder med CVR.NR (Første 2 cifre er 00) skal tiltales med I.
-.**************************************************************************
-.su off
-.se cpr1 = substr &KUNDENR 1 2
-.su on
-.***TEST om det er CVR-NR eller CPR-NR*************************************
-.if x&cpr1 = x00
-.th .go CVR
-.el .go ENDCVR
-.**************************************************************************
-...CVR
-.se DU = &I
-.se SDU = &I
-.se DIG = &JER
-.se SDIG = &SJER
-.se DIN = &JERES
-.se SDIN = &SJERES
-.se DIT =  &JERES
-.se SDIT = &SJERES
-.se DINE = &JERES
-.se SDINE = &SJERES
-...ENDCVR
-.** Dette P-afsnit skal anvende når der påtrykkes FI-kort
-.**
-.** Indhold: Parametre til betalingsID og kreditorID samt
-.**          rubrikkerne 'Tilmelding til BetalingsService'
-.**          Desuden parametre til OCR-linien, som er den
-.**          maskinlæsbare linie nederst på FI-Kortet. (Font = OCRB10)
-.**
-.** Flg. param. skal have bankens egne std.værdier: FIKREDNR
-.**                                                 PBSNR
-.**                                                 PBSDEBGRP
-.**                                                 GENOCRNR1
-.**                                                 GENOCRNR3
-.** Flg. param. skal leveres af kald. system (LOF): BETALID
-.**                                                 PBSKUNDENR
-.**                                                 GENOCRNR2
-.*
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+AL Finans A/S - CVR-nr. 31433428
+

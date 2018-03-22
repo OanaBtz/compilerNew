@@ -1,195 +1,3 @@
-.********************GENEREL OPSÆTNING*************************************
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 95mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-:SWISS9.
-.**************************************************************************
-.da KUNDE     25mm 50mm width 80mm
-.da MKUNDE 112.5mm 50mm width 80mm
-.da CPR       34mm 70.5mm width 80mm
-.da MCPR   121.5mm 70.5mm width 80mm
-.da PI        25mm 80mm width 80mm
-.**************************************************************************
-.ar KUNDE on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.**************************************************************************
-.ar MKUNDE on
-.if &L'&MEDNAVN > 0
-.th &MEDSTILL
-.th .br
-.th &MEDNAVN
-.th .br
-.th &MEDCO
-.th .br
-.th &MEDGADE
-.th .br
-.th &MEDBY
-.ar off
-.**************************************************************************
-.ar CPR on
-&KTOKNDNR1
-.ar off
-.**************************************************************************
-.ar MCPR on
-.if &L'&MEDNAVN > 0
-.th &MEDKNDNR1
-.ar off
-.**************************************************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-:SKRSLUT.
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.** PARTER ****************************************************************
-.ar SIDE on
-.tp 1mm 88.5mm 135mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SWISS8.
-.if &L'&MEDNAVN = 0
-.th .bx left right
-.th ¤Kontohaver
-.el .bx left 87.5mm right
-.el ¤Kontohaver ¤Medkontohaver
-.sp 23mm
-.if &L'&MEDNAVN = 0
-.th ¤&kunnr
-.el ¤&kunnr ¤&mkunnr
-.bx new left right
-¤Pengeinstitut
-.sp 20mm
-.bx off
-.bx can
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 171mm
-.bx off
-.ar off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Aftale om kontooprettelse/ændring
-:SKRSLUT.
-.ar off
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.'
-.**************************************************************************
-.if &U'X&GENVITT ne XJ
-.an &U'X&GENVITT ne XN
-.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
-.**************************************************************************
-.if &L'&GENCPR1 > 0
-.an &L'&GENNAVN1 = 0
-.th .mg/T/1. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR2 > 0
-.an &L'&GENNAVN2 = 0
-.th .mg/T/2. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR3 > 0
-.an &L'&GENNAVN3 = 0
-.th .mg/T/3. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR4 > 0
-.an &L'&GENNAVN4 = 0
-.th .mg/T/4. fuldmagtshavers navn mangler/
-.**************************************************************************
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
 .pm 20mm
 .NV PAGE BANKSTED '%&KNDTILH.'
 .BR
@@ -280,6 +88,233 @@ Underskrift ¤ ¤Underskrift ¤
 .in 5mm
 .ir 5mm
 .**********************
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.if &U'X&GENVITT ne XJ
+.an &U'X&GENVITT ne XN
+.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
+.**************************************************************************
+.if &L'&GENCPR1 > 0
+.an &L'&GENNAVN1 = 0
+.th .mg/T/1. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR2 > 0
+.an &L'&GENNAVN2 = 0
+.th .mg/T/2. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR3 > 0
+.an &L'&GENNAVN3 = 0
+.th .mg/T/3. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR4 > 0
+.an &L'&GENNAVN4 = 0
+.th .mg/T/4. fuldmagtshavers navn mangler/
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Aftale om kontooprettelse/ændring
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.if &L'&MEDNAVN = 0
+.th .bx left right
+.th ¤ Kontohaver
+.el .bx left 87.5mm right
+.el ¤ Kontohaver ¤ Medkontohaver
+.sp 23mm
+.if &L'&MEDNAVN = 0
+.th ¤ &kunnr
+.el ¤ &kunnr ¤ &mkunnr
+.bx new left right
+ ¤ Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+:SWISS9.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 70.5mm width 80mm
+.da MCPR   121.5mm 70.5mm width 80mm
+.da PI        25mm 80mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.**************************************************************************
+.ar MKUNDE on
+.if &L'&MEDNAVN > 0
+.th &MEDSTILL
+.th .br
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.ar off
+.**************************************************************************
+.ar CPR on
+&KTOKNDNR1
+.ar off
+.**************************************************************************
+.ar MCPR on
+.if &L'&MEDNAVN > 0
+.th &MEDKNDNR1
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Aftale om kontooprettelse/ændring
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.in 5mm
+.ir 1mm
 :SWISS9.
 .*************************************************************************
 .if &FRIDATO = 01.01.0001
@@ -297,13 +332,13 @@ Underskrift ¤ ¤Underskrift ¤
 Konto
 :SKRSLUT.
 .br
-Kontonr. ¤Regtype/betegnelse
+Kontonr. ¤ Regtype/betegnelse
 .br
-&LANGKTONR ¤&REGTYPELNG
+&LANGKTONR ¤ &REGTYPELNG
 .sp 3mm
-Evt. mærke ¤Frigivelsesdato ¤Fristdato
+Evt. mærke ¤ Frigivelsesdato ¤ Fristdato
 .br
-&GENMÆRKE ¤&frid ¤&fristd
+&GENMÆRKE ¤ &frid ¤ &fristd
 .sp 5mm
 .kp off
 .kp on
@@ -320,111 +355,19 @@ Fuldmagtshaver(e):
 .br
 .*****
 .tp 28mm 88mm _/173mm
-CPR-nr ¤Navn ¤Underskrift
+CPR-nr ¤ Navn ¤ Underskrift
 .sp 5mm
 .if &L'&GENNAVN1 > 0
-.th &GENCPR1 ¤&GENNAVN1 ¤¤
+.th &GENCPR1 ¤ &GENNAVN1 ¤ ¤
 .th .sp 5mm
 .if &L'&GENNAVN2 > 0
-.th &GENCPR2 ¤&GENNAVN2 ¤¤
+.th &GENCPR2 ¤ &GENNAVN2 ¤ ¤
 .th .sp 5mm
 .if &L'&GENNAVN3 > 0
-.th &GENCPR3 ¤&GENNAVN3 ¤¤
-.an &L'&GENTEKST5 = 0
-.an &L'&GENTEKST6 = 0
-.an &L'&GENTEKST7 = 0
-.an &L'&GENTEKST8 = 0
-.an &L'&GENTEKST9 = 0
-.an &L'&GENTEKST10 = 0
-.an &L'&GENTEKST11 = 0
-.an &L'&GENTEKST12 = 0
-.th .go ENDSAER
-.**SÆRLIGE BETINGELSER ****************************************************
-.kp on
-&GENTEKST1.
-&GENTEKST2.
-&GENTEKST3.
-&GENTEKST4.
-&GENTEKST5.
-&GENTEKST6.
-&GENTEKST7.
-&GENTEKST8.
-&GENTEKST9.
-&GENTEKST10.
-&GENTEKST11.
-&GENTEKST12.
-.sp 2mm
-.kp off
-...ENDSAER
-.kp on
-For kontoforholdet gælder i øvrigt følgende regler i det omfang, reglerne
-ikke er udtrykkeligt fraveget ved skriftlig aftale:
-.tp 8mm
-.br
-.of 3mm
-*¤&BANKNAVN.s Almindelige forretningsbetingelser og vilkår for
-kreditaftaler.
-.of
-.sp 2mm
-.kp off
-.kp on
-Jeg/vi har modtaget og gjort mig/os bekendt med de anførte regler forud for
-underskrivelsen af denne aftale.
-.sp 5mm
-.kp off
-kan dermed ikke med frigørende virkning af nogen kontohaver påberåbes
-overfor &BANKNAVN..
-.sp 2mm
-.kp off
-.kp on
-Kontohaver accepterer endvidere, at der til eBoks alene kan leveres
-kontoudtog, ind- og udbetalingsmeddelelser og lignende til primær
-kontohaver.
-.sp 2mm
-.kp off
-.kp on
-Kontohaver accepterer følgende i forhold til indberetning af renter til
-SKAT:
-.tp 8mm
-.br
-*¤Såfremt der højst er to kontohavere, sker der indberetning vedørende
-renter med 50% til hver kontohaver.
-.br
-*¤Såfremt der er flere end to kontohavere, indberettes der alene på den
-kontohaver, der står anført som primær
-.br
-¤kontohaver. Kontohaverne regulerer
-fordelingen af rentetilskrivninger og rentefradrag indbyrdes. Dette er
-.br
-¤&BANKNAVN uvedkommende.
-.sp 2mm
-.kp off
-.*********************************
-...ENDRENTE
-.kp on
-En fuldmagt kan til enhver tid tilbagekaldes af en kontohaver. Kontohaver
-skal samtidig tilbagelevere betalingskort og checks, som er udleveret til
-fuldmagtshaveren.
-.sp 2mm
-.kp off
-.kp on
-Pengeinstituttet er ikke forpligtet til at kontrollere om
-evt. tegningsregler overholdes ved indløsning af checks og er uden ansvar,
-såfremt der sker indløsning i strid med tegningsreglerne.
-.sp 2mm
-.kp off
-.kp on
-Kontohaver accepterer alle vilkår for den pågældende konto, herunder
-eventuelle oprettelses- og årlige gebyrer.
-.sp 2mm
-.kp off
-.if &L'&GENTEKST1 = 0
-.an &L'&GENTEKST2 = 0
-.an &L'&GENTEKST3 = 0
-.an &L'&GENTEKST4 = 0
+.th &GENCPR3 ¤ &GENNAVN3 ¤ ¤
 .th .sp 5mm
 .if &L'&GENNAVN4 > 0
-.th &GENCPR4 ¤&GENNAVN4 ¤¤
+.th &GENCPR4 ¤ &GENNAVN4 ¤ ¤
 .th .sp 3mm
 :SKRSLUT.
 ...FULDEND
@@ -472,38 +415,96 @@ kontohavere er selv ansvarlige for at følge kontoens udvikling, og har
 mulighed herfor ved enten at indgå aftale med primær kontohaver om at få
 tilsendt kopi af kontoudtog eller ved, at medkontohaver/ne selv opretter
 en netbank-aftale. Uvidenhed om en given disposition/givne dispositioner
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.ar BOX on
-.bx left right
-.sp 229mm
-.bx off
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
+kan dermed ikke med frigørende virkning af nogen kontohaver påberåbes
+overfor &BANKNAVN..
+.sp 2mm
+.kp off
+.kp on
+Kontohaver accepterer endvidere, at der til eBoks alene kan leveres
+kontoudtog, ind- og udbetalingsmeddelelser og lignende til primær
+kontohaver.
+.sp 2mm
+.kp off
+.kp on
+Kontohaver accepterer følgende i forhold til indberetning af renter til
+SKAT:
+.tp 8mm
 .br
-&DATO kl. &KLOKKESLET
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Aftale om kontooprettelse/ændring
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.sp 32mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.ll 175mm
-.in 5mm
-.ir 1mm
+* ¤ Såfremt der højst er to kontohavere, sker der indberetning vedørende
+renter med 50% til hver kontohaver.
+.br
+* ¤ Såfremt der er flere end to kontohavere, indberettes der alene på den
+kontohaver, der står anført som primær
+.br
+ ¤ kontohaver. Kontohaverne regulerer
+fordelingen af rentetilskrivninger og rentefradrag indbyrdes. Dette er
+.br
+ ¤ &BANKNAVN uvedkommende.
+.sp 2mm
+.kp off
+.*********************************
+...ENDRENTE
+.kp on
+En fuldmagt kan til enhver tid tilbagekaldes af en kontohaver. Kontohaver
+skal samtidig tilbagelevere betalingskort og checks, som er udleveret til
+fuldmagtshaveren.
+.sp 2mm
+.kp off
+.kp on
+Pengeinstituttet er ikke forpligtet til at kontrollere om
+evt. tegningsregler overholdes ved indløsning af checks og er uden ansvar,
+såfremt der sker indløsning i strid med tegningsreglerne.
+.sp 2mm
+.kp off
+.kp on
+Kontohaver accepterer alle vilkår for den pågældende konto, herunder
+eventuelle oprettelses- og årlige gebyrer.
+.sp 2mm
+.kp off
+.if &L'&GENTEKST1 = 0
+.an &L'&GENTEKST2 = 0
+.an &L'&GENTEKST3 = 0
+.an &L'&GENTEKST4 = 0
+.an &L'&GENTEKST5 = 0
+.an &L'&GENTEKST6 = 0
+.an &L'&GENTEKST7 = 0
+.an &L'&GENTEKST8 = 0
+.an &L'&GENTEKST9 = 0
+.an &L'&GENTEKST10 = 0
+.an &L'&GENTEKST11 = 0
+.an &L'&GENTEKST12 = 0
+.th .go ENDSAER
+.**SÆRLIGE BETINGELSER ****************************************************
+.kp on
+&GENTEKST1.
+&GENTEKST2.
+&GENTEKST3.
+&GENTEKST4.
+&GENTEKST5.
+&GENTEKST6.
+&GENTEKST7.
+&GENTEKST8.
+&GENTEKST9.
+&GENTEKST10.
+&GENTEKST11.
+&GENTEKST12.
+.sp 2mm
+.kp off
+...ENDSAER
+.kp on
+For kontoforholdet gælder i øvrigt følgende regler i det omfang, reglerne
+ikke er udtrykkeligt fraveget ved skriftlig aftale:
+.tp 8mm
+.br
+.of 3mm
+* ¤ &BANKNAVN.s Almindelige forretningsbetingelser og vilkår for
+kreditaftaler.
+.of
+.sp 2mm
+.kp off
+.kp on
+Jeg/vi har modtaget og gjort mig/os bekendt med de anførte regler forud for
+underskrivelsen af denne aftale.
+.sp 5mm
+.kp off
+

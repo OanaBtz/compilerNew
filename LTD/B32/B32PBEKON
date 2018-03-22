@@ -1,25 +1,3 @@
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
 .pm 20mm
 .NV PAGE BANKSTED '%&KNDTILH.'
 .BR
@@ -32,697 +10,56 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
-.**************************************************************************
-.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
-.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
-.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  160mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = Erhverv
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.sp 20mm
-.rh off
-.**************************************************************************
-.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
-.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
-.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  160mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.*rh on
-.**************************************************************************
-.ar VEND on
-.*:SWISS6.
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = Erhverv
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.sp 40mm
-.*rh off
-.*rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.ll 175mm
-.th .se pbaftn = 'Private Banking Elite Aftalen'
-.if &prodtype = PRU
-.th .se pbaft = 'Private Banking Elite Aftale - Ultima'
-.th .se pbaftn = 'Private Banking Elite Aftalen - Ultima'
-.if &prodtype = PRU+
-.th .se pbaft = 'Private Banking Elite Aftale - Ultima+'
-.th .se pbaftn = 'Private Banking Elite Aftalen - Ultima+'
-.se pbweb = 'nykredit.dk/privatebanking-vilkaar'
-.se pbweb1 = 'nykredit.dk/bankvilkaar'
-.*se pbweb = 'nykredit.dk/#!/private-banking-vilkaar'
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.:'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.:'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.:'
-.th .se tlfnr = 'Erhverv'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.:'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.:'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.:'
-.*Afgør produkttype
-.se prodtype = '?'
-.if &REGTYPE. = 3030
-.or &REGTYPE. = 3036
-.th .se prodtype = 'PR'
-.if &REGTYPE. = 3031
-.or &REGTYPE. = 3037
-.th .se prodtype = 'PRU'
-.if &REGTYPE. = 3032
-.or &REGTYPE. = 3038
-.th .se prodtype = 'PRU+'
-.if &prodtype = ?
-.th .mg/T/Dokument kan ikke udskrives for denne regtype: &REGTYPE.
-.**** DIVERSE FORKOTELSER ****************************
-.if &prodtype = PR
-.th .se pbaft = 'Private Banking Elite Aftale'
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.ar MKTOHAVR on
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-.if &kunnr. = CPR-nr.:
-.th &kunnr. &cpr1.-&cpr2.
-.el &kunnr. &KTOKNDNR1.
-.ar off
-.ar MKUNDNR on
-.if &L'&MEDNAVN gt 0
-.an &mkunnr. = CPR-nr.:
-.th &mkunnr. &mcpr1.-&mcpr2
-.if &L'&MEDNAVN gt 0
-.an &mkunnr. <> CPR-nr.:
-.th &mkunnr. &MEDKNDNR1
-.ar off
-.**************************************************************************
-.*************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-.hy off
-.in 5mm
-:VERDA09.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.us off
-.**************************************************************************
-.da FEJL      20mm 120mm width 170mm
-.da KTOHAVOV  20mm 30mm width 155mm
-.da KTOHAVER  20mm 35mm width 155mm
-.da MKTOHAVR 115mm 35mm width 85mm
-.da KUNDENR   20mm 68mm width 155mm
-.da MKUNDNR  115mm 68mm width 155mm
-.da KTOOPL1   20mm 75mm width 170mm
-.**************************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.se cpr1  = substr &KTOKNDNR1 1 6
-.se cpr2  = substr &KTOKNDNR1 7 4
-.se mcpr1 = substr &MEDKNDNR1 1 6
-.se mcpr2 = substr &MEDKNDNR1 7 4
-.su on
-.**************************************************************************
-.ar KTOOPL1 on
-.tp 50mm right 165mm right
-¤¤Dato: &DATO.
-.*Reg.nr.¤&regnr.¤Dato: &DATO.
-.*br
-.*Kontonr.¤&ktonr.
-.ar off
-...DOKTXT
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-.if &L'&MEDNAVN gt 0
-.th Kontohavere
-.el Kontohaver
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOHAVER on
-&KTONAVN
-.br
-.da T1TEKST 20mm 95mm width 170mm
-.ar T1TEKST on
-:VERDA09.
-.*************** Aftale start ***************
-:FED.&pbaft.:SKRSLUT.
-.br
-Når du underskriver denne aftale, indgår du en &pbaft. med
-&BANKNAVN. A/S (herefter benævnt &B32NYK.). Når du indgår en
-&pbaft., opnår du adgang til personlig rådgivning om daglig økonomi og
-formueforvaltning. Samtidig indgår du aftale om adgang til Kortstop og
-ID Tyveri beskyttelse på vilkår, som er beskrevet nedenunder. Derudover
-giver &pbaft. adgang til en række tilknyttede ydelser:
-.tp 5mm 10mm
-.sp 3mm
-¤-¤Indlånskonti med attraktive renteforhold.
-.br
-.if &prodtype. = PR
-.th
-.el .go PRU1
-¤-¤Visa/Dankort
-.in 10mm nobreak
-samt MasterCard Platinum og MasterCard Platinum Family
-uden årsgebyr. Til MasterCard Platinum er tilknyttet et Priority Pass.
-.in 5mm
-.br
-.go FORTS1
-...PRU1
-¤-¤Visa/Dankort
-.in 10mm nobreak
-samt Visa Infinite og Visa Infinite Family
-uden årsgebyr. Til Visa Infinite er tilknyttet et Priority Pass.
-.in 5mm
-.br
-...FORTS1
-¤-¤Indlånskonti
-.in 10mm nobreak
-med attraktive rentevilkår og tilhørende debetkort til
-hjemmeboende børn under 18 år. Det er en forudsætning, at der gives
-samtykke til behandling og udveksling af data i henhold til de vilkår, der
-er beskrevet i aftalen, se afsnittet 'Samtykke til dataudveksling'.
-.in 5mm
-.br
-.if &prodtype = PRU+
-.th
-.el .go FORTS2
-¤-¤NemID nøgleviser
-.br
-¤-¤Sundhedsundersøgelser
-.in 10mm nobreak
-til en fordelagtig pris gennem &B32NYK.s samarbejdspartner
-Falck Healthcare.
-.in 5mm
-.br
-...FORTS2
-¤-¤Gratis adgang
-.in 10mm nobreak
-til &B32MITNYK., hvor du let kan styre din daglige
-økonomi og hurtigt danne dig et overblik over dit forbrugsmønster via
-&B32NYK.s forbrugsoverblik.
-.in 5mm
-.br
-¤-¤Adgang til en række særlige fordele som fx rabat på ferieboliger,
-hotelværelser og billeje.
-.sp 3mm
-Du indgår en særskilt aftale med &B32NYK. og/eller tredjepart om de
-enkelte ydelser.
-.sp 3mm
-&B32NYK. kan ændre udbuddet af de ydelser, der er tilknyttet
-&pbaft., uden varsel. For de ydelser, hvor der allerede er indgået
-særskilt aftale, kan disse ændres eller ophøre i henhold til det særskilte
-aftalegrundlag.
-.sp 3mm
-Det er et vilkår for &pbaft., at du og/eller din ægtefælle har en
-formueopsparing i &B32NYK. på ikke under
-.if &prodtype = PR
-.th 7.000.000
-.if &prodtype = PRU
-.th 25.000.000
-.if &prodtype = PRU+
-.th 50.000.000
-kr., som er placeret i et af
-&B32NYK.s pensionsprodukter, særlige opsparingsprodukter eller udvalgte
-konti - eller du har investeret i værdipapirer i depot i &B32NYK.. I denne
-bedømmelse indgår også formueopsparing i eventuelle selskaber
-(A/S, ApS, I/S, K/S), som ejes af dig og/eller din ægtefælle.
-.sp 3mm
-Hvis din og/eller din ægtefælles formueopsparing falder til under
-5.600.000 kr., forbeholder &B32NYK. sig retten til at opsige &pbaft. i
-henhold til de vilkår for opsigelse, der er anført nedenfor.
-.sp 3mm
-Det har ingen betydning for din &pbaft., hvis din formueopsparing i
-&B32NYK. falder til under 5.600.000 kr., efter du er fyldt 65 år.
-.sp 3mm
-.ar off
-.pa
-.**** Dette tekstmodul anvendes kun for regtype 3030 *************
-.if &prodtype = PR
-.th
-.el .go FORTS4
-.*************** Privat *****************************************
+.*************** Kortstop ***************
 .kp on
-:VERDA09.
-:FED.MasterCard Platinum.:SKRSLUT.
-.sp 3mm
-Når du underskriver denne aftale, bekræfter du, at du ønsker et
-MasterCard Platinum-kort med et kreditmaksimum på
-:VS. &B32MAX1.
-kr.
-.sp 3mm
-&B32NYK. opretter en MasterCard Platinum konto til dit MasterCard. Det
-løbende forbrug bliver bogført på denne konto. Forbruget bliver gjort op i
-midten af hver måned, og du betaler regningen den 1. i måneden
-efter. Regningen betales automatisk fra nedenstående
-afregningskonto i &B32NYK..
-.sp 3mm
-Oplysninger om hovedkortholder
+:FED.Kortstop:SKRSLUT.
 .br
-&KTONAVN.
-.br
-.if &kunnr. = CPR-nr.:
-.th &cpr1.-&cpr2.
-.el &KTOKNDNR1.
-.sp 3mm
-Forbrug afregnes over konto &regnr.-&ktonr.
-.sp 3mm
-MasterCard Platinum omfatter et betalingskort, en rejseforsikringspakke, en
-købsforsikring samt et Priority Pass medlemskab. Priority Pass giver adgang
-til mere end 600 lounges i hele verden. I Danmark giver Priority Pass
-adgang til lounges i Billund og København. Læs mere om Priority Pass på
-&B32NYKDK..
-.sp 3mm
-.kp off
-.if &L'&MEDNAVN > 0
-.th
-.el .go FORTS3
-.*************** Privat og medkontohaver ************************
-.kp on
-:VERDA09.
-:FED.MasterCard Platinum Family kort:SKRSLUT.
-.sp 3mm
-Når du underskriver denne aftale, bekræfter du, at du ønsker et
-MasterCard Platinum Family-kort med et kreditmaksimum på
-:VS. &B32MAX1.
-kr., som er tilknytet ovenstående MasterCard Platinum-kort
-.sp 3mm
-Oplysninger om kortholder
-.br
-&MEDNAVN.
-.br
-.if &mkunnr. = CPR-nr.:
-.th &mcpr1.-&mcpr2.
-.el &MEDKNDNR1.
-.sp 3mm
-Forbrug afregnes over konto &regnr.-&ktonr.
-.sp 3mm
-MasterCard Platinum Family er et betalingskort samt en købsforsikring. Der
-er ikke tilknyttet en rejseforsikringspakke på MasterCard Platinum
-Family. Prioritye Pass medlemskab er ikke omfattet af MasterCard Platinum
-Family.
+I forbindelse med oprettelse af &pbaft. opnår du fordelene ved &B32NYK.
+Kortstop.
 .sp 3mm
 .kp off
 .kp on
-:FED.Fuldmagt:SKRSLUT.
+Med Kortstop kan du spærre alle dine kort med en enkelt
+opringning. Det gælder både kort fra &BANKNAVN., fra andre
+pengeinstitutter, benzinselskaber, stormagasiner mv.
 .br
-Når du underskriver &pbaft., giver du som
-hovedkortholder fuldmagt til at ovennævnte, som er ægtefælle eller
-samlever, kan disponere på MasterCard Platinum-kontoen via dette MasterCard
-Platinum Family-kort.
+Når du opretter Kortstop, skal du blot registrere alle de kort, du
+ønsker, at aftalen skal omfatte. Du kan registrere kortene i
+&B32MITNYK.. Alle former for betalingskort og kreditkort, som er udstedt
+i Danmark, Norge, Sverige og Finland, kan tilknyttes Kortstop. Du
+får samtidig en forsikring, som dækker økonomiske tab som følge af
+uautoriseret brug af dine kort hos &B32NYK.. Forsikringen dækker på
+baggrund af de vilkår, som er anført i forsikringsbetingelserne. Det er dog
+under forudsætning af, at du meddeler tabet af det registrerede kort til
+&B32NYK.s samarbejdspartner Affinion senest 24 timer efter, det
+uautoriserede brug af kortet har fundet sted.
 .sp 3mm
 .kp off
 .kp on
-Fuldmagten gælder, indtil &B32NYK. modtager en skriftlig tilbagekaldelse.
-Du skal hurtigst muligt efter tilbagekaldelsen klippe MasterCard Platinum
-Family-kortet over og sende det til &B32NYK..
+Når du underskriver aftalen, accepterer du samtidig 'Generelle vilkår for
+&B32NYK. Kortstop' og '&B32NYK. Kortstop Forsikringsbetingelser'. Vikårene
+kan ses på
+.us &pbweb.
+.ct . Hvis du har underskrevet denne aftale fysisk, er vilkårene også
+udleveret sammen med denne aftale.
+.sp 3mm
+Det er en forudsætning for &B32NYK. Kortstop, at du giver samtykke til
+behandling og udveksling af data i henhold til de vilkår, som er beskrevet
+i aftalen, se afsnittet 'Samtykke til dataudveksling'.
 .sp 3mm
 .kp off
 .kp on
-Du er som den primære kortholder indforstået med, at ovennævnte MasterCard
-Platinum Family-kort udstedes, og at du som hovedkortholder og som
-kontohaver hæfter for enhver forpligtelse, der måtte opstå som følge
-heraf. Hæftelsen gælder indtil det tidspunkt, hvor det udstedte kort er
-opsagt og spærret i &B32NYK., og samtlige tilgodehavender er indfriet.
-.sp 3mm
-.kp off
-.kp on
-Når du underskriver &pbaftn., erkender du som
-hovedkortholder og som kontohaver at være ansvarlig for det samlede forbrug
-på MasterCard Platinum-kontoen, uanset om betalingerne er foretaget med
-MasterCard Platinum Family-kortet eller dit eget kort.
-.sp 3mm
-.kp off
-...FORTS3
-.kp on
-:FED.
-Betingelser for MasterCard Platinum og MasterCard Platinum Family
-:SKRSLUT.
-.sp 3mm
-Kortholderne er opmærksomme på, at MasterCard Family forsikringspakken
-alene omfatter en købsforsikring. Til MasterCard Platinum Family tilbydes
-desuden rejseassistance. Rejseassistance er en service, hvor SOS
-International a/s i visse situationer tilbyder praktisk hjælp, og der er
-således ikke tale om en forsikringsordning.
+.***************ID Tyveri beskyttelse **********
+:FED.ID Tyveri beskyttelse:SKRSLUT.
 .br
-Det løbende forbrug på MasterCard Family-kortet sker på den
-MasterCard-konto, som er oprettet i forbindelse med at kortet blev oprettet
-til kontohaver. Det aftalte forbrugsmaksimum på MasterCard-kontoen
-omfatter det samlede forbrug for alle kort tilknyttet MasterCard-kontoen.
-.sp 3mm
+I forbindelse med oprettelse af &pbaft. får du også en forsikring mod
+Identitetstyveri. Med ID Tyveri beskyttelse får du gode råd og
+vejledning til at forebygge, opdage og begrænse konsekvenserne af
+identitetstyveri. Hvis uheldet er ude, hjælper vores samarbejdspartner med
+at begrænse skadens omfang. Herudover indeholder produktet en forsikring,
+som dækker eventuelle tab i forbindelse med identitetstyveri, på de vilkår,
+som er skrevet i forsikringsbetingelserne.
 .kp off
-.kp on
-Du erkender som hovedkortholder at skylde &B32NYK. ethvert beløb, der måtte
-være trukket på MasterCard-kontoen med eventuelt tillæg af rente,
-overtræksrente samt gebyrer og omkostninger. Aftalegrundlaget for dit
-MasterCard-kreditkort er Private Banking Elite Aftalen inkl. øvrige vilkår,
-'Brugerregler for MasterCard Platinum', 'Vilkår for &B32NYK.s kreditkort',
-'Prisliste for betalings- og kreditkort' og 'Almindelige
-forretningsbetingelser for privatkunder'. Alle vilkårene finder du på
-&B32NYKDK./priser-og-vilkaar. Hvis du har underskrevet aftalen fysisk, er
-vilkårene også udleveret sammen med denne aftale. Du accepterer reglerne,
-når du aktiverer kortet.
-.sp 3mm
-.kp off
-.kp on
-Der er knyttet en række tillægsydelser til MasterCard Platinum og
-MasterCard Platinum Family, som leveres af &B32NYK. og/eller en
-samarbejdspartner, som er valgt af &B32NYK.. &B32NYK. kan til enhver tid
-ændre de tillægsydelser, som er knyttet til kortene, herunder omfang,
-indhold og vilkår for anvendelsen af disse. For yderligere oplysninger om
-vilkår m.v. henvises til ovennævnte vilkår. Du kan altid få oplyst hvilke
-tillægsydelser, som er tilknyttet kortene hos Nykredit Private Banking
-Elite.
-.sp 3mm
-.kp off
-...FORTS4
-.**** Dette tekstmodul anvendes kun for regtype 3031 og 3032 ******
-.if &prodtype <> PR
-.th
-.el .go FORTS6
-.*************** Privat **********************
-.kp on
-:VERDA09.
-:FED.Visa Infinite:SKRSLUT.
-.sp 3mm
-Når du underskriver denne aftale, bekræfter du, at du ønsker et
-Visa Infinite-kort med et kreditmaksimum på
-:VS. &B32MAX2.
-kr.
-.sp 3mm
-&B32NYK. opretter en Visa Infinite konto til dit Visa Infinite-kort. Det
-løbende forbrug bliver bogført på denne konto. Forbruget bliver gjort op i
-midten af hver måned, og du betaler regningen den 1. i måneden
-efter. Regningen betales automatisk fra nedenstående
-afregningskonto i &B32NYK..
-.sp 3mm
-Oplysninger om hovedkortholder
-.br
-&KTONAVN.
-.br
-.if &kunnr. = CPR-nr.:
-.th &cpr1.-&cpr2.
-.el &KTOKNDNR1.
-.sp 3mm
-Forbrug afregnes over konto &regnr.-&ktonr.
-.sp 3mm
-Visa Infinite omfatter et betalingskort, en rejseforsikringspakke, en
-købsforsikring, en billetafbestillingsforsikring, en røveriforsikring fra
-pengeautomater, døgnåbent Concierge Service, Priority Pass og Visa
-Infinite-kontoen, hvor du kan følge det løbende forbrug.
-.sp 3mm
-Priority Pass giver adgang til mere end 600 lounges i hele verden. I
-Danmark giver Priority Pass adgang til lounges i Billund og København. Læs
-mere om Priority Pass på &B32NYKDK..
-.sp 3mm
-Som supplement til dit Visa Infinite får du også et MasterCard Blue
-Shopping med et kreditmaksimum på
-:VS. &B32MAX3.
-kr.
-.sp 3mm
-Forbrug afregnes over konto &regnr.-&ktonr.
-.sp 3mm
-MasterCard Blue Shopping omfatter et betalingskort, en købsforsikring samt
-udvidet reklamationsret for udvalgt forbrugerelektronik og hårde hvidevarer
-købt med kortet i Danmark og MasterCard Blue Shopping-kontoen, hvor du kan
-følge det løbende forbrug.
-.sp 3mm
-Det er en forudsætning for Visa Infinite og MasterCard Blue Shopping, at du
-giver samtykke til  behandling og udveksling af data i henhold til de
-vilkår, som er beskrevet i afsnittet 'Samtykke til dataudveksling', samt at
-du accepterer de betingelser for Visa Infinite og MasterCard Blue Shopping,
-som er beskrevet i aftalen.
-.sp 3mm
-.kp off
-.if &L'&MEDNAVN > 0
-.th
-.el .go FORTS5
-.*************** Privat og medkontohaver ****************
-.kp on
-:VERDA09.
-:FED.Visa Infinite Family:SKRSLUT.
-.sp 3mm
-Når du underskriver denne aftale, bekræfter du, at du ønsker et
-Visa Infinite Family-kort med et kreditmaksimum på
-:VS. &B32MAX2.
-kr., som er tilknytet ovenstående Visa Infinite-kort
-.sp 3mm
-Oplysninger om kortholder
-.br
-&MEDNAVN.
-.br
-.if &mkunnr. = CPR-nr.:
-.th &mcpr1.-&mcpr2.
-.el &MEDKNDNR1.
-.sp 3mm
-Forbrug afregnes over konto &IREGKTO.
-.sp 3mm
-Visa Infinite Family omfatter et betalingskort, en rejseforsikringspakke,
-en købsforsikring, en billetafbestillingsforsikring, en røveriforsikring
-fra pengeautomater, døgnåbent Concierge Service samt et Priority
-Pass-medlemskab. Family-kortet er tilknyttet hovedkortholders
-Visa Infinite-konto.
-.sp 3mm
-.kp off
-.kp on
-Priority Pass giver adgang til mere end 600 lounges i hele verden. I
-Danmark giver Priority Pass adgang til lounges i Billund og København. Læs
-mere om Priority Pass på &B32NYKDK..
-.sp 3mm
-.kp off
-.kp on
-Som supplement til dit Visa Infinite får du også et MasterCard Blue
-Shopping med et kreditmaksimum på
-:VS. &B32MAX3.
-kr.
-.sp 3mm
-Forbrug afregnes over konto &IREGKTO.
-.sp 3mm
-.kp off
-.kp on
-MasterCard Blue Shopping omfatter et betalingskort, en købsforsikring samt
-udvidet reklamationsret for udvalgt forbrugerelektronik og hårde hvidevarer
-købt med kortet i Danmark. Family-kortet er tilknyttet hovedkortholders
-MasterCard Blue Shopping konto.
-.sp 3mm
-.kp off
-.kp on
-Det er en forudsætning for Visa Infinite og MasterCard Blue Shopping, at du
-giver samtykke til  behandling og udveksling af data i henhold til de
-vilkår, som er beskrevet i afsnittet 'Samtykke til dataudveksling', samt at
-du accepterer de betingelser for Visa Infinite og MasterCard Blue Shopping,
-som er beskrevet i aftalen.
-.sp 3mm
-.kp off
-.kp on
-:FED.Fuldmagt:SKRSLUT.
-.br
-Når du underskriver &pbaft., giver du som
-hovedkortholder fuldmagt til at ovennævnte, som er ægtefælle eller
-samlever, kan disponere på Visa Infinite-kontoen via dette Visa Infinite
-Family-kort.
-.sp 3mm
-.kp off
-.kp on
-Fuldmagten gælder, indtil &B32NYK. modtager en skriftlig tilbagekaldelse.
-Du skal hurtigst muligt efter tilbagekaldelsen klippe Visa Infinite
-Family-kortet over og sende det til &B32NYK..
-.sp 3mm
-.kp off
-.kp on
-Du er som den primære kortholder indforstået med, at ovennævnte Visa
-Infinite Family-kort udstedes, og at du som hovedkortholder og som
-kontohaver hæfter for enhver forpligtelse, der måtte opstå som følge
-heraf. Hæftelsen gælder indtil det tidspunkt, hvor det udstedte kort er
-opsagt og spærret i &B32NYK., og samtlige tilgodehavender er indfriet.
-.sp 3mm
-.kp off
-.kp on
-Når du underskriver &pbaft., erkender du som
-hovedkortholder og som kontohaver at være ansvarlig for det samlede forbrug
-på Visa Infinite-kontoen, uanset om betalingerne er foretaget med
-Visa Infinite Family-kortet eller dit eget kort.
-.sp 3mm
-.kp off
-.kp on
-Ligeledes er du som hovedkortholder indforstået med, at ovennævnte
-MasterCard Blue Shopping-kort udstedes til family-kortholder, og at
-forbruget på dette kort afregnes via den debiteringskonto, som er knyttet
-til Visa Infinite-kortet tilknyttede. Samtidig hæfter du som
-hovedkortholder for enhver forpligtelse, der måtte opstå som følge heraf.
-.sp 3mm
-.kp off
-...FORTS5
-.kp on
-:FED.
-Betingelser for Visa Infinite, Visa Infinite Family og MasterCard Blue
-Shopping
-:SKRSLUT.
-.sp 3mm
-Når du underskriver denne aftale accepterer du og er bekendt med at:
-.br
-Aftalegrundlaget for Visa Infinite, Visa Infinite Family og MasterCard Blue
-Shopping består af denne &pbaft. inkl. 'Vilkår for &B32NYK. kreditkort',
-'Brugerregler for Visa Infinite',
- 'Forsikringsbetingelser for Visa Infinite', 'Prisliste for Visa Infinite',
- 'Brugerregler for MasterCard' og
-'Almindelige forretningsbetingelser for privatkunder'.
-.kp off
-.kp on
-.sp 3mm
-'Vilkår for Nykredit kreditkort', 'Brugerregler for Visa Infinite',
-'Forsikringsbetingelser for Visa Infinite', 'Prisliste for Visa Infinite'
-og 'Brugerregler for MasterCard' sendes med kortene. De 'Almindelige
-forretningsbetingelser for privatkunder' finder du på
-&pbweb1.. Du accepterer det samlede aftalegrundlag, når du
-aktiverer kortet.
-.sp 3mm
-.kp off
-.kp on
-Når du underskriver denne aftale, erkender du som hovedkortholder at skylde
-&B32NYK. ethvert beløb, der måtte være trukket på Visa Infinite-kontoen og
-MasterCard Blue Shopping-kontoen og med eventuelt tillæg af rente,
-overtræksrente samt gebyrer og omkostninger.
-.kp off
-.kp on
-.sp 3mm
-Der er knyttet en række tillægsydelser til kortene, som leveres af &B32NYK.
-og/eller en samarbejdspartner, som er valgt af &B32NYK.. &B32NYK. kan til
-enhver tid ændre de tillægsydelser som er knyttet til kortene, herunder
-omfang, indhold og vilkår for anvendelsen af disse. Du kan læse de
-yderligere oplysninger om vilkår m.v. i de ovennævnte vilkår. I kan altid
-få oplyst, hvilke tillægsydelser som er tilknyttet Visa Infinite, Visa
-Infinite Family og MasterCard Blue Shopping hos Nykredit Private Banking
-Elite.
-.sp 3mm
-.kp off
-...FORTS6
 .kp on
 .sp 3mm
 Når du skriver under på denne aftale accepterer du forsikringsbetingelserne
@@ -835,56 +172,6 @@ Family-kort vil blive spærret. Eventuelle MasterCard
 Platinum Family og MasterCard Blue Shopping) fortsætter på &B32NYK.s
 sædvanlige vilkår for sådanne kort.
 .sp 3mm
-.kp off
-.*************** Kortstop ***************
-.kp on
-:FED.Kortstop:SKRSLUT.
-.br
-I forbindelse med oprettelse af &pbaft. opnår du fordelene ved &B32NYK.
-Kortstop.
-.sp 3mm
-.kp off
-.kp on
-Med Kortstop kan du spærre alle dine kort med en enkelt
-opringning. Det gælder både kort fra &BANKNAVN., fra andre
-pengeinstitutter, benzinselskaber, stormagasiner mv.
-.br
-Når du opretter Kortstop, skal du blot registrere alle de kort, du
-ønsker, at aftalen skal omfatte. Du kan registrere kortene i
-&B32MITNYK.. Alle former for betalingskort og kreditkort, som er udstedt
-i Danmark, Norge, Sverige og Finland, kan tilknyttes Kortstop. Du
-får samtidig en forsikring, som dækker økonomiske tab som følge af
-uautoriseret brug af dine kort hos &B32NYK.. Forsikringen dækker på
-baggrund af de vilkår, som er anført i forsikringsbetingelserne. Det er dog
-under forudsætning af, at du meddeler tabet af det registrerede kort til
-&B32NYK.s samarbejdspartner Affinion senest 24 timer efter, det
-uautoriserede brug af kortet har fundet sted.
-.sp 3mm
-.kp off
-.kp on
-Når du underskriver aftalen, accepterer du samtidig 'Generelle vilkår for
-&B32NYK. Kortstop' og '&B32NYK. Kortstop Forsikringsbetingelser'. Vikårene
-kan ses på
-.us &pbweb.
-.ct . Hvis du har underskrevet denne aftale fysisk, er vilkårene også
-udleveret sammen med denne aftale.
-.sp 3mm
-Det er en forudsætning for &B32NYK. Kortstop, at du giver samtykke til
-behandling og udveksling af data i henhold til de vilkår, som er beskrevet
-i aftalen, se afsnittet 'Samtykke til dataudveksling'.
-.sp 3mm
-.kp off
-.kp on
-.***************ID Tyveri beskyttelse **********
-:FED.ID Tyveri beskyttelse:SKRSLUT.
-.br
-I forbindelse med oprettelse af &pbaft. får du også en forsikring mod
-Identitetstyveri. Med ID Tyveri beskyttelse får du gode råd og
-vejledning til at forebygge, opdage og begrænse konsekvenserne af
-identitetstyveri. Hvis uheldet er ude, hjælper vores samarbejdspartner med
-at begrænse skadens omfang. Herudover indeholder produktet en forsikring,
-som dækker eventuelle tab i forbindelse med identitetstyveri, på de vilkår,
-som er skrevet i forsikringsbetingelserne.
 .kp off
 .kp on
 Vilkår for hjemmeboende børn under 18 år, der følger af &pbaft., ophører
@@ -1269,3 +556,717 @@ Denne blanket skal afleveres/sendes til:
 .br
 &BANKNAVN., Private Banking, Under Krystallen 1, 1780 København V
 .ar off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.:'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.:'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.:'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.:'
+.*Afgør produkttype
+.se prodtype = '?'
+.if &REGTYPE. = 3030
+.or &REGTYPE. = 3036
+.th .se prodtype = 'PR'
+.if &REGTYPE. = 3031
+.or &REGTYPE. = 3037
+.th .se prodtype = 'PRU'
+.if &REGTYPE. = 3032
+.or &REGTYPE. = 3038
+.th .se prodtype = 'PRU+'
+.if &prodtype = ?
+.th .mg/T/Dokument kan ikke udskrives for denne regtype: &REGTYPE.
+.**** DIVERSE FORKOTELSER ****************************
+.if &prodtype = PR
+.th .se pbaft = 'Private Banking Elite Aftale'
+.th .se pbaftn = 'Private Banking Elite Aftalen'
+.if &prodtype = PRU
+.th .se pbaft = 'Private Banking Elite Aftale - Ultima'
+.th .se pbaftn = 'Private Banking Elite Aftalen - Ultima'
+.if &prodtype = PRU+
+.th .se pbaft = 'Private Banking Elite Aftale - Ultima+'
+.th .se pbaftn = 'Private Banking Elite Aftalen - Ultima+'
+.se pbweb = 'nykredit.dk/privatebanking-vilkaar'
+.se pbweb1 = 'nykredit.dk/bankvilkaar'
+.*se pbweb = 'nykredit.dk/#!/private-banking-vilkaar'
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.*rh on
+.**************************************************************************
+.ar VEND on
+.*:SWISS6.
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 40mm
+.*rh off
+.*rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.*************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+.hy off
+.in 5mm
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.us off
+.**************************************************************************
+.da FEJL      20mm 120mm width 170mm
+.da KTOHAVOV  20mm 30mm width 155mm
+.da KTOHAVER  20mm 35mm width 155mm
+.da MKTOHAVR 115mm 35mm width 85mm
+.da KUNDENR   20mm 68mm width 155mm
+.da MKUNDNR  115mm 68mm width 155mm
+.da KTOOPL1   20mm 75mm width 170mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1  = substr &KTOKNDNR1 1 6
+.se cpr2  = substr &KTOKNDNR1 7 4
+.se mcpr1 = substr &MEDKNDNR1 1 6
+.se mcpr2 = substr &MEDKNDNR1 7 4
+.su on
+.**************************************************************************
+.ar KTOOPL1 on
+.tp 50mm right 165mm right
+ ¤ ¤ Dato: &DATO.
+.*Reg.nr. ¤ &regnr. ¤ Dato: &DATO.
+.*br
+.*Kontonr. ¤ &ktonr.
+.ar off
+...DOKTXT
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+.if &L'&MEDNAVN gt 0
+.th Kontohavere
+.el Kontohaver
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar MKTOHAVR on
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.if &kunnr. = CPR-nr.:
+.th &kunnr. &cpr1.-&cpr2.
+.el &kunnr. &KTOKNDNR1.
+.ar off
+.ar MKUNDNR on
+.if &L'&MEDNAVN gt 0
+.an &mkunnr. = CPR-nr.:
+.th &mkunnr. &mcpr1.-&mcpr2
+.if &L'&MEDNAVN gt 0
+.an &mkunnr. <> CPR-nr.:
+.th &mkunnr. &MEDKNDNR1
+.ar off
+.**************************************************************************
+.da T1TEKST 20mm 95mm width 170mm
+.ar T1TEKST on
+:VERDA09.
+.*************** Aftale start ***************
+:FED.&pbaft.:SKRSLUT.
+.br
+Når du underskriver denne aftale, indgår du en &pbaft. med
+&BANKNAVN. A/S (herefter benævnt &B32NYK.). Når du indgår en
+&pbaft., opnår du adgang til personlig rådgivning om daglig økonomi og
+formueforvaltning. Samtidig indgår du aftale om adgang til Kortstop og
+ID Tyveri beskyttelse på vilkår, som er beskrevet nedenunder. Derudover
+giver &pbaft. adgang til en række tilknyttede ydelser:
+.tp 5mm 10mm
+.sp 3mm
+ ¤ - ¤ Indlånskonti med attraktive renteforhold.
+.br
+.if &prodtype. = PR
+.th
+.el .go PRU1
+ ¤ - ¤ Visa/Dankort
+.in 10mm nobreak
+samt MasterCard Platinum og MasterCard Platinum Family
+uden årsgebyr. Til MasterCard Platinum er tilknyttet et Priority Pass.
+.in 5mm
+.br
+.go FORTS1
+...PRU1
+ ¤ - ¤ Visa/Dankort
+.in 10mm nobreak
+samt Visa Infinite og Visa Infinite Family
+uden årsgebyr. Til Visa Infinite er tilknyttet et Priority Pass.
+.in 5mm
+.br
+...FORTS1
+ ¤ - ¤ Indlånskonti
+.in 10mm nobreak
+med attraktive rentevilkår og tilhørende debetkort til
+hjemmeboende børn under 18 år. Det er en forudsætning, at der gives
+samtykke til behandling og udveksling af data i henhold til de vilkår, der
+er beskrevet i aftalen, se afsnittet 'Samtykke til dataudveksling'.
+.in 5mm
+.br
+.if &prodtype = PRU+
+.th
+.el .go FORTS2
+ ¤ - ¤ NemID nøgleviser
+.br
+ ¤ - ¤ Sundhedsundersøgelser
+.in 10mm nobreak
+til en fordelagtig pris gennem &B32NYK.s samarbejdspartner
+Falck Healthcare.
+.in 5mm
+.br
+...FORTS2
+ ¤ - ¤ Gratis adgang
+.in 10mm nobreak
+til &B32MITNYK., hvor du let kan styre din daglige
+økonomi og hurtigt danne dig et overblik over dit forbrugsmønster via
+&B32NYK.s forbrugsoverblik.
+.in 5mm
+.br
+ ¤ - ¤ Adgang til en række særlige fordele som fx rabat på ferieboliger,
+hotelværelser og billeje.
+.sp 3mm
+Du indgår en særskilt aftale med &B32NYK. og/eller tredjepart om de
+enkelte ydelser.
+.sp 3mm
+&B32NYK. kan ændre udbuddet af de ydelser, der er tilknyttet
+&pbaft., uden varsel. For de ydelser, hvor der allerede er indgået
+særskilt aftale, kan disse ændres eller ophøre i henhold til det særskilte
+aftalegrundlag.
+.sp 3mm
+Det er et vilkår for &pbaft., at du og/eller din ægtefælle har en
+formueopsparing i &B32NYK. på ikke under
+.if &prodtype = PR
+.th 7.000.000
+.if &prodtype = PRU
+.th 25.000.000
+.if &prodtype = PRU+
+.th 50.000.000
+kr., som er placeret i et af
+&B32NYK.s pensionsprodukter, særlige opsparingsprodukter eller udvalgte
+konti - eller du har investeret i værdipapirer i depot i &B32NYK.. I denne
+bedømmelse indgår også formueopsparing i eventuelle selskaber
+(A/S, ApS, I/S, K/S), som ejes af dig og/eller din ægtefælle.
+.sp 3mm
+Hvis din og/eller din ægtefælles formueopsparing falder til under
+5.600.000 kr., forbeholder &B32NYK. sig retten til at opsige &pbaft. i
+henhold til de vilkår for opsigelse, der er anført nedenfor.
+.sp 3mm
+Det har ingen betydning for din &pbaft., hvis din formueopsparing i
+&B32NYK. falder til under 5.600.000 kr., efter du er fyldt 65 år.
+.sp 3mm
+.ar off
+.pa
+.**** Dette tekstmodul anvendes kun for regtype 3030 *************
+.if &prodtype = PR
+.th
+.el .go FORTS4
+.*************** Privat *****************************************
+.kp on
+:VERDA09.
+:FED.MasterCard Platinum.:SKRSLUT.
+.sp 3mm
+Når du underskriver denne aftale, bekræfter du, at du ønsker et
+MasterCard Platinum-kort med et kreditmaksimum på
+:VS. &B32MAX1.
+kr.
+.sp 3mm
+&B32NYK. opretter en MasterCard Platinum konto til dit MasterCard. Det
+løbende forbrug bliver bogført på denne konto. Forbruget bliver gjort op i
+midten af hver måned, og du betaler regningen den 1. i måneden
+efter. Regningen betales automatisk fra nedenstående
+afregningskonto i &B32NYK..
+.sp 3mm
+Oplysninger om hovedkortholder
+.br
+&KTONAVN.
+.br
+.if &kunnr. = CPR-nr.:
+.th &cpr1.-&cpr2.
+.el &KTOKNDNR1.
+.sp 3mm
+Forbrug afregnes over konto &regnr.-&ktonr.
+.sp 3mm
+MasterCard Platinum omfatter et betalingskort, en rejseforsikringspakke, en
+købsforsikring samt et Priority Pass medlemskab. Priority Pass giver adgang
+til mere end 600 lounges i hele verden. I Danmark giver Priority Pass
+adgang til lounges i Billund og København. Læs mere om Priority Pass på
+&B32NYKDK..
+.sp 3mm
+.kp off
+.if &L'&MEDNAVN > 0
+.th
+.el .go FORTS3
+.*************** Privat og medkontohaver ************************
+.kp on
+:VERDA09.
+:FED.MasterCard Platinum Family kort:SKRSLUT.
+.sp 3mm
+Når du underskriver denne aftale, bekræfter du, at du ønsker et
+MasterCard Platinum Family-kort med et kreditmaksimum på
+:VS. &B32MAX1.
+kr., som er tilknytet ovenstående MasterCard Platinum-kort
+.sp 3mm
+Oplysninger om kortholder
+.br
+&MEDNAVN.
+.br
+.if &mkunnr. = CPR-nr.:
+.th &mcpr1.-&mcpr2.
+.el &MEDKNDNR1.
+.sp 3mm
+Forbrug afregnes over konto &regnr.-&ktonr.
+.sp 3mm
+MasterCard Platinum Family er et betalingskort samt en købsforsikring. Der
+er ikke tilknyttet en rejseforsikringspakke på MasterCard Platinum
+Family. Prioritye Pass medlemskab er ikke omfattet af MasterCard Platinum
+Family.
+.sp 3mm
+.kp off
+.kp on
+:FED.Fuldmagt:SKRSLUT.
+.br
+Når du underskriver &pbaft., giver du som
+hovedkortholder fuldmagt til at ovennævnte, som er ægtefælle eller
+samlever, kan disponere på MasterCard Platinum-kontoen via dette MasterCard
+Platinum Family-kort.
+.sp 3mm
+.kp off
+.kp on
+Fuldmagten gælder, indtil &B32NYK. modtager en skriftlig tilbagekaldelse.
+Du skal hurtigst muligt efter tilbagekaldelsen klippe MasterCard Platinum
+Family-kortet over og sende det til &B32NYK..
+.sp 3mm
+.kp off
+.kp on
+Du er som den primære kortholder indforstået med, at ovennævnte MasterCard
+Platinum Family-kort udstedes, og at du som hovedkortholder og som
+kontohaver hæfter for enhver forpligtelse, der måtte opstå som følge
+heraf. Hæftelsen gælder indtil det tidspunkt, hvor det udstedte kort er
+opsagt og spærret i &B32NYK., og samtlige tilgodehavender er indfriet.
+.sp 3mm
+.kp off
+.kp on
+Når du underskriver &pbaftn., erkender du som
+hovedkortholder og som kontohaver at være ansvarlig for det samlede forbrug
+på MasterCard Platinum-kontoen, uanset om betalingerne er foretaget med
+MasterCard Platinum Family-kortet eller dit eget kort.
+.sp 3mm
+.kp off
+...FORTS3
+.kp on
+:FED.
+Betingelser for MasterCard Platinum og MasterCard Platinum Family
+:SKRSLUT.
+.sp 3mm
+Kortholderne er opmærksomme på, at MasterCard Family forsikringspakken
+alene omfatter en købsforsikring. Til MasterCard Platinum Family tilbydes
+desuden rejseassistance. Rejseassistance er en service, hvor SOS
+International a/s i visse situationer tilbyder praktisk hjælp, og der er
+således ikke tale om en forsikringsordning.
+.br
+Det løbende forbrug på MasterCard Family-kortet sker på den
+MasterCard-konto, som er oprettet i forbindelse med at kortet blev oprettet
+til kontohaver. Det aftalte forbrugsmaksimum på MasterCard-kontoen
+omfatter det samlede forbrug for alle kort tilknyttet MasterCard-kontoen.
+.sp 3mm
+.kp off
+.kp on
+Du erkender som hovedkortholder at skylde &B32NYK. ethvert beløb, der måtte
+være trukket på MasterCard-kontoen med eventuelt tillæg af rente,
+overtræksrente samt gebyrer og omkostninger. Aftalegrundlaget for dit
+MasterCard-kreditkort er Private Banking Elite Aftalen inkl. øvrige vilkår,
+'Brugerregler for MasterCard Platinum', 'Vilkår for &B32NYK.s kreditkort',
+'Prisliste for betalings- og kreditkort' og 'Almindelige
+forretningsbetingelser for privatkunder'. Alle vilkårene finder du på
+&B32NYKDK./priser-og-vilkaar. Hvis du har underskrevet aftalen fysisk, er
+vilkårene også udleveret sammen med denne aftale. Du accepterer reglerne,
+når du aktiverer kortet.
+.sp 3mm
+.kp off
+.kp on
+Der er knyttet en række tillægsydelser til MasterCard Platinum og
+MasterCard Platinum Family, som leveres af &B32NYK. og/eller en
+samarbejdspartner, som er valgt af &B32NYK.. &B32NYK. kan til enhver tid
+ændre de tillægsydelser, som er knyttet til kortene, herunder omfang,
+indhold og vilkår for anvendelsen af disse. For yderligere oplysninger om
+vilkår m.v. henvises til ovennævnte vilkår. Du kan altid få oplyst hvilke
+tillægsydelser, som er tilknyttet kortene hos Nykredit Private Banking
+Elite.
+.sp 3mm
+.kp off
+...FORTS4
+.**** Dette tekstmodul anvendes kun for regtype 3031 og 3032 ******
+.if &prodtype <> PR
+.th
+.el .go FORTS6
+.*************** Privat **********************
+.kp on
+:VERDA09.
+:FED.Visa Infinite:SKRSLUT.
+.sp 3mm
+Når du underskriver denne aftale, bekræfter du, at du ønsker et
+Visa Infinite-kort med et kreditmaksimum på
+:VS. &B32MAX2.
+kr.
+.sp 3mm
+&B32NYK. opretter en Visa Infinite konto til dit Visa Infinite-kort. Det
+løbende forbrug bliver bogført på denne konto. Forbruget bliver gjort op i
+midten af hver måned, og du betaler regningen den 1. i måneden
+efter. Regningen betales automatisk fra nedenstående
+afregningskonto i &B32NYK..
+.sp 3mm
+Oplysninger om hovedkortholder
+.br
+&KTONAVN.
+.br
+.if &kunnr. = CPR-nr.:
+.th &cpr1.-&cpr2.
+.el &KTOKNDNR1.
+.sp 3mm
+Forbrug afregnes over konto &regnr.-&ktonr.
+.sp 3mm
+Visa Infinite omfatter et betalingskort, en rejseforsikringspakke, en
+købsforsikring, en billetafbestillingsforsikring, en røveriforsikring fra
+pengeautomater, døgnåbent Concierge Service, Priority Pass og Visa
+Infinite-kontoen, hvor du kan følge det løbende forbrug.
+.sp 3mm
+Priority Pass giver adgang til mere end 600 lounges i hele verden. I
+Danmark giver Priority Pass adgang til lounges i Billund og København. Læs
+mere om Priority Pass på &B32NYKDK..
+.sp 3mm
+Som supplement til dit Visa Infinite får du også et MasterCard Blue
+Shopping med et kreditmaksimum på
+:VS. &B32MAX3.
+kr.
+.sp 3mm
+Forbrug afregnes over konto &regnr.-&ktonr.
+.sp 3mm
+MasterCard Blue Shopping omfatter et betalingskort, en købsforsikring samt
+udvidet reklamationsret for udvalgt forbrugerelektronik og hårde hvidevarer
+købt med kortet i Danmark og MasterCard Blue Shopping-kontoen, hvor du kan
+følge det løbende forbrug.
+.sp 3mm
+Det er en forudsætning for Visa Infinite og MasterCard Blue Shopping, at du
+giver samtykke til  behandling og udveksling af data i henhold til de
+vilkår, som er beskrevet i afsnittet 'Samtykke til dataudveksling', samt at
+du accepterer de betingelser for Visa Infinite og MasterCard Blue Shopping,
+som er beskrevet i aftalen.
+.sp 3mm
+.kp off
+.if &L'&MEDNAVN > 0
+.th
+.el .go FORTS5
+.*************** Privat og medkontohaver ****************
+.kp on
+:VERDA09.
+:FED.Visa Infinite Family:SKRSLUT.
+.sp 3mm
+Når du underskriver denne aftale, bekræfter du, at du ønsker et
+Visa Infinite Family-kort med et kreditmaksimum på
+:VS. &B32MAX2.
+kr., som er tilknytet ovenstående Visa Infinite-kort
+.sp 3mm
+Oplysninger om kortholder
+.br
+&MEDNAVN.
+.br
+.if &mkunnr. = CPR-nr.:
+.th &mcpr1.-&mcpr2.
+.el &MEDKNDNR1.
+.sp 3mm
+Forbrug afregnes over konto &IREGKTO.
+.sp 3mm
+Visa Infinite Family omfatter et betalingskort, en rejseforsikringspakke,
+en købsforsikring, en billetafbestillingsforsikring, en røveriforsikring
+fra pengeautomater, døgnåbent Concierge Service samt et Priority
+Pass-medlemskab. Family-kortet er tilknyttet hovedkortholders
+Visa Infinite-konto.
+.sp 3mm
+.kp off
+.kp on
+Priority Pass giver adgang til mere end 600 lounges i hele verden. I
+Danmark giver Priority Pass adgang til lounges i Billund og København. Læs
+mere om Priority Pass på &B32NYKDK..
+.sp 3mm
+.kp off
+.kp on
+Som supplement til dit Visa Infinite får du også et MasterCard Blue
+Shopping med et kreditmaksimum på
+:VS. &B32MAX3.
+kr.
+.sp 3mm
+Forbrug afregnes over konto &IREGKTO.
+.sp 3mm
+.kp off
+.kp on
+MasterCard Blue Shopping omfatter et betalingskort, en købsforsikring samt
+udvidet reklamationsret for udvalgt forbrugerelektronik og hårde hvidevarer
+købt med kortet i Danmark. Family-kortet er tilknyttet hovedkortholders
+MasterCard Blue Shopping konto.
+.sp 3mm
+.kp off
+.kp on
+Det er en forudsætning for Visa Infinite og MasterCard Blue Shopping, at du
+giver samtykke til  behandling og udveksling af data i henhold til de
+vilkår, som er beskrevet i afsnittet 'Samtykke til dataudveksling', samt at
+du accepterer de betingelser for Visa Infinite og MasterCard Blue Shopping,
+som er beskrevet i aftalen.
+.sp 3mm
+.kp off
+.kp on
+:FED.Fuldmagt:SKRSLUT.
+.br
+Når du underskriver &pbaft., giver du som
+hovedkortholder fuldmagt til at ovennævnte, som er ægtefælle eller
+samlever, kan disponere på Visa Infinite-kontoen via dette Visa Infinite
+Family-kort.
+.sp 3mm
+.kp off
+.kp on
+Fuldmagten gælder, indtil &B32NYK. modtager en skriftlig tilbagekaldelse.
+Du skal hurtigst muligt efter tilbagekaldelsen klippe Visa Infinite
+Family-kortet over og sende det til &B32NYK..
+.sp 3mm
+.kp off
+.kp on
+Du er som den primære kortholder indforstået med, at ovennævnte Visa
+Infinite Family-kort udstedes, og at du som hovedkortholder og som
+kontohaver hæfter for enhver forpligtelse, der måtte opstå som følge
+heraf. Hæftelsen gælder indtil det tidspunkt, hvor det udstedte kort er
+opsagt og spærret i &B32NYK., og samtlige tilgodehavender er indfriet.
+.sp 3mm
+.kp off
+.kp on
+Når du underskriver &pbaft., erkender du som
+hovedkortholder og som kontohaver at være ansvarlig for det samlede forbrug
+på Visa Infinite-kontoen, uanset om betalingerne er foretaget med
+Visa Infinite Family-kortet eller dit eget kort.
+.sp 3mm
+.kp off
+.kp on
+Ligeledes er du som hovedkortholder indforstået med, at ovennævnte
+MasterCard Blue Shopping-kort udstedes til family-kortholder, og at
+forbruget på dette kort afregnes via den debiteringskonto, som er knyttet
+til Visa Infinite-kortet tilknyttede. Samtidig hæfter du som
+hovedkortholder for enhver forpligtelse, der måtte opstå som følge heraf.
+.sp 3mm
+.kp off
+...FORTS5
+.kp on
+:FED.
+Betingelser for Visa Infinite, Visa Infinite Family og MasterCard Blue
+Shopping
+:SKRSLUT.
+.sp 3mm
+Når du underskriver denne aftale accepterer du og er bekendt med at:
+.br
+Aftalegrundlaget for Visa Infinite, Visa Infinite Family og MasterCard Blue
+Shopping består af denne &pbaft. inkl. 'Vilkår for &B32NYK. kreditkort',
+'Brugerregler for Visa Infinite',
+ 'Forsikringsbetingelser for Visa Infinite', 'Prisliste for Visa Infinite',
+ 'Brugerregler for MasterCard' og
+'Almindelige forretningsbetingelser for privatkunder'.
+.kp off
+.kp on
+.sp 3mm
+'Vilkår for Nykredit kreditkort', 'Brugerregler for Visa Infinite',
+'Forsikringsbetingelser for Visa Infinite', 'Prisliste for Visa Infinite'
+og 'Brugerregler for MasterCard' sendes med kortene. De 'Almindelige
+forretningsbetingelser for privatkunder' finder du på
+&pbweb1.. Du accepterer det samlede aftalegrundlag, når du
+aktiverer kortet.
+.sp 3mm
+.kp off
+.kp on
+Når du underskriver denne aftale, erkender du som hovedkortholder at skylde
+&B32NYK. ethvert beløb, der måtte være trukket på Visa Infinite-kontoen og
+MasterCard Blue Shopping-kontoen og med eventuelt tillæg af rente,
+overtræksrente samt gebyrer og omkostninger.
+.kp off
+.kp on
+.sp 3mm
+Der er knyttet en række tillægsydelser til kortene, som leveres af &B32NYK.
+og/eller en samarbejdspartner, som er valgt af &B32NYK.. &B32NYK. kan til
+enhver tid ændre de tillægsydelser som er knyttet til kortene, herunder
+omfang, indhold og vilkår for anvendelsen af disse. Du kan læse de
+yderligere oplysninger om vilkår m.v. i de ovennævnte vilkår. I kan altid
+få oplyst, hvilke tillægsydelser som er tilknyttet Visa Infinite, Visa
+Infinite Family og MasterCard Blue Shopping hos Nykredit Private Banking
+Elite.
+.sp 3mm
+.kp off
+...FORTS6
+

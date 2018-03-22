@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :altprint &PRTVALG
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
@@ -21,26 +34,138 @@
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
+.*SUBSTRINGS**************************************************************
+.*
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &KUNDENR 1 2
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
+.*
+.*************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.th .se kundtype = 'P'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.th .se kundtype = 'P'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.th .se kundtype = 'E'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.th .se kundtype = 'P'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, INDNAVN, INDCO *******
+.* INDGADE, INDBY, INDLAND, INDKUNDENR, GENCPR ****************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da FEJL      25mm 110mm width 170mm
+.da HEADER1   25mm  75mm width 170mm
+.da KTOHAVOV  25mm  30mm width 155mm
+.da KTOHAVER  25mm  37mm width 155mm
+.da OPRETTER 115mm  36mm width  85mm
+.da KUNDENR   25mm  67mm width 155mm
+.**************************************************************************
+.su off
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.se indcpr1 = substr &INDKUNDENR 1 6
+.se indcpr2 = substr &INDKUNDENR 7 4
+.su on
+.**************************************************************************
+.ar HEADER1 on
+.tp 50mm right 165mm right
+:FED.Tillæg til eksisterende aftale:SKRSLUT.
+.br
+:FED.Netbank 13-17:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+.tp 90mm
+:FED.
+Kontohaver ¤ Opretter
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar OPRETTER on
+&INDNAVN
+.br
+&INDCO
+.br
+&INDGADE
+.br
+&INDBY
+.br
+&INDLAND
+.**************************************************************************
+.ar KUNDENR on
+.tp 90mm
+CPR-nr.: &cpr1.-&cpr2 ¤ CPR-nr.: &indcpr1.-&indcpr2
+.ar off
+.**************************************************************************
+.*TEST PÅ KORREKT KONTOTYPE ***********************************************
+.ar FEJL on
+:VERDA10.
+.if x&REGTYPE = x5201
+.or x&REGTYPE = x5203
+.or x&REGTYPE = x5961
+.or x&REGTYPE = x5968
+.or x&REGTYPE = x5969
+.or x&REGTYPE = x6820
+.or x&REGTYPE = x6821
+.or x&REGTYPE = x6822
+.th .go DOKTXT
+...FEJL1
+.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
+.hr left right
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et konto-nr. med
+en ugyldig reg.type.
+.sp 3mm
+.hr left right
+.qu
+.**************************************************************************
+...DOKTXT
+.ar off
 .**************************************************************************
 .* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
 .* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
@@ -91,138 +216,13 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .ar off
 .sp 20mm
 .rh off
-.ar OPRETTER on
-&INDNAVN
-.br
-&INDCO
-.br
-&INDGADE
-.br
-&INDBY
-.br
-&INDLAND
-.**************************************************************************
-.ar KUNDENR on
-.tp 90mm
-CPR-nr.: &cpr1.-&cpr2 ¤CPR-nr.: &indcpr1.-&indcpr2
-.ar off
-.**************************************************************************
-.*TEST PÅ KORREKT KONTOTYPE ***********************************************
-.ar FEJL on
-:VERDA10.
-.if x&REGTYPE = x5201
-.or x&REGTYPE = x5203
-.or x&REGTYPE = x5961
-.or x&REGTYPE = x5968
-.or x&REGTYPE = x5969
-.or x&REGTYPE = x6820
-.or x&REGTYPE = x6821
-.or x&REGTYPE = x6822
-.th .go DOKTXT
-...FEJL1
-.*KUN OVERSKRIFT OG FEJLMEDDELELSE UDSKRIVES, DERNÆST QUIT (.QU) **********
-.hr left right
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et konto-nr. med
-en ugyldig reg.type.
-.sp 3mm
-.hr left right
-.qu
-.**************************************************************************
-...DOKTXT
-.ar off
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, INDNAVN, INDCO *******
-.* INDGADE, INDBY, INDLAND, INDKUNDENR, GENCPR ****************************
-.**************************************************************************
-.ti ¤ 05
-:VERDA09.
-.**************************************************************************
-.da FEJL      25mm 110mm width 170mm
-.da HEADER1   25mm  75mm width 170mm
-.da KTOHAVOV  25mm  30mm width 155mm
-.da KTOHAVER  25mm  37mm width 155mm
-.da OPRETTER 115mm  36mm width  85mm
-.da KUNDENR   25mm  67mm width 155mm
-.**************************************************************************
-.su off
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.se cpr1 = substr &KTOKNDNR1 1 6
-.se cpr2 = substr &KTOKNDNR1 7 4
-.se indcpr1 = substr &INDKUNDENR 1 6
-.se indcpr2 = substr &INDKUNDENR 7 4
-.su on
-.**************************************************************************
-.ar HEADER1 on
-.tp 50mm right 165mm right
-:FED.Tillæg til eksisterende aftale:SKRSLUT.
-.br
-:FED.Netbank 13-17:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOHAVOV on
-.tp 90mm
-:FED.
-Kontohaver ¤Opretter
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOHAVER on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.*SUBSTRINGS**************************************************************
-.*
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &KUNDENR 1 2
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.su on
-.if x&cprcvr = x00
-.th .se tlfnr = 'Erhverv'
-.*
-.*************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.th .se kundtype = 'P'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.'
-.th .se kundtype = 'P'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.th .se kundtype = 'E'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.th .se kundtype = 'P'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.'
-.**************************************************************************
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
 .hy off
 .sp 55mm
 .tp 8mm 16mm
@@ -234,11 +234,12 @@ depot via Nykredit Netbank 13-17:
 .se ktonr1 = substr &IREGKTO 5 7
 .se deprg1 = substr &B32PIDEP1 1 4
 .se depnr1 = substr &B32PIDEP1 5 6
-Konto¤Depot
+Konto ¤ Depot
 .br
-&regnr1.-&ktonr1.¤&deprg1.-&depnr1.
+&regnr1.-&ktonr1. ¤ &deprg1.-&depnr1.
 .sp 15mm
 .dr tynd weight 0.1mm
 .tp 30mm 90mm 115mm
 .hr tynd 5mm 25mm 30mm 85mm
-Dato¤&INDNAVN.
+Dato ¤ &INDNAVN.
+

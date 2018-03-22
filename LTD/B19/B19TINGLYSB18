@@ -11,75 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND     7mm  280mm width 180mm rotate -90
-.da OVERSKR 20mm   32mm width 175mm
-.da BOX     20mm   40mm width 175mm
-.da ID      20mm   47mm width 175mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.********************OVERSKRIFT********************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-Aftale om tinglysning af forhøjelse af ejerpantebrev - virksomhedspant
-:SKRSLUT.
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-.tp 30mm
-&BREVNAVN.
-.br
-&KONTROL1 kl. &KLOKKESLET ¤&DATO
-.ar off
-.********************KASSE TIL ID OG AFGIFT*******************************
-.ar BOX on
-:SWISS9.
-.tp 1mm 50mm 100mm 140mm
-.bx left right
-¤Kundenr. ¤¤Afgift ¤Udskrevet
-.sp 6mm
-.bx off
-.********************KASSE TIL INDHOLD*************************************
-.sp 4mm
-.bx left right
-.sp 221mm
-.bx off
-.ar off
-.********************ID OG AFGIFT******************************************
-.ar ID on
-:SWISS9.
-.tp 1mm 50mm 90mm 140mm
-¤&KUNDENR ¤¤&B19BELØB13 ¤&DATO
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
-.**************************************************************************
-.sp 47mm
-.rh off
-.rh execute
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
 .* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
 .* i kundens netbank - afsnittet indsættes efter KUNDEUD1
 .**************************************************************************
@@ -178,31 +109,6 @@ Aftale om tinglysning af forhøjelse af ejerpantebrev - virksomhedspant
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -253,19 +159,210 @@ Aftale om tinglysning af forhøjelse af ejerpantebrev - virksomhedspant
 .an &L'&DUROLLE4 = 0
 .th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
 .el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm  280mm width 180mm rotate -90
+.da OVERSKR 20mm   32mm width 175mm
+.da BOX     20mm   40mm width 175mm
+.da ID      20mm   47mm width 175mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+Aftale om tinglysning af forhøjelse af ejerpantebrev - virksomhedspant
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+.tp 30mm
+&BREVNAVN.
 .br
-.hr 23mm 75mm 103mm 160mm
-.********************* SLUT PÅ OPSTILLING
+&KONTROL1 kl. &KLOKKESLET ¤ &DATO
+.ar off
+.********************KASSE TIL ID OG AFGIFT*******************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 50mm 100mm 140mm
+.bx left right
+ ¤ Kundenr. ¤ ¤ Afgift ¤ Udskrevet
+.sp 6mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 221mm
+.bx off
+.ar off
+.********************ID OG AFGIFT******************************************
+.ar ID on
+:SWISS9.
+.tp 1mm 50mm 90mm 140mm
+ ¤ &KUNDENR ¤ ¤ &B19BELØB13 ¤ &DATO
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 47mm
+.rh off
+.rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.******** AFSNIT OG AREALER ***********
+.da TEKST   22mm 60mm width 165mm
+.tp 7mm 10mm
+.******************** OVERSKRIFT *****
+.ar TEKST on
+Aftale om elektronisk tinglysning vedrørende ejerpantebrev
+- virksomhedspant
+kr. :VS.&B19BELØB
+.br
+Debitor: &NAVN
+.br
+Lyst første gang: &B19DATO Løbenr. &B19TX13A
+.sp
+med pant i
+.br
+.if &L'&B19TX1A gt 0
+.th .go TX1A
+.el .go TX1B
+...TX1A
+ ¤ - ¤ Simple fordringer hidrørende fra salg af varer
+og tjenesteydelser (tinglysningslovens § 47 c, stk. 3, nr. 1)
+.br
+.go TX1B
+...TX1B
+.if &L'&B19TX1B gt 0
+.th .go TX1BZ
+.el .go TX1C
+...TX1BZ
+ ¤ - ¤ Lagre af råvarer, halvfabrikata og
+.in +10mm nobreak
+færdigvarer (tinglysningslovens § 47 c, stk. 3, nr. 2)
+.in -10mm
+.br
+.go TX1C
+...TX1C
+.if &L'&B19TX1C gt 0
+.th .go TX1CZ
+.el .go TX1D
+...TX1CZ
+ ¤ - ¤ De i tinglysningslovens § 42 c
+.in +10mm nobreak
+nævnte køretøjer, som ikke er og aldrig har været registreret
+i Centralregistret for Motorkøretøjer eller i et tilsvarende
+udenlandsk register (tinglysningslovens § 47 c, stk. 3, nr. 3)
+.in -10mm
+.br
+.go TX1D
+...TX1D
+.if &L'&B19TX1D gt 0
+.th .go TX1DZ
+.el .go TX1E
+...TX1DZ
+ ¤ - ¤ Driftsinventar og driftsmateriel
+(tinglysningslovens § 47 c, stk. 3, nr. 4)
+.br
+.go TX1E
+...TX1E
+.if &L'&B19TX1E gt 0
+.th .go TX1EZ
+.el .go TX1F
+...TX1EZ
+ ¤ - ¤ Drivmidler og andre hjælpestoffer
+(tinglysningslovens § 47 c, stk. 3, nr. 5)
+.br
+.go TX1F
+...TX1F
+.if &L'&B19TX1F gt 0
+.th .go TX1FZ
+.el .go TX1G
+...TX1FZ
+ ¤ - ¤ Besætning (tinglysningslovens § 47 c, stk. 3, nr. 6)
+.br
+.go TX1G
+...TX1G
+.if &L'&B19TX1G gt 0
+.th .go TX1GZ
+.el .go TX1H
+...TX1GZ
+ ¤ - ¤ Goodwill, domænenavne og rettigheder
+.in 10mm nobreak
+i henhold til patentloven, varemærkeloven, designloven, brugsmodelloven,
+mønsterloven, ophavsretsloven og lov om beskyttelse af halvlederprodukters
+udformning (topografi) (tinglysningslovens § 47 c, stk. 3, nr. 7)
+.br
+.go TX1H
+...TX1H
+.if &L'&B19TX1H gt 0
+.th .go TX1HZ
+.el .go END
+...TX1HZ
+ ¤ - ¤ Brugte køretøjer - Pantsætter
+.in 10mm nobreak
+driver erhvervsvirksomhed med køb og salg af køretøjer (tinglysningslovens
+§ 47 c, stk. 3, nr. 8).
+.br
+.in -10mm
+.go END
+...END
+.sp3
+.tp delete 7mm 10mm
 .************** PÅTEGNING **********
 .tp 45mm 60mm 85mm 90mm right
 .in 5mm
-Nærværende ejerpantebrev ¤¤kr. ¤¤&B19BELØB
+Nærværende ejerpantebrev ¤ ¤ kr. ¤ ¤ &B19BELØB
 .br
-Forhøjes med ¤¤kr. ¤¤&B19BELØB11
+Forhøjes med ¤ ¤ kr. ¤ ¤ &B19BELØB11
 .br
 .hr 60mm 90mm
 .sp
-I alt ¤¤kr. ¤¤&RESULTC
+I alt ¤ ¤ kr. ¤ ¤ &RESULTC
 .br
 .hr 60mm 90mm
 .sp
@@ -299,110 +396,14 @@ Til vitterlighed om underskriftens ægthed, dateringens
 rigtighed og underskriverens myndighed:
 .sp
 .tp 85mm
-Navn:¤Navn:
+Navn: ¤ Navn:
 .br
-Stilling:¤Stilling:
+Stilling: ¤ Stilling:
 .br
-Bopæl:¤Bopæl:
+Bopæl: ¤ Bopæl:
 .sp
-Underskrift:¤Underskrift:
-.el .go TX1E
-...TX1DZ
-¤- ¤Driftsinventar og driftsmateriel
-(tinglysningslovens § 47 c, stk. 3, nr. 4)
+Underskrift: ¤ Underskrift:
 .br
-.go TX1E
-...TX1E
-.if &L'&B19TX1E gt 0
-.th .go TX1EZ
-.el .go TX1F
-...TX1EZ
-¤- ¤Drivmidler og andre hjælpestoffer
-(tinglysningslovens § 47 c, stk. 3, nr. 5)
-.br
-.go TX1F
-...TX1F
-.if &L'&B19TX1F gt 0
-.th .go TX1FZ
-.el .go TX1G
-...TX1FZ
-¤- ¤Besætning (tinglysningslovens § 47 c, stk. 3, nr. 6)
-.br
-.go TX1G
-...TX1G
-.if &L'&B19TX1G gt 0
-.th .go TX1GZ
-.el .go TX1H
-...TX1GZ
-¤- ¤Goodwill, domænenavne og rettigheder
-.in 10mm nobreak
-i henhold til patentloven, varemærkeloven, designloven, brugsmodelloven,
-mønsterloven, ophavsretsloven og lov om beskyttelse af halvlederprodukters
-udformning (topografi) (tinglysningslovens § 47 c, stk. 3, nr. 7)
-.br
-.go TX1H
-...TX1H
-.if &L'&B19TX1H gt 0
-.th .go TX1HZ
-.el .go END
-...TX1HZ
-¤- ¤Brugte køretøjer - Pantsætter
-.in 10mm nobreak
-driver erhvervsvirksomhed med køb og salg af køretøjer (tinglysningslovens
-§ 47 c, stk. 3, nr. 8).
-.br
-.in -10mm
-.go END
-...END
-.sp3
-.tp delete 7mm 10mm
-.******** AFSNIT OG AREALER ***********
-.da TEKST   22mm 60mm width 165mm
-.tp 7mm 10mm
-.******************** OVERSKRIFT *****
-.ar TEKST on
-Aftale om elektronisk tinglysning vedrørende ejerpantebrev
-- virksomhedspant
-kr. :VS.&B19BELØB
-.br
-Debitor: &NAVN
-.br
-Lyst første gang: &B19DATO Løbenr. &B19TX13A
-.sp
-med pant i
-.br
-.if &L'&B19TX1A gt 0
-.th .go TX1A
-.el .go TX1B
-...TX1A
-¤- ¤Simple fordringer hidrørende fra salg af varer
-og tjenesteydelser (tinglysningslovens § 47 c, stk. 3, nr. 1)
-.br
-.go TX1B
-...TX1B
-.if &L'&B19TX1B gt 0
-.th .go TX1BZ
-.el .go TX1C
-...TX1BZ
-¤- ¤Lagre af råvarer, halvfabrikata og
-.in +10mm nobreak
-færdigvarer (tinglysningslovens § 47 c, stk. 3, nr. 2)
-.in -10mm
-.br
-.go TX1C
-...TX1C
-.if &L'&B19TX1C gt 0
-.th .go TX1CZ
-.el .go TX1D
-...TX1CZ
-¤- ¤De i tinglysningslovens § 42 c
-.in +10mm nobreak
-nævnte køretøjer, som ikke er og aldrig har været registreret
-i Centralregistret for Motorkøretøjer eller i et tilsvarende
-udenlandsk register (tinglysningslovens § 47 c, stk. 3, nr. 3)
-.in -10mm
-.br
-.go TX1D
-...TX1D
-.if &L'&B19TX1D gt 0
-.th .go TX1DZ
+.hr 23mm 75mm 103mm 160mm
+.********************* SLUT PÅ OPSTILLING
+

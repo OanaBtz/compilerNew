@@ -11,6 +11,529 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.***************
+.if &L'&AFTDATO10 = 0
+.an &L'&GENFDATO = 0
+.th .go INDFRI
+:FED.
+Genforhandling
+.br
+:SKRSLUT.
+.if &L'&AFTDATO10 > 0
+.th &debsomt aftaler den videre afvikling eller indfrielse med &BANKNAVN
+.th den &AFTDATO10..
+.if &L'&GENFDATO > 0
+.th .br
+.th Kreditten genforhandles
+.th &GENFDATO..
+.sp 5mm
+...INDFRI
+.**************************
+.if &L'&INDFRIDATO > 0
+.th
+.el .go RENTE
+:FED.
+Slutdato
+.br
+:SKRSLUT.
+Trækningsretten på kreditten bortfalder den &INDFRIDATO., hvor et
+eventuelt skyldigt beløb skal indbetales.
+.sp 5mm
+...RENTE
+.***************
+:FED.
+Rente og provision
+.br
+:SKRSLUT.
+Rente og provision er
+.if &U'&RENTETYP = V
+.th variabel
+.if &U'&RENTETYP = D
+.th differentieret
+og fastsættes til enhver tid af
+.*--------Her starter J65-version-----------
+&BANKNAVN., jf. &BANKNAVN.'
+.*--------Her slutter J65-version-----------
+.************************ FS HAR ÆNDRET HER ****************************
+"Almindelige forretnings- og lånebetingelser
+.if &U'&PRIERH = E
+.TH - erhverv"
+.el - forbruger"
+.********************* FS SLUTTER HER **********************************
+.sp 3mm
+;T
+.if &U'&RENTETYP = V
+.th .go TYPV
+.el .go TYPD
+...TYPV
+Den årlige rente er variabel og udgør p.t. &RENTE % og tilskrives kreditten
+.if &RTEFREK01 = 1
+.th hver måned,
+.if &RTEFREK01 = 3
+.th hvert kvartal,
+.if &RTEFREK01 = 6
+.th hvert halvår,
+.if &RTEFREK01 = 9
+.th hvert år,
+første gang den &RTEDATO01..
+...TYPD
+.if &U'&RENTETYP = D
+.th Renten er differentieret og fremgår af kreditoplysningerne.
+.sp 3mm
+Renten beregnes dagligt af den udnyttede kreditramme og
+tilskrives kreditten
+.if &RTEFREK01 = 1
+.th hver måned,
+.if &RTEFREK01 = 3
+.th hvert kvartal,
+.if &RTEFREK01 = 6
+.th hvert halvår,
+.if &RTEFREK01 = 9
+.th hvert år,
+første gang den &RTEDATO01..
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.el .sp 3mm
+.el .go PROV
+.***************
+...PROV
+.if &L'&PROV > 0
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.th .br
+.if &L'&PROVOVERTR > 0
+.th Overtræksprovision er for tiden &PROVOVERTR % om året.
+.th .br
+.if &L'&PROVBEVILG > 0
+.th Provision af bevilget overtræk er for tiden &PROVBEVILG % om året.
+.th .br
+...PROVSL
+.if &L'&PROVOVERTR > 0
+.th Ved overtræk eller forsinket indfrielse af kassekreditten er
+.th &BANKNAVN berettiget til at opkræve en årlig variabel
+.th overtræks-/morarente som p.t. udgør et variabelt tillæg på
+.th &PROVOVERTR % i tillæg til renten.
+.if &U'&PRIERH = P
+.th .br
+.th Ved &min udnyttelse af fortrydelsesretten udgør det daglige rentebeløb
+.th kr. &FTRRTEDAG ved fuld udnyttelse af kreditrammen.
+.***************
+.sp 5mm
+.if &L'&AFDYDL01 > 0
+.an &U'&AFDYDL01 = H
+.th .go MORARTE
+:FED.
+Betaling
+.br
+:SKRSLUT.
+.**PRIVAT ******
+.if &U'&PRIERH = P
+.th &debsomt får ikke separat meddelelse om beløb, der er
+.th hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.**ERHVERV *****
+.if &U'&PRIERH = E
+.th &BANKNAVN er berettiget til at debitere kontoen for ethvert beløb, som
+.th &deblomt på en hvilken som helst måde måtte blive &BANKNAVN skyldig.
+.sp 5mm
+.*****************************
+...MORARTE
+.kp on
+:FED.
+Overtræks-/Morarente og følger af manglende betaling
+:SKRSLUT.
+.br
+Overtrækkes eller indfries kassekreditten ikke senest på forfaldsdagen,
+er &BANKNAVN. berettiget til at opkræve
+overtræks-/morarente. Overtræks-/morarenten beregnes af
+overtrækket/det forfaldne beløb. Overtræks-/morarenten beregnes med den
+angivne sats, som er variabel, fra første overtræksdag/forfaldsdagen
+indtil betaling sker. &debsomt får oplysning om ændring af morarenten på
+.*--------Her starter J65-version-----------
+&BANKNAVN.' hjemmeside.
+.*--------Her slutter J65-version-----------
+.sp 3mm
+.kp off
+.kp on
+Ved overtræk og forsinket betaling kan der påløbe
+rykkergebyrer. Rykkergebyr og andre misligholdelsesomkostninger
+.*--------Her starter J65-version-----------
+fremgår af &BANKNAVN.' prisbog. Ved overdragelse til inkasso vil der
+.*--------Her slutter J65-version-----------
+påløbe omkostninger til advokat, domstole
+m.v. Overtræk vil kunne medføre, at kreditaftalen ophæves, ligesom overtræk
+og manglende indfrielse vil kunne medføre, at det er vanskeligt at
+opnå kredit. Ophævelse af kreditaftalen vil medføre en forhøjelse af rente
+og gebyrer.
+.sp 5mm
+.kp off
+.***************
+:FED.
+Opsigelse
+.br
+:SKRSLUT.
+.if &U'&PRIERH = P
+.th &debsomt
+.th kan opsige kreditten uden varsel og indbetale det skyldige
+.th beløb inklusive
+.th rente, provision og eventuelle andre omkostninger til
+.th indfrielsesdagen. &BANKNAVN kan opsige kreditten med 3 måneders
+.th varsel og forlange, at &deblomt
+.th betaler det skyldige beløb inklusive rente, provision og
+.th eventuelle andre
+.th omkostninger pr. opsigelsesdagen. &ÅCONT
+.if &U'&PRIERH = P
+.th &BANKNAVN kan i særlige tilfælde opsige kreditten uden varsel. Ved
+.*--------Her starter J65-version-----------
+.th &BANKNAVN.' opsigelse har &deblomt krav på en saglig begrundelse.
+.*--------Her slutter J65-version-----------
+.if &U'&PRIERH = E
+.th Såvel &deblomt som &BANKNAVN har altid ret til at opsige kreditten
+.th uden varsel. I så fald skal &deblomt betale det skyldige beløb,
+.th herunder påløbne renter, provisioner og omkostninger til
+.th indfrielsesdagen.
+.sp 5mm
+.***************
+.if &L'&AFTDATO10 = 0
+.an &L'&GENFDATO = 0
+.th .go RENTE
+:FED.
+Genforhandling
+.br
+:SKRSLUT.
+.if &L'&AFTDATO10 > 0
+.th &debsomt aftaler den videre afvikling eller indfrielse med &BANKNAVN
+.th den &AFTDATO10..
+.if &L'&GENFDATO > 0
+.th .br
+.th Kreditten genforhandles
+.th &GENFDATO..
+.sp 5mm
+...RENTE
+.***************
+:FED.
+Rente og provision
+.br
+:SKRSLUT.
+Rente og provision er
+.if &U'&RENTETYP = V
+.th variabel
+.if &U'&RENTETYP = D
+.th differentieret
+og fastsættes til enhver tid af
+&BANKNAVN., jf. &BANKNAVN.s
+"Almindelige forretningsbetingelser" og "Almindelige bestemmelser for lån
+og kreditter
+.if &U'&PRIERH = E
+.TH - erhvervskunder".
+.el - forbruger".
+.sp 3mm
+.if &U'&RENTETYP = V
+.th .go TYPV
+.el .go TYPD
+...TYPV
+Udlånsrenten er for tiden &RENTE % om året og tilskrives kreditten
+.if &RTEFREK01 = 1
+.th hver måned,
+.if &RTEFREK01 = 3
+.th hvert kvartal,
+.if &RTEFREK01 = 6
+.th hvert halvår,
+.if &RTEFREK01 = 9
+.th hvert år,
+første gang den &RTEDATO01..
+...TYPD
+;T
+.if &U'&RENTETYP = D
+.th Renten er differentieret og fremgår af kreditoplysningerne.
+.if &L'&PROV = 0
+.an &L'&PROVOVERTR = 0
+.an &L'&PROVBEVILG = 0
+.th .go PROVSL
+.el .sp 3mm
+.el .go PROV
+.***************
+...PROV
+.if &L'&PROV > 0
+.th Provisionen er for tiden &PROV % om året. &ÅCONT
+.th .br
+.if &L'&PROVOVERTR > 0
+.th Overtræksprovision er for tiden &PROVOVERTR % om året.
+.th .br
+.if &L'&PROVBEVILG > 0
+.th Provision af bevilget overtræk er for tiden &PROVBEVILG % om året.
+.th .br
+...PROVSL
+.***************
+.sp 5mm
+.if &L'&AFDYDL01 > 0
+.an &U'&AFDYDL01 = H
+.th .go OPSIGEL
+:FED.
+Betaling
+.br
+:SKRSLUT.
+.**PRIVAT ******
+.if &U'&PRIERH = P
+.th &debsomt får ikke separat meddelelse om beløb, der er
+.th hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.**ERHVERV *****
+.if &U'&PRIERH = E
+.th &BANKNAVN er berettiget til at debitere kontoen for ethvert beløb, som
+.th &deblomt på en hvilken som helst måde måtte blive &BANKNAVN skyldig.
+.sp 5mm
+.***************
+...OPSIGEL
+:FED.
+Opsigelse
+.br
+:SKRSLUT.
+.if &U'&PRIERH = P
+.th &debsomt
+.th kan opsige kreditten uden varsel og indbetale det skyldige
+.th beløb inklusive
+.th rente, provision og eventuelle andre omkostninger til
+.th indfrielsesdagen. &BANKNAVN kan opsige kreditten med 3 måneders
+.th varsel og forlange, at &deblomt
+.th betaler det skyldige beløb inklusive rente, provision og
+.th eventuelle andre
+.th omkostninger pr. opsigelsesdagen. &ÅCONT
+.if &U'&PRIERH = P
+.th &BANKNAVN kan i særlige tilfælde opsige kreditten uden varsel.
+.if &U'&PRIERH = E
+.th Såvel &deblomt som &BANKNAVN har altid ret til at opsige kreditten
+.th uden varsel. I så fald skal &deblomt betale det skyldige beløb,
+.th herunder påløbne renter, provisioner og omkostninger til
+.th indfrielsesdagen.
+.sp 5mm
+.***********
+.if &U'&PRIERH = P
+.th .go FORTRY
+.el .go EJFORTRY
+...FORTRY
+:FED.
+Fortrydelsesret
+:SKRSLUT.
+.br
+&debsomt har ret til at fortryde kreditaftalen inden for 14 dage fra
+lånet/kreditten stilles til &min disposition. Det gælder dog kun, hvis
+&deblomt har modtaget de oplysninger, der kræves efter
+kreditaftaleloven. Ellers regnes fristen fra den dag, hvor &deblomt
+modtager oplysningerne. Hvis fortrydelsesfristens sidste dag falder på en
+lørdag, søndag, helligdag, grundlovsdag, fredag efter
+Kristi Himmelfartsdag, juleaftensdag eller
+nytårsaftensdag, udløber fristen den følgende hverdag.
+.sp 3mm
+Ønsker &deblomt at benytte &min ret til at fortryde skal &deblomt ringe
+eller skrive til &min afdeling inden fristen udløber. Desuden skal
+&deblomt tilbagebetale det modtagne beløb/trækket på kreditten og
+eventuelle omkostninger, som &BANKNAVN. måtte have betalt til offentlige
+myndigheder og som ikke kan refunderes.
+.sp 3mm
+Derudover skal &deblomt betale de renter, der er påløbet fra den dag
+lånet/kreditten blev stillet til &min disposition indtil beløbet
+tilbagebetales. Rentebeløbet, der påløber pr. dag, udgør
+&FTRRTEDAG. kr. Rentebeløbet er beregnet på baggrund af renteforholdene på
+aftaletidspunktet, ligesom der ikke er taget højde for renters rente. Det
+rentebeløb, der skal betales ved udnyttelse af fortrydelsesretten, er de
+påløbne renter beregnet på grundlag af den aftalte debitorrente.
+.sp 3mm
+Det samlede beløb skal tilbagebetales uden unødig forsinkelse og senest 30
+dage efter &deblomt har givet besked om udøvelsen af fortrydelsesretten.
+.sp 5mm
+...EJFORTRY
+.*SÆRLIGE BETINGELSER *****************************************************
+.if &L'&SAERBET01 gt 0
+.or &L'&SAERBET02 gt 0
+.or &L'&SAERBET03 gt 0
+.or &L'&SAERBET04 gt 0
+.or &L'&SAERBET05 gt 0
+.or &L'&SAERBET06 gt 0
+.or &L'&SAERBET07 gt 0
+.or &L'&SAERBET08 gt 0
+.or &L'&SAERBET09 gt 0
+.or &L'&SAERBET10 gt 0
+.or &L'&SAERBET11 gt 0
+.or &L'&SAERBET12 gt 0
+.th .go SÆRBET
+.el .go SÆRBETSL
+...SÆRBET
+.kp on
+:FED.Særlige betingelser:SKRSLUT.
+.br
+&SAERBET01.
+.if &U'&LINSKIP01 = J
+.th .br
+&SAERBET02.
+.if &U'&LINSKIP02 = J
+.th .br
+&SAERBET03.
+.if &U'&LINSKIP03 = J
+.th .br
+&SAERBET04.
+.if &U'&LINSKIP04 = J
+.th .br
+&SAERBET05.
+.if &U'&LINSKIP05 = J
+.th .br
+&SAERBET06.
+.if &U'&LINSKIP06 = J
+.th .br
+&SAERBET07.
+.if &U'&LINSKIP07 = J
+.th .br
+&SAERBET08.
+.if &U'&LINSKIP08 = J
+.th .br
+&SAERBET09.
+.if &U'&LINSKIP09 = J
+.th .br
+&SAERBET10.
+.if &U'&LINSKIP10 = J
+.th .br
+&SAERBET11.
+.if &U'&LINSKIP11 = J
+.th .br
+&SAERBET12.
+.sp 5mm
+.kp off
+...SÆRBETSL
+.if &DEBANTAL < 3
+.an &KAUANTAL = 0
+.an &PANANTAL = 0
+.th .go DEBUND
+.el .go DEBSLUT
+...DEBUND
+.tp 87.5mm
+.kp on
+:FED.Underskrift:SKRSLUT.
+.br
+.**************************************************************************
+.if &DEBANTAL > 2
+.or &U'&SIKKERHED = J
+.or &U'&KROPL = J
+.th .go BILAG
+.el .go BILAGSL
+.***************
+...BILAG
+Kreditaftalen omfatter også følgende bilag, der er en integreret del af
+kreditaftalen:
+.sp 3mm
+.if &DEBANTAL > 2
+.th * Øvrige låntagere
+.th .br
+.if &U'&SIKKERHED = J
+.th * Sikkerheder
+.th .br
+.if &U'&KROPL = J
+.th * Kreditoplysninger
+.sp 3mm
+...BILAGSL
+.***************
+.if &U'&PRIERH = E
+.th .go ERHBET
+.el .go BETBEG
+.****ERHVERV *******
+...ERHBET
+&debsomt erklærer ved &min underskrift, at kassekreditten er til
+erhvervsmæssigt formål.
+.sp 3mm
+Det er en forudsætning for denne kredit, at vi og eventuelle kautionister
+indleverer vores regnskab til &BANKNAVN hvert år senest 6 måneder efter
+regnskabsårets afslutning, og at dette ikke giver grund til
+bemærkninger.
+.sp 3mm
+...BETBEG
+.**GÆLDER FOR BÅDE FORBRUGERE OG ERHVERVSKUNDER ***************************
+&debsomt er bekendt med og accepterer, at &BANKNAVN.s "Almindelige
+forretningsbetingelser" og "Almindelige bestemmelser for lån og kreditter
+.if &U'&PRIERH = P
+;T
+.th - forbruger"
+.if &U'&PRIERH = E
+.th - erhvervskunder"
+er en del af denne aftale, og &deblomt har fået en kopi af aftalen.
+.sp 5mm
+.*****************************
+:FED.
+Underskrift som låntager(e) og pantsætter(e)
+:SKRSLUT.
+.sp 8mm
+.********************
+.tp _/50mm 87.5mm _/137.5mm
+.if &DEBANTAL = 2
+.th Den ¤ ¤Den ¤
+.el Den ¤
+.sp 14mm
+.if &DEBANTAL = 2
+.th .hr tynd 5mm 80mm 87.5mm 167.5mm
+.el .hr tynd 5mm 80mm
+.br
+.tp 87.5mm
+.if &DEBANTAL = 2
+.th &DEB01NAVN ¤&DEB02NAVN
+.el &DEB01NAVN
+.kp off
+...DEBSLUT
+.if &U'&PRIERH = E
+.th .go ENDKRED
+.**************************************************************************
+.kp on
+:FED.
+Førtidig tilbagebetaling
+:SKRSLUT.
+.br
+&debsomt. har til enhver tid ret til helt eller delvis at indfri &mine
+forpligtelser i henhold til kreditaftalen, &deblomt. har
+herefter ret til en reduktion af de samlede kreditomkostninger, der består
+af renter og omkostninger i den resterende del af kreditaftalens løbetid.
+Indfrielse skal ske ved indbetaling til kreditkontoen.
+.sp 5mm
+.kp off
+.kp on
+:FED.
+Fortrydelsesret
+:SKRSLUT.
+.br
+&debsomt. har ret til at fortryde kreditaftalen inden for 14 dage fra
+kreditten stilles til disposition. Hvis fortrydelsesfristens sidste dag
+falder på en lørdag, søndag, helligdag, grundlovsdag,
+fredag efter Kristi Himmelfartsdag, juleaftensdag eller
+nytårsaftensdag, udløber fristen den følgende hverdag.
+.sp 3mm
+.kp off
+.kp on
+Ønsker &deblomt. at benytte fortrydelsesretten
+kan det ske ved at ringe eller
+skrive til &min afdeling inden fristen udløber. Desuden skal det
+modtagne beløb tilbagebetales sammen med
+eventuelle omkostninger, som &BANKNAVN.
+måtte have betalt til offentlige myndigheder og som ikke kan refunderes.
+.sp 3mm
+.kp off
+.kp on
+Derudover skal &deblomt. betale de renter, der er påløbet fra den dag
+kreditten blev stillet til disposition, indtil
+beløbet tilbagebetales. Det angivne
+rentebeløb, der påløber pr. dag er beregnet på baggrund af renteforholdene
+på aftaletidspunktet, ligesom der
+ikke er taget højde for renters rente. Det rentebeløb,
+der skal betales ved udnyttelse af fortrydelsesretten, er
+de påløbne renter
+beregnet på grundlag af den aftalte rente.
+.sp 3mm
+.kp off
+.kp on
+Det samlede beløb skal tilbagebetales uden unødig forsinkelse, og senest 30
+dage efter &deblomt. har givet besked om udøvelsen af fortrydelsesretten.
+.sp 5mm
+.kp off
+...ENDKRED
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -91,7 +614,7 @@ Kl. &TID
 .ar SIDE on
 .tp 1mm 30mm 65mm 140mm
 .bx left right
-¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
+ ¤ Banksted ¤ Kontonummer ¤ Kredittype ¤ Dannelsesdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -100,15 +623,15 @@ Kl. &TID
 .bx left right
 .tp 1mm 88.5mm 135mm
 .if &DEBANTAL = 1
-.th ¤Låntager
+.th ¤ Låntager
 .if &DEBANTAL = 2
-.th ¤Låntager ¤Låntager
+.th ¤ Låntager ¤ Låntager
 .if &DEBANTAL > 2
-.th ¤Låntager ¤Låntager ¤Flere låntagere
+.th ¤ Låntager ¤ Låntager ¤ Flere låntagere
 .sp 20mm
 .if &DEBANTAL > 1
-.th ¤Kundenummer &KTOKNDNR1 ¤Kundenummer &DEB2KNDNR
-.el ¤Kundenummer &KTOKNDNR1
+.th ¤ Kundenummer &KTOKNDNR1 ¤ Kundenummer &DEB2KNDNR
+.el ¤ Kundenummer &KTOKNDNR1
 .bx off
 .sp 4mm
 .bx left right
@@ -122,7 +645,7 @@ Kl. &TID
 .******************************************************************
 .ar BANKSTED on
 .tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+ ¤ &BANKSTED  ¤ &LANGKTONR ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
 .ar off
 .**************************************
 .ar KUNDEOPL on
@@ -179,7 +702,7 @@ Kl. &TID
 :SWISS9.
 .tp 1mm 30mm 65mm 140mm
 .bx left right
-¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
+ ¤ Banksted ¤ Kontonummer ¤ Kredittype ¤ Dannelsesdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -191,7 +714,7 @@ Kl. &TID
 .ar BANKSTED on
 :SWISS9.
 .tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+ ¤ &BANKSTED  ¤ &LANGKTONR ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
 .ar off
 .**************************************************************************
 .ar VEND on
@@ -556,523 +1079,4 @@ den &OPFØLGDATO..
 .sp 5mm
 ...INGDATO
 .***********************************************************************
-.***************
-.if &L'&AFTDATO10 = 0
-.an &L'&GENFDATO = 0
-.th .go INDFRI
-:FED.
-Genforhandling
-.br
-:SKRSLUT.
-.if &L'&AFTDATO10 > 0
-.th &debsomt aftaler den videre afvikling eller indfrielse med &BANKNAVN
-.th den &AFTDATO10..
-.if &L'&GENFDATO > 0
-.th .br
-.th Kreditten genforhandles
-.th &GENFDATO..
-.sp 5mm
-...INDFRI
-.**************************
-.if &L'&INDFRIDATO > 0
-.th
-.el .go RENTE
-:FED.
-Slutdato
-.br
-:SKRSLUT.
-Trækningsretten på kreditten bortfalder den &INDFRIDATO., hvor et
-eventuelt skyldigt beløb skal indbetales.
-.sp 5mm
-...RENTE
-.***************
-:FED.
-Rente og provision
-.br
-:SKRSLUT.
-Rente og provision er
-.if &U'&RENTETYP = V
-.th variabel
-.if &U'&RENTETYP = D
-.th differentieret
-og fastsættes til enhver tid af
-.*--------Her starter J65-version-----------
-&BANKNAVN., jf. &BANKNAVN.'
-.*--------Her slutter J65-version-----------
-.************************ FS HAR ÆNDRET HER ****************************
-"Almindelige forretnings- og lånebetingelser
-.if &U'&PRIERH = E
-.TH - erhverv"
-.el - forbruger"
-.********************* FS SLUTTER HER **********************************
-.sp 3mm
-;T.if &U'&RENTETYP = V
-.th .go TYPV
-.el .go TYPD
-...TYPV
-Den årlige rente er variabel og udgør p.t. &RENTE % og tilskrives kreditten
-.if &RTEFREK01 = 1
-.th hver måned,
-.if &RTEFREK01 = 3
-.th hvert kvartal,
-.if &RTEFREK01 = 6
-.th hvert halvår,
-.if &RTEFREK01 = 9
-.th hvert år,
-første gang den &RTEDATO01..
-...TYPD
-.if &U'&RENTETYP = D
-.th Renten er differentieret og fremgår af kreditoplysningerne.
-.sp 3mm
-Renten beregnes dagligt af den udnyttede kreditramme og
-tilskrives kreditten
-.if &RTEFREK01 = 1
-.th hver måned,
-.if &RTEFREK01 = 3
-.th hvert kvartal,
-.if &RTEFREK01 = 6
-.th hvert halvår,
-.if &RTEFREK01 = 9
-.th hvert år,
-første gang den &RTEDATO01..
-.if &L'&PROV = 0
-.an &L'&PROVOVERTR = 0
-.an &L'&PROVBEVILG = 0
-.th .go PROVSL
-.el .sp 3mm
-.el .go PROV
-.***************
-...PROV
-.if &L'&PROV > 0
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.th .br
-.if &L'&PROVOVERTR > 0
-.th Overtræksprovision er for tiden &PROVOVERTR % om året.
-.th .br
-.if &L'&PROVBEVILG > 0
-.th Provision af bevilget overtræk er for tiden &PROVBEVILG % om året.
-.th .br
-...PROVSL
-.if &L'&PROVOVERTR > 0
-.th Ved overtræk eller forsinket indfrielse af kassekreditten er
-.th &BANKNAVN berettiget til at opkræve en årlig variabel
-.th overtræks-/morarente som p.t. udgør et variabelt tillæg på
-.th &PROVOVERTR % i tillæg til renten.
-.if &U'&PRIERH = P
-.th .br
-.th Ved &min udnyttelse af fortrydelsesretten udgør det daglige rentebeløb
-.th kr. &FTRRTEDAG ved fuld udnyttelse af kreditrammen.
-.***************
-.sp 5mm
-.if &L'&AFDYDL01 > 0
-.an &U'&AFDYDL01 = H
-.th .go MORARTE
-:FED.
-Betaling
-.br
-:SKRSLUT.
-.**PRIVAT ******
-.if &U'&PRIERH = P
-.th &debsomt får ikke separat meddelelse om beløb, der er
-.th hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
-.**ERHVERV *****
-.if &U'&PRIERH = E
-.th &BANKNAVN er berettiget til at debitere kontoen for ethvert beløb, som
-.th &deblomt på en hvilken som helst måde måtte blive &BANKNAVN skyldig.
-.sp 5mm
-.*****************************
-...MORARTE
-.kp on
-:FED.
-Overtræks-/Morarente og følger af manglende betaling
-:SKRSLUT.
-.br
-Overtrækkes eller indfries kassekreditten ikke senest på forfaldsdagen,
-er &BANKNAVN. berettiget til at opkræve
-overtræks-/morarente. Overtræks-/morarenten beregnes af
-overtrækket/det forfaldne beløb. Overtræks-/morarenten beregnes med den
-angivne sats, som er variabel, fra første overtræksdag/forfaldsdagen
-indtil betaling sker. &debsomt får oplysning om ændring af morarenten på
-.*--------Her starter J65-version-----------
-&BANKNAVN.' hjemmeside.
-.*--------Her slutter J65-version-----------
-.sp 3mm
-.kp off
-.kp on
-Ved overtræk og forsinket betaling kan der påløbe
-rykkergebyrer. Rykkergebyr og andre misligholdelsesomkostninger
-.*--------Her starter J65-version-----------
-fremgår af &BANKNAVN.' prisbog. Ved overdragelse til inkasso vil der
-.*--------Her slutter J65-version-----------
-påløbe omkostninger til advokat, domstole
-m.v. Overtræk vil kunne medføre, at kreditaftalen ophæves, ligesom overtræk
-og manglende indfrielse vil kunne medføre, at det er vanskeligt at
-opnå kredit. Ophævelse af kreditaftalen vil medføre en forhøjelse af rente
-og gebyrer.
-.sp 5mm
-.kp off
-.***************
-:FED.
-Opsigelse
-.br
-:SKRSLUT.
-.if &U'&PRIERH = P
-.th &debsomt
-.th kan opsige kreditten uden varsel og indbetale det skyldige
-.th beløb inklusive
-.th rente, provision og eventuelle andre omkostninger til
-.th indfrielsesdagen. &BANKNAVN kan opsige kreditten med 3 måneders
-.th varsel og forlange, at &deblomt
-.th betaler det skyldige beløb inklusive rente, provision og
-.th eventuelle andre
-.th omkostninger pr. opsigelsesdagen. &ÅCONT
-.if &U'&PRIERH = P
-.th &BANKNAVN kan i særlige tilfælde opsige kreditten uden varsel. Ved
-.*--------Her starter J65-version-----------
-.th &BANKNAVN.' opsigelse har &deblomt krav på en saglig begrundelse.
-.*--------Her slutter J65-version-----------
-.if &U'&PRIERH = E
-.th Såvel &deblomt som &BANKNAVN har altid ret til at opsige kreditten
-.th uden varsel. I så fald skal &deblomt betale det skyldige beløb,
-.th herunder påløbne renter, provisioner og omkostninger til
-.th indfrielsesdagen.
-.sp 5mm
-.***************
-.if &L'&AFTDATO10 = 0
-.an &L'&GENFDATO = 0
-.th .go RENTE
-:FED.
-Genforhandling
-.br
-:SKRSLUT.
-.if &L'&AFTDATO10 > 0
-.th &debsomt aftaler den videre afvikling eller indfrielse med &BANKNAVN
-.th den &AFTDATO10..
-.if &L'&GENFDATO > 0
-.th .br
-.th Kreditten genforhandles
-.th &GENFDATO..
-.sp 5mm
-...RENTE
-.***************
-:FED.
-Rente og provision
-.br
-:SKRSLUT.
-Rente og provision er
-.if &U'&RENTETYP = V
-.th variabel
-.if &U'&RENTETYP = D
-.th differentieret
-og fastsættes til enhver tid af
-&BANKNAVN., jf. &BANKNAVN.s
-"Almindelige forretningsbetingelser" og "Almindelige bestemmelser for lån
-og kreditter
-.if &U'&PRIERH = E
-.TH - erhvervskunder".
-.el - forbruger".
-.sp 3mm
-.if &U'&RENTETYP = V
-.th .go TYPV
-.el .go TYPD
-...TYPV
-Udlånsrenten er for tiden &RENTE % om året og tilskrives kreditten
-.if &RTEFREK01 = 1
-.th hver måned,
-.if &RTEFREK01 = 3
-.th hvert kvartal,
-.if &RTEFREK01 = 6
-.th hvert halvår,
-.if &RTEFREK01 = 9
-.th hvert år,
-første gang den &RTEDATO01..
-...TYPD
-;T.if &U'&RENTETYP = D
-.th Renten er differentieret og fremgår af kreditoplysningerne.
-.if &L'&PROV = 0
-.an &L'&PROVOVERTR = 0
-.an &L'&PROVBEVILG = 0
-.th .go PROVSL
-.el .sp 3mm
-.el .go PROV
-.***************
-...PROV
-.if &L'&PROV > 0
-.th Provisionen er for tiden &PROV % om året. &ÅCONT
-.th .br
-.if &L'&PROVOVERTR > 0
-.th Overtræksprovision er for tiden &PROVOVERTR % om året.
-.th .br
-.if &L'&PROVBEVILG > 0
-.th Provision af bevilget overtræk er for tiden &PROVBEVILG % om året.
-.th .br
-...PROVSL
-.***************
-.sp 5mm
-.if &L'&AFDYDL01 > 0
-.an &U'&AFDYDL01 = H
-.th .go OPSIGEL
-:FED.
-Betaling
-.br
-:SKRSLUT.
-.**PRIVAT ******
-.if &U'&PRIERH = P
-.th &debsomt får ikke separat meddelelse om beløb, der er
-.th hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
-.**ERHVERV *****
-.if &U'&PRIERH = E
-.th &BANKNAVN er berettiget til at debitere kontoen for ethvert beløb, som
-.th &deblomt på en hvilken som helst måde måtte blive &BANKNAVN skyldig.
-.sp 5mm
-.***************
-...OPSIGEL
-:FED.
-Opsigelse
-.br
-:SKRSLUT.
-.if &U'&PRIERH = P
-.th &debsomt
-.th kan opsige kreditten uden varsel og indbetale det skyldige
-.th beløb inklusive
-.th rente, provision og eventuelle andre omkostninger til
-.th indfrielsesdagen. &BANKNAVN kan opsige kreditten med 3 måneders
-.th varsel og forlange, at &deblomt
-.th betaler det skyldige beløb inklusive rente, provision og
-.th eventuelle andre
-.th omkostninger pr. opsigelsesdagen. &ÅCONT
-.if &U'&PRIERH = P
-.th &BANKNAVN kan i særlige tilfælde opsige kreditten uden varsel.
-.if &U'&PRIERH = E
-.th Såvel &deblomt som &BANKNAVN har altid ret til at opsige kreditten
-.th uden varsel. I så fald skal &deblomt betale det skyldige beløb,
-.th herunder påløbne renter, provisioner og omkostninger til
-.th indfrielsesdagen.
-.sp 5mm
-.***********
-.if &U'&PRIERH = P
-.th .go FORTRY
-.el .go EJFORTRY
-...FORTRY
-:FED.
-Fortrydelsesret
-:SKRSLUT.
-.br
-&debsomt har ret til at fortryde kreditaftalen inden for 14 dage fra
-lånet/kreditten stilles til &min disposition. Det gælder dog kun, hvis
-&deblomt har modtaget de oplysninger, der kræves efter
-kreditaftaleloven. Ellers regnes fristen fra den dag, hvor &deblomt
-modtager oplysningerne. Hvis fortrydelsesfristens sidste dag falder på en
-lørdag, søndag, helligdag, grundlovsdag, fredag efter
-Kristi Himmelfartsdag, juleaftensdag eller
-nytårsaftensdag, udløber fristen den følgende hverdag.
-.sp 3mm
-Ønsker &deblomt at benytte &min ret til at fortryde skal &deblomt ringe
-eller skrive til &min afdeling inden fristen udløber. Desuden skal
-&deblomt tilbagebetale det modtagne beløb/trækket på kreditten og
-eventuelle omkostninger, som &BANKNAVN. måtte have betalt til offentlige
-myndigheder og som ikke kan refunderes.
-.sp 3mm
-Derudover skal &deblomt betale de renter, der er påløbet fra den dag
-lånet/kreditten blev stillet til &min disposition indtil beløbet
-tilbagebetales. Rentebeløbet, der påløber pr. dag, udgør
-&FTRRTEDAG. kr. Rentebeløbet er beregnet på baggrund af renteforholdene på
-aftaletidspunktet, ligesom der ikke er taget højde for renters rente. Det
-rentebeløb, der skal betales ved udnyttelse af fortrydelsesretten, er de
-påløbne renter beregnet på grundlag af den aftalte debitorrente.
-.sp 3mm
-Det samlede beløb skal tilbagebetales uden unødig forsinkelse og senest 30
-dage efter &deblomt har givet besked om udøvelsen af fortrydelsesretten.
-.sp 5mm
-...EJFORTRY
-.*SÆRLIGE BETINGELSER *****************************************************
-.if &L'&SAERBET01 gt 0
-.or &L'&SAERBET02 gt 0
-.or &L'&SAERBET03 gt 0
-.or &L'&SAERBET04 gt 0
-.or &L'&SAERBET05 gt 0
-.or &L'&SAERBET06 gt 0
-.or &L'&SAERBET07 gt 0
-.or &L'&SAERBET08 gt 0
-.or &L'&SAERBET09 gt 0
-.or &L'&SAERBET10 gt 0
-.or &L'&SAERBET11 gt 0
-.or &L'&SAERBET12 gt 0
-.th .go SÆRBET
-.el .go SÆRBETSL
-...SÆRBET
-.kp on
-:FED.Særlige betingelser:SKRSLUT.
-.br
-&SAERBET01.
-.if &U'&LINSKIP01 = J
-.th .br
-&SAERBET02.
-.if &U'&LINSKIP02 = J
-.th .br
-&SAERBET03.
-.if &U'&LINSKIP03 = J
-.th .br
-&SAERBET04.
-.if &U'&LINSKIP04 = J
-.th .br
-&SAERBET05.
-.if &U'&LINSKIP05 = J
-.th .br
-&SAERBET06.
-.if &U'&LINSKIP06 = J
-.th .br
-&SAERBET07.
-.if &U'&LINSKIP07 = J
-.th .br
-&SAERBET08.
-.if &U'&LINSKIP08 = J
-.th .br
-&SAERBET09.
-.if &U'&LINSKIP09 = J
-.th .br
-&SAERBET10.
-.if &U'&LINSKIP10 = J
-.th .br
-&SAERBET11.
-.if &U'&LINSKIP11 = J
-.th .br
-&SAERBET12.
-.sp 5mm
-.kp off
-...SÆRBETSL
-.if &DEBANTAL < 3
-.an &KAUANTAL = 0
-.an &PANANTAL = 0
-.th .go DEBUND
-.el .go DEBSLUT
-...DEBUND
-.tp 87.5mm
-.kp on
-:FED.Underskrift:SKRSLUT.
-.br
-.**************************************************************************
-.if &DEBANTAL > 2
-.or &U'&SIKKERHED = J
-.or &U'&KROPL = J
-.th .go BILAG
-.el .go BILAGSL
-.***************
-...BILAG
-Kreditaftalen omfatter også følgende bilag, der er en integreret del af
-kreditaftalen:
-.sp 3mm
-.if &DEBANTAL > 2
-.th * Øvrige låntagere
-.th .br
-.if &U'&SIKKERHED = J
-.th * Sikkerheder
-.th .br
-.if &U'&KROPL = J
-.th * Kreditoplysninger
-.sp 3mm
-...BILAGSL
-.***************
-.if &U'&PRIERH = E
-.th .go ERHBET
-.el .go BETBEG
-.****ERHVERV *******
-...ERHBET
-&debsomt erklærer ved &min underskrift, at kassekreditten er til
-erhvervsmæssigt formål.
-.sp 3mm
-Det er en forudsætning for denne kredit, at vi og eventuelle kautionister
-indleverer vores regnskab til &BANKNAVN hvert år senest 6 måneder efter
-regnskabsårets afslutning, og at dette ikke giver grund til
-bemærkninger.
-.sp 3mm
-...BETBEG
-.**GÆLDER FOR BÅDE FORBRUGERE OG ERHVERVSKUNDER ***************************
-&debsomt er bekendt med og accepterer, at &BANKNAVN.s "Almindelige
-forretningsbetingelser" og "Almindelige bestemmelser for lån og kreditter
-.if &U'&PRIERH = P
-;T.th - forbruger"
-.if &U'&PRIERH = E
-.th - erhvervskunder"
-er en del af denne aftale, og &deblomt har fået en kopi af aftalen.
-.sp 5mm
-.*****************************
-:FED.
-Underskrift som låntager(e) og pantsætter(e)
-:SKRSLUT.
-.sp 8mm
-.********************
-.tp _/50mm 87.5mm _/137.5mm
-.if &DEBANTAL = 2
-.th Den ¤ ¤Den ¤
-.el Den ¤
-.sp 14mm
-.if &DEBANTAL = 2
-.th .hr tynd 5mm 80mm 87.5mm 167.5mm
-.el .hr tynd 5mm 80mm
-.br
-.tp 87.5mm
-.if &DEBANTAL = 2
-.th &DEB01NAVN ¤&DEB02NAVN
-.el &DEB01NAVN
-.kp off
-...DEBSLUT
-.if &U'&PRIERH = E
-.th .go ENDKRED
-.**************************************************************************
-.kp on
-:FED.
-Førtidig tilbagebetaling
-:SKRSLUT.
-.br
-&debsomt. har til enhver tid ret til helt eller delvis at indfri &mine
-forpligtelser i henhold til kreditaftalen, &deblomt. har
-herefter ret til en reduktion af de samlede kreditomkostninger, der består
-af renter og omkostninger i den resterende del af kreditaftalens løbetid.
-Indfrielse skal ske ved indbetaling til kreditkontoen.
-.sp 5mm
-.kp off
-.kp on
-:FED.
-Fortrydelsesret
-:SKRSLUT.
-.br
-&debsomt. har ret til at fortryde kreditaftalen inden for 14 dage fra
-kreditten stilles til disposition. Hvis fortrydelsesfristens sidste dag
-falder på en lørdag, søndag, helligdag, grundlovsdag,
-fredag efter Kristi Himmelfartsdag, juleaftensdag eller
-nytårsaftensdag, udløber fristen den følgende hverdag.
-.sp 3mm
-.kp off
-.kp on
-Ønsker &deblomt. at benytte fortrydelsesretten
-kan det ske ved at ringe eller
-skrive til &min afdeling inden fristen udløber. Desuden skal det
-modtagne beløb tilbagebetales sammen med
-eventuelle omkostninger, som &BANKNAVN.
-måtte have betalt til offentlige myndigheder og som ikke kan refunderes.
-.sp 3mm
-.kp off
-.kp on
-Derudover skal &deblomt. betale de renter, der er påløbet fra den dag
-kreditten blev stillet til disposition, indtil
-beløbet tilbagebetales. Det angivne
-rentebeløb, der påløber pr. dag er beregnet på baggrund af renteforholdene
-på aftaletidspunktet, ligesom der
-ikke er taget højde for renters rente. Det rentebeløb,
-der skal betales ved udnyttelse af fortrydelsesretten, er
-de påløbne renter
-beregnet på grundlag af den aftalte rente.
-.sp 3mm
-.kp off
-.kp on
-Det samlede beløb skal tilbagebetales uden unødig forsinkelse, og senest 30
-dage efter &deblomt. har givet besked om udøvelsen af fortrydelsesretten.
-.sp 5mm
-.kp off
-...ENDKRED
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+

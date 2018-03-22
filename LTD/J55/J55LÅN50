@@ -1,53 +1,360 @@
-.or &L'&SAERBET44 gt 0
-.or &L'&SAERBET45 gt 0
-.or &L'&SAERBET46 gt 0
-.or &L'&SAERBET47 gt 0
-.or &L'&SAERBET48 gt 0
-.or &L'&SAERBET49 gt 0
-.or &L'&SAERBET50 gt 0
-.or &L'&SAERBET51 gt 0
-.or &L'&SAERBET52 gt 0
-.or &L'&SAERBET53 gt 0
-.or &L'&SAERBET54 gt 0
-.or &L'&SAERBET55 gt 0
-.or &L'&SAERBET56 gt 0
-.or &L'&SAERBET57 gt 0
-.or &L'&SAERBET58 gt 0
-.or &L'&SAERBET59 gt 0
-.or &L'&SAERBET60 gt 0
-.th .go SÆRBET
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.**************************************************************************
+.se aar = substr &INDFRIDATO 7 4
+.**Lantype = (S)erielån, (A)nnuitetslån, (F)Afradragsfrit, (Å)Stående
+.if &AFDYDL01 = X
+.th .se lantype = S
+.th .go AFVFRK
+.if &AFDYDL01 = A
+.th .se lantype = S
+.th .go AFVFRK
+.if &AFDYDL01 = Z
+.th .se lantype = A
+.th .go AFVFRK
+.if &AFDYDL01 = Y
+.th .se lantype = A
+.th .go AFVFRK
+.if &AFDYDL01 = F
+.an x&aar > x0
+.th .se lantype = Å
+.th .go AFVFRK
+.if &AFDYDL01 = F
+.th .se lantype = F
+.if &L'&AFDYDL02 le x0
+.th .go AFVFRK
+.if &AFDYDL02 = X
+.th .se lantype2 = S
+.if &AFDYDL02 = A
+.th .se lantype2 = S
+.if &AFDYDL02 = Z
+.th .se lantype2 = A
+.if &AFDYDL02 = Y
+.th .se lantype2 = A
+.**
+...AFVFRK
+.**afvfrk1 indeholder teksten vedr afviklingsfrekvensen
+.if &AFVFREK01 = 1
+.th .se afvfrk1 = 'hver måned,'
+.if &AFVFREK01 = 3
+.th .se afvfrk1 = 'hvert kvartal,'
+.if &AFVFREK01 = 4
+.th .se afvfrk1 = 'hver 2. måned,'
+.if &AFVFREK01 = 6
+.th .se afvfrk1 = 'hvert halvår,'
+.if &AFVFREK01 = 7
+.th .se afvfrk1 = 'hver uge,'
+.if &AFVFREK01 = 9
+.th .se afvfrk1 = 'hvert år,'
+.if &AFVFREK01 = 14
+.th .se afvfrk1 = 'hver 14. dag,'
+.if &AFVFREK01 = 15
+.th .se afvfrk1 = 'hver den 15. og sidste i måneden,'
+.**
+.**afvfrk2 indeholder teksten vedr afviklingsfrekvensen
+.if &L'&AFVFREK02 = 0
+.th .go OPFLG
+.if &AFVFREK02 = 1
+.th .se afvfrk2 = 'hver måned,'
+.if &AFVFREK02 = 3
+.th .se afvfrk2 = 'hvert kvartal,'
+.if &AFVFREK02 = 4
+.th .se afvfrk2 = 'hver 2. måned,'
+.if &AFVFREK02 = 6
+.th .se afvfrk2 = 'hvert halvår,'
+.if &AFVFREK02 = 7
+.th .se afvfrk2 = 'hver uge,'
+.if &AFVFREK02 = 9
+.th .se afvfrk2 = 'hvert år,'
+.if &AFVFREK02 = 14
+.th .se afvfrk2 = 'hver 14. dag,'
+.if &AFVFREK02 = 15
+.th .se afvfrk2 = 'hver den 15. og sidste i måneden,'
+.**
+...OPFLG
+.** opflgfrk indeholder teksten vedr. opfølgningsfrekvensen
+.if &OPFØLGFREK = 1
+.th .se opflgfrk = 'månedligt'
+.if &OPFØLGFREK = 3
+.th .se opflgfrk = 'kvartårligt'
+.if &OPFØLGFREK = 6
+.th .se opflgfrk = 'halvårligt'
+.if &OPFØLGFREK = 9
+.th .se opflgfrk = 'årligt'
+.if &OPFØLGFREK = 19
+.th .se opflgfrk = 'hvert andet år'
+.if &OPFØLGFREK = 29
+.th .se opflgfrk = 'hvert tredje år'
+.if &OPFØLGFREK = 49
+.th .se opflgfrk = 'hvert femte år'
+.se type = 'fast'
+:FED.
+Beløb
 .br
-.el .go SÆRBETSL
-...SÆRBET
-&SAERBET01.
-.if &U'&LINSKIP01 = J
-.th .br
-&SAERBET02.
-.if &U'&LINSKIP02 = J
-.th .br
-&SAERBET03.
-.if &U'&LINSKIP03 = J
-.th .br
-&SAERBET04.
-.if &U'&LINSKIP04 = J
-.th .br
-&SAERBET05.
-.if &U'&LINSKIP05 = J
-.th .br
-&SAERBET06.
-.if &U'&LINSKIP06 = J
-.th .br
-&SAERBET07.
-.if &U'&LINSKIP07 = J
-.th .br
-&SAERBET08.
-.if &U'&LINSKIP08 = J
-.th .br
-&SAERBET09.
-.if &U'&LINSKIP09 = J
-.th .br
-&SAERBET10.
-.if &U'&LINSKIP10 = J
+:SKRSLUT.
+&debsomt bekræfter herved, at &deblomt skylder &BANKNAVN
+&LÅNBEL kr.
+.sp 5mm
+.***************
+:FED.
+Rente og omkostninger
+.br
+:SKRSLUT.
+Engagementet er underlagt bekendtgørelse nr. 1139 af 28. september 2010 med
+senere ændringer om afvikling af datterselskaber til Finansiel Stabilitet
+A/S samt betaling af risikopræmie ("Afviklingsbekendtgørelsen").
+.sp
+Det lånte beløb forrentes fra udbetalingsdatoen. Renten er
+.if &U'&RENTETYP = D
+.th .go RTED
+.if &U'&RENTETYP = F
+.th fast og udgør &RENTE.% p.a. Renten beregnes og tilskrives bagud
+.el variabel og er for tiden &RENTE.% p.a.,
+.if &U'&RENTETYP = V
+.th jf. under "Yderligere vilkår og betingelser" nedenfor. Renten beregnes
+.th og tilskrives bagud
+.if &RTEFREK01 = 0
+.th .go STIFT
+.if &RTEFREK01 = 1
+.th hver måned.
+.th .go STIFT
+.if &RTEFREK01 = 3
+.th hvert kvartal.
+.th .go STIFT
+.if &RTEFREK01 = 6
+.th hvert halvår.
+.th .go STIFT
+.if &RTEFREK01 = 9
+.th årligt.
+.go STIFT
+...RTED
+.if &U'&RENTETYP = D
+.th Renten er differentieret og fremgår af kreditoplysningerne.
+...STIFT
+.sp 3mm
+Stiftelsesomkostninger udgør &LÅNOMK. kr.
+.sp 3mm
+Rente-, provisions- og gebyrsatser fastsættes af &BANKNAVN. i
+overensstemmelse med &BANKNAVN.' Almindelige forretnings- og
+lånebetingelser og
+fremgår af den til enhver tid gældende rente- og provisionsliste samt
+gebyrliste på www.fspropertyfinance.dk.
+.sp 3mm
+Morarente/overtræksprovision
+ved forsinket betaling er for tiden &PROVOVERTR procentpoint
+og beregnes i tillæg til renten, såfremt restancen er
+ubevilget. Såfremt restancen er bevilget, beregnes dog alene
+&PROVBEVILG procentpoint i tillæg til renten.
+.sp 5mm
+.*1. AFVIKLING ***********
+:FED.
+Afvikling
+.br
+:SKRSLUT.
+.br
+.*** Er afviklingsrækken udfyldt ?
+.** Hvis ikke gå til slutafv
+.if &L'&AFDYDL01 = 0
+.th .go AFV
+.***
+.*** Er der ekstraordinært afdrag eller ydelse ?
+.*** ellers gå til AFVK (tekst vedr. alm. afvikling)
+.if &U'&AFDYDL01 <> X
+.an &U'&AFDYDL01 <> Z
+.th .go AFV
+.**
+.*** Ekstraord. ydelse
+.if &U'&AFDYDL01 = Z
+.th .go EXYD
+Ekstraordinært afdrag på
+:VS. &AFVBEL01
+kr. betales &afvfrk1 første gang den &AFVDATO01..
+.sp 3mm
+.if &AFVANT01 > 1
+.th Dette afdrag betales &AFVANT01 gange.
+.el Dette afdrag betales &AFVANT01 gang.
+.go SLUTEX
+.**
+.**** Ekstraord. ydelse
+...EXYD
+Ekstraordinær ydelse på
+:VS. &AFVBEL01
+kr. betales &afvfrk1 første gang den &AFVDATO01..
+.sp 3mm
+.if &AFVANT01 > 1
+.th Denne ydelse betales &AFVANT01 gange.
+.el Denne ydelse betales &AFVANT01 gang.
+...SLUTEX
+.sp 3mm
+Herefter afvikles restgælden som nedenfor anført.
+.sp 3mm
+.***** SLUT EKSTRAORD. AFDRAG/YDELSE
+...AFV
+.** ANNUITETSLÅN
+.if &lantype = S
+.th .go SERIE
+.if &lantype = F
+.th .go AFDFRI
+.if &lantype = Å
+.th .go STÅ
+Lånet er et annuitetslån, og ydelsen udgør
+.if &L'&AFVBEL01. > 0
+.th :VS. &AFVBEL01
+.el 0
+kr., som betales &afvfrk1 første gang den &AFVDATO01..
+.sp
+Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
+.sp
+Såfremt den aftalte ydelse måtte overstige rentetilskrivningen, anvendes
+det overskydende beløb først til dækning af tidligere tilskrevet,
+ikke-betalte renter, og dernæst til nedbringelse af restgælden.
+.go SLUTAFV
+.**** SERIELÅN/STÅENDE LÅN
+...SERIE
+Lånet er et serielån og afdrages med
+.if &L'&AFVBEL01. > 0
+.th :VS. &AFVBEL01
+.el 0
+kr., som betales &afvfrk1 første gang den &AFVDATO01.. Tilskrevne renter
+forfalder samtidig hermed, med mindre andet er særskilt aftalt.
+.sp
+Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
+.sp
+.go SLUTAFV
+.****STÅENDE
+...STÅ
+Lånet er stående og henstår afdragsfrit til &INDFRIDATO., hvor lånet
+forfalder til betaling. I den afdragsfri periode forfalder tilskrevne
+renter til betaling &afvfrk1 første gang den &AFVDATO01., med mindre andet
+er særskilt aftalt.
+.sp
+Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
+.sp
+.go SLUTAFV
+.****AFDRAGSFRI
+...AFDFRI
+.if &lantype2 = S
+.th .go AFDFRIS
+Lånet er et annuitetslån, og henstår
+afdragsfrit indtil den &AFVDATO02.. I
+den afdragsfri periode forfalder tilskrevne renter til betaling
+&afvfrk1 første gang den &AFVDATO01. med mindre andet aftales
+særskilt. Ydelsen udgør efter udløb af den afdragsfri periode
+.if &L'&AFVBEL02. > 0
+.th :VS. &AFVBEL02
+.el 0
+kr., som betales &afvfrk2 første gang den &AFVDATO02..
+.sp
+Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
+.sp
+.go SLUTAFV
+...AFDFRIS
+Lånet er et serie lån, og henstår
+afdragsfrit indtil den &AFVDATO02.. I
+den afdragsfri periode forfalder tilskrevne renter til betaling
+&afvfrk1 første gang den &AFVDATO01. med mindre andet aftales
+særskilt. Afdraget udgør efter udløb af den afdragsfri periode
+.if &L'&AFVBEL02. > 0
+.th :VS. &AFVBEL02
+.el 0
+kr., som betales &afvfrk2 første gang den &AFVDATO02..
+Tilskrevne renter
+forfalder samtidig hermed med mindre andet er særskilt aftalt.
+.sp
+Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
+.sp
+.go SLUTAFV
+.********************************************************************
+...SLUTAFV
+.********************************************************************
+.*** Er der angivet en opfølgningsdato ?
+.if &L'&OPFØLGDATO = 0
+.an &L'&OPFØLGFREK = 0
+.th .go INGDATO
+.sp
+.if &OPFØLGFREK = 0
+.th .go OPFLG
+Lånet og vilkårene herfor, herunder renten, genforhandles den &OPFØLGDATO.
+og herefter &opflgfrk eller hvor nyt genforhandlingstidspunkt for lånet
+fastsættes. Såfremt genforhandling
+ikke fører til enighed mellem parterne om
+forlængelse af lånet, forfalder lånet til fuld indfrielse.
+.go INGDATO
+...OPFLG
+Lånet og vilkårene herfor, herunder renten, genforhandles den &OPFØLGDATO..
+Såfremt genforhandling ikke fører til enighed mellem parterne om
+forlængelse af lånet, forfalder lånet til fuld indfrielse.
+...INGDATO
+.***********************************************************************
+.sp 5mm
+.***************
+:FED.
+Omlægning
+.br
+:SKRSLUT.
+.br
+Lånet kan til enhver tid omlægges til anden renteform, renteperiode,
+afvikling eller valuta. En sådan omlægning vil resultere i beregning af
+kursregulering ud fra et aktuelt valuta- og renteniveau og kan resultere i
+ændrede vilkår for låneaftalen.
+.sp 5mm
+.***************
+.if &L'&DEBKONTO = 0
+.th .go DBKTOSL
+:FED.
+Betaling
+.br
+:SKRSLUT.
+&BANKNAVN bedes ved forfald hæve ydelser/ekstraordinært afdrag på
+konto &DEBKONTO..
+.br
+&debsomt får ikke separat meddelelse om beløb, der er
+hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
+.sp 5mm
+...DBKTOSL
+:FED.
+Sikkerhed
+.br
+:SKRSLUT.
+I det omfang der er stillet sikkerhed for nærværende lån, henvises til
+særskilt(e) aftale(r) herom.
+.sp 5mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+:ENY.
 .kp on
 :FED.Yderligere vilkår og betingelser:SKRSLUT.
 .br
@@ -98,9 +405,56 @@
 .or &L'&SAERBET41 gt 0
 .or &L'&SAERBET42 gt 0
 .or &L'&SAERBET43 gt 0
-.sp
-...SÆRBETSL
-.***
+.or &L'&SAERBET44 gt 0
+.or &L'&SAERBET45 gt 0
+.or &L'&SAERBET46 gt 0
+.or &L'&SAERBET47 gt 0
+.or &L'&SAERBET48 gt 0
+.or &L'&SAERBET49 gt 0
+.or &L'&SAERBET50 gt 0
+.or &L'&SAERBET51 gt 0
+.or &L'&SAERBET52 gt 0
+.or &L'&SAERBET53 gt 0
+.or &L'&SAERBET54 gt 0
+.or &L'&SAERBET55 gt 0
+.or &L'&SAERBET56 gt 0
+.or &L'&SAERBET57 gt 0
+.or &L'&SAERBET58 gt 0
+.or &L'&SAERBET59 gt 0
+.or &L'&SAERBET60 gt 0
+.th .go SÆRBET
+.br
+.el .go SÆRBETSL
+...SÆRBET
+&SAERBET01.
+.if &U'&LINSKIP01 = J
+.th .br
+&SAERBET02.
+.if &U'&LINSKIP02 = J
+.th .br
+&SAERBET03.
+.if &U'&LINSKIP03 = J
+.th .br
+&SAERBET04.
+.if &U'&LINSKIP04 = J
+.th .br
+&SAERBET05.
+.if &U'&LINSKIP05 = J
+.th .br
+&SAERBET06.
+.if &U'&LINSKIP06 = J
+.th .br
+&SAERBET07.
+.if &U'&LINSKIP07 = J
+.th .br
+&SAERBET08.
+.if &U'&LINSKIP08 = J
+.th .br
+&SAERBET09.
+.if &U'&LINSKIP09 = J
+.th .br
+&SAERBET10.
+.if &U'&LINSKIP10 = J
 .th .br
 &SAERBET11.
 .if &U'&LINSKIP11 = J
@@ -251,179 +605,9 @@
 .th .br
 &SAERBET60.
 .br
-.***************
-.if &L'&DEBKONTO = 0
-.th .go DBKTOSL
-:FED.
-Betaling
-.br
-:SKRSLUT.
-&BANKNAVN bedes ved forfald hæve ydelser/ekstraordinært afdrag på
-konto &DEBKONTO..
-.br
-&debsomt får ikke separat meddelelse om beløb, der er
-hævet på kontoen. &debsomt skal selv sørge for, at der er dækning.
-.sp 5mm
-...DBKTOSL
-:FED.
-Sikkerhed
-.br
-:SKRSLUT.
-I det omfang der er stillet sikkerhed for nærværende lån, henvises til
-særskilt(e) aftale(r) herom.
-.sp 5mm
-.***************
-:FED.
-Omlægning
-.br
-:SKRSLUT.
-.br
-Lånet kan til enhver tid omlægges til anden renteform, renteperiode,
-afvikling eller valuta. En sådan omlægning vil resultere i beregning af
-kursregulering ud fra et aktuelt valuta- og renteniveau og kan resultere i
-ændrede vilkår for låneaftalen.
-.sp 5mm
-.*1. AFVIKLING ***********
-:FED.
-Afvikling
-.br
-:SKRSLUT.
-.br
-.*** Er afviklingsrækken udfyldt ?
-.** Hvis ikke gå til slutafv
-.if &L'&AFDYDL01 = 0
-.th .go AFV
+.sp
+...SÆRBETSL
 .***
-.*** Er der ekstraordinært afdrag eller ydelse ?
-.*** ellers gå til AFVK (tekst vedr. alm. afvikling)
-.if &U'&AFDYDL01 <> X
-.an &U'&AFDYDL01 <> Z
-.th .go AFV
-.**
-.*** Ekstraord. ydelse
-.if &U'&AFDYDL01 = Z
-.th .go EXYD
-Ekstraordinært afdrag på
-:VS. &AFVBEL01
-kr. betales &afvfrk1 første gang den &AFVDATO01..
-.sp 3mm
-.if &AFVANT01 > 1
-.th Dette afdrag betales &AFVANT01 gange.
-.el Dette afdrag betales &AFVANT01 gang.
-.go SLUTEX
-.**
-.**** Ekstraord. ydelse
-...EXYD
-Ekstraordinær ydelse på
-:VS. &AFVBEL01
-kr. betales &afvfrk1 første gang den &AFVDATO01..
-.sp 3mm
-.if &AFVANT01 > 1
-.th Denne ydelse betales &AFVANT01 gange.
-.el Denne ydelse betales &AFVANT01 gang.
-...SLUTEX
-.sp 3mm
-Herefter afvikles restgælden som nedenfor anført.
-.sp 3mm
-.***** SLUT EKSTRAORD. AFDRAG/YDELSE
-...AFV
-.** ANNUITETSLÅN
-.if &lantype = S
-.th .go SERIE
-.if &lantype = F
-.th .go AFDFRI
-.if &lantype = Å
-.th .go STÅ
-Lånet er et annuitetslån, og ydelsen udgør
-.if &L'&AFVBEL01. > 0
-.th :VS. &AFVBEL01
-.el 0
-kr., som betales &afvfrk1 første gang den &AFVDATO01..
-.sp
-Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
-.sp
-Såfremt den aftalte ydelse måtte overstige rentetilskrivningen, anvendes
-det overskydende beløb først til dækning af tidligere tilskrevet,
-ikke-betalte renter, og dernæst til nedbringelse af restgælden.
-.go SLUTAFV
-.**** SERIELÅN/STÅENDE LÅN
-...SERIE
-Lånet er et serielån og afdrages med
-.if &L'&AFVBEL01. > 0
-.th :VS. &AFVBEL01
-.el 0
-kr., som betales &afvfrk1 første gang den &AFVDATO01.. Tilskrevne renter
-forfalder samtidig hermed, med mindre andet er særskilt aftalt.
-.sp
-Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
-.sp
-.go SLUTAFV
-.****STÅENDE
-...STÅ
-Lånet er stående og henstår afdragsfrit til &INDFRIDATO., hvor lånet
-forfalder til betaling. I den afdragsfri periode forfalder tilskrevne
-renter til betaling &afvfrk1 første gang den &AFVDATO01., med mindre andet
-er særskilt aftalt.
-.sp
-Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
-.sp
-.go SLUTAFV
-.****AFDRAGSFRI
-...AFDFRI
-.if &lantype2 = S
-.th .go AFDFRIS
-Lånet er et annuitetslån, og henstår
-afdragsfrit indtil den &AFVDATO02.. I
-den afdragsfri periode forfalder tilskrevne renter til betaling
-&afvfrk1 første gang den &AFVDATO01. med mindre andet aftales
-særskilt. Ydelsen udgør efter udløb af den afdragsfri periode
-.if &L'&AFVBEL02. > 0
-.th :VS. &AFVBEL02
-.el 0
-kr., som betales &afvfrk2 første gang den &AFVDATO02..
-.sp
-Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
-.sp
-.go SLUTAFV
-...AFDFRIS
-Lånet er et serie lån, og henstår
-afdragsfrit indtil den &AFVDATO02.. I
-den afdragsfri periode forfalder tilskrevne renter til betaling
-&afvfrk1 første gang den &AFVDATO01. med mindre andet aftales
-særskilt. Afdraget udgør efter udløb af den afdragsfri periode
-.if &L'&AFVBEL02. > 0
-.th :VS. &AFVBEL02
-.el 0
-kr., som betales &afvfrk2 første gang den &AFVDATO02..
-Tilskrevne renter
-forfalder samtidig hermed med mindre andet er særskilt aftalt.
-.sp
-Der henvises i øvrigt til punktet "Afvikling" under kreditoplysninger.
-.sp
-.go SLUTAFV
-.********************************************************************
-...SLUTAFV
-.********************************************************************
-.*** Er der angivet en opfølgningsdato ?
-.if &L'&OPFØLGDATO = 0
-.an &L'&OPFØLGFREK = 0
-.th .go INGDATO
-.sp
-.if &OPFØLGFREK = 0
-.th .go OPFLG
-Lånet og vilkårene herfor, herunder renten, genforhandles den &OPFØLGDATO.
-og herefter &opflgfrk eller hvor nyt genforhandlingstidspunkt for lånet
-fastsættes. Såfremt genforhandling
-ikke fører til enighed mellem parterne om
-forlængelse af lånet, forfalder lånet til fuld indfrielse.
-.go INGDATO
-...OPFLG
-Lånet og vilkårene herfor, herunder renten, genforhandles den &OPFØLGDATO..
-Såfremt genforhandling ikke fører til enighed mellem parterne om
-forlængelse af lånet, forfalder lånet til fuld indfrielse.
-...INGDATO
-.***********************************************************************
-.sp 5mm
 .***************
 .kp on
 Lånet administreres af FIH Erhvervsbank A/S.
@@ -437,69 +621,10 @@ låneaftale omfattede lån.
 .kp off
 .sp 5mm
 .rh cancel
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
-.BR
-.NV PAGE REGBKSTED '%&REGBKSTED.'
-:ENY.
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:SWISS9.
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-Kl. &TID
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.if &U'&PRIERH = P
-.th .us Låneaftale (gældsbrev) Forbruger
-.if &U'&PRIERH = E
-.th .us Låneaftale (gældsbrev) Erhverv
-:SKRSLUT.
-.ar off
-.*Parametre, særlige betingelser
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 .*Parametre
 .if &L'&PRIERH = 0
 .th .mg/T/Skriv P for privat eller E for erhverv/
@@ -525,21 +650,61 @@ Kl. &TID
 .el .se min = 'vores'
 .el .se mine = 'vores'
 ...OMTALEND
-.********************GENEREL OPSÆTNING*************************************
+.*Parametre, særlige betingelser
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
 :SWISS9.
 .fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 83mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+Kl. &TID
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.if &U'&PRIERH = P
+.th .us Låneaftale (gældsbrev) Forbruger
+.if &U'&PRIERH = E
+.th .us Låneaftale (gældsbrev) Erhverv
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.************ PARTER ******************************************************
+.ar SIDE on
+.tp 1mm 30mm 65mm 140mm
+.bx left right
+ ¤ Banksted ¤ Kontonummer ¤ Kredittype ¤ Dannelsesdato
+.sp 6mm
+.bx off
+.sp 4mm
+.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
+.*LÅNTAGER ****************************************************************
+.bx left right
+.tp 1mm 88.5mm 135mm
+.if &DEBANTAL = 1
+.th ¤ Låntager
+.if &DEBANTAL = 2
+.th ¤ Låntager ¤ Låntager
+.if &DEBANTAL > 2
+.th ¤ Låntager ¤ Låntager ¤ Flere låntagere
+.sp 20mm
+.if &DEBANTAL > 1
+.th ¤ Kundenummer &KTOKNDNR1 ¤ Kundenummer &DEB2KNDNR
+.el ¤ Kundenummer &KTOKNDNR1
+.bx off
+.sp 4mm
+.bx left right
+.sp 184mm
+.bx off
+.ar off
 .******************************************************************
 .da BANKSTED      20mm  47mm width 175mm
 .da KUNDEOPL       25mm  61.5mm width 85mm
@@ -549,7 +714,7 @@ Kl. &TID
 .******************************************************************
 .ar BANKSTED on
 .tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+ ¤ &BANKSTED  ¤ &LANGKTONR ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
 .ar off
 .*************************************
 .ar KUNDEOPL on
@@ -576,131 +741,21 @@ Kl. &TID
 .th .br
 .th &DEB2ADR5
 .ar off
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.************ PARTER ******************************************************
-.ar SIDE on
-.tp 1mm 30mm 65mm 140mm
-.bx left right
-¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
-.sp 6mm
-.bx off
-.sp 4mm
-.**MIDLERTIDIGE PARAMETRE DEFINERET I P-AFSNIT ****************************
-.*LÅNTAGER ****************************************************************
-.bx left right
-.tp 1mm 88.5mm 135mm
-.if &DEBANTAL = 1
-.th ¤Låntager
-.if &DEBANTAL = 2
-.th ¤Låntager ¤Låntager
-.if &DEBANTAL > 2
-.th ¤Låntager ¤Låntager ¤Flere låntagere
-.sp 20mm
-.if &DEBANTAL > 1
-.th ¤Kundenummer &KTOKNDNR1 ¤Kundenummer &DEB2KNDNR
-.el ¤Kundenummer &KTOKNDNR1
-.bx off
-.sp 4mm
-.bx left right
-.sp 184mm
-.bx off
-.ar off
-:FED.
-Beløb
-.br
-:SKRSLUT.
-&debsomt bekræfter herved, at &deblomt skylder &BANKNAVN
-&LÅNBEL kr.
-.sp 5mm
-.**
-.**afvfrk2 indeholder teksten vedr afviklingsfrekvensen
-.if &L'&AFVFREK02 = 0
-.th .go OPFLG
-.if &AFVFREK02 = 1
-.th .se afvfrk2 = 'hver måned,'
-.if &AFVFREK02 = 3
-.th .se afvfrk2 = 'hvert kvartal,'
-.if &AFVFREK02 = 4
-.th .se afvfrk2 = 'hver 2. måned,'
-.if &AFVFREK02 = 6
-.th .se afvfrk2 = 'hvert halvår,'
-.if &AFVFREK02 = 7
-.th .se afvfrk2 = 'hver uge,'
-.if &AFVFREK02 = 9
-.th .se afvfrk2 = 'hvert år,'
-.if &AFVFREK02 = 14
-.th .se afvfrk2 = 'hver 14. dag,'
-.if &AFVFREK02 = 15
-.th .se afvfrk2 = 'hver den 15. og sidste i måneden,'
-.**
-...OPFLG
-.** opflgfrk indeholder teksten vedr. opfølgningsfrekvensen
-.if &OPFØLGFREK = 1
-.th .se opflgfrk = 'månedligt'
-.if &OPFØLGFREK = 3
-.th .se opflgfrk = 'kvartårligt'
-.if &OPFØLGFREK = 6
-.th .se opflgfrk = 'halvårligt'
-.if &OPFØLGFREK = 9
-.th .se opflgfrk = 'årligt'
-.if &OPFØLGFREK = 19
-.th .se opflgfrk = 'hvert andet år'
-.if &OPFØLGFREK = 29
-.th .se opflgfrk = 'hvert tredje år'
-.if &OPFØLGFREK = 49
-.th .se opflgfrk = 'hvert femte år'
-.se type = 'fast'
-.**************************************************************************
-.se aar = substr &INDFRIDATO 7 4
-.**Lantype = (S)erielån, (A)nnuitetslån, (F)Afradragsfrit, (Å)Stående
-.if &AFDYDL01 = X
-.th .se lantype = S
-.th .go AFVFRK
-.if &AFDYDL01 = A
-.th .se lantype = S
-.th .go AFVFRK
-.if &AFDYDL01 = Z
-.th .se lantype = A
-.th .go AFVFRK
-.if &AFDYDL01 = Y
-.th .se lantype = A
-.th .go AFVFRK
-.if &AFDYDL01 = F
-.an x&aar > x0
-.th .se lantype = Å
-.th .go AFVFRK
-.if &AFDYDL01 = F
-.th .se lantype = F
-.if &L'&AFDYDL02 le x0
-.th .go AFVFRK
-.if &AFDYDL02 = X
-.th .se lantype2 = S
-.if &AFDYDL02 = A
-.th .se lantype2 = S
-.if &AFDYDL02 = Z
-.th .se lantype2 = A
-.if &AFDYDL02 = Y
-.th .se lantype2 = A
-.**
-...AFVFRK
-.**afvfrk1 indeholder teksten vedr afviklingsfrekvensen
-.if &AFVFREK01 = 1
-.th .se afvfrk1 = 'hver måned,'
-.if &AFVFREK01 = 3
-.th .se afvfrk1 = 'hvert kvartal,'
-.if &AFVFREK01 = 4
-.th .se afvfrk1 = 'hver 2. måned,'
-.if &AFVFREK01 = 6
-.th .se afvfrk1 = 'hvert halvår,'
-.if &AFVFREK01 = 7
-.th .se afvfrk1 = 'hver uge,'
-.if &AFVFREK01 = 9
-.th .se afvfrk1 = 'hvert år,'
-.if &AFVFREK01 = 14
-.th .se afvfrk1 = 'hver 14. dag,'
-.if &AFVFREK01 = 15
-.th .se afvfrk1 = 'hver den 15. og sidste i måneden,'
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.* SIDEHOVED SIDE 1 (MED Y = 83 + 13MM (TOPMARGIN) = 96MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 83mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
 .**************************************************************************
 .da OVERSKR 20mm 32mm width 175mm
 .da BOX 20mm 40mm width 175mm
@@ -717,7 +772,7 @@ Beløb
 :SWISS9.
 .tp 1mm 30mm 65mm 140mm
 .bx left right
-¤Banksted¤Kontonummer¤Kredittype¤Dannelsesdato
+ ¤ Banksted ¤ Kontonummer ¤ Kredittype ¤ Dannelsesdato
 .sp 6mm
 .bx off
 .sp 4mm
@@ -729,7 +784,7 @@ Beløb
 .ar BANKSTED on
 :SWISS9.
 .tp 1mm 30mm 65mm 140mm
-¤&BANKSTED  ¤&LANGKTONR ¤&REGTYPE11 &REGTYPELNG ¤&DATO
+ ¤ &BANKSTED  ¤ &LANGKTONR ¤ &REGTYPE11 &REGTYPELNG ¤ &DATO
 .ar off
 .**************************************************************************
 .ar VEND on
@@ -765,58 +820,4 @@ Beløb
 .ll 175mm
 .in 5mm
 .ir 5mm
-.***************
-:FED.
-Rente og omkostninger
-.br
-:SKRSLUT.
-Engagementet er underlagt bekendtgørelse nr. 1139 af 28. september 2010 med
-senere ændringer om afvikling af datterselskaber til Finansiel Stabilitet
-A/S samt betaling af risikopræmie ("Afviklingsbekendtgørelsen").
-.sp
-Det lånte beløb forrentes fra udbetalingsdatoen. Renten er
-.if &U'&RENTETYP = D
-.th .go RTED
-.if &U'&RENTETYP = F
-.th fast og udgør &RENTE.% p.a. Renten beregnes og tilskrives bagud
-.el variabel og er for tiden &RENTE.% p.a.,
-.if &U'&RENTETYP = V
-.th jf. under "Yderligere vilkår og betingelser" nedenfor. Renten beregnes
-.th og tilskrives bagud
-.if &RTEFREK01 = 0
-.th .go STIFT
-.if &RTEFREK01 = 1
-.th hver måned.
-.th .go STIFT
-.if &RTEFREK01 = 3
-.th hvert kvartal.
-.th .go STIFT
-.if &RTEFREK01 = 6
-.th hvert halvår.
-.th .go STIFT
-.if &RTEFREK01 = 9
-.th årligt.
-.go STIFT
-...RTED
-.if &U'&RENTETYP = D
-.th Renten er differentieret og fremgår af kreditoplysningerne.
-...STIFT
-.sp 3mm
-Stiftelsesomkostninger udgør &LÅNOMK. kr.
-.sp 3mm
-Rente-, provisions- og gebyrsatser fastsættes af &BANKNAVN. i
-overensstemmelse med &BANKNAVN.' Almindelige forretnings- og
-lånebetingelser og
-fremgår af den til enhver tid gældende rente- og provisionsliste samt
-gebyrliste på www.fspropertyfinance.dk.
-.sp 3mm
-Morarente/overtræksprovision
-ved forsinket betaling er for tiden &PROVOVERTR procentpoint
-og beregnes i tillæg til renten, såfremt restancen er
-ubevilget. Såfremt restancen er bevilget, beregnes dog alene
-&PROVBEVILG procentpoint i tillæg til renten.
-.sp 5mm
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+

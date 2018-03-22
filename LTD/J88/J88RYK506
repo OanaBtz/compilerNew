@@ -1,12 +1,23 @@
-.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
-.** sidste 1-10 posteringer fra kontoen.
-.***************************
-.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
-.* forsendelsesadresse til primær kontohaver
-.* og adresse til medkontohaver.
-.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
-.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
-.*****************************************
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp 2
+.ce on
+Med venlig hilsen
+.sp
+&BANKNAVN
+.ce off
+.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -29,19 +40,15 @@
 .NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.***************************
+.* Parameteren PRIMÆR anvendes til at styre udskrivningen af
+.* forsendelsesadresse til primær kontohaver
+.* og adresse til medkontohaver.
+.* Første gang brevet kaldes fra Overtræksbehandlingssystemet - er
+.* PRIMÆR = J, de næste gange brevet kaldes er PRIMÆR = N.
+.*****************************************
+.** Dette P-afsnit skal kun bruges hvis I ønsker at udskrive kundens
+.** sidste 1-10 posteringer fra kontoen.
 .**
 .* Parametren BECRYKTYP skal bruges af VAU = Værdiregulering af udlån
 .*  til kriteriebehandling, og af system Kreditmodul.
@@ -66,13 +73,6 @@
 .*  have en rykkertype fra 1-4, eller det kan være et rykkerbrev
 .*  der ikke skal tælle med og derfor have en rykkertype = 0.
 .*********************************************************************
-.sp 2
-.ce on
-Med venlig hilsen
-.sp
-&BANKNAVN
-.ce off
-.ar off
 :COUR10
 .*************** AREAL-DEFINITIONER ***************************************
 .da ADR 20mm 47mm width 150mm
@@ -117,62 +117,6 @@ Med venlig hilsen
 .**************************************************************************
 ...HOVSL
 .ar off
-.**** Her laves 2 midlertidige parametre der enten udfyldes fra
-.**** batch-rykkerfunktionen eller fra 1810felterne.************
-.if &L'&BATCHGEBYR > 0
-.th .se gebyrryk = &BATCHGEBYR
-.el .se gebyrryk = &RYKGEBYR
-.if &L'&BATCHOVT > 0
-.th .se trakover = &BATCHOVT
-.el .se trakover = &OVERTRÆK
-.***********************************************************************
-.****** her starter brevteksten ***********************
-Vi har desværre konstateret, at &DU. fortsat ikke har betalt den
-opkrævede ydelse på dit MasterCard, &IREGKTO..
-.sp
-Vi beder dig indbetale den skyldige ydelse straks og senest 10 dage fra
-i dag.
-.sp
-Hvis du ikke betaler, forbeholder vi os retten til at opsige dit
-MasterCard uden yderligere varsel og forlange hele restgælden på dit
-MasterCard betalt straks.
-.sp
-Vi gør opmærksom på, at vi som følge af den manglende betaling har spærret
-dit kort, og at vi har beregnet et rykkergebyr på 100,00 kr. for
-fremsendelsen af dette brev.
-.sp
-Har du allerede indbetalt det skyldige beløb, kan du blot se bort fra
-dette brev.
-.sp
-Du er velkommen til at kontakte os, hvis vi sammen skal finde en ændret
-afvikling på dit MasterCard.
-.sp
-.********************GENEREL OPSÆTNING*************************************
-:COUR10.
-.fo left
-:tiltale &TILTALEM
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 100mm width 182mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
-.se regnr = substr &IREGKTO 1 4
-.se ktonr = substr &IREGKTO 5 7
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
-:FED.
-.us MasterCard - rykker nr. 2 for manglende betaling
-:SKRSLUT.
-.sp
-.**************************************************************************
 .**************************************************************************
 .*Parametre, substrings og tests ******************************************
 .su off
@@ -205,3 +149,60 @@ afvikling på dit MasterCard.
 .if X&maar = Xjanu
 .th .se mdr = 'december'
 .su on
+.********************GENEREL OPSÆTNING*************************************
+:COUR10.
+.fo left
+:tiltale &TILTALEM
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 100mm width 182mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.***** HER DELES REGISTRERINGSNUMMER OG KTONUMMER OP I TO PARAMETRE ****
+.se regnr = substr &IREGKTO 1 4
+.se ktonr = substr &IREGKTO 5 7
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT***********
+:FED.
+.us MasterCard - rykker nr. 2 for manglende betaling
+:SKRSLUT.
+.sp
+.**************************************************************************
+.**** Her laves 2 midlertidige parametre der enten udfyldes fra
+.**** batch-rykkerfunktionen eller fra 1810felterne.************
+.if &L'&BATCHGEBYR > 0
+.th .se gebyrryk = &BATCHGEBYR
+.el .se gebyrryk = &RYKGEBYR
+.if &L'&BATCHOVT > 0
+.th .se trakover = &BATCHOVT
+.el .se trakover = &OVERTRÆK
+.***********************************************************************
+.****** her starter brevteksten ***********************
+Vi har desværre konstateret, at &DU. fortsat ikke har betalt den
+opkrævede ydelse på dit MasterCard, &IREGKTO..
+.sp
+Vi beder dig indbetale den skyldige ydelse straks og senest 10 dage fra
+i dag.
+.sp
+Hvis du ikke betaler, forbeholder vi os retten til at opsige dit
+MasterCard uden yderligere varsel og forlange hele restgælden på dit
+MasterCard betalt straks.
+.sp
+Vi gør opmærksom på, at vi som følge af den manglende betaling har spærret
+dit kort, og at vi har beregnet et rykkergebyr på 100,00 kr. for
+fremsendelsen af dette brev.
+.sp
+Har du allerede indbetalt det skyldige beløb, kan du blot se bort fra
+dette brev.
+.sp
+Du er velkommen til at kontakte os, hvis vi sammen skal finde en ændret
+afvikling på dit MasterCard.
+.sp
+

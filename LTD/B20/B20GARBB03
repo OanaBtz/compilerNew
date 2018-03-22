@@ -1,3 +1,149 @@
+.pm 20mm
+.NV PAGE BANKSTED '%&KNDTILH.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.* Parameterafsnit
+.**************************************************************************
+.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
+.if &L'&GARMODADR1 = 0
+.an &L'&GARMODADR2 = 0
+.an &L'&GARMODADR3 = 0
+.an &L'&GARMODADR4 = 0
+.an &L'&GARMODADR5 = 0
+.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
+.**************************************************************************
+.* Valider at mindst 1 linie af kontraktbeskrivelse er udfyldt
+.if &L'&BECTEKST01 = 0
+.th .mg/T/Beskrivelse af standardkontrakt ej udfyldt (frigør evt. med PF10)
+.**************************************************************************
+.if &U'X&GENREGARAN = XJ
+.or &U'X&GENREGARAN = XN
+.th
+.el .mg/T/Regaranti: Skriv J eller N/
+.**************************************************************************
+.if &U'X&GENJANEJ = XJ
+.or &U'X&GENJANEJ = XN
+.th
+.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.**************************************************************************
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+B20GARBB03
+.ar off
+.*************** ROTERET BREVNAVN ****************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Leverancegaranti AB 92
+:SKRSLUT.
+.ar off
+.*************************************************************************
+.* AB 92 Leverence - Kasser og ledetekst
+.da BOX    20mm  40mm WIDTH 175mm
+.ll 174mm
+.tp 1mm 88mm 145mm 93mm
+.**********************************
+.ar BOX on
+:SWISS10.:FED.
+ ¤ Garantinummer
+:SKRSLUT.
+.**********************************
+.bx left right
+:SWISS8.
+ ¤ Kontonr. for garanti
+:SKRSLUT.
+.sp 10mm
+.bx off
+.**********************************
+:SWISS10.:FED.
+ ¤ Parter
+:SWISS8.
+.bx left right
+ ¤ På foranledning af (entreprenøren)
+.sp 20mm
+.bx off
+.**********************************
+.bx set left right
+ ¤ indestår vi herved over for (bygherren)
+:SKRSLUT.
+.sp 20mm
+.bx off
+.**********************************
+:SWISS10.:FED.
+ ¤ Betingelser
+:SWISS8.
+.bx left right
+ ¤ som garant for tilbagebetaling af indtil ialt kr.
+.sp 1mm
+ ¤ Beløb i tekst:
+:SKRSLUT.
+.bx off
+.**********************************
+.bx set left right
+:SWISS8.
+ ¤ vedrørende udbetalt forudbetaling omfattende (materialer m.v.):
+.sp 9mm
+ ¤ i henhold til entreprisekontrakt/accept/tilbud af:
+.ct ¤ ¤ ¤ bestemt for (projekt):
+:SKRSLUT.
+.sp 11.5mm
+.bx off
+.**********************************
+.bx set left right
+:SWISS8.
+ ¤ Supplerende oplysninger:
+:SKRSLUT.
+.sp 11mm
+.*** Faste betingelser ************
+.hr left right
+.sp 61mm
+.bx off
+.**********************************
+.bx set left right
+:SWISS8.
+ ¤ Pengeinstituttets underskrift ¤ ¤ Dato:
+:SKRSLUT.
+.sp 18.5mm
+.bx off
+.**********************************
+.ar off
 .* AB 92 Leverance - Faste betingelser
 .ti ¤ 05
 .da BETK1  21mm 171mm WIDTH 85mm
@@ -42,176 +188,30 @@ tiltransporteret pengeinstituttet.
 .tp 3mm
 .sp 1mm
 .of 3mm
-A. ¤Garantien ophører, når de materialer, forudbetalingen angår,
+A. ¤ Garantien ophører, når de materialer, forudbetalingen angår,
 er leveret på byggepladsen i kontraktsmæssig stand.
 .of
 .sp 2mm
 .of 3mm
-B. ¤Reduktionen af garantien sker, når Arbejdernes Landsbank
+B. ¤ Reduktionen af garantien sker, når Arbejdernes Landsbank
 fra A/S Boligbeton modtager kopi af faktura for den producerede
 delleverance. Reduktion i garantibeløbet sker med det fakturerede beløb.
 .of
 .sp 2mm
 .of 3mm
-C. ¤Bortset fra spørgsmål om udbetaling under garantien, jvf.
+C. ¤ Bortset fra spørgsmål om udbetaling under garantien, jvf.
 AB 92 §6, stk. 7, behandles tvister mellem garanten og bygherren
 af Voldgiftsretten for bygge- og anlægsvirksomhed,
 jvf. AB 92 §45 og §47.
 .of
 .sp 2mm
 .of 3mm
-D. ¤Af ordensmæssige grunde skal det originale garantidokument
+D. ¤ Af ordensmæssige grunde skal det originale garantidokument
 tilbagesendes til garanten umiddelbart efter garantiens ophør.
 .of
 .ar off
 .***********************
 :COUR10.
-.* AB 92 Leverence - Kasser og ledetekst
-.da BOX    20mm  40mm WIDTH 175mm
-.ll 174mm
-.tp 1mm 88mm 145mm 93mm
-.**********************************
-.ar BOX on
-:SWISS10.:FED.
-¤Garantinummer
-:SKRSLUT.
-.**********************************
-.bx left right
-:SWISS8.
-¤Kontonr. for garanti
-:SKRSLUT.
-.sp 10mm
-.bx off
-.**********************************
-:SWISS10.:FED.
-¤Parter
-:SWISS8.
-.bx left right
-¤På foranledning af (entreprenøren)
-.sp 20mm
-.bx off
-.**********************************
-.bx set left right
-¤indestår vi herved over for (bygherren)
-:SKRSLUT.
-.sp 20mm
-.bx off
-.**********************************
-:SWISS10.:FED.
-¤Betingelser
-:SWISS8.
-.bx left right
-¤som garant for tilbagebetaling af indtil ialt kr.
-.sp 1mm
-¤Beløb i tekst:
-:SKRSLUT.
-.bx off
-.**********************************
-.bx set left right
-:SWISS8.
-¤vedrørende udbetalt forudbetaling omfattende (materialer m.v.):
-.sp 9mm
-¤i henhold til entreprisekontrakt/accept/tilbud af:
-.ct ¤¤¤bestemt for (projekt):
-:SKRSLUT.
-.sp 11.5mm
-.bx off
-.**********************************
-.bx set left right
-:SWISS8.
-¤Supplerende oplysninger:
-:SKRSLUT.
-.sp 11mm
-.*** Faste betingelser ************
-.hr left right
-.sp 61mm
-.bx off
-.**********************************
-.bx set left right
-:SWISS8.
-¤Pengeinstituttets underskrift ¤¤Dato:
-:SKRSLUT.
-.sp 18.5mm
-.bx off
-.**********************************
-.ar off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-B20GARBB03
-.ar off
-.*************** ROTERET BREVNAVN ****************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Leverancegaranti AB 92
-:SKRSLUT.
-.ar off
-.*************************************************************************
-.* Parameterafsnit - beregning
-.**************************************************************************
-.* Parameterafsnit - beregning
-.* Parameterafsnit
-.**************************************************************************
-.* Valider at mindst 1 af garantimodtager-adresselinjerne er udfyldt
-.if &L'&GARMODADR1 = 0
-.an &L'&GARMODADR2 = 0
-.an &L'&GARMODADR3 = 0
-.an &L'&GARMODADR4 = 0
-.an &L'&GARMODADR5 = 0
-.th .mg/T/Garantimodtager ej udfyldt  (frigør evt. med PF10)/
-.**************************************************************************
-.* Valider at mindst 1 linie af kontraktbeskrivelse er udfyldt
-.if &L'&BECTEKST01 = 0
-.th .mg/T/Beskrivelse af standardkontrakt ej udfyldt (frigør evt. med PF10)
-.**************************************************************************
-.if &U'X&GENREGARAN = XJ
-.or &U'X&GENREGARAN = XN
-.th
-.el .mg/T/Regaranti: Skriv J eller N/
-.**************************************************************************
-.if &U'X&GENJANEJ = XJ
-.or &U'X&GENJANEJ = XN
-.th
-.el .mg/T/Vitterlighedsvidner: Skriv J eller N/
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.pm 20mm
-.NV PAGE BANKSTED '%&KNDTILH.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :COUR10.
 .da GARNR  25mm  50mm
 .da PFA    25mm  69mm
@@ -255,7 +255,7 @@ B20GARBB03
 .*********************
 .ar BELOB on
 .tp 39mm
-¤&RESULTA
+ ¤ &RESULTA
 .sp 0.5mm
 &RESULTAT1.&RESULTAT2
 .ar off
@@ -298,3 +298,4 @@ Nørregade 18
 7100 Vejle
 .ar off
 .*********************
+

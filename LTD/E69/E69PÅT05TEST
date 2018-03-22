@@ -11,91 +11,90 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.*UNDERSKRIFT *************************************************************
-.if &U'&GENJANEJ3 = N
-.th .go INGENFUL
-.sp 5mm
-Dato
-.sp 10mm
-.tp 72mm
-.if &L'&GENNAVN1 > 0
-.an &L'&GENNAVN2 = 0
-.th .hr tynd 0mm 68mm
-.th .br
-.th &GENNAVN1.
-.el .hr tynd 0mm 68mm 72mm 140mm
-.el .br
-.el &GENNAVN1.¤&GENNAVN2.
-.sp 10mm
-.if &L'&GENNAVN3 > 0
-.an &L'&GENNAVN4 = 0
-.th .hr tynd 0mm 68mm
-.th .br
-.th &GENNAVN3.
-.el .hr tynd 0mm 68mm 72mm 140mm
-.el .br
-.el &GENNAVN3.¤&GENNAVN4.
-.el .br
-...INGENFUL
-.*UNDERSKRIFT *************************************************************
-.sp 10mm
-.* .kp on
-.* dr tynd weight 0.1mm
-.tp 37.5mm center 132.5mm center
-Dato
-.sp 15mm
-.if x&E69USKRV1 = x4
-.or x&E69USKRV1 = x3
-.or x&E69USKRV1 = x2
-.th .go 2UNDSK
-.if x&E69USKRV1 = x1
-.th .go 1UNDSK
-.el .go UNSKRS
-...2UNDSK
-.hr tynd 5mm 85mm 90mm 170mm
-¤&E69USKRT1.¤&E69USKRT2.
-.sp 10mm
-.if x&E69USKRV1 = x4
-.th .go 4UNDSK
-.if x&E69USKRV1 = x3
-.th .go 3UNDSK
-.el .go UNSKRS
-...1UNDSK
-.hr tynd 5mm 85mm
-¤&E69USKRT1.
-.sp 10mm
-.go UNSKRS
-...4UNDSK
-.hr tynd 5mm 85mm 90mm 170mm
-¤&E69USKRT3.¤&E69USKRT4.
-.sp 10mm
-.go UNSKRS
-...3UNDSK
-.hr tynd 5mm 85mm
-¤&E69USKRT3.
-.sp 10mm
-.go UNSKRS
-...UNSKRS
-.* .kp off
-.*VITTERLIGHED*********************
-.if &U'&GENJANEJ2 = N
-.th .go INGENVIT
-.sp 10mm
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.*NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.*BR
+.*NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.*BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.if &U'&GENJANEJ1 = E
+.th .se ptbtype = 'skibsejerpantebrev'
+.if &U'&GENJANEJ1 = P
+.th .se ptbtype = 'skibspantebrev'
+.* Parameterafsnit - beregning
+.**************************************************************************
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.dr tynd weight 0.2mm
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da START 20mm 20mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar START on
+.**************************************************************************
+.*************************************************************************
+.tp 0mm 141mm
+ ¤ Afgift kr.
+:VS.&GENAFGIFT.
+.ct ¤ Side &GENSIDE.
 .br
-Til vitterlighed om ægte underskrift/underskrifter, dateringens
-rigtighed og udstederens/udstedernes myndighed.
-.sp 6mm
-.tp _/68mm 72mm _/140mm
-Navn ¤ ¤Navn ¤
-.sp 4mm
-Stilling ¤ ¤Stilling ¤
-.sp 4mm
-Adresse ¤ ¤Adresse ¤
-.sp 4mm
-Postnr./by ¤ ¤Postnr./by ¤
-.sp 4mm
-Underskrift ¤ ¤Underskrift ¤
-...INGENVIT
+Allonge til &ptbtype. stort kr.
+:VS. &GENBELOB1
+udstedt af &NAVN., Cpr/Cvr-nummer: &KUNDENR., lyst første gang den
+&DATO2., med &GENANTAL. prioritets panteret i båd
+&GENTEKST1., reg. under &GENTEKST2..
+.sp 2mm
+.hr tynd 0mm 160mm
+.sp 3mm
+.tp 118mm
+:FED.
+ ¤ Anmelder:
+:SKRSLUT.
+.br
+ ¤ &BANKNAVN.
+.br
+ ¤ &AFDNAVN.
+.br
+ ¤ &AFDGADE.
+.br
+ ¤ &AFDBY.
+.br
+ ¤ Tlf.nr. &AFDTLF.
+.sp 8mm
+:FED.
+.ce ON
+Allonge til &ptbtype.
+.ce OFF
+:SKRSLUT.
+.sp 5mm
 .**************************************************************************
 .if &U'&GENJANEJ4 = N
 .th .go ENDSTEP1
@@ -179,87 +178,89 @@ Ejerpantebrevets øvrige bestemmelser forbliver uændret gældende, dog uden
 personligt ansvar for køber og pantegælden.
 .sp 3mm
 ...ENDSTEP7
-.*************************************************************************
-.tp 0mm 141mm
-¤Afgift kr.
-:VS.&GENAFGIFT.
-.ct ¤Side &GENSIDE.
-.br
-Allonge til &ptbtype. stort kr.
-:VS. &GENBELOB1
-udstedt af &NAVN., Cpr/Cvr-nummer: &KUNDENR., lyst første gang den
-&DATO2., med &GENANTAL. prioritets panteret i båd
-&GENTEKST1., reg. under &GENTEKST2..
-.sp 2mm
-.hr tynd 0mm 160mm
-.sp 3mm
-.tp 118mm
-:FED.
-¤Anmelder:
-:SKRSLUT.
-.br
-¤&BANKNAVN.
-.br
-¤&AFDNAVN.
-.br
-¤&AFDGADE.
-.br
-¤&AFDBY.
-.br
-¤Tlf.nr. &AFDTLF.
-.sp 8mm
-:FED.
-.ce ON
-Allonge til &ptbtype.
-.ce OFF
-:SKRSLUT.
+.*UNDERSKRIFT *************************************************************
+.if &U'&GENJANEJ3 = N
+.th .go INGENFUL
 .sp 5mm
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.dr tynd weight 0.2mm
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da START 20mm 20mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar START on
-.**************************************************************************
-.* Parameterafsnit - beregning
-.**************************************************************************
-.*
-.if &U'&GENJANEJ1 = E
-.th .se ptbtype = 'skibsejerpantebrev'
-.if &U'&GENJANEJ1 = P
-.th .se ptbtype = 'skibspantebrev'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.*NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
-.*BR
-.*NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
-.*BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
+Dato
+.sp 10mm
+.tp 72mm
+.if &L'&GENNAVN1 > 0
+.an &L'&GENNAVN2 = 0
+.th .hr tynd 0mm 68mm
+.th .br
+.th &GENNAVN1.
+.el .hr tynd 0mm 68mm 72mm 140mm
+.el .br
+.el &GENNAVN1. ¤ &GENNAVN2.
+.sp 10mm
+.if &L'&GENNAVN3 > 0
+.an &L'&GENNAVN4 = 0
+.th .hr tynd 0mm 68mm
+.th .br
+.th &GENNAVN3.
+.el .hr tynd 0mm 68mm 72mm 140mm
+.el .br
+.el &GENNAVN3. ¤ &GENNAVN4.
+.el .br
+...INGENFUL
+.*UNDERSKRIFT *************************************************************
+.sp 10mm
+.* .kp on
+.* dr tynd weight 0.1mm
+.tp 37.5mm center 132.5mm center
+Dato
+.sp 15mm
+.if x&E69USKRV1 = x4
+.or x&E69USKRV1 = x3
+.or x&E69USKRV1 = x2
+.th .go 2UNDSK
+.if x&E69USKRV1 = x1
+.th .go 1UNDSK
+.el .go UNSKRS
+...2UNDSK
+.hr tynd 5mm 85mm 90mm 170mm
+ ¤ &E69USKRT1. ¤ &E69USKRT2.
+.sp 10mm
+.if x&E69USKRV1 = x4
+.th .go 4UNDSK
+.if x&E69USKRV1 = x3
+.th .go 3UNDSK
+.el .go UNSKRS
+...1UNDSK
+.hr tynd 5mm 85mm
+ ¤ &E69USKRT1.
+.sp 10mm
+.go UNSKRS
+...4UNDSK
+.hr tynd 5mm 85mm 90mm 170mm
+ ¤ &E69USKRT3. ¤ &E69USKRT4.
+.sp 10mm
+.go UNSKRS
+...3UNDSK
+.hr tynd 5mm 85mm
+ ¤ &E69USKRT3.
+.sp 10mm
+.go UNSKRS
+...UNSKRS
+.* .kp off
+.*VITTERLIGHED*********************
+.if &U'&GENJANEJ2 = N
+.th .go INGENVIT
+.sp 10mm
+.br
+Til vitterlighed om ægte underskrift/underskrifter, dateringens
+rigtighed og udstederens/udstedernes myndighed.
+.sp 6mm
+.tp _/68mm 72mm _/140mm
+Navn ¤ ¤ Navn ¤
+.sp 4mm
+Stilling ¤ ¤ Stilling ¤
+.sp 4mm
+Adresse ¤ ¤ Adresse ¤
+.sp 4mm
+Postnr./by ¤ ¤ Postnr./by ¤
+.sp 4mm
+Underskrift ¤ ¤ Underskrift ¤
+...INGENVIT
+

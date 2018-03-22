@@ -1,92 +1,20 @@
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
+.pm 20mm
 .BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.NV PAGE BANKSTED '%&EKSPBNKST.'
 .BR
-.NV PAGE SENDBANK '%&SANTBANK.'
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
 .BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
+.NV PAGE PRINTER '%&PRINTER.'
 .BR
-.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
 .BR
-.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.oc **B20BOLIG17
-.if &L'&B20TEST01 > 0
-.th .go videre1
-.el .go slut1
-...videre1
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.*************************************************************
-.ar AFSENDER on
-:VERDA08.
-A/S &BANKNAVN.
-.br
-&AFDNAVN
-.br;&AFDGADE
-.br;&AFDBY
-.br;T: &AFDTLF
-.br;M: &GENEMAIL
-.sp2
-.br;&DATO
-.sp2
-Reference: &IREGKTO
-.sp
-:SKRSLUT.
-.ar off
-.*************************************************************
-.if &L'&BKNAVN > 0
-.th &BKNAVN
-.th .br
-.el .br
-.if &L'&BKAFD > 0
-.th &BKAFD
-.th .br
-.el .br
-.if &L'&BKADR > 0
-.th &BKADR
-.th .br
-.el .br
-.if &L'&BKBY > 0
-.th &BKBY
-.th .br
-.el .br
-.if &L'&B20TEKST31 > 0
-.th Att: &B20TEKST31
-.*************************************************************
-...slut1
-.se a = &B20TEST01
-.se b = &B20TEST02
-.se c = &B20TEST03
-.se d = &B20TEST04
-.if &L'&a = 0 .an &L'&b = 0 .an &L'&c = 0 .an &L'&d = 0
-.th Du skal vælge at udskrive mindst ét brev. (side 2 i udfyldelse
-.th af standardbrevet - brev 1, 2, 3 og 4)
-.th .go slut
-.el .go videre1
-...videre1
-...slut
-.if &L'&B20TEST04 > 0
-.th .go videre4
-.el .go slut4
-...videre4
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.if &L'&B20TEST02 > 0
+.th .go videre2
+.el .go slut2
+...videre2
 Sælger: &KTONAVN
 .if &L'&MEDNAVN > 0
 .th og &MEDNAVN
@@ -95,8 +23,8 @@ Køber: &B20TEKST04., cpr. nr. &B20TEKST05
 .br
 .sp
 :FED.Fra sælgers filial har vi overtaget sagsbehandlingen af ovennævnte,
-hvorfor I fremover bedes kontakte os via nedennævnte mailadresse i stedet
-for filialen med henvisning til reference &IREGKTO..
+hvorfor I fremover bedes kontakte os via nedennævnte mailadresse
+i stedet for filialen med henvisning til reference &IREGKTO..
 :SKRSLUT.
 .sp
 .if &L'&B20TEST05 > 0
@@ -105,6 +33,7 @@ for filialen med henvisning til reference &IREGKTO..
 .sp
 Når skødet anmeldes til tinglysning, beder vi Jer påføre nedennævnte
 mailadresse som supplerende e-mail.
+.sp
 .if &L'&B20TEKST61 > 0
 .th .sp
 &B20TEKST61
@@ -125,11 +54,48 @@ Med venlig hilsen
 .el &GENEMAIL
 .ce off
 .ar off
-...slut4
-.if &L'&B20TEST04 > 0
-.th .go videre4
-.el .go slut4
-...videre4
+.if &L'&B20TEST03 > 0 .or &L'&B20TEST04 > 0
+.th .pa
+...slut2
+.if &L'&B20TEST03 > 0
+.th .go videre3
+.el .go slut3
+...videre3
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN.
+.br
+&AFDNAVN
+.br;&AFDGADE
+.br;&AFDBY
+.br;T: &AFDTLF
+.br;M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp2
+Reference: &IREGKTO
+.sp
+.ar off
+.*************************************************************
+&GENNAVN
+.br
+&GENGADE
+.br
+&GENBY
+.if &L'&B20TEKST30 > 0
+.th .br
+.th Att.: &B20TEKST30
+.*************************************************************
+...slut3
+.if &L'&B20TEST03 > 0
+.th .go videre3
+.el .go slut3
+...videre3
 :VERDA09.
 .fo left
 .ti ¤ 05
@@ -153,45 +119,7 @@ Salg af ejendommen matr.nr. &B20TEKST02 &B20TEKST03
 :SKRSLUT.
 :SKRSLUT.
 .sp
-...slut4
-.if &L'&B20TEST04 > 0
-.th .go videre4
-.el .go slut4
-...videre4
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.*************************************************************
-.ar AFSENDER on
-:VERDA08.
-A/S &BANKNAVN.
-.br
-&AFDNAVN
-.br;&AFDGADE
-.br;&AFDBY
-.br;T: &AFDTLF
-.br;M: &GENEMAIL
-.sp2
-.br;&DATO
-.sp2
-Reference: &IREGKTO
-.sp
-.ar off
-.*************************************************************
-.if &L'&B20STILL > 0
-.th &B20STILL
-.th .br
-&B20NAVN1
-.br
-&B20GADE1
-.br
-&B20BY1
-.if &L'&B20ATT > 0
-.th .br
-.th Att.: &B20ATT
-.*************************************************************
-...slut4
+...slut3
 .if &L'&B20TEST03 > 0
 .th .go videre3
 .el .go slut3
@@ -242,10 +170,48 @@ Med venlig hilsen
 .if &L'&B20TEST04 > 0
 .th .pa
 ...slut3
-.if &L'&B20TEST03 > 0
-.th .go videre3
-.el .go slut3
-...videre3
+.if &L'&B20TEST04 > 0
+.th .go videre4
+.el .go slut4
+...videre4
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN.
+.br
+&AFDNAVN
+.br;&AFDGADE
+.br;&AFDBY
+.br;T: &AFDTLF
+.br;M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp2
+Reference: &IREGKTO
+.sp
+.ar off
+.*************************************************************
+.if &L'&B20STILL > 0
+.th &B20STILL
+.th .br
+&B20NAVN1
+.br
+&B20GADE1
+.br
+&B20BY1
+.if &L'&B20ATT > 0
+.th .br
+.th Att.: &B20ATT
+.*************************************************************
+...slut4
+.if &L'&B20TEST04 > 0
+.th .go videre4
+.el .go slut4
+...videre4
 :VERDA09.
 .fo left
 .ti ¤ 05
@@ -269,46 +235,11 @@ Salg af ejendommen matr.nr. &B20TEKST02 &B20TEKST03
 :SKRSLUT.
 :SKRSLUT.
 .sp
-...slut3
-.if &L'&B20TEST03 > 0
-.th .go videre3
-.el .go slut3
-...videre3
-.ti ¤ 05
-.sp 25mm
-:VERDA09.
-.da AFSENDER 50 8 width 30
-.*************************************************************
-.ar AFSENDER on
-:VERDA08.
-A/S &BANKNAVN.
-.br
-&AFDNAVN
-.br;&AFDGADE
-.br;&AFDBY
-.br;T: &AFDTLF
-.br;M: &GENEMAIL
-.sp2
-.br;&DATO
-.sp2
-Reference: &IREGKTO
-.sp
-.ar off
-.*************************************************************
-&GENNAVN
-.br
-&GENGADE
-.br
-&GENBY
-.if &L'&B20TEKST30 > 0
-.th .br
-.th Att.: &B20TEKST30
-.*************************************************************
-...slut3
-.if &L'&B20TEST02 > 0
-.th .go videre2
-.el .go slut2
-...videre2
+...slut4
+.if &L'&B20TEST04 > 0
+.th .go videre4
+.el .go slut4
+...videre4
 Sælger: &KTONAVN
 .if &L'&MEDNAVN > 0
 .th og &MEDNAVN
@@ -317,8 +248,8 @@ Køber: &B20TEKST04., cpr. nr. &B20TEKST05
 .br
 .sp
 :FED.Fra sælgers filial har vi overtaget sagsbehandlingen af ovennævnte,
-hvorfor I fremover bedes kontakte os via nedennævnte mailadresse
-i stedet for filialen med henvisning til reference &IREGKTO..
+hvorfor I fremover bedes kontakte os via nedennævnte mailadresse i stedet
+for filialen med henvisning til reference &IREGKTO..
 :SKRSLUT.
 .sp
 .if &L'&B20TEST05 > 0
@@ -327,7 +258,6 @@ i stedet for filialen med henvisning til reference &IREGKTO..
 .sp
 Når skødet anmeldes til tinglysning, beder vi Jer påføre nedennævnte
 mailadresse som supplerende e-mail.
-.sp
 .if &L'&B20TEKST61 > 0
 .th .sp
 &B20TEKST61
@@ -348,41 +278,50 @@ Med venlig hilsen
 .el &GENEMAIL
 .ce off
 .ar off
-.if &L'&B20TEST03 > 0 .or &L'&B20TEST04 > 0
-.th .pa
-...slut2
-.if &L'&B20TEST02 > 0
-.th .go videre2
-.el .go slut2
-...videre2
-:VERDA09.
-.fo left
-.ti ¤ 05
-.* brevnavn roteret
-.da VEND 7mm 275mm width 180mm rotate -90
-.****************************************
-.* overskrift
-.da START 20mm 115mm width 170mm
-.****************************************
-.ar VEND on
-:COUR6.
-&BRUGERNR
+...slut4
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
 .BR
-&BREVNAVN
-.ar off
-.****************************************
-.ar START on
-:VERDA10.
-:FED.
-Salg af ejendommen matr.nr. &B20TEKST02 &B20TEKST03
-:SKRSLUT.
-:SKRSLUT.
-.sp
-...slut2
-.if &L'&B20TEST02 > 0
-.th .go videre2
-.el .go slut2
-...videre2
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE UDDATANAVN1 '%&UDDATANVN1.'
+.BR
+.NV PAGE UDDATANAVN2 '%&UDDATANVN2.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.oc **B20BOLIG17
+.se a = &B20TEST01
+.se b = &B20TEST02
+.se c = &B20TEST03
+.se d = &B20TEST04
+.if &L'&a = 0 .an &L'&b = 0 .an &L'&c = 0 .an &L'&d = 0
+.th Du skal vælge at udskrive mindst ét brev. (side 2 i udfyldelse
+.th af standardbrevet - brev 1, 2, 3 og 4)
+.th .go slut
+.el .go videre1
+...videre1
+...slut
+.if &L'&B20TEST01 > 0
+.th .go videre1
+.el .go slut1
+...videre1
 .ti ¤ 05
 .sp 25mm
 :VERDA09.
@@ -402,21 +341,57 @@ A/S &BANKNAVN.
 .sp2
 Reference: &IREGKTO
 .sp
+:SKRSLUT.
 .ar off
 .*************************************************************
-&B20NAVN
-.br
-.if &L'&B20NAVNE > 0
-.th &B20NAVNE
+.if &L'&BKNAVN > 0
+.th &BKNAVN
 .th .br
-&B20GADE
-.br
-&B20BY
-.if &L'&B20TEKST32 > 0
+.el .br
+.if &L'&BKAFD > 0
+.th &BKAFD
 .th .br
-.th Att.: &B20TEKST32
+.el .br
+.if &L'&BKADR > 0
+.th &BKADR
+.th .br
+.el .br
+.if &L'&BKBY > 0
+.th &BKBY
+.th .br
+.el .br
+.if &L'&B20TEKST31 > 0
+.th Att: &B20TEKST31
 .*************************************************************
-...slut2
+...slut1
+.if &L'&B20TEST01 > 0
+.th .go videre1
+.el .go slut1
+...videre1
+:VERDA09.
+.fo left
+.ti ¤ 05
+.* brevnavn roteret
+.da VEND 7mm 275mm width 180mm rotate -90
+.****************************************
+.* overskrift
+.da START 20mm 115mm width 170mm
+.****************************************
+.ar VEND on
+:COUR6.
+&BRUGERNR
+.br
+&BREVNAVN
+.ar off
+.****************************************
+.ar START on
+:VERDA10.
+:FED.
+Salg af ejendommen matr.nr. &B20TEKST02 &B20TEKST03
+:SKRSLUT.
+:SKRSLUT.
+.sp
+...slut1
 .if &L'&B20TEST01 > 0
 .th .go videre1
 .el .go slut1
@@ -468,10 +443,48 @@ Med venlig hilsen
 .if &L'&B20TEST02 > 0 .or &L'&B20TEST03 > 0 .or &L'&B20TEST04 > 0
 .th .pa
 ...slut1
-.if &L'&B20TEST01 > 0
-.th .go videre1
-.el .go slut1
-...videre1
+.if &L'&B20TEST02 > 0
+.th .go videre2
+.el .go slut2
+...videre2
+.ti ¤ 05
+.sp 25mm
+:VERDA09.
+.da AFSENDER 50 8 width 30
+.*************************************************************
+.ar AFSENDER on
+:VERDA08.
+A/S &BANKNAVN.
+.br
+&AFDNAVN
+.br;&AFDGADE
+.br;&AFDBY
+.br;T: &AFDTLF
+.br;M: &GENEMAIL
+.sp2
+.br;&DATO
+.sp2
+Reference: &IREGKTO
+.sp
+.ar off
+.*************************************************************
+&B20NAVN
+.br
+.if &L'&B20NAVNE > 0
+.th &B20NAVNE
+.th .br
+&B20GADE
+.br
+&B20BY
+.if &L'&B20TEKST32 > 0
+.th .br
+.th Att.: &B20TEKST32
+.*************************************************************
+...slut2
+.if &L'&B20TEST02 > 0
+.th .go videre2
+.el .go slut2
+...videre2
 :VERDA09.
 .fo left
 .ti ¤ 05
@@ -484,7 +497,7 @@ Med venlig hilsen
 .ar VEND on
 :COUR6.
 &BRUGERNR
-.br
+.BR
 &BREVNAVN
 .ar off
 .****************************************
@@ -495,17 +508,5 @@ Salg af ejendommen matr.nr. &B20TEKST02 &B20TEKST03
 :SKRSLUT.
 :SKRSLUT.
 .sp
-...slut1
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+...slut2
+

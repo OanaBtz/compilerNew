@@ -1,124 +1,3 @@
-.*************************
-.if &U'X&B30BETMED ne XJ
-.th .go EJBETT02
-.***********************
-.if &U'X&B30LÅNKRE eq XL
-.or &U'X&B30LÅNKRE eq XD
-.or &U'X&B30LÅNKRE eq XB
-.th .go OKT02
-.el .go EJBETT02
-.**************
-...OKT02
-.************ Underskrift **************************
-.sp3
-.tp _/130mm
-¤
-.br
-.tp 20mm 80mm
-Dato    ¤&KTONAVN
-.if &U'X&GENMEDKTOH eq XJ .an &L'&MEDNAVN gt 0
-.th .ct ¤&MEDNAVN
-...EJBETT02
-.********* SLUT   ******************************************
-.if &U'X&B30BETMED ne XJ
-.th .go EJBETT01
-.****************
-.if &U'X&B30LÅNKRE eq XL
-.or &U'X&B30LÅNKRE eq XD
-.or &U'X&B30LÅNKRE eq XB
-.th .go OKT01
-.el .go EJBETT01
-.**************
-...OKT01
-.tp 24mm 87mm
-.if x&cprcvr = x00
-.th Navn: ¤&KTONAVN  ¤CVR-nr.: &KTOKNDNR1
-.th .go VIDERE
-.******
-.if x&cprcvr > x31
-.th Navn: ¤&KTONAVN  ¤KND-nr.: &KTOKNDNR1
-.el Navn: ¤&KTONAVN  ¤CPR-nr.: &KTOKNDNR1
-...VIDERE
-.******
-.if &L'&MEDNAVN gt 0
-.an &U'&GENMEDKTOH eq J
-.th .go MEDKTO01
-.el .go KTOCO01
-...MEDKTO01
-.br
-.if x&mcprcvr = x00
-.th Medkto.haver: ¤&MEDNAVN ¤CVR-nr.: &mktoh1.&mktoh2
-.th .go KTOCO01
-.if x&mcprcvr > x31
-.th Medkto.haver: ¤&MEDNAVN ¤KND-nr.: &mktoh1.&mktoh2
-.el Medkto.haver: ¤&MEDNAVN ¤CPR-nr.: &mktoh1.&mktoh2
-.***********
-...KTOCO01
-.if &L'&KTOCO gt 0
-.th .br
-.th Coadr: ¤&KTOCO
-.*****
-.br
-Adresse: ¤&KTOGADE
-.br
-Postnr.: ¤&KTOBY
-.br
-.******
-.if &L'&KTOLAND gt 0
-.th Land: ¤&KTOLAND
-.sp2
-.****************************
-Undertegnede bemyndiger herved &BANKNAVN til at overføre
-:VS.&B30YDL
-kr.
-.if &B30FREK1 eq 1
-.th hver måned
-.if &B30FREK1 eq 2
-.th hvert kvartal
-.if &B30FREK1 eq 3
-.th hvert halvår
-.if &B30FREK1 eq 4
-.th hvert år
-.if &B30FREK1 eq 5
-.th én gang
-.sp
-.tp _/60mm _/128mm
-fra &MIN konto reg.nr. ¤ konto nr. ¤
-.br
-.sp
-.tp _/130mm
-i ¤
-.br
-.sp
-Beløbet skal indsættes på lån nr. &IREGKTO
-i &BANKNAVN..
-.sp
-Overførslen foretages første gang den &RESULTA..
-...EJBETT01
-.if &U'X&B30BETMED ne XJ
-.th .go EJBETO2
-.****************''
-.if &U'X&B30LÅNKRE eq XL
-.or &U'X&B30LÅNKRE eq XD
-.or &U'X&B30LÅNKRE eq XB
-.th .go OKO2
-.el .go EJBETO2
-.**************
-...OKO2
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.***************
-.ar VEND on
-:CALIB8.
-B30PBS01LKT
-.ar off
-.***************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-...EJBETO2
 .*********TEST PÅ UDSKRIVNING FOR TYPE L, D, K OG B ********************
 .if &U'X&B30BETMED ne XJ
 .th .go EJBETO1
@@ -175,3 +54,125 @@ Sendes til banken
 .in 2mm
 :omtale &OMTALEF
 ...EJBETO1
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETO2
+.****************''
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKO2
+.el .go EJBETO2
+.**************
+...OKO2
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.***************
+.ar VEND on
+:CALIB8.
+B30PBS01LKT
+.ar off
+.***************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+...EJBETO2
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETT01
+.****************
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKT01
+.el .go EJBETT01
+.**************
+...OKT01
+.tp 24mm 87mm
+.if x&cprcvr = x00
+.th Navn: ¤ &KTONAVN  ¤ CVR-nr.: &KTOKNDNR1
+.th .go VIDERE
+.******
+.if x&cprcvr > x31
+.th Navn: ¤ &KTONAVN  ¤ KND-nr.: &KTOKNDNR1
+.el Navn: ¤ &KTONAVN  ¤ CPR-nr.: &KTOKNDNR1
+...VIDERE
+.******
+.if &L'&MEDNAVN gt 0
+.an &U'&GENMEDKTOH eq J
+.th .go MEDKTO01
+.el .go KTOCO01
+...MEDKTO01
+.br
+.if x&mcprcvr = x00
+.th Medkto.haver: ¤ &MEDNAVN ¤ CVR-nr.: &mktoh1.&mktoh2
+.th .go KTOCO01
+.if x&mcprcvr > x31
+.th Medkto.haver: ¤ &MEDNAVN ¤ KND-nr.: &mktoh1.&mktoh2
+.el Medkto.haver: ¤ &MEDNAVN ¤ CPR-nr.: &mktoh1.&mktoh2
+.***********
+...KTOCO01
+.if &L'&KTOCO gt 0
+.th .br
+.th Coadr: ¤ &KTOCO
+.*****
+.br
+Adresse: ¤ &KTOGADE
+.br
+Postnr.: ¤ &KTOBY
+.br
+.******
+.if &L'&KTOLAND gt 0
+.th Land: ¤ &KTOLAND
+.sp2
+.****************************
+Undertegnede bemyndiger herved &BANKNAVN til at overføre
+:VS.&B30YDL
+kr.
+.if &B30FREK1 eq 1
+.th hver måned
+.if &B30FREK1 eq 2
+.th hvert kvartal
+.if &B30FREK1 eq 3
+.th hvert halvår
+.if &B30FREK1 eq 4
+.th hvert år
+.if &B30FREK1 eq 5
+.th én gang
+.sp
+.tp _/60mm _/128mm
+fra &MIN konto reg.nr. ¤ konto nr. ¤
+.br
+.sp
+.tp _/130mm
+i ¤
+.br
+.sp
+Beløbet skal indsættes på lån nr. &IREGKTO
+i &BANKNAVN..
+.sp
+Overførslen foretages første gang den &RESULTA..
+...EJBETT01
+.*************************
+.if &U'X&B30BETMED ne XJ
+.th .go EJBETT02
+.***********************
+.if &U'X&B30LÅNKRE eq XL
+.or &U'X&B30LÅNKRE eq XD
+.or &U'X&B30LÅNKRE eq XB
+.th .go OKT02
+.el .go EJBETT02
+.**************
+...OKT02
+.************ Underskrift **************************
+.sp3
+.tp _/130mm
+¤
+.br
+.tp 20mm 80mm
+Dato    ¤ &KTONAVN
+.if &U'X&GENMEDKTOH eq XJ .an &L'&MEDNAVN gt 0
+.th .ct ¤ &MEDNAVN
+...EJBETT02
+.********* SLUT   ******************************************
+

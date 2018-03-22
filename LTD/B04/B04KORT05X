@@ -1,61 +1,41 @@
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da START 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-B04KORT05x
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar START on
-:SWISS12.
-:FED.
-.*US Bestilling af Angaju-kort
-:SKRSLUT.
-.ar off
-.*************************************************************************
-.*** Definer siden som et areal *******************************************
-.*da side 20mm 33,5mm width 175mm
-.da side 20mm 40mm width 175mm
-.ar side on
-:SWISS10.
-.*** Undertegnede *********************************************************
-:FED.
-Undertegnede
-:SKRSLUT.
-.*** Kundeoplysninger *****************************************************
-.bx new 0mm right
-.sp 53mm
-.bx off
-:SWISS10.
-:FED.
-.*** Erklæring ************************************************************
-Erklæring
-:SKRSLUT.
-:COUR10.
-.bx new 0mm right
-.sp 71mm
-.bx off
-:SWISS10.
-:FED.
-.*** Bankens noteringer ***************************************************
-Bankens noteringer
-:SKRSLUT.
-:COUR10.
-.bx new 0mm 55mm 85mm 115mm 145mm 175mm
-.sp 6mm
-.hr 0mm 175mm
-.sp 8mm
-.hr 0mm 175mm
-.sp 8mm
-.hr 0mm 175mm
-.bx can
-.bx off
-.ar off
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.oc  **Angaju-kort
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -106,7 +86,8 @@ Bankens noteringer
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T.if &U'X&GENDUJANEJ = XN
+;T
+.if &U'X&GENDUJANEJ = XN
 .or &U'X&GENDUJANEJ = XJ
 .th .go VALJN
 .el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
@@ -154,73 +135,64 @@ Bankens noteringer
 .el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
 .****************************
 ...DUEXIT
-.oc  **Angaju-kort
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DEN ER *
-.**** LÆNGERE END 26 TEGN ER DER LAVET FEJL I KORTBESTILLINGEN OG NAVNET
-.**** SKAL RETTES I FUNKTION 3101 ***************************************
-.if &L'&NAVN > 26
-.th Kundens navn må være på max. 26 karakterer pga.
-.th navnelængden på det bestilte kort funktion 3105. Afbestil kortet,
-.th ret navnet i funktion 3101, genbestil
-.th kortet og udskriv brevet igen.
-.th .go slut
-.**************************************************************************
-.da under 25mm 48.5mm width 173mm
-.**************************************************************************
-.ar under on
-.TP 15mm 120mm
-&NAVN ¤¤&DATO1
-.br
-&GADE ¤¤&BECKORTNR
-.br
-&BY ¤¤&BECBEST01
-.sp
-¤&KUNDENR
-.sp
-.sp 1
-.go afs1
-...afs1
+.*** Definer siden som et areal *******************************************
+.*da side 20mm 33,5mm width 175mm
+.da side 20mm 40mm width 175mm
+.ar side on
+:SWISS10.
+.*** Undertegnede *********************************************************
+:FED.
+Undertegnede
+:SKRSLUT.
+.*** Kundeoplysninger *****************************************************
+.bx new 0mm right
+.sp 53mm
+.bx off
+:SWISS10.
+:FED.
+.*** Erklæring ************************************************************
+Erklæring
+:SKRSLUT.
+:COUR10.
+.bx new 0mm right
+.sp 71mm
+.bx off
+:SWISS10.
+:FED.
+.*** Bankens noteringer ***************************************************
+Bankens noteringer
+:SKRSLUT.
+:COUR10.
+.bx new 0mm 55mm 85mm 115mm 145mm 175mm
+.sp 6mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.sp 8mm
+.hr 0mm 175mm
+.bx can
+.bx off
 .ar off
-.**************************************************************************
-.go slut
-...slut
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da START 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+B04KORT05x
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar START on
+:SWISS12.
+:FED.
+.*US Bestilling af Angaju-kort
+:SKRSLUT.
+.ar off
+.*************************************************************************
 .**************************************************************************
 .da START 20mm 32mm width 175mm
 .da undertegnede 21mm 45.5mm width 173mm
@@ -241,13 +213,13 @@ Bankens noteringer
 .**************************************************************************
 .ar undertegnede on
 .sp 0.3mm
-¤Ekspedient:                            &GENEKSP
+ ¤ Ekspedient:                            &GENEKSP
 .sp 0.4mm
-¤Bestillingsdato:
+ ¤ Bestillingsdato:
 .sp 0.4mm
-¤Kortnr.:
+ ¤ Kortnr.:
 .sp 0.4mm
-¤Bestillings nr.:
+ ¤ Bestillings nr.:
 .sp 4.2mm
 CPR.nr.:
 .sp
@@ -276,9 +248,9 @@ et eksemplar af &BANKNAVN 's forretningsbetingelser, der også gælder for
 min konto.
 .sp 19mm
 .TP 33mm 70mm 145mm
-¤____________ ¤_____________________________________________ ¤__________
+ ¤ ____________ ¤ _____________________________________________ ¤ __________
 .br
-¤Dato ¤Underskrift ¤Tlf.nr.
+ ¤ Dato ¤ Underskrift ¤ Tlf.nr.
 .ar off
 .**************************************************************************
 .ar ADRESSE on
@@ -290,13 +262,13 @@ Det bekræftes, at ovenstående adresse er korrekt registreret.
 .ar banken1 on
 :SWISS8.
 .tp 30mm 60mm 90mm 120mm
-Legitimation ¤Kort ¤Kontrol RKI/ ¤Kort
+Legitimation ¤ Kort ¤ Kontrol RKI/ ¤ Kort
 .br
-forevist ¤bestilt  ¤checkmisbrug ¤bevilget
+forevist ¤ bestilt  ¤ checkmisbrug ¤ bevilget
 .sp 4mm
-Dato: ¤Dato: ¤Dato: ¤Dato:
+Dato: ¤ Dato: ¤ Dato: ¤ Dato:
 .sp 6mm
-Initialer: ¤Init.: ¤Init.: ¤Init.:
+Initialer: ¤ Init.: ¤ Init.: ¤ Init.:
 .AR OFF
 .ar banken2 on
 :SWISS8.
@@ -311,3 +283,33 @@ på bestillingstidspunktet
 .go slut
 ...slut
 :SKRSLUT.
+.**** HER TESTES PÅ OM KUNDENS NAVN ER LÆNGERE END 26 TEGN. HVIS DEN ER *
+.**** LÆNGERE END 26 TEGN ER DER LAVET FEJL I KORTBESTILLINGEN OG NAVNET
+.**** SKAL RETTES I FUNKTION 3101 ***************************************
+.if &L'&NAVN > 26
+.th Kundens navn må være på max. 26 karakterer pga.
+.th navnelængden på det bestilte kort funktion 3105. Afbestil kortet,
+.th ret navnet i funktion 3101, genbestil
+.th kortet og udskriv brevet igen.
+.th .go slut
+.**************************************************************************
+.da under 25mm 48.5mm width 173mm
+.**************************************************************************
+.ar under on
+.TP 15mm 120mm
+&NAVN ¤ ¤ &DATO1
+.br
+&GADE ¤ ¤ &BECKORTNR
+.br
+&BY ¤ ¤ &BECBEST01
+.sp
+ ¤ &KUNDENR
+.sp
+.sp 1
+.go afs1
+...afs1
+.ar off
+.**************************************************************************
+.go slut
+...slut
+

@@ -1,19 +1,16 @@
-.*************** definer siden som et areal *******************************
-.da SIDE1 20mm 40mm width 175mm
-.****************** KAUTIONSERKLÆRING *************************************
-.ar SIDE1 on
-:SWISS9.
-.bx left right
-.sp 204mm
-.bx off
-.ar off
-.* følgende test ligger i systemet ********
-.***************************************
-.*Fejl ved sammensætning af bilag
-.*.if &GENAAR gt 10
-.*Gyldighedsperioden kan max. være 10 år
-.*.if &GENAAR eq 0
-.*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -38,19 +35,13 @@
 .NV PAGE REGBKSTED '%&REGBKSTED.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.* følgende test ligger i systemet ********
+.***************************************
+.*Fejl ved sammensætning af bilag
+.*.if &GENAAR gt 10
+.*Gyldighedsperioden kan max. være 10 år
+.*.if &GENAAR eq 0
+.*.th .mg /T/ Gyldighedsperioden skal mindst være 1 år
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :SWISS9.
@@ -76,12 +67,15 @@ Kl. &TID
 .ar off
 .sp 53mm
 .*************************************************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
+.*************** definer siden som et areal *******************************
+.da SIDE1 20mm 40mm width 175mm
+.****************** KAUTIONSERKLÆRING *************************************
+.ar SIDE1 on
+:SWISS9.
+.bx left right
+.sp 204mm
+.bx off
+.ar off
 .**************************************************************************
 .ti ¤ 05
 .fo left
@@ -132,6 +126,62 @@ Kl. &TID
 .*rh execute
 .**************************************************************************
 .* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.**************************************************************************
+.dr thin weight 0.1mm
+.da SELVSK  20mm 42mm width 175mm
+.**************************************************************************
+.ar SELVSK on
+.in 5mm
+.ir 5mm
+:FED.
+Pantsætters underskrift
+:SKRSLUT.
+.sp 3mm
+Jeg accepterer ovenstående vilkår. Jeg har modtaget og gjort
+mig bekendt med en kopi af kreditaftalen, samt gjort mig bekendt med
+&BANKNAVN.s almindelige forretningsbetingelser. &BANKNAVN.s almindelige
+forretningsbetingelser finder supplerende anvendelse i retsforholdet
+mellem &BANKNAVN. og mig. De gældende almindelige
+forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
+hjemmeside.
+.sp 5mm
+.tp 9mm
+Jeg har modtaget følgende bilag med oplysninger om låntagers økonomiske
+forhold:
+.sp 4mm
+.if &L'&GENKRYDS1 > 0
+.th X ¤ låntagers seneste årsopgørelse
+.el ¤ låntagers seneste årsopgørelse
+.br
+.hr 5mm 7mm
+.sp 4mm
+.if &L'&GENKRYDS2 > 0
+.th X ¤ låntagers seneste 3 lønsedler
+.el ¤ låntagers seneste 3 lønsedler
+.br
+.hr 5mm 7mm
+.sp 4mm
+.if &L'&GENKRYDS3 > 0
+.th X ¤ låntagers seneste regnskab
+.el ¤ låntagers seneste regnskab
+.br
+.hr 5mm 7mm
+.sp 4mm
+.if &L'&GENKRYDS4 > 0
+.th X ¤ &GENANDET.&GENANDET8.
+.el ¤ &GENANDET.&GENANDET8.
+.br
+.hr 5mm 7mm
+.sp 5mm
+Jeg har desuden modtaget Finansrådets og Forbrugerrådets
+pjece Information om kaution og tredjemandspant.
+.sp 3mm
 Jeg bekræfter, at jeg er opmærksom på, at &BANKNAVN ikke er ansvarlig for
 rigtigheden af de bilag, der er indhentet fra låntager og at pantsætningen
 ikke udelukker &BANKNAVN fra nu eller senere at yde låntager lån/kredit.
@@ -144,7 +194,7 @@ Som pantsætter
 .sp 10mm
 .hr 5mm 55mm 60mm 170mm
 .br
-¤Dato ¤&KAUNIST2.
+ ¤ Dato ¤ &KAUNIST2.
 .sp 5mm
 .**UNDERSKRIFT - DEBITORER ************************************************
 .hy off
@@ -172,66 +222,16 @@ privat, økonomiske forhold til pantsætter.
 .sp 10mm
 .hr 5mm 55mm 60mm 170mm
 .br
-¤Dato ¤&DEB1ADR2.
+ ¤ Dato ¤ &DEB1ADR2.
 .if &DEBANTAL < 2
 .th .go DEBSL
 .sp 10mm
 .hr 5mm 55mm 60mm 170mm
 .br
-¤Dato ¤&DEB2ADR2
+ ¤ Dato ¤ &DEB2ADR2
 ...DEBSL
 .*VITTERLIGHEDSVIDNE ******************************************************
 .*in
-.**************************************************************************
-.dr thin weight 0.1mm
-.da SELVSK  20mm 42mm width 175mm
-.**************************************************************************
-.ar SELVSK on
-.in 5mm
-.ir 5mm
-:FED.
-Pantsætters underskrift
-:SKRSLUT.
-.sp 3mm
-Jeg accepterer ovenstående vilkår. Jeg har modtaget og gjort
-mig bekendt med en kopi af kreditaftalen, samt gjort mig bekendt med
-&BANKNAVN.s almindelige forretningsbetingelser. &BANKNAVN.s almindelige
-forretningsbetingelser finder supplerende anvendelse i retsforholdet
-mellem &BANKNAVN. og mig. De gældende almindelige
-forretningsbetingelser kan til enhver tid findes på &BANKNAVN.s
-hjemmeside.
-.sp 5mm
-.tp 9mm
-Jeg har modtaget følgende bilag med oplysninger om låntagers økonomiske
-forhold:
-.sp 4mm
-.if &L'&GENKRYDS1 > 0
-.th X¤låntagers seneste årsopgørelse
-.el ¤låntagers seneste årsopgørelse
-.br
-.hr 5mm 7mm
-.sp 4mm
-.if &L'&GENKRYDS2 > 0
-.th X¤låntagers seneste 3 lønsedler
-.el ¤låntagers seneste 3 lønsedler
-.br
-.hr 5mm 7mm
-.sp 4mm
-.if &L'&GENKRYDS3 > 0
-.th X¤låntagers seneste regnskab
-.el ¤låntagers seneste regnskab
-.br
-.hr 5mm 7mm
-.sp 4mm
-.if &L'&GENKRYDS4 > 0
-.th X¤&GENANDET.&GENANDET8.
-.el ¤&GENANDET.&GENANDET8.
-.br
-.hr 5mm 7mm
-.sp 5mm
-Jeg har desuden modtaget Finansrådets og Forbrugerrådets
-pjece Information om kaution og tredjemandspant.
-.sp 3mm
 .*ir
 .*hr 0mm 175mm
 .*in 5mm
@@ -255,3 +255,4 @@ pjece Information om kaution og tredjemandspant.
 .*in 5mm
 .*ir 5mm
 .ar off
+

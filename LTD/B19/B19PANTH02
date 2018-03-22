@@ -1,3 +1,16 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .da CPR           21mm  68.5mm width  165mm
 .da CVR           21mm 109.5mm width   20mm
 .da DEBREF1       21mm  78mm   width   20mm
@@ -51,449 +64,6 @@ Hvis jeg flytter forsikringen til et andet forsikringsselskab eller
 skifter pengeinstitut, er jeg indforstået med, at &BANKNAVN overfører
 panthaverdeklarationen til det nye forsikringsselskab/pengeinstitut.
 .ar off
-.*DEBITORS/PANTSÆTTERS REF.***
-.ar DEBREF on
-.su off
-.se regnr = substr &LANGKTONR 1 4
-.se ktonr = substr &LANGKTONR 5 21
-.su on
-&regnr &ktonr.
-.ar off
-.*KREDITOR/BANK***************
-.ar KREDITOR on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.*KREDITORS/BANKS CVR-NR*************
-.ar CVRNR on
-&BANKSENR
-.ar off
-.*KREDITORS REFERENCE****************
-.ar KREDREF on
-&GENEKSP
-.ar off
-.*FORSIKRINGSSELSKAB*****************
-.ar FORSIK on
-&B11FORSNV
-.br
-&B11FORSAD1
-.br
-&B11FORSAD2
-.br
-&B11FORSAD3
-.br
-&B11FORSAD4
-.ar off
-.*POLICENR.******
-.ar POLNR on
-&GENPOLNR1
-.ar off
-.*POLICEN OMFATTER
-.ar POLTYPE on
-Kasko
-.ar off
-.*PANTTYPE***********
-.ar PANTTYPE on
-Pantsætning/Transport i
-.br
-.da DEBITOR       25mm  48mm   width  84mm
-.da MEDDEB     112.5mm  48mm   width  84mm
-.da CPRNR         33mm  68mm   width  84mm
-.da MEDCPRNR   120.5mm  68mm   width  84mm
-.da DEBREF        33mm  77.5mm width  84mm
-.da KREDITOR      25mm  91mm   width  84mm
-.da CVRNR         33mm 109mm   width  84mm
-.da KREDREF    112.5mm  91mm   width  84mm
-.da FORSIK        25mm 154mm   width 170mm
-.da POLNR      112.5mm 158mm   width  84mm
-.da POLTYPE    112.5mm 170.5mm   width  84mm
-.da PANTTYPE      25mm 181.25mm width  84mm
-.da OPRDATO    112.5mm 185mm width  84mm
-.da FABRIKAT      25mm 199.5mm   width  84mm
-.da NAVN      112.5mm 199.5mm   width  84mm
-.da BYGAAR       25mm 209mm width  84mm
-.da BYGNR      112.5mm 209mm   width  84mm
-.da MOTORNR      25mm 218.5mm width  84mm
-.da SKROGNR    112.5mm 218.5mm   width  84mm
-.da UNDER         25mm 274.5mm   width  170mm
-.*DEBITOR/KONTOHAVER*******************************************************
-.ar DEBITOR on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.*MEDKONTOHAVER************************************************************
-.ar MEDDEB on
-.if &L'&MEDNAVN > 0
-.th &MEDNAVN
-.th .br
-.th &MEDCO
-.th .br
-.th &MEDGADE
-.th .br
-.th &MEDBY
-.ar off
-.*DEBITORS/KONTOHAVERS CPR-NR*********
-.ar CPRNR on
-&KTOKNDNR1
-.ar off
-.*MEDDEBITORS/MEDKONTOHAVERS CPR-NR**
-.ar MEDCPRNR on
-.if &L'&MEDNAVN > 0
-.th &MEDKNDNR1
-.ar off
-forsikringssummen
-.ar off
-.*OPRETTELSESDATO*****
-.ar OPRDATO on
-&DATO
-.ar off
-.*FABRIKAT*******
-.ar FABRIKAT on
-&GENFABRIK &GENTYPE1
-.ar off
-.*NAVN M.M.******
-.ar NAVN on
-&GENBAADNVN
-.ar off
-.*BYGGEÅR*******
-.ar BYGAAR on
-&GENBYGAAR
-.ar off
-.*BYGGENR.*******
-.ar BYGNR on
-&U'&GENBYGNR
-.ar off
-.*MOTORNR*******
-.ar MOTORNR on
-&U'&GENMOTOR
-.ar off
-.*SKROGNR.*******
-.ar SKROGNR on
-&U'&GENSKROG
-.ar off
-.**********************
-.ar UNDER on
-.tp 41mm center 130mm center
-.if &L'&MEDNAVN > 0
-.th ¤&KTONAVN ¤&MEDNAVN
-.el ¤&KTONAVN
-.ar off
-.tp 1mm 88.5mm
-.da side1 20mm 38mm width 175mm
-.**************************************************************************
-.ar side1 on
-.sp
-:SWISS10.
-.in 1mm
-:FED.
-.if &L'&MEDNAVN > 0
-.th Debitorer/pantsættere
-.el Debitor/pantsætter
-:SKRSLUT.
-.***** her laves kassen til debitor ***************************************
-.bx left right
-:SWISS8.
-.if &L'&MEDNAVN > 0
-.th ¤¤og
-.el &ÅRB
-.sp 22mm
-.***** her laves kassen til debitors ref.**********************************
-.hr left right
-:SWISS8.
-.if &L'&MEDNAVN > 0
-.th¤Debitorers/pantsætteres ref.:
-.el¤Debitors/pantsætters ref.:
-.sp 5mm
-.bx off
-.***** her laves kassen til Kreditor***************************************
-:SWISS10.
-:FED.Kreditor/leasinggiver:SKRSLUT.
-:SWISS8.
-.bx left 87.5mm right
-¤¤Kreditors kontaktperson
-.sp 22mm
-.bx off
-.***** her laves kassen til indhold ***************************************
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 25mm
-.bx off
-.***** her laves kassen til Forsikringsforhold ****************************
-:SWISS10.
-:FED.Forsikringsforhold:SKRSLUT.
-:SWISS8.
-.***** her laves kassen til forsikringsselskabet **************************
-.bx left 87.5mm right
-¤Forsikringsselskab ¤Police nr.
-.sp 8mm
-.hr 87.5mm right
-¤¤Policen omfatter
-.sp 8mm
-.bx off
-.***** her laves kassen til Pant/leasingforhold ***************************
-:SWISS10.
-:FED.Pant/leasingforhold:SKRSLUT.
-:SWISS8.
-.bx left 87.5mm right
-¤¤Kontraktsdato/stiftelsesdato
-.sp 5mm
-.***** her laves kassen til Lystfartøjsbeskrivelse**********************
-.bx off
-:SWISS10.
-:FED.Lystfartøjsbeskrivelse:SKRSLUT.
-:SWISS8.
-.bx left 87.5mm right
-¤Lysfartøjets fabrikat og type ¤Navn m.m.
-.sp 5mm
-.hr left right
-¤Byggeår ¤Byggenr.
-.sp 5mm
-.hr left right
-¤Motornr. ¤Skrognr.
-.sp 5mm
-.bx off
-.***** her laves kassen til Erklæring *************************************
-:SWISS10.
-:FED.Erklæring:SKRSLUT.
-.bx left right
-.sp 30mm
-.bx off
-.***** her laves kassen til underskrift ***********************************
-.tp 1mm  60mm 88.5mm 147.5mm
-:FED.Underskrift:SKRSLUT.
-:SWISS8.
-.bx new left right
-.if &L'&MEDNAVN > 0
-.th ¤Debitorers/pantsætteres underskrift ¤Dato¤¤Dato
-.el ¤Debitors/pantsætters underskrift ¤¤Dato:
-.sp 10mm
-.bx off
-.*****************
-.ar off
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 280mm width 180mm rotate -90
-.da OVERSKR 20mm 30mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.br
-&KONTROL1
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-Panthaverdeklaration / Finansieringsdeklaration - L
-:SKRSLUT.
-.sp 1mm
-:SWISS10.
-:FED.(Lystfartøjsforsikring):SKRSLUT.
-.ar off
-.*************************************************************************
-.*** NEDENSTÅENDE LTD'ERE OG TILHØRENDE AFSNIT MÅ IKKE SLETTES:
-.*** B19PANTH01A
-.*** B19PANTH01
-.*** B19PANTH02
-.*** B19PANTH03
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.*Parametre
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-:ENY.
-.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
-.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
-.**************************************************************************
-.*               : Du skal vælge om aftalen skal sendes til kundens netbank
-.*               : i Underskriftsrum (J) eller udskrives på papir (N)
-.*
-.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
-.*               : Underskriftsrum, du vælge 1 for at komme videre.
-.*               : skal du vælge 1 for at komme videre.
-.*
-.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
-.*           --> : ved at vælge "3", inden du udskriver brevet.
-.*
-.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
-.*               : finder det i stedet i I*net under "Ubehandl. aftaler
-.*               : til underskrift" - her lægger du brevet i kuvert og
-
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .** SIDESKIFT
 .pa
 .*************** AREAL-DEFINITIONER **************************************
@@ -556,3 +126,434 @@ kaskoforsikringens betingelser i op til 21 dage efter, at kreditor
 har modtaget selskabets meddelelse om afvisning henholdsvis ophør af
 forsikring.
 .ar off
+.* Advarselstekst til breve der sendes til Digitalt Underskriftsrum
+.* i kundens netbank - afsnittet indsættes efter KUNDEUD1
+.**************************************************************************
+.*               : Du skal vælge om aftalen skal sendes til kundens netbank
+.*               : i Underskriftsrum (J) eller udskrives på papir (N)
+.*
+.*       BEMÆRK..: Uanset om du vælger "JA" eller "NEJ" til
+.*               : Underskriftsrum, du vælge 1 for at komme videre.
+.*               : skal du vælge 1 for at komme videre.
+.*
+.*           --> : HUSK, du kan se dit brev - og en evt. fejl i brevet -
+.*           --> : ved at vælge "3", inden du udskriver brevet.
+.*
+.*  Gå til I*net : Vælger du "JA" udskrives brevet IKKE på printeren, du
+.*               : finder det i stedet i I*net under "Ubehandl. aftaler
+.*               : til underskrift" - her lægger du brevet i kuvert og
+
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+:ENY.
+.*Parametre
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+.*** NEDENSTÅENDE LTD'ERE OG TILHØRENDE AFSNIT MÅ IKKE SLETTES:
+.*** B19PANTH01A
+.*** B19PANTH01
+.*** B19PANTH02
+.*** B19PANTH03
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 280mm width 180mm rotate -90
+.da OVERSKR 20mm 30mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.br
+&KONTROL1
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+Panthaverdeklaration / Finansieringsdeklaration - L
+:SKRSLUT.
+.sp 1mm
+:SWISS10.
+:FED.(Lystfartøjsforsikring):SKRSLUT.
+.ar off
+.*************************************************************************
+.tp 1mm 88.5mm
+.da side1 20mm 38mm width 175mm
+.**************************************************************************
+.ar side1 on
+.sp
+:SWISS10.
+.in 1mm
+:FED.
+.if &L'&MEDNAVN > 0
+.th Debitorer/pantsættere
+.el Debitor/pantsætter
+:SKRSLUT.
+.***** her laves kassen til debitor ***************************************
+.bx left right
+:SWISS8.
+.if &L'&MEDNAVN > 0
+.th ¤ ¤ og
+.el &ÅRB
+.sp 22mm
+.***** her laves kassen til debitors ref.**********************************
+.hr left right
+:SWISS8.
+.if &L'&MEDNAVN > 0
+.th ¤ Debitorers/pantsætteres ref.:
+.el ¤ Debitors/pantsætters ref.:
+.sp 5mm
+.bx off
+.***** her laves kassen til Kreditor***************************************
+:SWISS10.
+:FED.Kreditor/leasinggiver:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+ ¤ ¤ Kreditors kontaktperson
+.sp 22mm
+.bx off
+.***** her laves kassen til indhold ***************************************
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 25mm
+.bx off
+.***** her laves kassen til Forsikringsforhold ****************************
+:SWISS10.
+:FED.Forsikringsforhold:SKRSLUT.
+:SWISS8.
+.***** her laves kassen til forsikringsselskabet **************************
+.bx left 87.5mm right
+ ¤ Forsikringsselskab ¤ Police nr.
+.sp 8mm
+.hr 87.5mm right
+ ¤ ¤ Policen omfatter
+.sp 8mm
+.bx off
+.***** her laves kassen til Pant/leasingforhold ***************************
+:SWISS10.
+:FED.Pant/leasingforhold:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+ ¤ ¤ Kontraktsdato/stiftelsesdato
+.sp 5mm
+.***** her laves kassen til Lystfartøjsbeskrivelse**********************
+.bx off
+:SWISS10.
+:FED.Lystfartøjsbeskrivelse:SKRSLUT.
+:SWISS8.
+.bx left 87.5mm right
+ ¤ Lysfartøjets fabrikat og type ¤ Navn m.m.
+.sp 5mm
+.hr left right
+ ¤ Byggeår ¤ Byggenr.
+.sp 5mm
+.hr left right
+ ¤ Motornr. ¤ Skrognr.
+.sp 5mm
+.bx off
+.***** her laves kassen til Erklæring *************************************
+:SWISS10.
+:FED.Erklæring:SKRSLUT.
+.bx left right
+.sp 30mm
+.bx off
+.***** her laves kassen til underskrift ***********************************
+.tp 1mm  60mm 88.5mm 147.5mm
+:FED.Underskrift:SKRSLUT.
+:SWISS8.
+.bx new left right
+.if &L'&MEDNAVN > 0
+.th ¤ Debitorers/pantsætteres underskrift ¤ Dato ¤ ¤ Dato
+.el ¤ Debitors/pantsætters underskrift ¤ ¤ Dato:
+.sp 10mm
+.bx off
+.*****************
+.ar off
+.da DEBITOR       25mm  48mm   width  84mm
+.da MEDDEB     112.5mm  48mm   width  84mm
+.da CPRNR         33mm  68mm   width  84mm
+.da MEDCPRNR   120.5mm  68mm   width  84mm
+.da DEBREF        33mm  77.5mm width  84mm
+.da KREDITOR      25mm  91mm   width  84mm
+.da CVRNR         33mm 109mm   width  84mm
+.da KREDREF    112.5mm  91mm   width  84mm
+.da FORSIK        25mm 154mm   width 170mm
+.da POLNR      112.5mm 158mm   width  84mm
+.da POLTYPE    112.5mm 170.5mm   width  84mm
+.da PANTTYPE      25mm 181.25mm width  84mm
+.da OPRDATO    112.5mm 185mm width  84mm
+.da FABRIKAT      25mm 199.5mm   width  84mm
+.da NAVN      112.5mm 199.5mm   width  84mm
+.da BYGAAR       25mm 209mm width  84mm
+.da BYGNR      112.5mm 209mm   width  84mm
+.da MOTORNR      25mm 218.5mm width  84mm
+.da SKROGNR    112.5mm 218.5mm   width  84mm
+.da UNDER         25mm 274.5mm   width  170mm
+.*DEBITOR/KONTOHAVER*******************************************************
+.ar DEBITOR on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.*MEDKONTOHAVER************************************************************
+.ar MEDDEB on
+.if &L'&MEDNAVN > 0
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.ar off
+.*DEBITORS/KONTOHAVERS CPR-NR*********
+.ar CPRNR on
+&KTOKNDNR1
+.ar off
+.*MEDDEBITORS/MEDKONTOHAVERS CPR-NR**
+.ar MEDCPRNR on
+.if &L'&MEDNAVN > 0
+.th &MEDKNDNR1
+.ar off
+.*DEBITORS/PANTSÆTTERS REF.***
+.ar DEBREF on
+.su off
+.se regnr = substr &LANGKTONR 1 4
+.se ktonr = substr &LANGKTONR 5 21
+.su on
+&regnr &ktonr.
+.ar off
+.*KREDITOR/BANK***************
+.ar KREDITOR on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.*KREDITORS/BANKS CVR-NR*************
+.ar CVRNR on
+&BANKSENR
+.ar off
+.*KREDITORS REFERENCE****************
+.ar KREDREF on
+&GENEKSP
+.ar off
+.*FORSIKRINGSSELSKAB*****************
+.ar FORSIK on
+&B11FORSNV
+.br
+&B11FORSAD1
+.br
+&B11FORSAD2
+.br
+&B11FORSAD3
+.br
+&B11FORSAD4
+.ar off
+.*POLICENR.******
+.ar POLNR on
+&GENPOLNR1
+.ar off
+.*POLICEN OMFATTER
+.ar POLTYPE on
+Kasko
+.ar off
+.*PANTTYPE***********
+.ar PANTTYPE on
+Pantsætning/Transport i
+.br
+forsikringssummen
+.ar off
+.*OPRETTELSESDATO*****
+.ar OPRDATO on
+&DATO
+.ar off
+.*FABRIKAT*******
+.ar FABRIKAT on
+&GENFABRIK &GENTYPE1
+.ar off
+.*NAVN M.M.******
+.ar NAVN on
+&GENBAADNVN
+.ar off
+.*BYGGEÅR*******
+.ar BYGAAR on
+&GENBYGAAR
+.ar off
+.*BYGGENR.*******
+.ar BYGNR on
+&U'&GENBYGNR
+.ar off
+.*MOTORNR*******
+.ar MOTORNR on
+&U'&GENMOTOR
+.ar off
+.*SKROGNR.*******
+.ar SKROGNR on
+&U'&GENSKROG
+.ar off
+.**********************
+.ar UNDER on
+.tp 41mm center 130mm center
+.if &L'&MEDNAVN > 0
+.th ¤ &KTONAVN ¤ &MEDNAVN
+.el ¤ &KTONAVN
+.ar off
+

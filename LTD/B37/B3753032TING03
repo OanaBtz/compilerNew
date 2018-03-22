@@ -11,110 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.* PARAMETERAFSNIT
-.* Teksten ligger i AFSNIT K11T2
-.se BECTLBP = 1
-.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
-.dm TLADR on
-.se post=&*1
-.se post1=&*1
-.if .&post1. = .0001 .or .&post1. = .0002
-.th .se post='8000'
-.se TN = 'Der er ingen tinglysningskontor'
-.se TG = 'under postnr. &post.'
-.se TB = '-------------------------------'
-.se fundet = 0
-.TLADR1 &post
-.if &fundet = 0 .TLADR2 &post
-.if &fundet = 0 .TLADR3 &post
-.if &fundet = 0 .TLADR4 &post
-.if &fundet = 0 .TLADR5 &post
-.if &fundet = 0 .go EJFUND
-.if &fundet = 1 .se TN = 'Tinglysningskontoret'
-.if .&post1 = .0001 .se TN = 'Bilbogen'
-.if .&post1 = .0002 .se TN = 'Personbogen'
-.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
-.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
-.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
-...EJFUND
-.dm off
-.se BECTL1 = 1
-.dm TLADR1 on
-.se ITLPN=&*1
-.if &ITLPN = 0001
-.or &ITLPN = 0002
-.or &ITLPN = 0003
-.th .se TG 'Majsmarken 5'
-.th .se TB '9500  Hobro'
-.th .se ktonr = '0216 4069152155'
-.th .go SLUT
-.if &ITLPN = 0110
-.th .se TG 'C. Pløyensgøta 1'
-.th .se TB '110  Tórshavn'
-.th .se ktonr = ''
-.th .go SLUT
-.if &ITLPN = 3900
-.th .se TG ''
-.th .se TB '3900  Godthåb (Nuuk)'
-.th .se ktonr = ''
-.th .go SLUT
-.if &ITLPN = 9500
-.th .se TG 'Majsmarken 5'
-.th .se TB '9500 Hobro'
-.th .se ktonr = ''
-.th .go SLUT
-.go END
-...SLUT
-.se fundet=1
-...END
-.dm off
-.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
-.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ****
-.TLADR &LNTLKODE.
-.if &L'&GENNAVN = 0
-.th .se GENNAVN = '&TN.'
-.th .se GENGADE = '&TG.'
-.th .se GENBY   = '&TB.'
-.**************** NORMALT 2. KUDAFSNIT ******************************
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.*NV PAGE KUNDENR '%&KUNDENR.'
-.NV PAGE KUNDENR '%9999999999'
-.BR
-.NV PAGE ADRESSELINIE1 '%&GENNAVN.'
-.BR
-.NV PAGE ADRESSELINIE2 '%&GENCOADR.'
-.BR
-.NV PAGE ADRESSELINIE3 '%&GENGADE.'
-.BR
-.NV PAGE ADRESSELINIE4 '%&GENBY.'
-.BR
-.NV PAGE ADRESSENØGLE '% '
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM *****************
-.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL ****
-:GL.
-&GENNAVN
-.br
-&GENCOADR
-.br
-&GENGADE
-.br
-&GENBY
-:EGL.
-.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM *********
 .**************************************************************************
 .* Reference øverst til højre
 .da DERES 126.45mm 63.9mm
@@ -324,19 +220,19 @@ til anmelder.
 .th .se mmd  = 12
 .se fixmm = &fixk.*&mmt./&mmd
 .tp &fixmm.mm center
-^Med venlig hilsen
+ ^ Med venlig hilsen
 .*sk
-.*^M i d t b a n k
+.* ^ M i d t b a n k
 .if &E'&AFDNAVN = 1 .an &E'&afdnavn = 1
 .th .sk
-.th ^&AFDNAVN
+.th ^ &AFDNAVN
 .if .&T = .1
 .th .sk 3
 .el .sk 4
 .if .&B37ANTUSK ne .1 .go EJ1
-^&GENEKSP
+ ^ &GENEKSP
 .br
-^&GENTITEL
+ ^ &GENTITEL
 ...EJ1
 .if .&B37ANTUSK ne .2 .go EJ2
 .se MIBTAB1 = &L'&GENMEKSP - &L'&GENMTITEL
@@ -357,10 +253,115 @@ til anmelder.
 .se mibtab1m = &mibtab1 * &mmt / &mmd
 .se mibtab2m = &mibtab2 * &mmt / &mmd
 .tp set &mibtab1m.mm &mibtab2m.mm
-^&GENMEKSP ^&GENEKSP
+ ^ &GENMEKSP ^ &GENEKSP
 .br
-^&GENMTITEL ^&GENTITEL
+ ^ &GENMTITEL ^ &GENTITEL
 ...EJ2
 .tp
 .br
 ...EJ9
+.* PARAMETERAFSNIT
+.* Teksten ligger i AFSNIT K11T2
+.se BECTLBP = 1
+.******** MACRO TIL OPSÆTNING AF ADRESSE *****************
+.dm TLADR on
+.se post=&*1
+.se post1=&*1
+.if .&post1. = .0001 .or .&post1. = .0002
+.th .se post='8000'
+.se TN = 'Der er ingen tinglysningskontor'
+.se TG = 'under postnr. &post.'
+.se TB = '-------------------------------'
+.se fundet = 0
+.TLADR1 &post
+.if &fundet = 0 .TLADR2 &post
+.if &fundet = 0 .TLADR3 &post
+.if &fundet = 0 .TLADR4 &post
+.if &fundet = 0 .TLADR5 &post
+.if &fundet = 0 .go EJFUND
+.if &fundet = 1 .se TN = 'Tinglysningskontoret'
+.if .&post1 = .0001 .se TN = 'Bilbogen'
+.if .&post1 = .0002 .se TN = 'Personbogen'
+.if .&post1 = .0100 .se TN = 'Tinglýsingardeildin'
+.if .&post1 = .100 .se TN = 'Tinglýsingardeildin'
+.if .&post1 = .3900 .se TN = 'Kredsretten i Nuuk'
+...EJFUND
+.dm off
+.se BECTL1 = 1
+.dm TLADR1 on
+.se ITLPN=&*1
+.if &ITLPN = 0001
+.or &ITLPN = 0002
+.or &ITLPN = 0003
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500  Hobro'
+.th .se ktonr = '0216 4069152155'
+.th .go SLUT
+.if &ITLPN = 0110
+.th .se TG 'C. Pløyensgøta 1'
+.th .se TB '110  Tórshavn'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 3900
+.th .se TG ''
+.th .se TB '3900  Godthåb (Nuuk)'
+.th .se ktonr = ''
+.th .go SLUT
+.if &ITLPN = 9500
+.th .se TG 'Majsmarken 5'
+.th .se TB '9500 Hobro'
+.th .se ktonr = ''
+.th .go SLUT
+.go END
+...SLUT
+.se fundet=1
+...END
+.dm off
+.*** LNTLKODE INDEHOLDER POSTNUMMER FRA PARAMETEROVERSIGTEN, 2.KUD AFSN***
+.*** INDSÆTTER EVT.ADRESSER FRA POSTNR.TABEL (UNDTAGEN GENCOADR)  ****
+.TLADR &LNTLKODE.
+.if &L'&GENNAVN = 0
+.th .se GENNAVN = '&TN.'
+.th .se GENGADE = '&TG.'
+.th .se GENBY   = '&TB.'
+.**************** NORMALT 2. KUDAFSNIT ******************************
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.*NV PAGE KUNDENR '%&KUNDENR.'
+.NV PAGE KUNDENR '%9999999999'
+.BR
+.NV PAGE ADRESSELINIE1 '%&GENNAVN.'
+.BR
+.NV PAGE ADRESSELINIE2 '%&GENCOADR.'
+.BR
+.NV PAGE ADRESSELINIE3 '%&GENGADE.'
+.BR
+.NV PAGE ADRESSELINIE4 '%&GENBY.'
+.BR
+.NV PAGE ADRESSENØGLE '% '
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*** AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM *****************
+.*** AFSNITTET MÅ IKKE PRINTES, DERFOR ER DET INDKAPSLET I GL EGL ****
+:GL.
+&GENNAVN
+.br
+&GENCOADR
+.br
+&GENGADE
+.br
+&GENBY
+:EGL.
+.*** SLUT PÅ AFSNIT TIL KONTROL AF HENTEDE ADRESSER PÅ SKÆRM *********
+

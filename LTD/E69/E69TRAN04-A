@@ -11,6 +11,545 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*************** OVERSKRIFT **********************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Transport i købesum - Kontanthandel
+.ar off
+.*************************************************************************
+.* Transport - På tilgodehavende - Anmeldelse
+.*gba/Da antallet af anmelder er dynamisk har jeg valgt at lave både
+.*kasser, ledetekst og variabel tekst i samme modul
+.************
+.da HEADER    20mm    40mm WIDTH 174mm
+.da ANMKQBER  20mm    46mm WIDTH 174mm
+.da ANMMEDKQB 108.5mm 46mm WIDTH 174mm
+.da ANMQVR1   20mm    46mm WIDTH 174mm
+.da ANMQVR2   20mm    77mm WIDTH 174mm
+.**********************************
+.ar HEADER on
+:SWISS8
+.bx left right
+Denne transport kan anmeldes over for
+:SKRSLUT.
+.bx off
+.ar off
+.************************************************************************
+.*** Skal der anmeldes over for køber?
+.if &U'&GENJANEJ = N
+.th .go ANM1
+.***
+.ar ANMKQBER on
+.tp 1mm
+.bx set left right
+:SWISS8
+ ¤ Køber:
+:SKRSLUT.
+.sp 3mm
+.in 5mm
+&GENSTILL.
+.br
+&GENNAVN.
+.br
+&GENCO.
+.br
+&GENGADE.
+.br
+&GENBY.
+.br
+&GENLAND.
+.*** Udfyld boksen med blanke linier, så bokse bliver lige store
+.sp 2mm
+.if &L'&GENSTILL = 0
+.th .sp 4mm
+.if &L'&GENCO = 0
+.th .sp 4mm
+.if &L'&GENLAND = 0
+.th .sp 4mm
+.***
+:SKRSLUT
+.bx off
+.ar off
+.************************************************************************
+.*** Er der indtastet en medkøber?
+.if &L'&GENNAVN4 = 0
+.th .go ANM1
+.***
+.ar ANMMEDKQB on
+:SWISS8
+Medkøber:
+:SKRSLUT.
+.in 5mm
+.sp 3mm
+&GENSTILL2.
+.br
+&GENNAVN4.
+.br
+&GENCO4.
+.br
+&GENADR4.
+.br
+&GENBY4.
+.br
+&GENLAND4.
+.ar off
+.************************************************************************
+.*** Afgør hvor næste box skal starte
+...ANM1
+.if &U'&GENJANEJ = N
+.th .ar ANMQVR1 on
+.el .ar ANMQVR2 on
+.***
+.tp 1mm
+.*** Skal der anmeldes over for købers advokat?
+.if &L'&GENNAVN1 = 0
+.th .go ANM2
+.bx set left right
+.***
+:SWISS8
+ ¤ Købers advokat:
+:SKRSLUT
+.sp 3mm
+.in 5mm
+&GENNAVN1
+.br
+&GENCOADR1
+.br
+&GENGADE1
+.br
+&GENBY1
+.br
+&GENLAND1
+.br
+.*** Udfyld boksen med blanke linier, så bokse bliver lige store
+.sp 6mm
+.if &L'&GENCOADR1 = 0
+.th .sp 4mm
+.if &L'&GENLAND1 = 0
+.th .sp 4mm
+.bx off
+...ANM2
+.*** Skal der anmeldes over for sælgers advokat?
+.if &L'&GENNAVN3 = 0
+.th .go ANM3
+.***
+.bx set left right
+.tp 1mm
+:SWISS8
+ ¤ Sælgers advokat:
+:SKRSLUT
+.sp 3mm
+.in 5mm
+&GENNAVN3
+.br
+&GENCO3
+.br
+&GENGADE3
+.br
+&GENBY3
+.br
+&GENLAND3
+.*** Udfyld boksen med blanke linier, så bokse bliver lige store
+.sp 6mm
+.if &L'&GENCO3 = 0
+.th .sp 4mm
+.if &L'&GENLAND3 = 0
+.th .sp 4mm
+.***
+.bx off
+.****** Gør klar til ny box
+...ANM3
+.*** Skal der anmeldes over for Købers pengeinstitut?
+.if &L'&BKNAVN = 0
+.th .go ANM4
+.***
+.bx set left right
+.tp 1mm
+:SWISS8
+ ¤ Købers pengeinstitut:
+:SKRSLUT
+.sp 3mm
+.in 5mm
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.*** Udfyld boksen med blanke linier, så bokse bliver lige store
+.sp 10mm
+.if &L'&BKAFD = 0
+.th .sp 4mm
+.bx off
+.****** Gør klar til ny box
+...ANM4
+.*** Skal der anmeldes over for ejendomsmægler?
+.if &L'&GENNAVN5 = 0
+.th .go ANM5
+.bx set left right
+.***
+.tp 1mm
+:SWISS8
+ ¤ Ejendomsmægler:
+:SKRSLUT
+.sp 3mm
+.in 5mm
+&GENNAVN5
+.br
+&GENCO5
+.br
+&GENGADE5
+.br
+&GENBY5
+.br
+&GENLAND5
+.*** Udfyld boksen med blanke linier, så bokse bliver lige store
+.sp 6mm
+.if &L'&GENCO5 = 0
+.th .sp 4mm
+.if &L'&GENLAND5 = 0
+.th .sp 4mm
+.in
+.bx off
+.***
+...ANM5
+.*** Overskrift til underskrifter
+:SWISS10.
+:FED.
+.in 1mm
+Underskrift
+.br
+:SKRSLUT.
+:SKRSLUT.
+.bx left right
+:SWISS8.
+I øvrigt henvises til &BANKNAVN.s almindelige forretningsbetingelser,
+som jeg har fået udleveret.
+.sp 1mm
+.in
+.bx off
+.bx set left right
+.tp 1mm 54mm 62mm 87mm 140mm 148mm
+.if &L'&MEDNAVN > 0
+.th .go FLERE
+ ¤ Sælgers underskrift ¤ ¤ ¤ ¤ Dato:
+:SKRSLUT.
+.ct ¤ &GENDATO3.
+.go FORTSAET
+...FLERE
+ ¤ Sælgers underskrift ¤ Dato
+:SKRSLUT.
+.ct ¤ &GENDATO3.
+:SWISS8.
+.ct ¤ Medsælgers underskrift ¤ Dato:
+:SKRSLUT.
+.ct ¤ &GENDATO3.
+...FORTSAET
+.sp 22mm
+.if &L'&MEDNAVN > 0
+.th .tp 44mm center 131mm center
+.th ¤ &KTONAVN. ¤ &MEDNAVN.
+.el .ce &KTONAVN
+.if x&E69USKRV1 = x1
+.or x&E69USKRV1 = x2
+.or x&E69USKRV1 = x3
+.or x&E69USKRV1 = x4
+.th .go UNSKR
+.el .go UNSKRS
+...UNSKR
+.dr tynd weight 0.1mm
+.tp 37.5mm center 132.5mm center
+.sp 5mm
+ Dato
+.sp 10mm
+.if x&E69USKRV1 = x4
+.or x&E69USKRV1 = x3
+.or x&E69USKRV1 = x2
+.th .go 2UNDSK
+.if x&E69USKRV1 = x1
+.th .go 1UNDSK
+.el .go UNSKRS
+...2UNDSK
+.hr tynd 5mm 85mm 90mm 170mm
+ ¤ &E69USKRT1. ¤ &E69USKRT2.
+.sp 10mm
+.if x&E69USKRV1 = x4
+.th .go 4UNDSK
+.if x&E69USKRV1 = x3
+.th .go 3UNDSK
+.el UNSKRS
+...1UNDSK
+.hr tynd 5mm 85mm
+ ¤ &E69USKRT1.
+.sp 10mm
+.go UNSKRS
+...4UNDSK
+.hr tynd 5mm 85mm 90mm 170mm
+ ¤ &E69USKRT3. ¤ &E69USKRT4.
+.sp 10mm
+.go UNSKRS
+...3UNDSK
+.hr tynd 5mm 85mm
+ ¤ &E69USKRT3.
+.go UNSKRS
+...UNSKRS
+.bx off
+.sp 5mm
+.bx left right
+.in 1mm
+:SWISS8.
+Kvittering for modtagelse af underskrift
+.sp 15mm
+:SKRSLUT.
+.bx off
+.ar off
+.** SIDESKIFT
+.pa
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.ar off
+.*************** OVERSKRIFT **********************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.us Transport i købesum - Kontanthandel
+.ar off
+.*************************************************************************
+.* Transport - På tilgodehavende - 1.Kasser og ledetekster
+.da BOX 20mm 40mm WIDTH 175mm
+.ll 174mm
+.in 1mm
+.**********************************
+.ar BOX on
+:SWISS10.
+:FED.
+Anmeldelsespåtegning
+.sp 0.1mm
+.*Box til matrikelnr.
+.bx left right
+.sp 5mm
+.bx off
+.****** Box til sælgernavn
+.bx set left right
+.sp 36mm
+.bx off
+.****** Box til tekst
+.bx set left right
+.sp 35mm
+.bx off
+.****** Box til Købers underskrift
+.bx set left right
+.sp 30mm
+.bx off
+.****** Evt. Box til evt. medkøbers underskrift *
+.if &L'&GENNAVN4 > 0
+.th .bx set left right
+.th .sp 30mm
+.th .bx off
+.****** Box til lidt tekst
+.if &L'&GENNAVN1 > 0
+.or &L'&BKNAVN > 0
+.el .go SLUTK2
+.bx set left right
+.sp 5mm
+.bx off
+.***** Box til Købers advokats underskrift *
+.if &L'&GENNAVN1 > 0
+.th .bx set left right
+.th .sp 30mm
+.th .bx off
+.***** Box til Købers PI's underskrift **
+.if &L'&BKNAVN > 0
+.th .bx set left right
+.th .sp 30mm
+.th .bx off
+...SLUTK2
+.ar off
+.* Transport - På tilgodehavende - 1.Kasser og ledetekster
+.da MATRNR    20mm 45mm    WIDTH 174mm
+.da SAELGER   20mm 51.5mm  WIDTH 174mm
+.da TEKST1    20mm 89mm    WIDTH 174mm
+.da KUSKR     20mm 126mm   WIDTH 174mm
+.da RESTUSKR  20mm 157mm   WIDTH 174mm
+.**********************************
+:SWISS8.
+.in 1mm
+.tp 88.5mm
+.ar MATRNR on
+.**** Ledetekster Fordringshaver ***************
+Ejendommens matr.nr.:
+.ar off
+.ar SAELGER on
+Sælger:
+.if &L'&MEDNAVN > 0
+.th .ct ¤ Medsælger:
+.sp 30mm
+CPR.nr.
+.if &L'&MEDNAVN > 0
+.th .ct ¤ CPR.nr.
+.ar off
+.ar TEKST1 on
+.tp 5mm
+Køber af ejendommen skriver hermed under på, at:
+.sp 2mm
+.of 4mm
+- ¤ en kopi af transporten, som sælger har givet &BANKNAVN. den
+:SKRSLUT
+&GENDATO3.,
+:SWISS8
+er modtaget
+.of
+.of 4mm
+- ¤ det transportbeløb (købers skyld til sælger), der fremgår af
+transporten er korrekt
+.of
+.of 4mm
+- ¤ transporten tillige omfatter den garanti mit pengeinstitut har stillet
+for betaling af den kontante købesum
+.of
+.of 4mm
+- ¤ transportbeløbet forfalder til betaling som beskrevet i købsaftalen
+.of
+.of 4mm
+- ¤ transportbeløbet ikke kan reguleres for krav eller indsigelser,
+opstået i retsforhold mellem køber og sælger, der ikke har noget med
+med denne handel at gøre
+.of
+.of 4mm
+- ¤ transportbeløbet vil blive indbetalt til &BANKNAVN.. Indbetales
+transportbeløbet til andre end &BANKNAVN. er køber ikke frigjort og
+risikerer at skulle betale transportbeløbet igen
+.of
+.ar off
+.***** Ledetekster Købers underskrift **************
+.ar KUSKR on
+.tp 140mm
+Købers underskrift ¤ Dato:
+.ar off
+.ar RESTUSKR on
+.if &L'&GENNAVN4 > 0
+.th .tp 140mm
+.th .sp 0.5mm
+.th Medkøbers underskrift ¤ Dato:
+.th .sp 28mm
+.if &L'&GENNAVN1 > 0
+.or &L'&BKNAVN   > 0
+.el .go SLUTT4
+Ovennævnte transport er noteret:
+.***** Ledetekster Købers advokats underskrift **************
+.if &L'&GENNAVN1 > 0
+.th .sp 4mm
+.th .tp 140mm
+.th Købers advokats underskrift ¤ Dato:
+.th .sp 25mm
+.***** Ledetekster Købers PI'S underskrift **************
+.if &L'&BKNAVN > 0
+.th .sp 4mm
+.th .tp 140mm
+.th Købers pengeinstituts underskrift ¤ Dato:
+...SLUTT4
+.ar off
+:SKRSLUT.
+.da MATRNR      51mm  44.5mm
+.da SAELGER     25mm  56mm
+.da MSAELGER   112mm  56mm
+.da SAELGERCPR  32mm  84mm
+.da MSAELGCPR  119mm  84mm
+.da KUSKR       25mm 125.5mm
+.da RESTUSKR    25mm 157mm
+.*
+.ar MATRNR on
+&GENMATRNR.
+.ar of
+.ar SAELGER on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.ar MSAELGER on
+&MEDSTILL
+.br
+&MEDNAVN
+.br
+&MEDCO
+.br
+&MEDGADE
+.br
+&MEDBY
+.br
+&MEDLAND
+.ar off
+.******************************
+.ar SAELGERCPR on
+&KTOKNDNR1
+.ar off
+.******************************
+.ar MSAELGCPR on
+.if &L'&MEDNAVN > 0
+.th &MEDKNDNR1.
+.ar off
+.******************************
+.ar KUSKR on
+.tp 145mm
+ ¤ &GENDATO3.
+.sp 23mm
+.ce &GENNAVN
+.ar off
+.ar RESTUSKR on
+.if &L'&GENNAVN4 > 0
+.th .tp 145mm
+.th ¤ &GENDATO3.
+.th .sp 22mm
+.th .ce &GENNAVN4
+.th .sp 2.5mm
+.if &L'&GENNAVN1 > 0
+.or &L'&BKNAVN   > 0
+.el .go SLUTT5
+.sp 6.5mm
+.if &L'&GENNAVN1 > 0
+.th .tp 145mm
+.th ¤ &GENDATO3.
+.th .sp 23mm
+.th .ce &GENNAVN1.
+.th .sp 2mm
+.if &L'&BKNAVN > 0
+.th .tp 145mm
+.th ¤ &GENDATO3.
+.th .sp 22mm
+.th .ce &BKNAVN.
+...SLUTT5
+.ar off
+:SKRSLUT.
+.******************************
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -104,54 +643,6 @@
 .or &L'&GENBY5    = 0
 .th .mg/T/Minimumsopl. mangler ved anmeld over for ejendomsmægler/
 ...EJUDF5
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -202,7 +693,56 @@
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T.*************** GENEREL OPSÆTNING ***************************************
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
 .fo left
@@ -256,10 +796,56 @@ Specifikationer
 .sp 10mm
 .bx off
 .ar off
+.* Transport - På tilgodehavende - 1.Kasser og ledetekster
+.da LFORDHA  20mm 45mm    WIDTH 174mm
+.da LPI      20mm 82.5mm  WIDTH 174mm
+.da LFORDDEB 20mm 112mm   WIDTH 174mm
+.da LMATR    20mm 148.5mm WIDTH 174mm
+.da LBELOB   20mm 173mm   WIDTH 174mm
+.da LSIKRING 20mm 220.5mm WIDTH 174mm
+.ll 174mm
+.**********************************
 :SWISS8.
-.ct   der samtidig hermed pantsættes overfor &BANKNAVN..
+.in 1mm
+.tp 88.5mm
+.ar LFORDHA on
+.**** Ledetekster Fordringshaver ***************
+Til sikkerhed for enhver forpligtelse, som
+.sp 2mm
+Sælger:
+.if &L'&MEDNAVN > 0
+.th .ct ¤ Medsælger:
+.sp 25.5mm
+CPR.nr.
+.if &L'&MEDNAVN > 0
+.th .ct ¤ CPR.nr.
 .ar off
-:SKRSLUT.
+.**** Ledetekster Pengeinstitut *************
+.ar LPI on
+nu har eller senere måtte få overfor &BANKNAVN., herunder enhver af
+bankens afdelinger og datterselskaber i Danmark og udlandet
+.sp 2mm
+Pengeinstitut:
+.ar off
+.**** Ledetekster Debitor *******************
+.ar LFORDDEB on
+giver jeg/vi herved transport på mit/vort tilgodehavende hos
+.sp 2mm
+Køber:
+.if &L'&GENNAVN4 > 0
+.th .ct ¤ Medkøber:
+.sp 24.5mm
+CPR.nr.
+.if &L'&GENNAVN4 > 0
+.th .ct ¤ CPR.nr.
+.ar off
+.**** Ledetekster Datoer og matrikelopl ******
+.ar LMATR on
+.tp 62mm
+der i henhold til købsaftale af
+:SKRSLUT
+&GENDATO1.
+:SWISS8
 har købt ejendommen
 .sp 1mm
 matrikelnr.:
@@ -310,56 +896,10 @@ sikringskonto nr.
 .se ktonr = substr &LANGKTONR 5 21
 :SKRSLUT.
 .ct  &regnr. &ktonr.,
-.* Transport - På tilgodehavende - 1.Kasser og ledetekster
-.da LFORDHA  20mm 45mm    WIDTH 174mm
-.da LPI      20mm 82.5mm  WIDTH 174mm
-.da LFORDDEB 20mm 112mm   WIDTH 174mm
-.da LMATR    20mm 148.5mm WIDTH 174mm
-.da LBELOB   20mm 173mm   WIDTH 174mm
-.da LSIKRING 20mm 220.5mm WIDTH 174mm
-.ll 174mm
-.**********************************
 :SWISS8.
-.in 1mm
-.tp 88.5mm
-.ar LFORDHA on
-.**** Ledetekster Fordringshaver ***************
-Til sikkerhed for enhver forpligtelse, som
-.sp 2mm
-Sælger:
-.if &L'&MEDNAVN > 0
-.th .ct ¤Medsælger:
-.sp 25.5mm
-CPR.nr.
-.if &L'&MEDNAVN > 0
-.th .ct ¤CPR.nr.
+.ct   der samtidig hermed pantsættes overfor &BANKNAVN..
 .ar off
-.**** Ledetekster Pengeinstitut *************
-.ar LPI on
-nu har eller senere måtte få overfor &BANKNAVN., herunder enhver af
-bankens afdelinger og datterselskaber i Danmark og udlandet
-.sp 2mm
-Pengeinstitut:
-.ar off
-.**** Ledetekster Debitor *******************
-.ar LFORDDEB on
-giver jeg/vi herved transport på mit/vort tilgodehavende hos
-.sp 2mm
-Køber:
-.if &L'&GENNAVN4 > 0
-.th .ct ¤Medkøber:
-.sp 24.5mm
-CPR.nr.
-.if &L'&GENNAVN4 > 0
-.th .ct ¤CPR.nr.
-.ar off
-.**** Ledetekster Datoer og matrikelopl ******
-.ar LMATR on
-.tp 62mm
-der i henhold til købsaftale af
-:SKRSLUT
-&GENDATO1.
-:SWISS8
+:SKRSLUT.
 .da SAELGER      25mm  56mm
 .da MSAELGER    112mm  56mm
 .da SAELGERCPR   32mm  78mm
@@ -457,16 +997,16 @@ der i henhold til købsaftale af
 .******************************
 .ar MATR on
 .tp 14mm 31mm
-¤&GENMATRNR
+ ¤ &GENMATRNR
 .sp 0.5mm
-¤&GENADRESSE
+ ¤ &GENADRESSE
 .sp 1mm
-¤¤&GENDATO2
+ ¤ ¤ &GENDATO2
 .ar off
 .******************************
 .ar BELOB on
 .tp 10mm
-¤&RESULTA
+ ¤ &RESULTA
 .sp 0.4mm
 &RESULTAT1.&RESULTAT2
 .ar off
@@ -475,542 +1015,4 @@ der i henhold til købsaftale af
 .******************************
 .** SIDESKIFT
 .pa
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.ar off
-.*************** OVERSKRIFT **********************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Transport i købesum - Kontanthandel
-.ar off
-.*************************************************************************
-.* Transport - På tilgodehavende - Anmeldelse
-.*gba/Da antallet af anmelder er dynamisk har jeg valgt at lave både
-.*kasser, ledetekst og variabel tekst i samme modul
-.************
-.da HEADER    20mm    40mm WIDTH 174mm
-.da ANMKQBER  20mm    46mm WIDTH 174mm
-.da ANMMEDKQB 108.5mm 46mm WIDTH 174mm
-.da ANMQVR1   20mm    46mm WIDTH 174mm
-.da ANMQVR2   20mm    77mm WIDTH 174mm
-.**********************************
-.ar HEADER on
-:SWISS8
-.bx left right
-Denne transport kan anmeldes over for
-:SKRSLUT.
-.bx off
-.ar off
-.************************************************************************
-.*** Skal der anmeldes over for køber?
-.if &U'&GENJANEJ = N
-.th .go ANM1
-.***
-.ar ANMKQBER on
-.tp 1mm
-.bx set left right
-:SWISS8
-¤Køber:
-:SKRSLUT.
-.sp 3mm
-.in 5mm
-&GENSTILL.
-.br
-&GENNAVN.
-.br
-&GENCO.
-.br
-&GENGADE.
-.br
-&GENBY.
-.br
-&GENLAND.
-.*** Udfyld boksen med blanke linier, så bokse bliver lige store
-.sp 2mm
-.if &L'&GENSTILL = 0
-.th .sp 4mm
-.if &L'&GENCO = 0
-.th .sp 4mm
-.if &L'&GENLAND = 0
-.th .sp 4mm
-.***
-:SKRSLUT
-.sp 3mm
-.in 5mm
-&BKNAVN
-.br
-&BKAFD
-.br
-&BKADR
-.br
-&BKBY
-.*** Udfyld boksen med blanke linier, så bokse bliver lige store
-.sp 10mm
-.if &L'&BKAFD = 0
-.th .sp 4mm
-.bx off
-.****** Gør klar til ny box
-...ANM4
-.*** Skal der anmeldes over for ejendomsmægler?
-.if &L'&GENNAVN5 = 0
-.th .go ANM5
-.bx set left right
-.***
-.tp 1mm
-:SWISS8
-¤Ejendomsmægler:
-:SKRSLUT
-.sp 3mm
-.in 5mm
-&GENNAVN5
-.br
-&GENCO5
-.br
-&GENGADE5
-.br
-&GENBY5
-.br
-&GENLAND5
-.*** Udfyld boksen med blanke linier, så bokse bliver lige store
-.sp 6mm
-.if &L'&GENCO5 = 0
-.th .sp 4mm
-.if &L'&GENLAND5 = 0
-.th .sp 4mm
-.in
-.bx off
-.***
-...ANM5
-.*** Overskrift til underskrifter
-:SWISS10.
-:FED.
-&GENBY1
-.br
-&GENLAND1
-.br
-.*** Udfyld boksen med blanke linier, så bokse bliver lige store
-.sp 6mm
-.if &L'&GENCOADR1 = 0
-.th .sp 4mm
-.if &L'&GENLAND1 = 0
-.th .sp 4mm
-.bx off
-...ANM2
-.*** Skal der anmeldes over for sælgers advokat?
-.if &L'&GENNAVN3 = 0
-.th .go ANM3
-.***
-.bx set left right
-.tp 1mm
-:SWISS8
-¤Sælgers advokat:
-:SKRSLUT
-.sp 3mm
-.in 5mm
-&GENNAVN3
-.br
-&GENCO3
-.br
-&GENGADE3
-.br
-&GENBY3
-.br
-&GENLAND3
-.*** Udfyld boksen med blanke linier, så bokse bliver lige store
-.sp 6mm
-.if &L'&GENCO3 = 0
-.th .sp 4mm
-.if &L'&GENLAND3 = 0
-.th .sp 4mm
-.***
-.bx off
-.****** Gør klar til ny box
-...ANM3
-.*** Skal der anmeldes over for Købers pengeinstitut?
-.if &L'&BKNAVN = 0
-.th .go ANM4
-.***
-.bx set left right
-.tp 1mm
-:SWISS8
-¤Købers pengeinstitut:
-:SKRSLUT
-.bx off
-.ar off
-.************************************************************************
-.*** Er der indtastet en medkøber?
-.if &L'&GENNAVN4 = 0
-.th .go ANM1
-.***
-.ar ANMMEDKQB on
-:SWISS8
-Medkøber:
-:SKRSLUT.
-.in 5mm
-.sp 3mm
-&GENSTILL2.
-.br
-&GENNAVN4.
-.br
-&GENCO4.
-.br
-&GENADR4.
-.br
-&GENBY4.
-.br
-&GENLAND4.
-.ar off
-.************************************************************************
-.*** Afgør hvor næste box skal starte
-...ANM1
-.if &U'&GENJANEJ = N
-.th .ar ANMQVR1 on
-.el .ar ANMQVR2 on
-.***
-.tp 1mm
-.*** Skal der anmeldes over for købers advokat?
-.if &L'&GENNAVN1 = 0
-.th .go ANM2
-.bx set left right
-.***
-:SWISS8
-¤Købers advokat:
-:SKRSLUT
-.sp 3mm
-.in 5mm
-&GENNAVN1
-.br
-&GENCOADR1
-.br
-&GENGADE1
-.br
-.if x&E69USKRV1 = x1
-.th .go 1UNDSK
-.el .go UNSKRS
-...2UNDSK
-.hr tynd 5mm 85mm 90mm 170mm
-¤&E69USKRT1.¤&E69USKRT2.
-.sp 10mm
-.if x&E69USKRV1 = x4
-.th .go 4UNDSK
-.if x&E69USKRV1 = x3
-.th .go 3UNDSK
-.el UNSKRS
-...1UNDSK
-.hr tynd 5mm 85mm
-¤&E69USKRT1.
-.sp 10mm
-.go UNSKRS
-...4UNDSK
-.hr tynd 5mm 85mm 90mm 170mm
-¤&E69USKRT3.¤&E69USKRT4.
-.sp 10mm
-.go UNSKRS
-...3UNDSK
-.hr tynd 5mm 85mm
-¤&E69USKRT3.
-.go UNSKRS
-...UNSKRS
-.bx off
-.sp 5mm
-.bx left right
-.in 1mm
-:SWISS8.
-Kvittering for modtagelse af underskrift
-.sp 15mm
-:SKRSLUT.
-.bx off
-.ar off
-.in 1mm
-Underskrift
-.br
-:SKRSLUT.
-:SKRSLUT.
-.bx left right
-:SWISS8.
-I øvrigt henvises til &BANKNAVN.s almindelige forretningsbetingelser,
-som jeg har fået udleveret.
-.sp 1mm
-.in
-.bx off
-.bx set left right
-.tp 1mm 54mm 62mm 87mm 140mm 148mm
-.if &L'&MEDNAVN > 0
-.th .go FLERE
-¤Sælgers underskrift ¤¤¤¤Dato:
-:SKRSLUT.
-.ct ¤&GENDATO3.
-.go FORTSAET
-...FLERE
-¤Sælgers underskrift¤Dato
-:SKRSLUT.
-.ct ¤&GENDATO3.
-:SWISS8.
-.ct ¤Medsælgers underskrift¤Dato:
-:SKRSLUT.
-.ct ¤&GENDATO3.
-...FORTSAET
-.sp 22mm
-.if &L'&MEDNAVN > 0
-.th .tp 44mm center 131mm center
-.th ¤&KTONAVN.¤&MEDNAVN.
-.el .ce &KTONAVN
-.if x&E69USKRV1 = x1
-.or x&E69USKRV1 = x2
-.or x&E69USKRV1 = x3
-.or x&E69USKRV1 = x4
-.th .go UNSKR
-.el .go UNSKRS
-...UNSKR
-.dr tynd weight 0.1mm
-.tp 37.5mm center 132.5mm center
-.sp 5mm
- Dato
-.sp 10mm
-.if x&E69USKRV1 = x4
-.or x&E69USKRV1 = x3
-.or x&E69USKRV1 = x2
-.th .go 2UNDSK
-.** SIDESKIFT
-.pa
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.ar off
-.*************** OVERSKRIFT **********************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.us Transport i købesum - Kontanthandel
-.ar off
-.*************************************************************************
-.* Transport - På tilgodehavende - 1.Kasser og ledetekster
-.da BOX 20mm 40mm WIDTH 175mm
-.ll 174mm
-.in 1mm
-.**********************************
-.ar BOX on
-:SWISS10.
-:FED.
-Anmeldelsespåtegning
-.sp 0.1mm
-.*Box til matrikelnr.
-.bx left right
-.sp 5mm
-.bx off
-.****** Box til sælgernavn
-.bx set left right
-.sp 36mm
-.bx off
-.****** Box til tekst
-.bx set left right
-.sp 35mm
-.bx off
-.****** Box til Købers underskrift
-.bx set left right
-.sp 30mm
-.bx off
-.****** Evt. Box til evt. medkøbers underskrift *
-.if &L'&GENNAVN4 > 0
-.th .bx set left right
-.th .sp 30mm
-.th .bx off
-.****** Box til lidt tekst
-.if &L'&GENNAVN1 > 0
-.or &L'&BKNAVN > 0
-.el .go SLUTK2
-.bx set left right
-.sp 5mm
-.bx off
-.***** Box til Købers advokats underskrift *
-.if &L'&GENNAVN1 > 0
-.th .bx set left right
-.th .sp 30mm
-.th .bx off
-.***** Box til Købers PI's underskrift **
-.if &L'&BKNAVN > 0
-.th .bx set left right
-.th .sp 30mm
-.th .bx off
-...SLUTK2
-.ar off
-.* Transport - På tilgodehavende - 1.Kasser og ledetekster
-.da MATRNR    20mm 45mm    WIDTH 174mm
-.da SAELGER   20mm 51.5mm  WIDTH 174mm
-.da TEKST1    20mm 89mm    WIDTH 174mm
-.da KUSKR     20mm 126mm   WIDTH 174mm
-.da RESTUSKR  20mm 157mm   WIDTH 174mm
-.**********************************
-:SWISS8.
-.in 1mm
-.tp 88.5mm
-.ar MATRNR on
-.**** Ledetekster Fordringshaver ***************
-Ejendommens matr.nr.:
-.ar off
-.ar SAELGER on
-Sælger:
-.if &L'&MEDNAVN > 0
-.th .ct ¤Medsælger:
-.sp 30mm
-CPR.nr.
-.if &L'&MEDNAVN > 0
-.th .ct ¤CPR.nr.
-.ar off
-.ar TEKST1 on
-.tp 5mm
-Køber af ejendommen skriver hermed under på, at:
-.sp 2mm
-.of 4mm
--¤en kopi af transporten, som sælger har givet &BANKNAVN. den
-:SKRSLUT
-&GENDATO3.,
-:SWISS8
-er modtaget
-.of
-.of 4mm
--¤det transportbeløb (købers skyld til sælger), der fremgår af
-transporten er korrekt
-.of
-.of 4mm
--¤transporten tillige omfatter den garanti mit pengeinstitut har stillet
-for betaling af den kontante købesum
-.of
-.of 4mm
--¤transportbeløbet forfalder til betaling som beskrevet i købsaftalen
-.of
-.of 4mm
--¤transportbeløbet ikke kan reguleres for krav eller indsigelser,
-opstået i retsforhold mellem køber og sælger, der ikke har noget med
-med denne handel at gøre
-.of
-.of 4mm
--¤transportbeløbet vil blive indbetalt til &BANKNAVN.. Indbetales
-transportbeløbet til andre end &BANKNAVN. er køber ikke frigjort og
-risikerer at skulle betale transportbeløbet igen
-.of
-.ar off
-.***** Ledetekster Købers underskrift **************
-.ar KUSKR on
-.tp 140mm
-Købers underskrift ¤Dato:
-.ar off
-.ar RESTUSKR on
-.if &L'&GENNAVN4 > 0
-.th .tp 140mm
-.th .sp 0.5mm
-.th Medkøbers underskrift ¤Dato:
-.th .sp 28mm
-.if &L'&GENNAVN1 > 0
-.or &L'&BKNAVN   > 0
-.el .go SLUTT4
-Ovennævnte transport er noteret:
-.***** Ledetekster Købers advokats underskrift **************
-.if &L'&GENNAVN1 > 0
-.th .sp 4mm
-.th .tp 140mm
-.th Købers advokats underskrift ¤Dato:
-.th .sp 25mm
-.***** Ledetekster Købers PI'S underskrift **************
-.if &L'&BKNAVN > 0
-.th .sp 4mm
-.th .tp 140mm
-.th Købers pengeinstituts underskrift ¤Dato:
-...SLUTT4
-.ar off
-:SKRSLUT.
-.da MATRNR      51mm  44.5mm
-.da SAELGER     25mm  56mm
-.da MSAELGER   112mm  56mm
-.da SAELGERCPR  32mm  84mm
-.da MSAELGCPR  119mm  84mm
-.da KUSKR       25mm 125.5mm
-.da RESTUSKR    25mm 157mm
-.*
-.ar MATRNR on
-&GENMATRNR.
-.ar of
-.ar SAELGER on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.ar MSAELGER on
-&MEDSTILL
-.br
-&MEDNAVN
-.br
-&MEDCO
-.br
-&MEDGADE
-.br
-&MEDBY
-.br
-&MEDLAND
-.ar off
-.******************************
-.ar SAELGERCPR on
-&KTOKNDNR1
-.ar off
-.******************************
-.ar MSAELGCPR on
-.if &L'&MEDNAVN > 0
-.th &MEDKNDNR1.
-.ar off
-.******************************
-.ar KUSKR on
-.tp 145mm
-¤&GENDATO3.
-.sp 23mm
-.ce &GENNAVN
-.ar off
-.ar RESTUSKR on
-.if &L'&GENNAVN4 > 0
-.th .tp 145mm
-.th ¤&GENDATO3.
-.th .sp 22mm
-.th .ce &GENNAVN4
-.th .sp 2.5mm
-.if &L'&GENNAVN1 > 0
-.or &L'&BKNAVN   > 0
-.el .go SLUTT5
-.sp 6.5mm
-.if &L'&GENNAVN1 > 0
-.th .tp 145mm
-.th ¤&GENDATO3.
-.th .sp 23mm
-.th .ce &GENNAVN1.
-.th .sp 2mm
-.if &L'&BKNAVN > 0
-.th .tp 145mm
-.th ¤&GENDATO3.
-.th .sp 22mm
-.th .ce &BKNAVN.
-...SLUTT5
-.ar off
-:SKRSLUT.
-.******************************
+

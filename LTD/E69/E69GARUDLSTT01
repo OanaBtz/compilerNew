@@ -11,6 +11,124 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.*
+.**************************************************************************
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.* Parameterafsnit - beregning
+.********************GENEREL OPSÆTNING*************************************
+.if &L'&E69FRITXT1 = 0
+.an &L'&E69FRITXT2 = 0
+.an &L'&E69FRITXT3 = 0
+.an &L'&E69FRITXT4 = 0
+.an &L'&E69FRITXT5 = 0
+.th .go NONOTA
+:VERDA10.
+.fo left
+.ti ¤ 05
+.dr tynd weight 0.2mm
+.dr normal weight 0.3mm
+.********************AREAL-DEFINITIONER************************************
+.* Højre:
+.da OVERSKR 100mm 40mm width 90mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.* Venstre - kundeopl
+.da KUNDEOPL 20mm 40mm width 100mm
+.**************************************************************************
+.********************START-POSITION AF OVERSKRIFT**************************
+.ar KUNDEOPL on
+&KTOSTILL.
+.br
+&KTONAVN.
+.br
+&KTOGADE.
+.br
+&KTOBY.
+.br
+&KTOLAND.
+.ar off
+.****HER STARTER HØJRE****
+.ar OVERSKR on
+:FED.
+.fo right
+Nota
+.br
+&REGTYPELNG.
+:SKRSLUT.
+.br
+Kontonummer: &LANGKTONR.
+.br
+Cpr/Cvr-nummer: &KTOKNDNR1.
+.ir 0mm
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.* Afstand fra kundeoplysninger til brødtekst *****************************
+.sp 76mm
+.*LINIELÆNGDEN ************************************************************
+.ll 165mm
+...NONOTA
+.*
+.dr tynd weight 0.2mm
+.dr normal weight 0.3mm
+.**************************************************************************
+.tp 1mm 153mm right
+.if &L'&E69FRITXT1 > 0
+.or &L'&E69FRITXT2 > 0
+.or &L'&E69FRITXT3 > 0
+.or &L'&E69FRITXT4 > 0
+.or &L'&E69FRITXT5 > 0
+.th .go NOTA
+.el .go NONOTA
+...NOTA
+Omkostninger ved oprettelse af garantien
+.sp
+ 
+.hr tynd left right
+.vr tynd 120mm
+ ¤ Tekst ¤ Beløb i DKK
+.hr tynd left right
+...FRITXT1
+.if &L'&E69FRITXT1 = 0
+.th .go FRITXT2
+ ¤ &E69FRITXT1. ¤ &RESULTA.
+.br
+...FRITXT2
+.if &L'&E69FRITXT2 = 0
+.th .go FRITXT3
+ ¤ &E69FRITXT2. ¤ &RESULTB.
+.br
+...FRITXT3
+.if &L'&E69FRITXT3 = 0
+.th .go FRITXT4
+ ¤ &E69FRITXT3. ¤ &RESULTC.
+.br
+...FRITXT4
+.if &L'&E69FRITXT4 = 0
+.th .go FRITXT5
+ ¤ &E69FRITXT4. ¤ &RESULTD.
+.br
+...FRITXT5
+.if &L'&E69FRITXT5 = 0
+.th .go NOFRITXT
+ ¤ &E69FRITXT5. ¤ &RESULTE.
+.br
+...NOFRITXT
+.hr tynd left right
+.* .vr tynd 115mm
+ ¤ I alt - hæves på konto &E69GENLKTO. ¤ &RESULTF.
+.hr tynd left right
+.vr off
+...NONOTA
+.** SIDESKIFT
+.pa
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -122,36 +240,6 @@ Cpr/Cvr-nummer: &KTOKNDNR1.
 .sp 34mm
 .rh off
 .* SIDEHOVEDDEFINITION SLUTTER ********************************************
-sikkerhedsstillelsen eller stille ny sikkerhed for 5 år, hvis udlændingen
-er meddelt opholdstilladelse efter udlændingelovens § 9, stk. 1, nr. 1,
-eller for 3 år, hvis
-udlændingen er meddelt opholdstilladelse efter udlændingelovens § 9 c, stk.
-1. Det vil i mange tilfælde være en fordel for sikkerhedsstiller, at
-pågældende efter 5 års ophold forlænger gyldigheden af sikkerheden inden
-indgivelse af ansøgning om forlængelse af opholdstilladelse, idet
-dette typisk er billigere end at stille ny sikkerhed på det tidspunkt, hvor
-Udlændingestyrelsen har færdigbehandlet forlængelsesansøgningen.)
-.sp
-Garantiens øvrige bestemmelser er fortsat uændret gældende.
-.sp
-Dette tillæg vedhæftes det oprindelige anfordringsgarantibrev.
-.sp
-.kp on
-Som garantirekvirent(sikkerhedsstiller):
-.sp
-Dato:
-.sp 25mm
-.hr tynd 0mm 65mm
-&KTONAVN..
-.kp off
-.sp 6mm
-.kp on
-Dato:
-.sp 6mm
-&BANKNAVN.
-.sp 12mm
-.hr tynd 0mm 65mm
-.kp off
 .*
 .dr tynd weight 0.2mm
 .**************************************************************************
@@ -187,11 +275,11 @@ til dækning af eventuelle fremtidige offentlige udgifter til hjælp efter
 lov om aktiv socialpolitik eller integrationsloven, der udbetales til:
 .sp
 .tp 38mm
-Udlændingens navn:¤&E69NAVN.
+Udlændingens navn: ¤ &E69NAVN.
 .br
-Sagsnr./Person ID:¤&E69SAGSNR.
+Sagsnr./Person ID: ¤ &E69SAGSNR.
 .br
-Adresse:¤&E69ADR1.
+Adresse: ¤ &E69ADR1.
 .sp
 forlænges, således at den herefter er gyldig til og med &E69DATO1..
 .sp
@@ -202,126 +290,39 @@ stk. 4, eller § 9 c, stk. 1, 2. pkt. jf. § 9, stk. 4, til dækning af
 offentlige
 udgifter til hjælp efter lov om aktiv socialpolitik eller
 integrationsloven. Det betyder, at sikkerhedsstiller skal forlænge
+sikkerhedsstillelsen eller stille ny sikkerhed for 5 år, hvis udlændingen
+er meddelt opholdstilladelse efter udlændingelovens § 9, stk. 1, nr. 1,
+eller for 3 år, hvis
+udlændingen er meddelt opholdstilladelse efter udlændingelovens § 9 c, stk.
+1. Det vil i mange tilfælde være en fordel for sikkerhedsstiller, at
+pågældende efter 5 års ophold forlænger gyldigheden af sikkerheden inden
+indgivelse af ansøgning om forlængelse af opholdstilladelse, idet
+dette typisk er billigere end at stille ny sikkerhed på det tidspunkt, hvor
+Udlændingestyrelsen har færdigbehandlet forlængelsesansøgningen.)
+.sp
+Garantiens øvrige bestemmelser er fortsat uændret gældende.
+.sp
+Dette tillæg vedhæftes det oprindelige anfordringsgarantibrev.
+.sp
+.kp on
+Som garantirekvirent(sikkerhedsstiller):
+.sp
+Dato:
+.sp 25mm
+.hr tynd 0mm 65mm
+&KTONAVN..
+.kp off
+.sp 6mm
+.kp on
+Dato:
+.sp 6mm
+&BANKNAVN.
+.sp 12mm
+.hr tynd 0mm 65mm
+.kp off
 .rh cancel
 .** SIDESKIFT
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
-.*
-.**************************************************************************
-.* Parameterafsnit - beregning
-.* Parameterafsnit - beregning
-.* Parameterafsnit - beregning
-.* Parameterafsnit - beregning
-.* Parameterafsnit - beregning
-.* Parameterafsnit - beregning
-.********************GENEREL OPSÆTNING*************************************
-.if &L'&E69FRITXT1 = 0
-.an &L'&E69FRITXT2 = 0
-.an &L'&E69FRITXT3 = 0
-.an &L'&E69FRITXT4 = 0
-.an &L'&E69FRITXT5 = 0
-.th .go NONOTA
-:VERDA10.
-.fo left
-.ti ¤ 05
-.dr tynd weight 0.2mm
-.dr normal weight 0.3mm
-.********************AREAL-DEFINITIONER************************************
-.* Højre:
-.da OVERSKR 100mm 40mm width 90mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.* Venstre - kundeopl
-.da KUNDEOPL 20mm 40mm width 100mm
-.**************************************************************************
-.********************START-POSITION AF OVERSKRIFT**************************
-.ar KUNDEOPL on
-&KTOSTILL.
-.br
-&KTONAVN.
-.br
-&KTOGADE.
-.br
-&KTOBY.
-.br
-&KTOLAND.
-.ar off
-.****HER STARTER HØJRE****
-.ar OVERSKR on
-:FED.
-.fo right
-Nota
-.br
-&REGTYPELNG.
-:SKRSLUT.
-.br
-Kontonummer: &LANGKTONR.
-.br
-Cpr/Cvr-nummer: &KTOKNDNR1.
-.ir 0mm
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.* Afstand fra kundeoplysninger til brødtekst *****************************
-.sp 76mm
-.*LINIELÆNGDEN ************************************************************
-.ll 165mm
-...NONOTA
-.*
-.dr tynd weight 0.2mm
-.dr normal weight 0.3mm
-.**************************************************************************
-.tp 1mm 153mm right
-.if &L'&E69FRITXT1 > 0
-.or &L'&E69FRITXT2 > 0
-.or &L'&E69FRITXT3 > 0
-.or &L'&E69FRITXT4 > 0
-.or &L'&E69FRITXT5 > 0
-.th .go NOTA
-.el .go NONOTA
-...NOTA
-Omkostninger ved oprettelse af garantien
-.sp
- 
-.hr tynd left right
-.vr tynd 120mm
-¤Tekst¤Beløb i DKK
-.hr tynd left right
-...FRITXT1
-.if &L'&E69FRITXT1 = 0
-.th .go FRITXT2
-¤&E69FRITXT1.¤&RESULTA.
-.br
-...FRITXT2
-.if &L'&E69FRITXT2 = 0
-.th .go FRITXT3
-¤&E69FRITXT2.¤&RESULTB.
-.br
-...FRITXT3
-.if &L'&E69FRITXT3 = 0
-.th .go FRITXT4
-¤&E69FRITXT3.¤&RESULTC.
-.br
-...FRITXT4
-.if &L'&E69FRITXT4 = 0
-.th .go FRITXT5
-¤&E69FRITXT4.¤&RESULTD.
-.br
-...FRITXT5
-.if &L'&E69FRITXT5 = 0
-.th .go NOFRITXT
-¤&E69FRITXT5.¤&RESULTE.
-.br
-...NOFRITXT
-.hr tynd left right
-.* .vr tynd 115mm
-¤I alt - hæves på konto &E69GENLKTO.¤&RESULTF.
-.hr tynd left right
-.vr off
-...NONOTA
-.** SIDESKIFT
-.pa
+

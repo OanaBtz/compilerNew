@@ -33,21 +33,197 @@
 .NV PAGE ANTALORIGINALER '%&ANTORGINAL.'
 .BR
 :ENY.
-.* Opsigelse **************************************************************
-.sp 5mm
+.**************************************************************************
+.* Parameter PCTPA anvendes ikke, men ligger i samme program, som Nykredits
+.* version anvender.
+.**************************************************************************
+.su off
+.se cpr1 = substr &KUNDENR 1 2
+.se cpr2 = substr &MEDEJERNR 1 2
+.su on
+.***
+.********************GENEREL OPSÆTNING*************************************
+:SWISS9.
+.fo left
+.ti ¤ 05
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm  270mm width 180mm rotate -90
+.da OVERSKR 20mm   32mm width 175mm
+.da BOX     20mm   40mm width 175mm
+.da ID      20mm   47mm width 175mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+:SWISS12.
 :FED.
-Opsigelse
+Aftale om elektronisk tinglysning (bil)
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.br
+Kl. &TID
+.ar off
+.********************KASSE TIL ID OG AFGIFT*******************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 100mm 140mm
+.bx left right
+ ¤ Kundenr. ¤ Afgift ¤ Udskrevet
+.sp 6mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.********************ID OG AFGIFT******************************************
+.ar ID on
+:SWISS9.
+.tp 1mm 90mm 140mm
+ ¤ &KUNDENR ¤ &AFGIFT kr. ¤ &DATO
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 47mm
+.rh off
+.rh execute
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.********************AREAL-DEFINITIONER************************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND     7mm  270mm width 180mm rotate -90
+.da OVERSKR 20mm   32mm width 175mm
+.da BOX     20mm   40mm width 175mm
+.da ID      20mm   47mm width 175mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.********************OVERSKRIFT********************************************
+.ar OVERSKR on
+:SWISS10.
+:FED.
+Aftale om elektronisk tinglysning (bil)
+:SKRSLUT.
+.ar off
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN.
+.br
+Kl. &TID
+.ar off
+.********************KASSE TIL ID OG AFGIFT*******************************
+.ar BOX on
+:SWISS9.
+.tp 1mm 140mm
+.bx left right
+ ¤ Kundenr. ¤ Udskrevet
+.sp 6mm
+.bx off
+.********************KASSE TIL INDHOLD*************************************
+.sp 4mm
+.bx left right
+.sp 216mm
+.bx off
+.ar off
+.********************ID OG AFGIFT******************************************
+.ar ID on
+:SWISS9.
+.tp 1mm 140mm
+ ¤ &KUNDENR ¤ &DATO
+.ar off
+.**************************************************************************
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (MIN. 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
+.**************************************************************************
+.sp 47mm
+.rh off
+.**************************************************************************
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.**************************************************************************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.ll 175mm
+.in 5mm
+.ir 5mm
+.**************************************************************************
+.in 5mm
+.ir 5mm
+.tp 87.5mm 140mm
+.**************************************************************************
+.* Overskrift debitor/kreditor ********************************************
+:FED.
+.if &L'&MEDEJER1 > 0
+.an &U'X&FLEREDEB = XJ
+.th Debitorer og kreditorer ¤ ¤ m.fl.
+.th .go DEBEND
+.if &L'&MEDEJER1 > 0
+.an &U'X&FLEREDEB = XN
+.th Debitorer og kreditorer
+.el Debitor og kreditor
+...DEBEND
 :SKRSLUT.
 .br
-Ejerpantebrevet kan til enhver tid opsiges af kreditor eller debitor
-med 14 dages varsel.
+.*Adresselinjer *******************
+.if &L'&MEDEJER1 > 0
+.th &DEB1ADR1 ¤ &MEDEJER1.
+.el &DEB1ADR1
+.br
+&DEB1ADR2 ¤ &MEDEJER2.
+.br
+&DEB1ADR3 ¤ &MEDEJER3.
+.br
+&DEB1ADR4 ¤ &MEDEJER4.
+.br
+&DEB1ADR5 ¤ &MEDEJER5.
 .sp 3mm
-.*NB! Bopælsforandring skal meddeles til kreditor.
-.*br
-.*Ved forsinket betaling af renter og afdrag kan kreditor forlange
-.*kapitalen indfriet, se vedlagte Almindelige betingelser (BIL),
-.*side &IALT./sidste side, punkt 7a.
-.th .ct ¤CPR-nr. &MEDEJERNR.
+.* Kontohavers kundenr. ***********
+.if &cpr1 = 00
+.th CVR-nr. &KUNDENR.
+.th .go UDOM1
+.if &cpr1 > 31
+.th Kundenr. &KUNDENR
+.el CPR-nr. &KUNDENR.
+...UDOM1
+.* Medkontohaver kundenr. *********
+.if &L'&MEDEJERNR > 0
+.an &cpr2 = 00
+.th .ct ¤ CVR-nr. &MEDEJERNR.
+.th .go UDOM2
+.if &L'&MEDEJERNR > 0
+.an &cpr2 > 31
+.th .ct ¤ Kundenr. &MEDEJERNR.
+.th .go UDOM2
+.if &L'&MEDEJERNR > 0
+.an &cpr2 < 32
+.th .ct ¤ CPR-nr. &MEDEJERNR.
 ...UDOM2
 .sp 5mm
 .* Pantsatte ejendomme ****************************************************
@@ -97,106 +273,6 @@ Det/de pantsatte køretøj(er)
 .th .br
 .th &PANTSAT08A.&PANTSAT08B.
 .***
-.**************************************************************************
-.in 5mm
-.ir 5mm
-.tp 87.5mm 140mm
-.**************************************************************************
-.* Overskrift debitor/kreditor ********************************************
-:FED.
-.if &L'&MEDEJER1 > 0
-.an &U'X&FLEREDEB = XJ
-.th Debitorer og kreditorer ¤¤m.fl.
-.th .go DEBEND
-.if &L'&MEDEJER1 > 0
-.an &U'X&FLEREDEB = XN
-.th Debitorer og kreditorer
-.el Debitor og kreditor
-...DEBEND
-:SKRSLUT.
-.br
-.*Adresselinjer *******************
-.if &L'&MEDEJER1 > 0
-.th &DEB1ADR1 ¤&MEDEJER1.
-.el &DEB1ADR1
-.br
-&DEB1ADR2 ¤&MEDEJER2.
-.br
-&DEB1ADR3 ¤&MEDEJER3.
-.br
-&DEB1ADR4 ¤&MEDEJER4.
-.br
-&DEB1ADR5 ¤&MEDEJER5.
-.sp 3mm
-.* Kontohavers kundenr. ***********
-.if &cpr1 = 00
-.th CVR-nr. &KUNDENR.
-.th .go UDOM1
-.if &cpr1 > 31
-.th Kundenr. &KUNDENR
-.el CPR-nr. &KUNDENR.
-...UDOM1
-.* Medkontohaver kundenr. *********
-.if &L'&MEDEJERNR > 0
-.an &cpr2 = 00
-.th .ct ¤CVR-nr. &MEDEJERNR.
-.th .go UDOM2
-.if &L'&MEDEJERNR > 0
-.an &cpr2 > 31
-.th .ct ¤Kundenr. &MEDEJERNR.
-.th .go UDOM2
-.if &L'&MEDEJERNR > 0
-.an &cpr2 < 32
-.***
-.if &L'&PANTSAT19A > 0
-.or &L'&PANTSAT19B > 0
-.th .br
-.th &PANTSAT19A.&PANTSAT19B.
-.***
-.tp 148mm
-.if &L'&FORTSÆTTES gt 0
-.th ¤&FORTSÆTTES
-:SKRSLUT.
-:SWISS9.
-.sp 3mm
-Debitor og kreditor giver hermed sig selv eller den det elektroniske
-ejerpantebrev er underpantsat til uden personligt gældsansvar, panteret
-i ovenstående køretøj(er)
-for
-.sp 5mm
-.*Beløbets størrelse ******************************************************
-:FED.
-Beløbets størrelse
-:SKRSLUT.
-.br
-&MØNTKODE. &GÆLD
-.br
-skriver &MØNTKODE &SKRIVER.&SKRIVER1.
-.sp 5mm
-.* Rente og betalingsvilkår ***********************************************
-:FED.
-Rente og betalingsvilkår
-:SKRSLUT.
-.br
-Ved tvangsauktion over den(de) pantsatte køretøj(er)
-forrentes
-det elektroniske ejerpantebrev fra tvangsauktionstidspunktet til
-betaling finder sted.
-.br
-.***************************************************************
-.* Parametrene udfyldes af aktiver og ejerpant med 2 tekster afhængig
-.* af om rentetypen er fast eller variabel/differentieret
-.* Fast; "Renten udgør zzz pct. på tvangsauktionstidspunktet" = RTEVTXT1
-.* øvr; "Rente udgør zzz pct. over Nationalbankens officielle" = RTEVTXT1
-.* "indskudsbevisrente på tvangsaktionstidspunktet." = RTEVTXT2
-.***************************************************************
-.* Renten hentes fra Bankstandards, Banken Generelt, Diverse Regler,
-.* Rentesats ejerpantebreve
-.***************************************************************
-&RTEVTXT1.&RTEVTXT2.
-.br
-Renten udgør &PCTPA. pct. over Nationalbankens indskudsbevisrente på
-tvangsauktionstidspunktet.
 .if &L'&PANTSAT09A > 0
 .or &L'&PANTSAT09B > 0
 .th .br
@@ -247,143 +323,68 @@ tvangsauktionstidspunktet.
 .or &L'&PANTSAT18B > 0
 .th .br
 .th &PANTSAT18A.&PANTSAT18B.
-.********************AREAL-DEFINITIONER************************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND     7mm  270mm width 180mm rotate -90
-.da OVERSKR 20mm   32mm width 175mm
-.da BOX     20mm   40mm width 175mm
-.da ID      20mm   47mm width 175mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.********************OVERSKRIFT********************************************
-.ar OVERSKR on
-:SWISS10.
-:FED.
-Aftale om elektronisk tinglysning (bil)
-:SKRSLUT.
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.br
-Kl. &TID
-.ar off
-.********************KASSE TIL ID OG AFGIFT*******************************
-.ar BOX on
-:SWISS9.
-.tp 1mm 140mm
-.bx left right
-¤Kundenr. ¤Udskrevet
-.sp 6mm
-.bx off
-.********************KASSE TIL INDHOLD*************************************
-.sp 4mm
-.bx left right
-.sp 216mm
-.bx off
-.ar off
-.********************ID OG AFGIFT******************************************
-.ar ID on
-:SWISS9.
-.tp 1mm 140mm
-¤&KUNDENR ¤&DATO
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
-.**************************************************************************
-.sp 47mm
-.rh off
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.********************GENEREL OPSÆTNING*************************************
-:SWISS9.
-.fo left
-.ti ¤ 05
-.********************AREAL-DEFINITIONER************************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND     7mm  270mm width 180mm rotate -90
-.da OVERSKR 20mm   32mm width 175mm
-.da BOX     20mm   40mm width 175mm
-.da ID      20mm   47mm width 175mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.********************OVERSKRIFT********************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-Aftale om elektronisk tinglysning (bil)
-:SKRSLUT.
-.ar off
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN.
-.br
-Kl. &TID
-.ar off
-.********************KASSE TIL ID OG AFGIFT*******************************
-.ar BOX on
-:SWISS9.
-.tp 1mm 100mm 140mm
-.bx left right
-¤Kundenr. ¤Afgift ¤Udskrevet
-.sp 6mm
-.bx off
-.********************KASSE TIL INDHOLD*************************************
-.sp 4mm
-.bx left right
-.sp 216mm
-.bx off
-.ar off
-.********************ID OG AFGIFT******************************************
-.ar ID on
-:SWISS9.
-.tp 1mm 90mm 140mm
-¤&KUNDENR ¤&AFGIFT kr. ¤&DATO
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN(ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (MIN. 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 83MM: Y = 47mm + 13mm (TOPMARGIN) = 60mm
-.**************************************************************************
-.sp 47mm
-.rh off
-.rh execute
-.**************************************************************************
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.**************************************************************************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.ll 175mm
-.in 5mm
-.ir 5mm
-.**************************************************************************
-.* Parameter PCTPA anvendes ikke, men ligger i samme program, som Nykredits
-.* version anvender.
-.**************************************************************************
-.su off
-.se cpr1 = substr &KUNDENR 1 2
-.se cpr2 = substr &MEDEJERNR 1 2
-.su on
 .***
+.if &L'&PANTSAT19A > 0
+.or &L'&PANTSAT19B > 0
+.th .br
+.th &PANTSAT19A.&PANTSAT19B.
+.***
+.tp 148mm
+.if &L'&FORTSÆTTES gt 0
+.th ¤ &FORTSÆTTES
+:SKRSLUT.
+:SWISS9.
+.sp 3mm
+Debitor og kreditor giver hermed sig selv eller den det elektroniske
+ejerpantebrev er underpantsat til uden personligt gældsansvar, panteret
+i ovenstående køretøj(er)
+for
+.sp 5mm
+.*Beløbets størrelse ******************************************************
+:FED.
+Beløbets størrelse
+:SKRSLUT.
+.br
+&MØNTKODE. &GÆLD
+.br
+skriver &MØNTKODE &SKRIVER.&SKRIVER1.
+.sp 5mm
+.* Rente og betalingsvilkår ***********************************************
+:FED.
+Rente og betalingsvilkår
+:SKRSLUT.
+.br
+Ved tvangsauktion over den(de) pantsatte køretøj(er)
+forrentes
+det elektroniske ejerpantebrev fra tvangsauktionstidspunktet til
+betaling finder sted.
+.br
+.***************************************************************
+.* Parametrene udfyldes af aktiver og ejerpant med 2 tekster afhængig
+.* af om rentetypen er fast eller variabel/differentieret
+.* Fast; "Renten udgør zzz pct. på tvangsauktionstidspunktet" = RTEVTXT1
+.* øvr; "Rente udgør zzz pct. over Nationalbankens officielle" = RTEVTXT1
+.* "indskudsbevisrente på tvangsaktionstidspunktet." = RTEVTXT2
+.***************************************************************
+.* Renten hentes fra Bankstandards, Banken Generelt, Diverse Regler,
+.* Rentesats ejerpantebreve
+.***************************************************************
+&RTEVTXT1.&RTEVTXT2.
+.br
+Renten udgør &PCTPA. pct. over Nationalbankens indskudsbevisrente på
+tvangsauktionstidspunktet.
+.* Opsigelse **************************************************************
+.sp 5mm
+:FED.
+Opsigelse
+:SKRSLUT.
+.br
+Ejerpantebrevet kan til enhver tid opsiges af kreditor eller debitor
+med 14 dages varsel.
+.sp 3mm
+.*NB! Bopælsforandring skal meddeles til kreditor.
+.*br
+.*Ved forsinket betaling af renter og afdrag kan kreditor forlange
+.*kapitalen indfriet, se vedlagte Almindelige betingelser (BIL),
+.*side &IALT./sidste side, punkt 7a.
+

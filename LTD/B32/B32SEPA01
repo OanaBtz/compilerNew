@@ -11,42 +11,27 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.*
-.*Initier switch til kontakt-tlfnr i B32sepa01O2
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se reg = substr &IREGKTO 1 4
-.se kto = substr &IREGKTO 5 14
-.se cpr1 = substr &KTOKNDNR1 1 6
-.se cpr2 = substr &KTOKNDNR1 7 4
-.su on
+.** SIDESKIFT
+.pa
 .**************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.th .se tlfnr = 'Erhverv'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.**************************************************************************
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  166mm 266mm
+.da BOX     20mm  31mm width 175mm
+.da OVERSKR 20mm  28mm width 175mm
+.da VEND     7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 276mm width 55mm
 .**************************************************************************
 .* SIDEHOVEDDEFINITION STARTER ********************************************
 .**************************************************************************
-.*.rh on
+.rh on
 .**************************************************************************
+.ar BOX on
+.bx left right
+.sp 237mm
+.bx off
+.ar off
+.ar OVERSKR on
+:SWISS10.:FED.
+Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)
+.ar off
 .ar VEND on
 :VERDA05.
 &BREVNAVN &BRUGERNR.
@@ -65,427 +50,31 @@
 .br
 CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = 'Erhverv'
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.*.sp 40mm (RH)
-.*.rh off  (RH)
-.*.rh execute  (RH)
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.*.ll 170mm  (RH)
-.*.in 5mm    (RH)
-.*.ir 1mm    (RH)
-:altprint &PRTVALG
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.** SIDESKIFT
-.pa
-.*.sp 78mm (RH)
-.hy of
-:VERDA09.
 .**************************************************************************
-.da TEXT1 21mm 88mm width 170mm
+.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
+.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
+.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
+.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
+.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
+.*HER ER TOPMARGINEN KUN 13MM.
+.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
+.*TILFØJ DE 33MM NEDENFOR *************************************************
 .**************************************************************************
-.ar TEXT1 on
-1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
-tilslutning til og brug af SEPA Direct Debit. Efter
-indgåelsen af tilslutningsaftalen kan der frit indgås
-SEPA-betalingsaftaler med kreditorer. Betalingsaftaler kan
-indgås, hvor der betales på vilkår for private.
-.sp 5mm
-&BANKNAVN må herefter på en kreditors anmodning overføre beløb fra
-tilmeldte konto til kreditors konto. Betalingen vil ske fra følgende
-betalingskonto, som er tilmeldt aftalen:
-.sp 5mm
-.tp 50mm 110mm
-Kontonummer ¤IBAN-nummer ¤BIC-nummer
-.br
-&reg.-&kto.¤&IBANKTONR.¤NYKBDKKK
-.sp 5mm
-2. Overførsel af beløb mellem tilmeldte konto og kreditors konto sker på
-grundlag af dataoplysninger fra kreditor. &BANKNAVN har derfor ikke noget
-ansvar for, at den af kreditor iværksatte betaling er korrekt. &BANKNAVN
-påtager sig alene at være formidler af dataoplysninger og at gennemføre
-betalinger.
-.sp 5mm
-3. Kreditor skal advisere om en kommende betaling. Hvis der er indgået
-en netbankaftale, fremgår oplysninger om kommende
-betalinger i &B32MITNYK..
-.sp 5mm
-4. Hvis der ikke er indgået en netbankaftale, modtages
-oplysninger om kommende betalinger på den
-måde, som er aftalt med kreditor.
-.sp 5mm
-5. Skriftlig opsigelse af denne aftale kan ske uden varsel. Opsigelsen
-får virkning hurtigst muligt, dog senest for betalinger, der skal finde
-sted, tre arbejdsdage efter at &BANKNAVN har modtaget opsigelsen.
-.sp 5mm
-&BANKNAVN kan opsige aftalen i overensstemmelse med
-"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN." samt
-"Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)". I
-tilfælde af væsentlig misligholdelse af denne aftale, herunder manglende
-dækning på tilmeldte konto gentagne gange, kan
-&BANKNAVN hæve aftalen uden varsel.
-.sp 5mm
-6. Betaling for &BANKNAVN.s ydelser i henhold til SEPA Direct Debit vil
-automatisk blive opkrævet på tilmeldte konto. Prisen for at anvende SEPA
-Direct Debit fastsættes af &BANKNAVN.. De aktuelle priser fremgår af
-&B32NYKDK.. Priserne kan ændres med to måneders varsel.
-.sp 5mm
-7. Jeg bekræfter med min underskrift samtidig at være  gjort bekendt med
-"Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)".
-.sp 5mm
-.ar off
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-:VERDA09.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.**************************************************************************
-.da FEJL      21mm 60mm width 170mm
-.da KTOOPL1   21mm 80mm width 170mm
-.da KTOOPL2   21mm 75mm width 170mm
-.da KTOHAVOV  21mm 30mm width 155mm
-.da KTOHAVER  21mm 35mm width 155mm
-.da KUNDENR   21mm 70mm width 155mm
-.dr tynd weight 0.1mm
-.**************************************************************************
-.ar KTOOPL1 on
-:FED.
-Tilslutningsaftale til SEPA Direct Debit - Debitoraftale (B2C)
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOOPL2 on
-.tp 169mm right
-¤Dato: &DATO.
-.ar off
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-Kontohaver
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOHAVER on
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.br
-&KTOLAND
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-.if &kunnr. = CPR-nr.
-.th &kunnr.: &cpr1.-&cpr2.
-.el &kunnr.: &KTOKNDNR1.
-.ar off
-.**************************************************************************
-.** SIDESKIFT
-.pa
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  166mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = 'Erhverv'
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.*.sp 40mm (RH)
-.*.rh off  (RH)
-.*.rh execute  (RH)
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.*.ll 170mm  (RH)
-.*.in 5mm    (RH)
-.*.ir 1mm    (RH)
-.da TEXT2 21mm 30mm width 170mm
-.************************************************************************
-.ar TEXT2 on
-Hvis jeg underskriver nærværende aftale digitalt, bekræfter jeg, at jeg er
-gjort bekendt med, at jeg har adgang til en kopi af aftalen i
-&B32MITNYK. og adgang til
-"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN." på
-&B32NYKDK..
-.sp 5mm
-Hvis jeg underskriver nærværende aftale i fysisk form, bekræfter jeg, at
-jeg har modtaget en kopi af aftalen og
-"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.".
-.sp 12mm
-.tp 3mm 28mm
-.hr tynd 1mm 20mm 25mm 165mm
-.br
-¤Dato ¤&KTONAVN.
-.sp 9mm
-Jeg beder herved &BANKNAVN. tilslutte mig til SEPA Direct
-Debit. Samtidig erklærer jeg mig indforstået med vilkårene i
-denne tilslutningsaftale og "Generelle regler for debitorer i
-SEPA Direct Debit (Core/Privat)" samt "Almindelige
-forretningsbetingelser for privatkunder i &BANKNAVN.".
-.ar off
-.tp 3mm 7mm
-.**************************************************************************
-.kp on
+.sp 20mm
 :SWISS10.
-:FED.
-3.¤¤&SDIN tilslutning til SEPA Direct Debit
-.sp 3mm
-:SKRSLUT.
-:SWISS8.
-:KURSIV.
-.of 7mm
-3.1¤¤En SEPA Direct Debit tilslutningsaftale med &BANKNAVN
-:SKRSLUT.
-.of
-.sp 3mm
-&SDU skal indgå en SEPA Direct Debit tilslutningsaftale om brug af SEPA
-Direct Debit med &BANKNAVN.. Tilslutningsaftalen med tilhørende
-bilag er en forudsætning for at bruge SEPA Direct Debit som debitor.
-.sp 3mm
-Det beror på &BANKNAVN.s vurdering, om &DU kan opnå en SEPA Direct
-Debit tilslutningsaftale. &BANKNAVN er ikke forpligtet til at
-indgå en tilslutningsaftale med &DIG..
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-3.2¤¤Oprettelse af SEPA betalingsaftaler
-.br
-:SKRSLUT.
-Når &DU har indgået en SEPA Direct Debit tilslutningsaftale med &BANKNAVN.,
-kan &DU indgå SEPA betalingsaftaler med kreditorer.
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-3.3¤¤Virkningen af en SEPA betalingsaftale
-.br
-:SKRSLUT.
-:SWISS8.
-Når &DU indgår en SEPA betalingsaftale med kreditor, giver &DU
-tilladelse til, at der på kreditors anmodning kan overføres beløb fra
-&DIN konto til kreditors konto.
-.sp 3mm
-&SDU kan aftale med kreditor, at en SEPA betalingsaftale skal dække flere
-skyldforhold, såfremt &DU har flere skyldforhold med kreditor, fx
-præmiebetaling i tilknytning til flere forsikringer tegnet i samme
-forsikringsselskab.
-.sp 3mm
-SEPA betalingsaftaler knyttes til den konto eller de konti, som &DU har
-aftalt med &BANKNAVN..
-.sp 3mm
-&SDU har pligt til at sørge for, at der er dækning på &DIN konto for de
-betalinger, som &DU har truffet aftale med kreditorer om, at de kan
-iværksætte.
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-.of 7mm
-3.4¤¤Betaling af mellemværende omfattet af SEPA
-betalingsaftalen
-.of
-.br
-:SKRSLUT.
-:SWISS8.
-Som privat må &DU kun acceptere SEPA betalingsaftaler, hvor &DU betaler på
-vilkår for private.
-.sp 3mm
-&SDU kan af den enkelte SEPA betalingsaftale se, om betalingen er
-reguleret af reglerne for private betalinger eller erhvervsbetalinger.
-.sp 3mm
-Disse generelle regler regulerer, når der foretages en privat betaling
-med SEPA Direct Debit.
-.sp 5mm
-.kp off
-.kp on
-:SWISS10.
-:FED.
-4.¤¤Kreditors aftale om Direct Debit
-.sp 3mm
-:SWISS8.
-:KURSIV.
-4.1¤¤Kreditors pligter
-.br
-:SKRSLUT.
-:SWISS8.
-Når kreditor indgår aftale om at benytte SEPA Direct Debit, bliver
-kreditor forpligtet til at overholde de gældende regler, der gælder for
-kreditorer i SEPA Direct Debit.
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-4.2¤¤Dokumentation for SEPA betalingsaftaler
-.br
-:SKRSLUT.
-Kreditors pengeinstitut skal på anmodning fra &BANKNAVN. kunne
-dokumentere, at der er indgået en SEPA betalingsaftale med &DIG..
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-4.3¤¤Brug af modtagne oplysninger
-.br
-:SKRSLUT.
-Kreditor må alene anvende de oplysninger, som &DU måtte have givet kreditor
-i forbindelse med indgåelse af en SEPA betalingsaftale, til at gennemføre
-betalinger i overensstemmelse med SEPA betalingsaftalen. Hvis det
-bagvedliggende aftaleforhold ophører, skal kreditor slette oplysningerne
-vedr. SEPA betalingsaftalen, når &DU ikke længere har mulighed for at
-gøre indsigelser overfor en gennemført transaktion.
-.sp 5mm
-.kp off
-.kp on
-:SWISS10.
-:FED.
-5.¤¤Aftalen om betalinger mellem kreditor og &DIG
-.sp 3mm
-:SWISS8.
-:KURSIV.
-5.1¤¤Hvordan og hvornår gennemføres en betaling
-.br
-:SKRSLUT.
-Betaling af beløb mellem &DIN konto og kreditors konto sker på grundlag
-af betalingsdata fra kreditor, som kreditor indsender til sin
-betalingstjenesteudbyder.
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-5.2¤¤Virkning af en betaling
-.br
-:SKRSLUT.
-Betaling fra &DIN konto over SEPA Direct Debit anses som betaling med
-frigørende virkning for &DIG.. Dette gælder dog ikke, hvis betalingen
-efterfølgende tilbageføres.
-.sp 5mm
-.kp off
-.kp on
-:SWISS10.
-:FED.
-6.¤¤Advisering om kommende betalinger
-.sp 3mm
-:SWISS8.
-:KURSIV.
-6.1¤¤Advisering - frist
-.br
-:SKRSLUT.
-:SWISS8.
-Kreditor skal advisere &DIG om en kommende betaling senest 14 kalenderdage
-inden betalingsdagen, medmindre &DU har aftalt andet med kreditor.
-.sp 3mm
-.kp off
-.kp on
-:KURSIV.
-6.2¤¤Adviseringens indhold
-.br
-:SKRSLUT.
-Oplysninger om betalingen, herunder beløbet, kontonummeret
-(betalingsreference/-id), betalingsdagen og &DIT navn skal fremgå af
-adviseringen, således at &DU entydigt kan identificere betalingen.
-.sp 3mm
-.kp off
-.kp on
-:SWISS8.
-:KURSIV.
-6.3¤¤&SDIN pligt til kontrol af adviserede betalinger
-.br
-:SKRSLUT.
-:SWISS8.
-&SDU har en pligt til løbende at holde &DIG orienteret om adviserede
-betalinger og kontrollere deres rigtighed og overensstemmelse med den
-SEPA betalingsaftale, som &DU har med kreditor om at iværksætte
-betalinger fra &DIN konto.
-.sp 3mm
-.kp off
-.kp on
-&SDU skal reagere straks, hvis &DU modtager advisering om betaling til
-kreditorer, som &DU ikke har aftale med.
-.sp 3mm
-Vil &DU afvise betalingen, skal &DU henvende &DIG i &BANKNAVN
-straks og senest på betalingsdagen, inden kl. 10.30, som beskrevet i pkt.
-13.1 og 13.2.
-.sp 3mm
-&SDU skal henvende &DIG til kreditor, hvis &DU er blevet adviseret om
-betalinger, der afviger fra, hvad &DU har aftalt med kreditor.
-.sp 5mm
-.kp off
+.rh off
+.rh execute
+.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
+.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
+.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
+.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
+.*KOLONNEDEFINITION *******************************************************
+.cd 2 1mm 88mm
+.cl 85mm
+.pm 20mm
+.tm 13mm
+.bm 35mm
+;T
 .tp 3mm 7mm
 :SWISS8.
 .**************************************************************************
@@ -674,268 +263,192 @@ Inden betalingsdagen kan kreditors bank anmode om tilbagekaldelse med den
 virkning, at indsendte betalingsdata ikke effektueres.
 .sp 5mm
 .kp off
+.tp 3mm 7mm
 .**************************************************************************
-.da BOX     20mm  31mm width 175mm
-.da OVERSKR 20mm  28mm width 175mm
-.da VEND     7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 276mm width 55mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.**************************************************************************
-.ar BOX on
-.bx left right
-.sp 237mm
-.bx off
-.ar off
-.ar OVERSKR on
-:SWISS10.:FED.
-Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)
-.ar off
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.**************************************************************************
-.*STARTPOSITION PÅ SIDEN BEREGNES UD FRA FLG:
-.*".PM" = PAGEMARGIN = X-KOORDINATEN (ER SOM STANDARD 20MM)
-.*".BM" = BUNDMARGIN (SKAL MIN. VÆRE 18MM)
-.*".TM" = TOPMARGIN (STANDARD 24MM), MEN MAN SKAL VÆRE OPMÆRKSOM PÅ, AT
-.*RH-KOMMANDOERNE KAN KAN ÆNDRE DET. MAN SKAL DERFOR ALTID UDMÅLE DET.
-.*HER ER TOPMARGINEN KUN 13MM.
-.*SIDEHOVED MED TOPMARGIN 46MM: Y = 33mm + 13mm (TOPMARGIN) = 46mm
-.*TILFØJ DE 33MM NEDENFOR *************************************************
-.**************************************************************************
-.sp 20mm
-:SWISS10.
-.rh off
-.rh execute
-.*RH EXECUTE BEVIRKER AT SIDEHOVED STARTER OMGÅENDE ***********************
-.*UDEN ".RH EXECUTE STARTER SIDEHOVEDET FØRST FRA NÆSTE SIDE **************
-.*MAN KAN SLUTTE SIDEHOVEDET VED AT DEFINERE ET NYT SIDEHOVED - ELLER
-.*VED AT BENYTTE TEKSTMODULET "BECRHCANCEL" *******************************
-.*KOLONNEDEFINITION *******************************************************
-.cd 2 1mm 88mm
-.cl 85mm
-.pm 20mm
-.tm 13mm
-.bm 35mm
-;T.rh cancel
 .kp on
 :SWISS10.
 :FED.
-13.¤¤Åbningstider og beregning af frister
+3.¤¤&SDIN tilslutning til SEPA Direct Debit
 .sp 3mm
-:SWISS8.
-:KURSIV.
-13.1¤¤Åbningstider
-.br
 :SKRSLUT.
 :SWISS8.
-Der er åbent for henvendelser vedrørende afvisninger, tilbageførsler og
-indsigelser på alle bankdage indtil kl. 10.30.
+:KURSIV.
+.of 7mm
+3.1¤¤En SEPA Direct Debit tilslutningsaftale med &BANKNAVN
+:SKRSLUT.
+.of
 .sp 3mm
-.kp off
-.kp on
-Ved henvendelse på et senere tidspunkt betragtes henvendelsen som
-foretaget den følgende bankdag.
+&SDU skal indgå en SEPA Direct Debit tilslutningsaftale om brug af SEPA
+Direct Debit med &BANKNAVN.. Tilslutningsaftalen med tilhørende
+bilag er en forudsætning for at bruge SEPA Direct Debit som debitor.
 .sp 3mm
-.kp off
-.kp on
-Åbningstiden er fastsat under hensyn til, hvornår &DIN henvendelse skal
-være modtaget for at kunne nå at blive behandlet indenfor
-dataindsendelsesfristerne samme kalenderdag.
+Det beror på &BANKNAVN.s vurdering, om &DU kan opnå en SEPA Direct
+Debit tilslutningsaftale. &BANKNAVN er ikke forpligtet til at
+indgå en tilslutningsaftale med &DIG..
 .sp 3mm
 .kp off
 .kp on
 :KURSIV.
-13.2¤¤Frister
+3.2¤¤Oprettelse af SEPA betalingsaftaler
 .br
 :SKRSLUT.
-Hvis den dag, jf. pkt. 13.1, hvor fristen udløber, ikke er en bankdag,
-er fristen den første bankdag herefter.
-.sp 3mm
-Hvis den dag, hvor en frist udløber, falder på en Targetdag, der ikke er
-en bankdag, vil fristen i SEPA Direct Debit udløbe på Targetdagen. I så
-fald er &DU nødt til at fremsætte &DIN indsigelse senest på bankdagen
-inden den Targetdag, hvor fristen udløber.
+Når &DU har indgået en SEPA Direct Debit tilslutningsaftale med &BANKNAVN.,
+kan &DU indgå SEPA betalingsaftaler med kreditorer.
 .sp 3mm
 .kp off
 .kp on
 :KURSIV.
-13.3¤¤Fremgangsmåde
+3.3¤¤Virkningen af en SEPA betalingsaftale
 .br
 :SKRSLUT.
-Hvis en gennemført betaling skal tilbageføres, vil beløbet blive
-tilbageført fra kreditors konto til debitors konto.
+:SWISS8.
+Når &DU indgår en SEPA betalingsaftale med kreditor, giver &DU
+tilladelse til, at der på kreditors anmodning kan overføres beløb fra
+&DIN konto til kreditors konto.
+.sp 3mm
+&SDU kan aftale med kreditor, at en SEPA betalingsaftale skal dække flere
+skyldforhold, såfremt &DU har flere skyldforhold med kreditor, fx
+præmiebetaling i tilknytning til flere forsikringer tegnet i samme
+forsikringsselskab.
+.sp 3mm
+SEPA betalingsaftaler knyttes til den konto eller de konti, som &DU har
+aftalt med &BANKNAVN..
+.sp 3mm
+&SDU har pligt til at sørge for, at der er dækning på &DIN konto for de
+betalinger, som &DU har truffet aftale med kreditorer om, at de kan
+iværksætte.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.
+.of 7mm
+3.4¤¤Betaling af mellemværende omfattet af SEPA
+betalingsaftalen
+.of
+.br
+:SKRSLUT.
+:SWISS8.
+Som privat må &DU kun acceptere SEPA betalingsaftaler, hvor &DU betaler på
+vilkår for private.
+.sp 3mm
+&SDU kan af den enkelte SEPA betalingsaftale se, om betalingen er
+reguleret af reglerne for private betalinger eller erhvervsbetalinger.
+.sp 3mm
+Disse generelle regler regulerer, når der foretages en privat betaling
+med SEPA Direct Debit.
 .sp 5mm
 .kp off
 .kp on
 :SWISS10.
 :FED.
-.of 7mm
-14.¤¤&BANKNAVN.s opsigelse/ ophævelse af &DIN
-SEPA Direct Debit tilslutningsaftale
-.of
+4.¤¤Kreditors aftale om Direct Debit
 .sp 3mm
 :SWISS8.
 :KURSIV.
-.of 7mm
-14.1¤¤&BANKNAVN.s opsigelse/ophævelse
-.of
+4.1¤¤Kreditors pligter
 .br
 :SKRSLUT.
-&BANKNAVN. kan opsige &DIN SEPA Direct Debit tilslutningsaftale
-med minimum 2 måneders varsel.
-.sp 3mm
-.kp off
-.kp on
-&BANKNAVN. har ret til at hæve aftalen, hvis &DU er skyld i
-væsentlig misligholdelse. En ophævelse har intet varsel og får virkning
-omgående.
+:SWISS8.
+Når kreditor indgår aftale om at benytte SEPA Direct Debit, bliver
+kreditor forpligtet til at overholde de gældende regler, der gælder for
+kreditorer i SEPA Direct Debit.
 .sp 3mm
 .kp off
 .kp on
 :KURSIV.
-14.2¤¤Konsekvens af tilslutningsaftalens ophør
+4.2¤¤Dokumentation for SEPA betalingsaftaler
 .br
 :SKRSLUT.
-Såfremt &DIN tilslutningsaftale med &BANKNAVN. ophører, kan de
-SEPA betalingsaftaler, der hviler på aftalen, ikke gennemføres.
+Kreditors pengeinstitut skal på anmodning fra &BANKNAVN. kunne
+dokumentere, at der er indgået en SEPA betalingsaftale med &DIG..
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.
+4.3¤¤Brug af modtagne oplysninger
+.br
+:SKRSLUT.
+Kreditor må alene anvende de oplysninger, som &DU måtte have givet kreditor
+i forbindelse med indgåelse af en SEPA betalingsaftale, til at gennemføre
+betalinger i overensstemmelse med SEPA betalingsaftalen. Hvis det
+bagvedliggende aftaleforhold ophører, skal kreditor slette oplysningerne
+vedr. SEPA betalingsaftalen, når &DU ikke længere har mulighed for at
+gøre indsigelser overfor en gennemført transaktion.
 .sp 5mm
 .kp off
 .kp on
 :SWISS10.
 :FED.
-.of 7mm
-15.¤¤Hvis &BANKNAVN. ikke kan opfylde sine forpligtelser
+5.¤¤Aftalen om betalinger mellem kreditor og &DIG
 .sp 3mm
-.of
-:SKRSLUT.
 :SWISS8.
-Hvis en betaling ikke gennemføres på grund af, at &BANKNAVN.
-standser sine betalinger eller går konkurs, må kreditor på anden vis
-opkræve beløbet hos &DIG..
+:KURSIV.
+5.1¤¤Hvordan og hvornår gennemføres en betaling
+.br
+:SKRSLUT.
+Betaling af beløb mellem &DIN konto og kreditors konto sker på grundlag
+af betalingsdata fra kreditor, som kreditor indsender til sin
+betalingstjenesteudbyder.
 .sp 3mm
 .kp off
 .kp on
-Kreditor kan i denne situation ikke gøre misligholdelsesbeføjelser
-gældende  over for &DIG som følge af, at betalingen ikke er blevet
-gennemført, hvis &DU betaler inden for den nye frist, som kreditor har
-fastsat.
+:KURSIV.
+5.2¤¤Virkning af en betaling
+.br
+:SKRSLUT.
+Betaling fra &DIN konto over SEPA Direct Debit anses som betaling med
+frigørende virkning for &DIG.. Dette gælder dog ikke, hvis betalingen
+efterfølgende tilbageføres.
 .sp 5mm
 .kp off
 .kp on
 :SWISS10.
 :FED.
-16.¤¤Fejl, forsinkelse m.v.
-:SKRSLUT.
+6.¤¤Advisering om kommende betalinger
 .sp 3mm
 :SWISS8.
 :KURSIV.
-16.1¤¤Korrekt gennemførelse
+6.1¤¤Advisering - frist
 .br
 :SKRSLUT.
 :SWISS8.
-En betaling, der gennemføres i overensstemmelse med de indsendte
-betalingsdata, betragtes som korrekt gennemført.
-.sp 3mm
-.kp off
-.kp on
-Når en betaling iværksættes af kreditor, er dennes
-betalingstjenesteudbyder ansvarlig for direkte tab som følge af manglende
-eller mangelfuld gennemførelse af betalingen, herunder overholdelse af
-den aftalte gennemførelsestid.
-.sp 3mm
-.kp off
-.kp on
-Efter kreditors betalingstjenesteudbyder har modtaget beløbet, er denne
-over for kreditor ansvarlig for direkte tab som følge af manglende eller
-mangelfuld gennemførelse af betalingen.
+Kreditor skal advisere &DIG om en kommende betaling senest 14 kalenderdage
+inden betalingsdagen, medmindre &DU har aftalt andet med kreditor.
 .sp 3mm
 .kp off
 .kp on
 :KURSIV.
-16.2¤¤Misligholdelsesbeføjelser
-:SKRSLUT.
+6.2¤¤Adviseringens indhold
 .br
-Er en betaling udeblevet eller forsinket under omstændigheder som nævnt
-ovenfor, kan misligholdelsesbeføjelser ikke af den grund gøres gældende
-over for &DIG., bortset fra krav på rente. Er beløbet debiteret &DIN
-konto, er betaling sket med frigørende virkning for &DIG..
-.sp 5mm
+:SKRSLUT.
+Oplysninger om betalingen, herunder beløbet, kontonummeret
+(betalingsreference/-id), betalingsdagen og &DIT navn skal fremgå af
+adviseringen, således at &DU entydigt kan identificere betalingen.
+.sp 3mm
 .kp off
 .kp on
-:SWISS10.
-:FED.
-.of 7mm
-17.¤¤&BANKNAVN.s erstatningsansvar
-.of
-.sp 3mm
+:SWISS8.
+:KURSIV.
+6.3¤¤&SDIN pligt til kontrol af adviserede betalinger
+.br
 :SKRSLUT.
 :SWISS8.
-&BANKNAVN. er erstatningsansvarlig, hvis det på grund af fejl eller
-forsømmelser opfylder aftalte forpligtelser for sent eller mangelfuldt.
+&SDU har en pligt til løbende at holde &DIG orienteret om adviserede
+betalinger og kontrollere deres rigtighed og overensstemmelse med den
+SEPA betalingsaftale, som &DU har med kreditor om at iværksætte
+betalinger fra &DIN konto.
 .sp 3mm
 .kp off
 .kp on
-Selv på de områder, hvor der gælder et strengere ansvar, er
-&BANKNAVN. ikke ansvarlig for tab, som skyldes:
-.br
-.of 3mm
-*¤nedbrud i/manglende adgang til IT-systemer eller beskadigelser af data i
-disse systemer, der kan henføres til nedennævnte begivenheder, uanset om
-det er &BANKNAVN. selv eller en ekstern leverandør, der står for
-driften af systemerne
-.of
-.kp off
-.kp on
-.of 3mm
-*¤svigt i &BANKNAVN.s strømforsyning eller telekommunikation,
-lovindgreb eller forvaltningsakter, naturkatastrofer, krig, oprør,
-borgerlige uroligheder, sabotage, terror eller hærværk (herunder
-computervirus og -hacking)
-.of
-.kp off
-.kp on
-.of 3mm
-*¤strejke, lockout, boykot eller blokade, uanset om konflikten er rettet
-mod eller iværksat af &BANKNAVN. selv eller dens organisation, og
-uanset konfliktens årsag. Det gælder også, når konflikten kun
-rammer dele af &BANKNAVN.
-.of
-.of 3mm
-*¤andre omstændigheder, som er uden for &BANKNAVN.s kontrol.
-.of
+&SDU skal reagere straks, hvis &DU modtager advisering om betaling til
+kreditorer, som &DU ikke har aftale med.
 .sp 3mm
-.kp off
-.kp on
-&BANKNAVN.s ansvarsfrihed gælder ikke hvis:
-.of 3mm
-*¤&BANKNAVN. burde have forudset det forhold, som er årsag til tabet,
-da aftalen blev indgået eller burde have undgået eller overvundet årsagen
-til tabet
-.of
-.kp off
-.kp on
-.of 3mm
-*¤lovgivningen under alle omstændigheder gør &BANKNAVN. ansvarlig for
-det forhold, som er årsag til tabet.
+Vil &DU afvise betalingen, skal &DU henvende &DIG i &BANKNAVN
+straks og senest på betalingsdagen, inden kl. 10.30, som beskrevet i pkt.
+13.1 og 13.2.
+.sp 3mm
+&SDU skal henvende &DIG til kreditor, hvis &DU er blevet adviseret om
+betalinger, der afviger fra, hvad &DU har aftalt med kreditor.
 .sp 5mm
 .kp off
 .kp on
@@ -1160,6 +673,208 @@ vil beløbet blive tilbageført via &BANKNAVN..
 .kp on
 :SWISS10.
 :FED.
+13.¤¤Åbningstider og beregning af frister
+.sp 3mm
+:SWISS8.
+:KURSIV.
+13.1¤¤Åbningstider
+.br
+:SKRSLUT.
+:SWISS8.
+Der er åbent for henvendelser vedrørende afvisninger, tilbageførsler og
+indsigelser på alle bankdage indtil kl. 10.30.
+.sp 3mm
+.kp off
+.kp on
+Ved henvendelse på et senere tidspunkt betragtes henvendelsen som
+foretaget den følgende bankdag.
+.sp 3mm
+.kp off
+.kp on
+Åbningstiden er fastsat under hensyn til, hvornår &DIN henvendelse skal
+være modtaget for at kunne nå at blive behandlet indenfor
+dataindsendelsesfristerne samme kalenderdag.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.
+13.2¤¤Frister
+.br
+:SKRSLUT.
+Hvis den dag, jf. pkt. 13.1, hvor fristen udløber, ikke er en bankdag,
+er fristen den første bankdag herefter.
+.sp 3mm
+Hvis den dag, hvor en frist udløber, falder på en Targetdag, der ikke er
+en bankdag, vil fristen i SEPA Direct Debit udløbe på Targetdagen. I så
+fald er &DU nødt til at fremsætte &DIN indsigelse senest på bankdagen
+inden den Targetdag, hvor fristen udløber.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.
+13.3¤¤Fremgangsmåde
+.br
+:SKRSLUT.
+Hvis en gennemført betaling skal tilbageføres, vil beløbet blive
+tilbageført fra kreditors konto til debitors konto.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.
+.of 7mm
+14.¤¤&BANKNAVN.s opsigelse/ ophævelse af &DIN
+SEPA Direct Debit tilslutningsaftale
+.of
+.sp 3mm
+:SWISS8.
+:KURSIV.
+.of 7mm
+14.1¤¤&BANKNAVN.s opsigelse/ophævelse
+.of
+.br
+:SKRSLUT.
+&BANKNAVN. kan opsige &DIN SEPA Direct Debit tilslutningsaftale
+med minimum 2 måneders varsel.
+.sp 3mm
+.kp off
+.kp on
+&BANKNAVN. har ret til at hæve aftalen, hvis &DU er skyld i
+væsentlig misligholdelse. En ophævelse har intet varsel og får virkning
+omgående.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.
+14.2¤¤Konsekvens af tilslutningsaftalens ophør
+.br
+:SKRSLUT.
+Såfremt &DIN tilslutningsaftale med &BANKNAVN. ophører, kan de
+SEPA betalingsaftaler, der hviler på aftalen, ikke gennemføres.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.
+.of 7mm
+15.¤¤Hvis &BANKNAVN. ikke kan opfylde sine forpligtelser
+.sp 3mm
+.of
+:SKRSLUT.
+:SWISS8.
+Hvis en betaling ikke gennemføres på grund af, at &BANKNAVN.
+standser sine betalinger eller går konkurs, må kreditor på anden vis
+opkræve beløbet hos &DIG..
+.sp 3mm
+.kp off
+.kp on
+Kreditor kan i denne situation ikke gøre misligholdelsesbeføjelser
+gældende  over for &DIG som følge af, at betalingen ikke er blevet
+gennemført, hvis &DU betaler inden for den nye frist, som kreditor har
+fastsat.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.
+16.¤¤Fejl, forsinkelse m.v.
+:SKRSLUT.
+.sp 3mm
+:SWISS8.
+:KURSIV.
+16.1¤¤Korrekt gennemførelse
+.br
+:SKRSLUT.
+:SWISS8.
+En betaling, der gennemføres i overensstemmelse med de indsendte
+betalingsdata, betragtes som korrekt gennemført.
+.sp 3mm
+.kp off
+.kp on
+Når en betaling iværksættes af kreditor, er dennes
+betalingstjenesteudbyder ansvarlig for direkte tab som følge af manglende
+eller mangelfuld gennemførelse af betalingen, herunder overholdelse af
+den aftalte gennemførelsestid.
+.sp 3mm
+.kp off
+.kp on
+Efter kreditors betalingstjenesteudbyder har modtaget beløbet, er denne
+over for kreditor ansvarlig for direkte tab som følge af manglende eller
+mangelfuld gennemførelse af betalingen.
+.sp 3mm
+.kp off
+.kp on
+:KURSIV.
+16.2¤¤Misligholdelsesbeføjelser
+:SKRSLUT.
+.br
+Er en betaling udeblevet eller forsinket under omstændigheder som nævnt
+ovenfor, kan misligholdelsesbeføjelser ikke af den grund gøres gældende
+over for &DIG., bortset fra krav på rente. Er beløbet debiteret &DIN
+konto, er betaling sket med frigørende virkning for &DIG..
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.
+.of 7mm
+17.¤¤&BANKNAVN.s erstatningsansvar
+.of
+.sp 3mm
+:SKRSLUT.
+:SWISS8.
+&BANKNAVN. er erstatningsansvarlig, hvis det på grund af fejl eller
+forsømmelser opfylder aftalte forpligtelser for sent eller mangelfuldt.
+.sp 3mm
+.kp off
+.kp on
+Selv på de områder, hvor der gælder et strengere ansvar, er
+&BANKNAVN. ikke ansvarlig for tab, som skyldes:
+.br
+.of 3mm
+*¤nedbrud i/manglende adgang til IT-systemer eller beskadigelser af data i
+disse systemer, der kan henføres til nedennævnte begivenheder, uanset om
+det er &BANKNAVN. selv eller en ekstern leverandør, der står for
+driften af systemerne
+.of
+.kp off
+.kp on
+.of 3mm
+*¤svigt i &BANKNAVN.s strømforsyning eller telekommunikation,
+lovindgreb eller forvaltningsakter, naturkatastrofer, krig, oprør,
+borgerlige uroligheder, sabotage, terror eller hærværk (herunder
+computervirus og -hacking)
+.of
+.kp off
+.kp on
+.of 3mm
+*¤strejke, lockout, boykot eller blokade, uanset om konflikten er rettet
+mod eller iværksat af &BANKNAVN. selv eller dens organisation, og
+uanset konfliktens årsag. Det gælder også, når konflikten kun
+rammer dele af &BANKNAVN.
+.of
+.of 3mm
+*¤andre omstændigheder, som er uden for &BANKNAVN.s kontrol.
+.of
+.sp 3mm
+.kp off
+.kp on
+&BANKNAVN.s ansvarsfrihed gælder ikke hvis:
+.of 3mm
+*¤&BANKNAVN. burde have forudset det forhold, som er årsag til tabet,
+da aftalen blev indgået eller burde have undgået eller overvundet årsagen
+til tabet
+.of
+.kp off
+.kp on
+.of 3mm
+*¤lovgivningen under alle omstændigheder gør &BANKNAVN. ansvarlig for
+det forhold, som er årsag til tabet.
+.sp 5mm
+.kp off
+.kp on
+:SWISS10.
+:FED.
 .of 7mm
 18.¤¤Vederlag for &BANKNAVN.s ydelser
 .of
@@ -1224,3 +939,290 @@ behandler klager vedrørende privatkundeforhold, og hvad der sidestilles
 hermed.
 .sp 5mm
 .kp off
+.rh cancel
+:altprint &PRTVALG
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*
+.*Initier switch til kontakt-tlfnr i B32sepa01O2
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se reg = substr &IREGKTO 1 4
+.se kto = substr &IREGKTO 5 14
+.se cpr1 = substr &KTOKNDNR1 1 6
+.se cpr2 = substr &KTOKNDNR1 7 4
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.**************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.**************************************************************************
+.da FEJL      21mm 60mm width 170mm
+.da KTOOPL1   21mm 80mm width 170mm
+.da KTOOPL2   21mm 75mm width 170mm
+.da KTOHAVOV  21mm 30mm width 155mm
+.da KTOHAVER  21mm 35mm width 155mm
+.da KUNDENR   21mm 70mm width 155mm
+.dr tynd weight 0.1mm
+.**************************************************************************
+.ar KTOOPL1 on
+:FED.
+Tilslutningsaftale til SEPA Direct Debit - Debitoraftale (B2C)
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOOPL2 on
+.tp 169mm right
+ ¤ Dato: &DATO.
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+Kontohaver
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.br
+&KTOLAND
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+.if &kunnr. = CPR-nr.
+.th &kunnr.: &cpr1.-&cpr2.
+.el &kunnr.: &KTOKNDNR1.
+.ar off
+.**************************************************************************
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  166mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = 'Erhverv'
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.*.sp 40mm (RH)
+.*.rh off  (RH)
+.*.rh execute  (RH)
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*.ll 170mm  (RH)
+.*.in 5mm    (RH)
+.*.ir 1mm    (RH)
+.*.sp 78mm (RH)
+.hy of
+:VERDA09.
+.**************************************************************************
+.da TEXT1 21mm 88mm width 170mm
+.**************************************************************************
+.ar TEXT1 on
+1. Mellem &BANKNAVN. og &KTONAVN. indgås hermed aftale om
+tilslutning til og brug af SEPA Direct Debit. Efter
+indgåelsen af tilslutningsaftalen kan der frit indgås
+SEPA-betalingsaftaler med kreditorer. Betalingsaftaler kan
+indgås, hvor der betales på vilkår for private.
+.sp 5mm
+&BANKNAVN må herefter på en kreditors anmodning overføre beløb fra
+tilmeldte konto til kreditors konto. Betalingen vil ske fra følgende
+betalingskonto, som er tilmeldt aftalen:
+.sp 5mm
+.tp 50mm 110mm
+Kontonummer ¤ IBAN-nummer ¤ BIC-nummer
+.br
+&reg.-&kto. ¤ &IBANKTONR. ¤ NYKBDKKK
+.sp 5mm
+2. Overførsel af beløb mellem tilmeldte konto og kreditors konto sker på
+grundlag af dataoplysninger fra kreditor. &BANKNAVN har derfor ikke noget
+ansvar for, at den af kreditor iværksatte betaling er korrekt. &BANKNAVN
+påtager sig alene at være formidler af dataoplysninger og at gennemføre
+betalinger.
+.sp 5mm
+3. Kreditor skal advisere om en kommende betaling. Hvis der er indgået
+en netbankaftale, fremgår oplysninger om kommende
+betalinger i &B32MITNYK..
+.sp 5mm
+4. Hvis der ikke er indgået en netbankaftale, modtages
+oplysninger om kommende betalinger på den
+måde, som er aftalt med kreditor.
+.sp 5mm
+5. Skriftlig opsigelse af denne aftale kan ske uden varsel. Opsigelsen
+får virkning hurtigst muligt, dog senest for betalinger, der skal finde
+sted, tre arbejdsdage efter at &BANKNAVN har modtaget opsigelsen.
+.sp 5mm
+&BANKNAVN kan opsige aftalen i overensstemmelse med
+"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN." samt
+"Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)". I
+tilfælde af væsentlig misligholdelse af denne aftale, herunder manglende
+dækning på tilmeldte konto gentagne gange, kan
+&BANKNAVN hæve aftalen uden varsel.
+.sp 5mm
+6. Betaling for &BANKNAVN.s ydelser i henhold til SEPA Direct Debit vil
+automatisk blive opkrævet på tilmeldte konto. Prisen for at anvende SEPA
+Direct Debit fastsættes af &BANKNAVN.. De aktuelle priser fremgår af
+&B32NYKDK.. Priserne kan ændres med to måneders varsel.
+.sp 5mm
+7. Jeg bekræfter med min underskrift samtidig at være  gjort bekendt med
+"Generelle regler for debitorer i SEPA Direct Debit (Core/Privat)".
+.sp 5mm
+.ar off
+.** SIDESKIFT
+.pa
+.da TEXT2 21mm 30mm width 170mm
+.************************************************************************
+.ar TEXT2 on
+Hvis jeg underskriver nærværende aftale digitalt, bekræfter jeg, at jeg er
+gjort bekendt med, at jeg har adgang til en kopi af aftalen i
+&B32MITNYK. og adgang til
+"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN." på
+&B32NYKDK..
+.sp 5mm
+Hvis jeg underskriver nærværende aftale i fysisk form, bekræfter jeg, at
+jeg har modtaget en kopi af aftalen og
+"Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.".
+.sp 12mm
+.tp 3mm 28mm
+.hr tynd 1mm 20mm 25mm 165mm
+.br
+ ¤ Dato ¤ &KTONAVN.
+.sp 9mm
+Jeg beder herved &BANKNAVN. tilslutte mig til SEPA Direct
+Debit. Samtidig erklærer jeg mig indforstået med vilkårene i
+denne tilslutningsaftale og "Generelle regler for debitorer i
+SEPA Direct Debit (Core/Privat)" samt "Almindelige
+forretningsbetingelser for privatkunder i &BANKNAVN.".
+.ar off
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  166mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = 'Erhverv'
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.*.sp 40mm (RH)
+.*.rh off  (RH)
+.*.rh execute  (RH)
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.*.ll 170mm  (RH)
+.*.in 5mm    (RH)
+.*.ir 1mm    (RH)
+

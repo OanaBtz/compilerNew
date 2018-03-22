@@ -11,6 +11,140 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.***********
+.*
+.*
+.***********
+.*********************GENEREL OPSÆTNING************************************
+:SWISS10.
+.ls by 1.30
+.fo left
+.ti ¤ 05
+:tiltale &TILTALE
+.*********************AREAL-DEFINITIONER***********************************
+.da DATO 26mm 68mm width 30mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.*********************DATO*************************************************
+.ar DATO on
+&DATO
+.ar off
+.*********************ROTERET BREVNAVN*************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.ar off
+.**************************************************************************
+.da BREVHOVED 26mm 40mm width 80mm
+.ar BREVHOVED on
+:SWISS10.
+&GENNAVN.
+.br
+&GENADR.
+.br
+&GENBY.
+.br
+&GENLAND.
+.ar off
+.************
+.* Brevstart, incl. overskrift
+.da START 26mm 105mm width 158mm
+.dr stregtyk weight 0,05mm
+.tp ./85mm r 120mm r 158mm r
+.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT*****
+.ar START on
+:FED.
+Udbetaling af &KTONAVN.s kapitalpension
+:SKRSLUT.
+.sp
+.************
+Kære &GENNAVN.
+.sp
+Da &DU er &KTONAVN.s
+.if &U'&B29LIVSARV = L
+.th livsarving,
+.el nærmeste pårørende,
+får &DU. udbetalt
+.if &U'&GENMK = M
+.th hans
+.el hendes
+kapitalpension i &BANKNAVN.. Vi har beregnet udbetalingen således:
+.sp
+Saldo ¤ ¤ &RESULTA kr.
+.br
+Afgiftspligtige renter ¤ ¤ &GENBEL11 kr. ¤ &GENBEL10 kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng1 120mm
+.ls by 1.30
+.**********
+.tp ./85mm r 158mm r
+.br
+Pensionsafkastskat 15,3 % af rentebeløbet ¤ ¤ -&RESULTB kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.**********
+.br
+I alt ¤ ¤ &RESULTC kr.
+.br
+Statsafgift 37,3 % ¤ ¤ -&RESULTK kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.br
+Saldo før boafgift ¤ ¤ &RESULTG kr.
+.br
+Boafgift 15%  ¤ ¤ -&RESULTT kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.br
+Til udbetaling ¤ ¤ &RESULTS kr.
+.********** Her skrives stregen under beløbet *******
+.ls nobreak
+.hr stregtyk &streglng2 158mm
+.ls by 1.30
+.***********
+.**************
+.sp
+&SDU. skal ikke betale indkomstskat af pengene.
+.sp
+.if &U'&B29UDBFORM eq U
+.th Vi overfører beløbet til &DIN konto i &BKNAVN.,
+.th regnr. &BANKREGNR., kontonr. &B29KTOFRPI..
+.**********
+.if &U'&B29UDBFORM eq C
+.th Vi vedlægger beløbet på en check.
+.**********
+.if &U'&B29UDBFORM eq N
+.th Vi overfører beløbet til &DIN NemKonto.
+.**********
+.sp
+:FED.
+Har &DU. spørgsmål?
+:SKRSLUT.
+.sp
+Har &DU. spørgsmål, er &DU. altid velkommen til at ringe til mig
+på telefon &GENTLFNR..
+.*******
+.sp 2
+Med venlig hilsen
+.sp3
+.tp 85mm
+.if &L'&GENMEKSP = 0
+.th &GENEKSP
+.br
+.th &GENTITEL
+.el &GENMEKSP ¤ &GENEKSP
+.br
+.el &GENMTITEL ¤ &GENTITEL
+.ar off
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -105,137 +239,4 @@
 .*
 .*
 .***********
-.***********
-.*
-.*
-.***********
-.*********************GENEREL OPSÆTNING************************************
-:SWISS10.
-.ls by 1.30
-.fo left
-.ti ¤ 05
-:tiltale &TILTALE
-.*********************AREAL-DEFINITIONER***********************************
-.da DATO 26mm 68mm width 30mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.*********************DATO*************************************************
-.ar DATO on
-&DATO
-.ar off
-.*********************ROTERET BREVNAVN*************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.ar off
-.**************************************************************************
-.da BREVHOVED 26mm 40mm width 80mm
-.ar BREVHOVED on
-:SWISS10.
-&GENNAVN.
-.br
-&GENADR.
-.br
-&GENBY.
-.br
-&GENLAND.
-.ar off
-.************
-.* Brevstart, incl. overskrift
-.da START 26mm 105mm width 158mm
-.dr stregtyk weight 0,05mm
-.tp ./85mm r 120mm r 158mm r
-.*********************STARTPOSITION FOR BREVET, INCL OVERSKRIFT*****
-.ar START on
-:FED.
-Udbetaling af &KTONAVN.s kapitalpension
-:SKRSLUT.
-.sp
-.************
-Kære &GENNAVN.
-.sp
-Da &DU er &KTONAVN.s
-.if &U'&B29LIVSARV = L
-.th livsarving,
-.el nærmeste pårørende,
-får &DU. udbetalt
-.if &U'&GENMK = M
-.th hans
-.el hendes
-kapitalpension i &BANKNAVN.. Vi har beregnet udbetalingen således:
-.sp
-Saldo ¤¤&RESULTA kr.
-.br
-Afgiftspligtige renter ¤¤&GENBEL11 kr.¤&GENBEL10 kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng1 120mm
-.ls by 1.30
-.**********
-.tp ./85mm r 158mm r
-.br
-Pensionsafkastskat 15,3 % af rentebeløbet ¤¤-&RESULTB kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.**********
-.br
-I alt ¤¤&RESULTC kr.
-.br
-Statsafgift 37,3 % ¤¤-&RESULTK kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.***********
-.br
-Saldo før boafgift ¤¤&RESULTG kr.
-.br
-Boafgift 15%  ¤¤-&RESULTT kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.***********
-.br
-Til udbetaling ¤¤&RESULTS kr.
-.********** Her skrives stregen under beløbet *******
-.ls nobreak
-.hr stregtyk &streglng2 158mm
-.ls by 1.30
-.***********
-.**************
-.sp
-&SDU. skal ikke betale indkomstskat af pengene.
-.sp
-.if &U'&B29UDBFORM eq U
-.th Vi overfører beløbet til &DIN konto i &BKNAVN.,
-.th regnr. &BANKREGNR., kontonr. &B29KTOFRPI..
-.**********
-.if &U'&B29UDBFORM eq C
-.th Vi vedlægger beløbet på en check.
-.**********
-.if &U'&B29UDBFORM eq N
-.th Vi overfører beløbet til &DIN NemKonto.
-.**********
-.sp
-:FED.
-Har &DU. spørgsmål?
-:SKRSLUT.
-.sp
-Har &DU. spørgsmål, er &DU. altid velkommen til at ringe til mig
-på telefon &GENTLFNR..
-.*******
-.sp 2
-Med venlig hilsen
-.sp3
-.tp 85mm
-.if &L'&GENMEKSP = 0
-.th &GENEKSP
-.br
-.th &GENTITEL
-.el &GENMEKSP ¤&GENEKSP
-.br
-.el &GENMTITEL ¤&GENTITEL
-.ar off
+

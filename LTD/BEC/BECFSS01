@@ -550,19 +550,6 @@
 &BREVNAVN.
 .ar off
 .***********************************************************************
-.th Forsikrede
-.el Forsikringstager/Forsikrede
-...UDENOM1
-:SKRSLUT.
-.br
-.bx left 30mm right
-.sp 5mm
-.bx new left 30mm right
-.sp 15mm
-.bx off
-.bx can
-.sp
-.ar off
 .da KASSE 20mm 105mm width 175mm
 .*******************************
 .ar KASSE on
@@ -613,6 +600,19 @@
 .or X&FSSPROD = X7
 .or X&FSSPROD = X9
 .or X&FSSPROD = X12
+.th Forsikrede
+.el Forsikringstager/Forsikrede
+...UDENOM1
+:SKRSLUT.
+.br
+.bx left 30mm right
+.sp 5mm
+.bx new left 30mm right
+.sp 15mm
+.bx off
+.bx can
+.sp
+.ar off
 .da MODT 20mm 40mm width 100mm
 .da TYPE 20mm 40mm width 170mm
 .da SUM  20mm 80mm width 170mm
@@ -633,31 +633,31 @@ nærpension A/S
 :SWISS12.
 :FED.
 .if X&FSSTYPE = X1
-.th ¤Oprettelse
+.th ¤ Oprettelse
 .if X&FSSTYPE = X2
-.th ¤Forhøjelse af dækning
+.th ¤ Forhøjelse af dækning
 .if X&FSSTYPE = X3
-.th ¤Nedsættelse af dækning
+.th ¤ Nedsættelse af dækning
 .if X&FSSTYPE = X4
-.th ¤Overførsel fra
+.th ¤ Overførsel fra
 .th .br
-.th ¤andet nærpension pengeinstitut
+.th ¤ andet nærpension pengeinstitut
 .if X&FSSTYPE = X5
-.th ¤Sletning/Opsigelse
+.th ¤ Sletning/Opsigelse
 .if X&FSSTYPE = X6
-.th ¤Ændring af skattekode
+.th ¤ Ændring af skattekode
 .*th .br
-.*th ¤på pensionsgrp-liv
+.*th ¤ på pensionsgrp-liv
 .if X&FSSTYPE = X7
-.th ¤Ændring af skattekode
+.th ¤ Ændring af skattekode
 .th .br
-.th ¤på SKAT 1 ordning
+.th ¤ på SKAT 1 ordning
 .if X&FSSTYPE = X8
-.th ¤Ændring fra krydsliv
+.th ¤ Ændring fra krydsliv
 .if X&FSSTYPE = X9
-.th ¤Ændring til krydsliv
+.th ¤ Ændring til krydsliv
 .if X&FSSTYPE = X10
-.th ¤Sletning af begunstigelse
+.th ¤ Sletning af begunstigelse
 :SKRSLUT.
 .ar off
 .**********FORSIKRINGSTYPE OVERSKRIFT OG FORSIKRINGSSUM ****************
@@ -686,20 +686,64 @@ nærpension A/S
 ...SLUT
 .ar off
 .*******************************
-.tp 45mm _/155mm
-Indsendt ¤Dato: ¤
-.br
-Aftalen aktiv: ¤Dato: ¤
-...SLUT
-.ar off
-.*************************
-Cpr.nr. ¤&cpr1.-&cpr2.
+.da TEKST1  21,5mm 108mm width 175mm
+.***************************************
+.ar TEKST1 on
+.tp 32mm 82mm 122mm
+.****
+.if X&FSSTYPE = X2
+.or X&FSSTYPE = X3
+.or X&FSSTYPE = X6
+.or X&FSSTYPE = X7
+.th Typenr. ¤ &FSSTYPE01. ¤ Tidl. typenr. ¤ &FSSTYPE02.
+.el Typenr. ¤ &FSSTYPE01.
+.sp 2mm
+.if &L'&FSSIKRAFT > 0
+.th Oprettet ¤ &DATO. ¤ Ikrafttrædelsesdato ¤ &FSSIKRAFT.
+.el Oprettet ¤ &DATO.
 .sp 3mm
-Navn og adresse ¤&NAVN.
+Kontonr. ¤ &KONTO. ¤ Debiteringskontonr. ¤ &FSSDEBITNR
+.sp 3mm
+.tp 32mm 44mm 112mm
+Pengeinstitut ¤ &REGNR. ¤ &BANKNAVN. ¤ &AFDNAVN.
+.sp 3mm
+.tp 32mm 112mm 127mm
+Kontaktperson ¤ &GENEKSP. ¤ Tlf.nr. ¤ &GENTLFNR.
+.***********************
+.sp 3
+.if &FSSPROD = 3
+.or &FSSPROD = 6
+.or &FSSPROD = 8
+.or &FSSPROD = 10
+.or &FSSPROD = 11
+.th .go UDENOM
+.tp 32mm
+.if X&FSSPROD = X9
+.th Cpr.nr./CVR.nr. ¤ &cpr3.-&cpr4.
+.el Cpr.nr. ¤ &cpr3.-&cpr4.
+.sp 3mm
+Navn og adresse ¤ &B11NAVN01.
 .br
-¤&GADE.
+ ¤ &B11GADE.
 .br
-¤&BY.
+ ¤ &B11BY
+.sp 14mm
+.*************************
+...UDENOM
+.if &FSSPROD = 3
+.or &FSSPROD = 6
+.or &FSSPROD = 8
+.or &FSSPROD = 10
+.or &FSSPROD = 11
+.th .sp 1
+.*************************
+Cpr.nr. ¤ &cpr1.-&cpr2.
+.sp 3mm
+Navn og adresse ¤ &NAVN.
+.br
+ ¤ &GADE.
+.br
+ ¤ &BY.
 .sp 4
 .************************************
 .*DATO OG UNDERSKRIFT ***************
@@ -714,17 +758,17 @@ Navn og adresse ¤&NAVN.
 .tp 2mm 56mm
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/75mm 80mm 120mm _/155mm
-Indsendt ¤Dato:¤ ¤Afslag: ¤Dato: ¤
+Indsendt ¤ Dato: ¤ ¤ Afslag: ¤ Dato: ¤
 .br
-Supplerende oplysninger: ¤Dato: ¤ ¤Aftalen aktiv: ¤Dato: ¤
+Supplerende oplysninger: ¤ Dato: ¤ ¤ Aftalen aktiv: ¤ Dato: ¤
 .br
-Godkendt: ¤Dato: ¤
+Godkendt: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...PROD2
@@ -739,20 +783,20 @@ Godkendt: ¤Dato: ¤
 .hr 1mm 60mm 65mm 170mm
 .br
 .if X&FSSTYPE = X8
-.th ¤Dato og forsikredes underskrift ¤Dato og forsikringstagers underskrift
-.el ¤Dato ¤Forsikringstagers underskrift
+.th ¤ Dato og forsikredes underskrift ¤ Dato og forsikringstagers underskrift
+.el ¤ Dato ¤ Forsikringstagers underskrift
 .sp 2
 .hr 1mm 60mm 65mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .br
-Aftalen aktiv: ¤Dato: ¤
+Aftalen aktiv: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...PROD3
@@ -766,20 +810,20 @@ Aftalen aktiv: ¤Dato: ¤
 .hr 1mm 50mm 55mm 170mm
 .br
 .if X&FSSTYPE = X6
-.th ¤Dato ¤Underskrift (Forsikringstager)
-.el ¤Dato ¤Underskrift (Forsikringstager/Forsikrede)
+.th ¤ Dato ¤ Underskrift (Forsikringstager)
+.el ¤ Dato ¤ Underskrift (Forsikringstager/Forsikrede)
 .sp 2
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .br
-Aftalen aktiv: ¤Dato: ¤
+Aftalen aktiv: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...PROD4
@@ -791,69 +835,19 @@ Aftalen aktiv: ¤Dato: ¤
 .tp 2mm 56mm
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤Forsikringstagers underskrift
-.da TEKST1  21,5mm 108mm width 175mm
-.***************************************
-.ar TEKST1 on
-.tp 32mm 82mm 122mm
-.****
-.if X&FSSTYPE = X2
-.or X&FSSTYPE = X3
-.or X&FSSTYPE = X6
-.or X&FSSTYPE = X7
-.th Typenr. ¤&FSSTYPE01. ¤Tidl. typenr. ¤&FSSTYPE02.
-.el Typenr. ¤&FSSTYPE01.
-.sp 2mm
-.if &L'&FSSIKRAFT > 0
-.th Oprettet ¤&DATO. ¤Ikrafttrædelsesdato ¤&FSSIKRAFT.
-.el Oprettet ¤&DATO.
-.sp 3mm
-Kontonr. ¤&KONTO. ¤Debiteringskontonr. ¤&FSSDEBITNR
-.sp 3mm
-.tp 32mm 44mm 112mm
-Pengeinstitut ¤&REGNR. ¤&BANKNAVN. ¤&AFDNAVN.
-.sp 3mm
-.tp 32mm 112mm 127mm
-Kontaktperson ¤&GENEKSP. ¤Tlf.nr. ¤&GENTLFNR.
-.***********************
-.sp 3
-.if &FSSPROD = 3
-.or &FSSPROD = 6
-.or &FSSPROD = 8
-.or &FSSPROD = 10
-.or &FSSPROD = 11
-.th .go UDENOM
-.tp 32mm
-.if X&FSSPROD = X9
-.th Cpr.nr./CVR.nr. ¤&cpr3.-&cpr4.
-.el Cpr.nr. ¤&cpr3.-&cpr4.
-.sp 3mm
-Navn og adresse ¤&B11NAVN01.
-.br
-¤&B11GADE.
-.br
-¤&B11BY
-.sp 14mm
-.*************************
-...UDENOM
-.if &FSSPROD = 3
-.or &FSSPROD = 6
-.or &FSSPROD = 8
-.or &FSSPROD = 10
-.or &FSSPROD = 11
-.th .sp 1
+ ¤ Dato ¤ Forsikringstagers underskrift
 .sp 2
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .br
-Aftalen opgjort: ¤Dato: ¤
+Aftalen opgjort: ¤ Dato: ¤
 .go SLUT
 .*********************************************
 ...NEXT6
@@ -865,17 +859,17 @@ Aftalen opgjort: ¤Dato: ¤
 .tp 2mm 56mm
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤Forsikringstagers underskrift
+ ¤ Dato ¤ Forsikringstagers underskrift
 .sp 2
 .hr 1mm 50mm 55mm 170mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
 .tp 45mm _/155mm
-Indsendt ¤Dato: ¤
+Indsendt ¤ Dato: ¤
 .go SLUT
 .**********************
 ...NEXT7
@@ -887,8 +881,15 @@ Indsendt ¤Dato: ¤
 .hr 1mm 50mm 55mm 170mm
 .tp 2mm 56mm
 .br
-¤Dato ¤&BANKNAVN.'s underskrift
+ ¤ Dato ¤ &BANKNAVN.'s underskrift
 .sp 2
 :SWISS8.
 Til &BANKNAVN.'s brug
 .sp
+.tp 45mm _/155mm
+Indsendt ¤ Dato: ¤
+.br
+Aftalen aktiv: ¤ Dato: ¤
+...SLUT
+.ar off
+

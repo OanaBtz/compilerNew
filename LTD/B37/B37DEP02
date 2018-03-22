@@ -11,6 +11,44 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.** SIDESKIFT
+.pa
+.*************** TEST PÅ OM DER ER NOGEN INTERESSENTER *******************
+.if &L'&DEP01CPR = 0
+.an &L'&DEP02CPR = 0
+.an &L'&DEP03CPR = 0
+.an &L'&DEP04CPR = 0
+.an &L'&DEP05CPR = 0
+.th .go INTSLUT1
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+:tiltale &TILTALE
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.*************** ROTERET BREVNAVN ****************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.:FED.
+.if x&GENVALG = x1
+.th .us Aftale om værdipapirhandel og depotoprettelse
+.if x&GENVALG = x2
+.th .us Aftale om værdipapirhandel og depotændring
+:SKRSLUT.
+.ar off
+.*************************************************************************
+...INTSLUT1
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 .*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
@@ -49,6 +87,56 @@ DOKUMENTET MÅ IKKE BENYTTES
 BENYT BEC Standardbreve/Placering Depot - Oprettelse/-ændring m/værdipap.
 .ar off
 ...SLUT
+.da DEPINDEH   25mm    48mm width 89mm
+.da DEPCPR     45mm    65mm width 89mm
+.da PI      112.5mm    48mm width 89mm
+.da DEPNR      25mm  74.5mm width 85mm
+.da VPNR    112.5mm  74.5mm width 85mm
+.da KUNDEKAT   25mm  83.5mm width 85mm
+.da DEPTYPE 112.5mm  83.5mm width 89mm
+.da OBLRENTE   25mm    93mm width 80mm
+.da UDTOBL  112.5mm    93mm width 80mm
+.da AKTIUDB    25mm 102.5mm width 80mm
+.da DEPGEB  112.5mm 102.5mm width 80mm
+.da PTBAFK     25mm   112mm width 80mm
+.da SIKDEP  112.5mm   112mm width 80mm
+.if &U'X&OBLKTOMF = XJ
+.or &U'X&UOBLKTOM = XJ
+.or &U'X&AKTKTOMF = XJ
+.th .se ja = 1
+.el .se ja = 0
+.**************Hvor begge er N *************************************
+.if &ja = 0
+.an &U'&AKTTXT = N
+.th .go ARE1
+.el .go ARE2
+...ARE1
+.da FRAVALG   176mm   147mm width 5mm
+.da AKTIEADR   25mm   246mm width 80mm
+.da AKTIECPR   45mm 261,6mm width 80mm
+.go ARE8
+.**************
+...ARE2
+.*************
+.if &ja = 1
+.an &U'&AKTTXT = N
+.th .go ARE3
+.el .go ARE4
+...ARE3
+.da FRAVALG   176mm 150,7mm width 5mm
+.da AKTIEADR   25mm 250,3mm width 80mm
+.da AKTIECPR   45mm 265,4mm width 80mm
+.go ARE8
+.**************
+...ARE4
+.**************
+.if &ja = 1
+.an &U'&AKTTXT = J
+.th .go ARE5
+.el .go ARE6
+...ARE5
+.da FRAVALG   176mm 157,9mm width 5mm
+.da AKTIEADR   25mm 257,1mm width 80mm
 .da AKTIECPR   45mm 272,3mm width 80mm
 .go ARE8
 .**************
@@ -227,56 +315,6 @@ BENYT BEC Standardbreve/Placering Depot - Oprettelse/-ændring m/værdipap.
 .ar off
 .**************************************************************************
 ...AKTEND
-.da DEPINDEH   25mm    48mm width 89mm
-.da DEPCPR     45mm    65mm width 89mm
-.da PI      112.5mm    48mm width 89mm
-.da DEPNR      25mm  74.5mm width 85mm
-.da VPNR    112.5mm  74.5mm width 85mm
-.da KUNDEKAT   25mm  83.5mm width 85mm
-.da DEPTYPE 112.5mm  83.5mm width 89mm
-.da OBLRENTE   25mm    93mm width 80mm
-.da UDTOBL  112.5mm    93mm width 80mm
-.da AKTIUDB    25mm 102.5mm width 80mm
-.da DEPGEB  112.5mm 102.5mm width 80mm
-.da PTBAFK     25mm   112mm width 80mm
-.da SIKDEP  112.5mm   112mm width 80mm
-.if &U'X&OBLKTOMF = XJ
-.or &U'X&UOBLKTOM = XJ
-.or &U'X&AKTKTOMF = XJ
-.th .se ja = 1
-.el .se ja = 0
-.**************Hvor begge er N *************************************
-.if &ja = 0
-.an &U'&AKTTXT = N
-.th .go ARE1
-.el .go ARE2
-...ARE1
-.da FRAVALG   176mm   147mm width 5mm
-.da AKTIEADR   25mm   246mm width 80mm
-.da AKTIECPR   45mm 261,6mm width 80mm
-.go ARE8
-.**************
-...ARE2
-.*************
-.if &ja = 1
-.an &U'&AKTTXT = N
-.th .go ARE3
-.el .go ARE4
-...ARE3
-.da FRAVALG   176mm 150,7mm width 5mm
-.da AKTIEADR   25mm 250,3mm width 80mm
-.da AKTIECPR   45mm 265,4mm width 80mm
-.go ARE8
-.**************
-...ARE4
-.**************
-.if &ja = 1
-.an &U'&AKTTXT = J
-.th .go ARE5
-.el .go ARE6
-...ARE5
-.da FRAVALG   176mm 157,9mm width 5mm
-.da AKTIEADR   25mm 257,1mm width 80mm
 .*************** TEST PÅ OM DER ER NOGEN INTERESSENTER *******************
 .if &L'&DEP01CPR = 0
 .an &L'&DEP02CPR = 0
@@ -467,41 +505,4 @@ BENYT BEC Standardbreve/Placering Depot - Oprettelse/-ændring m/værdipap.
 :SKRSLUT.
 .ar off
 .*************************************************************************
-.** SIDESKIFT
-.pa
-.*************** TEST PÅ OM DER ER NOGEN INTERESSENTER *******************
-.if &L'&DEP01CPR = 0
-.an &L'&DEP02CPR = 0
-.an &L'&DEP03CPR = 0
-.an &L'&DEP04CPR = 0
-.an &L'&DEP05CPR = 0
-.th .go INTSLUT1
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-:tiltale &TILTALE
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.*************** ROTERET BREVNAVN ****************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.:FED.
-.if x&GENVALG = x1
-.th .us Aftale om værdipapirhandel og depotoprettelse
-.if x&GENVALG = x2
-.th .us Aftale om værdipapirhandel og depotændring
-:SKRSLUT.
-.ar off
-.*************************************************************************
-...INTSLUT1
-.rh cancel
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
+

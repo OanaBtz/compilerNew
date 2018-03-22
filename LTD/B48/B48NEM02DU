@@ -46,54 +46,6 @@
 .**************************************************************************
 .if &cprcvr > 31
 .th .mg/T/Der kan ikke oprettes NemKonto til konstruerede kundenumre/
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
 :NY.
 .NV PAGE DUFUNCTION '%&DUFUNCTION.'
 .BR
@@ -144,7 +96,56 @@
 .**************************************************************************
 .**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
 .**************************************************************************
-;T.*************** GENEREL OPSÆTNING ***************************************
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.*************** GENEREL OPSÆTNING ***************************************
 .ti ¤ 05
 :COUR10.
 .fo left
@@ -172,24 +173,24 @@
 .**************************************************
 .if &U'X&GENVALG1 = XB
 .th .bx new left 87.5mm right
-.th ¤Kunde ¤¤Medkontohaver
+.th ¤ Kunde ¤ ¤ Medkontohaver
 .th .sp 20mm
-.th ¤CPR-nr./CVR-nr. ¤¤CPR-nr./CVR-nr.
+.th ¤ CPR-nr./CVR-nr. ¤ ¤ CPR-nr./CVR-nr.
 .**************************************************
 .if &U'X&GENVALG1 = XK
 .th .bx new left right
-.th ¤Kunde
+.th ¤ Kunde
 .th .sp 20mm
-.th ¤CPR-nr./CVR-nr.
+.th ¤ CPR-nr./CVR-nr.
 .**************************************************
 .if &U'X&GENVALG1 = XM
 .th .bx new left right
-.th ¤Medkontohaver
+.th ¤ Medkontohaver
 .th .sp 20mm
-.th ¤CPR-nr./CVR-nr.
+.th ¤ CPR-nr./CVR-nr.
 .**************************************************
 .bx new left right
-¤NemKontonr.
+ ¤ NemKontonr.
 .sp 5mm
 .**************************************************************************
 .bx new left right
@@ -284,3 +285,4 @@ Dato
 ...UNDSL1
 .ar off
 .**************************************************************************
+

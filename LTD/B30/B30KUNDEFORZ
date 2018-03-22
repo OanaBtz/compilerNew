@@ -1,3 +1,109 @@
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.oc  Denne linie benyttes ikke
+.fo left
+.*** SÆT SKÆRM/PRINT-FORMAT ***
+.br
+.ti > 05
+:GL..PM 9:EGL.
+:GL..LL 75:EGL.
+.sp 14
+:GL..TP 35:EGL.
+:GL.&&??#:EGL.
+.*** BREVSTART ***
+.br
+:FED.
+:STOR.                        KUNDEOPRETTELSE
+.br
+:STRSLUT.
+.sp 3
+.su off
+.se se = substr &KTOKUNDENR 1 2
+.su on
+.if &se eq 00 .go erv
+.if &se eq 43 .go for
+...for
+&STILL
+.br
+&NAVN > Kundenr.: &KTOKUNDENR
+.br
+.if &L'&COADR gt 0 .an &L'&B30E eq 0
+.th &COADR > Indberetningspligtig cpr.nr.:
+.th .br
+.th &GADE > &B30CPR
+.th .br
+.th &BY
+.if &L'&COADR gt 0 .an &L'&B30E gt 0
+.th &COADR > Indberetningspligtig cpr.nr.:
+.th .br
+.th &GADE > &B30CPR
+.th .br
+.th &B30E
+.th .br
+.th &BY
+.if &L'&COADR eq 0 .an &L'&B30E eq 0
+.th &GADE > Indberetningspligtig cpr.nr.:
+.th .br
+.th &BY > &B30CPR
+.if &L'&COADR eq 0 .an &L'&B30E gt 0
+.th &GADE > Indberetningspligtig cpr.nr.:
+.th .br
+.th &B30E > &B30CPR
+.th .br
+.th &GADE
+.th .br
+.th &BY
+.sp 2
+.go slut
+...erv
+&STILL
+.br
+&NAVN > SE-nummer.: &KTOKUNDENR
+.br
+&COADR
+.br
+&GADE
+.br
+.if &L'&B30E gt 0
+.th &B30E
+.th .br
+&BY
+.sp 2
+.go slut
+...slut
+Højrentekontonr.: 6771 &KTONR
+:SKRSLUT.
+.sp 2
+For kundeforholdet gælder bankens almindelige forretningsbe-
+.br
+tingelser. Jeg erklærer at have modtaget et eksemplar af disse.
+.sp
+.if &L'&B30A gt 0
+.th Mærket på højrentekontoen skal være &B30A..
+.th .sp
+.sp 3
+.su off
+.se byen = substr &BY 6
+.su on
+&byen., den
+.sp 3
+____________________________________
+.br
+&B30C
+.br
+.pa
+.br
 .if &L'&B30D eq 0 .go stop
 .sp 14
 .su off
@@ -10,7 +116,7 @@
 :STRSLUT.
 .sp 3
 :GL..TP 35:EGL.
-&B30C >Cpr.nr.: &B30CPR
+&B30C > Cpr.nr.: &B30CPR
 .br
 &B30D
 .br
@@ -57,109 +163,4 @@ _________________________
 &B30C
 .br
 ...stop
-.oc  Denne linie benyttes ikke
-.fo left
-.*** SÆT SKÆRM/PRINT-FORMAT ***
-.br
-.ti > 05
-:GL..PM 9:EGL.
-:GL..LL 75:EGL.
-.sp 14
-:GL..TP 35:EGL.
-:GL.&&??#:EGL.
-.*** BREVSTART ***
-.br
-:FED.
-:STOR.                        KUNDEOPRETTELSE
-.br
-:STRSLUT.
-.sp 3
-.su off
-.se se = substr &KTOKUNDENR 1 2
-.su on
-.if &se eq 00 .go erv
-.if &se eq 43 .go for
-...for
-&STILL
-.br
-&NAVN >Kundenr.: &KTOKUNDENR
-.br
-.if &L'&COADR gt 0 .an &L'&B30E eq 0
-.th &COADR >Indberetningspligtig cpr.nr.:
-.th .br
-.th &GADE >&B30CPR
-.th .br
-.th &BY
-.if &L'&COADR gt 0 .an &L'&B30E gt 0
-.th &COADR >Indberetningspligtig cpr.nr.:
-.th .br
-.th &GADE >&B30CPR
-.th .br
-.th &B30E
-.th .br
-.th &BY
-.if &L'&COADR eq 0 .an &L'&B30E eq 0
-.th &GADE >Indberetningspligtig cpr.nr.:
-.th .br
-.th &BY >&B30CPR
-.if &L'&COADR eq 0 .an &L'&B30E gt 0
-.th &GADE >Indberetningspligtig cpr.nr.:
-.th .br
-.th &B30E >&B30CPR
-.th .br
-.th &GADE
-.th .br
-.th &BY
-.sp 2
-.go slut
-...erv
-&STILL
-.br
-&NAVN >SE-nummer.: &KTOKUNDENR
-.br
-&COADR
-.br
-&GADE
-.br
-.if &L'&B30E gt 0
-.th &B30E
-.th .br
-&BY
-.sp 2
-.go slut
-...slut
-Højrentekontonr.: 6771 &KTONR
-:SKRSLUT.
-.sp 2
-For kundeforholdet gælder bankens almindelige forretningsbe-
-.br
-tingelser. Jeg erklærer at have modtaget et eksemplar af disse.
-.sp
-.if &L'&B30A gt 0
-.th Mærket på højrentekontoen skal være &B30A..
-.th .sp
-.sp 3
-.su off
-.se byen = substr &BY 6
-.su on
-&byen., den
-.sp 3
-____________________________________
-.br
-&B30C
-.br
-.pa
-.br
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+

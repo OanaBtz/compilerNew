@@ -1,3 +1,91 @@
+.oc  Denne linje benyttes ikke
+.fo left
+.*** SÆT SKÆRM/PRINT-FORMAT ***
+&&??#
+.ti > 05
+.pm 6
+.ll 74
+.sp 4
+.tp 37
+.* Areal1 er defineret til Bankens Navn
+.* Areal2 er defineret til dato og reference
+.* Areal3 er defineret til kundens navn
+.* Areal4 er defineret til indhold
+.* Areal5 er defineret til underskrift
+.*** BREVSTART ***
+.da AREAL1 9 8 width 35
+.ar AREAL1 on
+&BKNAVN
+.br
+&BKAFD
+.br
+&BKADR
+.br
+&BKBY
+.ar off
+.da AREAL2 55 8 width 25
+.ar AREAL2 on
+&DATO
+.br
+Vor reference:
+.br
+&B30NAVN
+.ar off
+.da AREAL3 9 16 width 70
+.ar AREAL3 on
+.tp 41
+.su off
+.se SE = substr &KTOKUNDENR 1 2
+.su on
+.if &SE eq 43
+.th &STILL > Kundenr. &KTOKUNDENR
+.br
+.th &NAVN
+.if &SE le 31
+.th &NAVN > CPR.nr. &KTOKUNDENR
+.br
+&COADR
+.br
+&GADE
+.br
+&BY
+.ar off
+.da AREAL4 6 24 width 74
+.ar AREAL4 on
+.if &L'&B30TITAL2 gt 0
+.th &NAVN bemyndiger herved Lægernes Pensionsbank til at
+.th overføre nedennævnte konti.
+.el &NAVN bemyndiger herved Lægernes Pensionsbank til at
+.el overføre nedennævnte konto.
+.br
+.tp 27 50
+_________________________________________________________________________
+.sp
+#1B#5B1mKontonummer > Indsættes på > Kontobetegnelse
+#1B#5B0m
+.sp
+.tp 19 42
+&B30TITAL1 > 6771 &KTONR > &B30A
+.br
+.if &L'&B30M gt 0
+.th &BKNAVN bedes sælge effekterne i depot &B30M inden overførsel af
+.th pensionsopsparingen til Lægernes Pensionsbank
+.th .sp
+.if &L'&B30KONTO2 gt 0
+.th &B30TITAL2 > 6771 &B30KONTO2 > &B30B
+.th .br
+.if &L'&B30N gt 0
+.th &BKNAVN bedes sælge effekterne i depot &B30N inden overførsel af
+.th pensionsopsparingen til Lægernes Pensionsbank
+.th .sp
+.if &L'&B30KONTO3 gt 0
+.th &B30TITAL3 > 6771 &B30KONTO3 > &B30C
+.th .sp
+.if &L'&B30KONTO4 gt 0
+.th &B30TITAL4 > 6771 &B30KONTO4 > &B30D
+.th .sp
+_________________________________________________________________________
+.sp
 .su off
 .se HOJ = substr &KTONR 1 2
 .su on
@@ -88,108 +176,21 @@ _________________________________________________________________________
 .su on
 .tp 49
 .if &B303 eq 1
-.th  >København, den &DATO2
+.th  > København, den &DATO2
 .th .sp 3
-.th I følge vedlagte >Lægernes Pensionsbank
+.th I følge vedlagte > Lægernes Pensionsbank
 .if &B303 eq 2
-.th  >København, den &DATO2
+.th  > København, den &DATO2
 .th .sp 2
 .th Underskrift på
 .th .br
-.th bagsiden af kontrakten >Lægernes Pensionsbank
+.th bagsiden af kontrakten > Lægernes Pensionsbank
 .if &B303 eq 3
-.th &byen., den >København, den &DATO2
+.th &byen., den > København, den &DATO2
 .th .sp 3
-.th &NAVN >Lægernes Pensionsbank
+.th &NAVN > Lægernes Pensionsbank
 .ar off
 .sp &ÅLC
 .pa
 .br
-.oc  Denne linje benyttes ikke
-.fo left
-.*** SÆT SKÆRM/PRINT-FORMAT ***
-&&??#
-.ti > 05
-.pm 6
-.ll 74
-.sp 4
-.tp 37
-.* Areal1 er defineret til Bankens Navn
-.* Areal2 er defineret til dato og reference
-.* Areal3 er defineret til kundens navn
-.* Areal4 er defineret til indhold
-.* Areal5 er defineret til underskrift
-.*** BREVSTART ***
-.da AREAL1 9 8 width 35
-.ar AREAL1 on
-&BKNAVN
-.br
-&BKAFD
-.br
-&BKADR
-.br
-&BKBY
-.ar off
-.da AREAL2 55 8 width 25
-.ar AREAL2 on
-&DATO
-.br
-Vor reference:
-.br
-&B30NAVN
-.ar off
-.da AREAL3 9 16 width 70
-.ar AREAL3 on
-.tp 41
-.su off
-.se SE = substr &KTOKUNDENR 1 2
-.su on
-.if &SE eq 43
-.th &STILL >Kundenr. &KTOKUNDENR
-.br
-.th &NAVN
-.if &SE le 31
-.th &NAVN >CPR.nr. &KTOKUNDENR
-.br
-&COADR
-.br
-&GADE
-.br
-&BY
-.ar off
-.da AREAL4 6 24 width 74
-.ar AREAL4 on
-.if &L'&B30TITAL2 gt 0
-.th &NAVN bemyndiger herved Lægernes Pensionsbank til at
-.th overføre nedennævnte konti.
-.el &NAVN bemyndiger herved Lægernes Pensionsbank til at
-.el overføre nedennævnte konto.
-.br
-.tp 27 50
-_________________________________________________________________________
-.sp
-#1B#5B1mKontonummer>Indsættes på>Kontobetegnelse
-#1B#5B0m
-.sp
-.tp 19 42
-&B30TITAL1 >6771 &KTONR >&B30A
-.br
-.if &L'&B30M gt 0
-.th &BKNAVN bedes sælge effekterne i depot &B30M inden overførsel af
-.th pensionsopsparingen til Lægernes Pensionsbank
-.th .sp
-.if &L'&B30KONTO2 gt 0
-.th &B30TITAL2 >6771 &B30KONTO2 >&B30B
-.th .br
-.if &L'&B30N gt 0
-.th &BKNAVN bedes sælge effekterne i depot &B30N inden overførsel af
-.th pensionsopsparingen til Lægernes Pensionsbank
-.th .sp
-.if &L'&B30KONTO3 gt 0
-.th &B30TITAL3 >6771 &B30KONTO3 >&B30C
-.th .sp
-.if &L'&B30KONTO4 gt 0
-.th &B30TITAL4 >6771 &B30KONTO4 >&B30D
-.th .sp
-_________________________________________________________________________
-.sp
+

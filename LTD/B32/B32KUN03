@@ -10,143 +10,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.:'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.:'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.:'
-.th .se tlfnr = 'Erhverv'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.:'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.:'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.:'
-.**************************************************************************
-.*TEST PÅ REGTYPER
-.*-------------------------
-.*Er det en betalingskonto?    betjanej
-.*------------------------------------
-.se betjanej = '?'
-.if &REGTYPE. = 5065
-.or &REGTYPE. = 5066
-.or &REGTYPE. = 5067
-.or &REGTYPE. = 5068
-.or &REGTYPE. = 5069
-.or &REGTYPE. = 5014
-.or &REGTYPE. = 5046
-.th .se betjanej = N
-.el .se betjanej = J
-.*-------------------------
-.*Hvilken kundetype? priverhv samt prierhtx
-.*-------------------------
-.se priverhv = '?'
-.se prierhtx = '?'
-.if &REGTYPE. = 5065
-.or &REGTYPE. = 5066
-.or &REGTYPE. = 5067
-.or &REGTYPE. = 5068
-.or &REGTYPE. = 5069
-.or &REGTYPE. = 5014
-.or &REGTYPE. = 5046
-.th .se priverhv = 'P'
-.th .se prierhtx = 'privatkunder'
-.el .se priverhv = 'E'
-.el .se prierhtx = 'erhvervskunder'
-.*-------------------------
-.*Hvilken produkttype?    prodtype
-.*-------------------------
-.se prodtype = '?'
-.if &REGTYPE. = 5065
-.or &REGTYPE. = 5066
-.or &REGTYPE. = 5067
-.or &REGTYPE. = 5068
-.or &REGTYPE. = 5069
-.th .se prodtype = 'AFTALE'
-.if &REGTYPE. = 5014
-.th .se prodtype = 'FORMUE1'
-.if &REGTYPE. = 5046
-.th .se prodtype = 'FORMUE3'
-.*-------------------------------------------
-.* Omsæt rentetilskrivningsfrekvens til tekst
-.*-------------------------------------------
-.se frektx = '?'
-.if &RNTTILFREK. = 1
-.th .se frektx = 'månedligt'
-.if &RNTTILFREK. = 3
-.th .se frektx = 'kvartårligt'
-.if &RNTTILFREK. = 6
-.th .se frektx = 'halvårligt'
-.if &RNTTILFREK. = 9
-.th .se frektx = 'årligt'
-.*Konv. formatet i NXTBANKDAG (Dagsdato + 1 bankdag)
-.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
-.*
-.* Anv. ved &prodtype = AFTALE
-.*Konv. formatet i RNTTILDTOK (Rte tilskrivnings   tidspunkt kredit)
-.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
-.*
-.* Anv. ved &prodtype = AFTALE
-.*Konv. formatet i FRIDATO(Frigivelsesdato)
-.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
-.*
-.* Anv. ved &prodtype = AFTALE, FORMUE1, FORMUE3
-.*Konv. formatet i FRIDATOA (FRIDATO + 1 kalenderdag)
-.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
-.*
-.* Anv. ved &prodtype = AFTALE, FORMUE1, FORMUE3
-.*Konv. formatet i FRIDATOD (FRIDATO - 2 ÅR)
-.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
-.*
-.* Anv. ved &prodtype = FORMUE3
-.*Konv. formatet i FRIDATOE (FRIDATO - 2 ÅR + 1 kalenderdag)
-.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
-.*
-.* Anv. ved &prodtype = FORMUE3
 .*Konv. formatet i FRIDATOB (FRIDATO - 1 ÅR)
 .*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
 .*
@@ -239,9 +102,9 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .**************************************************************************
 .ar KTOOPL1 on
 .tp 50mm right 165mm right
-Reg.nr.¤&regnr.¤Dato: &DATO.
+Reg.nr. ¤ &regnr. ¤ Dato: &DATO.
 .br
-Kontonr.¤&ktonr.
+Kontonr. ¤ &ktonr.
 .ar off
 .if &prodtype. = ?
 .or &betjanej. = ?
@@ -307,13 +170,6 @@ reg.type, &REGTYPE./&REGTYPELNG.
 .th &mkunnr. &MEDKNDNR1
 .ar off
 .**************************************************************************
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
 .**************************************************************************
 .* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
 .* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
@@ -364,6 +220,13 @@ CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
 .ar off
 .sp 20mm
 .rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
 .sp 14mm
 .hy of
 :VERDA09.
@@ -688,3 +551,141 @@ oplysninger om beskyttelse af indskud er stillet til rådighed for &MIG..
 .kp off
 .**************** UNDERSKRIFTER  ***********
 ...AFSLUT
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.:'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.:'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.:'
+.th .se tlfnr = 'Erhverv'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.:'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.:'
+.**************************************************************************
+.*TEST PÅ REGTYPER
+.*-------------------------
+.*Er det en betalingskonto?    betjanej
+.*------------------------------------
+.se betjanej = '?'
+.if &REGTYPE. = 5065
+.or &REGTYPE. = 5066
+.or &REGTYPE. = 5067
+.or &REGTYPE. = 5068
+.or &REGTYPE. = 5069
+.or &REGTYPE. = 5014
+.or &REGTYPE. = 5046
+.th .se betjanej = N
+.el .se betjanej = J
+.*-------------------------
+.*Hvilken kundetype? priverhv samt prierhtx
+.*-------------------------
+.se priverhv = '?'
+.se prierhtx = '?'
+.if &REGTYPE. = 5065
+.or &REGTYPE. = 5066
+.or &REGTYPE. = 5067
+.or &REGTYPE. = 5068
+.or &REGTYPE. = 5069
+.or &REGTYPE. = 5014
+.or &REGTYPE. = 5046
+.th .se priverhv = 'P'
+.th .se prierhtx = 'privatkunder'
+.el .se priverhv = 'E'
+.el .se prierhtx = 'erhvervskunder'
+.*-------------------------
+.*Hvilken produkttype?    prodtype
+.*-------------------------
+.se prodtype = '?'
+.if &REGTYPE. = 5065
+.or &REGTYPE. = 5066
+.or &REGTYPE. = 5067
+.or &REGTYPE. = 5068
+.or &REGTYPE. = 5069
+.th .se prodtype = 'AFTALE'
+.if &REGTYPE. = 5014
+.th .se prodtype = 'FORMUE1'
+.if &REGTYPE. = 5046
+.th .se prodtype = 'FORMUE3'
+.*-------------------------------------------
+.* Omsæt rentetilskrivningsfrekvens til tekst
+.*-------------------------------------------
+.se frektx = '?'
+.if &RNTTILFREK. = 1
+.th .se frektx = 'månedligt'
+.if &RNTTILFREK. = 3
+.th .se frektx = 'kvartårligt'
+.if &RNTTILFREK. = 6
+.th .se frektx = 'halvårligt'
+.if &RNTTILFREK. = 9
+.th .se frektx = 'årligt'
+.*Konv. formatet i NXTBANKDAG (Dagsdato + 1 bankdag)
+.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
+.*
+.* Anv. ved &prodtype = AFTALE
+.*Konv. formatet i RNTTILDTOK (Rte tilskrivnings   tidspunkt kredit)
+.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
+.*
+.* Anv. ved &prodtype = AFTALE
+.*Konv. formatet i FRIDATO(Frigivelsesdato)
+.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
+.*
+.* Anv. ved &prodtype = AFTALE, FORMUE1, FORMUE3
+.*Konv. formatet i FRIDATOA (FRIDATO + 1 kalenderdag)
+.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
+.*
+.* Anv. ved &prodtype = AFTALE, FORMUE1, FORMUE3
+.*Konv. formatet i FRIDATOD (FRIDATO - 2 ÅR)
+.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
+.*
+.* Anv. ved &prodtype = FORMUE3
+.*Konv. formatet i FRIDATOE (FRIDATO - 2 ÅR + 1 kalenderdag)
+.*Er lavet i eget modul, da der kun kan være eet regnestykke i hvet modul
+.*
+.* Anv. ved &prodtype = FORMUE3
+

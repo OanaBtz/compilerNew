@@ -11,369 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-.*
-.*
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-.NV PAGE DUVALG1 '%&DUVALG1.'
-.BR
-.NV PAGE DUVALG2 '%&DUVALG2.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
-.**************************************************************************
-;T.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XNEM02DU
-.th .go NEM02A
-.el .go DUEXIT
-...NEM02A
-.if &U'X&brev = XNEM02DU
-.th .go NEM02
-.el .go DUEXIT
-...NEM02
-.if &U'X&DUVALG1 = XK
-.or &U'X&DUVALG1 = XM
-.or &U'X&DUVALG1 = XB
-.th
-.el .mg/T/Tast K, M eller B/
-.****************************
-.if &U'X&GENVALG1 = XM
-.th .go VALGM
-.if &U'X&GENVALG1 = XK
-.th .go VALGK
-.if &U'X&GENVALG1 = XB
-.th .go VALGB
-.****************************
-...VALGM
-.if &U'X&GENVALG1 = XM
-.an &U'X&DUVALG1 = XM
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
-.****************************
-...VALGK
-.if &U'X&GENVALG1 = XK
-.an &U'X&DUVALG1 = XK
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
-.****************************
-...VALGB
-.if &U'X&GENVALG1 = XB
-.an &U'X&DUVALG1 = XB
-.th .go DUEXIT
-.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
-.****************************
-...DUEXIT
-.**************************************************************************
-.* TEST PÅ, AT DER ER UDFYLDT MINDST ET TLF.NR. ELLER EN EMAIL-ADRESSE ****
-.**************************************************************************
-.if &L'&GENTLF01 > 0
-.or &L'&GENTLF02 > 0
-.or &L'&GENMAIL01 > 0
-.or &L'&GENMAIL02 > 0
-.th .se tael0 = 1
-.el .se tael0 = 0
-.if &L'&GENTLF01A > 0
-.or &L'&GENTLF01B > 0
-.or &L'&GENMAIL01A > 0
-.or &L'&GENMAIL01B > 0
-.th .se tael1 = 1
-.el .se tael1 = 0
-.if &L'&GENTLF02A > 0
-.or &L'&GENTLF02B > 0
-.or &L'&GENMAIL02A > 0
-.or &L'&GENMAIL02B > 0
-.th .se tael2 = 1
-.el .se tael2 = 0
-.if &L'&GENTLF03A > 0
-.or &L'&GENTLF03B > 0
-.or &L'&GENMAIL03A > 0
-.or &L'&GENMAIL03B > 0
-.th .se tael3 = 1
-.el .se tael3 = 0
-.if &L'&GENTLF04A > 0
-.or &L'&GENTLF04B > 0
-.or &L'&GENMAIL04A > 0
-.or &L'&GENMAIL04B > 0
-.th .se tael4 = 1
-.el .se tael4 = 0
-.if &L'&GENTLF05A > 0
-.or &L'&GENTLF05B > 0
-.or &L'&GENMAIL05A > 0
-.or &L'&GENMAIL05B > 0
-.th .se tael5 = 1
-.el .se tael5 = 0
-.if &L'&GENTLF06A > 0
-.or &L'&GENTLF06B > 0
-.or &L'&GENMAIL06A > 0
-.or &L'&GENMAIL06B > 0
-.th .se tael6 = 1
-.el .se tael6 = 0
-.if &L'&GENTLF08A > 0
-.or &L'&GENTLF08B > 0
-.or &L'&GENMAIL08A > 0
-.or &L'&GENMAIL08B > 0
-.th .se tael8 = 1
-.el .se tael8 = 0
-.if &L'&GENTLF10A > 0
-.or &L'&GENTLF10B > 0
-.or &L'&GENMAIL10A > 0
-.or &L'&GENMAIL10B > 0
-.th .se tael10 = 1
-.el .se tael10 = 0
-.if &L'&GENTLF11A > 0
-.or &L'&GENTLF11B > 0
-.or &L'&GENMAIL11A > 0
-.or &L'&GENMAIL11B > 0
-.th .se tael11 = 1
-.el .se tael11 = 0
-.if &L'&GENTLF12A > 0
-.or &L'&GENTLF12B > 0
-.or &L'&GENMAIL12A > 0
-.or &L'&GENMAIL12B > 0
-.th .se tael12 = 1
-.el .se tael12 = 0
-.**************************************************************************
-.se total1 = &tael0 + &tael1 + &tael2 + &tael3 + &tael4 + &tael5 + &tael6
-.se total2 = &tael8 + &tael10 + &tael11 + &tael12
-.se total = &total1 + &total2
-.if &total = 0
-.th .mg /T/Der skal udfyldes mindst et tlf.nr. eller en emailadresse/
-.**************************************************************************
-.*TEST PÅ, AT DER MAX INDTASTES E-MAILADRESSER OG/ELLER TELFONNUMRE *******
-.* UNDER 7 AFTALETYPER. DER KAN TASTES FRA 1-4 NUMRE UNDER HVER TYPE ******
-.se antal1 = &tael1 + &tael2 + &tael3 + &tael4 + &tael5 + &tael6
-.se antal2 = &tael8 + &tael10 + &tael11 + &tael12
-.se antal = &antal1 + &antal2
-.**************************************************************************
-.if &tael0 = 0
-.th .go TEST1
-.el .go TESTSL
-...TEST1
-.if &L'&GENINFTP01 > 0
-.an &tael1 = 0
-.th .go FEJL
-.el .go TEST2
-...TEST2
-.if &L'&GENINFTP02 > 0
-.an &tael2 = 0
-.th .go FEJL
-.el .go TEST3
-...TEST3
-.if &L'&GENINFTP03 > 0
-.an &tael3 = 0
-.th .go FEJL
-.el .go TEST4
-...TEST4
-.if &L'&GENINFTP04 > 0
-.an &tael4 = 0
-.th .go FEJL
-.el .go TEST5
-...TEST5
-.if &L'&GENINFTP05 > 0
-.an &tael5 = 0
-.th .go FEJL
-.el .go TEST6
-...TEST6
-.if &L'&GENINFTP06 > 0
-.an &tael6 = 0
-.th .go FEJL
-.el .go TEST8
-...TEST8
-.if &L'&GENINFTP08 > 0
-.an &tael8 = 0
-.th .go FEJL
-.el .go TEST10
-...TEST10
-.if &L'&GENINFTP10 > 0
-.an &tael10 = 0
-.th .go FEJL
-.el .go TEST11
-...TEST11
-.if &L'&GENINFTP11 > 0
-.an &tael11 = 0
-.th .go FEJL
-.el .go TEST12
-...TEST12
-.if &L'&GENINFTP12 > 0
-.an &tael12 = 0
-.th .go FEJL
-.el .go TESTSL
-...FEJL
-.th .mg /T/Der skal udfyldes mindst et tlf.nr. eller en emailadresse/
-...TESTSL
-.**************************************************************************
-.if &L'&GENINFTP01 = 0
-.an &tael1 > 0
-.th .go FEJLA
-.el .go TEST2A
-...TEST2A
-.if &L'&GENINFTP02 = 0
-.an &tael2 > 0
-.th .go FEJLA
-.el .go TEST3A
-...TEST3A
-.if &L'&GENINFTP03 = 0
-.an &tael3 > 0
-.th .go FEJLA
-.el .go TEST4A
-...TEST4A
-.if &L'&GENINFTP04 = 0
-.an &tael4 > 0
-.th .go FEJLA
-.el .go TEST5A
-...TEST5A
-.if &L'&GENINFTP05 = 0
-.an &tael5 > 0
-.th .go FEJLA
-.el .go TEST6A
-...TEST6A
-.if &L'&GENINFTP06 = 0
-.an &tael6 > 0
-.th .go FEJL
-.el .go TEST8A
-...TEST8A
-.if &L'&GENINFTP08 = 0
-.an &tael8 > 0
-.th .go FEJLA
-.el .go TEST10A
-...TEST10A
-.if &L'&GENINFTP10 = 0
-.an &tael10 > 0
-.th .go FEJLA
-.el .go TEST11A
-...TEST11A
-.if &L'&GENINFTP11 = 0
-.an &tael11 > 0
-.th .go FEJLA
-.el .go TEST12A
-...TEST12A
-.if &L'&GENINFTP12 = 0
-.an &tael12 > 0
-.th .go FEJLA
-.el .go TESTSLA
-...FEJLA
-.th .mg /T/Der mangler valg af aftaletype ud for et tlf.nr. eller e-mail/
-...TESTSLA
-.**************************************************************************
-:COUR10.
-.ti ¤ 05
-.fo left
-.**************************************************************
-.da OVERSK 20mm 32mm width 150mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************
-.ar OVERSK on
-:SWISS12.
-:FED.
-.us Aftale om Info Service
-.ar off
-.**************************************************************
-.ar VEND on
-:COUR6.
-&BREVNAVN
-.ar off
-.da SIDE1 20mm 38mm width 175mm
-.tp 1mm 88.5mm
-.**************************************************************************
-.ar SIDE1 on
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SWISS8.
-.***** her laves kassen til kunde  *****
-.bx left 87.5mm right
-¤Kunde ¤Pengeinstitut
-.sp 23mm
-¤CPR-nr./CVR-nr.
-.bx off
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 14mm
-.bx new left 135mm right
-:SWISS8.
-.tp 1mm 136mm
-¤E-mail ¤Mobiltlf.nr.
-.sp 7mm
-.bx off
-.bx can
-.*OBS - OBS - OBS *********************************************************
-.*KASSEN TIL AFTALETYPER FORTSÆTTER I K1-AFSNITTET FOR 1-SIDEDE AFTALER ***
-.*KASSEN TIL AFTALETYPER FORTSÆTTER I K2-AFSNITTET FOR 2-SIDEDE AFTALER ***
-.**************************************************************************
 .if &antal > 7
 .th .go SLUTKS
 .el .go LLKS
@@ -701,35 +338,6 @@ Underskrift
 .bx off
 .ar off
 ...SI2SL
-.**************************************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************
-.ar VEND on
-:COUR6.
-.if &antal > 7
-.th &BREVNAVN
-.ar off
-.*******************************************************
-.da UNDSKRKU1 20mm 106mm width 87mm
-.da UNDSKRPI1 107mm 106mm width 87mm
-.*******************************************************
-.if &antal > 7
-.th .go UNDMAX
-.el .go UNDSL
-...UNDMAX
-.ar UNDSKRKU1 on
-.ce on
-&NAVN
-.ce off
-.ar off
-.*******************************************************
-.ar UNDSKRPI1 on
-.ce on
-&BANKNAVN
-.ce off
-.ar off
-.*******************************************************
-...UNDSL
 .da K1KORT 21mm 212mm width 85mm
 .da K2KORT 108mm 212mm width 85mm
 .da K1LANG 21mm 45mm width 85mm
@@ -768,3 +376,397 @@ annoncering i dagspressen eller på &BANKNAVN.s forretningssted.
 hvoraf det ene er udleveret til mig, og det andet beholdes af
 &BANKNAVN..
 .ar off
+.*******************************************************
+.da UNDSKRKU1 20mm 106mm width 87mm
+.da UNDSKRPI1 107mm 106mm width 87mm
+.*******************************************************
+.if &antal > 7
+.th .go UNDMAX
+.el .go UNDSL
+...UNDMAX
+.ar UNDSKRKU1 on
+.ce on
+&NAVN
+.ce off
+.ar off
+.*******************************************************
+.ar UNDSKRPI1 on
+.ce on
+&BANKNAVN
+.ce off
+.ar off
+.*******************************************************
+...UNDSL
+.**************************************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar VEND on
+:COUR6.
+.if &antal > 7
+.th &BREVNAVN
+.ar off
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+.*
+.*
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+.NV PAGE DUVALG1 '%&DUVALG1.'
+.BR
+.NV PAGE DUVALG2 '%&DUVALG2.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED BECNEM02" **************
+.**************************************************************************
+;T
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XNEM02DU
+.th .go NEM02A
+.el .go DUEXIT
+...NEM02A
+.if &U'X&brev = XNEM02DU
+.th .go NEM02
+.el .go DUEXIT
+...NEM02
+.if &U'X&DUVALG1 = XK
+.or &U'X&DUVALG1 = XM
+.or &U'X&DUVALG1 = XB
+.th
+.el .mg/T/Tast K, M eller B/
+.****************************
+.if &U'X&GENVALG1 = XM
+.th .go VALGM
+.if &U'X&GENVALG1 = XK
+.th .go VALGK
+.if &U'X&GENVALG1 = XB
+.th .go VALGB
+.****************************
+...VALGM
+.if &U'X&GENVALG1 = XM
+.an &U'X&DUVALG1 = XM
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være M/
+.****************************
+...VALGK
+.if &U'X&GENVALG1 = XK
+.an &U'X&DUVALG1 = XK
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være K/
+.****************************
+...VALGB
+.if &U'X&GENVALG1 = XB
+.an &U'X&DUVALG1 = XB
+.th .go DUEXIT
+.el .mg/T/DU - aftalemodtagere skal være ens - begge skal være B/
+.****************************
+...DUEXIT
+.**************************************************************************
+.* TEST PÅ, AT DER ER UDFYLDT MINDST ET TLF.NR. ELLER EN EMAIL-ADRESSE ****
+.**************************************************************************
+.if &L'&GENTLF01 > 0
+.or &L'&GENTLF02 > 0
+.or &L'&GENMAIL01 > 0
+.or &L'&GENMAIL02 > 0
+.th .se tael0 = 1
+.el .se tael0 = 0
+.if &L'&GENTLF01A > 0
+.or &L'&GENTLF01B > 0
+.or &L'&GENMAIL01A > 0
+.or &L'&GENMAIL01B > 0
+.th .se tael1 = 1
+.el .se tael1 = 0
+.if &L'&GENTLF02A > 0
+.or &L'&GENTLF02B > 0
+.or &L'&GENMAIL02A > 0
+.or &L'&GENMAIL02B > 0
+.th .se tael2 = 1
+.el .se tael2 = 0
+.if &L'&GENTLF03A > 0
+.or &L'&GENTLF03B > 0
+.or &L'&GENMAIL03A > 0
+.or &L'&GENMAIL03B > 0
+.th .se tael3 = 1
+.el .se tael3 = 0
+.if &L'&GENTLF04A > 0
+.or &L'&GENTLF04B > 0
+.or &L'&GENMAIL04A > 0
+.or &L'&GENMAIL04B > 0
+.th .se tael4 = 1
+.el .se tael4 = 0
+.if &L'&GENTLF05A > 0
+.or &L'&GENTLF05B > 0
+.or &L'&GENMAIL05A > 0
+.or &L'&GENMAIL05B > 0
+.th .se tael5 = 1
+.el .se tael5 = 0
+.if &L'&GENTLF06A > 0
+.or &L'&GENTLF06B > 0
+.or &L'&GENMAIL06A > 0
+.or &L'&GENMAIL06B > 0
+.th .se tael6 = 1
+.el .se tael6 = 0
+.if &L'&GENTLF08A > 0
+.or &L'&GENTLF08B > 0
+.or &L'&GENMAIL08A > 0
+.or &L'&GENMAIL08B > 0
+.th .se tael8 = 1
+.el .se tael8 = 0
+.if &L'&GENTLF10A > 0
+.or &L'&GENTLF10B > 0
+.or &L'&GENMAIL10A > 0
+.or &L'&GENMAIL10B > 0
+.th .se tael10 = 1
+.el .se tael10 = 0
+.if &L'&GENTLF11A > 0
+.or &L'&GENTLF11B > 0
+.or &L'&GENMAIL11A > 0
+.or &L'&GENMAIL11B > 0
+.th .se tael11 = 1
+.el .se tael11 = 0
+.if &L'&GENTLF12A > 0
+.or &L'&GENTLF12B > 0
+.or &L'&GENMAIL12A > 0
+.or &L'&GENMAIL12B > 0
+.th .se tael12 = 1
+.el .se tael12 = 0
+.**************************************************************************
+.se total1 = &tael0 + &tael1 + &tael2 + &tael3 + &tael4 + &tael5 + &tael6
+.se total2 = &tael8 + &tael10 + &tael11 + &tael12
+.se total = &total1 + &total2
+.if &total = 0
+.th .mg /T/Der skal udfyldes mindst et tlf.nr. eller en emailadresse/
+.**************************************************************************
+.*TEST PÅ, AT DER MAX INDTASTES E-MAILADRESSER OG/ELLER TELFONNUMRE *******
+.* UNDER 7 AFTALETYPER. DER KAN TASTES FRA 1-4 NUMRE UNDER HVER TYPE ******
+.se antal1 = &tael1 + &tael2 + &tael3 + &tael4 + &tael5 + &tael6
+.se antal2 = &tael8 + &tael10 + &tael11 + &tael12
+.se antal = &antal1 + &antal2
+.**************************************************************************
+.if &tael0 = 0
+.th .go TEST1
+.el .go TESTSL
+...TEST1
+.if &L'&GENINFTP01 > 0
+.an &tael1 = 0
+.th .go FEJL
+.el .go TEST2
+...TEST2
+.if &L'&GENINFTP02 > 0
+.an &tael2 = 0
+.th .go FEJL
+.el .go TEST3
+...TEST3
+.if &L'&GENINFTP03 > 0
+.an &tael3 = 0
+.th .go FEJL
+.el .go TEST4
+...TEST4
+.if &L'&GENINFTP04 > 0
+.an &tael4 = 0
+.th .go FEJL
+.el .go TEST5
+...TEST5
+.if &L'&GENINFTP05 > 0
+.an &tael5 = 0
+.th .go FEJL
+.el .go TEST6
+...TEST6
+.if &L'&GENINFTP06 > 0
+.an &tael6 = 0
+.th .go FEJL
+.el .go TEST8
+...TEST8
+.if &L'&GENINFTP08 > 0
+.an &tael8 = 0
+.th .go FEJL
+.el .go TEST10
+...TEST10
+.if &L'&GENINFTP10 > 0
+.an &tael10 = 0
+.th .go FEJL
+.el .go TEST11
+...TEST11
+.if &L'&GENINFTP11 > 0
+.an &tael11 = 0
+.th .go FEJL
+.el .go TEST12
+...TEST12
+.if &L'&GENINFTP12 > 0
+.an &tael12 = 0
+.th .go FEJL
+.el .go TESTSL
+...FEJL
+.th .mg /T/Der skal udfyldes mindst et tlf.nr. eller en emailadresse/
+...TESTSL
+.**************************************************************************
+.if &L'&GENINFTP01 = 0
+.an &tael1 > 0
+.th .go FEJLA
+.el .go TEST2A
+...TEST2A
+.if &L'&GENINFTP02 = 0
+.an &tael2 > 0
+.th .go FEJLA
+.el .go TEST3A
+...TEST3A
+.if &L'&GENINFTP03 = 0
+.an &tael3 > 0
+.th .go FEJLA
+.el .go TEST4A
+...TEST4A
+.if &L'&GENINFTP04 = 0
+.an &tael4 > 0
+.th .go FEJLA
+.el .go TEST5A
+...TEST5A
+.if &L'&GENINFTP05 = 0
+.an &tael5 > 0
+.th .go FEJLA
+.el .go TEST6A
+...TEST6A
+.if &L'&GENINFTP06 = 0
+.an &tael6 > 0
+.th .go FEJL
+.el .go TEST8A
+...TEST8A
+.if &L'&GENINFTP08 = 0
+.an &tael8 > 0
+.th .go FEJLA
+.el .go TEST10A
+...TEST10A
+.if &L'&GENINFTP10 = 0
+.an &tael10 > 0
+.th .go FEJLA
+.el .go TEST11A
+...TEST11A
+.if &L'&GENINFTP11 = 0
+.an &tael11 > 0
+.th .go FEJLA
+.el .go TEST12A
+...TEST12A
+.if &L'&GENINFTP12 = 0
+.an &tael12 > 0
+.th .go FEJLA
+.el .go TESTSLA
+...FEJLA
+.th .mg /T/Der mangler valg af aftaletype ud for et tlf.nr. eller e-mail/
+...TESTSLA
+.**************************************************************************
+:COUR10.
+.ti ¤ 05
+.fo left
+.**************************************************************
+.da OVERSK 20mm 32mm width 150mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************
+.ar OVERSK on
+:SWISS12.
+:FED.
+.us Aftale om Info Service
+.ar off
+.**************************************************************
+.ar VEND on
+:COUR6.
+&BREVNAVN
+.ar off
+.da SIDE1 20mm 38mm width 175mm
+.tp 1mm 88.5mm
+.**************************************************************************
+.ar SIDE1 on
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.***** her laves kassen til kunde  *****
+.bx left 87.5mm right
+ ¤ Kunde ¤ Pengeinstitut
+.sp 23mm
+ ¤ CPR-nr./CVR-nr.
+.bx off
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 14mm
+.bx new left 135mm right
+:SWISS8.
+.tp 1mm 136mm
+ ¤ E-mail ¤ Mobiltlf.nr.
+.sp 7mm
+.bx off
+.bx can
+.*OBS - OBS - OBS *********************************************************
+.*KASSEN TIL AFTALETYPER FORTSÆTTER I K1-AFSNITTET FOR 1-SIDEDE AFTALER ***
+.*KASSEN TIL AFTALETYPER FORTSÆTTER I K2-AFSNITTET FOR 2-SIDEDE AFTALER ***
+.**************************************************************************
+

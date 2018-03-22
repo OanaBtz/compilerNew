@@ -1,27 +1,3 @@
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-:ENY.
 .pm 20mm
 .BR
 .NV PAGE BANKSTED '%&EKSPBNKST.'
@@ -35,82 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.*SUBSTRINGS***************************************************************
-.su off
-.se cprcvr = substr &KTOKNDNR1 1 2
-.se mcprcvr = substr &MEDKNDNR1 1 2
-.su on
-.**************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr > x31
-.th .se kunnr = 'Kundenr.'
-.**************************************************************************
-.if x&mcprcvr > x31
-.th .se mkunnr = 'Kundenr.'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr = x00
-.th .se kunnr = 'CVR-nr.'
-.**************************************************************************
-.if x&mcprcvr = x00
-.th .se mkunnr = 'CVR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr > x00
-.an x&cprcvr < x32
-.th .se kunnr = 'CPR-nr.'
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&mcprcvr > x00
-.an x&mcprcvr < x32
-.th .se mkunnr = 'CPR-nr.'
-.**************************************************************************
-.if &U'X&GENVITT ne XJ
-.an &U'X&GENVITT ne XN
-.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
-.**************************************************************************
-.if &L'&GENCPR1 > 0
-.an &L'&GENNAVN1 = 0
-.th .mg/T/1. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR2 > 0
-.an &L'&GENNAVN2 = 0
-.th .mg/T/2. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR3 > 0
-.an &L'&GENNAVN3 = 0
-.th .mg/T/3. fuldmagtshavers navn mangler/
-.**************************************************************************
-.if &L'&GENCPR4 > 0
-.an &L'&GENNAVN4 = 0
-.th .mg/T/4. fuldmagtshavers navn mangler/
-.**************************************************************************
-.* TEST PÅ ETABLERINGSKONTO
-.if &REGTYPE = 5610
-.an &L'&GENAAR1 = 0
-.th .mg/T/Der mangler angivelse af henlæggelsesår/
-.**************************************************************************
-.* TEST PÅ IVÆRKSÆTTERKONTO
-.if &REGTYPE = 5620
-.an &L'&GENAAR1 = 0
-.th .mg/T/Der mangler angivelse af henlæggelsesår/
-.if &L'&GENNAVN2 > 0
-.th &GENCPR2 ¤&GENNAVN2 ¤¤
-.th .sp 5mm
-.if &L'&GENNAVN3 > 0
-.th &GENCPR3 ¤&GENNAVN3 ¤¤
-.th .sp 5mm
-.if &L'&GENNAVN4 > 0
-.th &GENCPR4 ¤&GENNAVN4 ¤¤
-.th .sp 3mm
-:SKRSLUT.
-...FULDEND
-.kp off
-.*****
-.sp
-Ovenstående parter har i dag indgået aftale med Den Jyske Sparekasse om
-oprettelse af en &REGTYPELNG. på følgende vilkår:
-.sp
 :SWISS9.
 .*************************************************************************
 .if &FRIDATO = 01.01.0001
@@ -161,286 +61,23 @@ CPR-nr ¤Navn ¤Underskrift
 .if &L'&GENNAVN1 > 0
 .th &GENCPR1 ¤&GENNAVN1 ¤¤
 .th .sp 5mm
-.**************************************************************************
-.da OVERSKR 20mm 32mm width 175mm
-.da BOX 20mm 40mm width 175mm
-.da BANKSTED 20mm 47mm width 175mm
-.da VEND 7mm 270mm width 180mm rotate -90
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.rh on
-.ar BOX on
-.bx left right
-.sp 229mm
-.bx off
-.ar off
-.**************************************************************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.**************************************************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Kontooprettelse/ændring
+.if &L'&GENNAVN2 > 0
+.th &GENCPR2 ¤&GENNAVN2 ¤¤
+.th .sp 5mm
+.if &L'&GENNAVN3 > 0
+.th &GENCPR3 ¤&GENNAVN3 ¤¤
+.th .sp 5mm
+.if &L'&GENNAVN4 > 0
+.th &GENCPR4 ¤&GENNAVN4 ¤¤
+.th .sp 3mm
 :SKRSLUT.
-.ar off
-.**************************************************************************
-.sp 32mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.ll 175mm
-.in 5mm
-.ir 1mm
-.********************GENEREL OPSÆTNING*************************************
-.fo left
-.ti ¤ 05
-.********************ROTERET BREVNAVN**************************************
-.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 95mm
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-.ll 175mm
-:SWISS9.
-.**************************************************************************
-.da KUNDE     25mm 50mm width 80mm
-.da MKUNDE 112.5mm 50mm width 80mm
-.da CPR       34mm 70.5mm width 80mm
-.da MCPR   121.5mm 70.5mm width 80mm
-.da PI        25mm 80mm width 80mm
-.**************************************************************************
-.ar KUNDE on
-&KTOSTILL
-.br
-&KTONAVN
-.br
-&KTOCO
-.br
-&KTOGADE
-.br
-&KTOBY
-.ar off
-.**************************************************************************
-.ar MKUNDE on
-.if &L'&MEDNAVN > 0
-.th &MEDSTILL
-.th .br
-.th &MEDNAVN
-.th .br
-.th &MEDCO
-.th .br
-.th &MEDGADE
-.th .br
-.th &MEDBY
-.ar off
-.**************************************************************************
-.ar CPR on
-&KTOKNDNR1
-.ar off
-.**************************************************************************
-.ar MCPR on
-.if &L'&MEDNAVN > 0
-.th &MEDKNDNR1
-.ar off
-.**************************************************************************
-.ar PI on
-&BANKNAVN
-.br
-&AFDNAVN
-.br
-&AFDGADE
-.br
-&AFDBY
-.ar off
-.**************************************************************************
-:SKRSLUT.
-.*************** definer siden som et areal *******************************
-.da SIDE 20mm 40mm width 175mm
-.** PARTER ****************************************************************
-.ar SIDE on
-.tp 1mm 88.5mm 135mm
-:SWISS10.
-:FED.
-Parter
-:SKRSLUT.
-:SWISS8.
-.if &L'&MEDNAVN = 0
-.th .bx left right
-.th ¤Kontohaver
-.el .bx left 87.5mm right
-.el ¤Kontohaver ¤Medkontohaver
-.sp 23mm
-.if &L'&MEDNAVN = 0
-.th ¤&kunnr
-.el ¤&kunnr ¤&mkunnr
-.bx new left right
-¤Pengeinstitut
-.sp 20mm
-.bx off
-.bx can
-:SWISS10.
-:FED.
-Indhold
-:SKRSLUT.
-.bx left right
-.sp 171mm
-.bx off
-.ar off
-...TEST05
-.if &L'&DUROLLE5 > 0
-.th .go CPR51
-.el .go CPR52
-...CPR51
-.if &U'&DUROLLE5 ne FUL
-.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
-...CPR52
-.if &L'&DUCPRNR5 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST06
-...TEST06
-.if &L'&DUROLLE6 > 0
-.th .go CPR61
-.el .go CPR62
-...CPR61
-.if &U'&DUROLLE6 ne FUL
-.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
-...CPR62
-.if &L'&DUCPRNR6 > 0
-.an &L'&DUROLLE5 = 0
-.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
-.*************************************************************
-...DUEXIT
-...VALJN
-.if &U'X&GENDUJANEJ = XJ
-.th
-.el .go DUEXIT
-.if &U'X&brev = XKUN02DU
-.th .go KUN02
-.el .go DUEXIT
-...KUN02
-.if &U'&DUROLLE1 ne KON
-.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
-.******** Først en sammenhængstest ****
-.if &L'&GENCPR1 > 0
-.or &L'&GENCPR2 > 0
-.or &L'&GENCPR3 > 0
-.or &L'&GENCPR4 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
-.*.if &L'&GENCPR1 = 0
-.*.or &L'&GENCPR2 = 0
-.*.or &L'&GENCPR3 = 0
-.*.or &L'&GENCPR4 = 0
-.*.an &L'&DUCPRNR3 > 0
-.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
-.******** Test på roller **************
-.if &L'&DUROLLE3 > 0
-.th .go CPR31
-.el .go CPR32
-...CPR31
-.if &U'&DUROLLE3 ne FUL
-.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
-.if &L'&DUROLLE3 > 0
-.an &L'&DUCPRNR3 = 0
-.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
-...CPR32
-.if &L'&DUCPRNR3 > 0
-.an &L'&DUROLLE3 = 0
-.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST04
-...TEST04
-.if &L'&DUROLLE4 > 0
-.th .go CPR41
-.el .go CPR42
-...CPR41
-.if &U'&DUROLLE4 ne FUL
-.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
-...CPR42
-.if &L'&DUCPRNR4 > 0
-.an &L'&DUROLLE4 = 0
-.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
-.el .go TEST05
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
-.**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
-.**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.*************** GENEREL OPSÆTNING ***************************************
-.ti ¤ 05
-:COUR10.
-.fo left
-.dr tynd weight 0.2mm
-.*************** AREAL-DEFINITIONER **************************************
-.da VEND 7mm 270mm width 180mm rotate -90
-.da OVERSKR 20mm 32mm width 175mm
-.******************ROTERET BREVNAVN**********************************
-.ar VEND on
-:SWISS6.
-&BREVNAVN
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.*************** UDDATA-OVERSKRIFT ***************************************
-.ar OVERSKR on
-:SWISS12.
-:FED.
-.us Kontooprettelse/ændring
-:SKRSLUT.
-.ar off
+...FULDEND
+.kp off
+.*****
+.sp
+Ovenstående parter har i dag indgået aftale med Den Jyske Sparekasse om
+oprettelse af en &REGTYPELNG. på følgende vilkår:
+.sp
 .if &REGTYPE = 1101
 .or &REGTYPE = 2000
 .or &REGTYPE = 2001
@@ -493,11 +130,6 @@ den anførte konto ved anvendelse af betalingskort eller på anden måde,
 medmindre andet er aftalt.
 .sp 3mm
 .kp off
-.*********************************
-...ENDRENTE
-...REGELSEs
-.sp 3mm
-.kp off
 .if &L'&GENTEKST1 = 0
 .an &L'&GENTEKST2 = 0
 .an &L'&GENTEKST3 = 0
@@ -546,70 +178,11 @@ en overtræksrente på p.t. &OVTRTE01 % p.a.,
 som beregnes dag til dag af det til
 enhver tid værende overtræk, svarende til en debitorrente på
 &DEBRTE01 % p.a.
-.*Valider regtype
-.if &REGTYPE = 5620
-.th .go REG5620
-.el .go REG5620s
-...REG5620
-:SWISS9.
-.tp 55mm 80mm
-.kp on
-:FED.Indskud :SKRSLUT.
-.br
-Der kan indskydes efter de til enhver tid gældende lovregler for
-Iværksætterkonto.
-.br
-Indkomst/henlæggelsesår: &GENAAR1.
-.sp
-:FED.Udbetaling :SKRSLUT.
-.br
-Indestående på kontoen kan udbetales efter de til enhver tid gældende
-lovregler for Iværksætterkonto.
-.sp
-:FED.Renter og omkostninger :SKRSLUT.
-.br
-Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
-.sp
-:USENKEL.Kreditrente :SKRSLUT.
-.br
-Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
-.sp
-Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
-gang den &RNTTILDTOK..
-.sp
-Tilskrevne renter kan frit hæves.
+.sp 3mm
 .kp off
-.sp
-...REG5620s
-.if &U'&GENKRYDS1 = J
-.th
-.el .go KRESLUT
-:FED.Kreditorbeskyttelse :SKRSLUT.
-.br
-Nærværende indlånskontonummer &LANGKTONR. er oprettet den &KOPRETDATO..
-.sp
-Indeståendet hidrører fra en erstatning for invaliditet eller tab af
-forsørger eller i godtgørelse hermed. Beløbet tilkommer skadeslidte eller
-den, som har mistet en forsørger.
-.sp
-Indeståendet er kreditorbeskyttet i henhold til retsplejelovens § 513,
-hvilket medfører, at der ikke kan foretages udlæg i beløbet.
-.sp
-En forudsætning for denne kreditorbeskyttelse er, at beløbet holdes klart
-adskilt fra kontohavers øvrige formue, tilsvarende gælder om renter af
-kapitalen.
-.sp
-Dette medfører, at der ikke må indbetales andre beløb på kontoen end det
-pågældende erstatningsbeløb samt renter heraf, såfremt kreditorbeskyttelsen
-skal opretholdes.
-.sp
-Udbetalte beløb fra kontoen, f.eks. hvis der sker overførsel til en anden
-af kontohavers konti, er ikke kreditorbeskyttet.
-.sp
-Kontohaver: &KTONAVN. erklærer at være gjort bekendt med ovenstående regler
-og have ønsket denne påtegning på kontoen.
-.sp
-...KRESLUT
+.*********************************
+...ENDRENTE
+...REGELSEs
 .*Valider regtype
 .if &REGTYPE = 1101
 .or &REGTYPE = 1102
@@ -822,27 +395,6 @@ normalt i takt med generelle renteændringer for udlån.
 .kp off
 .sp
 ...REG2002s
-30,00 kr. ved månedsultimo.
-.br
-Jeg kan læse mere om Basal Betalingskonto på www.djs.dk.
-.sp
-:FED.Rente og omkostninger :SKRSLUT.
-.br
-Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
-.sp
-Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
-.sp
-I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
-&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
-overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
-.sp
-Rentesatserne er variable, og renteændringerne for indestående og træk på
-kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
-normalt i takt med generelle renteændringer for indlån og renten for træk
-normalt i takt med generelle renteændringer for udlån.
-.kp off
-.sp
-...REG2004s
 .*Valider regtype
 .if &REGTYPE = 2004
 .th .go REG2004
@@ -893,6 +445,27 @@ fuldmagtshaveren.
 :FED.Månedligt kontogebyr :SKRSLUT.
 .br
 Jeg er bekendt med at sparekassen opkræver et månedligt kontogebyr på pt.
+30,00 kr. ved månedsultimo.
+.br
+Jeg kan læse mere om Basal Betalingskonto på www.djs.dk.
+.sp
+:FED.Rente og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+I tilfælde af overtræk beregner &BANKNAVN. en overtræksrente på p.t.
+&OVTRTE01 % p.a., som beregnes dag til dag af det til enhver tid værende
+overtræk, svarende til en debitorrente på &DEBRTE01 % p.a.
+.sp
+Rentesatserne er variable, og renteændringerne for indestående og træk på
+kontoen kan ske uafhængig af hinanden. Renten for indestående ændres
+normalt i takt med generelle renteændringer for indlån og renten for træk
+normalt i takt med generelle renteændringer for udlån.
+.kp off
+.sp
+...REG2004s
 .*Valider regtype
 .if &REGTYPE = 2021
 .th .go REG2021
@@ -1134,6 +707,30 @@ normalt i takt med generelle renteændringer for udlån.
 .kp off
 .sp
 ...REG2031s
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+:ENY.
 .*Valider regtype
 .if &REGTYPE = 2151
 .or &REGTYPE = 2152
@@ -1541,6 +1138,120 @@ Tilskrevne renter kan frit hæves.
 .kp off
 .sp
 ...REG5610s
+.*Valider regtype
+.if &REGTYPE = 5620
+.th .go REG5620
+.el .go REG5620s
+...REG5620
+:SWISS9.
+.tp 55mm 80mm
+.kp on
+:FED.Indskud :SKRSLUT.
+.br
+Der kan indskydes efter de til enhver tid gældende lovregler for
+Iværksætterkonto.
+.br
+Indkomst/henlæggelsesår: &GENAAR1.
+.sp
+:FED.Udbetaling :SKRSLUT.
+.br
+Indestående på kontoen kan udbetales efter de til enhver tid gældende
+lovregler for Iværksætterkonto.
+.sp
+:FED.Renter og omkostninger :SKRSLUT.
+.br
+Renter og omkostninger fastsættes til enhver tid af &BANKNAVN..
+.sp
+:USENKEL.Kreditrente :SKRSLUT.
+.br
+Kreditrenten er variabel og udgør for tiden &TOTKRE1.% p.a.
+.sp
+Kreditrenten beregnes bagud og tilskrives kontoen hver årsultimo, første
+gang den &RNTTILDTOK..
+.sp
+Tilskrevne renter kan frit hæves.
+.kp off
+.sp
+...REG5620s
+.if &U'&GENKRYDS1 = J
+.th
+.el .go KRESLUT
+:FED.Kreditorbeskyttelse :SKRSLUT.
+.br
+Nærværende indlånskontonummer &LANGKTONR. er oprettet den &KOPRETDATO..
+.sp
+Indeståendet hidrører fra en erstatning for invaliditet eller tab af
+forsørger eller i godtgørelse hermed. Beløbet tilkommer skadeslidte eller
+den, som har mistet en forsørger.
+.sp
+Indeståendet er kreditorbeskyttet i henhold til retsplejelovens § 513,
+hvilket medfører, at der ikke kan foretages udlæg i beløbet.
+.sp
+En forudsætning for denne kreditorbeskyttelse er, at beløbet holdes klart
+adskilt fra kontohavers øvrige formue, tilsvarende gælder om renter af
+kapitalen.
+.sp
+Dette medfører, at der ikke må indbetales andre beløb på kontoen end det
+pågældende erstatningsbeløb samt renter heraf, såfremt kreditorbeskyttelsen
+skal opretholdes.
+.sp
+Udbetalte beløb fra kontoen, f.eks. hvis der sker overførsel til en anden
+af kontohavers konti, er ikke kreditorbeskyttet.
+.sp
+Kontohaver: &KTONAVN. erklærer at være gjort bekendt med ovenstående regler
+og have ønsket denne påtegning på kontoen.
+.sp
+...KRESLUT
+.tp _/50mm 55mm 72mm  _/170mm
+.if &U'&GENKRYDS2 = J
+.th
+.el .go GARFSLUT
+.kp on
+:FED.Garantiformuen :SKRSLUT.
+.br
+Mit samlede indestående i &BANKNAVN. over kr. 750.000 er ikke dækket af
+Garantiformuen.
+.br
+Såfremt kontoen har flere ejere, er hver af disse dækket op til den
+nævnte dækningssum.
+.br
+Se mere på www.gii.dk
+.kp off
+...GARFSLUT
+.sp
+.kp on
+:FED.
+Fortrydelsesret
+:SKRSLUT.
+.br
+Efter forbrugeraftalelovens § 18 kan forbrugere fortryde en aftale om en
+finansiel tjenesteydelse inden for 14 dage, hvis aftalen er
+.br
+- en såkaldt fjernsalgsaftale, fx en aftale indgået via telefonen/netbank
+.br
+- indgået uden for &BANKNAVN.'s lokaler, fx på et møde på kundens bopæl
+eller arbejdsplads.
+.sp
+Fristen regnes som udgangspunkt fra den dag, kunden modtager den aftalte
+ydelse. Det gælder dog kun, hvis kunden samtidig får de oplysninger, som
+kunden efter forbrugeraftaleloven har krav på   bl.a. om fortrydelsesretten
+og om det produkt, som kunden har bestilt. De nævnte oplysninger skal være
+på skrift eller andet varigt medium, fx på papir, som elektronisk post
+eller i kundens netbank.
+.sp
+Hvis bestillingen fx afgives mandag den 1. og de nævnte oplysninger er
+givet, så løber fristen til og med mandag den 15. Udløber fristen på en
+lørdag, søndag, helligdag, dagen efter kr. himmelfartsdag, grundlovsdag,
+juleaftensdag eller nytårsaftensdag, kan fortrydelse ske den følgende
+hverdag.
+.br
+Fortryder kunden en aftale, skal kunden kontakte &BANKNAVN. inden
+fristens udløb. Som bevis for overholdelse af fristen, anbefales det at
+sende pr. anbefalet brev.
+.sp
+Hvis kunden udnytter fortrydelsesretten, skal kunden tilbagelevere det,
+kunden har modtaget. &BANKNAVN. skal betale det beløb tilbage, som
+kunden har betalt, bortset fra &BANKNAVN.'s ekspeditionsomkostninger
 og andre omkostninger, fx tinglysningsafgifter eller omkostninger i
 forbindelse med ejendomsvurdering. Afhængig af sagens omfang kan
 pengeinstituttet beregne en timepris for sit arbejde, hvis kunden udnytter
@@ -1641,57 +1352,347 @@ Underskrift ¤ ¤Underskrift ¤
 .in 5mm
 .ir 5mm
 .**********************
-.tp _/50mm 55mm 72mm  _/170mm
-.if &U'&GENKRYDS2 = J
-.th
-.el .go GARFSLUT
-.kp on
-:FED.Garantiformuen :SKRSLUT.
-.br
-Mit samlede indestående i &BANKNAVN. over kr. 750.000 er ikke dækket af
-Garantiformuen.
-.br
-Såfremt kontoen har flere ejere, er hver af disse dækket op til den
-nævnte dækningssum.
-.br
-Se mere på www.gii.dk
-.kp off
-...GARFSLUT
-.sp
-.kp on
-:FED.
-Fortrydelsesret
-:SKRSLUT.
-.br
-Efter forbrugeraftalelovens § 18 kan forbrugere fortryde en aftale om en
-finansiel tjenesteydelse inden for 14 dage, hvis aftalen er
-.br
-- en såkaldt fjernsalgsaftale, fx en aftale indgået via telefonen/netbank
-.br
-- indgået uden for &BANKNAVN.'s lokaler, fx på et møde på kundens bopæl
-eller arbejdsplads.
-.sp
-Fristen regnes som udgangspunkt fra den dag, kunden modtager den aftalte
-ydelse. Det gælder dog kun, hvis kunden samtidig får de oplysninger, som
-kunden efter forbrugeraftaleloven har krav på   bl.a. om fortrydelsesretten
-og om det produkt, som kunden har bestilt. De nævnte oplysninger skal være
-på skrift eller andet varigt medium, fx på papir, som elektronisk post
-eller i kundens netbank.
-.sp
-Hvis bestillingen fx afgives mandag den 1. og de nævnte oplysninger er
-givet, så løber fristen til og med mandag den 15. Udløber fristen på en
-lørdag, søndag, helligdag, dagen efter kr. himmelfartsdag, grundlovsdag,
-juleaftensdag eller nytårsaftensdag, kan fortrydelse ske den følgende
-hverdag.
-.br
-Fortryder kunden en aftale, skal kunden kontakte &BANKNAVN. inden
-fristens udløb. Som bevis for overholdelse af fristen, anbefales det at
-sende pr. anbefalet brev.
-.sp
-Hvis kunden udnytter fortrydelsesretten, skal kunden tilbagelevere det,
-kunden har modtaget. &BANKNAVN. skal betale det beløb tilbage, som
-kunden har betalt, bortset fra &BANKNAVN.'s ekspeditionsomkostninger
+.*SUBSTRINGS***************************************************************
+.su off
+.se cprcvr = substr &KTOKNDNR1 1 2
+.se mcprcvr = substr &MEDKNDNR1 1 2
+.su on
+.**************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr > x31
+.th .se kunnr = 'Kundenr.'
+.**************************************************************************
+.if x&mcprcvr > x31
+.th .se mkunnr = 'Kundenr.'
+.**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr = x00
+.th .se kunnr = 'CVR-nr.'
+.**************************************************************************
+.if x&mcprcvr = x00
+.th .se mkunnr = 'CVR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr > x00
+.an x&cprcvr < x32
+.th .se kunnr = 'CPR-nr.'
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&mcprcvr > x00
+.an x&mcprcvr < x32
+.th .se mkunnr = 'CPR-nr.'
+.**************************************************************************
+.if &U'X&GENVITT ne XJ
+.an &U'X&GENVITT ne XN
+.th .mg/T/Vitterlighedsvidner: Vælg J(a) eller N(ej)/
+.**************************************************************************
+.if &L'&GENCPR1 > 0
+.an &L'&GENNAVN1 = 0
+.th .mg/T/1. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR2 > 0
+.an &L'&GENNAVN2 = 0
+.th .mg/T/2. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR3 > 0
+.an &L'&GENNAVN3 = 0
+.th .mg/T/3. fuldmagtshavers navn mangler/
+.**************************************************************************
+.if &L'&GENCPR4 > 0
+.an &L'&GENNAVN4 = 0
+.th .mg/T/4. fuldmagtshavers navn mangler/
+.**************************************************************************
+.* TEST PÅ ETABLERINGSKONTO
+.if &REGTYPE = 5610
+.an &L'&GENAAR1 = 0
+.th .mg/T/Der mangler angivelse af henlæggelsesår/
+.**************************************************************************
+.* TEST PÅ IVÆRKSÆTTERKONTO
+.if &REGTYPE = 5620
+.an &L'&GENAAR1 = 0
+.th .mg/T/Der mangler angivelse af henlæggelsesår/
 .** SIDESKIFT
 .pa nostart
 .** INDRYK FRA VENSTREMARGIN NULSTILLES
 .in 0mm
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
+...VALJN
+.if &U'X&GENDUJANEJ = XJ
+.th
+.el .go DUEXIT
+.if &U'X&brev = XKUN02DU
+.th .go KUN02
+.el .go DUEXIT
+...KUN02
+.if &U'&DUROLLE1 ne KON
+.th .mg/T/DU - Rollen skal altid være udfyldt med KON/
+.******** Først en sammenhængstest ****
+.if &L'&GENCPR1 > 0
+.or &L'&GENCPR2 > 0
+.or &L'&GENCPR3 > 0
+.or &L'&GENCPR4 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Der er indtastet et cprnr, så skal DU-cprnr også udfyldes/
+.*.if &L'&GENCPR1 = 0
+.*.or &L'&GENCPR2 = 0
+.*.or &L'&GENCPR3 = 0
+.*.or &L'&GENCPR4 = 0
+.*.an &L'&DUCPRNR3 > 0
+.th .mg/T/DU-Antal af underskrivere svarer ikke overens med det indtastede/
+.******** Test på roller **************
+.if &L'&DUROLLE3 > 0
+.th .go CPR31
+.el .go CPR32
+...CPR31
+.if &U'&DUROLLE3 ne FUL
+.th .mg/T/DU - Rolle-3 er udfyldt, rollen skal udfyldes med FUL/
+.if &L'&DUROLLE3 > 0
+.an &L'&DUCPRNR3 = 0
+.th .mg/T/DU - Rolle er udfyldt, Cpr.nr-3 skal også udfyldes/
+...CPR32
+.if &L'&DUCPRNR3 > 0
+.an &L'&DUROLLE3 = 0
+.th .mg/T/DU - Cpr.nr-3 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST04
+...TEST04
+.if &L'&DUROLLE4 > 0
+.th .go CPR41
+.el .go CPR42
+...CPR41
+.if &U'&DUROLLE4 ne FUL
+.th .mg/T/DU - Rolle-4 er udfyldt, rollen skal udfyldes med FUL/
+...CPR42
+.if &L'&DUCPRNR4 > 0
+.an &L'&DUROLLE4 = 0
+.th .mg/T/DU - Cpr.nr-4 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST05
+...TEST05
+.if &L'&DUROLLE5 > 0
+.th .go CPR51
+.el .go CPR52
+...CPR51
+.if &U'&DUROLLE5 ne FUL
+.th .mg/T/DU - Rolle-5 er udfyldt, rollen skal udfyldes med FUL/
+...CPR52
+.if &L'&DUCPRNR5 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-5 er udfyldt, rollen skal også være udfyldt/
+.el .go TEST06
+...TEST06
+.if &L'&DUROLLE6 > 0
+.th .go CPR61
+.el .go CPR62
+...CPR61
+.if &U'&DUROLLE6 ne FUL
+.th .mg/T/DU - Rolle-6 er udfyldt, rollen skal udfyldes med FUL/
+...CPR62
+.if &L'&DUCPRNR6 > 0
+.an &L'&DUROLLE5 = 0
+.th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
+.*************************************************************
+...DUEXIT
+.*************** GENEREL OPSÆTNING ***************************************
+.ti ¤ 05
+:COUR10.
+.fo left
+.dr tynd weight 0.2mm
+.*************** AREAL-DEFINITIONER **************************************
+.da VEND 7mm 270mm width 180mm rotate -90
+.da OVERSKR 20mm 32mm width 175mm
+.******************ROTERET BREVNAVN**********************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.*************** UDDATA-OVERSKRIFT ***************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Kontooprettelse/ændring
+:SKRSLUT.
+.ar off
+.*************** definer siden som et areal *******************************
+.da SIDE 20mm 40mm width 175mm
+.** PARTER ****************************************************************
+.ar SIDE on
+.tp 1mm 88.5mm 135mm
+:SWISS10.
+:FED.
+Parter
+:SKRSLUT.
+:SWISS8.
+.if &L'&MEDNAVN = 0
+.th .bx left right
+.th ¤ Kontohaver
+.el .bx left 87.5mm right
+.el ¤ Kontohaver ¤ Medkontohaver
+.sp 23mm
+.if &L'&MEDNAVN = 0
+.th ¤ &kunnr
+.el ¤ &kunnr ¤ &mkunnr
+.bx new left right
+ ¤ Pengeinstitut
+.sp 20mm
+.bx off
+.bx can
+:SWISS10.
+:FED.
+Indhold
+:SKRSLUT.
+.bx left right
+.sp 171mm
+.bx off
+.ar off
+:SWISS9.
+.**************************************************************************
+.da KUNDE     25mm 50mm width 80mm
+.da MKUNDE 112.5mm 50mm width 80mm
+.da CPR       34mm 70.5mm width 80mm
+.da MCPR   121.5mm 70.5mm width 80mm
+.da PI        25mm 80mm width 80mm
+.**************************************************************************
+.ar KUNDE on
+&KTOSTILL
+.br
+&KTONAVN
+.br
+&KTOCO
+.br
+&KTOGADE
+.br
+&KTOBY
+.ar off
+.**************************************************************************
+.ar MKUNDE on
+.if &L'&MEDNAVN > 0
+.th &MEDSTILL
+.th .br
+.th &MEDNAVN
+.th .br
+.th &MEDCO
+.th .br
+.th &MEDGADE
+.th .br
+.th &MEDBY
+.ar off
+.**************************************************************************
+.ar CPR on
+&KTOKNDNR1
+.ar off
+.**************************************************************************
+.ar MCPR on
+.if &L'&MEDNAVN > 0
+.th &MEDKNDNR1
+.ar off
+.**************************************************************************
+.ar PI on
+&BANKNAVN
+.br
+&AFDNAVN
+.br
+&AFDGADE
+.br
+&AFDBY
+.ar off
+.**************************************************************************
+:SKRSLUT.
+.********************GENEREL OPSÆTNING*************************************
+.fo left
+.ti ¤ 05
+.********************ROTERET BREVNAVN**************************************
+.* SIDEHOVED SIDE 1 (MED Y = 95 + 13MM (TOPMARGIN) = 108MM ****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 95mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+.ll 175mm
+.**************************************************************************
+.da OVERSKR 20mm 32mm width 175mm
+.da BOX 20mm 40mm width 175mm
+.da BANKSTED 20mm 47mm width 175mm
+.da VEND 7mm 270mm width 180mm rotate -90
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.rh on
+.ar BOX on
+.bx left right
+.sp 229mm
+.bx off
+.ar off
+.**************************************************************************
+.ar VEND on
+:SWISS6.
+&BREVNAVN
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.**************************************************************************
+.ar OVERSKR on
+:SWISS12.
+:FED.
+.us Kontooprettelse/ændring
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.sp 32mm
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.ll 175mm
+.in 5mm
+.ir 1mm
+

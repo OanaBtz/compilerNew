@@ -1,245 +1,38 @@
-.if &L'&G08EKSGEB.  = 0
-.an &L'&G08EKSRAB.  = 0
-.an &L'&G08EKSNET.  = 0
-.an &L'&G08GAPRBLB. = 0
-.an &L'&G08QGEBBLB. = 0
-.th .go INGENGEB
-.kp on
-:COUR10.
-:FED.
-Omkostninger og gebyrer:
-:SKRSLUT.
-.if &L'&G08EKSGEB. > 0
-.th
-.el .go GARANTI
-.*EKSPEDITONSGEBYR
-.tp 140mm right 142mm 160mm right 162mm
-.br
-Ekspedition af sagen:¤&G08EKSGEB.¤kr.
-.if &L'&G08EKSRAB. > 0
-.th
-.el .go GARANTI
-.br
-Rabat på ekspedition af sagen:¤&G08EKSRAB.¤kr.
-.br
-Ekspedition af sagen - efter rabat:¤¤¤&G08EKSNET.¤kr.
-.br
-...GARANTI
-.if &L'&G08GAPRBLB. > 0
-.th
-.el .go QVRGEB
-.br
-Garantiprovision for forhåndslånsgaranti:
-.br
-&G08GAPRSA. % p.a. af kr. &G08FHLGAR. (Svarer til kr. &G08GAPRBLB.
-kvartårligt)
-...QVRGEB
-.if &L'&G08QGEBTXT > 0
-.th
-.el .go GEBSLUT
-.br
-.th &G08QGEBTXT.¤¤¤&G08QGEBBLB.¤kr.
-...GEBSLUT
-.sp
-.kp off
-...INGENGEB
-.go EPB2
-.*** Omdannes  ***
-...OMDAN1
-.if &G08EPBHND1. = 5
-.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.th ejendom omdannes. Der overføres retsafgift fra et privat
-.th pantebrev/ejerpantebrev til kreditforeningslånet.
-.th .sp
-.th .go EPB2
-.*** Overtages   ***
-...OVERTAG
-.if &G08EPBHND1. = 6
-.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.th ejendom ønskes overtaget.
-.th .sp
-.th .go EPB2
-...EPB2
-.if &L'&G08EPBBLB2  > 0
-.th
-.el .go SKADE
-.*** NYT ***
-...NYT2
-.if &G08EPBHND2. = 1
-.th Der oprettes ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.th ejendom.
-.th .sp
-.th .go SKADE
-.*** Forhøjes ***
-...FORHØJ2
-.if &G08EPBHND2. = 2
-.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.th ejendom forhøjes med kr. &G08EPBFRH2. til kr. &G08EPBNYT2..
-.th .sp
-.th .go SKADE
-.*** Rykker ***
-...RYKKER2
-.if &G08EPBHND2. = 3
-.th
-.el .go AFLYS2
-.if &BREVNAVN. = G08PRIOAFT03
-.or &BREVNAVN. = G08PRIOAFT04
-.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.th ejendom overtages af ny ejer og rykker.
-.el Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.el ejendom rykker.
-.sp
-.go SKADE
-.*** Aflyses ***
-...AFLYS2
-.if &G08EPBHND2. = 4
-.tp 50mm 100mm 150mm
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
 .**************************************************************************
-.IF &L'&G08EPBBLB1  > 0
-.th
-.el .go SKADE
-.kp on
-:COUR10.
-:FED.
-Ejerpantebrev:
-:SKRSLUT.
-.br
-.*** NYT ***
-...NYT1
-.if &G08EPBHND1. = 1
-.th Der oprettes ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.th ejendom.
-.th .sp
-.th .go EPB2
-.*** Forhøjes ***
-...FORHØJ1
-.if &G08EPBHND1. = 2
-.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.th ejendom forhøjes med kr. &G08EPBFRH1. til kr. &G08EPBNYT1..
-.th .sp
-.th .go EPB2
-.*** Rykker ***
-...RYKKER1
-.if &G08EPBHND1. = 3
-.th
-.el .go AFLYS1
-.if &BREVNAVN. = G08PRIOAFT03
-.or &BREVNAVN. = G08PRIOAFT04
-.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.th ejendom overtages af ny ejer og rykker.
-.el Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.el ejendom rykker.
-.sp
-.go EPB2
-.*** Aflyses ***
-...AFLYS1
-.if &G08EPBHND1. = 4
-.th
-.el .go OMDAN1
-.if &BREVNAVN. = G08PRIOAFT03
-.or &BREVNAVN. = G08PRIOAFT04
-.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.th ejendom ønskes ikke overtaget.
-.el Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
-.el ejendom aflyses af tingbogen.
-.sp
-.el Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
-.el ejendom rykker.
-.sp
-.go PBSKSLUT
-.*** AFLYSNING ***
-...SKLAFLYS
-.if &G08SKLBHND = 3
-.th
-.el .go PBSKSLUT
-.if &BREVNAVN = G08PRIOAFT03
-.th
-.th Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
-.th ejendom ønskes ikke overtaget.
-.el Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
-.el ejendom aflyses af tingbogen.
-.sp
-.kp off
-...PBSKSLUT
-.th
-.el .go OMDAN2
-.if &BREVNAVN. = G08PRIOAFT03
-.or &BREVNAVN. = G08PRIOAFT04
-.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.th ejendom ønskes ikke overtaget.
-.el Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.el ejendom aflyses af tingbogen.
-.sp
-.go SKADE
-.*** Omdannes  ***
-...OMDAN2
-.if &G08EPBHND2. = 5
-.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.th ejendom omdannes. Der overføres retsafgift fra et privat
-.th pantebrev/ejerpantebrev til kreditforeningslånet.
-.th .sp
-.th .go SKADE
-.*** Overtages   ***
-...OVERTAG2
-.if &G08EPBHND2. = 6
-.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
-.th ejendom ønskes overtaget.
-.th .sp
-.th .go SKADE
-.*** Nyt  ***
-...SKADE
-.if &L'&G08SKLBHND > 0
-.an x&G08SKLBHND < x4
-.th
-.el .go PBSKSLUT
-.kp on
-:COUR10
-:FED.
-Skadesløsbrev:
-:SKRSLUT.
-.br
-.*** Nyt ***
-.if &G08SKLBHND = 1
-.th Der oprettes skadesløsbrev på kr. &G08SKLBBLB. med pant i ovennævnte
-.th ejendom.
-.th .sp
-.th .go PBSKSLUT
-.*** RYKKES ***
-.if &G08SKLBHND = 2
-.th
-.el .go SKLAFLYS
-.if &BREVNAVN. = G08PRIOAFT03
-.th Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
-.th ejendom overtages af ny ejer og rykker.
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 275mm width 75mm
+.da BUNDH  160mm 275mm
 .**************************************************************************
-.*Bestående lån
-.if &L'&G08OKRED1.  > 0
-.an &L'&G08OHVDST1. > 0
-.th
-.el .go BLSLUT
-.kp on
-.tp 50mm 100mm
-.sp
-:FED.
-Bestående lån, der skal overtages:
-:SKRSLUT.
-:COUR8.
-.br
-.us Hovedstol:¤Kreditor:
-.br
-&G08OHVDST1. DKK¤&G08OKRED1.
-.if &L'&G08OKRED2.  > 0
-.an &L'&G08OHVDST2. > 0
-.an &L'&G08OLTYP2.  > 0
-.th
-.el .sp
-.el .kp off
-.el .go BLSLUT
-.br
-&G08OHVDST2. DKK¤&G08OKRED2.
-.sp
-.kp off
-...BLSLUT
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &KLOKKESLET.
+.ar off
+.sp 30mm
+.rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
 .sp 45mm
 .in 5mm
 :FED.
@@ -338,88 +131,767 @@ Bestående lån, der skal overtages:
 .***** LÅN 2 SLUT ***********
 ...NYSLUT
 .**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 275mm width 75mm
-.da BUNDH  160mm 275mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &KLOKKESLET.
-.ar off
-.sp 30mm
-.rh off
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.**************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.dr tynd weight 0.1mm
-.fo left
-.ti ¤ 05
-:COUR10.
-:tiltale &TILTALEF
-:omtale  &OMTALEF
-.*********************AREAL-DEFINITIONER***********************************
-.* Brevnavn, roteret i venstre hjørne
-.da VEND       7mm 275mm width 180mm rotate -90
-.da HEADER1   25mm  30mm width 170mm
-.da HEADER2   25mm  45mm width 170mm
-.**************************************************************************
-.ar HEADER1 on
-&KTONAVN.
-.br
-&KTOCO.
-.br
-&KTOGADE.
-.br
-&KTOBY.
-.br
-&KTOLAND.
-.sp 6mm
-.if &MEDKNDNR1 ne 0000000000
-.th Meddebitor(er):
-.th .br
-.th &MEDNAVN., &MEDKNDNR1.
-.if &L'&G08MEDNR2. > 0
-.th .br
-.th &G08MEDNA2., &G08MEDNR2.
-.if &L'&G08MEDNR3. > 0
-.th .br
-.th &G08MEDNA3., &G08MEDNR3.
-.if &L'&G08MEDNR4. > 0
-.th .br
-.th &G08MEDNA4., &G08MEDNR4.
-.if &L'&MEDKNDNR1. > 0
-.th .sp 9mm
-.el .sp 19mm
-Indgår hermed aftale med &BANKNAVN om rådgivning, finansiering og
-ekspedition i forbindelse med køb af ejendommen:
+.*Bestående lån
+.if &L'&G08OKRED1.  > 0
+.an &L'&G08OHVDST1. > 0
+.th
+.el .go BLSLUT
+.kp on
+.tp 50mm 100mm
 .sp
-Adresse: &G08ADRESSE.
-.ar off
-.ar HEADER2 on
-.tp 110mm 170mm right
 :FED.
-¤¤Køb af fast ejendom
+Bestående lån, der skal overtages:
+:SKRSLUT.
+:COUR8.
+.br
+.us Hovedstol:¤Kreditor:
+.br
+&G08OHVDST1. DKK¤&G08OKRED1.
+.if &L'&G08OKRED2.  > 0
+.an &L'&G08OHVDST2. > 0
+.an &L'&G08OLTYP2.  > 0
+.th
+.el .sp
+.el .kp off
+.el .go BLSLUT
+.br
+&G08OHVDST2. DKK¤&G08OKRED2.
+.sp
+.kp off
+...BLSLUT
+.tp 50mm 100mm 150mm
+.**************************************************************************
+.IF &L'&G08EPBBLB1  > 0
+.th
+.el .go SKADE
+.kp on
+:COUR10.
+:FED.
+Ejerpantebrev:
 :SKRSLUT.
 .br
-.if &kuntxt. = CPR-nummer
-.th ¤&kuntxt.:¤&cprcvr2.-&cprcvr3.
-.el ¤&kuntxt.:¤&KTOKNDNR1.
-¤Dato:¤&DATO.
-.ar off
+.*** NYT ***
+...NYT1
+.if &G08EPBHND1. = 1
+.th Der oprettes ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.th ejendom.
+.th .sp
+.th .go EPB2
+.*** Forhøjes ***
+...FORHØJ1
+.if &G08EPBHND1. = 2
+.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.th ejendom forhøjes med kr. &G08EPBFRH1. til kr. &G08EPBNYT1..
+.th .sp
+.th .go EPB2
+.*** Rykker ***
+...RYKKER1
+.if &G08EPBHND1. = 3
+.th
+.el .go AFLYS1
+.if &BREVNAVN. = G08PRIOAFT03
+.or &BREVNAVN. = G08PRIOAFT04
+.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.th ejendom overtages af ny ejer og rykker.
+.el Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.el ejendom rykker.
+.sp
+.go EPB2
+.*** Aflyses ***
+...AFLYS1
+.if &G08EPBHND1. = 4
+.th
+.el .go OMDAN1
+.if &BREVNAVN. = G08PRIOAFT03
+.or &BREVNAVN. = G08PRIOAFT04
+.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.th ejendom ønskes ikke overtaget.
+.el Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.el ejendom aflyses af tingbogen.
+.sp
+.go EPB2
+.*** Omdannes  ***
+...OMDAN1
+.if &G08EPBHND1. = 5
+.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.th ejendom omdannes. Der overføres retsafgift fra et privat
+.th pantebrev/ejerpantebrev til kreditforeningslånet.
+.th .sp
+.th .go EPB2
+.*** Overtages   ***
+...OVERTAG
+.if &G08EPBHND1. = 6
+.th Bestående ejerpantebrev på kr. &G08EPBBLB1. med pant i ovennævnte
+.th ejendom ønskes overtaget.
+.th .sp
+.th .go EPB2
+...EPB2
+.if &L'&G08EPBBLB2  > 0
+.th
+.el .go SKADE
+.*** NYT ***
+...NYT2
+.if &G08EPBHND2. = 1
+.th Der oprettes ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.th ejendom.
+.th .sp
+.th .go SKADE
+.*** Forhøjes ***
+...FORHØJ2
+.if &G08EPBHND2. = 2
+.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.th ejendom forhøjes med kr. &G08EPBFRH2. til kr. &G08EPBNYT2..
+.th .sp
+.th .go SKADE
+.*** Rykker ***
+...RYKKER2
+.if &G08EPBHND2. = 3
+.th
+.el .go AFLYS2
+.if &BREVNAVN. = G08PRIOAFT03
+.or &BREVNAVN. = G08PRIOAFT04
+.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.th ejendom overtages af ny ejer og rykker.
+.el Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.el ejendom rykker.
+.sp
+.go SKADE
+.*** Aflyses ***
+...AFLYS2
+.if &G08EPBHND2. = 4
+.th
+.el .go OMDAN2
+.if &BREVNAVN. = G08PRIOAFT03
+.or &BREVNAVN. = G08PRIOAFT04
+.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.th ejendom ønskes ikke overtaget.
+.el Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.el ejendom aflyses af tingbogen.
+.sp
+.go SKADE
+.*** Omdannes  ***
+...OMDAN2
+.if &G08EPBHND2. = 5
+.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.th ejendom omdannes. Der overføres retsafgift fra et privat
+.th pantebrev/ejerpantebrev til kreditforeningslånet.
+.th .sp
+.th .go SKADE
+.*** Overtages   ***
+...OVERTAG2
+.if &G08EPBHND2. = 6
+.th Bestående ejerpantebrev på kr. &G08EPBBLB2. med pant i ovennævnte
+.th ejendom ønskes overtaget.
+.th .sp
+.th .go SKADE
+.*** Nyt  ***
+...SKADE
+.if &L'&G08SKLBHND > 0
+.an x&G08SKLBHND < x4
+.th
+.el .go PBSKSLUT
+.kp on
+:COUR10
+:FED.
+Skadesløsbrev:
+:SKRSLUT.
+.br
+.*** Nyt ***
+.if &G08SKLBHND = 1
+.th Der oprettes skadesløsbrev på kr. &G08SKLBBLB. med pant i ovennævnte
+.th ejendom.
+.th .sp
+.th .go PBSKSLUT
+.*** RYKKES ***
+.if &G08SKLBHND = 2
+.th
+.el .go SKLAFLYS
+.if &BREVNAVN. = G08PRIOAFT03
+.th Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
+.th ejendom overtages af ny ejer og rykker.
+.el Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
+.el ejendom rykker.
+.sp
+.go PBSKSLUT
+.*** AFLYSNING ***
+...SKLAFLYS
+.if &G08SKLBHND = 3
+.th
+.el .go PBSKSLUT
+.if &BREVNAVN = G08PRIOAFT03
+.th
+.th Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
+.th ejendom ønskes ikke overtaget.
+.el Bestående skadesløsbrev på kr. &G08SKLBBLB med pant i ovennævnte
+.el ejendom aflyses af tingbogen.
+.sp
+.kp off
+...PBSKSLUT
+.if &L'&G08EKSGEB.  = 0
+.an &L'&G08EKSRAB.  = 0
+.an &L'&G08EKSNET.  = 0
+.an &L'&G08GAPRBLB. = 0
+.an &L'&G08QGEBBLB. = 0
+.th .go INGENGEB
+.kp on
+:COUR10.
+:FED.
+Omkostninger og gebyrer:
+:SKRSLUT.
+.if &L'&G08EKSGEB. > 0
+.th
+.el .go GARANTI
+.*EKSPEDITONSGEBYR
+.tp 140mm right 142mm 160mm right 162mm
+.br
+Ekspedition af sagen:¤&G08EKSGEB.¤kr.
+.if &L'&G08EKSRAB. > 0
+.th
+.el .go GARANTI
+.br
+Rabat på ekspedition af sagen:¤&G08EKSRAB.¤kr.
+.br
+Ekspedition af sagen - efter rabat:¤¤¤&G08EKSNET.¤kr.
+.br
+...GARANTI
+.if &L'&G08GAPRBLB. > 0
+.th
+.el .go QVRGEB
+.br
+Garantiprovision for forhåndslånsgaranti:
+.br
+&G08GAPRSA. % p.a. af kr. &G08FHLGAR. (Svarer til kr. &G08GAPRBLB.
+kvartårligt)
+...QVRGEB
+.if &L'&G08QGEBTXT > 0
+.th
+.el .go GEBSLUT
+.br
+.th &G08QGEBTXT.¤¤¤&G08QGEBBLB.¤kr.
+...GEBSLUT
+.sp
+.kp off
+...INGENGEB
+:COUR10
+.kp on
+Omkostninger til realkreditinstitutter samt afgift til staten ved
+tinglysning af det nye realkreditpantebrev er ikke medtaget i
+opgørelsen. Disse vil fremgå af tilbud fra
+realkreditinstituttet. Omkostninger til evt. efterfinansiering, private
+panthavere samt evt. fast og variabel tinglysningsafgift til
+prioritets - eller ejerpantebreve er heller ikke medtaget i opgørelsen.
+.sp
+.kp off
+.kp on
+For at gennemføre denne aftale er der oprettet en realkreditkonto
+nr. &G08RKKTO. til brug for alle betalinger i forbindelse med
+lånesagen, herunder evt. indfrielse af lån og betaling af samtlige
+omkostninger m.v.
+.br
+Når realkreditkontoen kan opgøres, overføres over-/underskud til konto nr.
+&G08OPGKTO..
+.br
+.kp off
+.kp on
+Såfremt der er behov for det, oprettes der særskilt
+udlægskonto/kredit. Kundens egen opsparing og evt. pengeinstitutlån
+m.v. indsættes på denne konto.
+.br
+Der oprettes særskilt kreditaftale, hvis der er behov for dette.
+.sp
+.kp off
+.kp on
+:COUR10.
+:FED.Information ved udførelse af kundens realkreditforretninger
+:SKRSLUT.
+.br
+Kundekategorisering
+.br
+&BANKNAVN. har inddelt sine kunder i kategorier i overensstemmelse med
+reglerne om investorbeskyttelse ved værdipapirhandel. Kunden er
+kategoriseret som detailkunde i henhold til denne aftale om udførelse af
+realkreditforretninger.
+.sp
+.kp off
+.kp on
+Ordreudførelsespolitik
+.br
+Undertegnede er bekendt med &BANKNAVN.s ordreudførelsespolitik
+og samtykker til, at &BANKNAVN. kan udføre ordrene uden for et
+reguleret marked eller et andet organiseret marked.
+.if &L'&G08DEPOT > 0
+.th .br
+.th Depot nr. &G08DEPOT..
+.sp
+.kp off
+.kp on
+:FED.
+Fuldmagt, transport, garanti og kundens sikkerhedsstillelse
+:SKRSLUT.
+.br
+Jeg giver &BANKNAVN. uigenkaldelig fuldmagt til at underskrive alle de
+for sagens gennemførelse dokumenter, herunder tinglysning af pantebrev(e)
+til realkreditinstituttet iht. særskilt lånetilbud og rykningspåtegninger
+på evt. ejerpantebrev(e) som skal overtages fra sælger.
+.sp
+.kp off
+.kp on
+Der underskrives særskilt fuldmagt til pengeinstituttet vedr. tinglysning
+af ejerpantebrev og underpant heri og/eller tinglysning af underpant til
+&BANKNAVN. i overtagne ejerpantebreve.
+.sp
+.kp off
+.kp on
+Eventuelle garantier/indeståelser, som
+&BANKNAVN. måtte afgive i forbindelse med købet af ejendommen, og
+fremskaffelse af finansieringen, afgives for min regning, idet jeg indestår
+&BANKNAVN. for skadesløs betaling af ethvert
+beløb, som denne måtte udlægge i forbindelse med sagens gennemførelse.
+.sp
+.kp off
+.tp 10mm
+.kp on
+Følgende tjener uden yderligere medvirken fra min side &BANKNAVN. til
+sikkerhed for dens tilgodehavende:
+.br
+*¤De i anledning
+.in 10mm nobreak
+af sagen udstedte pantebreve og de obligationer/kontantlånsprovenu, der
+træder i stedet for disse
+.in 5mm
+.kp off
+.kp on
+*¤Indestående
+.in 10mm nobreak
+på realkreditkonto nr. &G08RKKTO. og indestående på særskilt
+udlægskonto/kredit.
+.in 5mm
+.kp off
+.kp on
+*¤Krav på beløb som sælger med urette måtte få udbetalt under garantien.
+.br
+.kp off
+.kp on
+*¤Krav på tilbagesøgning af de deponerede midler
+.br
+.kp off
+.kp on
+*¤Ejerpantebreve
+.in 10mm nobreak
+den købte ejendom, som overtages i henhold til købsaftalen
+.in 5mm
+.br
+.kp off
+.kp on
+*¤Alt andet, som er
+.in 10mm nobreak
+pantsat til sikkerhed for mit/vort samlede engagement i &BANKNAVN. i
+henhold til eksisterende pantsætningserklæring.
+.in 5mm
+.sp
+.kp off
+.kp on
+:FED.
+Låntager er før underskriften gjort bekendt med:
+:SKRSLUT
+.br
+*¤Det forventede tidsmæssige forløb af lånesagen
+.br
+.kp off
+.kp on
+*¤Midler vedr.
+.in 10mm nobreak
+fast ejendom er beskyttet i henhold til reglerne for Garantiformuen med op
+til 75 mio. kr. i op til 12 måneder. Det er en forudsætning at den faste
+ejendom har været anvendt hovedsageligt ikke-erhvervsmæssigt eller er
+bestemt til hovedsagelig ikke-erhvervsmæssig anvendelse.
+.br
+Flere oplysninger kan findes www.gii.dk og/eller
+www.djs.dk/om-os/priser-og-vilkaar/garantiformuen-(indskydergarantifonden).
+.in 5mm
+.kp off
+.kp on
+*¤Forudsætninger
+.in 10mm nobreak
+for lånesagens endelige gennemførelse samt frigivelse af
+eventuelle garantier
+.in 5mm
+.kp off
+.kp on
+*¤Orienteret om nødvendigheden af at etablere
+.in 10mm nobreak
+livsforsikringsdækning/krydsliv
+.in 5mm
+.kp off
+.kp on
+*¤Økonomiske konsekvenser, herunder ændring af budget og
+forskudsregistrering
+.br
+.kp off
+.kp on
+*¤&BANKNAVN. har
+.in 10mm nobreak
+en samarbejdsaftale med Totalkredit, DLR Kredit og Nykredit og modtager
+provision for formidling af deres produkter
+.in 5mm
+.kp off
+.kp on
+*¤Lånesagen
+.in 10mm nobreak
+kan ikke gennemføres uden samtykke fra efterstående rettighedshavere
+.in 5mm
+.kp off
+.kp on
+*¤Låntager
+.in 10mm nobreak
+skal betale de gebyrer og omkostninger, der er forbundet med
+lånesagen. Det gælder også selvom sagen ikke kan gennemføres på grund af
+forhold, der ikke kan tilregnes &BANKNAVN.
+.in 5mm
+.kp off
+.kp on
+*¤Låntager er forpligtet
+.in 10mm nobreak
+til at betale ethvert beløb, som &BANKNAVN. har lagt ud til betaling
+af omkostninger og gebyrer
+.in 5mm
+.kp off
+.kp on
+*¤Alle beregninger
+.in 10mm nobreak
+er foretaget udfra de økonomiske oplysninger, som kunden har afgivet
+.in 5mm
+.kp off
+.kp on
+*¤Låntager er
+.in 10mm nobreak
+blevet orienteret om de lånetyper, der findes på markedet og nyt lån er
+valgt ud fra den rådgivning
+.in 5mm
+.kp off
+.kp on
+*¤Såfremt der
+.in 10mm nobreak
+ikke indgås kurskontrakt/fastkursaftale er jeg bekendt med, at der senere
+kan foretages kurssikring af lånet. Samtidig er jeg opmærksom på,
+at &BANKNAVN. ikke påtager sig nogen forpligtelse til at henvende sig om
+kurs- og renteudviklingen på markedet
+.in 5mm
+*¤Evt. kurstabskonto (fradagskonto)
+.in 10mm nobreak
+bortfalder, hvis der ikke senest 1 år efter lånets indfrielse optages
+et nyt realkreditlån med mindst samme løbetid. Hvis hovedstolen på det nye
+lån er mindre end restgælden på det indfriede lån, reduceres
+kurstabskontoen forholdsmæssigt.
+.in 5mm
+.sp
+.kp off
+.kp on
+:COUR8
+.tp 15mm 20mm
+Punkter som er drøftet:
+.br
+.bx 5mm 8mm
+.ct ¤Fortrydelsesret
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤Tilstandsrapport
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤Forsikringsforhold i almindelighed, herunder ejerskifteforsikring
+og ejendomsforsikring
+.bx off
+.br
+.bx 5mm 8mm
+.ct ¤Energimærkning
+.bx off
+.sp
+.kp off
+.kp on
+:COUR10.
+:FED.
+Underskrift
+:SKRSLUT.
+.br
+Undertegnede erklærer at jeg har modtaget kopi af denne aftale og
+lånetilbud, samt at jeg er blevet nøje rådgivet i overensstemmelse med
+det ovenfor anførte.
+.br
+Ved min underskrift bekræfter og tiltræder jeg samtidig de foran anførte
+transporter, pantsætninger for de af &BANKNAVN. afgivne
+garantier og bekræfter, at jeg personligt indestår for at holde
+&BANKNAVN. skadesløs for samtlige &BANKNAVN. udlæg og
+udbetalinger i sagen samt for betaling af samtlige sagsomkostninger.
+.br
+Undertegnede erklærer at være bekendt med &BANKNAVN.s
+Almindelige forretningsbetingelser, som er en del af vilkårene for denne
+aftale. De kan til enhver tid findes på &BANKNAVN.s hjemmeside.
+.br
+For handel med realkreditobligationer gælder &BANKNAVN.s Betingelser
+for handel med værdipapirer, Politik for ordre udførelse og
+Politik for håndtering af interessekonflikter som kunden i forbindelse med
+tiltrædelse af denne aftale bekræfter leveres via &BANKNAVN.s hjemmeside.
+.sp 5mm
+Dato:
+.sp 5mm
+.tp 7mm 62mm 105mm
+.if &MEDKNDNR1 ne 0000000000
+.th .hr tynd 5mm 50mm 115mm 160mm
+.th .br
+.th ¤&KTONAVN. ¤¤&MEDNAVN.
+.el .hr tynd 5mm 50mm
+.el .br
+.el ¤&KTONAVN.
+.sp 10mm
+.if &L'&G08MEDNR4. > 0
+.an &L'&G08MEDNR3. > 0
+.an &L'&G08MEDNR2. > 0
+.th .hr tynd 5mm 50mm 60mm 105mm 115mm 160mm
+.th .br
+.th ¤&G08MEDNA2. ¤&G08MEDNA3. ¤&G08MEDNA4.
+.th .go SLUT
+.if &L'&G08MEDNR3. > 0
+.an &L'&G08MEDNR2. > 0
+.th .hr tynd 5mm 50mm 60mm 105mm
+.th .br
+.th ¤&G08MEDNA2. ¤&G08MEDNA3.
+.th .go SLUT
+.if &L'&G08MEDNR2. > 0
+.th .hr tynd 5mm 50mm
+.th .br
+.th ¤&G08MEDNA2.
+...SLUT
+.sp 10mm
+:FED.&BANKNAVN.::SKRSLUT.
+.sp 5mm
+Dato:
+.sp 5mm
+.hr tynd 5mm 50mm
+.kp off
+:NY.
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KTOKNDNR1.'
+.BR
+.NV PAGE ADRESSENØGLE '%&IFORSEND.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
+.BR
+.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
+.BR
+.NV PAGE REGBKSTED '%&REGBKSTED.'
+.BR
+:ENY.
+.*SUBSTRINGS**************************************************************
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.*************************************************************************
+.su off
+.se cprcvr1 = substr &KTOKNDNR1 1 2
+.se cprcvr2 = substr &KTOKNDNR1 1 6
+.se cprcvr3 = substr &KTOKNDNR1 7 4
+.if &G08LTYP1 = 1
+.th .se blantype1 = 'Fastforrentet lån'
+.if &G08OLTYP1 = 2
+.th .se blantype1 = 'Variabelt forrentet lån'
+.if &G08OLTYP2 = 1
+.th .se blantype2 = 'Fastforrentet lån'
+.if &G08OLTYP2 = 2
+.th .se blantype2 = 'Variabelt forrentet lån'
+.su on
+.*************************************************************************
+.* TEST PÅ KONSTRUERET KUNDENUMMER
+.if x&cprcvr1 > x31
+.th .se kuntxt = 'Kundenummer'
 .**************************************************************************
+.* TEST PÅ VIRKSOMHED
+.if x&cprcvr1 = x00
+.th .se kuntxt = 'CVR-nummer'
+.**************************************************************************
+.**************************************************************************
+.* TEST PÅ ØVRIGE KUNDER
+.if x&cprcvr1 > x00
+.an x&cprcvr1 < x32
+.th .se kuntxt = 'CPR-nummer'
+.**************************************************************************
+.if &L'&G08ADRESSE = 0
+.th .mg/T/Ejendommens adresse skal udfyldes/
+.if &L'&G08RKKTO = 0
+.th .mg/T/Realkreditkontonr skal udfyldes/
+.*Valider indtastning af nye lån *****************************************
+.*TEST  nyt lån 1
+...VALNYT1
+.if &L'&G08KRED1  = 0
+.an &L'&G08HVDST1 = 0
+.th .go SLUTNYT
+.if &L'&G08KRED1  > 0
+.an &L'&G08HVDST1 > 0
+.th
+.el .mg/T/Een eller flere parametre i nye lån 1 er IKKE udfyldt/
+.*TEST  nyt lån 2
+.if &L'&G08KRED2  = 0
+.an &L'&G08HVDST2 = 0
+.th .go SLUTNYT
+.if &L'&G08KRED2  > 0
+.an &L'&G08HVDST2 > 0
+.th
+.el .mg/T/Een eller flere parametre i nyt lån2 er IKKE udfyldt/
+...SLUTNYT
+.* Validering af bestående lån der overtages ******************************
+.*Valider bestående lån 1
+...VALBST1
+.if &L'&G08OKRED1  = 0
+.an &L'&G08OHVDST1 = 0
+.th .go SLUTP05
+.if &L'&G08OKRED1  > 0
+.an &L'&G08OHVDST1 > 0
+.th
+.el .mg/T/Een eller flere parametre i best. lån1 er IKKE udfyldt/
+...VALBST2
+.if &L'&G08OKRED2  = 0
+.an &L'&G08OHVDST2 = 0
+.th .go SLUTP05
+.if &L'&G08OKRED2  > 0
+.an &L'&G08OHVDST2 > 0
+.an &L'&G08OLTYP2  > 0
+.th
+.el .mg/T/Een eller flere parametre i best. lån2 er IKKE udfyldt/
+...SLUTP05
+.* Validering af ejerpantebreve samt skadesløsbrev ************************
+.* Ejerpantebrev 1 ********************************************************
+.if &L'&G08EPBHND1 = 0
+.an &L'&G08EPBBLB1 = 0
+.an &L'&G08EPBNYT1 = 0
+.th .go VALSKL
+.if &G08EPBHND1. > 0
+.an &G08EPBHND1. < 7
+.th
+.el .mg/T/Hændelse for ejerpantebrev 1 forkert. Skal være mellem 1 og 6/
+.if &L'&G08EPBBLB1 > 0
+.th
+.el .mg/T/Beløb i ejerpantebrev 1 ikke udfyldt/
+.* Ejerpantebrev 2 ********************************************************
+.if &L'&G08EPBHND2 = 0
+.an &L'&G08EPBBLB2 = 0
+.an &L'&G08EPBNYT2 = 0
+.th .go VALSKL
+.if &G08EPBHND2. > 0
+.an &G08EPBHND2. < 7
+.th
+.el .mg/T/Hændelse for ejerpantebrev 2 forkert. Skal være mellem 1 og 6/
+.if &L'&G08EPBBLB2. > 0
+.th
+.el .mg/T/Beløb i ejerpantebrev 2 ikke udfyldt/
+.* Skadesløsbrev **********************************************************
+...VALSKL
+.if &L'&G08SKLBHND = 0
+.an &L'&G08SKLBBLB = 0
+.th .go SLUTP06
+.if &L'&G08SKLBHND > 0
+.an &L'&G08SKLBBLB > 0
+.th
+.el .mg/T/Eet felt vedr. skadesløsbrev er ikke udfyldt/
+.if &G08SKLBHND. > 0
+.an &G08SKLBHND. < 5
+.th
+.el .mg/T/Hændelse for Skadesløsbrev skal være mellem 1 og 4
+...SLUTP06
+.* Validering af omkostninger og gebyrer *********************************
+...VALEKSP
+.if &L'&G08EKSGEB = 0
+.an &L'&G08EKSRAB = 0
+.an &L'&G08EKSNET = 0
+.th .go VALQVR
+.if &L'&G08EKSGEB > 0
+.an &L'&G08EKSRAB > 0
+.an &L'&G08EKSNET > 0
+.th .go VALQVR
+.if &L'&G08EKSGEB = 0
+.th .mg/T/Fejl i indtastning af eksp.gebyr m.m/
+.if &L'&G08EKSRAB = 0
+.an &L'&G08EKSNET = 0
+.th .go VALQVR
+.if &L'&G08EKSRAB > 0
+.an &L'&G08EKSNET > 0
+.th .go VALQVR
+.el .mg/T/Fejl i indtastning af eksp.gebyr m.m/
+.*Valider øvrige gebyrer
+...VALQVR
+.if &L'&G08QGEBTXT = 0
+.an &L'&G08QGEBBLB = 0
+.th .go SLUTP07
+.if &L'&G08QGEBTXT > 0
+.an &L'&G08QGEBBLB > 0
+.th
+.el .mg/T/Fejl i indtastning af Øvrige gebyrer/
+...SLUTP07
+:NY.
+.NV PAGE DUFUNCTION '%&DUFUNCTION.'
+.BR
+.NV PAGE DUBANKNR '%&DUBANKNR.'
+.BR
+.NV PAGE DUKUNDENR '%&DUKUNDENR.'
+.BR
+.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
+.BR
+.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
+.BR
+.NV PAGE DUNOGLE '%&DUNOGLE.'
+.BR
+.NV PAGE DUROLLE1 '%&DUROLLE1.'
+.BR
+.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
+.BR
+.NV PAGE DUROLLE2 '%&DUROLLE2.'
+.BR
+.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
+.BR
+.NV PAGE DUROLLE3 '%&DUROLLE3.'
+.BR
+.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
+.BR
+.NV PAGE DUROLLE4 '%&DUROLLE4.'
+.BR
+.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
+.BR
+.NV PAGE DUROLLE5 '%&DUROLLE5.'
+.BR
+.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
+.BR
+.NV PAGE DUROLLE6 '%&DUROLLE6.'
+.BR
+.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
+.BR
+:ENY.
+.*SUBSTRINGS***************************************************************
+.su off
+.se brev = substr &BREVNAVN 4 7
+.su on
+.*LIGE LIDT TEST AF FELTERNE:
+.**************************************************************************
+.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.**************************************************************************
+.if &U'X&GENDUJANEJ = XN
+.or &U'X&GENDUJANEJ = XJ
+.th .go VALJN
+.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
 ...VALJN
 .if &U'X&GENDUJANEJ = XJ
 .th
@@ -495,536 +967,65 @@ Adresse: &G08ADRESSE.
 .th .mg/T/DU - Cpr.nr-6 er udfyldt, rollen skal også være udfyldt/
 .*************************************************************
 ...DUEXIT
-:NY.
-.NV PAGE DUFUNCTION '%&DUFUNCTION.'
-.BR
-.NV PAGE DUBANKNR '%&DUBANKNR.'
-.BR
-.NV PAGE DUKUNDENR '%&DUKUNDENR.'
-.BR
-.NV PAGE DUBREVNAVN '%&DUBREVNAVN.'
-.BR
-.NV PAGE DUDOKNAVN '%&DUDOKNAVN.'
-.BR
-.NV PAGE DUNOGLE '%&DUNOGLE.'
-.BR
-.NV PAGE DUROLLE1 '%&DUROLLE1.'
-.BR
-.NV PAGE DUCPRNR1 '%&DUCPRNR1.'
-.BR
-.NV PAGE DUROLLE2 '%&DUROLLE2.'
-.BR
-.NV PAGE DUCPRNR2 '%&DUCPRNR2.'
-.BR
-.NV PAGE DUROLLE3 '%&DUROLLE3.'
-.BR
-.NV PAGE DUCPRNR3 '%&DUCPRNR3.'
-.BR
-.NV PAGE DUROLLE4 '%&DUROLLE4.'
-.BR
-.NV PAGE DUCPRNR4 '%&DUCPRNR4.'
-.BR
-.NV PAGE DUROLLE5 '%&DUROLLE5.'
-.BR
-.NV PAGE DUCPRNR5 '%&DUCPRNR5.'
-.BR
-.NV PAGE DUROLLE6 '%&DUROLLE6.'
-.BR
-.NV PAGE DUCPRNR6 '%&DUCPRNR6.'
-.BR
-:ENY.
-.*SUBSTRINGS***************************************************************
-.su off
-.se brev = substr &BREVNAVN 4 7
-.su on
-.*LIGE LIDT TEST AF FELTERNE:
 .**************************************************************************
-.**DENNE ER TILPASSET TIL BRUG SAMMEN MED "KUN02" **************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
 .**************************************************************************
-.if &U'X&GENDUJANEJ = XN
-.or &U'X&GENDUJANEJ = XJ
-.th .go VALJN
-.el .mg/T/Feltet: Digitalt underskriftsrum skal udfyldes med enten J el. N/
-.* Validering af omkostninger og gebyrer *********************************
-...VALEKSP
-.if &L'&G08EKSGEB = 0
-.an &L'&G08EKSRAB = 0
-.an &L'&G08EKSNET = 0
-.th .go VALQVR
-.if &L'&G08EKSGEB > 0
-.an &L'&G08EKSRAB > 0
-.an &L'&G08EKSNET > 0
-.th .go VALQVR
-.if &L'&G08EKSGEB = 0
-.th .mg/T/Fejl i indtastning af eksp.gebyr m.m/
-.if &L'&G08EKSRAB = 0
-.an &L'&G08EKSNET = 0
-.th .go VALQVR
-.if &L'&G08EKSRAB > 0
-.an &L'&G08EKSNET > 0
-.th .go VALQVR
-.el .mg/T/Fejl i indtastning af eksp.gebyr m.m/
-.*Valider øvrige gebyrer
-...VALQVR
-.if &L'&G08QGEBTXT = 0
-.an &L'&G08QGEBBLB = 0
-.th .go SLUTP07
-.if &L'&G08QGEBTXT > 0
-.an &L'&G08QGEBBLB > 0
-.th
-.el .mg/T/Fejl i indtastning af Øvrige gebyrer/
-...SLUTP07
-.* Validering af ejerpantebreve samt skadesløsbrev ************************
-.* Ejerpantebrev 1 ********************************************************
-.if &L'&G08EPBHND1 = 0
-.an &L'&G08EPBBLB1 = 0
-.an &L'&G08EPBNYT1 = 0
-.th .go VALSKL
-.if &G08EPBHND1. > 0
-.an &G08EPBHND1. < 7
-.th
-.el .mg/T/Hændelse for ejerpantebrev 1 forkert. Skal være mellem 1 og 6/
-.if &L'&G08EPBBLB1 > 0
-.th
-.el .mg/T/Beløb i ejerpantebrev 1 ikke udfyldt/
-.* Ejerpantebrev 2 ********************************************************
-.if &L'&G08EPBHND2 = 0
-.an &L'&G08EPBBLB2 = 0
-.an &L'&G08EPBNYT2 = 0
-.th .go VALSKL
-.if &G08EPBHND2. > 0
-.an &G08EPBHND2. < 7
-.th
-.el .mg/T/Hændelse for ejerpantebrev 2 forkert. Skal være mellem 1 og 6/
-.if &L'&G08EPBBLB2. > 0
-.th
-.el .mg/T/Beløb i ejerpantebrev 2 ikke udfyldt/
-.* Skadesløsbrev **********************************************************
-...VALSKL
-.if &L'&G08SKLBHND = 0
-.an &L'&G08SKLBBLB = 0
-.th .go SLUTP06
-.if &L'&G08SKLBHND > 0
-.an &L'&G08SKLBBLB > 0
-.th
-.el .mg/T/Eet felt vedr. skadesløsbrev er ikke udfyldt/
-.if &G08SKLBHND. > 0
-.an &G08SKLBHND. < 5
-.th
-.el .mg/T/Hændelse for Skadesløsbrev skal være mellem 1 og 4
-...SLUTP06
-.* Validering af bestående lån der overtages ******************************
-.*Valider bestående lån 1
-...VALBST1
-.if &L'&G08OKRED1  = 0
-.an &L'&G08OHVDST1 = 0
-.th .go SLUTP05
-.if &L'&G08OKRED1  > 0
-.an &L'&G08OHVDST1 > 0
-.th
-.el .mg/T/Een eller flere parametre i best. lån1 er IKKE udfyldt/
-...VALBST2
-.if &L'&G08OKRED2  = 0
-.an &L'&G08OHVDST2 = 0
-.th .go SLUTP05
-.if &L'&G08OKRED2  > 0
-.an &L'&G08OHVDST2 > 0
-.an &L'&G08OLTYP2  > 0
-.th
-.el .mg/T/Een eller flere parametre i best. lån2 er IKKE udfyldt/
-...SLUTP05
-.*Valider indtastning af nye lån *****************************************
-.*TEST  nyt lån 1
-...VALNYT1
-.if &L'&G08KRED1  = 0
-.an &L'&G08HVDST1 = 0
-.th .go SLUTNYT
-.if &L'&G08KRED1  > 0
-.an &L'&G08HVDST1 > 0
-.th
-.el .mg/T/Een eller flere parametre i nye lån 1 er IKKE udfyldt/
-.*TEST  nyt lån 2
-.if &L'&G08KRED2  = 0
-.an &L'&G08HVDST2 = 0
-.th .go SLUTNYT
-.if &L'&G08KRED2  > 0
-.an &L'&G08HVDST2 > 0
-.th
-.el .mg/T/Een eller flere parametre i nyt lån2 er IKKE udfyldt/
-...SLUTNYT
-.*SUBSTRINGS**************************************************************
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.*************************************************************************
-.su off
-.se cprcvr1 = substr &KTOKNDNR1 1 2
-.se cprcvr2 = substr &KTOKNDNR1 1 6
-.se cprcvr3 = substr &KTOKNDNR1 7 4
-.if &G08LTYP1 = 1
-.th .se blantype1 = 'Fastforrentet lån'
-.if &G08OLTYP1 = 2
-.th .se blantype1 = 'Variabelt forrentet lån'
-.if &G08OLTYP2 = 1
-.th .se blantype2 = 'Fastforrentet lån'
-.if &G08OLTYP2 = 2
-.th .se blantype2 = 'Variabelt forrentet lån'
-.su on
-.*************************************************************************
-.* TEST PÅ KONSTRUERET KUNDENUMMER
-.if x&cprcvr1 > x31
-.th .se kuntxt = 'Kundenummer'
-.**************************************************************************
-.* TEST PÅ VIRKSOMHED
-.if x&cprcvr1 = x00
-.th .se kuntxt = 'CVR-nummer'
-.**************************************************************************
-.**************************************************************************
-.* TEST PÅ ØVRIGE KUNDER
-.if x&cprcvr1 > x00
-.an x&cprcvr1 < x32
-.th .se kuntxt = 'CPR-nummer'
-.**************************************************************************
-.if &L'&G08ADRESSE = 0
-.th .mg/T/Ejendommens adresse skal udfyldes/
-.if &L'&G08RKKTO = 0
-.th .mg/T/Realkreditkontonr skal udfyldes/
-:NY.
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KTOKNDNR1.'
-.BR
-.NV PAGE ADRESSENØGLE '%&IFORSEND.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.NV PAGE GENDUJANEJ '%&GENDUJANEJ.'
-.BR
-.NV PAGE GENDUNYTBV '%&GENDUNYTBV.'
-.BR
-.NV PAGE REGBKSTED '%&REGBKSTED.'
-.BR
-:ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-:COUR10
-.kp on
-Omkostninger til realkreditinstitutter samt afgift til staten ved
-tinglysning af det nye realkreditpantebrev er ikke medtaget i
-opgørelsen. Disse vil fremgå af tilbud fra
-realkreditinstituttet. Omkostninger til evt. efterfinansiering, private
-panthavere samt evt. fast og variabel tinglysningsafgift til
-prioritets - eller ejerpantebreve er heller ikke medtaget i opgørelsen.
-.sp
-.kp off
-.kp on
-For at gennemføre denne aftale er der oprettet en realkreditkonto
-nr. &G08RKKTO. til brug for alle betalinger i forbindelse med
-lånesagen, herunder evt. indfrielse af lån og betaling af samtlige
-omkostninger m.v.
-.br
-Når realkreditkontoen kan opgøres, overføres over-/underskud til konto nr.
-&G08OPGKTO..
-.br
-.kp off
-.kp on
-Såfremt der er behov for det, oprettes der særskilt
-udlægskonto/kredit. Kundens egen opsparing og evt. pengeinstitutlån
-m.v. indsættes på denne konto.
-.br
-Der oprettes særskilt kreditaftale, hvis der er behov for dette.
-.sp
-.kp off
-.kp on
+.dr tynd weight 0.1mm
+.fo left
+.ti ¤ 05
 :COUR10.
-:FED.Information ved udførelse af kundens realkreditforretninger
-:SKRSLUT.
+:tiltale &TILTALEF
+:omtale  &OMTALEF
+.*********************AREAL-DEFINITIONER***********************************
+.* Brevnavn, roteret i venstre hjørne
+.da VEND       7mm 275mm width 180mm rotate -90
+.da HEADER1   25mm  30mm width 170mm
+.da HEADER2   25mm  45mm width 170mm
+.**************************************************************************
+.ar HEADER1 on
+&KTONAVN.
 .br
-Kundekategorisering
+&KTOCO.
 .br
-&BANKNAVN. har inddelt sine kunder i kategorier i overensstemmelse med
-reglerne om investorbeskyttelse ved værdipapirhandel. Kunden er
-kategoriseret som detailkunde i henhold til denne aftale om udførelse af
-realkreditforretninger.
-.sp
-.kp off
-.kp on
-Ordreudførelsespolitik
+&KTOGADE.
 .br
-Undertegnede er bekendt med &BANKNAVN.s ordreudførelsespolitik
-og samtykker til, at &BANKNAVN. kan udføre ordrene uden for et
-reguleret marked eller et andet organiseret marked.
-.if &L'&G08DEPOT > 0
-.th .br
-.th Depot nr. &G08DEPOT..
-.sp
-.kp off
-at &BANKNAVN. ikke påtager sig nogen forpligtelse til at henvende sig om
-kurs- og renteudviklingen på markedet
-.in 5mm
-*¤Evt. kurstabskonto (fradagskonto)
-.in 10mm nobreak
-bortfalder, hvis der ikke senest 1 år efter lånets indfrielse optages
-et nyt realkreditlån med mindst samme løbetid. Hvis hovedstolen på det nye
-lån er mindre end restgælden på det indfriede lån, reduceres
-kurstabskontoen forholdsmæssigt.
-.in 5mm
-.sp
-.kp off
-.kp on
-:COUR8
-.tp 15mm 20mm
-Punkter som er drøftet:
+&KTOBY.
 .br
-.bx 5mm 8mm
-.ct ¤Fortrydelsesret
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Tilstandsrapport
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Forsikringsforhold i almindelighed, herunder ejerskifteforsikring
-og ejendomsforsikring
-.bx off
-.br
-.bx 5mm 8mm
-.ct ¤Energimærkning
-.bx off
-.sp
-.kp off
-.kp off
-.kp on
-*¤Ejerpantebreve
-.in 10mm nobreak
-den købte ejendom, som overtages i henhold til købsaftalen
-.in 5mm
-.br
-.kp off
-.kp on
-*¤Alt andet, som er
-.in 10mm nobreak
-pantsat til sikkerhed for mit/vort samlede engagement i &BANKNAVN. i
-henhold til eksisterende pantsætningserklæring.
-.in 5mm
-.sp
-.kp off
-.kp on
-:FED.
-Låntager er før underskriften gjort bekendt med:
-:SKRSLUT
-.br
-*¤Det forventede tidsmæssige forløb af lånesagen
-.br
-.kp off
-.kp on
-*¤Midler vedr.
-.in 10mm nobreak
-fast ejendom er beskyttet i henhold til reglerne for Garantiformuen med op
-til 75 mio. kr. i op til 12 måneder. Det er en forudsætning at den faste
-ejendom har været anvendt hovedsageligt ikke-erhvervsmæssigt eller er
-bestemt til hovedsagelig ikke-erhvervsmæssig anvendelse.
-.br
-Flere oplysninger kan findes www.gii.dk og/eller
-www.djs.dk/om-os/priser-og-vilkaar/garantiformuen-(indskydergarantifonden).
-.in 5mm
-.kp off
-.kp on
-*¤Forudsætninger
-.in 10mm nobreak
-for lånesagens endelige gennemførelse samt frigivelse af
-eventuelle garantier
-.in 5mm
-.kp off
-.kp on
-*¤Orienteret om nødvendigheden af at etablere
-.in 10mm nobreak
-livsforsikringsdækning/krydsliv
-.in 5mm
-.kp off
-.kp on
-.kp on
-:FED.
-Fuldmagt, transport, garanti og kundens sikkerhedsstillelse
-:SKRSLUT.
-.br
-Jeg giver &BANKNAVN. uigenkaldelig fuldmagt til at underskrive alle de
-for sagens gennemførelse dokumenter, herunder tinglysning af pantebrev(e)
-til realkreditinstituttet iht. særskilt lånetilbud og rykningspåtegninger
-på evt. ejerpantebrev(e) som skal overtages fra sælger.
-.sp
-.kp off
-.kp on
-Der underskrives særskilt fuldmagt til pengeinstituttet vedr. tinglysning
-af ejerpantebrev og underpant heri og/eller tinglysning af underpant til
-&BANKNAVN. i overtagne ejerpantebreve.
-.sp
-.kp off
-.kp on
-Eventuelle garantier/indeståelser, som
-&BANKNAVN. måtte afgive i forbindelse med købet af ejendommen, og
-fremskaffelse af finansieringen, afgives for min regning, idet jeg indestår
-&BANKNAVN. for skadesløs betaling af ethvert
-beløb, som denne måtte udlægge i forbindelse med sagens gennemførelse.
-.sp
-.kp off
-.tp 10mm
-.kp on
-Følgende tjener uden yderligere medvirken fra min side &BANKNAVN. til
-sikkerhed for dens tilgodehavende:
-.br
-*¤De i anledning
-.in 10mm nobreak
-af sagen udstedte pantebreve og de obligationer/kontantlånsprovenu, der
-træder i stedet for disse
-.in 5mm
-.kp off
-.kp on
-*¤Indestående
-.in 10mm nobreak
-på realkreditkonto nr. &G08RKKTO. og indestående på særskilt
-udlægskonto/kredit.
-.in 5mm
-.kp off
-.kp on
-*¤Krav på beløb som sælger med urette måtte få udbetalt under garantien.
-.br
-.kp off
-.kp on
-*¤Krav på tilbagesøgning af de deponerede midler
-.br
-*¤Økonomiske konsekvenser, herunder ændring af budget og
-forskudsregistrering
-.br
-.kp off
-.kp on
-*¤&BANKNAVN. har
-.in 10mm nobreak
-en samarbejdsaftale med Totalkredit, DLR Kredit og Nykredit og modtager
-provision for formidling af deres produkter
-.in 5mm
-.kp off
-.kp on
-*¤Lånesagen
-.in 10mm nobreak
-kan ikke gennemføres uden samtykke fra efterstående rettighedshavere
-.in 5mm
-.kp off
-.kp on
-*¤Låntager
-.in 10mm nobreak
-skal betale de gebyrer og omkostninger, der er forbundet med
-lånesagen. Det gælder også selvom sagen ikke kan gennemføres på grund af
-forhold, der ikke kan tilregnes &BANKNAVN.
-.in 5mm
-.kp off
-.kp on
-*¤Låntager er forpligtet
-.in 10mm nobreak
-til at betale ethvert beløb, som &BANKNAVN. har lagt ud til betaling
-af omkostninger og gebyrer
-.in 5mm
-.kp off
-.kp on
-*¤Alle beregninger
-.in 10mm nobreak
-er foretaget udfra de økonomiske oplysninger, som kunden har afgivet
-.in 5mm
-.kp off
-.kp on
-*¤Låntager er
-.in 10mm nobreak
-blevet orienteret om de lånetyper, der findes på markedet og nyt lån er
-valgt ud fra den rådgivning
-.in 5mm
-.kp off
-.kp on
-*¤Såfremt der
-.in 10mm nobreak
-ikke indgås kurskontrakt/fastkursaftale er jeg bekendt med, at der senere
-kan foretages kurssikring af lånet. Samtidig er jeg opmærksom på,
-.th .hr tynd 5mm 50mm
-.th .br
-.th ¤&G08MEDNA2.
-...SLUT
-.sp 10mm
-:FED.&BANKNAVN.::SKRSLUT.
-.sp 5mm
-Dato:
-.sp 5mm
-.hr tynd 5mm 50mm
-.kp off
-.kp on
-:COUR10.
-:FED.
-Underskrift
-:SKRSLUT.
-.br
-Undertegnede erklærer at jeg har modtaget kopi af denne aftale og
-lånetilbud, samt at jeg er blevet nøje rådgivet i overensstemmelse med
-det ovenfor anførte.
-.br
-Ved min underskrift bekræfter og tiltræder jeg samtidig de foran anførte
-transporter, pantsætninger for de af &BANKNAVN. afgivne
-garantier og bekræfter, at jeg personligt indestår for at holde
-&BANKNAVN. skadesløs for samtlige &BANKNAVN. udlæg og
-udbetalinger i sagen samt for betaling af samtlige sagsomkostninger.
-.br
-Undertegnede erklærer at være bekendt med &BANKNAVN.s
-Almindelige forretningsbetingelser, som er en del af vilkårene for denne
-aftale. De kan til enhver tid findes på &BANKNAVN.s hjemmeside.
-.br
-For handel med realkreditobligationer gælder &BANKNAVN.s Betingelser
-for handel med værdipapirer, Politik for ordre udførelse og
-Politik for håndtering af interessekonflikter som kunden i forbindelse med
-tiltrædelse af denne aftale bekræfter leveres via &BANKNAVN.s hjemmeside.
-.sp 5mm
-Dato:
-.sp 5mm
-.tp 7mm 62mm 105mm
+&KTOLAND.
+.sp 6mm
 .if &MEDKNDNR1 ne 0000000000
-.th .hr tynd 5mm 50mm 115mm 160mm
+.th Meddebitor(er):
 .th .br
-.th ¤&KTONAVN. ¤¤&MEDNAVN.
-.el .hr tynd 5mm 50mm
-.el .br
-.el ¤&KTONAVN.
-.sp 10mm
-.if &L'&G08MEDNR4. > 0
-.an &L'&G08MEDNR3. > 0
-.an &L'&G08MEDNR2. > 0
-.th .hr tynd 5mm 50mm 60mm 105mm 115mm 160mm
-.th .br
-.th ¤&G08MEDNA2. ¤&G08MEDNA3. ¤&G08MEDNA4.
-.th .go SLUT
-.if &L'&G08MEDNR3. > 0
-.an &L'&G08MEDNR2. > 0
-.th .hr tynd 5mm 50mm 60mm 105mm
-.th .br
-.th ¤&G08MEDNA2. ¤&G08MEDNA3.
-.th .go SLUT
+.th &MEDNAVN., &MEDKNDNR1.
 .if &L'&G08MEDNR2. > 0
+.th .br
+.th &G08MEDNA2., &G08MEDNR2.
+.if &L'&G08MEDNR3. > 0
+.th .br
+.th &G08MEDNA3., &G08MEDNR3.
+.if &L'&G08MEDNR4. > 0
+.th .br
+.th &G08MEDNA4., &G08MEDNR4.
+.if &L'&MEDKNDNR1. > 0
+.th .sp 9mm
+.el .sp 19mm
+Indgår hermed aftale med &BANKNAVN om rådgivning, finansiering og
+ekspedition i forbindelse med køb af ejendommen:
+.sp
+Adresse: &G08ADRESSE.
+.ar off
+.ar HEADER2 on
+.tp 110mm 170mm right
+:FED.
+ ¤ ¤ Køb af fast ejendom
+:SKRSLUT.
+.br
+.if &kuntxt. = CPR-nummer
+.th ¤ &kuntxt.: ¤ &cprcvr2.-&cprcvr3.
+.el ¤ &kuntxt.: ¤ &KTOKNDNR1.
+ ¤ Dato: ¤ &DATO.
+.ar off
+.**************************************************************************
+

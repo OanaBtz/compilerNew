@@ -11,646 +11,6 @@
 .NV PAGE FORCERTØM '%&U'&FORCER.'
 .BR
 .NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.NV PAGE ARKIV '%&ARKIV.'
-.BR
-.NV PAGE SENDKUNDE '%&SANTKUNDE.'
-.BR
-.NV PAGE SENDBANK '%&SANTBANK.'
-.BR
-.NV PAGE UDDATAKAT '%&UDDATA.'
-.BR
-.NV PAGE KUNDENR '%&KUNDENR.'
-.BR
-.NV PAGE FORSENDADRNR '%&FORSNR.'
-.BR
-.NV PAGE UDDATASPROGKODE '%1'
-.BR
-.NV PAGE KONTROLLANT1 '%&KONTROL1.'
-.BR
-.NV PAGE KONTROLLANT2 '%&KONTROL2.'
-.BR
-.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
-.*(Ændres kun hvis CVR-nr.)
-.se tlfnr = 'Privat'
-.su off
-.se cprcvr = substr &KUNDENR 1 2
-.se cpr1   = substr &KUNDENR 1 6
-.se cpr2   = substr &KUNDENR 7 4
-.se gebyrreg = substr &GENREGKTO. 1 4
-.se gebyrkto = substr &GENREGKTO. 5 7
-.su on
-.if x&cprcvr = x00
-.th .se tlfnr = 'Erhverv'
-.*** Hvilken profiltype har vi gang i
-.if &GENPROFIL. = 0200
-.or &GENPROFIL. = 0201
-.or &GENPROFIL. = 0202
-.or &GENPROFIL. = 0205
-.or &GENPROFIL. = 0400
-.th
-.el .se profil  = Ejok
-.el .go PSLUT
-.if &GENPROFIL. = 0200
-.or &GENPROFIL. = 0201
-.or &GENPROFIL. = 0202
-.or &GENPROFIL. = 0400
-.th .se profil = Privat
-.el .se profil = Unge
-...PSLUT
-.*************************************************************************
-.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
-.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
-.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
-.**************************************************************************
-.ti ¤ 05
-:VERDA09.
-.**************************************************************************
-.da FEJL      25mm 130mm width 170mm
-.da KTOHAVOV  25mm 33mm width 155mm
-.da KTOHAVER  25mm 38mm width 155mm
-.da KUNDENR   25mm 69mm width 155mm
-.da KTOOPL1   25mm 78mm width 170mm
-.**************************************************************************
-.ar KTOOPL1 on
-.tp 50mm right 165mm right
-Gebyrkonto
-.br
-Reg.nr.¤&gebyrreg.¤Dato: &DATO.
-.br
-Kontonr.¤&gebyrkto.
-.ar off
-.**************************************************************************
-.ar KTOHAVOV on
-:FED.
-Kontohaver
-:SKRSLUT.
-.ar off
-.**************************************************************************
-.ar KTOHAVER on
-&WEBADRLIN1.
-.br
-&WEBADRLIN2.
-.br
-&WEBADRLIN3.
-.br
-&WEBADRLIN4.
-.br
-&WEBADRLIN5.
-.ar off
-.**************************************************************************
-.ar KUNDENR on
-CPR-nr.: &cpr1.-&cpr2.
-.ar off
-.**************************************************************************
-.if &profil. = Ejok
-.th
-.el .go OSLUT
-.ar FEJL on
-Der er fundet nedenstående fejl i formattering af standardbrev &BREVNAVN.
-.sp 3mm
-BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et kontonr med ugyldig
-profil, &GENPROFIL.
-.hr left right
-.qu
-...OSLUT
-.rh execute
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.pm 20mm
-.bm 26mm
-.ll 175mm
-.in 5mm
-.ir 1mm
-.**************************************************************************
-.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
-.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
-.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
-.**************************************************************************
-.da VEND 7mm 277mm width 180mm rotate -90
-.da BUNDV   25mm 270mm width 55mm
-.da BUNDH  160mm 266mm
-.**************************************************************************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.**************************************************************************
-.*Det er egentlig bundtekster...
-.rh on
-.**************************************************************************
-.ar VEND on
-:VERDA05.
-&BREVNAVN &BRUGERNR.
-.br
-&DATO kl. &KLOKKESLET
-.ar off
-.ar BUNDV on
-.sp 9mm
-.se senr12 = substr &BANKSENR 1 2
-.se senr34 = substr &BANKSENR 3 2
-.se senr56 = substr &BANKSENR 5 2
-.se senr78 = substr &BANKSENR 7 2
-.se senr90 = substr &BANKSENR 9 2
-:VERDA05.
-&BANKNAVN. A/S
-.br
-CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
-.ar off
-.ar BUNDH on
-:VERDA07.
-&B32NYK
-.br
-&B32ADRES.
-.br
-&B32POST.
-.br
-.if &tlfnr. = Erhverv
-.th Tlf. &B32TLFDIRE.
-.el Tlf. &B32TLFDIR.
-.br
-&B32SERVCMA.
-.br
-&B32WWWNYK.
-.ar off
-.sp 20mm
-.rh off
-.sp 60mm
-.hy of
-:VERDA09.
-.kp on
-.if &profil. = Unge
-.th
-.el .go PRIV1
-På vegne af kontohaver indgår jeg/vi som &NAVN.s værge/værger denne aftale
-med &B32NYK. om tilslutning til &B32NYK Netbank 13-17 herefter benævnt
-'&B32MITNYK.', e-boks og &B32NYK kuvertbetaling, i det omfang denne
-service anvendes.
-.sp 3mm
-.***Tabulator samt editering af kontonumer og depoter ****
-.tp 80mm
-.se regnr1 = substr &KONTO1 1 4
-.se ktonr1 = substr &KONTO1 5 7
-.se regnr2 = substr &KONTO2 1 4
-.se ktonr2 = substr &KONTO2 5 7
-.se regnr3 = substr &KONTO3 1 4
-.se ktonr3 = substr &KONTO3 5 7
-.se regnr4 = substr &KONTO4 1 4
-.se ktonr4 = substr &KONTO4 5 7
-.se regnr5 = substr &KONTO5 1 4
-.se ktonr5 = substr &KONTO5 5 7
-.se regnr6 = substr &KONTO6 1 4
-.se ktonr6 = substr &KONTO6 5 7
-.se regnr7 = substr &KONTO7 1 4
-.se ktonr7 = substr &KONTO7 5 7
-.se regnr8 = substr &KONTO8 1 4
-.se ktonr8 = substr &KONTO8 5 7
-.se deprg1 = substr &GENDEPOT01 1 4
-.se depnr1 = substr &GENDEPOT01 5 6
-.se deprg2 = substr &GENDEPOT02 1 4
-.se depnr2 = substr &GENDEPOT02 5 6
-.se deprg3 = substr &GENDEPOT03 1 4
-.se depnr3 = substr &GENDEPOT03 5 6
-.se deprg4 = substr &GENDEPOT04 1 4
-.se depnr4 = substr &GENDEPOT04 5 6
-.se deprg5 = substr &GENDEPOT05 1 4
-.se depnr5 = substr &GENDEPOT05 5 6
-.se deprg6 = substr &GENDEPOT06 1 4
-.se depnr6 = substr &GENDEPOT06 5 6
-Aftalen er gældende for:
-.br
-Konto/konti:¤Depot(er):
-.br
-.if &L'&KONTO1. = 0
-.and &L'&GENDEPOT01 = 0
-.th .go KTDEPSL
-.if &L'&KONTO1. > 0
-.th .go KON7
-.if &L'&KONTO6. = 0
-.and &L'&GENDEPOT06 > 0
-.th .br
-.th ¤&deprg6.-&depnr6.
-.th .go KON7
-...KON7
-.if &L'&KONTO7. = 0
-.th .go KTDEPSL
-.br
-&regnr7.-&ktonr7.
-...KON8
-.if &L'&KONTO8. = 0
-.th .go KTDEPSL
-.br
-&regnr8.-&ktonr8.
-...KTDEPSL
-.sp 3mm
-I det omfang netbankaftalen ønskes udvidet til at omfatte yderligere konti
-eller depoter, herunder såfremt der efterfølgende oprettes nye
-konti/depoter til kontohaver, vil disse alene blive omfattet af nærværende
-netbankaftale, såfremt dette er aftalt med os som værge/værger.
-.sp 3mm
-.go SLUTT1
-...PRIV1
-Indgår aftale med &B32NYK. om tilslutning til &B32NYK. Netbank herefter
-benævnt '&B32MITNYK.', Betalingsservice, e-Boks og &B32NYK.s Kuvertbetaling
-i det omfang denne service anvendes.
-.sp 3mm
-.go SLUTT1
-...SLUTT1
-.kp off
-.if &L'&KONTO4. = 0
-.and &L'&GENDEPOT04 = 0
-.th .go KTDEPSL
-.if &L'&KONTO4. > 0
-.and &L'&GENDEPOT04 > 0
-.th .br
-.th &regnr4.-&ktonr4.¤&deprg4.-&depnr4.
-.th .go KON5
-.if &L'&KONTO4. > 0
-.and &L'&GENDEPOT04 = 0
-.th .br
-.th &regnr4.-&ktonr4.
-.th .go KON5
-.if &L'&KONTO4. = 0
-.and &L'&GENDEPOT04 > 0
-.th .br
-.th ¤&deprg4.-&depnr4.
-.th .go KON5
-...KON5
-.if &L'&KONTO5. = 0
-.and &L'&GENDEPOT05 = 0
-.th .go KTDEPSL
-.if &L'&KONTO5. > 0
-.and &L'&GENDEPOT05 > 0
-.th .br
-.th &regnr5.-&ktonr5.¤&deprg5.-&depnr5.
-.th .go KON6
-.if &L'&KONTO5. > 0
-.and &L'&GENDEPOT05 = 0
-.th .br
-.th &regnr5.-&ktonr5.
-.th .go KON6
-.if &L'&KONTO5. = 0
-.and &L'&GENDEPOT05 > 0
-.th .br
-.th ¤&deprg5.-&depnr5.
-.th .go KON6
-...KON6
-.if &L'&KONTO6. = 0
-.and &L'&GENDEPOT06 = 0
-.th .go KTDEPSL
-.if &L'&KONTO6. > 0
-.and &L'&GENDEPOT06 > 0
-.th .br
-.th &regnr6.-&ktonr6.¤&deprg6.-&depnr6.
-.th .go KON7
-.if &L'&KONTO6. > 0
-.and &L'&GENDEPOT06 = 0
-.th .br
-.th &regnr6.-&ktonr6.
-.and &L'&GENDEPOT01 > 0
-.th &regnr1.-&ktonr1.¤&deprg1.-&depnr1.
-.th .go KON2
-.if &L'&KONTO1. > 0
-.and &L'&GENDEPOT01 = 0
-.th &regnr1.-&ktonr1.
-.th .go KON2
-.if &L'&KONTO1. = 0
-.and &L'&GENDEPOT01 > 0
-.th ¤&deprg1.-&depnr1.
-.th .go KON2
-...KON2
-.if &L'&KONTO2. = 0
-.and &L'&GENDEPOT02 = 0
-.th .go KTDEPSL
-.if &L'&KONTO2. > 0
-.and &L'&GENDEPOT02 > 0
-.th .br
-.th &regnr2.-&ktonr2.¤&deprg2.-&depnr2.
-.th .go KON3
-.if &L'&KONTO2. > 0
-.and &L'&GENDEPOT02 = 0
-.th .br
-.th &regnr2.-&ktonr2.
-.th .go KON3
-.if &L'&KONTO2. = 0
-.and &L'&GENDEPOT02 > 0
-.th .br
-.th ¤&deprg2.-&depnr2.
-.th .go KON3
-...KON3
-.if &L'&KONTO3. =  0
-.and &L'&GENDEPOT03 = 0
-.th .go KTDEPSL
-.if &L'&KONTO3. > 0
-.and &L'&GENDEPOT03 > 0
-.th .br
-.th &regnr3.-&ktonr3.¤&deprg3.-&depnr3.
-.th .go KON4
-.if &L'&KONTO3. > 0
-.and &L'&GENDEPOT03 = 0
-.th .br
-.th &regnr3.-&ktonr3.
-.th .go KON4
-.if &L'&KONTO3. = 0
-.and &L'&GENDEPOT03 > 0
-.th .br
-.th ¤&deprg3.-&depnr3.
-.th .go KON4
-...KON4
-Dato¤&NAVN.
-.go SLUTT2
-...SLUTT2
-.kp off
-.sp 10mm
-.tp 30mm 90mm 115mm
-.hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
-Dato¤Værge¤Dato¤Værge
-.br
-¤¤¤(kun ved fælles forældremyndighed)
-.go SLUTT2
-...PRIV2
-Jeg erklærer ved min underskrift på denne aftale, at jeg har modtaget og
-gjort mig bekendt med denne aftale, regler for NemID til netbank og
-offentlig digital signatur samt &BANKNAVN.s gebyroversigt, 'Almindelige
-forretningsbetingelser for privatkunder i &BANKNAVN.' og de særlige
-vilkår for handel på NASDAQ OMX Copenhagen A/S.
-.sp 3mm
-.kp off
-.kp on
-Aftale om &B32NYK. Netbank, Guide til handel med værdipapirer og Vilkår
-for betalinger til og fra udlandet er altid tilgængelige i elektronisk
-form i '&B32MITNYK.'. Regler for NemId til netbank og offentlig digital
-signatur kan læses på nemid.nu.
-.sp 3mm
-.kp off
-.kp on
-Hvis jeg underskriver nærværende aftale digitalt, bekræfter jeg, at jeg er
-gjort bekendt med, at jeg har adgang til en kopi af aftalen i
-'&B32MITNYK.', og adgang til de ovennævnte generelle vilkår og betingelser
-herunder 'Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.'
-på &B32NYKDK.
-.sp 3mm
-.kp off
-.kp on
-Hvis jeg underskriver nærværende aftale i fysisk form, bekræfter jeg, at
-jeg har modtaget en kopi af aftalen og af 'Almindelige
-forretningsbetingelser for privatkunder i &BANKNAVN.'.
-.sp 3mm
-.kp off
-.kp on
-Jeg er endvidere indforstået med, at bankudskrifter (herunder
-kontoudskrifter og årsoversigter) fremadrettet leveres i e-Boks (jf. vilkår
-for Aftale om &B32NYK. Netbank pkt. 2.9), samt øvrige bankudskrifter
-(herunder aftalegrundlag og afkastrapporter) leveres i Dokumentoverblik i
-'&B32MITNYK.'.
-.sp 3mm
-.kp off
-.kp on
-Jeg giver samtykke til, at mit CPR-nr. anvendes som bruger-ID på den måde,
-som fremgår af denne aftale.
-.sp 10mm
-.tp 30mm 90mm 115mm
-.hr tynd 5mm 25mm 30mm 85mm
-.kp on
-.dr tynd weight 0.1mm
-:FED.Underskrift:SKRSLUT
-.br
-.if &profil. = Unge
-.th
-.el .go PRIV2
-Jeg/vi erklærer som værge/værger ved min/vores underskrift på denne aftale,
-at jeg/vi har modtaget og gjort mig/os bekendt med denne aftale, regler for
-NemID til netbank og offentlig digital signatur, samt &BANKNAVN.s
-gebyroversigt og 'Almindelige forretningsbetingelser for privatkunder i
-&BANKNAVN.'.
-.sp 3mm
-Aftale om &B32NYK. Netbank 13-17 er altid tilgængelig i elektronisk form i
-'&B32MITNYK.'. Regler for NemID til netbank og offentlig digital signatur
-kan læses på nemid.nu
-.sp 3mm
-.kp off
-.kp on
-Hvis jeg/vi underskriver nærværende aftale digitalt, bekræfter jeg/vi, at
-jeg/vi er gjort bekendt med, at jeg/vi har adgang til en kopi af aftalen i
-'&B32MITNYK.', og adgang til de ovennævnte generelle vilkår og betingelser
-herunder 'Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.'
-på &B32NYKDK..
-.sp 3mm
-.kp off
-.kp on
-Hvis jeg/vi underskriver nærværende aftale i fysisk form, bekræfter jeg/vi,
-at jeg/vi har modtaget en kopi af aftalen og af 'Almindelige
-forretningsbetingelser for privatkunder i &BANKNAVN.'.
-.sp 3mm
-.kp off
-.kp on
-Jeg/vi er endvidere indforstået med, at visse bankudskrifter (herunder
-kontoudskrifter og årsoversigter) fremadrettet leveres i e-Boks
-(jf. 'Vilkår for Aftale om &B32NYK. Netbank 13-17' pkt. 2.9), samt øvrige
-bankudskrifter (herunder aftalegrundlag og afkastrapporter) leveres i
-kontohavers Dokumentoverblik i '&B32MITNYK.'.
-.sp 3mm
-.kp off
-.kp on
-Jeg/vi giver samtykke til, at kontohavers CPR-nr. anvendes som bruger-ID på
-den måde, som fremgår af denne aftale.
-.sp 3mm
-.kp off
-.if &L'&KONTO7. > 0
-.th .pa
-.kp on
-Jeg/vi forpligter mig/os til at gennemgå 'Vilkår for Aftale om
-&B32NYK. Netbank 13-17' med kontohaver.
-.** SIDESKIFT
-.pa
-.if &profil. = Privat
-.th .go T3SLUT
-:VERDA07.
-:VERDA07.
-.tp 8mm
-.cd 2 1mm 90mm
-.cl 88mm
-.kp on
-:VERDA08.
-:FED.Vilkår for aftale om &B32NYK. Netbank 13-17:SKRSLUT.
-:SKRSLUT.
-.sp 3mm
-Gældende pr. 5. oktober 2016
-.sp 3mm
-:FED.1. Generelt:SKRSLUT.
-.br
-:FED.1.1 Anvendelsemuligheder og driftsansvar:SKRSLUT.
-.br
-Du finder &B32NYK. Netbank 13-17 på &B32WMITNYK.. &B32NYKNET. er
-systemmæssigt adskilt fra resten af &B32MITNYK., men fremtræder som en
-integreret del af din personlige &B32NYK hjemmeside: &B32MITNYK..
-.sp 3mm
-.kp off
-.kp on
-&B32NYK. Netbank 13-17 består bl.a. af følgende funktioner, hvor du kan:
-.sp 3mm
-.of 5mm
--¤få information om egne konti og depoter
-.br
-.of
-.kp off
-.kp on
-.of 3mm
--¤foretage overførsler mellem dine egne konti og til andres konti
-.br
-.of
-.kp off
-.kp on
-.of 3mm
--¤betale de fleste indbetalingskort
-.br
-.of
-.of 3mm
--¤oprette kontoovervågning på dine konti
-.sp 3mm
-.of
-.kp off
-.kp on
-Du vil ligeledes have de nævnte muligheder på konti og depoter, hvor du er
-medkontohaver. Ønsker du adgang til andre konti eller depoter, skal du have
-fuldmagt fra kontohaver/depotindehaver på en særlig blanket. Blanketten kan
-rekvireres hos &B32NYK..
-.sp 3mm
-.kp off
-.kp on
-Ønsker du at give andre end en eventuel medkontohaver adgang til dine
-konti/depoter, skal denne person have fuldmagt fra dig på en særlig
-blanket. Herudover skal personen indgå en særskilt tilslutningsaftale til
-&B32NYKNET. og have en konto i &BANKNAVN., hvor gebyrer kan hæves.
-.sp 3mm
-.kp off
-.kp on
-:FED.1.2 Log på - Digital signatur - NemID:SKRSLUT.
-.br
-Som en del af Aftale om &B32NYKNET. får du oprettet NemID hos DanID.
-Hvis du har NemID i forvejen, kan du bruge det i &B32NYKNET..
-.sp 3mm
-.kp off
-.kp on
-Sikkerhedsløsningen NemID skal sikre, at det er dig og ikke andre, der
-logger på &B32NYKNET. og indgår aftaler med banken.
-.sp 3mm
-.kp off
-.kp on
-Når du disponerer i &B32NYKNET. med NemID, gælder 'Regler for NemID
-til netbank og offentlig digital signatur'. Reglerne er vedlagt og kan også
-læses på www.nemid.nu.
-.sp 3mm
-.kp off
-.kp on
-Du logger på &B32NYKNET. alene ved hjælp af dit brugerID og din
-adgangskode fra NemID. Når du afgiver økonomisk forpligtende ordrer i
-netbanken, skal du bruge både din adgangskode og en nøgle fra dit nøglekort
-fra NemID.
-.sp 3mm
-.kp off
-.kp on
-Når adgangskoden og en nøgle fra NemID anvendes sammen, betyder det, at du
-underskriver dine ordrer elektronisk (digital signatur). Din elektroniske
-underskrift er juridisk bindende på samme måde, som når du skriver under på
-et fysisk dokument. Derfor er din elektroniske underskrift personlig og må
-ikke benyttes af andre.
-.sp 3mm
-.kp off
-.kp on
-Beskeder til banken under funktionen 'Kontakt &B32NYK.' underskrives ikke
-elektronisk og læses kun én gang om dagen. Økonomisk forpligtende ordrer,
-såsom anmodning om overførsel mellem konti og anmodninger om køb eller salg
-af værdipapirer, skal derfor afgives ved anvendelse af de relevante
-funktioner i netbanken eller på sædvanlig vis overfor &B32NYK.. Disse
-ordrer må ikke gives med 'Kontakt &B32NYK.'.
-.sp 3mm
-.kp off
-.kp on
-Du kan højst overføre 15.000 kr. pr. døgn til andre konti end din egen,
-inkl. betaling af indbetalingskort. Mellem dine egne konti kan du overføre
-ubegrænset. Ønsker du at overføre mere end
-15.000 kr., kan det ske ved skriftlig henvendelse til &B32NYK..
-.sp 3mm
-.kp off
-.kp on
-Du kan læse mere om brugen af &B32NYK. Netbank 13-17 i bruger- og
-sikkerhedsvejledningen.
-.sp 3mm
-.kp off
-.kp on
-:FED.2. Vilkår for anvendelse af &B32NYKNET.
-.br
-2.1 Internet:SKRSLUT.
-.br
-Adgangen til &B32NYK. Netbank 13-17 sker via internet. Du skal selv sørge
-for abonnement hos en internetudbyder og en tilstrækkelig ny
-internetbrowser.
-.sp 3mm
-.kp off
-.kp on
-Kontakt din internetudbyder vedrørende tekniske problemer med
-internetforbindelsen. Du kan kontakte &B32NYK. om andre spørgsmål om
-&B32NYK. Netbank 13-17.
-.sp 3mm
-.kp off
-.kp on
-:FED.2.2 Første tilslutning:SKRSLUT.
-.br
-Hvis du ikke har et NemID i forvejen, vil du både modtage en midlertidig
-adgangskode og et nøglekort, når du er blevet oprettet som bruger af
-&B32NYK. Netbank 13-17.
-.sp 3mm
-.kp off
-.kp on
-Den midlertidige adgangskode skal du benytte første gang du logger på
-&B32NYK. Netbank 13-17. Dermed opretter du dit NemID og vælger brugernavn
-og adgangskode.
-.sp 3mm
-.kp off
-.kp on
-Den midlertidige adgangskode er udskrevet maskinelt, og du skal kontakte
-&B32NYK. eller DanID, hvis brevet med koden har været åbnet eller ikke er
-intakt, se punkt 6.
-.sp 3mm
-.kp off
-.kp on
-Den første tilslutning skal af sikkerhedsgrunde ske senest 30 dage efter,
-at den midlertidige adgangskode er afsendt eller udleveret.
-.sp 3mm
-.kp off
-.kp on
-Glemmer du din adgangskode, eller er din midlertidige adgangskode udløbet,
-skal du rekvirere en ny midlertidig adgangskode ved at kontakte &B32NYK.
-eller DanID, se punkt 6.
-.sp 3mm
-.kp off
-.kp on
-Hvis du allerede har et NemID kan du bruge det i &B32NYK. Netbank 13-17,
-når vi har oprettet dig som bruger.
-.sp 3mm
-.kp off
-.kp on
-:FED.2.3 Sikkerhed, brugerID, adgangskode og nøglekort
-.br
-(NemID):SKRSLUT.
-.br
-Reglerne om NemID, herunder reglerne for opbevaring af bruger-ID,
-adgangskode og nøglekort, fremgår af 'Regler for NemID til netbank og
-offentlig digital signatur', som du kan se på www.nemid.nu.
-.sp 3mm
-.kp off
-.kp on
-Generelt gælder dog, at dit brugerID, din adgangskode og dine nøgler kun må
-bruges af dig. Du må ikke oplyse din adgangskode og/eller dine nøgler til
-andre, herunder medlemmer i din husstand, ligesom du heller ikke må skrive
-adgangskoden ned og opbevare den sammen med dit nøglekort eller skrive
-adgangskoden på nøglekortet. Af sikkerhedsmæssige årsager bør du vælge en
-adgangskode, som du kan huske, og lære koden udenad.
-.sp 3mm
-.kp off
-.kp on
-Hvis du får mistanke om, at andre har fået kendskab til dit NemID, skal du
-straks kontakte banken eller DanID, så der kan spærres for dit NemID og
-dermed din adgang til netbanken. Se nærmere i punkt 6.
-.sp 3mm
-.kp off
-...T3SLUT
 .if &profil. = Privat
 .th .go T4SLUT
 .kp on
@@ -751,46 +111,6 @@ sikkerhedsvejledningen.
 .sp 3mm
 .kp off
 .kp on
-&B32NYK. Netbank 13-17, ikke var berettiget til det.
-.sp 3mm
-Ansvarsreglerne er nærmere beskrevet i §62 i betalingstjenesteloven.
-.sp 3mm
-.kp off
-.kp on
-:FED.2.6 &BANKNAVN.s ansvar:SKRSLUT.
-.br
-&BANKNAVN. er ansvarlig for tab som følge af uberettiget brug, medmindre
-andet følger af punkt 2.5.
-.sp 3mm
-.kp off
-.kp on
-&BANKNAVN. er ansvarlig for tab, som skyldes fejl fra bankens side.
-&BANKNAVN. er dog ikke ansvarlig for tab, der ikke er en følge af
-uberettiget brug, men en følge af
-.sp 3mm
-.of 3mm
--¤driftsforstyrrelser, der hindrer brugen af &B32NYK. Netbank 13-17
-.br
-.of
-.kp off
-.kp on
-.of 3mm
--¤afbrydelser i din adgang til at indhente oplysninger eller udføre ordrer.
-Dette gælder uanset om driftsforstyrrelser eller afbrydelser skyldes
-forhold hos &BANKNAVN., &BANKNAVN.s Datacentral, internet,
-internetudbyderen eller telefonselskabet
-.br
-.of
-.kp off
-.kp on
-.of 3mm
--¤tab, misbrug, afsløring, ødelæggelse eller i det hele taget
-kompromittering af data eller programmer på din eller andres computere i
-forbindelse med din brug af internet og internetprogrammer.
-.sp 3mm
-.of
-.kp off
-...T4SLUT
 :FED.2.5 Dit Ansvar:SKRSLUT.
 .br
 Du har en selvrisiko på op til 1.100 kr. for tab som følge af andres
@@ -841,6 +161,46 @@ tab, såfremt ordren er korrekt registreret og bogført.
 .kp on
 Du er heller ikke ansvarlig for uberettiget brug af &B32NYK. Netbank 13-17,
 hvis betalingsmodtager vidste eller burde vide, at den, der har benyttet
+&B32NYK. Netbank 13-17, ikke var berettiget til det.
+.sp 3mm
+Ansvarsreglerne er nærmere beskrevet i §62 i betalingstjenesteloven.
+.sp 3mm
+.kp off
+.kp on
+:FED.2.6 &BANKNAVN.s ansvar:SKRSLUT.
+.br
+&BANKNAVN. er ansvarlig for tab som følge af uberettiget brug, medmindre
+andet følger af punkt 2.5.
+.sp 3mm
+.kp off
+.kp on
+&BANKNAVN. er ansvarlig for tab, som skyldes fejl fra bankens side.
+&BANKNAVN. er dog ikke ansvarlig for tab, der ikke er en følge af
+uberettiget brug, men en følge af
+.sp 3mm
+.of 3mm
+-¤driftsforstyrrelser, der hindrer brugen af &B32NYK. Netbank 13-17
+.br
+.of
+.kp off
+.kp on
+.of 3mm
+-¤afbrydelser i din adgang til at indhente oplysninger eller udføre ordrer.
+Dette gælder uanset om driftsforstyrrelser eller afbrydelser skyldes
+forhold hos &BANKNAVN., &BANKNAVN.s Datacentral, internet,
+internetudbyderen eller telefonselskabet
+.br
+.of
+.kp off
+.kp on
+.of 3mm
+-¤tab, misbrug, afsløring, ødelæggelse eller i det hele taget
+kompromittering af data eller programmer på din eller andres computere i
+forbindelse med din brug af internet og internetprogrammer.
+.sp 3mm
+.of
+.kp off
+...T4SLUT
 .if &profil. = Privat
 .th .go T5SLUT
 .kp on
@@ -1715,10 +1075,6 @@ tilmeldt. Hvis du ikke ønsker betalingen tilmeldt, skal du tydeligt anføre
 dette på indbetalingskortet.
 .sp 3mm
 .kp off
-.pa
-...T10SLUT
-.sp 3mm
-.kp off
 .kp on
 :FED.10. Generelle vilkår for Betalingsservice og
 &B32NYK. Kuvertbetaling:SKRSLUT.
@@ -1767,3 +1123,648 @@ kreditorer, skal du vælge Generel tilmelding. Hvis du udelukkende ønsker at
 modtage elektroniske indbetalingskort fra enkelte kreditorer, skal du vælge
 Enkeltvis tilmelding. Reglerne for brug af Elektronisk indbetalingskort kan
 du læse i Debitorregler for Elektronisk indbetalingskort.
+.sp 3mm
+.kp off
+.pa
+...T10SLUT
+.NV PAGE ARKIV '%&ARKIV.'
+.BR
+.NV PAGE SENDKUNDE '%&SANTKUNDE.'
+.BR
+.NV PAGE SENDBANK '%&SANTBANK.'
+.BR
+.NV PAGE UDDATAKAT '%&UDDATA.'
+.BR
+.NV PAGE KUNDENR '%&KUNDENR.'
+.BR
+.NV PAGE FORSENDADRNR '%&FORSNR.'
+.BR
+.NV PAGE UDDATASPROGKODE '%1'
+.BR
+.NV PAGE KONTROLLANT1 '%&KONTROL1.'
+.BR
+.NV PAGE KONTROLLANT2 '%&KONTROL2.'
+.BR
+.*Initier switch til kontakt-tlfnr i B32BUND05/B32BUND05ER
+.*(Ændres kun hvis CVR-nr.)
+.se tlfnr = 'Privat'
+.su off
+.se cprcvr = substr &KUNDENR 1 2
+.se cpr1   = substr &KUNDENR 1 6
+.se cpr2   = substr &KUNDENR 7 4
+.se gebyrreg = substr &GENREGKTO. 1 4
+.se gebyrkto = substr &GENREGKTO. 5 7
+.su on
+.if x&cprcvr = x00
+.th .se tlfnr = 'Erhverv'
+.*** Hvilken profiltype har vi gang i
+.if &GENPROFIL. = 0200
+.or &GENPROFIL. = 0201
+.or &GENPROFIL. = 0202
+.or &GENPROFIL. = 0205
+.or &GENPROFIL. = 0400
+.th
+.el .se profil  = Ejok
+.el .go PSLUT
+.if &GENPROFIL. = 0200
+.or &GENPROFIL. = 0201
+.or &GENPROFIL. = 0202
+.or &GENPROFIL. = 0400
+.th .se profil = Privat
+.el .se profil = Unge
+...PSLUT
+.*************************************************************************
+.* FLG. PARAMETRE SKAL MEDTAGES I BREVETS PARAMETERLISTE:******************
+.* REGTYPE, KTONAVN, KTOCO, KTOGADE, KTOBY, KTOLAND, MEDNAVN, MEDCO *******
+.* MEDGADE, MEDBY, MEDLAND, MEDKUNDENR ************************************
+.**************************************************************************
+.ti ¤ 05
+:VERDA09.
+.**************************************************************************
+.da FEJL      25mm 130mm width 170mm
+.da KTOHAVOV  25mm 33mm width 155mm
+.da KTOHAVER  25mm 38mm width 155mm
+.da KUNDENR   25mm 69mm width 155mm
+.da KTOOPL1   25mm 78mm width 170mm
+.**************************************************************************
+.ar KTOOPL1 on
+.tp 50mm right 165mm right
+Gebyrkonto
+.br
+Reg.nr. ¤ &gebyrreg. ¤ Dato: &DATO.
+.br
+Kontonr. ¤ &gebyrkto.
+.ar off
+.**************************************************************************
+.ar KTOHAVOV on
+:FED.
+Kontohaver
+:SKRSLUT.
+.ar off
+.**************************************************************************
+.ar KTOHAVER on
+&WEBADRLIN1.
+.br
+&WEBADRLIN2.
+.br
+&WEBADRLIN3.
+.br
+&WEBADRLIN4.
+.br
+&WEBADRLIN5.
+.ar off
+.**************************************************************************
+.ar KUNDENR on
+CPR-nr.: &cpr1.-&cpr2.
+.ar off
+.**************************************************************************
+.if &profil. = Ejok
+.th
+.el .go OSLUT
+.ar FEJL on
+Der er fundet nedenstående fejl i formattering af standardbrev &BREVNAVN.
+.sp 3mm
+BEC-bruger &BRUGERNR., &GENEKSP., har benyttet et kontonr med ugyldig
+profil, &GENPROFIL.
+.hr left right
+.qu
+...OSLUT
+.**************************************************************************
+.* Vær opmærksom på at moduler kræver en lokalvariabel tlfnr som er sat
+.* = Erhverv hvis kundenr er et CVR-nr. Dette anvendes til at styre
+.* hvilket kontakt tlf.nr der skal udskrives B32TLFDIR/B32TLFDIRE
+.**************************************************************************
+.da VEND 7mm 277mm width 180mm rotate -90
+.da BUNDV   25mm 270mm width 55mm
+.da BUNDH  160mm 266mm
+.**************************************************************************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.**************************************************************************
+.*Det er egentlig bundtekster...
+.rh on
+.**************************************************************************
+.ar VEND on
+:VERDA05.
+&BREVNAVN &BRUGERNR.
+.br
+&DATO kl. &KLOKKESLET
+.ar off
+.ar BUNDV on
+.sp 9mm
+.se senr12 = substr &BANKSENR 1 2
+.se senr34 = substr &BANKSENR 3 2
+.se senr56 = substr &BANKSENR 5 2
+.se senr78 = substr &BANKSENR 7 2
+.se senr90 = substr &BANKSENR 9 2
+:VERDA05.
+&BANKNAVN. A/S
+.br
+CVR. nr. &senr12 &senr34 &senr56 &senr78 &senr90
+.ar off
+.ar BUNDH on
+:VERDA07.
+&B32NYK
+.br
+&B32ADRES.
+.br
+&B32POST.
+.br
+.if &tlfnr. = Erhverv
+.th Tlf. &B32TLFDIRE.
+.el Tlf. &B32TLFDIR.
+.br
+&B32SERVCMA.
+.br
+&B32WWWNYK.
+.ar off
+.sp 20mm
+.rh off
+.rh execute
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.pm 20mm
+.bm 26mm
+.ll 175mm
+.in 5mm
+.ir 1mm
+.sp 60mm
+.hy of
+:VERDA09.
+.kp on
+.if &profil. = Unge
+.th
+.el .go PRIV1
+På vegne af kontohaver indgår jeg/vi som &NAVN.s værge/værger denne aftale
+med &B32NYK. om tilslutning til &B32NYK Netbank 13-17 herefter benævnt
+'&B32MITNYK.', e-boks og &B32NYK kuvertbetaling, i det omfang denne
+service anvendes.
+.sp 3mm
+.***Tabulator samt editering af kontonumer og depoter ****
+.tp 80mm
+.se regnr1 = substr &KONTO1 1 4
+.se ktonr1 = substr &KONTO1 5 7
+.se regnr2 = substr &KONTO2 1 4
+.se ktonr2 = substr &KONTO2 5 7
+.se regnr3 = substr &KONTO3 1 4
+.se ktonr3 = substr &KONTO3 5 7
+.se regnr4 = substr &KONTO4 1 4
+.se ktonr4 = substr &KONTO4 5 7
+.se regnr5 = substr &KONTO5 1 4
+.se ktonr5 = substr &KONTO5 5 7
+.se regnr6 = substr &KONTO6 1 4
+.se ktonr6 = substr &KONTO6 5 7
+.se regnr7 = substr &KONTO7 1 4
+.se ktonr7 = substr &KONTO7 5 7
+.se regnr8 = substr &KONTO8 1 4
+.se ktonr8 = substr &KONTO8 5 7
+.se deprg1 = substr &GENDEPOT01 1 4
+.se depnr1 = substr &GENDEPOT01 5 6
+.se deprg2 = substr &GENDEPOT02 1 4
+.se depnr2 = substr &GENDEPOT02 5 6
+.se deprg3 = substr &GENDEPOT03 1 4
+.se depnr3 = substr &GENDEPOT03 5 6
+.se deprg4 = substr &GENDEPOT04 1 4
+.se depnr4 = substr &GENDEPOT04 5 6
+.se deprg5 = substr &GENDEPOT05 1 4
+.se depnr5 = substr &GENDEPOT05 5 6
+.se deprg6 = substr &GENDEPOT06 1 4
+.se depnr6 = substr &GENDEPOT06 5 6
+Aftalen er gældende for:
+.br
+Konto/konti: ¤ Depot(er):
+.br
+.if &L'&KONTO1. = 0
+.and &L'&GENDEPOT01 = 0
+.th .go KTDEPSL
+.if &L'&KONTO1. > 0
+.and &L'&GENDEPOT01 > 0
+.th &regnr1.-&ktonr1. ¤ &deprg1.-&depnr1.
+.th .go KON2
+.if &L'&KONTO1. > 0
+.and &L'&GENDEPOT01 = 0
+.th &regnr1.-&ktonr1.
+.th .go KON2
+.if &L'&KONTO1. = 0
+.and &L'&GENDEPOT01 > 0
+.th ¤ &deprg1.-&depnr1.
+.th .go KON2
+...KON2
+.if &L'&KONTO2. = 0
+.and &L'&GENDEPOT02 = 0
+.th .go KTDEPSL
+.if &L'&KONTO2. > 0
+.and &L'&GENDEPOT02 > 0
+.th .br
+.th &regnr2.-&ktonr2. ¤ &deprg2.-&depnr2.
+.th .go KON3
+.if &L'&KONTO2. > 0
+.and &L'&GENDEPOT02 = 0
+.th .br
+.th &regnr2.-&ktonr2.
+.th .go KON3
+.if &L'&KONTO2. = 0
+.and &L'&GENDEPOT02 > 0
+.th .br
+.th ¤ &deprg2.-&depnr2.
+.th .go KON3
+...KON3
+.if &L'&KONTO3. =  0
+.and &L'&GENDEPOT03 = 0
+.th .go KTDEPSL
+.if &L'&KONTO3. > 0
+.and &L'&GENDEPOT03 > 0
+.th .br
+.th &regnr3.-&ktonr3. ¤ &deprg3.-&depnr3.
+.th .go KON4
+.if &L'&KONTO3. > 0
+.and &L'&GENDEPOT03 = 0
+.th .br
+.th &regnr3.-&ktonr3.
+.th .go KON4
+.if &L'&KONTO3. = 0
+.and &L'&GENDEPOT03 > 0
+.th .br
+.th ¤ &deprg3.-&depnr3.
+.th .go KON4
+...KON4
+.if &L'&KONTO4. = 0
+.and &L'&GENDEPOT04 = 0
+.th .go KTDEPSL
+.if &L'&KONTO4. > 0
+.and &L'&GENDEPOT04 > 0
+.th .br
+.th &regnr4.-&ktonr4. ¤ &deprg4.-&depnr4.
+.th .go KON5
+.if &L'&KONTO4. > 0
+.and &L'&GENDEPOT04 = 0
+.th .br
+.th &regnr4.-&ktonr4.
+.th .go KON5
+.if &L'&KONTO4. = 0
+.and &L'&GENDEPOT04 > 0
+.th .br
+.th ¤ &deprg4.-&depnr4.
+.th .go KON5
+...KON5
+.if &L'&KONTO5. = 0
+.and &L'&GENDEPOT05 = 0
+.th .go KTDEPSL
+.if &L'&KONTO5. > 0
+.and &L'&GENDEPOT05 > 0
+.th .br
+.th &regnr5.-&ktonr5. ¤ &deprg5.-&depnr5.
+.th .go KON6
+.if &L'&KONTO5. > 0
+.and &L'&GENDEPOT05 = 0
+.th .br
+.th &regnr5.-&ktonr5.
+.th .go KON6
+.if &L'&KONTO5. = 0
+.and &L'&GENDEPOT05 > 0
+.th .br
+.th ¤ &deprg5.-&depnr5.
+.th .go KON6
+...KON6
+.if &L'&KONTO6. = 0
+.and &L'&GENDEPOT06 = 0
+.th .go KTDEPSL
+.if &L'&KONTO6. > 0
+.and &L'&GENDEPOT06 > 0
+.th .br
+.th &regnr6.-&ktonr6. ¤ &deprg6.-&depnr6.
+.th .go KON7
+.if &L'&KONTO6. > 0
+.and &L'&GENDEPOT06 = 0
+.th .br
+.th &regnr6.-&ktonr6.
+.th .go KON7
+.if &L'&KONTO6. = 0
+.and &L'&GENDEPOT06 > 0
+.th .br
+.th ¤ &deprg6.-&depnr6.
+.th .go KON7
+...KON7
+.if &L'&KONTO7. = 0
+.th .go KTDEPSL
+.br
+&regnr7.-&ktonr7.
+...KON8
+.if &L'&KONTO8. = 0
+.th .go KTDEPSL
+.br
+&regnr8.-&ktonr8.
+...KTDEPSL
+.sp 3mm
+I det omfang netbankaftalen ønskes udvidet til at omfatte yderligere konti
+eller depoter, herunder såfremt der efterfølgende oprettes nye
+konti/depoter til kontohaver, vil disse alene blive omfattet af nærværende
+netbankaftale, såfremt dette er aftalt med os som værge/værger.
+.sp 3mm
+.go SLUTT1
+...PRIV1
+Indgår aftale med &B32NYK. om tilslutning til &B32NYK. Netbank herefter
+benævnt '&B32MITNYK.', Betalingsservice, e-Boks og &B32NYK.s Kuvertbetaling
+i det omfang denne service anvendes.
+.sp 3mm
+.go SLUTT1
+...SLUTT1
+.kp off
+.kp on
+.dr tynd weight 0.1mm
+:FED.Underskrift:SKRSLUT
+.br
+.if &profil. = Unge
+.th
+.el .go PRIV2
+Jeg/vi erklærer som værge/værger ved min/vores underskrift på denne aftale,
+at jeg/vi har modtaget og gjort mig/os bekendt med denne aftale, regler for
+NemID til netbank og offentlig digital signatur, samt &BANKNAVN.s
+gebyroversigt og 'Almindelige forretningsbetingelser for privatkunder i
+&BANKNAVN.'.
+.sp 3mm
+Aftale om &B32NYK. Netbank 13-17 er altid tilgængelig i elektronisk form i
+'&B32MITNYK.'. Regler for NemID til netbank og offentlig digital signatur
+kan læses på nemid.nu
+.sp 3mm
+.kp off
+.kp on
+Hvis jeg/vi underskriver nærværende aftale digitalt, bekræfter jeg/vi, at
+jeg/vi er gjort bekendt med, at jeg/vi har adgang til en kopi af aftalen i
+'&B32MITNYK.', og adgang til de ovennævnte generelle vilkår og betingelser
+herunder 'Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.'
+på &B32NYKDK..
+.sp 3mm
+.kp off
+.kp on
+Hvis jeg/vi underskriver nærværende aftale i fysisk form, bekræfter jeg/vi,
+at jeg/vi har modtaget en kopi af aftalen og af 'Almindelige
+forretningsbetingelser for privatkunder i &BANKNAVN.'.
+.sp 3mm
+.kp off
+.kp on
+Jeg/vi er endvidere indforstået med, at visse bankudskrifter (herunder
+kontoudskrifter og årsoversigter) fremadrettet leveres i e-Boks
+(jf. 'Vilkår for Aftale om &B32NYK. Netbank 13-17' pkt. 2.9), samt øvrige
+bankudskrifter (herunder aftalegrundlag og afkastrapporter) leveres i
+kontohavers Dokumentoverblik i '&B32MITNYK.'.
+.sp 3mm
+.kp off
+.kp on
+Jeg/vi giver samtykke til, at kontohavers CPR-nr. anvendes som bruger-ID på
+den måde, som fremgår af denne aftale.
+.sp 3mm
+.kp off
+.if &L'&KONTO7. > 0
+.th .pa
+.kp on
+Jeg/vi forpligter mig/os til at gennemgå 'Vilkår for Aftale om
+&B32NYK. Netbank 13-17' med kontohaver.
+.sp 10mm
+.tp 30mm 90mm 115mm
+.hr tynd 5mm 25mm 30mm 85mm 90mm 110mm 115mm 170mm
+Dato ¤ Værge ¤ Dato ¤ Værge
+.br
+ ¤ ¤ ¤ (kun ved fælles forældremyndighed)
+.go SLUTT2
+...PRIV2
+Jeg erklærer ved min underskrift på denne aftale, at jeg har modtaget og
+gjort mig bekendt med denne aftale, regler for NemID til netbank og
+offentlig digital signatur samt &BANKNAVN.s gebyroversigt, 'Almindelige
+forretningsbetingelser for privatkunder i &BANKNAVN.' og de særlige
+vilkår for handel på NASDAQ OMX Copenhagen A/S.
+.sp 3mm
+.kp off
+.kp on
+Aftale om &B32NYK. Netbank, Guide til handel med værdipapirer og Vilkår
+for betalinger til og fra udlandet er altid tilgængelige i elektronisk
+form i '&B32MITNYK.'. Regler for NemId til netbank og offentlig digital
+signatur kan læses på nemid.nu.
+.sp 3mm
+.kp off
+.kp on
+Hvis jeg underskriver nærværende aftale digitalt, bekræfter jeg, at jeg er
+gjort bekendt med, at jeg har adgang til en kopi af aftalen i
+'&B32MITNYK.', og adgang til de ovennævnte generelle vilkår og betingelser
+herunder 'Almindelige forretningsbetingelser for privatkunder i &BANKNAVN.'
+på &B32NYKDK.
+.sp 3mm
+.kp off
+.kp on
+Hvis jeg underskriver nærværende aftale i fysisk form, bekræfter jeg, at
+jeg har modtaget en kopi af aftalen og af 'Almindelige
+forretningsbetingelser for privatkunder i &BANKNAVN.'.
+.sp 3mm
+.kp off
+.kp on
+Jeg er endvidere indforstået med, at bankudskrifter (herunder
+kontoudskrifter og årsoversigter) fremadrettet leveres i e-Boks (jf. vilkår
+for Aftale om &B32NYK. Netbank pkt. 2.9), samt øvrige bankudskrifter
+(herunder aftalegrundlag og afkastrapporter) leveres i Dokumentoverblik i
+'&B32MITNYK.'.
+.sp 3mm
+.kp off
+.kp on
+Jeg giver samtykke til, at mit CPR-nr. anvendes som bruger-ID på den måde,
+som fremgår af denne aftale.
+.sp 10mm
+.tp 30mm 90mm 115mm
+.hr tynd 5mm 25mm 30mm 85mm
+Dato ¤ &NAVN.
+.go SLUTT2
+...SLUTT2
+.kp off
+.** SIDESKIFT
+.pa
+.if &profil. = Privat
+.th .go T3SLUT
+:VERDA07.
+:VERDA07.
+.tp 8mm
+.cd 2 1mm 90mm
+.cl 88mm
+.kp on
+:VERDA08.
+:FED.Vilkår for aftale om &B32NYK. Netbank 13-17:SKRSLUT.
+:SKRSLUT.
+.sp 3mm
+Gældende pr. 5. oktober 2016
+.sp 3mm
+:FED.1. Generelt:SKRSLUT.
+.br
+:FED.1.1 Anvendelsemuligheder og driftsansvar:SKRSLUT.
+.br
+Du finder &B32NYK. Netbank 13-17 på &B32WMITNYK.. &B32NYKNET. er
+systemmæssigt adskilt fra resten af &B32MITNYK., men fremtræder som en
+integreret del af din personlige &B32NYK hjemmeside: &B32MITNYK..
+.sp 3mm
+.kp off
+.kp on
+&B32NYK. Netbank 13-17 består bl.a. af følgende funktioner, hvor du kan:
+.sp 3mm
+.of 5mm
+- ¤ få information om egne konti og depoter
+.br
+.of
+.kp off
+.kp on
+.of 3mm
+- ¤ foretage overførsler mellem dine egne konti og til andres konti
+.br
+.of
+.kp off
+.kp on
+.of 3mm
+- ¤ betale de fleste indbetalingskort
+.br
+.of
+.of 3mm
+- ¤ oprette kontoovervågning på dine konti
+.sp 3mm
+.of
+.kp off
+.kp on
+Du vil ligeledes have de nævnte muligheder på konti og depoter, hvor du er
+medkontohaver. Ønsker du adgang til andre konti eller depoter, skal du have
+fuldmagt fra kontohaver/depotindehaver på en særlig blanket. Blanketten kan
+rekvireres hos &B32NYK..
+.sp 3mm
+.kp off
+.kp on
+Ønsker du at give andre end en eventuel medkontohaver adgang til dine
+konti/depoter, skal denne person have fuldmagt fra dig på en særlig
+blanket. Herudover skal personen indgå en særskilt tilslutningsaftale til
+&B32NYKNET. og have en konto i &BANKNAVN., hvor gebyrer kan hæves.
+.sp 3mm
+.kp off
+.kp on
+:FED.1.2 Log på - Digital signatur - NemID:SKRSLUT.
+.br
+Som en del af Aftale om &B32NYKNET. får du oprettet NemID hos DanID.
+Hvis du har NemID i forvejen, kan du bruge det i &B32NYKNET..
+.sp 3mm
+.kp off
+.kp on
+Sikkerhedsløsningen NemID skal sikre, at det er dig og ikke andre, der
+logger på &B32NYKNET. og indgår aftaler med banken.
+.sp 3mm
+.kp off
+.kp on
+Når du disponerer i &B32NYKNET. med NemID, gælder 'Regler for NemID
+til netbank og offentlig digital signatur'. Reglerne er vedlagt og kan også
+læses på www.nemid.nu.
+.sp 3mm
+.kp off
+.kp on
+Du logger på &B32NYKNET. alene ved hjælp af dit brugerID og din
+adgangskode fra NemID. Når du afgiver økonomisk forpligtende ordrer i
+netbanken, skal du bruge både din adgangskode og en nøgle fra dit nøglekort
+fra NemID.
+.sp 3mm
+.kp off
+.kp on
+Når adgangskoden og en nøgle fra NemID anvendes sammen, betyder det, at du
+underskriver dine ordrer elektronisk (digital signatur). Din elektroniske
+underskrift er juridisk bindende på samme måde, som når du skriver under på
+et fysisk dokument. Derfor er din elektroniske underskrift personlig og må
+ikke benyttes af andre.
+.sp 3mm
+.kp off
+.kp on
+Beskeder til banken under funktionen 'Kontakt &B32NYK.' underskrives ikke
+elektronisk og læses kun én gang om dagen. Økonomisk forpligtende ordrer,
+såsom anmodning om overførsel mellem konti og anmodninger om køb eller salg
+af værdipapirer, skal derfor afgives ved anvendelse af de relevante
+funktioner i netbanken eller på sædvanlig vis overfor &B32NYK.. Disse
+ordrer må ikke gives med 'Kontakt &B32NYK.'.
+.sp 3mm
+.kp off
+.kp on
+Du kan højst overføre 15.000 kr. pr. døgn til andre konti end din egen,
+inkl. betaling af indbetalingskort. Mellem dine egne konti kan du overføre
+ubegrænset. Ønsker du at overføre mere end
+15.000 kr., kan det ske ved skriftlig henvendelse til &B32NYK..
+.sp 3mm
+.kp off
+.kp on
+Du kan læse mere om brugen af &B32NYK. Netbank 13-17 i bruger- og
+sikkerhedsvejledningen.
+.sp 3mm
+.kp off
+.kp on
+:FED.2. Vilkår for anvendelse af &B32NYKNET.
+.br
+2.1 Internet:SKRSLUT.
+.br
+Adgangen til &B32NYK. Netbank 13-17 sker via internet. Du skal selv sørge
+for abonnement hos en internetudbyder og en tilstrækkelig ny
+internetbrowser.
+.sp 3mm
+.kp off
+.kp on
+Kontakt din internetudbyder vedrørende tekniske problemer med
+internetforbindelsen. Du kan kontakte &B32NYK. om andre spørgsmål om
+&B32NYK. Netbank 13-17.
+.sp 3mm
+.kp off
+.kp on
+:FED.2.2 Første tilslutning:SKRSLUT.
+.br
+Hvis du ikke har et NemID i forvejen, vil du både modtage en midlertidig
+adgangskode og et nøglekort, når du er blevet oprettet som bruger af
+&B32NYK. Netbank 13-17.
+.sp 3mm
+.kp off
+.kp on
+Den midlertidige adgangskode skal du benytte første gang du logger på
+&B32NYK. Netbank 13-17. Dermed opretter du dit NemID og vælger brugernavn
+og adgangskode.
+.sp 3mm
+.kp off
+.kp on
+Den midlertidige adgangskode er udskrevet maskinelt, og du skal kontakte
+&B32NYK. eller DanID, hvis brevet med koden har været åbnet eller ikke er
+intakt, se punkt 6.
+.sp 3mm
+.kp off
+.kp on
+Den første tilslutning skal af sikkerhedsgrunde ske senest 30 dage efter,
+at den midlertidige adgangskode er afsendt eller udleveret.
+.sp 3mm
+.kp off
+.kp on
+Glemmer du din adgangskode, eller er din midlertidige adgangskode udløbet,
+skal du rekvirere en ny midlertidig adgangskode ved at kontakte &B32NYK.
+eller DanID, se punkt 6.
+.sp 3mm
+.kp off
+.kp on
+Hvis du allerede har et NemID kan du bruge det i &B32NYK. Netbank 13-17,
+når vi har oprettet dig som bruger.
+.sp 3mm
+.kp off
+.kp on
+:FED.2.3 Sikkerhed, brugerID, adgangskode og nøglekort
+.br
+(NemID):SKRSLUT.
+.br
+Reglerne om NemID, herunder reglerne for opbevaring af bruger-ID,
+adgangskode og nøglekort, fremgår af 'Regler for NemID til netbank og
+offentlig digital signatur', som du kan se på www.nemid.nu.
+.sp 3mm
+.kp off
+.kp on
+Generelt gælder dog, at dit brugerID, din adgangskode og dine nøgler kun må
+bruges af dig. Du må ikke oplyse din adgangskode og/eller dine nøgler til
+andre, herunder medlemmer i din husstand, ligesom du heller ikke må skrive
+adgangskoden ned og opbevare den sammen med dit nøglekort eller skrive
+adgangskoden på nøglekortet. Af sikkerhedsmæssige årsager bør du vælge en
+adgangskode, som du kan huske, og lære koden udenad.
+.sp 3mm
+.kp off
+.kp on
+Hvis du får mistanke om, at andre har fået kendskab til dit NemID, skal du
+straks kontakte banken eller DanID, så der kan spærres for dit NemID og
+dermed din adgang til netbanken. Se nærmere i punkt 6.
+.sp 3mm
+.kp off
+...T3SLUT
+

@@ -1,86 +1,26 @@
-.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.********************ROTERET BREVNAVN
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.**************************************
-.sp 26mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.********************AREAL-DEFINITIONER************************************
-.* Brevstart, incl. overskrift
-.da OVERSKR 22mm 105mm width 130mm
-.* Brevnavn, roteret i venstre hjørne
-.da VEND 7mm 270mm width 180mm rotate -90
-.********************ROTERET BREVNAVN**************************************
-.ar VEND on
-:CALIB8.
-&BREVNAVN
-.ar off
-.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
-.ar OVERSKR on
-:FED.
-MATERIALER OM BANKENS PRODUKTER
-:SKRSLUT.
-.ar off
-.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
-.* SIDEHOVEDDEFINITION STARTER ********************************************
-.rh on
-.sp 103mm
-.ls normal p12.5
-.rh off
-.* SIDEHOVEDDEFINITION SLUTTER ********************************************
-.rh execute
-.*LINIELÆNGDEN ************************************************************
-:tiltale &TILTALE
-.in 2mm
-.ll 130mm
-.*********************GENEREL OPSÆTNING************************************
-:CALIB10.
-.fo left
-.ti ¤ 05
-.ls by 1.25
-.************ arealer *****************************************************
-.da KUNDE 22mm 38.5mm width 85mm
-.da DATO 160mm 83.5mm width 42.5mm
-.**************************************************************************
-.ar DATO on
-:CALIB9.
-&DATO
-.br
-&GENKORTREF
-.ar off
-.*******************************
-.ar KUNDE on
-&GENNAVN
-.br
-&GENCO
-.br
-&GENGADE
-.br
-&GENBY
-.br
-&GENLAND
-.ar off
-.*
-.if &U'&B30PULINF = N
-.th .go EJTESTP
-.if &L'&B30KVARTAL > 0
-.an &L'&B30DATO3 > 0
-.th .go TSTVID
-.el .mg/T/Kvartal og årstal for puljeinformation mangler/
-...TSTVID
-.if &B30KVARTAL < 1
-.or &B30KVARTAL > 4
-.th .mg/T/Kvartal kan kun indtastes som 1, 2, 3 eller 4/
-.if &B30DATO3 < 2007
-.or &B30KVARTAL > 2030
-.th .mg/T/Årstal skal ligge mellem 2007 og 2030/
-...EJTESTP
+.pm 20mm
+.BR
+.NV PAGE BANKSTED '%&EKSPBNKST.'
+.BR
+.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
+.BR
+.NV PAGE PRINTER '%&PRINTER.'
+.BR
+.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
+.BR
+.NV PAGE FORCERTØM '%&U'&FORCER.'
+.BR
+.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
+.sp2
+Venlig hilsen
+.sp2
+&GENEKSP
+.kp off
+.rh cancel
+.** SIDESKIFT
+.pa nostart
+.** INDRYK FRA VENSTREMARGIN NULSTILLES
+.in 0mm
 :NY.
 .NV PAGE ARKIV '%&ARKIV.'
 .BR
@@ -115,29 +55,148 @@ MATERIALER OM BANKENS PRODUKTER
 .NV PAGE KONTROLLANT2 '%&KONTROL2.'
 .BR
 :ENY.
-.pm 20mm
-.BR
-.NV PAGE BANKSTED '%&EKSPBNKST.'
-.BR
-.NV PAGE BANK-EKSPEDIENT '%&BRUGERNR.'
-.BR
-.NV PAGE PRINTER '%&PRINTER.'
-.BR
-.NV PAGE TØMPOSTKASSE '%&U'&TØMPOST.'
-.BR
-.NV PAGE FORCERTØM '%&U'&FORCER.'
-.BR
-.NV PAGE PDFFORMAT '%&U'&PDFFORMAT.'
-.** SIDESKIFT
-.pa nostart
-.** INDRYK FRA VENSTREMARGIN NULSTILLES
-.in 0mm
-.rh cancel
-.sp2
-Venlig hilsen
-.sp2
-&GENEKSP
+.*
+.if &U'&B30PULINF = N
+.th .go EJTESTP
+.if &L'&B30KVARTAL > 0
+.an &L'&B30DATO3 > 0
+.th .go TSTVID
+.el .mg/T/Kvartal og årstal for puljeinformation mangler/
+...TSTVID
+.if &B30KVARTAL < 1
+.or &B30KVARTAL > 4
+.th .mg/T/Kvartal kan kun indtastes som 1, 2, 3 eller 4/
+.if &B30DATO3 < 2007
+.or &B30KVARTAL > 2030
+.th .mg/T/Årstal skal ligge mellem 2007 og 2030/
+...EJTESTP
+.*********************GENEREL OPSÆTNING************************************
+:CALIB10.
+.fo left
+.ti ¤ 05
+.ls by 1.25
+.************ arealer *****************************************************
+.da KUNDE 22mm 38.5mm width 85mm
+.da DATO 160mm 83.5mm width 42.5mm
+.**************************************************************************
+.ar DATO on
+:CALIB9.
+&DATO
+.br
+&GENKORTREF
+.ar off
+.*******************************
+.ar KUNDE on
+&GENNAVN
+.br
+&GENCO
+.br
+&GENGADE
+.br
+&GENBY
+.br
+&GENLAND
+.ar off
+.********************AREAL-DEFINITIONER************************************
+.* Brevstart, incl. overskrift
+.da OVERSKR 22mm 105mm width 130mm
+.* Brevnavn, roteret i venstre hjørne
+.da VEND 7mm 270mm width 180mm rotate -90
+.********************ROTERET BREVNAVN**************************************
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.********************START-POSITION AF BREVET, INCL. OVERSKRIFT************
+.ar OVERSKR on
+:FED.
+MATERIALER OM BANKENS PRODUKTER
+:SKRSLUT.
+.ar off
+.* SIDEHOVED SIDE 1 (MED Y = 103MM +13MM (TOPMARGIN) = 116MM **********
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.sp 103mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+.rh execute
+.*LINIELÆNGDEN ************************************************************
+:tiltale &TILTALE
+.in 2mm
+.ll 130mm
+.* SIDEHOVED SIDE 2 (MED Y = 26 + 13MM (TOPMARGIN) = 39MM *****************
+.* SIDEHOVEDDEFINITION STARTER ********************************************
+.rh on
+.********************ROTERET BREVNAVN
+.ar VEND on
+:CALIB8.
+&BREVNAVN
+.ar off
+.**************************************
+.sp 26mm
+.ls normal p12.5
+.rh off
+.* SIDEHOVEDDEFINITION SLUTTER ********************************************
+I henhold til &DIN anmodning fremsender vi vedlagt følgende materialer om
+bankens produkter:
+.sp
+.********
+.kp on
+.if &U'&B301 eq J
+.th * Kapitalpension
+.th .br
+.********
+.if &U'&B302 eq J
+.th * Ratepension
+.th .br
+.********
+.if &U'&B304 eq J
+.th * Vejledning i valg af pensionspuljer
+.th .br
+.********
+.if &U'&B305 eq J
+.th * Højrentekonto
+.th .br
+.********
+.if &U'&B303 eq J
+.th * Studielån
+.th .br
+.********
+.if &U'&B306 eq J
+.th * Svarkupon
 .kp off
+.********
+.sp
+.kp on
+.kp on
+.**********
+.if &U'&B309 eq N
+.an &U'&B30PULINF = N
+.th .go EJVEDLT1
+.************
+Endvidere vedlægges
+.**********
+.if &U'&B309 eq J
+.th vor aktuelle prisliste
+.**********
+.if &U'&B309 eq J
+.an &U'&B30PULINF = J
+.th samt
+.********
+.if &U'&B30PULINF = J
+.th bankens puljeinformation
+.***********
+.if &U'&B30PULINF = J
+.an &L'&B30KVARTAL > 0
+.an &L'&B30DATO3 > 0
+.th for &B30KVARTAL.. kvartal &B30DATO3..
+.th .sp
+.el .ct .
+.el .sp
+...EJVEDLT1
+.kp off
+.**********
 .kp on
 .******** test på overførsel af bestående pension fra andet PI********
 .if &U'&B308 eq J
@@ -174,62 +233,4 @@ Venlig hilsen
 .if &L'&GENTEKST1 gt 0
 .th &GENTEKST1. &GENTEKST2. &GENTEKST3. &GENTEKST4
 .**********
-.kp on
-.**********
-.if &U'&B309 eq N
-.an &U'&B30PULINF = N
-.th .go EJVEDLT1
-.************
-Endvidere vedlægges
-.**********
-.if &U'&B309 eq J
-.th vor aktuelle prisliste
-.**********
-.if &U'&B309 eq J
-.an &U'&B30PULINF = J
-.th samt
-.********
-.if &U'&B30PULINF = J
-.th bankens puljeinformation
-.***********
-.if &U'&B30PULINF = J
-.an &L'&B30KVARTAL > 0
-.an &L'&B30DATO3 > 0
-.th for &B30KVARTAL.. kvartal &B30DATO3..
-.th .sp
-.el .ct .
-.el .sp
-...EJVEDLT1
-.kp off
-.**********
-I henhold til &DIN anmodning fremsender vi vedlagt følgende materialer om
-bankens produkter:
-.sp
-.********
-.kp on
-.if &U'&B301 eq J
-.th * Kapitalpension
-.th .br
-.********
-.if &U'&B302 eq J
-.th * Ratepension
-.th .br
-.********
-.if &U'&B304 eq J
-.th * Vejledning i valg af pensionspuljer
-.th .br
-.********
-.if &U'&B305 eq J
-.th * Højrentekonto
-.th .br
-.********
-.if &U'&B303 eq J
-.th * Studielån
-.th .br
-.********
-.if &U'&B306 eq J
-.th * Svarkupon
-.kp off
-.********
-.sp
-.kp on
+
