@@ -9,6 +9,8 @@ string generateAreadefinition(Node* currentNode, string result, int tabs)
     string wData = "";
     string rotate = "";
     string rData = "";
+    string depth = "";
+    string dData = "";
 
     for(int i=0; i< currentNode->getNodes().size(); i++){
         if(currentNode->getNodes().at(i)->getType() == WIDTH){
@@ -19,13 +21,18 @@ string generateAreadefinition(Node* currentNode, string result, int tabs)
             rotate = "found";
             rData = currentNode->getNodes().at(i+1)->getData();
         }
+        else if(currentNode->getNodes().at(i)->getType() == DEPTH){
+            depth = "found";
+            dData = currentNode->getNodes().at(i+1)->getData();
+        }
     }
     
     for(int i=0;i<tabs;i++){
         areadef+="\t";
     }
-    areadef += "<defineArea name=\""+currentNode->getNodes().at(0)->getData()+"\" ";
-
+    if(currentNode->getNodes().size() > 1){
+        areadef += "<defineArea name=\""+currentNode->getNodes().at(0)->getData()+"\" ";
+    }
 
     if(currentNode->getNodes().size() > 2){
         if(currentNode->getNodes().at(1)->getType() == SIZE)
@@ -33,13 +40,16 @@ string generateAreadefinition(Node* currentNode, string result, int tabs)
     }
     if(currentNode->getNodes().size() > 3){
         if(currentNode->getNodes().at(2)->getType() == SIZE)
-            areadef += "marginLeft=\""+currentNode->getNodes().at(2)->getData()+"\" ";
+            areadef += "marginRight=\""+currentNode->getNodes().at(2)->getData()+"\" ";
     }
     if(width != ""){
         areadef += "width= \""+ wData +"\" ";
     }
     if(rotate != ""){
         areadef += "rotate= \""+ rData +"\" ";
+    }  
+    if(depth != ""){
+        areadef += "depth= \""+ dData +"\" ";
     }    
     areadef += "/>";
     

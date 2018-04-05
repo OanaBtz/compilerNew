@@ -4,6 +4,8 @@
 
 std::string types[] = {
     "DOCUMENT",
+    "SPACE",
+    "SEMICOLON",
     "HM",
     "SB",
     "MS",

@@ -8,6 +8,8 @@
 enum Type
 {
     DOCUMENT,
+    SPACE,
+    SEMICOLON,
     HM,
     SB,
     MS,

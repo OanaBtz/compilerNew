@@ -12,7 +12,7 @@
 
 %%
 
-
+" "                                                     { strcpy(yylval.tokens, yytext); return SPACE_T;}               
 \.\*.*                                                  { strcpy(yylval.tokens, yytext); return COMMENT_T;}
 \.[Gg][Oo]                                              { strcpy(yylval.tokens, yytext); return GOTO_T;}
 \.[Bb][Rr]                                              { strcpy(yylval.tokens, yytext); return BR_T;}
@@ -129,7 +129,7 @@
 \.[Tt][pP]                                              { strcpy(yylval.tokens, yytext); return TP_T;}
 \.[tT][aA]                                              { strcpy(yylval.tokens, yytext); return TA_T;}
 "rotate"                                                { strcpy(yylval.tokens, yytext); return ROTATE_T;}
-"depth"                	                                { strcpy(yylval.tokens, yytext); return DEPTH_T;}
+"depth"|"DEPTH"                	                                { strcpy(yylval.tokens, yytext); return DEPTH_T;}
 "substr"               	                                { strcpy(yylval.tokens, yytext); return SUBSTR_T;}
 \.[A-Za-z]{2}                                           { strcpy(yylval.tokens, yytext); return MF_T;}
 "&&??#"                                                 { strcpy(yylval.tokens, yytext); return UNKNOWN_T;}
@@ -159,6 +159,7 @@ x\&[A-Za-z\-\.ØÆÅ0-9]+                                  { strcpy(yylval.token
 [\+\-\/\*]                                              { strcpy(yylval.tokens, yytext); return MATHEX_T;}
 \'\ \'                                                  { strcpy(yylval.tokens, yytext); return IDENT_T;}                  
 [Xx]\+|[Xx]\-                                           { strcpy(yylval.tokens, yytext); return IDENT_T;}
+";"                                                     { strcpy(yylval.tokens, yytext); return SEMICOLON_T;}
 [ \t]                   ;
 %%
 

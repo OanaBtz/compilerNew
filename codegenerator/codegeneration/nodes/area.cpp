@@ -3,22 +3,24 @@
 
 string generateArea(Node* currentNode, string result, int tabs)
 {
-    if(currentNode->getNodes().at(0)->getData()!="off"){
-        string area = "";
-        for(int i=0;i<tabs;i++){
-            area+="\t";
-        }
-        area += "<area name= \"";
-        area += currentNode->getNodes().at(0)->getData();
-        area += "\">\n";
-        area += result;
+    if(currentNode->getNodes().size()>1){
+        if(currentNode->getNodes().at(0)->getData()!="off"){
+            string area = "";
+            for(int i=0;i<tabs;i++){
+                area+="\t";
+            }
+            area += "<area name= \"";
+            area += currentNode->getNodes().at(0)->getData();
+            area += "\">\n";
+            area += result;
 
-        for(int i=0;i<tabs;i++){
-            area+="\t";
+            for(int i=0;i<tabs;i++){
+                area+="\t";
+            }
+            area += "</area>\n";
+            return area;
         }
-        area += "</area>\n";
-        return area;
     }
-        return result;
+    return result;
     
 }

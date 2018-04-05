@@ -9,18 +9,18 @@ string generateBox(Node* currentNode, string result, int tabs)
         for(int i=0;i<tabs;i++){
             box+="\t";
         }
-        box += "<box ";
+        box += "<box rule=\" ";
 
         int i=0;
         while(currentNode->getNodes().at(i)->getType()!= NEWLINE){
-            if(i == 0 && (currentNode->getNodes().at(i)->getData() == "left" || currentNode->getNodes().at(i)->getData() == "right"))
-                box += "fromMargin=\""+currentNode->getNodes().at(i)->getData()+"\" ";
-            else if (i == 1 && (currentNode->getNodes().at(i)->getData() == "left" || currentNode->getNodes().at(i)->getData() == "right"))
-                box += "toMargin=\""+currentNode->getNodes().at(i)->getData()+"\" ";
-            i++;    
+            box +=  currentNode->getNodes().at(i)->getData()+" ";
+            i++;
         }
+        box += "\" >\n";
+        cout<<endl<<box<<endl;
 
-        box += ">\n" + result;
+        box += result;
+
         for(int i=0;i<tabs;i++){
             box+="\t";
         }

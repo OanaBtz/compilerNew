@@ -35,13 +35,16 @@
 #include "nodes/dc.cpp"
 #include "nodes/kp.cpp"
 #include "nodes/pl.cpp"
+#include "nodes/ct.cpp"
+
+
 int nl = 0;
 queue <string> tp;
 queue <string> tpCopy;
 stack <string> font;
 stack <string> fontSize;
 string input = "";
-string tabPosition = "";
+string tabPosition = "0";
 string fontAlign = "";
 string hexCode = "";
 
@@ -194,6 +197,14 @@ string traverseGenerate(Node* currentNode, int depth)
     if(currentNode->getType() == PL)
     {
         result = generatePl(currentNode, result, depth);
+    }
+    if(currentNode->getType() == CT)
+    {
+        result = generateCt(currentNode, result, depth);
+    }
+    if(currentNode->getType() == SPACE)
+    {
+        cout<<endl<<"More than 1 space here!"<<endl<<endl;
     }
     return result;
 }

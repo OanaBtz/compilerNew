@@ -30,20 +30,8 @@ string generateString(Node* currentNode, string result, int tabs, queue<string> 
         if(tpCopy.empty()){
             tpCopy = tp;
         }
-        
-        if(tabPosition != ""){
-            int posNr = stoi(transformInNr(tabPosition));
-            
-            tabPosition = tpCopy.front();
-            tpCopy.pop();
-
-            posNr += stoi(transformInNr(tabPosition));
-            tabPosition = to_string(posNr);
-            tabPosition += "mm";
-        }else{
-            tabPosition = tpCopy.front();
-            tpCopy.pop();
-        }
+        tabPosition = tpCopy.front();
+        tpCopy.pop();
     }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == US || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == OR){
 
         for(int i=0;i<tabs;i++){
