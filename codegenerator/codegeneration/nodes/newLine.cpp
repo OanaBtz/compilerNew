@@ -1,5 +1,4 @@
-
-#include "newLine.h"
+#include "../../model/Node.h"
 #include <queue>
 
 string generateNewLine(Node* currentNode, string result, int tabs, queue<string> &tp, queue<string> &tpCopy)

@@ -1,5 +1,4 @@
-
-#include "center.h"
+#include "../../model/Node.h"
 
 string generateCenter(Node* currentNode, string result, int tabs)
 {

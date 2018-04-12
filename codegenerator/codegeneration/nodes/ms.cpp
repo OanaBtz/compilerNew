@@ -1,5 +1,4 @@
-
-#include "ms.h"
+#include "../../model/Node.h"
 
 string generateMs(Node* currentNode, string result, int tabs)
 {

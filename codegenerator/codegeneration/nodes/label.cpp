@@ -1,5 +1,4 @@
-
-#include "label.h"
+#include "../../model/Node.h"
 
 string generateLabel(Node* currentNode, string result, int tabs)
 {

@@ -1,30 +1,13 @@
-#include "string.h"
+#include "../../model/Node.h"
 #include <stack>
-
-string transformInNr(string tab){
-    string nrLocal = "";
-    char flag[1000];
-	strcpy(flag, tab.c_str() );
-	int j=0;
-	char returned[1000];
-	for(int i=0; i<strlen(flag); i++){
-		if(tab[i]>='0' && tab[i]<='9'){
-			returned[j]=flag[i];
-			j++;
-		}
-	}
-	returned[j]='\0';
-
-    nrLocal = returned;
-	return nrLocal;
-	// printf("%s\n", size);
-}
-
-
 
 string generateString(Node* currentNode, string result, int tabs, queue<string> &tp, queue<string> &tpCopy , string input, string fontAlign, stack<string> font, stack<string> fontSize, string &tabPosition)
 {
+    cout<<"here "<<currentNode->getData()<<endl;
     string strings = "";
+    string fonthere = "";
+    string fontSizehere = "";
+    
     if(currentNode->getData() == input){
     
         if(tpCopy.empty()){
@@ -32,12 +15,22 @@ string generateString(Node* currentNode, string result, int tabs, queue<string> 
         }
         tabPosition = tpCopy.front();
         tpCopy.pop();
-    }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == US || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == OR){
+    }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
+
+         if(font.size()>0){
+            fonthere=font.top();
+        }else
+            fonthere="";
+
+        if(fontSize.size()>0){
+            fontSizehere=font.top();
+        }else
+            fontSizehere="";
 
         for(int i=0;i<tabs;i++){
             strings +="\t"; 
         }
-        strings += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+font.top()+"\" size=\""+fontSize.top()+"\" tabPosition=\""+tabPosition+"\" >\n";
+        strings += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
         tabPosition = "";
         for(int i=0;i<tabs+1;i++){
             strings +="\t"; 

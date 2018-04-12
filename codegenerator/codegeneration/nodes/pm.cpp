@@ -1,5 +1,4 @@
-
-#include "pm.h"
+#include "../../model/Node.h"
 
 string generatePm(Node* currentNode, string result, int tabs)
 {
@@ -8,9 +7,7 @@ string generatePm(Node* currentNode, string result, int tabs)
         pm+="\t";
     }
 
-    pm+="<pageMargin size=\""+currentNode->getNodes().at(0)->getData()+"\" />";
+    pm+="<pageMargin size=\""+currentNode->getNodes().at(0)->getData()+"\" />\n";
     
-    result = result+pm+"\n"+"\n";
-
-    return result;
+    return pm;
 }

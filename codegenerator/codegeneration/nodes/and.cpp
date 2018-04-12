@@ -1,5 +1,5 @@
 
-#include "and.h"
+#include "../../model/Node.h"
 
 string generateAnd(Node* currentNode, string result, int tabs)
 {

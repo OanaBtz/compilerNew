@@ -1,5 +1,4 @@
-
-#include "fo.h"
+#include "../../model/Node.h"
 
 string generateFo(Node* currentNode, string result, int tabs)
 {

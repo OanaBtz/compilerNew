@@ -1,5 +1,4 @@
-
-#include "ct.h"
+#include "../../model/Node.h"
 
 string generateCt(Node* currentNode, string result, int tabs)
 {

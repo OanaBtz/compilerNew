@@ -1,5 +1,5 @@
 
-#include "am.h"
+#include "../../model/Node.h"
 
 string generateAm(Node* currentNode, string result, int tabs)
 {

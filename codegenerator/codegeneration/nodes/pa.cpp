@@ -1,5 +1,4 @@
-
-#include "pa.h"
+#include "../../model/Node.h"
 
 string generatePa(Node* currentNode, string result, int tabs)
 {

@@ -1,5 +1,4 @@
-
-#include "box.h"
+#include "../../model/Node.h"
 
 string generateBox(Node* currentNode, string result, int tabs)
 {

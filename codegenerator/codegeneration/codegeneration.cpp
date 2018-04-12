@@ -36,6 +36,34 @@
 #include "nodes/kp.cpp"
 #include "nodes/pl.cpp"
 #include "nodes/ct.cpp"
+#include "nodes/vr.cpp"
+#include "nodes/uc.cpp"
+#include "nodes/li.cpp"
+#include "nodes/ri.cpp"
+#include "nodes/up.cpp"
+#include "nodes/pw.cpp"
+#include "nodes/cc.cpp"
+#include "nodes/un.cpp"
+#include "nodes/ll.cpp"
+#include "nodes/tm.cpp"
+#include "nodes/bm.cpp"
+#include "nodes/cl.cpp"
+#include "nodes/of.cpp"
+#include "nodes/il.cpp"
+#include "nodes/se.cpp"
+#include "nodes/cb.cpp"
+#include "nodes/sc.cpp"
+#include "nodes/mc.cpp"
+#include "nodes/qu.cpp"
+#include "nodes/hw.cpp"
+#include "nodes/cd.cpp"
+#include "nodes/sk.cpp"
+#include "nodes/tb.cpp"
+#include "nodes/oi.cpp"
+#include "nodes/oc.cpp"
+#include "nodes/bc.cpp"
+#include "nodes/is.cpp"
+#include "nodes/ls.cpp"
 
 
 int nl = 0;
@@ -45,7 +73,7 @@ stack <string> font;
 stack <string> fontSize;
 string input = "";
 string tabPosition = "0";
-string fontAlign = "";
+string fontAlign = "left";
 string hexCode = "";
 
 string traverseGenerate(Node* currentNode, int depth)
@@ -162,6 +190,26 @@ string traverseGenerate(Node* currentNode, int depth)
     {
         result = generateHr(currentNode, result, depth);
     }
+    if(currentNode->getType() == UC)
+    {
+        result = generateUc(currentNode, result, depth);
+    }
+    if(currentNode->getType() == LI)
+    {
+        result = generateLi(currentNode, result, depth);
+    }
+    if(currentNode->getType() == RI)
+    {
+        result = generateRi(currentNode, result, depth);
+    }
+    if(currentNode->getType() == UP)
+    {
+        result = generateUp(currentNode, result, depth);
+    }
+    if(currentNode->getType() == VR)
+    {
+        result = generateVr(currentNode, result, depth);
+    }
     if(currentNode->getType() == PA)
     {
         result = generatePa(currentNode, result, depth);
@@ -201,6 +249,98 @@ string traverseGenerate(Node* currentNode, int depth)
     if(currentNode->getType() == CT)
     {
         result = generateCt(currentNode, result, depth);
+    }
+    if(currentNode->getType() == PW)
+    {
+        result = generatePw(currentNode, result, depth);
+    }
+    if(currentNode->getType() == CC)
+    {
+        result = generateCc(currentNode, result, depth);
+    }
+    if(currentNode->getType() == UN)
+    {
+        result = generateUn(currentNode, result, depth);
+    }
+    if(currentNode->getType() == LL)
+    {
+        result = generateLl(currentNode, result, depth);
+    }
+    if(currentNode->getType() == TM)
+    {
+        result = generateTm(currentNode, result, depth);
+    }
+    if(currentNode->getType() == BM)
+    {
+        result = generateBm(currentNode, result, depth);
+    }
+    if(currentNode->getType() == CL)
+    {
+        result = generateCl(currentNode, result, depth);
+    }
+    if(currentNode->getType() == OF)
+    {
+        result = generateOf(currentNode, result, depth);
+    }
+    if(currentNode->getType() == IL)
+    {
+        result = generateIl(currentNode, result, depth);
+    }
+    if(currentNode->getType() == SE)
+    {
+        result = generateSe(currentNode, result, depth);
+    }
+    if(currentNode->getType() == CB)
+    {
+        result = generateCb(currentNode, result, depth);
+    }
+    if(currentNode->getType() == SC)
+    {
+        result = generateSc(currentNode, result, depth);
+    }
+    if(currentNode->getType() == MC)
+    {
+        result = generateMc(currentNode, result, depth);
+    }
+    if(currentNode->getType() == QU)
+    {
+        result = generateQu(currentNode, result, depth);
+    }
+    if(currentNode->getType() == HW)
+    {
+        result = generateHw(currentNode, result, depth);
+    }
+    if(currentNode->getType() == CD)
+    {
+        result = generateCd(currentNode, result, depth);
+    }
+    if(currentNode->getType() == SK)
+    {
+        result = generateSk(currentNode, result, depth);
+    }
+    if(currentNode->getType() == TB)
+    {
+        result = generateTb(currentNode, result, depth);
+    }
+    if(currentNode->getType() == OI)
+    {
+        result = generateOi(currentNode, result, depth);
+    }
+    if(currentNode->getType() == OC)
+    {
+        result = generateOc(currentNode, result, depth);
+    }
+    if(currentNode->getType() == BC)
+    {
+        result = generateBc(currentNode, result, depth);
+    }
+    if(currentNode->getType() == IS)
+    {
+        result = generateIs(currentNode, result, depth);
+    }
+    if(currentNode->getType() == LS)
+    {
+        result = generateLs(currentNode, result, depth);
     }
     if(currentNode->getType() == SPACE)
     {

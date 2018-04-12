@@ -1,5 +1,4 @@
-
-#include "then.h"
+#include "../../model/Node.h"
 
 string generateThen(Node* currentNode, string result, int tabs)
 {

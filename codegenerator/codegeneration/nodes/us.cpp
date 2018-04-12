@@ -1,5 +1,5 @@
 
-#include "us.h"
+#include "../../model/Node.h"
 
 string generateUs(Node* currentNode, string result, int tabs)
 {

@@ -1,5 +1,4 @@
-
-#include "if.h"
+#include "../../model/Node.h"
 
 string generateIf(Node* currentNode, string result, int tabs)
 {

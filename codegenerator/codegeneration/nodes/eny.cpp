@@ -1,5 +1,4 @@
-
-#include "eny.h"
+#include "../../model/Node.h"
 
 string generateEny(Node* currentNode, string result, int tabs)
 {

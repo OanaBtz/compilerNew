@@ -1,12 +1,11 @@
-
+#include "../../model/Node.h"
 #include <queue>
-#include "tp.h"
 
 queue<string> generateTP(Node* currentNode)
 {
     queue<string> tp;
-    string value = "";
     for(int i=0; i<currentNode->getNodes().size()-1; i++){
+        string value = "";
         if(currentNode->getNodes().at(i+1)->getData()=="CENTER" || currentNode->getNodes().at(i+1)->getData()== "center"){
             value += currentNode->getNodes().at(i)->getData()+" center";
             tp.push(value);
@@ -26,7 +25,8 @@ queue<string> generateTP(Node* currentNode)
         }else{
             tp.push(currentNode->getNodes().at(i)->getData());
         }
+        
     }
-    cout<<endl;
+    
     return tp;
 }

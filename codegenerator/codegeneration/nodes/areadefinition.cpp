@@ -1,6 +1,4 @@
-
-
-#include "areadefinition.h"
+#include "../../model/Node.h"
 
 string generateAreadefinition(Node* currentNode, string result, int tabs)
 {

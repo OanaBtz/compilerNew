@@ -1,5 +1,4 @@
-
-#include "su.h"
+#include "../../model/Node.h"
 
 string generateSu(Node* currentNode, string result, int tabs)
 {
@@ -9,13 +8,13 @@ string generateSu(Node* currentNode, string result, int tabs)
     }
     su += "<SubstituteSymbol rule=\"";
 
-    if(currentNode->getNodes().at(0)->getData() == "on"){
+    if(currentNode->getNodes().at(0)->getData() == "on" || currentNode->getNodes().at(0)->getData()== "ON"){
         su+="on\"";
-    }else if(currentNode->getNodes().at(0)->getData() == "off" || currentNode->getNodes().at(0)->getData() == ".off"){
+    }else if(currentNode->getNodes().at(0)->getData() == "off" || currentNode->getNodes().at(0)->getData() == ".off" || currentNode->getNodes().at(0)->getData() == "OFF"){
         su+="off\"";
     }
 
-    su += " />";
+    su += " />\n";
     
     return su;
 }

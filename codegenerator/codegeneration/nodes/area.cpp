@@ -1,5 +1,5 @@
 
-#include "area.h"
+#include "../../model/Node.h"
 
 string generateArea(Node* currentNode, string result, int tabs)
 {

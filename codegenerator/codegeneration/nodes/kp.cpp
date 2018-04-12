@@ -1,5 +1,4 @@
-
-#include "kp.h"
+#include "../../model/Node.h"
 
 string generateKp(Node* currentNode, string result, int tabs)
 {

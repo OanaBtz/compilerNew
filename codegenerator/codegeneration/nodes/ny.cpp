@@ -1,5 +1,4 @@
-
-#include "ny.h"
+#include "../../model/Node.h"
 
 string generateNy(Node* currentNode, string result, int tabs)
 {

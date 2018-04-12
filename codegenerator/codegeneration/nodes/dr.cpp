@@ -1,5 +1,4 @@
-
-#include "dr.h"
+#include "../../model/Node.h"
 
 string generateDr(Node* currentNode, string result, int tabs)
 {

@@ -1,5 +1,5 @@
 
-#include "goto.h"
+#include "../../model/Node.h"
 
 string generateGoto(Node* currentNode, string result, int tabs)
 {

@@ -1,5 +1,4 @@
-
-#include "br.h"
+#include "../../model/Node.h"
 
 string generateBr(Node* currentNode, string result, int tabs)
 {

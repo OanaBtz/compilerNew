@@ -1,5 +1,4 @@
-
-#include "pl.h"
+#include "../../model/Node.h"
 
 string generatePl(Node* currentNode, string result, int tabs)
 {

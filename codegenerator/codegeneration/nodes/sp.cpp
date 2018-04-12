@@ -1,8 +1,4 @@
-//
-// Created by dennis on 1/2/18.
-//
-
-#include "sp.h"
+#include "../../model/Node.h"
 
 string generateSp(Node* currentNode, string result, int tabs)
 {

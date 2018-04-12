@@ -1,5 +1,4 @@
-
-#include "doc.h"
+#include "../../model/Node.h"
 
 string generateDoc(Node* currentNode, string result, int tabs)
 {
@@ -8,6 +7,7 @@ string generateDoc(Node* currentNode, string result, int tabs)
     doc+= "<Content>\n\n";
     doc+= "<SubstituteSymbol rule=\"on\" />\n";
     doc+= "<MacroSubstitution rule=\"off\" />\n\n";
+    doc+= "<BalanceColumns rule=\"on\" />\n";
     doc+= result+"\n";
 
     doc+= "</Content>\n";

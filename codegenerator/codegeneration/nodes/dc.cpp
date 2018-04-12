@@ -1,5 +1,4 @@
-
-#include "dc.h"
+#include "../../model/Node.h"
 
 string generateDc(Node* currentNode, string result, int tabs)
 {

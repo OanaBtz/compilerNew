@@ -1,5 +1,4 @@
-
-#include "else.h"
+#include "../../model/Node.h"
 
 string generateElse(Node* currentNode, string result, int tabs)
 {

@@ -48,286 +48,248 @@ extern int yydebug;
     AM_T = 258,
     SEMICOLON_T = 259,
     SPACE_T = 260,
-    SB_T = 261,
-    HM_T = 262,
-    MS_T = 263,
-    DH_T = 264,
-    HS_T = 265,
-    FE_T = 266,
-    SL_T = 267,
-    CS_T = 268,
-    OG_T = 269,
-    PW_T = 270,
-    SUBSTR_T = 271,
-    DU_T = 272,
-    VS_T = 273,
-    IM_T = 274,
-    DC_T = 275,
-    SX_T = 276,
-    PL_T = 277,
-    CO_T = 278,
-    SD_T = 279,
-    UC_T = 280,
-    VI_T = 281,
-    RF_T = 282,
-    DS_T = 283,
-    LI_T = 284,
-    PN_T = 285,
-    NEW_T = 286,
-    SET_T = 287,
-    UNKNOWN_T = 288,
-    IL_T = 289,
-    TA_T = 290,
-    MF_T = 291,
-    LS_T = 292,
-    TU_T = 293,
-    QU_T = 294,
-    IE_T = 295,
-    HW_T = 296,
-    BC_T = 297,
-    TD_T = 298,
-    CB_T = 299,
-    TR_T = 300,
-    AF_T = 301,
-    UD_T = 302,
-    TL_T = 303,
-    SS_T = 304,
-    ON_T = 305,
-    IN_T = 306,
-    CC_T = 307,
-    QQ_T = 308,
-    RC_T = 309,
-    NR_T = 310,
-    BF_T = 311,
-    IT_T = 312,
-    UN_T = 313,
-    JU_T = 314,
-    ME_T = 315,
-    OV_T = 316,
-    DOTNY_T = 317,
-    AT_T = 318,
-    UL_T = 319,
-    SC_T = 320,
-    MC_T = 321,
-    UP_T = 322,
-    IS_T = 323,
-    OC_T = 324,
-    OI_T = 325,
-    RI_T = 326,
-    NOTEQUAL_T = 327,
-    OF_T = 328,
-    CL_T = 329,
-    CD_T = 330,
-    TM_T = 331,
-    DEPTH_T = 332,
-    HY_T = 333,
-    HR_T = 334,
-    MG_T = 335,
-    DR_T = 336,
-    WEIGHT_T = 337,
-    UPPERCASE_T = 338,
-    LENGTH_T = 339,
-    PA_T = 340,
-    NS_T = 341,
-    IR_T = 342,
-    IF_T = 343,
-    EL_T = 344,
-    TH_T = 345,
-    OR_T = 346,
-    AN_T = 347,
-    CT_T = 348,
-    EQUAL_T = 349,
-    GTHANE_T = 350,
-    LTHANE_T = 351,
-    GTHAN_T = 352,
-    LTHAN_T = 353,
-    CANCEL_T = 354,
-    RH_T = 355,
-    KP_T = 356,
-    LL_T = 357,
-    GOTO_T = 358,
-    EXECUTE_T = 359,
-    LABEL_T = 360,
-    SE_T = 361,
-    PM_T = 362,
-    BR_T = 363,
-    NV_T = 364,
-    NY_T = 365,
-    PAGE_T = 366,
-    ENY_T = 367,
-    COMMENT_T = 368,
-    TI_T = 369,
-    DA_T = 370,
-    FO_T = 371,
-    OFF_T = 372,
-    AR_T = 373,
-    BX_T = 374,
-    SP_T = 375,
-    US_T = 376,
-    SIZE_T = 377,
-    STYLE_T = 378,
-    IDENT_T = 379,
-    VAR_UP_T = 380,
-    VAR_T = 381,
-    DIRECTION_T = 382,
-    NUM_T = 383,
-    WIDTH_T = 384,
-    TP_T = 385,
-    TAB_T = 386,
-    ROTATE_T = 387,
-    NEW_LINE_T = 388,
-    BM_T = 389,
-    SU_T = 390,
-    DM_T = 391,
-    GS_T = 392,
-    SK_T = 393,
-    CE_T = 394,
-    TB_T = 395,
-    MATHEX_T = 396,
-    VR_T = 397
+    MS_T = 261,
+    FE_T = 262,
+    OG_T = 263,
+    PW_T = 264,
+    SUBSTR_T = 265,
+    DU_T = 266,
+    VS_T = 267,
+    IM_T = 268,
+    DC_T = 269,
+    SX_T = 270,
+    PL_T = 271,
+    SD_T = 272,
+    UC_T = 273,
+    VI_T = 274,
+    RF_T = 275,
+    LI_T = 276,
+    PN_T = 277,
+    NEW_T = 278,
+    SET_T = 279,
+    UNKNOWN_T = 280,
+    IL_T = 281,
+    TA_T = 282,
+    MF_T = 283,
+    LS_T = 284,
+    TU_T = 285,
+    QU_T = 286,
+    HW_T = 287,
+    BC_T = 288,
+    TD_T = 289,
+    CB_T = 290,
+    AF_T = 291,
+    UD_T = 292,
+    ON_T = 293,
+    IN_T = 294,
+    CC_T = 295,
+    RC_T = 296,
+    NR_T = 297,
+    IT_T = 298,
+    UN_T = 299,
+    OV_T = 300,
+    DOTNY_T = 301,
+    AT_T = 302,
+    SC_T = 303,
+    MC_T = 304,
+    UP_T = 305,
+    IS_T = 306,
+    OC_T = 307,
+    OI_T = 308,
+    RI_T = 309,
+    NOTEQUAL_T = 310,
+    OF_T = 311,
+    CL_T = 312,
+    CD_T = 313,
+    TM_T = 314,
+    DEPTH_T = 315,
+    HY_T = 316,
+    HR_T = 317,
+    MG_T = 318,
+    DR_T = 319,
+    WEIGHT_T = 320,
+    UPPERCASE_T = 321,
+    LENGTH_T = 322,
+    PA_T = 323,
+    IR_T = 324,
+    IF_T = 325,
+    EL_T = 326,
+    TH_T = 327,
+    OR_T = 328,
+    AN_T = 329,
+    CT_T = 330,
+    EQUAL_T = 331,
+    GTHANE_T = 332,
+    LTHANE_T = 333,
+    GTHAN_T = 334,
+    LTHAN_T = 335,
+    CANCEL_T = 336,
+    RH_T = 337,
+    KP_T = 338,
+    LL_T = 339,
+    GOTO_T = 340,
+    EXECUTE_T = 341,
+    LABEL_T = 342,
+    SE_T = 343,
+    PM_T = 344,
+    BR_T = 345,
+    NV_T = 346,
+    NY_T = 347,
+    PAGE_T = 348,
+    ENY_T = 349,
+    COMMENT_T = 350,
+    TI_T = 351,
+    DA_T = 352,
+    FO_T = 353,
+    OFF_T = 354,
+    AR_T = 355,
+    BX_T = 356,
+    SP_T = 357,
+    US_T = 358,
+    SIZE_T = 359,
+    STYLE_T = 360,
+    IDENT_T = 361,
+    VAR_UP_T = 362,
+    VAR_T = 363,
+    NUM_T = 364,
+    WIDTH_T = 365,
+    TP_T = 366,
+    TAB_T = 367,
+    ROTATE_T = 368,
+    NEW_LINE_T = 369,
+    BM_T = 370,
+    SU_T = 371,
+    DM_T = 372,
+    GS_T = 373,
+    SK_T = 374,
+    CE_T = 375,
+    TB_T = 376,
+    MATHEX_T = 377,
+    VR_T = 378
   };
 #endif
 /* Tokens.  */
 #define AM_T 258
 #define SEMICOLON_T 259
 #define SPACE_T 260
-#define SB_T 261
-#define HM_T 262
-#define MS_T 263
-#define DH_T 264
-#define HS_T 265
-#define FE_T 266
-#define SL_T 267
-#define CS_T 268
-#define OG_T 269
-#define PW_T 270
-#define SUBSTR_T 271
-#define DU_T 272
-#define VS_T 273
-#define IM_T 274
-#define DC_T 275
-#define SX_T 276
-#define PL_T 277
-#define CO_T 278
-#define SD_T 279
-#define UC_T 280
-#define VI_T 281
-#define RF_T 282
-#define DS_T 283
-#define LI_T 284
-#define PN_T 285
-#define NEW_T 286
-#define SET_T 287
-#define UNKNOWN_T 288
-#define IL_T 289
-#define TA_T 290
-#define MF_T 291
-#define LS_T 292
-#define TU_T 293
-#define QU_T 294
-#define IE_T 295
-#define HW_T 296
-#define BC_T 297
-#define TD_T 298
-#define CB_T 299
-#define TR_T 300
-#define AF_T 301
-#define UD_T 302
-#define TL_T 303
-#define SS_T 304
-#define ON_T 305
-#define IN_T 306
-#define CC_T 307
-#define QQ_T 308
-#define RC_T 309
-#define NR_T 310
-#define BF_T 311
-#define IT_T 312
-#define UN_T 313
-#define JU_T 314
-#define ME_T 315
-#define OV_T 316
-#define DOTNY_T 317
-#define AT_T 318
-#define UL_T 319
-#define SC_T 320
-#define MC_T 321
-#define UP_T 322
-#define IS_T 323
-#define OC_T 324
-#define OI_T 325
-#define RI_T 326
-#define NOTEQUAL_T 327
-#define OF_T 328
-#define CL_T 329
-#define CD_T 330
-#define TM_T 331
-#define DEPTH_T 332
-#define HY_T 333
-#define HR_T 334
-#define MG_T 335
-#define DR_T 336
-#define WEIGHT_T 337
-#define UPPERCASE_T 338
-#define LENGTH_T 339
-#define PA_T 340
-#define NS_T 341
-#define IR_T 342
-#define IF_T 343
-#define EL_T 344
-#define TH_T 345
-#define OR_T 346
-#define AN_T 347
-#define CT_T 348
-#define EQUAL_T 349
-#define GTHANE_T 350
-#define LTHANE_T 351
-#define GTHAN_T 352
-#define LTHAN_T 353
-#define CANCEL_T 354
-#define RH_T 355
-#define KP_T 356
-#define LL_T 357
-#define GOTO_T 358
-#define EXECUTE_T 359
-#define LABEL_T 360
-#define SE_T 361
-#define PM_T 362
-#define BR_T 363
-#define NV_T 364
-#define NY_T 365
-#define PAGE_T 366
-#define ENY_T 367
-#define COMMENT_T 368
-#define TI_T 369
-#define DA_T 370
-#define FO_T 371
-#define OFF_T 372
-#define AR_T 373
-#define BX_T 374
-#define SP_T 375
-#define US_T 376
-#define SIZE_T 377
-#define STYLE_T 378
-#define IDENT_T 379
-#define VAR_UP_T 380
-#define VAR_T 381
-#define DIRECTION_T 382
-#define NUM_T 383
-#define WIDTH_T 384
-#define TP_T 385
-#define TAB_T 386
-#define ROTATE_T 387
-#define NEW_LINE_T 388
-#define BM_T 389
-#define SU_T 390
-#define DM_T 391
-#define GS_T 392
-#define SK_T 393
-#define CE_T 394
-#define TB_T 395
-#define MATHEX_T 396
-#define VR_T 397
+#define MS_T 261
+#define FE_T 262
+#define OG_T 263
+#define PW_T 264
+#define SUBSTR_T 265
+#define DU_T 266
+#define VS_T 267
+#define IM_T 268
+#define DC_T 269
+#define SX_T 270
+#define PL_T 271
+#define SD_T 272
+#define UC_T 273
+#define VI_T 274
+#define RF_T 275
+#define LI_T 276
+#define PN_T 277
+#define NEW_T 278
+#define SET_T 279
+#define UNKNOWN_T 280
+#define IL_T 281
+#define TA_T 282
+#define MF_T 283
+#define LS_T 284
+#define TU_T 285
+#define QU_T 286
+#define HW_T 287
+#define BC_T 288
+#define TD_T 289
+#define CB_T 290
+#define AF_T 291
+#define UD_T 292
+#define ON_T 293
+#define IN_T 294
+#define CC_T 295
+#define RC_T 296
+#define NR_T 297
+#define IT_T 298
+#define UN_T 299
+#define OV_T 300
+#define DOTNY_T 301
+#define AT_T 302
+#define SC_T 303
+#define MC_T 304
+#define UP_T 305
+#define IS_T 306
+#define OC_T 307
+#define OI_T 308
+#define RI_T 309
+#define NOTEQUAL_T 310
+#define OF_T 311
+#define CL_T 312
+#define CD_T 313
+#define TM_T 314
+#define DEPTH_T 315
+#define HY_T 316
+#define HR_T 317
+#define MG_T 318
+#define DR_T 319
+#define WEIGHT_T 320
+#define UPPERCASE_T 321
+#define LENGTH_T 322
+#define PA_T 323
+#define IR_T 324
+#define IF_T 325
+#define EL_T 326
+#define TH_T 327
+#define OR_T 328
+#define AN_T 329
+#define CT_T 330
+#define EQUAL_T 331
+#define GTHANE_T 332
+#define LTHANE_T 333
+#define GTHAN_T 334
+#define LTHAN_T 335
+#define CANCEL_T 336
+#define RH_T 337
+#define KP_T 338
+#define LL_T 339
+#define GOTO_T 340
+#define EXECUTE_T 341
+#define LABEL_T 342
+#define SE_T 343
+#define PM_T 344
+#define BR_T 345
+#define NV_T 346
+#define NY_T 347
+#define PAGE_T 348
+#define ENY_T 349
+#define COMMENT_T 350
+#define TI_T 351
+#define DA_T 352
+#define FO_T 353
+#define OFF_T 354
+#define AR_T 355
+#define BX_T 356
+#define SP_T 357
+#define US_T 358
+#define SIZE_T 359
+#define STYLE_T 360
+#define IDENT_T 361
+#define VAR_UP_T 362
+#define VAR_T 363
+#define NUM_T 364
+#define WIDTH_T 365
+#define TP_T 366
+#define TAB_T 367
+#define ROTATE_T 368
+#define NEW_LINE_T 369
+#define BM_T 370
+#define SU_T 371
+#define DM_T 372
+#define GS_T 373
+#define SK_T 374
+#define CE_T 375
+#define TB_T 376
+#define MATHEX_T 377
+#define VR_T 378
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -338,7 +300,7 @@ union YYSTYPE
 
 	char tokens[1000];
 
-#line 342 "y.tab.h" /* yacc.c:1909  */
+#line 304 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
