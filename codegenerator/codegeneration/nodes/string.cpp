@@ -3,7 +3,6 @@
 
 string generateString(Node* currentNode, string result, int tabs, queue<string> &tp, queue<string> &tpCopy , string input, string fontAlign, stack<string> font, stack<string> fontSize, string &tabPosition)
 {
-    cout<<"here "<<currentNode->getData()<<endl;
     string strings = "";
     string fonthere = "";
     string fontSizehere = "";
@@ -12,9 +11,11 @@ string generateString(Node* currentNode, string result, int tabs, queue<string> 
     
         if(tpCopy.empty()){
             tpCopy = tp;
+        }else{
+            tabPosition = tpCopy.front();
+            tpCopy.pop();
+
         }
-        tabPosition = tpCopy.front();
-        tpCopy.pop();
     }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
 
          if(font.size()>0){

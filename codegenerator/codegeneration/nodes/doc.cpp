@@ -6,8 +6,10 @@ string generateDoc(Node* currentNode, string result, int tabs)
     doc+= "<?xml-stylesheet type=\"text/xsl\" href=\"the style sheet here\"?>\n\n";
     doc+= "<Content>\n\n";
     doc+= "<SubstituteSymbol rule=\"on\" />\n";
-    doc+= "<MacroSubstitution rule=\"off\" />\n\n";
     doc+= "<BalanceColumns rule=\"on\" />\n";
+    doc+= "<InputTrace rule=\"off\" />\n";
+    doc+= "<MacroSubstitution rule=\"off\" />\n\n";
+
     doc+= result+"\n";
 
     doc+= "</Content>\n";

@@ -1,6 +1,7 @@
 #include "./printing.cpp"
 #include <stack> 
 Node* pNode;
+Node* thenNode;
 int connectNextNodesUntilNewLine(int addToIndex, int fromIndex)
 {
 	list[addToIndex]->addNode(list[fromIndex]);
@@ -36,7 +37,7 @@ int connectNextNodesToThenElse(int addToIndex, int fromIndex)
 	
 	while(list[fromIndex+i]->getType() != NEWLINE){
 		// TP, SE, IN, LL, SK, PA, QU, US, HR, IS, SP, PN, QU, SP, GO, MG, RC, 
-		if(list[fromIndex+i]->getType() == TP || list[fromIndex+i]->getType() == FO || list[fromIndex+i]->getType() == CT || list[fromIndex+i]->getType() == NV || list[fromIndex+i]->getType() == IF || list[fromIndex+i]->getType() == SU || list[fromIndex+i]->getType() == BOX || list[fromIndex+i]->getType() == SE || list[fromIndex+i]->getType() == IN || list[fromIndex+i]->getType() == LL || list[fromIndex+i]->getType() == SK ||  list[fromIndex+i]->getType() == PA || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == US || list[fromIndex+i]->getType() == HR || list[fromIndex+i]->getType() == IS || list[fromIndex+i]->getType() == SP || list[fromIndex+i]->getType() == PN || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == RC || list[fromIndex+i]->getType() == MG || list[fromIndex+i]->getType() == GO || list[fromIndex+i]->getType() == SP)
+		if(list[fromIndex+i]->getType() == TP || list[fromIndex+i]->getType() == IM || list[fromIndex+i]->getType() == FO || list[fromIndex+i]->getType() == CT || list[fromIndex+i]->getType() == NV || list[fromIndex+i]->getType() == IF || list[fromIndex+i]->getType() == SU || list[fromIndex+i]->getType() == BOX || list[fromIndex+i]->getType() == SE || list[fromIndex+i]->getType() == IN || list[fromIndex+i]->getType() == LL || list[fromIndex+i]->getType() == SK ||  list[fromIndex+i]->getType() == PA || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == US || list[fromIndex+i]->getType() == HR || list[fromIndex+i]->getType() == IS || list[fromIndex+i]->getType() == SP || list[fromIndex+i]->getType() == PN || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == RC || list[fromIndex+i]->getType() == MG || list[fromIndex+i]->getType() == GO || list[fromIndex+i]->getType() == SP)
 		{
 			list[fromIndex]->addNode(list[fromIndex+i]);
 			int j=i+1;
@@ -55,6 +56,45 @@ int connectNextNodesToThenElse(int addToIndex, int fromIndex)
 	list[fromIndex]->addNode(list[fromIndex + i]);
 	return fromIndex + i;
 }
+
+int connectNextNodesToIf(int addToIndex, int fromIndex)
+{
+	
+	int i=1;
+	list[addToIndex]->addNode(list[fromIndex]);
+	int flag = 0;
+	
+	while(list[fromIndex+i]->getType() != NEWLINE){
+		// TP, SE, IN, LL, SK, PA, QU, US, HR, IS, SP, PN, QU, SP, GO, MG, RC, 
+		if(list[fromIndex+i]->getType() == SE || list[fromIndex+i]->getType() == IM || list[fromIndex+i]->getType() == FO || list[fromIndex+i]->getType() == CT || list[fromIndex+i]->getType() == NV || list[fromIndex+i]->getType() == IF || list[fromIndex+i]->getType() == SU || list[fromIndex+i]->getType() == BOX || list[fromIndex+i]->getType() == SE || list[fromIndex+i]->getType() == IN || list[fromIndex+i]->getType() == LL || list[fromIndex+i]->getType() == SK ||  list[fromIndex+i]->getType() == PA || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == US || list[fromIndex+i]->getType() == HR || list[fromIndex+i]->getType() == IS || list[fromIndex+i]->getType() == SP || list[fromIndex+i]->getType() == PN || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == RC || list[fromIndex+i]->getType() == MG || list[fromIndex+i]->getType() == GO || list[fromIndex+i]->getType() == SP)
+		{
+			thenNode = new Node(THEN, "");
+			list[fromIndex]->addNode(thenNode);
+
+			thenNode->addNode(list[fromIndex+i]);
+			while(list[fromIndex+i]->getType() != NEWLINE){
+			{
+				int j=i+1;
+				while(list[fromIndex+j]->getType() != NEWLINE && list[fromIndex+i]->getType() != IF && list[fromIndex+i]->getType() != ELSE && list[fromIndex+i]->getType() != OR && list[fromIndex+i]->getType() != AND && list[fromIndex+i]->getType() != THEN){
+					list[fromIndex+i]->addNode(list[fromIndex + j]);
+					j++;
+				}
+				list[fromIndex+i]->addNode(list[fromIndex+j]);
+				i = j-1;
+			}
+			i++;
+			}
+		}
+		else{
+			list[fromIndex]->addNode(list[fromIndex + i]);
+			i++;
+		}
+	}
+	return fromIndex + i;
+}
+
+
+
 int connectNextNodesFromLines(int addToIndex, int fromIndex){
 	
 	list[addToIndex]->addNode(list[fromIndex]);
@@ -940,6 +980,34 @@ void startTreeBuilding(std::vector<Node*> list)
 									}
 									i = connectThisNode(parent, i);
 									break;
+			case VS:				cout<<"VS"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == liNr){
+										liNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == upNr){
+										upNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == ucNr){
+										ucNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == riNr){
+										riNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									i = connectThisNode(parent, i);
+									break;
 			case NUMBER:			cout<<"NUMBER "<<list[i]->getData()<<endl;
 									if(newLineNr == ceNr){
 										ceNr = -1;
@@ -1082,6 +1150,34 @@ void startTreeBuilding(std::vector<Node*> list)
 										parent = parents.top();
 									}
 									i = connectNextNodesToThenElse(parent, i);
+									break;
+			case IF:				cout<<"IF"<<endl;
+									if(newLineNr == ceNr){
+										ceNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == liNr){
+										liNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == upNr){
+										upNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == ucNr){
+										ucNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									if(newLineNr == riNr){
+										riNr = -1;
+										parents.pop();
+										parent = parents.top();
+									}
+									i = connectNextNodesToIf(parent, i);
 									break;
 			case SPACE:				if(newLineNr == ceNr){
 										ceNr = -1;

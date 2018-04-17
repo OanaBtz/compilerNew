@@ -11,18 +11,25 @@ string generateVr(Node* currentNode, string result, int tabs)
     for(int i=0;i<tabs;i++){
         vr+="\t";
     }
-    vr += "<vr ";
 
-    if(currentNode->getNodes().at(0)->getType() == STRING)
-        vr += "name =\""+currentNode->getNodes().at(0)->getData()+"\"";
-    
-    vr+= "rule= \"";
-    for(int i=0; i< currentNode->getNodes().size(); i++){
+    if(currentNode->getNodes().size()>1){
+        if(currentNode->getNodes().at(0)->getData() == "off"){
+            vr += "</verticalLine>";
+        }else{
+            vr += "<verticalLine ";
 
-        vr += currentNode->getNodes().at(i)->getData() + " ";
+            if(currentNode->getNodes().at(0)->getType() == STRING)
+                vr += "name =\""+currentNode->getNodes().at(0)->getData()+"\"";
+            
+            vr+= "rule= \"";
+            for(int i=1; i< currentNode->getNodes().size(); i++){
+
+                vr += currentNode->getNodes().at(i)->getData() + " ";
+            }
+
+            vr += "\"/>\n";
+        }
     }
-
-    vr += "\"/>\n";
 
     return vr;
 }

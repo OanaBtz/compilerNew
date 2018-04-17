@@ -872,6 +872,24 @@ IDENT       :   IDENT_T                                 {
 
                                                                 Node* sizeNode = new Node(SIZE, "3mm");
                                                                 list.push_back(spNode); 
+                                                            }else if(strcmp($1,".th:FED.")==0){
+                                                                Node* thNode = new Node(THEN, "");
+                                                                list.push_back(thNode);
+
+                                                                Node* styleNode = new Node(FONT, ":FED.");
+                                                                list.push_back(styleNode); 
+                                                            }else if(strcmp($1,".th:KURSIV.")==0 || strcmp($1,".th:KURSIV")==0){
+                                                                Node* thNode = new Node(THEN, "");
+                                                                list.push_back(thNode);
+
+                                                                Node* styleNode = new Node(FONT, ":KURSIV.");
+                                                                list.push_back(styleNode); 
+                                                            }else if(strcmp($1,".th:SKRSLUT.")==0 || strcmp($1,".th:SKRSLUT")==0){
+                                                                Node* thNode = new Node(THEN, "");
+                                                                list.push_back(thNode);
+
+                                                                Node* styleNode = new Node(FONT, ":SKRSLUT.");
+                                                                list.push_back(styleNode); 
                                                             }else{
                                                                 Node* stringNode = new Node(STRING, $1);
                                                                 list.push_back(stringNode);                                                                
