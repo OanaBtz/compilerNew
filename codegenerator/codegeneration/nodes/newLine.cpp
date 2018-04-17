@@ -6,6 +6,7 @@ string generateNewLine(Node* currentNode, string result, int tabs, queue<string>
     string newLine = "";
 
     tpCopy = tp;
+    //tpCopy.front();
     
     return newLine;
 }

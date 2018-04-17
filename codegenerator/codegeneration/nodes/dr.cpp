@@ -8,13 +8,14 @@ string generateDr(Node* currentNode, string result, int tabs)
     for(int i=0;i<tabs;i++){
         dr+="\t";
     }
-    dr += "<defineRule name=\""+currentNode->getNodes().at(0)->getData()+"\" weight=\""+currentNode->getNodes().at(2)->getData();
+    dr += "<dr rule= \"";
 
-    if(currentNode->getNodes().size()>4){
-        dr += " "+currentNode->getNodes().at(3)->getData();
+    for(int i=0; i< currentNode->getNodes().size(); i++){
+
+        dr += currentNode->getNodes().at(i)->getData() + " ";
     }
 
-    dr += "\" />\n";
+    dr += "\"/>\n";
 
     return dr;
 }

@@ -36,8 +36,8 @@ int connectNextNodesToThenElse(int addToIndex, int fromIndex)
 
 	
 	while(list[fromIndex+i]->getType() != NEWLINE){
-		// TP, SE, IN, LL, SK, PA, QU, US, HR, IS, SP, PN, QU, SP, GO, MG, RC, 
-		if(list[fromIndex+i]->getType() == TP || list[fromIndex+i]->getType() == IM || list[fromIndex+i]->getType() == FO || list[fromIndex+i]->getType() == CT || list[fromIndex+i]->getType() == NV || list[fromIndex+i]->getType() == IF || list[fromIndex+i]->getType() == SU || list[fromIndex+i]->getType() == BOX || list[fromIndex+i]->getType() == SE || list[fromIndex+i]->getType() == IN || list[fromIndex+i]->getType() == LL || list[fromIndex+i]->getType() == SK ||  list[fromIndex+i]->getType() == PA || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == US || list[fromIndex+i]->getType() == HR || list[fromIndex+i]->getType() == IS || list[fromIndex+i]->getType() == SP || list[fromIndex+i]->getType() == PN || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == RC || list[fromIndex+i]->getType() == MG || list[fromIndex+i]->getType() == GO || list[fromIndex+i]->getType() == SP)
+		// TP, SE, IN, LL, SK, PA, QU, US, HR, IS, SP, PN, QU, SP, GO, MG, RC, VR
+		if(list[fromIndex+i]->getType() == TP || list[fromIndex+i]->getType() == AREADEFINITION || list[fromIndex+i]->getType() == IM || list[fromIndex+i]->getType() == FO || list[fromIndex+i]->getType() == CT || list[fromIndex+i]->getType() == NV || list[fromIndex+i]->getType() == IF || list[fromIndex+i]->getType() == SU || list[fromIndex+i]->getType() == BOX || list[fromIndex+i]->getType() == SE || list[fromIndex+i]->getType() == IN || list[fromIndex+i]->getType() == LL || list[fromIndex+i]->getType() == SK ||  list[fromIndex+i]->getType() == PA || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == US || list[fromIndex+i]->getType() == HR || list[fromIndex+i]->getType() == IS || list[fromIndex+i]->getType() == SP || list[fromIndex+i]->getType() == PN || list[fromIndex+i]->getType() == QU || list[fromIndex+i]->getType() == RC || list[fromIndex+i]->getType() == MG || list[fromIndex+i]->getType() == GO || list[fromIndex+i]->getType() == SP || list[fromIndex+i]->getType() == VR)
 		{
 			list[fromIndex]->addNode(list[fromIndex+i]);
 			int j=i+1;
@@ -117,7 +117,7 @@ int connectNextNodestoP(int &parent, Node* p, int fromIndex, int &ceNr, int &new
 	int s=1;
 	int space = 0;
 
-	while( fromIndex<list.size() && (list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == SPACE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)){
+	while( fromIndex<list.size() && (list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == MATHEX || list[fromIndex]->getType() == SPACE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)){
 		
 		
 		if(list[fromIndex]->getType() != NEWLINE){
@@ -133,7 +133,7 @@ int connectNextNodestoP(int &parent, Node* p, int fromIndex, int &ceNr, int &new
 			
 			fromIndex++;
 			if(fromIndex<list.size()) 
-				if(list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)
+				if(list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == MATHEX || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)
 				{
 					
 					pNode = new Node(PARAGRAPH, "");
@@ -154,7 +154,7 @@ int connectNextNodestoP(int &parent, Node* p, int fromIndex, int &ceNr, int &new
 			p->addNode(list[fromIndex]);
 			fromIndex++;	
 			if(fromIndex<list.size()) 
-				if(list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)
+				if(list[fromIndex]->getType() == NEWLINE || list[fromIndex]->getType() == MATHEX || list[fromIndex]->getType() == NUMBER || list[fromIndex]->getType() == SIZE || list[fromIndex]->getType() == STRING || list[fromIndex]->getType() == VARIABLE || list[fromIndex]->getType() == LINEBREAK)
 				{
 					pNode = new Node(PARAGRAPH, "");
 					ceNr = -1;

@@ -71,6 +71,11 @@
 #include "nodes/it.cpp"
 #include "nodes/du.cpp"
 #include "nodes/im.cpp"
+#include "nodes/hy.cpp"
+#include "nodes/goto.cpp"
+#include "nodes/in.cpp"
+#include "nodes/ir.cpp"
+#include "nodes/rh.cpp"
 
 
 int nl = 0;
@@ -309,6 +314,10 @@ string traverseGenerate(Node* currentNode, int depth)
     {
         result = generateMc(currentNode, result, depth);
     }
+    if(currentNode->getType() == GO)
+    {
+        result = generateGo(currentNode, result, depth);
+    }
     if(currentNode->getType() == QU)
     {
         result = generateQu(currentNode, result, depth);
@@ -380,6 +389,22 @@ string traverseGenerate(Node* currentNode, int depth)
     if(currentNode->getType() == IM)
     {
         result = generateIm(currentNode, result, depth);
+    }
+    if(currentNode->getType() == HY)
+    {
+        result = generateHy(currentNode, result, depth);
+    }
+    if(currentNode->getType() == IN)
+    {
+        result = generateIn(currentNode, result, depth);
+    }
+    if(currentNode->getType() == IR)
+    {
+        result = generateIr(currentNode, result, depth);
+    }
+    if(currentNode->getType() == RH)
+    {
+        result = generateRh(currentNode, result, depth);
     }
     if(currentNode->getType() == SPACE)
     {

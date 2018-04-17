@@ -3,16 +3,20 @@
 string generateCenter(Node* currentNode, string result, int tabs)
 {
     string center = "";
-    for(int i=0;i<tabs;i++){
-        center+="\t";
-    }
-    center += "<center>\n";
-    center += result;
 
-    for(int i=0;i<tabs;i++){
-        center+="\t";
+    if(currentNode->getNodes().size()>1 && (currentNode->getNodes().at(0)->getData()!="off" && currentNode->getNodes().at(0)->getData()!="OFF") ){
+        for(int i=0;i<tabs;i++){
+            center+="\t";
+        }
+        center += "<center>\n";
+        center += result;
+
+        for(int i=0;i<tabs;i++){
+            center+="\t";
+        }
+        center += "</center>\n";
+
     }
-    center += "</center>\n";
     return center;
    
 }

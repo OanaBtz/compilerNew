@@ -6,7 +6,7 @@ string generateVariable(Node* currentNode, string result, int tabs, queue<string
     string vars = "";
     string fonthere = "";
     string fontSizehere = "";
-    if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == CT  || currentNode->getParent()->getType() == CE  || currentNode->getParent()->getType() == US ){
+    if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == RH || currentNode->getParent()->getType() == CT || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == CT  || currentNode->getParent()->getType() == CE  || currentNode->getParent()->getType() == US ){
 
         
         for(int i=0;i<tabs;i++){
@@ -18,7 +18,7 @@ string generateVariable(Node* currentNode, string result, int tabs, queue<string
             fonthere="";
 
         if(fontSize.size()>0){
-            fontSizehere=font.top();
+            fontSizehere=fontSize.top();
         }else
             fontSizehere="";
 

@@ -5,7 +5,7 @@ string generateNumber(Node* currentNode, string result, int tabs, queue<string> 
     string fonthere = "";
     string fontSizehere = "";
     string nr = "";
-    if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
+    if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == RH || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == CT || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
 
         if(font.size()>0){
             fonthere=font.top();
@@ -13,7 +13,7 @@ string generateNumber(Node* currentNode, string result, int tabs, queue<string> 
             fonthere="";
 
         if(fontSize.size()>0){
-            fontSizehere=font.top();
+            fontSizehere=fontSize.top();
         }else
             fontSizehere="";
 

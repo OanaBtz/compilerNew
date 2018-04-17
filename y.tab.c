@@ -2722,19 +2722,19 @@ yyreduce:
                                                                 list.push_back(spNode);
 
                                                                 Node* sizeNode = new Node(SIZE, "6mm");
-                                                                list.push_back(spNode); 
+                                                                list.push_back(sizeNode); 
                                                             }else if(strcmp((yyvsp[0].tokens),".Sp2")==0){
                                                                 Node* spNode = new Node(SP, "");
                                                                 list.push_back(spNode);
 
                                                                 Node* sizeNode = new Node(SIZE, "2mm");
-                                                                list.push_back(spNode); 
+                                                                list.push_back(sizeNode); 
                                                             }else if(strcmp((yyvsp[0].tokens),".SP3MM")==0){
                                                                 Node* spNode = new Node(SP, "");
                                                                 list.push_back(spNode);
 
                                                                 Node* sizeNode = new Node(SIZE, "3mm");
-                                                                list.push_back(spNode); 
+                                                                list.push_back(sizeNode); 
                                                             }else if(strcmp((yyvsp[0].tokens),".th:FED.")==0){
                                                                 Node* thNode = new Node(THEN, "");
                                                                 list.push_back(thNode);

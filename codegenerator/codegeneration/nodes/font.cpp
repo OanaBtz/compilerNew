@@ -52,7 +52,10 @@ void generateFont(Node* currentNode, string result, stack<string> &font, stack<s
 		if(!fontSize.empty())
 			fontSize.pop();
 	}else{
+		cout<<styleName(currentNode->getData())<<endl;
 		font.push(styleName(currentNode->getData()));
+
+		cout<<styleSize(currentNode->getData())<<endl<<endl;
 		fontSize.push(styleSize(currentNode->getData()));
 	}
 }

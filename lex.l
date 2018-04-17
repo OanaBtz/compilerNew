@@ -95,11 +95,11 @@
 "weight"|"WEIGHT"                                       { strcpy(yylval.tokens, yytext); return WEIGHT_T;}
 "execute"                                               { strcpy(yylval.tokens, yytext); return EXECUTE_T;}
 "ne"|"<>"|".ne"           			                    { strcpy(yylval.tokens, yytext); return NOTEQUAL_T;}
-"="|\.[Ee][qQ]           		                        { strcpy(yylval.tokens, yytext); return EQUAL_T;}
-">"|\.[gG][tT]          		                        { strcpy(yylval.tokens, yytext); return GTHAN_T;}
-"<"|\.[lL][tT]           		                        { strcpy(yylval.tokens, yytext); return LTHAN_T;}
-">="|\.[gG][eE]          		                        { strcpy(yylval.tokens, yytext); return GTHANE_T;}
-"<="|\.[lL][eE]          		                        { strcpy(yylval.tokens, yytext); return LTHANE_T;}
+"="|[Ee][qQ]           		                        { strcpy(yylval.tokens, yytext); return EQUAL_T;}
+">"|[gG][tT]          		                        { strcpy(yylval.tokens, yytext); return GTHAN_T;}
+"<"|[lL][tT]           		                        { strcpy(yylval.tokens, yytext); return LTHAN_T;}
+">="|[gG][eE]          		                        { strcpy(yylval.tokens, yytext); return GTHANE_T;}
+"<="|[lL][eE]          		                        { strcpy(yylval.tokens, yytext); return LTHANE_T;}
 "&U'"|"&u'"|"X&U'"|"x&u'"|"x&U'"|"X&u'"|".&U'"          { strcpy(yylval.tokens, yytext); return UPPERCASE_T;}
 "&L'"|"&l'"|"X&L'"|"x&l'"|"x&L'"|"X&l'"|".&L'"|"L'"     { strcpy(yylval.tokens, yytext); return LENGTH_T;}
 \.[Aa][Rr]                                              { strcpy(yylval.tokens, yytext); return AR_T;}

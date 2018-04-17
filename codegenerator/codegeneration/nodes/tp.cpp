@@ -6,7 +6,7 @@ queue<string> generateTP(Node* currentNode)
     queue<string> tp;
     for(int i=0; i<currentNode->getNodes().size()-1; i++){
         string value = "";
-        if(currentNode->getNodes().at(i+1)->getData()=="CENTER" || currentNode->getNodes().at(i+1)->getData()== "center"){
+        if(currentNode->getNodes().at(i+1)->getData()=="CENTER" || currentNode->getNodes().at(i+1)->getData()== "center" || currentNode->getNodes().at(i+1)->getData()== "ce"){
             value += currentNode->getNodes().at(i)->getData()+" center";
             tp.push(value);
             i++;

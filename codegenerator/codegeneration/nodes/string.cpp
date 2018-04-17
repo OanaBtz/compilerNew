@@ -6,17 +6,25 @@ string generateString(Node* currentNode, string result, int tabs, queue<string> 
     string strings = "";
     string fonthere = "";
     string fontSizehere = "";
+
+    if(currentNode->getParent()->getType() == TI)
+    {
+        return result;
+    }
     
     if(currentNode->getData() == input){
-    
-        if(tpCopy.empty()){
-            tpCopy = tp;
+        if(tp.empty()){
+            tabPosition = "tab";
         }else{
-            tabPosition = tpCopy.front();
-            tpCopy.pop();
+            if(tpCopy.empty()){
+                tpCopy = tp;
+            }else{
+                tabPosition = tpCopy.front();
+                tpCopy.pop();
 
+            }
         }
-    }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
+    }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == RH || currentNode->getParent()->getType() == CT || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
 
          if(font.size()>0){
             fonthere=font.top();
@@ -24,7 +32,7 @@ string generateString(Node* currentNode, string result, int tabs, queue<string> 
             fonthere="";
 
         if(fontSize.size()>0){
-            fontSizehere=font.top();
+            fontSizehere=fontSize.top();
         }else
             fontSizehere="";
 
