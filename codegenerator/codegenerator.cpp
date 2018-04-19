@@ -7,11 +7,11 @@ using namespace std;
 int codegenerator(Node* docNode)
 {
     
-    cout<< traverseGenerate(docNode, 0);
+    //cout<< traverseGenerate(docNode, 0);
     // return 0;
-    // ofstream myfile;
-    // myfile.open ("result");
-    // myfile << traverseGenerate(docNode, 0);
-    // myfile.close();
+    ofstream myfile;
+    myfile.open ("result");
+    myfile << traverseGenerate(docNode, 0);
+    myfile.close();
     return 0;
 }

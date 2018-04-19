@@ -88,6 +88,11 @@ string tabPosition = "0";
 string fontAlign = "left";
 string hexCode = "";
 
+string oldFont = "";
+string oldFontSize = "";
+string oldFontAlign = "";
+string oldTabPosition = "";
+
 string traverseGenerate(Node* currentNode, int depth)
 {
     string result;
@@ -130,7 +135,7 @@ string traverseGenerate(Node* currentNode, int depth)
     }
     if(currentNode->getType() == STRING)
     {
-        result = generateString(currentNode, result, depth, tp, tpCopy, input, fontAlign, font, fontSize, tabPosition);
+        result = generateString(currentNode, result, depth, tp, tpCopy, input, fontAlign, font, fontSize, tabPosition, oldFontAlign, oldFont, oldFontSize, oldTabPosition);
     } 
     if(currentNode->getType() == KP)
     {
@@ -138,11 +143,11 @@ string traverseGenerate(Node* currentNode, int depth)
     } 
     if(currentNode->getType() == VARIABLE)
     {
-        result = generateVariable(currentNode, result, depth, tpCopy, input, fontAlign, font, fontSize, tabPosition);
+        result = generateVariable(currentNode, result, depth, tpCopy, input, fontAlign, font, fontSize, tabPosition, oldFontAlign, oldFont, oldFontSize, oldTabPosition);
     }
     if(currentNode->getType() == NUMBER)
     {
-        result = generateNumber(currentNode, result, depth, tpCopy, input, fontAlign, font, fontSize, tabPosition);
+        result = generateNumber(currentNode, result, depth, tpCopy, input, fontAlign, font, fontSize, tabPosition, oldFontAlign, oldFont, oldFontSize, oldTabPosition);
     }
     if(currentNode->getType() == TI)
     {
@@ -163,7 +168,7 @@ string traverseGenerate(Node* currentNode, int depth)
     }
     if(currentNode->getType() == PARAGRAPH)
     {
-        result = generateParagraph(currentNode, result, depth);
+        result = generateParagraph(currentNode, result, depth, tp, tpCopy, input, fontAlign, font, fontSize, tabPosition, oldFontAlign, oldFont, oldFontSize, oldTabPosition);
     }
     if(currentNode->getType() == NV)
     {
@@ -396,7 +401,7 @@ string traverseGenerate(Node* currentNode, int depth)
     }
     if(currentNode->getType() == IN)
     {
-        result = generateIn(currentNode, result, depth);
+        result = generateIn(currentNode, result, depth-1);
     }
     if(currentNode->getType() == IR)
     {

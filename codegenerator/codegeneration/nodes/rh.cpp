@@ -13,7 +13,7 @@ string generateRh(Node* currentNode, string result, int tabs)
         }
         rh += "<runningHeading rule=\"";
         
-        for(int i=0; i<currentNode->getNodes().size()-1; i++){
+        for(int i=0; i<currentNode->getNodes().size()-1 && currentNode->getNodes().at(i)->getType()!=NEWLINE ; i++){
             rh += currentNode->getNodes().at(i)->getData()+ " ";
         }
 
@@ -30,7 +30,7 @@ string generateRh(Node* currentNode, string result, int tabs)
             rh+="\t";
         }
         rh += "<runningHeading rule=\"";
-        for(int i=0; i<currentNode->getNodes().size()-1; i++){
+        for(int i=0; i<currentNode->getNodes().size()-1 && currentNode->getNodes().at(i)->getType()!=NEWLINE ; i++){
             rh += currentNode->getNodes().at(i)->getData()+ " ";
         }
 

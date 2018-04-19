@@ -1,7 +1,7 @@
 #include "../../model/Node.h"
 #include <stack>
 
-string generateString(Node* currentNode, string result, int tabs, queue<string> &tp, queue<string> &tpCopy , string input, string fontAlign, stack<string> font, stack<string> fontSize, string &tabPosition)
+string generateString(Node* currentNode, string result, int tabs, queue<string> &tp, queue<string> &tpCopy , string input, string fontAlign, stack<string> font, stack<string> fontSize, string &tabPosition, string &oldFontAlign, string &oldFont, string &oldFontSize, string &oldTabPosition)
 {
     string strings = "";
     string fonthere = "";
@@ -24,33 +24,15 @@ string generateString(Node* currentNode, string result, int tabs, queue<string> 
 
             }
         }
-    }else if(currentNode->getParent()->getType() == PARAGRAPH || currentNode->getParent()->getType() == RH || currentNode->getParent()->getType() == CT || currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND || currentNode->getParent()->getType() == US){
-
-         if(font.size()>0){
-            fonthere=font.top();
-        }else
-            fonthere="";
-
-        if(fontSize.size()>0){
-            fontSizehere=fontSize.top();
-        }else
-            fontSizehere="";
+    }else if(currentNode->getParent()->getType() == THEN || currentNode->getParent()->getType() == OR || currentNode->getParent()->getType() == IF || currentNode->getParent()->getType() == ELSE || currentNode->getParent()->getType() == AND){
 
         for(int i=0;i<tabs;i++){
-            strings +="\t"; 
-        }
-        strings += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
-        tabPosition = "";
-        for(int i=0;i<tabs+1;i++){
             strings +="\t"; 
         }
         strings +=  currentNode->getData()+"\n";
-        for(int i=0;i<tabs;i++){
-            strings +="\t"; 
-        }
-        strings += "</text>";
-        
-        result= strings +"\n";
+
+    }else if(currentNode->getParent()->getType() == CT || currentNode->getParent()->getType() == US){
+
     }
-    return result;
+    return strings;
 }

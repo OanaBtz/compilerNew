@@ -115,10 +115,10 @@
 "rotate"                                                { strcpy(yylval.tokens, yytext); return ROTATE_T;}
 "depth"|"DEPTH"                	                                { strcpy(yylval.tokens, yytext); return DEPTH_T;}
 "substr"               	                                { strcpy(yylval.tokens, yytext); return SUBSTR_T;}
-\.[A-Za-z]{2}                                           { strcpy(yylval.tokens, yytext); return MF_T;}
-"&&??#"                                                 { strcpy(yylval.tokens, yytext); return UNKNOWN_T;}
 ".mg"                                                   { strcpy(yylval.tokens, yytext); return MG_T;}
 \.[Mm][Gg][\/A-Za-z\:\- ØÆÅéæøå,\.\\¤0-9\*\>\<\=\%\(\)]+ || \.mg[\/A-Za-z\]        { strcpy(yylval.tokens, yytext); return MG_T;}
+\.[A-Za-z]{2}                                           { strcpy(yylval.tokens, yytext); return MF_T;}
+"&&??#"                                                 { strcpy(yylval.tokens, yytext); return UNKNOWN_T;}
 \+*\-*([0-9]+)\.([0-9]+)(mm|cm|MM|CM|m)                 { strcpy(yylval.tokens, yytext); return SIZE_T;}
 \+*\-*([0-9]+)(mm|cm|MM|CM|m)                           { strcpy(yylval.tokens, yytext); return SIZE_T;}
 \+*\-*([0-9]+)\.(mm|cm|MM|CM|m)                         { strcpy(yylval.tokens, yytext); return SIZE_T;}
@@ -128,6 +128,8 @@
 \n                                                      { strcpy(yylval.tokens, yytext); return NEW_LINE_T; }
 \:([A-Z]+)([0-9]*)\.                                    { strcpy(yylval.tokens, yytext); return STYLE_T;}
 \:([A-Z]+)([0-9]*)\.\:([A-Z]+)([0-9]*)\.                { strcpy(yylval.tokens, yytext); return STYLE_T;}
+\:([A-Z]+)([0-9]*)                                      { strcpy(yylval.tokens, yytext); return STYLE_T;}
+\:([A-Z]+)([0-9]*)\.\:([A-Z]+)([0-9]*)                  { strcpy(yylval.tokens, yytext); return STYLE_T;}
 \'\%.*\'                                                { strcpy(yylval.tokens, yytext); return VAR_UP_T;}
 \&[A-Za-z\-\.ØÆÅ0-9]+                                   { strcpy(yylval.tokens, yytext); return VAR_T;}
 X\&[A-Za-z\-\.ØÆÅ0-9]+                                  { strcpy(yylval.tokens, yytext); return VAR_T;}
