@@ -82,12 +82,13 @@ std::vector<Node*>::iterator it;
 Node docNode(DOCUMENT, "");
 bool silent = false;
 int spaces = 0;
+string templateName;
 #include "./parser/printing.cpp"
 #include "./parser/treebuilding.cpp"
 
 
 
-#line 91 "y.tab.c" /* yacc.c:339  */
+#line 92 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -370,11 +371,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 26 "compiler.y" /* yacc.c:355  */
+#line 27 "compiler.y" /* yacc.c:355  */
 
 	char tokens[1000];
 
-#line 378 "y.tab.c" /* yacc.c:355  */
+#line 379 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -391,7 +392,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 395 "y.tab.c" /* yacc.c:358  */
+#line 396 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -700,42 +701,42 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    38,    38,    39,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49,    50,    51,    52,    53,    54,    55,
-      56,    57,    58,    59,    60,    61,    62,    63,    64,    65,
-      66,    67,    68,    69,    70,    71,    72,    73,    74,    75,
-      76,    77,    78,    79,    80,    81,    82,    83,    84,    85,
-      86,    87,    88,    89,    90,    91,    92,    93,    94,    95,
-      96,    97,    98,    99,   100,   101,   102,   103,   104,   105,
-     106,   107,   108,   109,   110,   111,   112,   113,   114,   115,
-     116,   117,   118,   119,   120,   121,   122,   123,   124,   125,
-     126,   127,   128,   129,   130,   131,   132,   133,   134,   135,
-     136,   137,   138,   139,   140,   141,   142,   143,   144,   145,
-     146,   147,   148,   149,   150,   151,   152,   153,   154,   155,
-     156,   157,   158,   159,   160,   161,   162,   163,   164,   165,
-     166,   167,   168,   169,   170,   171,   172,   173,   174,   175,
-     176,   177,   178,   179,   180,   181,   182,   183,   184,   185,
-     186,   187,   188,   189,   190,   191,   192,   193,   194,   195,
-     196,   197,   198,   199,   200,   201,   202,   203,   204,   205,
-     206,   207,   208,   209,   210,   211,   212,   213,   214,   215,
-     216,   217,   218,   219,   220,   221,   222,   223,   224,   225,
-     226,   227,   228,   229,   230,   231,   232,   233,   234,   235,
-     236,   237,   238,   239,   240,   241,   242,   243,   244,   245,
-     246,   247,   248,   249,   250,   251,   252,   253,   254,   255,
-     256,   257,   258,   259,   260,   261,   262,   263,   264,   265,
-     266,   267,   268,   269,   270,   271,   272,   273,   275,   282,
-     289,   296,   303,   310,   317,   324,   331,   338,   345,   352,
-     359,   366,   373,   380,   387,   394,   401,   408,   415,   422,
-     429,   436,   443,   450,   457,   464,   471,   478,   485,   492,
-     499,   506,   513,   520,   527,   534,   541,   548,   555,   562,
-     569,   576,   583,   590,   597,   604,   611,   618,   625,   632,
-     639,   646,   653,   660,   667,   674,   681,   688,   695,   702,
-     709,   716,   723,   730,   737,   744,   751,   758,   765,   772,
-     779,   786,   793,   799,   804,   816,   823,   830,   837,   844,
-     851,   899,   906,   913,   920,   927,   934,   941,   948,   955,
-     962,   969,   976,   983,   990,   997,  1004,  1011,  1018,  1025,
-    1032,  1039,  1046,  1053,  1060,  1067,  1074,  1081,  1088,  1095,
-    1102,  1109,  1116,  1123,  1141,  1148
+       0,    39,    39,    40,    41,    42,    43,    44,    45,    46,
+      47,    48,    49,    50,    51,    52,    53,    54,    55,    56,
+      57,    58,    59,    60,    61,    62,    63,    64,    65,    66,
+      67,    68,    69,    70,    71,    72,    73,    74,    75,    76,
+      77,    78,    79,    80,    81,    82,    83,    84,    85,    86,
+      87,    88,    89,    90,    91,    92,    93,    94,    95,    96,
+      97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
+     107,   108,   109,   110,   111,   112,   113,   114,   115,   116,
+     117,   118,   119,   120,   121,   122,   123,   124,   125,   126,
+     127,   128,   129,   130,   131,   132,   133,   134,   135,   136,
+     137,   138,   139,   140,   141,   142,   143,   144,   145,   146,
+     147,   148,   149,   150,   151,   152,   153,   154,   155,   156,
+     157,   158,   159,   160,   161,   162,   163,   164,   165,   166,
+     167,   168,   169,   170,   171,   172,   173,   174,   175,   176,
+     177,   178,   179,   180,   181,   182,   183,   184,   185,   186,
+     187,   188,   189,   190,   191,   192,   193,   194,   195,   196,
+     197,   198,   199,   200,   201,   202,   203,   204,   205,   206,
+     207,   208,   209,   210,   211,   212,   213,   214,   215,   216,
+     217,   218,   219,   220,   221,   222,   223,   224,   225,   226,
+     227,   228,   229,   230,   231,   232,   233,   234,   235,   236,
+     237,   238,   239,   240,   241,   242,   243,   244,   245,   246,
+     247,   248,   249,   250,   251,   252,   253,   254,   255,   256,
+     257,   258,   259,   260,   261,   262,   263,   264,   265,   266,
+     267,   268,   269,   270,   271,   272,   273,   274,   276,   283,
+     290,   297,   304,   311,   318,   325,   332,   339,   346,   353,
+     360,   367,   374,   381,   388,   395,   402,   409,   416,   423,
+     430,   437,   444,   451,   458,   465,   472,   479,   486,   493,
+     500,   507,   514,   521,   528,   535,   542,   549,   556,   563,
+     570,   577,   584,   591,   598,   605,   612,   619,   626,   633,
+     640,   647,   654,   661,   668,   675,   682,   689,   696,   703,
+     710,   717,   724,   731,   738,   745,   752,   759,   766,   773,
+     780,   787,   794,   800,   805,   817,   824,   831,   838,   845,
+     852,   900,   907,   914,   921,   928,   935,   942,   949,   956,
+     963,   970,   977,   984,   991,   998,  1005,  1012,  1019,  1026,
+    1033,  1040,  1047,  1054,  1061,  1068,  1075,  1082,  1089,  1096,
+    1103,  1110,  1117,  1124,  1142,  1149
 };
 #endif
 
@@ -1806,840 +1807,840 @@ yyreduce:
   switch (yyn)
     {
         case 238:
-#line 275 "compiler.y" /* yacc.c:1646  */
+#line 276 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "DEFINE AREA ";
                                                             Node* daNode = new Node(AREADEFINITION, "");
                                                             list.push_back(daNode);
                                                         }
-#line 1817 "y.tab.c" /* yacc.c:1646  */
+#line 1818 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 239:
-#line 282 "compiler.y" /* yacc.c:1646  */
+#line 283 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "BREAK ";
                                                             Node* brNode = new Node(LINEBREAK, "");
                                                             list.push_back(brNode);
                                                         }
-#line 1828 "y.tab.c" /* yacc.c:1646  */
+#line 1829 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 240:
-#line 289 "compiler.y" /* yacc.c:1646  */
+#line 290 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "NV ";
                                                             Node* nvNode = new Node(NV, "");
                                                             list.push_back(nvNode);
                                                         }
-#line 1839 "y.tab.c" /* yacc.c:1646  */
+#line 1840 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 241:
-#line 296 "compiler.y" /* yacc.c:1646  */
+#line 297 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "PAGE ";
                                                             Node* pageNode = new Node(PAGE, "");
                                                             list.push_back(pageNode);
                                                         }
-#line 1850 "y.tab.c" /* yacc.c:1646  */
+#line 1851 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 242:
-#line 303 "compiler.y" /* yacc.c:1646  */
+#line 304 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "NY ";
                                                             Node* nyNode = new Node(NY, "");
                                                             list.push_back(nyNode);
                                                         }
-#line 1861 "y.tab.c" /* yacc.c:1646  */
+#line 1862 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 243:
-#line 310 "compiler.y" /* yacc.c:1646  */
+#line 311 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "ENY ";
                                                             Node* enyNode = new Node(ENY, "");
                                                             list.push_back(enyNode);
                                                         }
-#line 1872 "y.tab.c" /* yacc.c:1646  */
+#line 1873 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 244:
-#line 317 "compiler.y" /* yacc.c:1646  */
+#line 318 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "COMMENT "; 
                                                             Node* commentNode = new Node(COMMENT, "");
                                                             list.push_back(commentNode);                                                           
                                                         }
-#line 1883 "y.tab.c" /* yacc.c:1646  */
+#line 1884 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 245:
-#line 324 "compiler.y" /* yacc.c:1646  */
+#line 325 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TI ";     
                                                             Node* tiNode = new Node(TI, "");
                                                             list.push_back(tiNode);                                                           
                                                         }
-#line 1894 "y.tab.c" /* yacc.c:1646  */
+#line 1895 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 246:
-#line 331 "compiler.y" /* yacc.c:1646  */
+#line 332 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IN ";      
                                                             Node* inNode = new Node(IN, "");
                                                             list.push_back(inNode);                                                          
                                                         }
-#line 1905 "y.tab.c" /* yacc.c:1646  */
+#line 1906 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 247:
-#line 338 "compiler.y" /* yacc.c:1646  */
+#line 339 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IR ";  
                                                             Node* irNode = new Node(IR, "");
                                                             list.push_back(irNode);                                                              
                                                         }
-#line 1916 "y.tab.c" /* yacc.c:1646  */
+#line 1917 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 248:
-#line 345 "compiler.y" /* yacc.c:1646  */
+#line 346 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "FO ";                                                            
                                                             Node* foNode = new Node(FO, "");
                                                             list.push_back(foNode);
                                                         }
-#line 1927 "y.tab.c" /* yacc.c:1646  */
+#line 1928 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 249:
-#line 352 "compiler.y" /* yacc.c:1646  */
+#line 353 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "GOTO ";      
                                                             Node* goNode = new Node(GO, "");
                                                             list.push_back(goNode);                                                          
                                                         }
-#line 1938 "y.tab.c" /* yacc.c:1646  */
+#line 1939 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 250:
-#line 359 "compiler.y" /* yacc.c:1646  */
+#line 360 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "LL ";     
                                                             Node* llNode = new Node(LL, "");
                                                             list.push_back(llNode);                                                           
                                                         }
-#line 1949 "y.tab.c" /* yacc.c:1646  */
+#line 1950 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 251:
-#line 366 "compiler.y" /* yacc.c:1646  */
+#line 367 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "RH ";  
                                                             Node* rhNode = new Node(RH, "");
                                                             list.push_back(rhNode);                                                              
                                                         }
-#line 1960 "y.tab.c" /* yacc.c:1646  */
+#line 1961 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 252:
-#line 373 "compiler.y" /* yacc.c:1646  */
+#line 374 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "CT ";    
                                                             Node* ctNode = new Node(CT, "");
                                                             list.push_back(ctNode);                                                            
                                                         }
-#line 1971 "y.tab.c" /* yacc.c:1646  */
+#line 1972 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 253:
-#line 380 "compiler.y" /* yacc.c:1646  */
+#line 381 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "PA ";    
                                                             Node* paNode = new Node(PA, "");
                                                             list.push_back(paNode);                                                            
                                                         }
-#line 1982 "y.tab.c" /* yacc.c:1646  */
+#line 1983 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 254:
-#line 387 "compiler.y" /* yacc.c:1646  */
+#line 388 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "DR ";   
                                                             Node* drNode = new Node(DR, "");
                                                             list.push_back(drNode);                                                          
                                                         }
-#line 1993 "y.tab.c" /* yacc.c:1646  */
+#line 1994 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 255:
-#line 394 "compiler.y" /* yacc.c:1646  */
+#line 395 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "WEIGHT ";       
                                                             Node* weightNode = new Node(WEIGHT, (yyvsp[0].tokens));
                                                             list.push_back(weightNode);                                                          
                                                         }
-#line 2004 "y.tab.c" /* yacc.c:1646  */
+#line 2005 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 256:
-#line 401 "compiler.y" /* yacc.c:1646  */
+#line 402 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "KEEP ";       
                                                             Node* kpNode = new Node(KP, "");
                                                             list.push_back(kpNode);                                                          
                                                         }
-#line 2015 "y.tab.c" /* yacc.c:1646  */
+#line 2016 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 257:
-#line 408 "compiler.y" /* yacc.c:1646  */
+#line 409 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "EXECUTE ";
                                                             Node* executeNode = new Node(EXECUTE, (yyvsp[0].tokens));
                                                             list.push_back(executeNode);                                                                 
                                                         }
-#line 2026 "y.tab.c" /* yacc.c:1646  */
+#line 2027 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 258:
-#line 415 "compiler.y" /* yacc.c:1646  */
+#line 416 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IF ";          
                                                             Node* ifNode = new Node(IF, "");
                                                             list.push_back(ifNode);                                                       
                                                         }
-#line 2037 "y.tab.c" /* yacc.c:1646  */
+#line 2038 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 259:
-#line 422 "compiler.y" /* yacc.c:1646  */
+#line 423 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "RI ";
                                                             Node* riNode = new Node(RI, "");
                                                             list.push_back(riNode);                                                                 
                                                         }
-#line 2048 "y.tab.c" /* yacc.c:1646  */
+#line 2049 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 260:
-#line 429 "compiler.y" /* yacc.c:1646  */
+#line 430 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "OI "; 
                                                             Node* oiNode = new Node(OI, "");
                                                             list.push_back(oiNode);                                                                
                                                         }
-#line 2059 "y.tab.c" /* yacc.c:1646  */
+#line 2060 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 261:
-#line 436 "compiler.y" /* yacc.c:1646  */
+#line 437 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "CB ";     
                                                             Node* cbNode = new Node(CB, "");
                                                             list.push_back(cbNode);                                                            
                                                         }
-#line 2070 "y.tab.c" /* yacc.c:1646  */
+#line 2071 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 262:
-#line 443 "compiler.y" /* yacc.c:1646  */
+#line 444 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SC ";  
                                                             Node* paNode = new Node(PA, "");
                                                             list.push_back(paNode);                                                               
                                                         }
-#line 2081 "y.tab.c" /* yacc.c:1646  */
+#line 2082 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 263:
-#line 450 "compiler.y" /* yacc.c:1646  */
+#line 451 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "MC ";   
                                                             Node* mcNode = new Node(MC, "");
                                                             list.push_back(mcNode);                                                              
                                                         }
-#line 2092 "y.tab.c" /* yacc.c:1646  */
+#line 2093 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 264:
-#line 457 "compiler.y" /* yacc.c:1646  */
+#line 458 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "QU ";     
                                                             Node* quNode = new Node(QU, "");
                                                             list.push_back(quNode);                                                            
                                                         }
-#line 2103 "y.tab.c" /* yacc.c:1646  */
+#line 2104 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 265:
-#line 464 "compiler.y" /* yacc.c:1646  */
+#line 465 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "HW ";     
                                                             Node* hwNode = new Node(HW, "");
                                                             list.push_back(hwNode);                                                            
                                                         }
-#line 2114 "y.tab.c" /* yacc.c:1646  */
+#line 2115 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 266:
-#line 471 "compiler.y" /* yacc.c:1646  */
+#line 472 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IL ";     
                                                             Node* ilNode = new Node(IL, "");
                                                             list.push_back(ilNode);                                                            
                                                         }
-#line 2125 "y.tab.c" /* yacc.c:1646  */
+#line 2126 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 267:
-#line 478 "compiler.y" /* yacc.c:1646  */
+#line 479 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "OC ";   
                                                             Node* ocNode = new Node(OC, "");
                                                             list.push_back(ocNode);                                                              
                                                         }
-#line 2136 "y.tab.c" /* yacc.c:1646  */
+#line 2137 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 268:
-#line 485 "compiler.y" /* yacc.c:1646  */
+#line 486 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "BC ";
                                                             Node* bcNode = new Node(BC, "");
                                                             list.push_back(bcNode);                                                                 
                                                         }
-#line 2147 "y.tab.c" /* yacc.c:1646  */
+#line 2148 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 269:
-#line 492 "compiler.y" /* yacc.c:1646  */
+#line 493 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IS ";     
                                                             Node* isNode = new Node(IS, "");
                                                             list.push_back(isNode);                                                            
                                                         }
-#line 2158 "y.tab.c" /* yacc.c:1646  */
+#line 2159 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 270:
-#line 499 "compiler.y" /* yacc.c:1646  */
+#line 500 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "UP ";     
                                                             Node* upNode = new Node(UP, "");
                                                             list.push_back(upNode);                                                            
                                                         }
-#line 2169 "y.tab.c" /* yacc.c:1646  */
+#line 2170 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 271:
-#line 506 "compiler.y" /* yacc.c:1646  */
+#line 507 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "LS ";     
                                                             Node* lsNode = new Node(LS, "");
                                                             list.push_back(lsNode);                                                            
                                                         }
-#line 2180 "y.tab.c" /* yacc.c:1646  */
+#line 2181 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 272:
-#line 513 "compiler.y" /* yacc.c:1646  */
+#line 514 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TU ";     
                                                             Node* tuNode = new Node(TU, "");
                                                             list.push_back(tuNode);                                                            
                                                         }
-#line 2191 "y.tab.c" /* yacc.c:1646  */
+#line 2192 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 273:
-#line 520 "compiler.y" /* yacc.c:1646  */
+#line 521 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "EL ";     
                                                             Node* elNode = new Node(ELSE, "");
                                                             list.push_back(elNode);                                                            
                                                         }
-#line 2202 "y.tab.c" /* yacc.c:1646  */
+#line 2203 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 274:
-#line 527 "compiler.y" /* yacc.c:1646  */
+#line 528 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TH ";     
                                                             Node* thNode = new Node(THEN, "");
                                                             list.push_back(thNode);                                                            
                                                         }
-#line 2213 "y.tab.c" /* yacc.c:1646  */
+#line 2214 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 275:
-#line 534 "compiler.y" /* yacc.c:1646  */
+#line 535 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "OR ";     
                                                             Node* orNode = new Node(OR, "");
                                                             list.push_back(orNode);                                                            
                                                         }
-#line 2224 "y.tab.c" /* yacc.c:1646  */
+#line 2225 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 276:
-#line 541 "compiler.y" /* yacc.c:1646  */
+#line 542 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "CD ";     
                                                             Node* cdNode = new Node(CD, "");
                                                             list.push_back(cdNode);                                                            
                                                         }
-#line 2235 "y.tab.c" /* yacc.c:1646  */
+#line 2236 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 277:
-#line 548 "compiler.y" /* yacc.c:1646  */
+#line 549 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TD ";     
                                                             Node* tdNode = new Node(TD, "");
                                                             list.push_back(tdNode);                                                            
                                                         }
-#line 2246 "y.tab.c" /* yacc.c:1646  */
+#line 2247 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 278:
-#line 555 "compiler.y" /* yacc.c:1646  */
+#line 556 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SU ";  
                                                             Node* suNode = new Node(SU, "");
                                                             list.push_back(suNode);                                                               
                                                         }
-#line 2257 "y.tab.c" /* yacc.c:1646  */
+#line 2258 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 279:
-#line 562 "compiler.y" /* yacc.c:1646  */
+#line 563 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "DM ";     
                                                             Node* dmNode = new Node(DM, "");
                                                             list.push_back(dmNode);                                                            
                                                         }
-#line 2268 "y.tab.c" /* yacc.c:1646  */
+#line 2269 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 280:
-#line 569 "compiler.y" /* yacc.c:1646  */
+#line 570 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "GS ";
                                                             Node* gsNode = new Node(GS, "");
                                                             list.push_back(gsNode);                                                                 
                                                         }
-#line 2279 "y.tab.c" /* yacc.c:1646  */
+#line 2280 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 281:
-#line 576 "compiler.y" /* yacc.c:1646  */
+#line 577 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TB ";   
                                                             Node* tbNode = new Node(TB, "");
                                                             list.push_back(tbNode);                                                               
                                                         }
-#line 2290 "y.tab.c" /* yacc.c:1646  */
+#line 2291 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 282:
-#line 583 "compiler.y" /* yacc.c:1646  */
+#line 584 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SK ";             
                                                             Node* skNode = new Node(SK, "");
                                                             list.push_back(skNode);                                                     
                                                         }
-#line 2301 "y.tab.c" /* yacc.c:1646  */
+#line 2302 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 283:
-#line 590 "compiler.y" /* yacc.c:1646  */
+#line 591 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "CE ";     
                                                             Node* ceNode = new Node(CE, "");
                                                             list.push_back(ceNode);                                                             
                                                         }
-#line 2312 "y.tab.c" /* yacc.c:1646  */
+#line 2313 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 284:
-#line 597 "compiler.y" /* yacc.c:1646  */
+#line 598 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "CL ";     
                                                             Node* clNode = new Node(CL, "");
                                                             list.push_back(clNode);                                                             
                                                         }
-#line 2323 "y.tab.c" /* yacc.c:1646  */
+#line 2324 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 285:
-#line 604 "compiler.y" /* yacc.c:1646  */
+#line 605 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "AN ";
                                                             Node* anNode = new Node(AND, "");
                                                             list.push_back(anNode);                                                                  
                                                         }
-#line 2334 "y.tab.c" /* yacc.c:1646  */
+#line 2335 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 286:
-#line 611 "compiler.y" /* yacc.c:1646  */
+#line 612 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "HR ";     
                                                             Node* hrNode = new Node(HR, "");
                                                             list.push_back(hrNode);                                                             
                                                         }
-#line 2345 "y.tab.c" /* yacc.c:1646  */
+#line 2346 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 287:
-#line 618 "compiler.y" /* yacc.c:1646  */
+#line 619 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "VR ";     
                                                             Node* vrNode = new Node(VR, "");
                                                             list.push_back(vrNode);                                                             
                                                         }
-#line 2356 "y.tab.c" /* yacc.c:1646  */
+#line 2357 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 288:
-#line 625 "compiler.y" /* yacc.c:1646  */
+#line 626 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "HY ";     
                                                             Node* hyNode = new Node(HY, "");
                                                             list.push_back(hyNode);                                                             
                                                         }
-#line 2367 "y.tab.c" /* yacc.c:1646  */
+#line 2368 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 289:
-#line 632 "compiler.y" /* yacc.c:1646  */
+#line 633 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "NOTEQUAL ";
                                                             Node* comparisonNode = new Node(COMPARISON, (yyvsp[0].tokens));
                                                             list.push_back(comparisonNode);                                                                  
                                                         }
-#line 2378 "y.tab.c" /* yacc.c:1646  */
+#line 2379 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 290:
-#line 639 "compiler.y" /* yacc.c:1646  */
+#line 640 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "EQUAL ";      
                                                             Node* comparisonNode = new Node(COMPARISON, (yyvsp[0].tokens));
                                                             list.push_back(comparisonNode);                                                               
                                                         }
-#line 2389 "y.tab.c" /* yacc.c:1646  */
+#line 2390 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 291:
-#line 646 "compiler.y" /* yacc.c:1646  */
+#line 647 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "GTHAN ";  
                                                             Node* comparisonNode = new Node(COMPARISON, (yyvsp[0].tokens));
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2400 "y.tab.c" /* yacc.c:1646  */
+#line 2401 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 292:
-#line 653 "compiler.y" /* yacc.c:1646  */
+#line 654 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "LTHAN ";  
                                                             Node* comparisonNode = new Node(COMPARISON, (yyvsp[0].tokens));
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2411 "y.tab.c" /* yacc.c:1646  */
+#line 2412 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 293:
-#line 660 "compiler.y" /* yacc.c:1646  */
+#line 661 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "GTHANE ";  
                                                             Node* comparisonNode = new Node(COMPARISON, (yyvsp[0].tokens));
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2422 "y.tab.c" /* yacc.c:1646  */
+#line 2423 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 294:
-#line 667 "compiler.y" /* yacc.c:1646  */
+#line 668 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "LTHANE ";  
                                                             Node* comparisonNode = new Node(COMPARISON, (yyvsp[0].tokens));
                                                             list.push_back(comparisonNode);                                                                   
                                                         }
-#line 2433 "y.tab.c" /* yacc.c:1646  */
+#line 2434 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 295:
-#line 674 "compiler.y" /* yacc.c:1646  */
+#line 675 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "OF ";  
                                                             Node* ofNode = new Node(OF, "");
                                                             list.push_back(ofNode);                                                                 
                                                         }
-#line 2444 "y.tab.c" /* yacc.c:1646  */
+#line 2445 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 296:
-#line 681 "compiler.y" /* yacc.c:1646  */
+#line 682 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "UPPERCASE ";  
                                                             Node* uppercaseNode = new Node(CONDITION, (yyvsp[0].tokens));
                                                             list.push_back(uppercaseNode);                                                                 
                                                         }
-#line 2455 "y.tab.c" /* yacc.c:1646  */
+#line 2456 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 297:
-#line 688 "compiler.y" /* yacc.c:1646  */
+#line 689 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "LENGTH ";             
                                                             Node* lengthNode = new Node(CONDITION, (yyvsp[0].tokens));
                                                             list.push_back(lengthNode);                                                                   
                                                         }
-#line 2466 "y.tab.c" /* yacc.c:1646  */
+#line 2467 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 298:
-#line 695 "compiler.y" /* yacc.c:1646  */
+#line 696 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "AR ";    
                                                             Node* arNode = new Node(AREA, "");
                                                             list.push_back(arNode);                                                                            
                                                         }
-#line 2477 "y.tab.c" /* yacc.c:1646  */
+#line 2478 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 299:
-#line 702 "compiler.y" /* yacc.c:1646  */
+#line 703 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "BX "; 
                                                             Node* boxNode = new Node(BOX, "");
                                                             list.push_back(boxNode);                                                                
                                                         }
-#line 2488 "y.tab.c" /* yacc.c:1646  */
+#line 2489 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 300:
-#line 709 "compiler.y" /* yacc.c:1646  */
+#line 710 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SP "; 
                                                             Node* spNode = new Node(SP, "");
                                                             list.push_back(spNode);                                                               
                                                         }
-#line 2499 "y.tab.c" /* yacc.c:1646  */
+#line 2500 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 301:
-#line 716 "compiler.y" /* yacc.c:1646  */
+#line 717 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SE ";     
                                                             Node* seNode = new Node(SE, "");
                                                             list.push_back(seNode);                                                           
                                                         }
-#line 2510 "y.tab.c" /* yacc.c:1646  */
+#line 2511 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 302:
-#line 723 "compiler.y" /* yacc.c:1646  */
+#line 724 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "US ";     
                                                             Node* usNode = new Node(US, "");
                                                             list.push_back(usNode);                                                           
                                                         }
-#line 2521 "y.tab.c" /* yacc.c:1646  */
+#line 2522 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 303:
-#line 730 "compiler.y" /* yacc.c:1646  */
+#line 731 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TM ";    
                                                             Node* tmNode = new Node(TM, "");
                                                             list.push_back(tmNode);                                                            
                                                         }
-#line 2532 "y.tab.c" /* yacc.c:1646  */
+#line 2533 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 304:
-#line 737 "compiler.y" /* yacc.c:1646  */
+#line 738 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "BM ";             
                                                             Node* bmNode = new Node(BM, "");
                                                             list.push_back(bmNode);                                                   
                                                         }
-#line 2543 "y.tab.c" /* yacc.c:1646  */
+#line 2544 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 305:
-#line 744 "compiler.y" /* yacc.c:1646  */
+#line 745 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "PM ";   
                                                             Node* pmNode = new Node(PM, "");
                                                             list.push_back(pmNode);                                                              
                                                         }
-#line 2554 "y.tab.c" /* yacc.c:1646  */
+#line 2555 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 306:
-#line 751 "compiler.y" /* yacc.c:1646  */
+#line 752 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "WIDTH "; 
                                                             Node* widthNode = new Node(WIDTH, (yyvsp[0].tokens));
                                                             list.push_back(widthNode);                                                                
                                                         }
-#line 2565 "y.tab.c" /* yacc.c:1646  */
+#line 2566 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 307:
-#line 758 "compiler.y" /* yacc.c:1646  */
+#line 759 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TP "; 
                                                             Node* tpNode = new Node(TP, "");
                                                             list.push_back(tpNode);                                                                
                                                         }
-#line 2576 "y.tab.c" /* yacc.c:1646  */
+#line 2577 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 308:
-#line 765 "compiler.y" /* yacc.c:1646  */
+#line 766 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "TA ";              
                                                             Node* taNode = new Node(TA, "");
                                                             list.push_back(taNode);                                                   
                                                         }
-#line 2587 "y.tab.c" /* yacc.c:1646  */
+#line 2588 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 309:
-#line 772 "compiler.y" /* yacc.c:1646  */
+#line 773 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "ROTATE ";   
                                                             Node* rotateNode = new Node(ROTATE, "");
                                                             list.push_back(rotateNode);                                                              
                                                         }
-#line 2598 "y.tab.c" /* yacc.c:1646  */
+#line 2599 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 310:
-#line 779 "compiler.y" /* yacc.c:1646  */
+#line 780 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "DEPTH "; 
                                                             Node* depthNode = new Node(DEPTH, "");
                                                             list.push_back(depthNode);                                                                
                                                         }
-#line 2609 "y.tab.c" /* yacc.c:1646  */
+#line 2610 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 311:
-#line 786 "compiler.y" /* yacc.c:1646  */
+#line 787 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SUBSTR ";     
                                                             Node* substrNode = new Node(SUBSTR, "");
                                                             list.push_back(substrNode);                                                            
                                                         }
-#line 2620 "y.tab.c" /* yacc.c:1646  */
+#line 2621 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 312:
-#line 793 "compiler.y" /* yacc.c:1646  */
+#line 794 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             cout<<"Missing functionality! command: "<<(yyvsp[0].tokens)<<endl;
                                                             exit(1);
                                                         }
-#line 2630 "y.tab.c" /* yacc.c:1646  */
+#line 2631 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 313:
-#line 799 "compiler.y" /* yacc.c:1646  */
+#line 800 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<"*******************************UNKNOWN TOKEN*******************************************"<<endl;
                                                         }
-#line 2639 "y.tab.c" /* yacc.c:1646  */
+#line 2640 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 314:
-#line 804 "compiler.y" /* yacc.c:1646  */
+#line 805 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "MG "; 
@@ -2651,66 +2652,66 @@ yyreduce:
 															list.push_back(mgTNode);
 															list.push_back(mgStrNode);                                                               
                                                         }
-#line 2655 "y.tab.c" /* yacc.c:1646  */
+#line 2656 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 315:
-#line 816 "compiler.y" /* yacc.c:1646  */
+#line 817 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<(yyvsp[0].tokens)<<" ";    
                                                             Node* sizeNode = new Node(SIZE, (yyvsp[0].tokens));
                                                             list.push_back(sizeNode);                                                             
                                                         }
-#line 2666 "y.tab.c" /* yacc.c:1646  */
+#line 2667 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 316:
-#line 823 "compiler.y" /* yacc.c:1646  */
+#line 824 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<(yyvsp[0].tokens)<<" ";  
                                                             Node* styleNode = new Node(FONT, (yyvsp[0].tokens));
                                                             list.push_back(styleNode);                                                               
                                                         }
-#line 2677 "y.tab.c" /* yacc.c:1646  */
+#line 2678 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 317:
-#line 830 "compiler.y" /* yacc.c:1646  */
+#line 831 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "VAR_UP ";            
                                                             Node* varNode = new Node(VARIABLE, (yyvsp[0].tokens));
                                                             list.push_back(varNode);                                                     
                                                         }
-#line 2688 "y.tab.c" /* yacc.c:1646  */
+#line 2689 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 318:
-#line 837 "compiler.y" /* yacc.c:1646  */
+#line 838 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "VAR ";  
                                                             Node* varNode = new Node(VARIABLE, (yyvsp[0].tokens));
                                                             list.push_back(varNode);                                                               
                                                         }
-#line 2699 "y.tab.c" /* yacc.c:1646  */
+#line 2700 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 319:
-#line 844 "compiler.y" /* yacc.c:1646  */
+#line 845 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<(yyvsp[0].tokens)<<" ";   
                                                             Node* numNode = new Node(NUMBER, (yyvsp[0].tokens));
                                                             list.push_back(numNode);                                                              
                                                         }
-#line 2710 "y.tab.c" /* yacc.c:1646  */
+#line 2711 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 320:
-#line 851 "compiler.y" /* yacc.c:1646  */
+#line 852 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<(yyvsp[0].tokens)<<" ";
@@ -2758,363 +2759,363 @@ yyreduce:
                                                                 list.push_back(stringNode);                                                                
                                                             } 
                                                         }
-#line 2762 "y.tab.c" /* yacc.c:1646  */
+#line 2763 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 321:
-#line 899 "compiler.y" /* yacc.c:1646  */
+#line 900 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<(yyvsp[0].tokens)<<" ";  
                                                             Node* labelNode = new Node(LABEL, (yyvsp[0].tokens));
                                                             list.push_back(labelNode);                                                               
                                                         }
-#line 2773 "y.tab.c" /* yacc.c:1646  */
+#line 2774 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 322:
-#line 906 "compiler.y" /* yacc.c:1646  */
+#line 907 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<(yyvsp[0].tokens)<<" ";       
                                                             Node* mathexNode = new Node(MATHEX, (yyvsp[0].tokens));
                                                             list.push_back(mathexNode);                                                          
                                                         }
-#line 2784 "y.tab.c" /* yacc.c:1646  */
+#line 2785 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 323:
-#line 913 "compiler.y" /* yacc.c:1646  */
+#line 914 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<"NEW"<<" ";  
                                                             Node* newNode = new Node(NEW, "");
                                                             list.push_back(newNode);                                                               
                                                         }
-#line 2795 "y.tab.c" /* yacc.c:1646  */
+#line 2796 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 324:
-#line 920 "compiler.y" /* yacc.c:1646  */
+#line 921 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<<"SET"<<" ";       
                                                             Node* setNode = new Node(SET, "");
                                                             list.push_back(setNode);                                                          
                                                         }
-#line 2806 "y.tab.c" /* yacc.c:1646  */
+#line 2807 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 325:
-#line 927 "compiler.y" /* yacc.c:1646  */
+#line 928 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IM "; 
                                                             Node* imNode = new Node(IM, "");
                                                             list.push_back(imNode);                                                                
                                                         }
-#line 2817 "y.tab.c" /* yacc.c:1646  */
+#line 2818 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 326:
-#line 934 "compiler.y" /* yacc.c:1646  */
+#line 935 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "DC "; 
                                                             Node* dcNode = new Node(DC, "");
                                                             list.push_back(dcNode);                                                                
                                                         }
-#line 2828 "y.tab.c" /* yacc.c:1646  */
+#line 2829 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 327:
-#line 941 "compiler.y" /* yacc.c:1646  */
+#line 942 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SX "; 
                                                             Node* sxNode = new Node(SX, "");
                                                             list.push_back(sxNode);                                                                
                                                         }
-#line 2839 "y.tab.c" /* yacc.c:1646  */
+#line 2840 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 328:
-#line 948 "compiler.y" /* yacc.c:1646  */
+#line 949 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "PL "; 
                                                             Node* plNode = new Node(PL, "");
                                                             list.push_back(plNode);                                                                
                                                         }
-#line 2850 "y.tab.c" /* yacc.c:1646  */
+#line 2851 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 329:
-#line 955 "compiler.y" /* yacc.c:1646  */
+#line 956 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "SD "; 
                                                             Node* sdNode = new Node(SD, "");
                                                             list.push_back(sdNode);                                                                
                                                         }
-#line 2861 "y.tab.c" /* yacc.c:1646  */
+#line 2862 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 330:
-#line 962 "compiler.y" /* yacc.c:1646  */
+#line 963 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "UC "; 
                                                             Node* ucNode = new Node(UC, "");
                                                             list.push_back(ucNode);                                                                
                                                         }
-#line 2872 "y.tab.c" /* yacc.c:1646  */
+#line 2873 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 331:
-#line 969 "compiler.y" /* yacc.c:1646  */
+#line 970 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "VI "; 
                                                             Node* viNode = new Node(VI, "");
                                                             list.push_back(viNode);                                                                
                                                         }
-#line 2883 "y.tab.c" /* yacc.c:1646  */
+#line 2884 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 332:
-#line 976 "compiler.y" /* yacc.c:1646  */
+#line 977 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "RF "; 
                                                             Node* rfNode = new Node(RF, "");
                                                             list.push_back(rfNode);                                                                
                                                         }
-#line 2894 "y.tab.c" /* yacc.c:1646  */
+#line 2895 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 333:
-#line 983 "compiler.y" /* yacc.c:1646  */
+#line 984 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "LI "; 
                                                             Node* liNode = new Node(LI, "");
                                                             list.push_back(liNode);                                                                
                                                         }
-#line 2905 "y.tab.c" /* yacc.c:1646  */
+#line 2906 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 334:
-#line 990 "compiler.y" /* yacc.c:1646  */
+#line 991 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "PN "; 
                                                             Node* pnNode = new Node(PN, "");
                                                             list.push_back(pnNode);                                                                
                                                         }
-#line 2916 "y.tab.c" /* yacc.c:1646  */
+#line 2917 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 335:
-#line 997 "compiler.y" /* yacc.c:1646  */
+#line 998 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "DU ";  
                                                             Node* duNode = new Node(DU, "");
                                                             list.push_back(duNode);                                                              
                                                         }
-#line 2927 "y.tab.c" /* yacc.c:1646  */
+#line 2928 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 336:
-#line 1004 "compiler.y" /* yacc.c:1646  */
+#line 1005 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "VS ";  
                                                             Node* vsNode = new Node(VS, "");
                                                             list.push_back(vsNode);                                                              
                                                         }
-#line 2938 "y.tab.c" /* yacc.c:1646  */
+#line 2939 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 337:
-#line 1011 "compiler.y" /* yacc.c:1646  */
+#line 1012 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "PW ";  
                                                             Node* pwNode = new Node(PW, "");
                                                             list.push_back(pwNode);                                                              
                                                         }
-#line 2949 "y.tab.c" /* yacc.c:1646  */
+#line 2950 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 338:
-#line 1018 "compiler.y" /* yacc.c:1646  */
+#line 1019 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "AF ";  
                                                             Node* afNode = new Node(AF, "");
                                                             list.push_back(afNode);                                                              
                                                         }
-#line 2960 "y.tab.c" /* yacc.c:1646  */
+#line 2961 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 339:
-#line 1025 "compiler.y" /* yacc.c:1646  */
+#line 1026 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "UD ";  
                                                             Node* udNode = new Node(UD, "");
                                                             list.push_back(udNode);                                                              
                                                         }
-#line 2971 "y.tab.c" /* yacc.c:1646  */
+#line 2972 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 340:
-#line 1032 "compiler.y" /* yacc.c:1646  */
+#line 1033 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "ON ";  
                                                             Node* onNode = new Node(ON, "");
                                                             list.push_back(onNode);                                                              
                                                         }
-#line 2982 "y.tab.c" /* yacc.c:1646  */
+#line 2983 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 341:
-#line 1039 "compiler.y" /* yacc.c:1646  */
+#line 1040 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "CC ";  
                                                             Node* ccNode = new Node(CC, "");
                                                             list.push_back(ccNode);                                                              
                                                         }
-#line 2993 "y.tab.c" /* yacc.c:1646  */
+#line 2994 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 342:
-#line 1046 "compiler.y" /* yacc.c:1646  */
+#line 1047 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "RC ";  
                                                             Node* rcNode = new Node(RC, "");
                                                             list.push_back(rcNode);                                                              
                                                         }
-#line 3004 "y.tab.c" /* yacc.c:1646  */
+#line 3005 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 343:
-#line 1053 "compiler.y" /* yacc.c:1646  */
+#line 1054 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "NR ";  
                                                             Node* nrNode = new Node(NR, "");
                                                             list.push_back(nrNode);                                                              
                                                         }
-#line 3015 "y.tab.c" /* yacc.c:1646  */
+#line 3016 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 344:
-#line 1060 "compiler.y" /* yacc.c:1646  */
+#line 1061 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "IT ";  
                                                             Node* itNode = new Node(IT, "");
                                                             list.push_back(itNode);                                                              
                                                         }
-#line 3026 "y.tab.c" /* yacc.c:1646  */
+#line 3027 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 345:
-#line 1067 "compiler.y" /* yacc.c:1646  */
+#line 1068 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "UN ";  
                                                             Node* unNode = new Node(UN, "");
                                                             list.push_back(unNode);                                                              
                                                         }
-#line 3037 "y.tab.c" /* yacc.c:1646  */
+#line 3038 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 346:
-#line 1074 "compiler.y" /* yacc.c:1646  */
+#line 1075 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "AM ";  
                                                             Node* amNode = new Node(AM, "");
                                                             list.push_back(amNode);                                                              
                                                         }
-#line 3048 "y.tab.c" /* yacc.c:1646  */
+#line 3049 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 347:
-#line 1081 "compiler.y" /* yacc.c:1646  */
+#line 1082 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "OV ";  
                                                             Node* ovNode = new Node(OV, "");
                                                             list.push_back(ovNode);                                                              
                                                         }
-#line 3059 "y.tab.c" /* yacc.c:1646  */
+#line 3060 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 348:
-#line 1088 "compiler.y" /* yacc.c:1646  */
+#line 1089 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< ".NY ";  
                                                             Node* nyNode = new Node(DOTNY, "");
                                                             list.push_back(nyNode);                                                              
                                                         }
-#line 3070 "y.tab.c" /* yacc.c:1646  */
+#line 3071 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 349:
-#line 1095 "compiler.y" /* yacc.c:1646  */
+#line 1096 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "AT ";  
                                                             Node* atNode = new Node(AT, "");
                                                             list.push_back(atNode);                                                              
                                                         }
-#line 3081 "y.tab.c" /* yacc.c:1646  */
+#line 3082 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 350:
-#line 1102 "compiler.y" /* yacc.c:1646  */
+#line 1103 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "OG ";  
                                                             Node* ogNode = new Node(OG, "");
                                                             list.push_back(ogNode);                                                              
                                                         }
-#line 3092 "y.tab.c" /* yacc.c:1646  */
+#line 3093 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 351:
-#line 1109 "compiler.y" /* yacc.c:1646  */
+#line 1110 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "MS ";  
                                                             Node* msNode = new Node(MS, "");
                                                             list.push_back(msNode);                                                              
                                                         }
-#line 3103 "y.tab.c" /* yacc.c:1646  */
+#line 3104 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 352:
-#line 1116 "compiler.y" /* yacc.c:1646  */
+#line 1117 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "FE ";  
                                                             Node* feNode = new Node(FE, "");
                                                             list.push_back(feNode);                                                              
                                                         }
-#line 3114 "y.tab.c" /* yacc.c:1646  */
+#line 3115 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 353:
-#line 1123 "compiler.y" /* yacc.c:1646  */
+#line 1124 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces++;
                                                             if(spaces==2){
@@ -3132,33 +3133,33 @@ yyreduce:
                                                             }
                                                             
                                                         }
-#line 3136 "y.tab.c" /* yacc.c:1646  */
+#line 3137 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 354:
-#line 1141 "compiler.y" /* yacc.c:1646  */
+#line 1142 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "NEW LINE "<<std::endl;
                                                             Node* newlineNode = new Node(NEWLINE, "");
                                                             list.push_back(newlineNode);                                                                 
                                                         }
-#line 3147 "y.tab.c" /* yacc.c:1646  */
+#line 3148 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 355:
-#line 1148 "compiler.y" /* yacc.c:1646  */
+#line 1149 "compiler.y" /* yacc.c:1646  */
     {
                                                             spaces = 0;
                                                             if(!silent)cout<< "NEW LINE "<<std::endl;
                                                             Node* newlineNode = new Node(NEWLINE, "");
                                                             list.push_back(newlineNode);                                                                 
                                                         }
-#line 3158 "y.tab.c" /* yacc.c:1646  */
+#line 3159 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 3162 "y.tab.c" /* yacc.c:1646  */
+#line 3163 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -3386,7 +3387,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 1157 "compiler.y" /* yacc.c:1906  */
+#line 1158 "compiler.y" /* yacc.c:1906  */
 
 
 void yyerror(char *msg){
@@ -3404,6 +3405,12 @@ int main(int argc, char* argv[]){
             silent = true;
         }
     }
+    if(argc >= 2)
+    {
+        templateName = argv[1];
+    }
+
+    cout << templateName << endl;
 
 	list.push_back(&docNode);
 

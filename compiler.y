@@ -17,6 +17,7 @@ std::vector<Node*>::iterator it;
 Node docNode(DOCUMENT, "");
 bool silent = false;
 int spaces = 0;
+string templateName;
 #include "./parser/printing.cpp"
 #include "./parser/treebuilding.cpp"
 
@@ -1171,6 +1172,12 @@ int main(int argc, char* argv[]){
             silent = true;
         }
     }
+    if(argc >= 2)
+    {
+        templateName = argv[1];
+    }
+
+    cout << templateName << endl;
 
 	list.push_back(&docNode);
 

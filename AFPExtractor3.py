@@ -315,7 +315,7 @@ def compileFile(bank, template):
     print("\rCompiling template: "+ template + "                               ", end="");
 
     try:
-        process = subprocess.Popen("./compiler <LTD/" + bank + "/" + template + " silent", stdout=subprocess.PIPE,
+        process = subprocess.Popen("./compiler <LTD/" + bank + "/" + template + " " + template + " silent", stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, shell=True);
 
         for line in process.stdout:
