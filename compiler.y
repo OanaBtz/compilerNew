@@ -14,10 +14,10 @@ extern int yylex();
 void yyerror(char *msg);
 std:: vector <Node*> list;
 std::vector<Node*>::iterator it;
-Node docNode(DOCUMENT, "");
+string templateName;
+
 bool silent = false;
 int spaces = 0;
-string templateName;
 #include "./parser/printing.cpp"
 #include "./parser/treebuilding.cpp"
 
@@ -1177,7 +1177,9 @@ int main(int argc, char* argv[]){
         templateName = argv[1];
     }
 
-    cout << templateName << endl;
+    Node docNode(DOCUMENT, templateName);
+
+    cout << templateName << endl; 
 
 	list.push_back(&docNode);
 

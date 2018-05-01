@@ -15,7 +15,7 @@ string generateHr(Node* currentNode, string result, int tabs)
     hr += "<hr ";
 
     if(currentNode->getNodes().at(0)->getType() == STRING)
-        hr += "name =\""+currentNode->getNodes().at(0)->getData()+"\"";
+        hr += "name =\""+currentNode->getNodes().at(0)->getData()+"\" ";
     
     hr+= "rule= \"";
     for(int i=0; i< currentNode->getNodes().size(); i++){

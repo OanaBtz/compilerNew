@@ -19,7 +19,7 @@ string generatePa(Node* currentNode, string result, int tabs)
         pa += "\"";
     }
 
-    pa += ">\n";
+    pa += "/>\n";
 
     return pa;
 }

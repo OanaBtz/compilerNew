@@ -7,11 +7,11 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
     string fonthere = "";
     string fontSizehere = "";
 
-    if(currentNode->getParent()->getType()==THEN || currentNode->getParent()->getType()==ELSE || currentNode->getParent()->getType()==US || currentNode->getParent()->getType()==CT || currentNode->getParent()->getType()==CE)
-        tabs++;
+    // if(currentNode->getParent()->getType()==THEN || currentNode->getParent()->getType()==ELSE || currentNode->getParent()->getType()==US || currentNode->getParent()->getType()==CT || currentNode->getParent()->getType()==CE)
+    //     tabs++;
 
 
-    for(int i=0;i<tabs-1;i++){
+    for(int i=0;i<tabs;i++){
         p+="\t";
     }
     p+="<paragraph name=\"Default\">\n"; 
@@ -43,27 +43,27 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
                 if(fontAlign!=oldFontAlign || fonthere!= oldFont || fontSizehere!=oldFontSize || tabPosition!=oldTabPosition){
                     if(text=="on"){
                         p+="\n";
-                        for(int i=0;i<tabs;i++){
+                        for(int i=0;i<tabs+1;i++){
                             p +="\t"; 
                         }
                         p += "</text>\n";
-                        for(int i=0;i<tabs;i++){
+                        for(int i=0;i<tabs+1;i++){
                             p +="\t"; 
                         }
                         p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                         tabPosition = "";
-                        for(int i=0;i<tabs+1;i++){
+                        for(int i=0;i<tabs+2;i++){
                             p +="\t"; 
                         }
                         p +=  currentNode->getNodes().at(i)->getData()+" ";
                     }else{
-                        for(int i=0;i<tabs;i++){
+                        for(int i=0;i<tabs+1;i++){
                             p +="\t"; 
                         }
                         p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                         tabPosition = "";
                         text = "on";
-                        for(int i=0;i<tabs+1;i++){
+                        for(int i=0;i<tabs+2;i++){
                             p +="\t"; 
                         }
                         p +=  currentNode->getNodes().at(i)->getData()+" ";
@@ -73,13 +73,13 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
                     oldFontSize = fontSizehere;
                     oldTabPosition = tabPosition;
                 }else if(text == "off"){
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                     tabPosition = "";
                     text = "on";
-                    for(int i=0;i<tabs+1;i++){
+                    for(int i=0;i<tabs+2;i++){
                         p +="\t"; 
                     }
                     p +=  currentNode->getNodes().at(i)->getData()+" ";
@@ -89,7 +89,7 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
             }
         }else if(currentNode->getNodes().at(i)->getType()==NEWLINE){
             p+="\n";
-            for(int i=0;i<tabs;i++){
+            for(int i=0;i<tabs+1;i++){
                 p +="\t"; 
             }
             p += "</text>\n";
@@ -107,28 +107,28 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
             if(fontAlign!=oldFontAlign || fonthere!= oldFont || fontSizehere!=oldFontSize || tabPosition!=oldTabPosition){
                 if(text=="on"){
                     p+="\n";
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "</text>\n";
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                     tabPosition = "";
-                    for(int i=0;i<tabs+1;i++){
+                    for(int i=0;i<tabs+2;i++){
                         p +="\t"; 
                     }
                         p += "<![CDATA[var name=\"";
                         p +=  currentNode->getNodes().at(i)->getData()+"\"]]> ";
                 }else{
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                     tabPosition = "";
                     text = "on";
-                    for(int i=0;i<tabs+1;i++){
+                    for(int i=0;i<tabs+2;i++){
                         p +="\t"; 
                     }
                     p += "<![CDATA[var name=\"";
@@ -139,13 +139,13 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
                 oldFontSize = fontSizehere;
                 oldTabPosition = tabPosition;
             }else if(text == "off"){
-                for(int i=0;i<tabs;i++){
+                for(int i=0;i<tabs+1;i++){
                     p +="\t"; 
                 }
                 p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                 tabPosition = "";
                 text = "on";
-                for(int i=0;i<tabs+1;i++){
+                for(int i=0;i<tabs+2;i++){
                     p +="\t"; 
                 }
                 p += "<![CDATA[var name=\"";
@@ -168,27 +168,27 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
             if(fontAlign!=oldFontAlign || fonthere!= oldFont || fontSizehere!=oldFontSize || tabPosition!=oldTabPosition){
                 if(text=="on"){
                     p+="\n";
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "</text>\n";
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                     tabPosition = "";
-                    for(int i=0;i<tabs+1;i++){
+                    for(int i=0;i<tabs+2;i++){
                         p +="\t"; 
                     }
                     p +=  currentNode->getNodes().at(i)->getData()+" ";
                 }else{
-                    for(int i=0;i<tabs;i++){
+                    for(int i=0;i<tabs+1;i++){
                         p +="\t"; 
                     }
                     p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                     tabPosition = "";
                     text = "on";
-                    for(int i=0;i<tabs+1;i++){
+                    for(int i=0;i<tabs+2;i++){
                         p +="\t"; 
                     }
                     p +=  currentNode->getNodes().at(i)->getData()+" ";
@@ -198,13 +198,13 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
                 oldFontSize = fontSizehere;
                 oldTabPosition = tabPosition;
             }else if(text == "off"){
-                for(int i=0;i<tabs;i++){
+                for(int i=0;i<tabs+1;i++){
                     p +="\t"; 
                 }
                 p += "<text name=\"Default\" fontAlign=\""+fontAlign+"\" font=\""+fonthere+"\" size=\""+fontSizehere+"\" tabPosition=\""+tabPosition+"\" >\n";
                 tabPosition = "";
                 text = "on";
-                for(int i=0;i<tabs+1;i++){
+                for(int i=0;i<tabs+2;i++){
                     p +="\t"; 
                 }
                 p +=  currentNode->getNodes().at(i)->getData()+" ";
@@ -214,7 +214,7 @@ string generateParagraph(Node* currentNode, string result, int tabs, queue<strin
         }
     }
 
-    for(int i=0;i<tabs-1;i++){
+    for(int i=0;i<tabs;i++){
         p+="\t";
     }
     p+="</paragraph>\n";
