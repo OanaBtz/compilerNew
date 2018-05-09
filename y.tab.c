@@ -3429,7 +3429,8 @@ int main(int argc, char* argv[]){
     if(!silent)cout<< endl << endl <<"****************TREE*******************"<<endl;
     if(!silent)printTree(list[0], 0);
 
-    codegenerator(&docNode);
+    string guid = "";
+    codegenerator(&docNode, guid);
 
     cout<<"Template generated successfully!"<<endl<<endl;
 

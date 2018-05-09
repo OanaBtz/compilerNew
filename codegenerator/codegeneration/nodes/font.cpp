@@ -3,6 +3,7 @@
 #include <regex>
 #include <string>
 #include <stack>
+#include "style.cpp"
 
 string styleName(string style){
 	string name = "";
@@ -43,19 +44,18 @@ string styleSize(string style){
 }
 
 
-void generateFont(Node* currentNode, string result, stack<string> &font, stack<string> &fontSize)
+void generateFont(Node* currentNode, string result, stack<STYLE> &fonts)
 {
 	std::size_t found = currentNode->getData().find("SKRSLUT");
 	if(found!=std::string::npos){
-		if(!font.empty())
-			font.pop();
-		if(!fontSize.empty())
-			fontSize.pop();
+		if(!fonts.empty())
+			fonts.pop();
 	}else{
-		cout<<styleName(currentNode->getData())<<endl;
-		font.push(styleName(currentNode->getData()));
-
-		cout<<styleSize(currentNode->getData())<<endl<<endl;
-		fontSize.push(styleSize(currentNode->getData()));
+		STYLE newFont;
+		newFont.style = currentNode;
+		newFont.styleName = styleName(currentNode->getData());
+		newFont.styleSize = styleSize(currentNode->getData());
+		fonts.push(newFont);
+		
 	}
 }

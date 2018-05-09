@@ -25,8 +25,6 @@ queue<string> generateTP(Node* currentNode)
         }else{
             tp.push(currentNode->getNodes().at(i)->getData());
         }
-        
     }
-    
     return tp;
 }
